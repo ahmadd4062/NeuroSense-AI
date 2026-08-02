@@ -1,0 +1,33 @@
+# speech_app/urls.py
+
+from django.urls import path
+
+from . import views
+
+
+app_name = "speech_app"
+
+urlpatterns = [
+    path(
+        "screening/",
+        views.screening_page,
+        name="screening",
+    ),
+    path(
+        "api/screening/analyze/",
+        views.analyze_screening,
+        name="analyze_screening",
+    ),
+    path(
+        "api/screening/health/",
+        views.screening_health,
+        name="screening_health",
+    ),
+    path(
+        "module-three/",
+        views.module_three_placeholder,
+        name="module_three",
+    ),
+    path("", views.home, name="home"),
+
+]

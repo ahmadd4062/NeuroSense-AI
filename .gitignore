@@ -1,0 +1,12 @@
+venv/
+__pycache__/
+*.pyc
+db.sqlite3
+*.pkl
+*.joblib
+.DS_Store
+*.mp4
+*.wav
+*.webm
+*.ogg
+media/

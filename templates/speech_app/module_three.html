@@ -1,0 +1,43 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1"
+    >
+
+    <title>Module 3</title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'speech_app/css/screening.css' %}"
+    >
+</head>
+
+<body>
+    <main class="page-shell">
+        <section class="screening-success-panel">
+            <div class="success-icon" aria-hidden="true">
+                ✓
+            </div>
+
+            <p class="eyebrow">
+                AUDIO SCREENING COMPLETE
+            </p>
+
+            <h1>
+                Continue to Module 3
+            </h1>
+
+            <p>
+                Your audio recordings were submitted successfully.
+                The questionnaire module will be added here.
+            </p>
+        </section>
+    </main>
+</body>
+</html>

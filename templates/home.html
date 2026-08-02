@@ -1,0 +1,711 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}NeuroSense AI | Early Neurological Risk Detection{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="hero-background"></div>
+
+    <div class="hero-container">
+        <div class="hero-copy">
+            <div class="hero-badge">
+                <i class="fa-solid fa-shield-halved"></i>
+                <span>AI-Powered</span>
+                <span class="badge-dot"></span>
+                <span>Secure</span>
+                <span class="badge-dot"></span>
+                <span>Non-invasive</span>
+            </div>
+
+            <h1>
+                AI-Powered Early
+                <span>Neurological</span>
+                Risk Detection
+            </h1>
+
+            <p class="hero-description">
+                Analyze movement, speech, and behavioral patterns using advanced AI
+                to support early screening and better brain health.
+            </p>
+
+            <div class="hero-buttons">
+                <a href="#" class="btn btn-primary btn-hero">
+                    Start Screening
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+
+                <a href="#how-it-works" class="btn btn-outline btn-hero">
+                    Learn More
+                    <i class="fa-solid fa-play"></i>
+                </a>
+            </div>
+
+            <div class="hero-trust">
+                <div class="trust-avatars">
+                    <span class="avatar avatar-one">F</span>
+                    <span class="avatar avatar-two">A</span>
+                    <span class="avatar avatar-three">M</span>
+                    <span class="avatar avatar-four">S</span>
+                </div>
+                <p>
+                    Trusted by <strong>2,500+</strong> users and<br>
+                    healthcare professionals
+                </p>
+            </div>
+        </div>
+
+        <div class="hero-visual">
+            <div class="visual-glow"></div>
+
+            <img
+                class="brain-image"
+                src="{% static 'speech_app/images/brain.png' %}"
+                alt="AI-powered neurological brain visualization"
+            >
+
+            <article class="floating-card card-gait">
+                <div class="card-icon icon-blue">
+                    <i class="fa-solid fa-person-walking"></i>
+                </div>
+                <div>
+                    <h3>Gait Analysis</h3>
+                    <p>Movement patterns<br>monitoring</p>
+                </div>
+            </article>
+
+            <article class="floating-card card-speech">
+                <div class="card-icon icon-purple">
+                    <i class="fa-solid fa-microphone"></i>
+                </div>
+                <div>
+                    <h3>Speech Analysis</h3>
+                    <p>Voice and audio<br>pattern recognition</p>
+                </div>
+            </article>
+
+            <article class="floating-card card-behavior">
+                <div class="card-icon icon-green">
+                    <i class="fa-regular fa-clipboard"></i>
+                </div>
+                <div>
+                    <h3>Behavioral Assessment</h3>
+                    <p>Questionnaire and<br>behavioral analysis</p>
+                </div>
+            </article>
+
+            <article class="floating-card card-insights">
+                <div class="card-icon icon-orange">
+                    <i class="fa-solid fa-brain"></i>
+                </div>
+                <div>
+                    <h3>AI-Powered Insights</h3>
+                    <p>Advanced AI models<br>for accurate results</p>
+                </div>
+            </article>
+        </div>
+    </div>
+</section>
+
+<section class="about-section" id="about">
+    <div class="about-container">
+
+        <div class="about-image-wrapper">
+            <img
+                src="{% static 'speech_app/images/about-neurosense.png' %}"
+                alt="Neurological assessment using NeuroSense AI"
+                class="about-image"
+            >
+        </div>
+
+        <div class="about-content">
+
+            <div class="section-label">
+                <i class="fa-solid fa-star-of-life"></i>
+                <span>About NeuroSense AI</span>
+            </div>
+
+            <h2>
+                Smarter Screening,
+                <span>Earlier Awareness</span>
+            </h2>
+
+            <p class="about-description">
+                NeuroSense AI is an AI-powered neurological screening platform
+                designed to identify potential risk indicators through movement,
+                speech, and behavioral analysis.
+            </p>
+
+            <p class="about-description">
+                By combining multiple non-invasive assessment methods, our goal is
+                to support early awareness and help users take timely action toward
+                better neurological health.
+            </p>
+
+            <div class="about-statistics">
+
+                <div class="about-stat">
+                    <h3>3</h3>
+                    <p>Screening Modules</p>
+                </div>
+
+                <div class="about-stat">
+                    <h3>AI</h3>
+                    <p>Powered Risk Analysis</p>
+                </div>
+
+            </div>
+
+            <a href="#" class="about-button">
+                About Us
+                <i class="fa-solid fa-arrow-right"></i>
+            </a>
+
+        </div>
+
+    </div>
+</section>
+<section class="signs-section" id="early-signs">
+    <div class="signs-container">
+
+        <div class="signs-header">
+            <div class="section-label signs-label">
+                <i class="fa-solid fa-star-of-life"></i>
+                <span>Parkinson’s Awareness</span>
+            </div>
+
+            <h2>Recognizing Possible Early Signs</h2>
+
+            <p>
+                Parkinson’s disease can affect movement, speech, balance, and daily
+                activities. Some changes may develop gradually and can initially
+                be overlooked.
+            </p>
+        </div>
+
+        <div class="signs-grid">
+
+            <article class="sign-card">
+                <div class="sign-icon">
+                    <i class="fa-solid fa-wave-square"></i>
+                </div>
+
+                <h3>Voice Changes</h3>
+
+                <p>
+                    Speech may become softer, lower, or less clear over time.
+                </p>
+            </article>
+
+            <article class="sign-card">
+                <div class="sign-icon">
+                    <i class="fa-solid fa-hand"></i>
+                </div>
+
+                <h3>Hand Tremors</h3>
+
+                <p>
+                    Shaking may appear in the hand, fingers, or limbs while resting.
+                </p>
+            </article>
+
+            <article class="sign-card">
+                <div class="sign-icon">
+                    <i class="fa-solid fa-person-walking"></i>
+                </div>
+
+                <h3>Slower Movement</h3>
+
+                <p>
+                    Everyday movements may gradually become slower or more difficult.
+                </p>
+            </article>
+
+            <article class="sign-card">
+                <div class="sign-icon">
+                    <i class="fa-solid fa-scale-balanced"></i>
+                </div>
+
+                <h3>Balance Changes</h3>
+
+                <p>
+                    Posture, stability, and coordination may become affected.
+                </p>
+            </article>
+
+            <article class="sign-card">
+                <div class="sign-icon">
+                    <i class="fa-regular fa-face-meh"></i>
+                </div>
+
+                <h3>Facial Expression</h3>
+
+                <p>
+                    Facial movements may become less noticeable or expressive.
+                </p>
+            </article>
+
+            <article class="sign-card">
+                <div class="sign-icon">
+                    <i class="fa-solid fa-list-check"></i>
+                </div>
+
+                <h3>Daily Activities</h3>
+
+                <p>
+                    Writing, walking, or routine tasks may require more effort.
+                </p>
+            </article>
+
+        </div>
+
+    </div>
+</section>
+<div id="how-it-works"></div>
+<section class="features-section" id="features">
+    <div class="features-container">
+
+        <div class="features-intro">
+            <div class="section-label">
+                <i class="fa-solid fa-star-of-life"></i>
+                <span>How it Works</span>
+            </div>
+
+            <h2>
+                Intelligent Screening
+                <span>Designed Around You</span>
+            </h2>
+
+            <p>
+                NeuroSense AI combines multiple non-invasive assessment methods
+                to examine movement, speech, and behavioral patterns. Each module
+                contributes meaningful insights toward a clearer neurological
+                risk overview.
+            </p>
+
+            <a href="#" class="features-main-button">
+                Start Screening
+                <i class="fa-solid fa-arrow-right"></i>
+            </a>
+        </div>
+
+        <div class="features-list">
+
+            <article class="feature-card">
+        <div class="feature-card-visual feature-video">
+        <img src="{% static 'speech_app/images/1.png' %}" alt="Video Assessment">
+        </div>
+
+                <div class="feature-card-content">
+                    <div>
+                        <span class="feature-number">01</span>
+                        <h3>Video Assessment</h3>
+                        <p>
+                            Analyze gait, movement patterns, balance, tremor,
+                            and other visible motor indicators.
+                        </p>
+                    </div>
+
+                    <a href="#" class="feature-card-link">
+                        Start Screening
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+            </article>
+
+             <article class="feature-card">
+        <div class="feature-card-visual feature-video">
+        <img src="{% static 'speech_app/images/2.png' %}" alt="Audio Assessment">
+        </div>
+
+                <div class="feature-card-content">
+                    <div>
+                        <span class="feature-number">02</span>
+                        <h3>Audio Assessment</h3>
+                        <p>
+                            Examine speech clarity, voice stability, pitch,
+                            pauses, and other relevant vocal patterns.
+                        </p>
+                    </div>
+
+                    <a href="#" class="feature-card-link">
+                        Start Screening
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+            </article>
+
+                <article class="feature-card">
+        <div class="feature-card-visual feature-video">
+        <img src="{% static 'speech_app/images/3.png' %}" alt="Behavioral Assessment">
+        </div>
+                <div class="feature-card-content">
+                    <div>
+                        <span class="feature-number">03</span>
+                        <h3>Behavioral Assessment</h3>
+                        <p>
+                            Complete a guided questionnaire covering symptoms,
+                            daily activities, and behavioral indicators.
+                        </p>
+                    </div>
+
+                    <a href="#" class="feature-card-link">
+                        Start Screening
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+            </article>
+
+           <article class="feature-card">
+        <div class="feature-card-visual feature-video">
+        <img src="{% static 'speech_app/images/4.png' %}" alt="Risk Report Generation">
+        </div>
+                <div class="feature-card-content">
+                    <div>
+                        <span class="feature-number">04</span>
+                        <h3>Risk Report Generation</h3>
+                        <p>
+                            Combine assessment results into an organized report
+                            with risk indicators and understandable insights.
+                        </p>
+                    </div>
+
+                    <a href="#" class="feature-card-link">
+                        Start Screening
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+            </article>
+
+            <article class="feature-card">
+        <div class="feature-card-visual feature-video">
+        <img src="{% static 'speech_app/images/5.png' %}" alt="Progress & Record Tracking">
+        </div>
+
+                <div class="feature-card-content">
+                    <div>
+                        <span class="feature-number">05</span>
+                        <h3>Progress & Record Tracking</h3>
+                        <p>
+                            Review previous assessments and monitor changes
+                            across multiple screening sessions.
+                        </p>
+                    </div>
+
+                    <a href="#" class="feature-card-link">
+                        Start Screening
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+            </article>
+
+        </div>
+    </div>
+</section>
+<section class="chatbot-section" id="chatbot">
+    <div class="chatbot-container">
+
+        <div class="chatbot-image-wrapper">
+            <img
+                src="{% static 'speech_app/images/chatbot-support.png' %}"
+                alt="NeuroSense AI chatbot support"
+                class="chatbot-image"
+            >
+        </div>
+
+        <div class="chatbot-content">
+
+            <div class="section-label">
+                <i class="fa-solid fa-star-of-life"></i>
+                <span>AI-Powered Support</span>
+            </div>
+
+            <h2>
+                Guidance When
+                <span>You Need It</span>
+            </h2>
+
+            <p class="chatbot-description">
+                The NeuroSense AI chatbot offers simple and accessible guidance
+                throughout your screening journey. It can help you understand the
+                assessment process, explain available modules, and answer common
+                questions about neurological screening.
+            </p>
+
+            <p class="chatbot-description">
+                The chatbot is designed to provide informational support only and
+                does not replace professional medical consultation or diagnosis.
+            </p>
+
+            <div class="chatbot-benefits">
+
+                <div class="chatbot-benefit">
+                    <div class="chatbot-benefit-icon">
+                        <i class="fa-regular fa-comments"></i>
+                    </div>
+
+                    <div>
+                        <h3>Instant Guidance</h3>
+                        <p>Get quick answers about assessments and screening steps.</p>
+                    </div>
+                </div>
+
+                <div class="chatbot-benefit">
+                    <div class="chatbot-benefit-icon">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+
+                    <div>
+                        <h3>Safe & Informative</h3>
+                        <p>Receive clear guidance without replacing medical advice.</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <a href="#" class="chatbot-button">
+                <span>Start Chat</span>
+                <i class="fa-solid fa-arrow-right"></i>
+            </a>
+
+        </div>
+
+    </div>
+</section>
+<section class="faq-section" id="faq">
+    <div class="faq-container">
+
+        <div class="faq-top">
+
+            <div class="faq-heading">
+                <div class="section-label">
+                    <i class="fa-solid fa-star-of-life"></i>
+                    <span>Frequently Asked Questions</span>
+                </div>
+
+                <h2>
+                    Everything You Need
+                    <span>to Know</span>
+                </h2>
+            </div>
+
+            <div class="faq-intro">
+                <p>
+                    Find answers to common questions about NeuroSense AI,
+                    neurological screening, privacy, reports, and the assessment
+                    process.
+                </p>
+            </div>
+
+        </div>
+
+        <div class="faq-list">
+
+            <article class="faq-item">
+                <button class="faq-question" type="button" aria-expanded="false">
+                    <span>What is NeuroSense AI?</span>
+
+                    <span class="faq-arrow">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </span>
+                </button>
+
+                <div class="faq-answer">
+                    <div class="faq-answer-inner">
+                        <p>
+                            NeuroSense AI is an AI-powered neurological screening
+                            platform that analyzes movement, speech, and behavioral
+                            patterns to provide an early neurological risk overview.
+                            It is designed for screening and awareness purposes and
+                            does not replace professional medical diagnosis.
+                        </p>
+                    </div>
+                </div>
+            </article>
+
+            <article class="faq-item">
+                <button class="faq-question" type="button" aria-expanded="false">
+                    <span>How long does the screening process take?</span>
+
+                    <span class="faq-arrow">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </span>
+                </button>
+
+                <div class="faq-answer">
+                    <div class="faq-answer-inner">
+                        <p>
+                            The complete screening process usually takes around
+                            10–15 minutes. This may include the video assessment,
+                            audio assessment, behavioral questionnaire, and report
+                            generation.
+                        </p>
+                    </div>
+                </div>
+            </article>
+
+            <article class="faq-item">
+                <button class="faq-question" type="button" aria-expanded="false">
+                    <span>Can NeuroSense AI diagnose Parkinson's disease?</span>
+
+                    <span class="faq-arrow">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </span>
+                </button>
+
+                <div class="faq-answer">
+                    <div class="faq-answer-inner">
+                        <p>
+                            No. NeuroSense AI provides an early risk assessment
+                            only. A qualified medical professional should perform
+                            diagnosis, clinical examination, and any required
+                            medical testing.
+                        </p>
+                    </div>
+                </div>
+            </article>
+
+            <article class="faq-item">
+                <button class="faq-question" type="button" aria-expanded="false">
+                    <span>Is my personal and assessment data secure?</span>
+
+                    <span class="faq-arrow">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </span>
+                </button>
+
+                <div class="faq-answer">
+                    <div class="faq-answer-inner">
+                        <p>
+                            NeuroSense AI is designed to handle assessment
+                            information securely and confidentially. Uploaded data
+                            should be protected during processing, transmission,
+                            and storage according to the security controls
+                            implemented in the final system.
+                        </p>
+                    </div>
+                </div>
+            </article>
+
+            <article class="faq-item">
+                <button class="faq-question" type="button" aria-expanded="false">
+                    <span>Do I need special equipment for the assessment?</span>
+
+                    <span class="faq-arrow">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </span>
+                </button>
+
+                <div class="faq-answer">
+                    <div class="faq-answer-inner">
+                        <p>
+                            No special medical equipment is required. A computer
+                            or smartphone with a working camera, microphone, and
+                            stable internet connection is generally sufficient.
+                        </p>
+                    </div>
+                </div>
+            </article>
+
+            <article class="faq-item">
+                <button class="faq-question" type="button" aria-expanded="false">
+                    <span>Can I view or download my screening report?</span>
+
+                    <span class="faq-arrow">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </span>
+                </button>
+
+                <div class="faq-answer">
+                    <div class="faq-answer-inner">
+                        <p>
+                            Yes. After completing the required assessments, users
+                            can view their generated risk summary and download the
+                            screening report if report downloading is enabled in
+                            the system.
+                        </p>
+                    </div>
+                </div>
+            </article>
+
+        </div>
+
+    </div>
+</section>
+{% block extra_js %}
+<script>
+    const featureCards = document.querySelectorAll(".feature-card");
+
+    const featureObserver = new IntersectionObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("feature-visible");
+                    featureObserver.unobserve(entry.target);
+                }
+            });
+        },
+        {
+            threshold: 0.15
+        }
+    );
+
+    featureCards.forEach((card, index) => {
+        card.style.transitionDelay = `${index * 90}ms`;
+        featureObserver.observe(card);
+    
+    });
+
+    const signCards = document.querySelectorAll(".sign-card");
+
+    const signObserver = new IntersectionObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("sign-visible");
+                    signObserver.unobserve(entry.target);
+                }
+            });
+        },
+        {
+            threshold: 0.15
+        }
+    );
+
+    signCards.forEach((card, index) => {
+        card.style.transitionDelay = `${index * 90}ms`;
+        signObserver.observe(card);
+    });
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const faqItems = document.querySelectorAll(".faq-item");
+
+        faqItems.forEach(function (item) {
+            const button = item.querySelector(".faq-question");
+
+            button.addEventListener("click", function () {
+                const alreadyOpen = item.classList.contains("active");
+
+                faqItems.forEach(function (otherItem) {
+                    otherItem.classList.remove("active");
+
+                    const otherButton =
+                        otherItem.querySelector(".faq-question");
+
+                    otherButton.setAttribute(
+                        "aria-expanded",
+                        "false"
+                    );
+                });
+
+                if (!alreadyOpen) {
+                    item.classList.add("active");
+                    button.setAttribute("aria-expanded", "true");
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}
+{% endblock %}

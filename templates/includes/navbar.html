@@ -1,0 +1,26 @@
+{% load static %}
+<header class="site-header">
+    <div class="nav-container">
+        <a href="{% url 'speech_app:home' %}" class="brand" aria-label="NeuroSense AI home">
+            <img src="{% static 'speech_app/images/logo.png' %}" alt="NeuroSense AI">
+        </a>
+
+        <nav class="desktop-nav" aria-label="Main navigation">
+            <a class="active" href="{% url 'speech_app:home' %}">Home</a>
+            <a href="#features">Features</a>
+            <a href="#how-it-works">How It Works</a>
+            <a href="#about">About Us</a>
+            <a href="#resources">Resources</a>
+            <a href="{% url 'speech_app:screening'%}">Dashboard</a>
+        </nav>
+
+        <div class="nav-actions">
+            <a href="#" class="btn btn-login">Log In</a>
+            <a href="#" class="btn btn-primary">Get Started</a>
+        </div>
+
+        <button class="menu-toggle" type="button" aria-label="Open navigation">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+    </div>
+</header>
