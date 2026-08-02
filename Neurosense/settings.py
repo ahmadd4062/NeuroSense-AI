@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     "speech_app.apps.SpeechAppConfig",
+    'gait_app',
 ]
 
 MIDDLEWARE = [
