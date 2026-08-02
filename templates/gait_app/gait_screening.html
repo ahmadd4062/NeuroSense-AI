@@ -4,478 +4,1391 @@
 {% block title %}Gait Screening - NeuroSense AI{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'speech_app/css/screening.css' %}">
+<style>
+    /* ============================================
+       GAIT SCREENING - PREMIUM UI v2
+       ============================================ */
+
+    /* ---------- Container ---------- */
+    .gait-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 40px 24px 60px;
+    }
+
+    /* ---------- Header ---------- */
+    .gait-header {
+        margin-bottom: 40px;
+        animation: fadeUp 0.6s ease-out;
+    }
+
+    .gait-header h1 {
+        font-size: 2.4rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, #1a1a2e 0%, #4A6CF7 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 8px;
+    }
+
+    .gait-header p {
+        font-size: 1.1rem;
+        color: #6b7280;
+        -webkit-text-fill-color: #6b7280;
+    }
+
+    .gait-header .header-badge {
+        display: inline-block;
+        background: #eef2ff;
+        color: #4A6CF7;
+        padding: 4px 16px;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        margin-bottom: 12px;
+    }
+
+    /* ---------- Animations ---------- */
+    @keyframes fadeUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes pulse {
+
+        0%,
+        100% {
+            transform: scale(1);
+        }
+
+        50% {
+            transform: scale(1.02);
+        }
+    }
+
+    .animate-in {
+        animation: fadeUp 0.6s ease-out forwards;
+        opacity: 0;
+    }
+
+    .animate-in:nth-child(1) {
+        animation-delay: 0.1s;
+    }
+
+    .animate-in:nth-child(2) {
+        animation-delay: 0.2s;
+    }
+
+    .animate-in:nth-child(3) {
+        animation-delay: 0.3s;
+    }
+
+    .animate-in:nth-child(4) {
+        animation-delay: 0.4s;
+    }
+
+    /* ---------- Glass Card ---------- */
+    .gait-card {
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border-radius: 16px;
+        padding: 28px;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+        margin-bottom: 24px;
+        transition: all 0.3s ease;
+    }
+
+    .gait-card:hover {
+        box-shadow: 0 8px 40px rgba(74, 108, 247, 0.08), 0 1px 2px rgba(0, 0, 0, 0.02);
+        transform: translateY(-2px);
+    }
+
+    .gait-card .card-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        margin-bottom: 12px;
+        background: #eef2ff;
+        color: #4A6CF7;
+    }
+
+    .gait-card h3 {
+        font-size: 1rem;
+        font-weight: 700;
+        margin-bottom: 12px;
+        color: #1a1a2e;
+        letter-spacing: -0.01em;
+    }
+
+    .gait-card .card-sub {
+        font-size: 0.85rem;
+        color: #6b7280;
+    }
+
+    /* ==========================================
+       BEFORE YOU RECORD - PROMINENT
+       ========================================== */
+    .before-record-card {
+        background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+        border: 2px solid #4A6CF7;
+        border-radius: 16px;
+        padding: 24px 28px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .before-record-card::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -20%;
+        width: 250px;
+        height: 250px;
+        background: rgba(74, 108, 247, 0.06);
+        border-radius: 50%;
+        pointer-events: none;
+    }
+
+    .before-record-card .badge {
+        display: inline-block;
+        background: #4A6CF7;
+        color: white;
+        padding: 2px 16px;
+        border-radius: 20px;
+        font-size: 0.7rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        margin-bottom: 6px;
+    }
+
+    .before-record-card h3 {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: #1a1a2e;
+        margin-bottom: 6px;
+    }
+
+    .before-record-card .sub-text {
+        color: #475569;
+        font-size: 0.9rem;
+        margin-bottom: 14px;
+    }
+
+    .before-record-card .guidance-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .before-record-card .guidance-grid li {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 0.9rem;
+        color: #1f2937;
+        padding: 10px 14px;
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(4px);
+        border-radius: 10px;
+        border: 1px solid rgba(74, 108, 247, 0.08);
+        transition: all 0.2s;
+    }
+
+    .before-record-card .guidance-grid li:hover {
+        background: white;
+        border-color: #4A6CF7;
+        transform: translateX(4px);
+    }
+
+    .before-record-card .guidance-grid li i {
+        color: #10b981;
+        width: 18px;
+        font-size: 1rem;
+    }
+
+    /* ---------- Layout ---------- */
+    .gait-two-col {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 32px;
+    }
+
+    @media (max-width: 768px) {
+        .gait-two-col {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    /* ---------- Progress Card ---------- */
+    .progress-card {
+        background: linear-gradient(135deg, #4A6CF7 0%, #7c3aed 100%);
+        border-radius: 16px;
+        padding: 20px 28px;
+        margin-bottom: 28px;
+        color: white;
+        box-shadow: 0 4px 24px rgba(74, 108, 247, 0.25);
+        animation: fadeUp 0.6s ease-out;
+    }
+
+    .progress-card .header {
+        display: flex;
+        justify-content: space-between;
+        font-weight: 600;
+        font-size: 0.95rem;
+        opacity: 0.9;
+    }
+
+    .progress-card .header .pct {
+        font-weight: 700;
+        font-size: 1.1rem;
+        opacity: 1;
+    }
+
+    .progress-track {
+        height: 8px;
+        background: rgba(255, 255, 255, 0.25);
+        border-radius: 4px;
+        margin: 12px 0;
+        overflow: hidden;
+    }
+
+    .progress-track .bar {
+        height: 100%;
+        background: white;
+        border-radius: 4px;
+        width: 75%;
+        transition: width 0.8s ease;
+        box-shadow: 0 0 16px rgba(255, 255, 255, 0.3);
+    }
+
+    .progress-card .footer {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.8rem;
+        opacity: 0.8;
+    }
+
+    /* ==========================================
+       REFERENCE VIDEOS - LARGER
+       ========================================== */
+    .ref-videos {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+        margin-top: 12px;
+    }
+
+    .ref-video-item {
+        flex: 1;
+        min-width: 220px;
+        background: #f8fafc;
+        border-radius: 12px;
+        overflow: hidden;
+        border: 2px solid transparent;
+        transition: all 0.3s ease;
+    }
+
+    .ref-video-item:hover {
+        transform: scale(1.01);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    }
+
+    .ref-video-item.normal {
+        border-color: #10b981;
+    }
+
+    .ref-video-item.abnormal {
+        border-color: #ef4444;
+    }
+
+    .ref-video-item video {
+        width: 100%;
+        max-height: 200px;
+        object-fit: cover;
+        display: block;
+        background: #0f172a;
+    }
+
+    .ref-video-item .label {
+        padding: 10px 16px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        text-align: center;
+        letter-spacing: 0.01em;
+    }
+
+    .ref-video-item.normal .label {
+        background: #ecfdf5;
+        color: #065f46;
+    }
+
+    .ref-video-item.abnormal .label {
+        background: #fef2f2;
+        color: #991b1b;
+    }
+
+    .ref-note {
+        font-size: 0.8rem;
+        color: #6b7280;
+        text-align: center;
+        margin-top: 12px;
+    }
+
+    /* ==========================================
+       CAMERA - EXPAND ON LIVE
+       ========================================== */
+    .camera-container {
+        background: #0f172a;
+        border-radius: 14px;
+        overflow: hidden;
+        position: relative;
+        margin: 16px 0;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+        transition: all 0.3s ease;
+        min-height: 280px;
+    }
+
+    .camera-container.live-active {
+        min-height: 420px;
+    }
+
+    .camera-container video {
+        width: 100%;
+        display: block;
+        aspect-ratio: 4/3;
+        object-fit: cover;
+    }
+
+    .camera-container.live-active video {
+        min-height: 380px;
+    }
+
+    #pose-canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+    }
+
+    .camera-overlay {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+        text-align: center;
+        pointer-events: none;
+    }
+
+    .camera-overlay h3 {
+        font-size: 1.6rem;
+        font-weight: 700;
+        text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
+        margin-bottom: 4px;
+    }
+
+    .camera-overlay p {
+        font-size: 0.9rem;
+        opacity: 0.8;
+        text-shadow: 0 2px 12px rgba(0, 0, 0, 0.8);
+    }
+
+    .countdown-display {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 6rem;
+        font-weight: 800;
+        color: white;
+        text-shadow: 0 0 60px rgba(0, 0, 0, 0.9);
+        z-index: 20;
+        display: none;
+    }
+
+    .recording-indicator {
+        position: absolute;
+        top: 14px;
+        right: 14px;
+        background: rgba(239, 68, 68, 0.9);
+        color: white;
+        padding: 4px 16px;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        z-index: 15;
+        display: none;
+        align-items: center;
+        gap: 8px;
+        backdrop-filter: blur(4px);
+        animation: blink 1s infinite;
+    }
+
+    .recording-indicator .dot {
+        width: 10px;
+        height: 10px;
+        background: white;
+        border-radius: 50%;
+        display: inline-block;
+    }
+
+    @keyframes blink {
+
+        0%,
+        100% {
+            opacity: 1;
+        }
+
+        50% {
+            opacity: 0.5;
+        }
+    }
+
+    .feedback-overlay {
+        position: absolute;
+        bottom: 16px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(15, 23, 42, 0.85);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        color: white;
+        padding: 8px 22px;
+        border-radius: 30px;
+        font-size: 0.85rem;
+        z-index: 15;
+        pointer-events: none;
+        text-align: center;
+        border: 2px solid transparent;
+        white-space: nowrap;
+        max-width: 90%;
+        font-weight: 500;
+    }
+
+    .feedback-overlay.success {
+        border-color: #10b981;
+    }
+
+    .feedback-overlay.warning {
+        border-color: #f59e0b;
+    }
+
+    .feedback-overlay.error {
+        border-color: #ef4444;
+    }
+
+    .feedback-overlay.info {
+        border-color: #3b82f6;
+    }
+
+    /* ---------- Recording Methods ---------- */
+    .recording-methods {
+        display: flex;
+        gap: 12px;
+        margin: 16px 0 20px;
+    }
+
+    .recording-methods .btn {
+        padding: 10px 24px;
+        border: 2px solid #e2e8f0;
+        border-radius: 10px;
+        background: white;
+        color: #475569;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 0.9rem;
+        transition: all 0.25s ease;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .recording-methods .btn i {
+        font-size: 1rem;
+    }
+
+    .recording-methods .btn:hover {
+        border-color: #4A6CF7;
+        color: #4A6CF7;
+        background: #f8faff;
+    }
+
+    .recording-methods .btn.active {
+        background: #4A6CF7;
+        color: white;
+        border-color: #4A6CF7;
+        box-shadow: 0 4px 12px rgba(74, 108, 247, 0.25);
+    }
+
+    /* ---------- Buttons Group ---------- */
+    .btn-group {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-top: 14px;
+    }
+
+    .btn-group .btn {
+        padding: 10px 24px;
+        border: none;
+        border-radius: 10px;
+        font-weight: 600;
+        font-size: 0.85rem;
+        cursor: pointer;
+        transition: all 0.25s ease;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .btn-group .btn-success {
+        background: #10b981;
+        color: white;
+    }
+
+    .btn-group .btn-success:hover:not(:disabled) {
+        background: #059669;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+    }
+
+    .btn-group .btn-danger {
+        background: #ef4444;
+        color: white;
+    }
+
+    .btn-group .btn-danger:hover:not(:disabled) {
+        background: #dc2626;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+    }
+
+    .btn-group .btn-secondary {
+        background: #94a3b8;
+        color: white;
+    }
+
+    .btn-group .btn-secondary:hover:not(:disabled) {
+        background: #64748b;
+    }
+
+    .btn-group .btn:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+        transform: none !important;
+    }
+
+    .hidden {
+        display: none !important;
+    }
+
+    /* ---------- Submission Panel ---------- */
+    .submission-panel {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: linear-gradient(135deg, #f8faff 0%, #eef2ff 100%);
+        padding: 18px 24px;
+        border-radius: 14px;
+        flex-wrap: wrap;
+        gap: 16px;
+        margin-top: 16px;
+        border: 1px solid #e0e7ff;
+    }
+
+    .submission-panel .left {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+    }
+
+    .submission-panel .left i {
+        font-size: 1.5rem;
+        color: #4A6CF7;
+        background: white;
+        padding: 10px;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(74, 108, 247, 0.1);
+    }
+
+    .submission-panel .left h3 {
+        font-size: 0.95rem;
+        font-weight: 700;
+        margin: 0;
+        color: #1a1a2e;
+    }
+
+    .submission-panel .left p {
+        font-size: 0.8rem;
+        color: #6b7280;
+        margin: 0;
+    }
+
+    .btn-submit {
+        background: linear-gradient(135deg, #4A6CF7 0%, #7c3aed 100%);
+        color: white;
+        padding: 12px 32px;
+        border: none;
+        border-radius: 10px;
+        font-weight: 700;
+        font-size: 0.95rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 16px rgba(74, 108, 247, 0.25);
+    }
+
+    .btn-submit:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+        box-shadow: none;
+    }
+
+    .btn-submit:not(:disabled):hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 32px rgba(74, 108, 247, 0.35);
+    }
+
+    .completion-badge {
+        background: white;
+        padding: 4px 16px;
+        border-radius: 30px;
+        font-size: 0.8rem;
+        font-weight: 700;
+        color: #1a1a2e;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.02);
+    }
+
+    .completion-badge .num {
+        color: #4A6CF7;
+        font-size: 1rem;
+    }
+
+    /* ---------- Workflow ---------- */
+    .workflow-items {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .workflow-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 0.85rem;
+        padding: 6px 0;
+        color: #1f2937;
+    }
+
+    .workflow-item .dot {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.65rem;
+        font-weight: 700;
+        color: white;
+        flex-shrink: 0;
+        transition: all 0.3s;
+    }
+
+    .workflow-item .dot.completed {
+        background: #10b981;
+    }
+
+    .workflow-item .dot.current {
+        background: #4A6CF7;
+        box-shadow: 0 0 0 4px rgba(74, 108, 247, 0.2);
+        animation: pulse 2s infinite;
+    }
+
+    .workflow-item .dot.locked {
+        background: #cbd5e1;
+    }
+
+    .workflow-item .status {
+        font-size: 0.7rem;
+        color: #94a3b8;
+        margin-left: auto;
+        font-weight: 500;
+        background: #f1f5f9;
+        padding: 2px 12px;
+        border-radius: 30px;
+    }
+
+    /* ---------- Results ---------- */
+    .result-card {
+        background: white;
+        border-radius: 16px;
+        padding: 28px;
+        border: 1px solid #e2e8f0;
+        margin-top: 24px;
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+    }
+
+    .result-card .result-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .result-card .result-header h2 {
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin: 0;
+        color: #1a1a2e;
+    }
+
+    .result-status {
+        padding: 24px;
+        border-radius: 14px;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .result-status.pd {
+        background: linear-gradient(135deg, #fef2f2 0%, #fecaca 100%);
+        border: 1px solid #fca5a5;
+    }
+
+    .result-status.control {
+        background: linear-gradient(135deg, #f0fdf4 0%, #bbf7d0 100%);
+        border: 1px solid #86efac;
+    }
+
+    .result-status .big {
+        font-size: 2.4rem;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+    }
+
+    .result-status p {
+        margin: 4px 0 0;
+        font-weight: 500;
+        color: #1f2937;
+    }
+
+    .metrics-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+    }
+
+    @media (max-width: 600px) {
+        .metrics-grid {
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+
+    .metrics-grid .metric {
+        background: #f8fafc;
+        padding: 14px;
+        border-radius: 10px;
+        text-align: center;
+        border: 1px solid #f1f5f9;
+        transition: all 0.2s;
+    }
+
+    .metrics-grid .metric:hover {
+        background: #eef2ff;
+        border-color: #c7d2fe;
+    }
+
+    .metrics-grid .metric span {
+        display: block;
+        font-size: 0.7rem;
+        color: #94a3b8;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+    }
+
+    .metrics-grid .metric strong {
+        font-size: 1.2rem;
+        color: #1a1a2e;
+        margin-top: 4px;
+        display: block;
+    }
+
+    /* ---------- Security Banner ---------- */
+    .security-banner {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        background: #f8fafc;
+        padding: 14px 24px;
+        border-radius: 14px;
+        margin-top: 28px;
+        font-size: 0.85rem;
+        flex-wrap: wrap;
+        border: 1px solid #f1f5f9;
+    }
+
+    .security-banner i {
+        color: #4A6CF7;
+        font-size: 1.2rem;
+    }
+
+    .security-banner a {
+        color: #4A6CF7;
+        text-decoration: none;
+        margin-left: auto;
+        font-size: 0.8rem;
+        font-weight: 600;
+        transition: color 0.2s;
+    }
+
+    .security-banner a:hover {
+        color: #7c3aed;
+    }
+
+    @media (max-width: 600px) {
+        .security-banner a {
+            margin-left: 0;
+        }
+    }
+
+    /* ---------- Processing ---------- */
+    .processing-card {
+        text-align: center;
+        padding: 48px 20px;
+        background: white;
+        border-radius: 16px;
+        border: 1px solid #e2e8f0;
+    }
+
+    .processing-spinner {
+        width: 48px;
+        height: 48px;
+        border: 4px solid #e2e8f0;
+        border-top: 4px solid #4A6CF7;
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+        margin: 0 auto 16px;
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    .processing-card h3 {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: #1a1a2e;
+    }
+
+    .processing-card p {
+        color: #6b7280;
+    }
+
+    /* ---------- Error ---------- */
+    .error-card {
+        background: #fef2f2;
+        border: 1px solid #fca5a5;
+        padding: 24px;
+        border-radius: 14px;
+        text-align: center;
+    }
+
+    .error-card h2 {
+        color: #991b1b;
+        font-size: 1.1rem;
+        font-weight: 700;
+    }
+
+    .error-card p {
+        color: #7f1d1d;
+    }
+
+    .error-card .btn-primary {
+        background: #ef4444;
+        color: white;
+        padding: 8px 28px;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        margin-top: 12px;
+    }
+
+    .error-card .btn-primary:hover {
+        background: #dc2626;
+    }
+
+    /* ---------- Misc ---------- */
+    .text-center {
+        text-align: center;
+    }
+
+    .mt-8 {
+        margin-top: 8px;
+    }
+
+    .mt-12 {
+        margin-top: 12px;
+    }
+
+    .mt-16 {
+        margin-top: 16px;
+    }
+
+    .mb-8 {
+        margin-bottom: 8px;
+    }
+
+    .flex {
+        display: flex;
+    }
+
+    .flex-between {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .gap-8 {
+        gap: 8px;
+    }
+
+    .gap-12 {
+        gap: 12px;
+    }
+
+    .divider {
+        height: 1px;
+        background: linear-gradient(to right, transparent, #e2e8f0, transparent);
+        margin: 16px 0;
+    }
+
+    .record-tip {
+        font-size: 0.8rem;
+        color: #94a3b8;
+        padding: 6px 14px;
+        background: #f1f5f9;
+        border-radius: 30px;
+        display: inline-block;
+    }
+
+    /* ---------- Upload Area ---------- */
+    .upload-area {
+        display: block;
+        padding: 32px;
+        border: 2px dashed #cbd5e1;
+        border-radius: 14px;
+        text-align: center;
+        cursor: pointer;
+        background: #fafcff;
+        transition: all 0.3s ease;
+    }
+
+    .upload-area:hover {
+        border-color: #4A6CF7;
+        background: #f8faff;
+    }
+
+    .upload-area .icon {
+        font-size: 2.5rem;
+        margin-bottom: 8px;
+        display: block;
+    }
+
+    .upload-area strong {
+        display: block;
+        font-size: 1rem;
+        color: #1a1a2e;
+    }
+
+    .upload-area small {
+        color: #94a3b8;
+        font-size: 0.8rem;
+    }
+
+    /* ---------- Responsive tweaks ---------- */
+    @media (max-width: 480px) {
+        .gait-container {
+            padding: 20px 16px;
+        }
+
+        .gait-header h1 {
+            font-size: 1.6rem;
+        }
+
+        .gait-card {
+            padding: 18px;
+        }
+
+        .submission-panel {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .submission-panel .left {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .btn-submit {
+            justify-content: center;
+        }
+
+        .recording-methods .btn {
+            flex: 1;
+            justify-content: center;
+        }
+
+        .feedback-overlay {
+            font-size: 0.7rem;
+            padding: 6px 14px;
+            white-space: normal;
+        }
+
+        .progress-card .footer {
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .ref-video-item {
+            min-width: 140px;
+        }
+
+        .before-record-card .guidance-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .camera-container.live-active {
+            min-height: 300px;
+        }
+
+        .camera-container.live-active video {
+            min-height: 260px;
+        }
+    }
+</style>
 {% endblock %}
 
 {% block content %}
 
-<div class="screening-dashboard">
+<div class="gait-container">
 
-    <aside class="screening-sidebar">
+    <!-- ========================================== -->
+    <!-- HEADER -->
+    <!-- ========================================== -->
+    <div class="gait-header">
+        <span class="header-badge">⚡ AI-Powered Screening</span>
+        <h1>🎥 Video Screening</h1>
+        <p>Record or upload a walking video for Parkinson's risk assessment.</p>
+    </div>
 
-        <div class="sidebar-navigation">
+    <!-- ========================================== -->
+    <!-- PROGRESS -->
+    <!-- ========================================== -->
+    <div class="progress-card">
+        <div class="header">
+            <span>Overall Progress</span>
+            <span class="pct">75%</span>
+        </div>
+        <div class="progress-track">
+            <div class="bar" style="width: 75%;"></div>
+        </div>
+        <div class="footer">
+            <span>✅ 3 of 4 modules completed</span>
+            
+        </div>
+    </div>
 
-            <a href="#" class="sidebar-link">
-                <span class="sidebar-link-icon">
-                    <i class="fa-solid fa-house"></i>
-                </span>
-                <span>Assessment Center</span>
-            </a>
+    <!-- ========================================== -->
+    <!-- TWO COLUMN LAYOUT -->
+    <!-- ========================================== -->
+    <div class="gait-two-col">
 
-            <div class="sidebar-link sidebar-tracker-link">
-                <span class="sidebar-link-icon">
-                    <i class="fa-solid fa-chart-line"></i>
-                </span>
-                <span>Screening Progress</span>
+        <!-- ===== LEFT COLUMN ===== -->
+        <div>
+
+            <!-- Before you record - PROMINENT -->
+            <div class="gait-card before-record-card animate-in">
+                <span class="badge">📌 Important</span>
+                <h3>📋 Before you record</h3>
+                <p style="color:#475569;font-size:0.9rem;margin-bottom:12px;">Follow these guidelines for the best
+                    results:</p>
+                <ul class="guidance-grid">
+                    <li><i class="fa-solid fa-check-circle" style="color:#10b981;"></i> Side view (profile)</li>
+                    <li><i class="fa-solid fa-check-circle" style="color:#10b981;"></i> Camera at waist height</li>
+                    <li><i class="fa-solid fa-check-circle" style="color:#10b981;"></i> Full body visible</li>
+                    <li><i class="fa-solid fa-check-circle" style="color:#10b981;"></i> Walk in a straight line</li>
+                    <li><i class="fa-solid fa-check-circle" style="color:#10b981;"></i> Well-lit area</li>
+                    <li><i class="fa-solid fa-check-circle" style="color:#10b981;"></i> Contrasting clothing</li>
+                </ul>
+            </div>
+
+
+            <!-- Reference Videos - LARGER -->
+            <div class="gait-card animate-in">
+                <div class="flex-between">
+                    <div class="card-icon" style="margin-bottom:0;"><i class="fa-solid fa-video"></i></div>
+                    <span
+                        style="font-size:0.75rem;color:#94a3b8;font-weight:500;background:#f1f5f9;padding:2px 14px;border-radius:30px;">📹
+                        Watch to understand</span>
+                </div>
+                <h3>Reference Videos</h3>
+                <p style="color:#6b7280;font-size:0.85rem;margin-bottom:12px;">See examples of good quality walking
+                    videos:</p>
+                <div class="ref-videos">
+                    <div class="ref-video-item normal">
+                        <video controls muted preload="metadata"
+                            poster="{% static 'speech_app/images/video-placeholder.png' %}">
+                            <source src="{% static 'gait_app/videos/normal_gait.mp4' %}" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        <div class="label">✅ Normal Gait · Side view · Steady pace</div>
+                    </div>
+                    <div class="ref-video-item abnormal">
+                        <video controls muted preload="metadata"
+                            poster="{% static 'speech_app/images/video-placeholder.png' %}">
+                            <source src="{% static 'gait_app/videos/abnormal_gait.mp4' %}" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        <div class="label">⚠️ Abnormal Gait · Shorter steps · Reduced arm swing</div>
+                    </div>
+                </div>
+                <div class="ref-note" style="font-size:0.8rem;color:#6b7280;margin-top:12px;">
+                    <i class="fa-regular fa-circle-info"></i> Your recording should be 10-15 seconds of walking from a
+                    side view.
+                </div>
+            </div>
+
+            <!-- Workflow -->
+            <div class="gait-card animate-in">
+                <div class="card-icon"><i class="fa-solid fa-diagram-project"></i></div>
+                <h3>📋 Screening Workflow</h3>
+                <div class="workflow-items">
+                    <div class="workflow-item">
+                        <span class="dot completed"><i class="fa-solid fa-check"></i></span>
+                        <span>Questionnaire</span>
+                        <span class="status">Completed</span>
+                    </div>
+                    <div class="workflow-item">
+                        <span class="dot completed"><i class="fa-solid fa-check"></i></span>
+                        <span>Audio Analysis</span>
+                        <span class="status">Completed</span>
+                    </div>
+                    <div class="workflow-item">
+                        <span class="dot current">3</span>
+                        <span><strong>Video Analysis</strong></span>
+                        <span class="status" style="background:#eef2ff;color:#4A6CF7;">In Progress</span>
+                    </div>
+                    <div class="workflow-item">
+                        <span class="dot locked"><i class="fa-solid fa-lock"></i></span>
+                        <span>AI Fusion &amp; Report</span>
+                        <span class="status">Locked</span>
+                    </div>
+                </div>
             </div>
 
         </div>
 
-        <div class="sidebar-divider"></div>
+        <!-- ===== RIGHT COLUMN ===== -->
+        <div>
 
-        <div class="sidebar-section">
-
-            <p class="sidebar-section-title">Screening Workflow</p>
-
-            <div class="workflow-tracker">
-
-                <div class="workflow-item workflow-completed">
-                    <div class="workflow-indicator">
-                        <i class="fa-solid fa-check"></i>
-                    </div>
-                    <div class="workflow-copy">
-                        <strong>Questionnaire</strong>
-                        <span>Completed</span>
-                    </div>
+            <!-- Recording Methods -->
+            <div class="gait-card animate-in">
+                <div class="card-icon"><i class="fa-solid fa-camera"></i></div>
+                <h3>🎬 Recording Methods</h3>
+                <div class="recording-methods">
+                    <button class="btn active" id="btn-live-record"><i class="fa-solid fa-camera"></i> Record
+                        Live</button>
+                    <button class="btn" id="btn-file-upload"><i class="fa-solid fa-upload"></i> Upload File</button>
                 </div>
 
-                <div class="workflow-connector workflow-connector-completed"></div>
-
-                <div class="workflow-item workflow-completed">
-                    <div class="workflow-indicator">
-                        <i class="fa-solid fa-check"></i>
-                    </div>
-                    <div class="workflow-copy">
-                        <strong>Audio Analysis</strong>
-                        <span>Completed</span>
-                    </div>
-                </div>
-
-                <div class="workflow-connector workflow-connector-completed"></div>
-
-                <div class="workflow-item workflow-current">
-                    <div class="workflow-indicator">
-                        <span>3</span>
-                    </div>
-                    <div class="workflow-copy">
-                        <strong>Video Analysis</strong>
-                        <span>In Progress</span>
-                    </div>
-                </div>
-
-                <div class="workflow-connector"></div>
-
-                <div class="workflow-item workflow-locked">
-                    <div class="workflow-indicator">
-                        <i class="fa-solid fa-lock"></i>
-                    </div>
-                    <div class="workflow-copy">
-                        <strong>AI Fusion & Report</strong>
-                        <span>Locked</span>
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="sidebar-divider"></div>
-
-        <div class="sidebar-section">
-
-            <p class="sidebar-section-title">Others</p>
-
-            <div class="sidebar-secondary-links">
-                <a href="#" class="sidebar-secondary-link">
-                    <i class="fa-regular fa-file-lines"></i>
-                    <span>Previous Reports</span>
-                </a>
-                <a href="#" class="sidebar-secondary-link">
-                    <i class="fa-solid fa-robot"></i>
-                    <span>AI Assistant</span>
-                </a>
-                <a href="#" class="sidebar-secondary-link">
-                    <i class="fa-regular fa-star"></i>
-                    <span>Recommendations</span>
-                </a>
-                <a href="#" class="sidebar-secondary-link">
-                    <i class="fa-solid fa-gear"></i>
-                    <span>Settings</span>
-                </a>
-            </div>
-
-        </div>
-
-        <div class="sidebar-footer-area">
-
-            <div class="support-card">
-                <div class="support-card-icon">
-                    <i class="fa-solid fa-headset"></i>
-                </div>
-                <div class="support-card-copy">
-                    <strong>Need Help?</strong>
-                    <span>Contact our support team</span>
-                </div>
-            </div>
-
-            <p class="sidebar-copyright">
-                © 2026 NeuroSense AI<br>All rights reserved.
-            </p>
-
-        </div>
-
-    </aside>
-
-    <div class="screening-main-content">
-
-        <section class="screening-welcome">
-
-            <div class="welcome-copy">
-                <h1>
-                    Video Screening
-                    <span aria-hidden="true">🎥</span>
-                </h1>
-                <p>Upload a walking video for Parkinson's risk assessment.</p>
-            </div>
-
-            <div class="welcome-illustration" aria-hidden="true">
-                <div class="welcome-brain">
-                    <i class="fa-solid fa-person-walking"></i>
-                </div>
-                <div class="welcome-chart">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-            </div>
-
-        </section>
-
-        <section class="overall-progress-card">
-
-            <div class="overall-progress-header">
-                <strong>Overall Progress</strong>
-                <span>75%</span>
-            </div>
-
-            <div class="overall-progress-track">
-                <span class="overall-progress-value" style="width: 75%;"></span>
-            </div>
-
-            <div class="overall-progress-footer">
-                <p>You have completed 3 of 4 modules</p>
-                <p>Estimated time remaining: ~5 mins</p>
-            </div>
-
-        </section>
-
-        <section class="current-module-card">
-
-            <div class="current-module-heading">
-                <h2>Current Module: <span>Video Analysis</span></h2>
-                <span class="current-module-step">Step 3 of 4</span>
-            </div>
-
-            <div class="current-module-layout">
-
-                <div class="audio-module-summary">
-
-                    <div class="audio-module-icon">
-                        <i class="fa-solid fa-video"></i>
-                    </div>
-
-                    <h3>Video Analysis</h3>
-                    <p>Upload a walking video to analyze gait patterns, balance, and movement symmetry.</p>
-
-                    <div class="audio-estimated-time">
-                        <i class="fa-regular fa-clock"></i>
-                        <div>
-                            <span>Estimated Time</span>
-                            <strong>2–3 minutes</strong>
+                <!-- Live Recording -->
+                <div id="live-recording-section">
+                    <div class="camera-container" id="camera-container">
+                        <video id="video-preview" autoplay muted></video>
+                        <canvas id="pose-canvas"></canvas>
+                        <div class="camera-overlay" id="camera-overlay">
+                            <h3>🎥 Position Camera</h3>
+                            <p>Side view · Waist height · Full body</p>
+                        </div>
+                        <div class="countdown-display" id="countdown-display">3</div>
+                        <div class="recording-indicator" id="recording-indicator">
+                            <span class="dot"></span> RECORDING
+                        </div>
+                        <div class="feedback-overlay info" id="feedback-overlay">
+                            <span id="feedback-text">Click "Start Camera" to begin</span>
                         </div>
                     </div>
 
+                    <div class="btn-group">
+                        <button class="btn btn-success" id="btn-start-camera"><i class="fa-solid fa-play"></i> Start
+                            Camera</button>
+                        <button class="btn btn-danger" id="btn-start-recording" disabled><i
+                                class="fa-solid fa-circle"></i> Record (10s)</button>
+                        <button class="btn btn-secondary" id="btn-stop-recording" disabled><i
+                                class="fa-solid fa-stop"></i> Stop</button>
+                    </div>
+
+                    <div style="display:flex;align-items:center;gap:12px;margin-top:10px;flex-wrap:wrap;">
+                        <span class="record-tip"><i class="fa-solid fa-info-circle"></i> Auto-stops after 10s</span>
+                        <span id="recording-timer-display"
+                            style="font-weight:700;color:#4A6CF7;font-size:0.9rem;"></span>
+                    </div>
+
+                    <video id="recorded-video" controls
+                        style="width:100%;margin-top:12px;display:none;border-radius:12px;background:#0f172a;box-shadow:0 4px 16px rgba(0,0,0,0.08);"></video>
                 </div>
 
-                <aside class="recording-guidance-card" id="guidance-panel">
-
-                    <h3>Tips for best results</h3>
-
-                    <ul class="recording-guidance-list">
-                        <li>
-                            <i class="fa-solid fa-check"></i>
-                            <span>Record from a side view (profile)</span>
-                        </li>
-                        <li>
-                            <i class="fa-solid fa-check"></i>
-                            <span>Keep camera at waist height</span>
-                        </li>
-                        <li>
-                            <i class="fa-solid fa-check"></i>
-                            <span>Ensure full body is visible</span>
-                        </li>
-                        <li>
-                            <i class="fa-solid fa-check"></i>
-                            <span>Walk in a straight line for 10–15 seconds</span>
-                        </li>
-                        <li>
-                            <i class="fa-solid fa-check"></i>
-                            <span>Well-lit area with contrasting clothing</span>
-                        </li>
-                    </ul>
-
-                </aside>
-
+                <!-- File Upload -->
+                <div id="file-upload-section" class="hidden">
+                    <form id="gait-form" enctype="multipart/form-data">
+                        <label class="upload-area">
+                            <input type="file" name="video" accept="video/*" style="display:none;" id="file-input">
+                            <span class="icon">📤</span>
+                            <strong>Upload video file</strong>
+                            <small>MP4, AVI, MOV, MKV</small>
+                        </label>
+                        <p id="file-name-1" style="font-weight:600;margin-top:10px;color:#1a1a2e;"></p>
+                        <video id="uploaded-video-preview" controls
+                            style="width:100%;margin-top:10px;display:none;border-radius:12px;background:#0f172a;"></video>
+                    </form>
+                </div>
             </div>
 
-        </section>
-
-        <section class="audio-recording-section">
-
-            <div class="audio-recording-heading">
-
-                <div>
-                    <span class="section-label">Gait Analysis</span>
-                    <h2>Upload Walking Video</h2>
-                    <p>Upload a short walking video for AI analysis.</p>
-                </div>
-
-                <div class="recording-heading-actions">
-                    <div class="completion-badge" id="completion-badge">
-                        <span id="completed-count">0</span>/1 ready
+            <!-- Submit -->
+            <div class="gait-card animate-in">
+                <div class="flex-between" style="margin-bottom:6px;">
+                    <div>
+                        <span
+                            style="font-size:0.7rem;font-weight:700;color:#4A6CF7;text-transform:uppercase;letter-spacing:0.06em;">Gait
+                            Analysis</span>
+                        <h3 style="margin:0;">Submit for Analysis</h3>
+                    </div>
+                    <div class="completion-badge">
+                        <span class="num" id="completed-count">0</span>/1 ready
                     </div>
                 </div>
-
-            </div>
-
-            <form id="gait-form" enctype="multipart/form-data">
-
-                <div class="recording-grid">
-
-                    <article class="recording-card" data-recording-slot="1">
-
-                        <div class="recording-card-header">
-
-                            <div class="recording-number">01</div>
-
-                            <div class="recording-state">
-                                <span class="state-dot" aria-hidden="true"></span>
-                                <span class="state-text" id="state-text-1">Not uploaded</span>
-                            </div>
-
-                        </div>
-
-                        <div class="recording-card-body">
-
-                            <div class="recording-title-row">
-
-                                <div>
-                                    <span class="card-kicker">Video sample</span>
-                                    <h3>Walking Video</h3>
-                                </div>
-
-                                <button type="button" class="remove-recording-button" data-action="remove" aria-label="Remove video" hidden>
-                                    <i class="fa-solid fa-xmark"></i>
-                                </button>
-
-                            </div>
-
-                            <div class="upload-divider">
-                                <span>Upload a video file</span>
-                            </div>
-
-                            <label class="upload-control">
-                                <input type="file" name="video" class="recording-file-input" accept="video/*" required>
-                                <span class="upload-icon" aria-hidden="true">
-                                    <i class="fa-solid fa-arrow-up-from-bracket"></i>
-                                </span>
-                                <span class="upload-copy">
-                                    <strong>Upload video file</strong>
-                                    <small>MP4, AVI, MOV, MKV</small>
-                                </span>
-                            </label>
-
-                            <p class="file-name" id="file-name-1" hidden></p>
-
-                            <video class="audio-preview" id="video-preview-1" controls preload="metadata" hidden></video>
-
-                            <p class="field-message" id="field-message-1" role="status" aria-live="polite"></p>
-
-                        </div>
-
-                    </article>
-
-                </div>
+                <p style="font-size:0.85rem;color:#6b7280;margin-top:8px;">Once you have a video ready, click the button
+                    below to analyze.</p>
 
                 <div class="submission-panel">
-
-                    <div class="submission-copy">
-                        <div class="submission-icon" aria-hidden="true">
-                            <i class="fa-solid fa-shield-halved"></i>
-                        </div>
+                    <div class="left">
+                        <i class="fa-solid fa-shield-halved"></i>
                         <div>
                             <h3>Ready for analysis</h3>
-                            <p>A video must be uploaded before screening can begin.</p>
+                            <p>A video must be uploaded or recorded before screening can begin.</p>
                         </div>
                     </div>
-
-                    <button type="submit" class="button button-submit" id="submit-screening" disabled>
-                        <span>Analyze Video</span>
-                        <i class="fa-solid fa-arrow-right"></i>
-                    </button>
-
-                </div>
-
-            </form>
-
-        </section>
-
-        <section class="status-section" id="processing-section" hidden>
-
-            <div class="processing-card">
-
-                <div class="processing-spinner" aria-hidden="true"></div>
-
-                <div class="processing-content">
-                    <span class="section-label">Video analysis</span>
-                    <h2 id="processing-title">Analyzing your video</h2>
-                    <p id="processing-message">Processing gait patterns and movement features...</p>
-                    <div class="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="analysis-progress">
-                        <span id="analysis-progress-bar"></span>
-                    </div>
-                </div>
-
-            </div>
-
-        </section>
-
-        <section class="results-section" id="results-section" hidden>
-
-            <div class="results-card">
-
-                <div class="results-header">
-
-                    <div>
-                        <span class="section-label">Gait module complete</span>
-                        <h2 id="results-title">Gait analysis result</h2>
-                    </div>
-
-                    <button type="button" class="button button-secondary" id="restart-screening">
-                        <i class="fa-solid fa-arrow-rotate-right"></i>
-                        <span>Start again</span>
-                    </button>
-
-                </div>
-
-                <div class="result-summary">
-
-                    <div class="result-status-card" id="result-status-card">
-
-                        <span class="result-label">Screening category</span>
-
-                        <strong id="result-category">—</strong>
-
-                        <p id="result-message"></p>
-
-                    </div>
-
-                    <div class="metrics-grid">
-
-                        <div class="metric-card">
-                            <span>Risk Score</span>
-                            <strong id="result-score">—</strong>
-                        </div>
-
-                        <div class="metric-card">
-                            <span>Confidence</span>
-                            <strong id="result-confidence">—</strong>
-                        </div>
-
-                        <div class="metric-card">
-                            <span>Gait Symmetry</span>
-                            <strong id="result-symmetry">—</strong>
-                        </div>
-
-                        <div class="metric-card">
-                            <span>Cadence</span>
-                            <strong id="result-cadence">—</strong>
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <div class="recording-results">
-
-                    <div class="results-subheading">
-                        <h3>Extracted Features</h3>
-                        <p>Detailed gait metrics from your walking video.</p>
-                    </div>
-
-                    <div class="quality-results-grid" id="quality-results-grid"></div>
-
-                </div>
-
-                <div class="disclaimer-panel">
-                    <i class="fa-solid fa-circle-info"></i>
-                    <p id="result-disclaimer">This result is intended for screening purposes only and is not a medical diagnosis.</p>
-                </div>
-
-            </div>
-
-        </section>
-
-        <section class="error-section" id="error-section" hidden>
-
-            <div class="error-card" role="alert">
-
-                <div class="error-icon" aria-hidden="true">
-                    <i class="fa-solid fa-triangle-exclamation"></i>
-                </div>
-
-                <div class="error-content">
-                    <span class="section-label">Action required</span>
-                    <h2 id="error-title">Analysis could not be completed</h2>
-                    <p id="error-message"></p>
-                    <button type="button" class="button button-primary" id="dismiss-error">
-                        <i class="fa-solid fa-arrow-left"></i>
-                        <span>Try again</span>
+                    <button class="btn-submit" id="submit-screening" disabled>
+                        <span>Analyze Video</span> <i class="fa-solid fa-arrow-right"></i>
                     </button>
                 </div>
-
             </div>
 
-        </section>
+        </div>
 
-        <section class="screening-security-banner">
+    </div>
 
-            <div class="security-banner-icon" aria-hidden="true">
-                <i class="fa-solid fa-shield-halved"></i>
+    <!-- ========================================== -->
+    <!-- PROCESSING -->
+    <!-- ========================================== -->
+    <section id="processing-section" hidden>
+        <div class="processing-card">
+            <div class="processing-spinner"></div>
+            <h3>🔍 Analyzing your video...</h3>
+            <p id="processing-message" style="color:#6b7280;">Processing gait patterns and movement features.</p>
+            <div class="progress-track" style="max-width:400px;margin:12px auto 0;height:6px;">
+                <div id="analysis-progress-bar" style="width:0%;height:100%;background:#4A6CF7;border-radius:3px;">
+                </div>
             </div>
+        </div>
+    </section>
 
-            <div class="security-banner-copy">
-                <strong>Your data is secure and encrypted.</strong>
-                <span>We prioritize your privacy and data protection.</span>
+    <!-- ========================================== -->
+    <!-- RESULTS -->
+    <!-- ========================================== -->
+    <section id="results-section" hidden>
+        <div class="result-card">
+            <div class="result-header">
+                <h2>📊 Gait Analysis Result</h2>
+                <button class="btn btn-secondary" id="restart-screening"
+                    style="padding:8px 20px;border:none;border-radius:8px;background:#f1f5f9;color:#475569;font-weight:600;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:6px;">
+                    <i class="fa-solid fa-arrow-rotate-right"></i> Start again
+                </button>
             </div>
+            <div id="result-status-card" class="result-status">
+                <div class="big" id="result-category">—</div>
+                <p id="result-message"></p>
+            </div>
+            <div class="metrics-grid">
+                <div class="metric"><span>Risk Score</span><strong id="result-score">—</strong></div>
+                <div class="metric"><span>Confidence</span><strong id="result-confidence">—</strong></div>
+                <div class="metric"><span>Gait Symmetry</span><strong id="result-symmetry">—</strong></div>
+                <div class="metric"><span>Cadence</span><strong id="result-cadence">—</strong></div>
+            </div>
+            <div style="margin-top:20px;">
+                <h4 style="font-size:0.9rem;font-weight:700;color:#1a1a2e;margin-bottom:12px;">🔬 Extracted Features
+                </h4>
+                <div class="metrics-grid" id="quality-results-grid"></div>
+            </div>
+            <div class="divider"></div>
+            <div class="disclaimer-panel"
+                style="padding:12px;background:#f8fafc;border-radius:10px;font-size:0.8rem;color:#94a3b8;text-align:center;">
+                <i class="fa-solid fa-circle-info"></i> This result is intended for screening purposes only and is not a
+                medical diagnosis.
+            </div>
+        </div>
+    </section>
 
-            <a href="#">
-                <i class="fa-solid fa-circle-info"></i>
-                Learn more about data security
-            </a>
+    <!-- ========================================== -->
+    <!-- ERROR -->
+    <!-- ========================================== -->
+    <section id="error-section" hidden>
+        <div class="error-card">
+            <h2>⚠️ Analysis could not be completed</h2>
+            <p id="error-message"></p>
+            <button class="btn-primary" id="dismiss-error">
+                <i class="fa-solid fa-arrow-left"></i> Try again
+            </button>
+        </div>
+    </section>
 
-        </section>
-
+    <!-- ========================================== -->
+    <!-- SECURITY -->
+    <!-- ========================================== -->
+    <div class="security-banner">
+        <i class="fa-solid fa-shield-halved"></i>
+        <span><strong>Your data is secure and encrypted.</strong> We prioritize your privacy and data protection.</span>
+        <a href="#"><i class="fa-solid fa-circle-info"></i> Learn more</a>
     </div>
 
 </div>
@@ -483,157 +1396,449 @@
 {% endblock %}
 
 {% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/pose/pose.js"></script>
 <script>
-    // File upload handler
-    const fileInput = document.querySelector('.recording-file-input');
-    const fileName = document.getElementById('file-name-1');
-    const videoPreview = document.getElementById('video-preview-1');
-    const stateText = document.getElementById('state-text-1');
-    const stateDot = document.querySelector('.state-dot');
-    const submitBtn = document.getElementById('submit-screening');
-    const completedCount = document.getElementById('completed-count');
-    const resultDiv = document.getElementById('results-section');
-    const processingDiv = document.getElementById('processing-section');
-    const errorDiv = document.getElementById('error-section');
-    const progressBar = document.getElementById('analysis-progress-bar');
+    (function () {
+        'use strict';
 
-    let isUploaded = false;
+        // DOM Elements
+        const btnLive = document.getElementById('btn-live-record');
+        const btnFile = document.getElementById('btn-file-upload');
+        const liveSection = document.getElementById('live-recording-section');
+        const fileSection = document.getElementById('file-upload-section');
+        const videoPreview = document.getElementById('video-preview');
+        const poseCanvas = document.getElementById('pose-canvas');
+        const canvasCtx = poseCanvas.getContext('2d');
+        const recordedVideo = document.getElementById('recorded-video');
+        const btnStartCamera = document.getElementById('btn-start-camera');
+        const btnStartRecording = document.getElementById('btn-start-recording');
+        const btnStopRecording = document.getElementById('btn-stop-recording');
+        const countdownDisplay = document.getElementById('countdown-display');
+        const recordingIndicator = document.getElementById('recording-indicator');
+        const cameraOverlay = document.getElementById('camera-overlay');
+        const feedbackOverlay = document.getElementById('feedback-overlay');
+        const feedbackText = document.getElementById('feedback-text');
+        const recordingTimerDisplay = document.getElementById('recording-timer-display');
+        const fileInput = document.getElementById('file-input');
+        const fileName = document.getElementById('file-name-1');
+        const uploadedVideoPreview = document.getElementById('uploaded-video-preview');
+        const submitBtn = document.getElementById('submit-screening');
+        const completedCount = document.getElementById('completed-count');
+        const resultSection = document.getElementById('results-section');
+        const processingSection = document.getElementById('processing-section');
+        const errorSection = document.getElementById('error-section');
+        const progressBar = document.getElementById('analysis-progress-bar');
+        const processingMessage = document.getElementById('processing-message');
+        const resultCategory = document.getElementById('result-category');
+        const resultMessage = document.getElementById('result-message');
+        const resultScore = document.getElementById('result-score');
+        const resultConfidence = document.getElementById('result-confidence');
+        const resultSymmetry = document.getElementById('result-symmetry');
+        const resultCadence = document.getElementById('result-cadence');
+        const qualityGrid = document.getElementById('quality-results-grid');
+        const restartBtn = document.getElementById('restart-screening');
+        const dismissError = document.getElementById('dismiss-error');
 
-    fileInput.addEventListener('change', function() {
-        if (this.files && this.files[0]) {
-            const file = this.files[0];
-            fileName.textContent = file.name;
-            fileName.hidden = false;
-            
-            // Show video preview
-            videoPreview.src = URL.createObjectURL(file);
-            videoPreview.hidden = false;
-            
-            stateText.textContent = 'Uploaded';
-            stateDot.style.background = '#10b981';
-            isUploaded = true;
-            completedCount.textContent = '1';
-            submitBtn.disabled = false;
+        // State
+        let stream = null;
+        let mediaRecorder = null;
+        let recordedChunks = [];
+        let isRecording = false;
+        let countdownInterval = null;
+        let recordingTimer = null;
+        let videoBlob = null;
+        let isVideoReady = false;
+        let timerInterval = null;
+        let poseDetector = null;
+
+        // ============================================================
+        // UI Helpers
+        // ============================================================
+
+        function updateFeedback(text, type) {
+            feedbackText.textContent = text;
+            feedbackOverlay.className = 'feedback-overlay ' + (type || 'info');
+            feedbackOverlay.style.display = 'block';
         }
-    });
 
-    document.getElementById('gait-form').onsubmit = async (e) => {
-        e.preventDefault();
-        
-        const formData = new FormData(e.target);
-        
-        // Hide result, show processing
-        resultDiv.hidden = true;
-        errorDiv.hidden = true;
-        processingDiv.hidden = false;
-        submitBtn.disabled = true;
-        
-        // Simulate progress
-        let progress = 0;
-        const interval = setInterval(() => {
-            progress += 10;
-            progressBar.style.width = progress + '%';
-            if (progress >= 100) clearInterval(interval);
-        }, 300);
-        
-        try {
-            const response = await fetch('/api/gait/predict/', {
-                method: 'POST',
-                body: formData
-            });
-            
-            const data = await response.json();
-            
-            clearInterval(interval);
-            progressBar.style.width = '100%';
-            processingDiv.hidden = true;
-            
-            if (response.ok) {
-                displayResults(data);
-            } else {
-                showError(data.error || 'Analysis failed');
+        function setButtonState(btn, disabled, text) {
+            btn.disabled = disabled;
+            if (text) btn.innerHTML = text;
+        }
+
+        // ============================================================
+        // SWITCH METHODS
+        // ============================================================
+
+        btnLive.addEventListener('click', function () {
+            liveSection.classList.remove('hidden');
+            fileSection.classList.add('hidden');
+            btnLive.classList.add('active');
+            btnFile.classList.remove('active');
+            if (stream) stopCamera();
+        });
+
+        btnFile.addEventListener('click', function () {
+            fileSection.classList.remove('hidden');
+            liveSection.classList.add('hidden');
+            btnFile.classList.add('active');
+            btnLive.classList.remove('active');
+            if (stream) stopCamera();
+        });
+
+        // ============================================================
+        // CAMERA
+        // ============================================================
+
+        btnStartCamera.addEventListener('click', startCamera);
+
+        async function startCamera() {
+            try {
+                stream = await navigator.mediaDevices.getUserMedia({
+                    video: { facingMode: 'user', width: { ideal: 640 }, height: { ideal: 480 } }
+                });
+                videoPreview.srcObject = stream;
+                await videoPreview.play();
+                btnStartCamera.disabled = true;
+                btnStartCamera.innerHTML = '✅ Camera Active';
+                btnStartRecording.disabled = false;
+                cameraOverlay.style.display = 'none';
+                updateFeedback('✅ Ready to record. Position camera for side view.', 'success');
+
+                if (typeof Pose !== 'undefined') {
+                    const pose = new Pose({
+                        locateFile: (file) => 'https://cdn.jsdelivr.net/npm/@mediapipe/pose/' + file
+                    });
+                    pose.setOptions({
+                        modelComplexity: 1,
+                        smoothLandmarks: true,
+                        minDetectionConfidence: 0.5,
+                        minTrackingConfidence: 0.5
+                    });
+                    pose.onResults((results) => {
+                        drawPoseResults(results);
+                        analyzePoseResults(results);
+                    });
+                    const camera = new Camera(videoPreview, {
+                        onFrame: async () => await pose.send({ image: videoPreview }),
+                        width: 640,
+                        height: 480
+                    });
+                    camera.start();
+                    poseDetector = pose;
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Unable to access camera. Please check permissions or use file upload.');
             }
-            
-        } catch (error) {
-            clearInterval(interval);
-            processingDiv.hidden = true;
-            showError('Network error. Please try again.');
         }
-        
-        submitBtn.disabled = false;
-    };
 
-    function displayResults(data) {
-        resultDiv.hidden = false;
-        
-        const isPD = data.prediction === 'PD';
-        const categoryEl = document.getElementById('result-category');
-        const messageEl = document.getElementById('result-message');
-        const scoreEl = document.getElementById('result-score');
-        const confidenceEl = document.getElementById('result-confidence');
-        const symmetryEl = document.getElementById('result-symmetry');
-        const cadenceEl = document.getElementById('result-cadence');
-        
-        categoryEl.textContent = data.prediction;
-        categoryEl.style.color = isPD ? '#ef4444' : '#10b981';
-        
-        messageEl.textContent = isPD ? 
-            'Movement patterns show indicators associated with Parkinsonian gait.' :
-            'Gait patterns appear within typical range.';
-        
-        scoreEl.textContent = `${(data.pd_probability * 100).toFixed(1)}%`;
-        confidenceEl.textContent = `${(Math.max(data.pd_probability, data.control_probability) * 100).toFixed(1)}%`;
-        
-        if (data.features) {
-            symmetryEl.textContent = data.features.symmetry_index ? 
-                `${data.features.symmetry_index.toFixed(1)}%` : '—';
-            cadenceEl.textContent = data.features.cadence ? 
-                `${data.features.cadence.toFixed(1)} steps/min` : '—';
+        function stopCamera() {
+            if (stream) {
+                stream.getTracks().forEach(t => t.stop());
+                stream = null;
+            }
+            videoPreview.srcObject = null;
+            btnStartCamera.disabled = false;
+            btnStartCamera.innerHTML = '<i class="fa-solid fa-play"></i> Start Camera';
+            btnStartRecording.disabled = true;
+            btnStopRecording.disabled = true;
+            cameraOverlay.style.display = 'block';
+            countdownDisplay.style.display = 'none';
+            recordingIndicator.style.display = 'none';
+            isRecording = false;
+            feedbackOverlay.style.display = 'none';
+            poseDetector = null;
         }
-        
-        // Feature details grid
-        const grid = document.getElementById('quality-results-grid');
-        grid.innerHTML = '';
-        if (data.features) {
-            const featureNames = {
-                'step_time_L_mean': 'Left Step Time',
-                'step_time_R_mean': 'Right Step Time',
-                'step_asymmetry': 'Step Asymmetry',
-                'symmetry_index': 'Symmetry Index'
-            };
-            for (const [key, value] of Object.entries(data.features)) {
-                if (typeof value === 'number') {
-                    const div = document.createElement('div');
-                    div.className = 'metric-card';
-                    div.innerHTML = `
-                        <span>${featureNames[key] || key}</span>
-                        <strong>${value.toFixed(4)}</strong>
-                    `;
-                    grid.appendChild(div);
+
+        function drawPoseResults(results) {
+            const canvas = poseCanvas;
+            canvas.width = videoPreview.videoWidth || 640;
+            canvas.height = videoPreview.videoHeight || 480;
+            canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
+            if (!results.poseLandmarks) return;
+            for (const lm of results.poseLandmarks) {
+                canvasCtx.beginPath();
+                canvasCtx.arc(lm.x * canvas.width, lm.y * canvas.height, 4, 0, 2 * Math.PI);
+                canvasCtx.fillStyle = '#00ff88';
+                canvasCtx.fill();
+            }
+            const connections = [[11, 12], [11, 23], [12, 24], [23, 24], [23, 25], [24, 26], [25, 27], [26, 28], [11, 13], [12, 14], [13, 15], [14, 16], [15, 17], [16, 18], [17, 19], [18, 20], [27, 29], [28, 30], [29, 31], [30, 32]];
+            for (const [i, j] of connections) {
+                const p1 = results.poseLandmarks[i], p2 = results.poseLandmarks[j];
+                if (p1 && p2) {
+                    canvasCtx.beginPath();
+                    canvasCtx.moveTo(p1.x * canvas.width, p1.y * canvas.height);
+                    canvasCtx.lineTo(p2.x * canvas.width, p2.y * canvas.height);
+                    canvasCtx.strokeStyle = '#00ff88';
+                    canvasCtx.lineWidth = 2;
+                    canvasCtx.stroke();
                 }
             }
         }
-    }
 
-    function showError(message) {
-        errorDiv.hidden = false;
-        document.getElementById('error-message').textContent = message;
-    }
+        function analyzePoseResults(results) {
+            if (!results.poseLandmarks || results.poseLandmarks.length === 0) {
+                updateFeedback('⚠️ No person detected. Please stand in frame.', 'error');
+                return;
+            }
+            const lm = results.poseLandmarks;
+            const head = lm[0], lAnkle = lm[27], rAnkle = lm[28];
+            if (head && lAnkle && rAnkle) {
+                const bodyHeight = Math.abs(head.y - lAnkle.y);
+                if (bodyHeight > 0.5) {
+                    updateFeedback('✅ Full body detected. Good!', 'success');
+                } else {
+                    updateFeedback('📐 Tip: Step back. Full body not visible.', 'warning');
+                }
+                const lShoulder = lm[11], rShoulder = lm[12], lHip = lm[23], rHip = lm[24];
+                if (lShoulder && rShoulder && lHip && rHip) {
+                    if (Math.abs(lShoulder.x - rShoulder.x) > 0.15 || Math.abs(lHip.x - rHip.x) > 0.15) {
+                        updateFeedback('📐 Tip: Turn sideways for best view.', 'info');
+                    }
+                }
+            } else {
+                updateFeedback('⚠️ Step back. Full body not visible.', 'warning');
+            }
+        }
 
-    document.getElementById('dismiss-error').addEventListener('click', () => {
-        errorDiv.hidden = true;
-    });
+        // ============================================================
+        // RECORDING
+        // ============================================================
 
-    document.getElementById('restart-screening').addEventListener('click', () => {
-        resultDiv.hidden = true;
-        fileInput.value = '';
-        fileName.hidden = true;
-        videoPreview.hidden = true;
-        stateText.textContent = 'Not uploaded';
-        stateDot.style.background = '';
-        isUploaded = false;
-        completedCount.textContent = '0';
-        submitBtn.disabled = true;
-    });
+        btnStartRecording.addEventListener('click', startCountdown);
+
+        function startCountdown() {
+            let count = 3;
+            countdownDisplay.style.display = 'block';
+            countdownDisplay.textContent = count;
+            cameraOverlay.style.display = 'none';
+            updateFeedback('⏳ Get ready...', 'info');
+            countdownInterval = setInterval(() => {
+                count--;
+                if (count > 0) {
+                    countdownDisplay.textContent = count;
+                } else {
+                    clearInterval(countdownInterval);
+                    countdownDisplay.style.display = 'none';
+                    startRecording();
+                }
+            }, 1000);
+        }
+
+        function startRecording() {
+            if (!stream) return;
+            recordedChunks = [];
+            mediaRecorder = new MediaRecorder(stream);
+            mediaRecorder.ondataavailable = function (e) {
+                if (e.data.size > 0) recordedChunks.push(e.data);
+            };
+            mediaRecorder.onstop = function () {
+                const blob = new Blob(recordedChunks, { type: 'video/mp4' });
+                videoBlob = blob;
+                const url = URL.createObjectURL(blob);
+                recordedVideo.src = url;
+                recordedVideo.style.display = 'block';
+                recordedVideo.controls = true;
+                isVideoReady = true;
+                completedCount.textContent = '1';
+                submitBtn.disabled = false;
+                recordingIndicator.style.display = 'none';
+                isRecording = false;
+                clearInterval(timerInterval);
+                recordingTimerDisplay.textContent = '';
+                updateFeedback('✅ Recording complete! Review and submit.', 'success');
+                btnStartRecording.disabled = false;
+                btnStartRecording.innerHTML = '<i class="fa-solid fa-circle"></i> Record (10s)';
+                btnStopRecording.disabled = true;
+            };
+            mediaRecorder.start();
+            isRecording = true;
+            recordingIndicator.style.display = 'flex';
+            btnStartRecording.disabled = true;
+            btnStopRecording.disabled = false;
+            updateFeedback('🔴 Recording...', 'error');
+            let seconds = 0;
+            timerInterval = setInterval(() => {
+                seconds++;
+                recordingTimerDisplay.textContent = seconds + 's / 10s';
+                if (seconds >= 10) clearInterval(timerInterval);
+            }, 1000);
+            recordingTimer = setTimeout(() => {
+                if (isRecording) stopRecording();
+            }, 10000);
+        }
+
+        btnStopRecording.addEventListener('click', stopRecording);
+
+        function stopRecording() {
+            if (mediaRecorder && isRecording) {
+                mediaRecorder.stop();
+                clearTimeout(recordingTimer);
+                clearInterval(timerInterval);
+                isRecording = false;
+                btnStopRecording.disabled = true;
+                recordingIndicator.style.display = 'none';
+                recordingTimerDisplay.textContent = '';
+                btnStartRecording.disabled = false;
+                btnStartRecording.innerHTML = '<i class="fa-solid fa-circle"></i> Record (10s)';
+            }
+        }
+
+        // ============================================================
+        // FILE UPLOAD
+        // ============================================================
+
+        fileInput.addEventListener('change', function () {
+            if (this.files && this.files[0]) {
+                const file = this.files[0];
+                fileName.textContent = file.name;
+                const url = URL.createObjectURL(file);
+                uploadedVideoPreview.src = url;
+                uploadedVideoPreview.style.display = 'block';
+                videoBlob = file;
+                isVideoReady = true;
+                completedCount.textContent = '1';
+                submitBtn.disabled = false;
+            }
+        });
+
+        // ============================================================
+        // SUBMIT
+        // ============================================================
+
+        submitBtn.addEventListener('click', submitVideo);
+
+        async function submitVideo() {
+            if (!isVideoReady) { alert('Please record or upload a video first.'); return; }
+            let formData = new FormData();
+            formData.append('video', videoBlob, videoBlob instanceof File ? videoBlob.name : 'recording.mp4');
+            resultSection.hidden = true;
+            errorSection.hidden = true;
+            processingSection.hidden = false;
+            submitBtn.disabled = true;
+            processingMessage.textContent = 'Analyzing gait patterns...';
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += 10;
+                progressBar.style.width = Math.min(progress, 90) + '%';
+                if (progress >= 90) clearInterval(interval);
+            }, 200);
+            try {
+                const response = await fetch('/api/gait/predict/', { method: 'POST', body: formData });
+                clearInterval(interval);
+                progressBar.style.width = '100%';
+                const data = await response.json();
+                processingSection.hidden = true;
+                if (response.ok) {
+                    displayResults(data);
+                } else {
+                    showError(data.error || 'Analysis failed.');
+                }
+            } catch (err) {
+                clearInterval(interval);
+                processingSection.hidden = true;
+                showError('Network error. Please check your connection.');
+            }
+            submitBtn.disabled = false;
+        }
+
+        // ============================================================
+        // RESULTS
+        // ============================================================
+
+        function displayResults(data) {
+            resultSection.hidden = false;
+            const isPD = data.prediction === 'PD';
+            const statusCard = document.getElementById('result-status-card');
+            statusCard.className = 'result-status ' + (isPD ? 'pd' : 'control');
+            resultCategory.textContent = data.prediction;
+            resultCategory.style.color = isPD ? '#dc2626' : '#16a34a';
+            resultMessage.textContent = isPD ?
+                'Movement patterns show indicators associated with Parkinsonian gait.' :
+                'Gait patterns appear within typical range.';
+            resultScore.textContent = (data.pd_probability * 100).toFixed(1) + '%';
+            resultConfidence.textContent = (Math.max(data.pd_probability, data.control_probability) * 100).toFixed(1) + '%';
+            if (data.features) {
+                resultSymmetry.textContent = data.features.symmetry_index ? data.features.symmetry_index.toFixed(1) + '%' : '—';
+                resultCadence.textContent = data.features.cadence ? data.features.cadence.toFixed(1) + ' steps/min' : '—';
+            }
+            qualityGrid.innerHTML = '';
+            if (data.features) {
+                const labels = {
+                    step_time_L_mean: 'Left Step Time',
+                    step_time_R_mean: 'Right Step Time',
+                    step_time_L_std: 'Left Step Variability',
+                    step_time_R_std: 'Right Step Variability',
+                    step_asymmetry: 'Step Asymmetry',
+                    symmetry_index: 'Symmetry Index',
+                    cadence: 'Cadence'
+                };
+                let count = 0;
+                for (const [key, value] of Object.entries(data.features)) {
+                    if (typeof value === 'number' && count < 8) {
+                        const div = document.createElement('div');
+                        div.className = 'metric';
+                        div.innerHTML = `<span>${labels[key] || key}</span><strong>${value.toFixed(4)}</strong>`;
+                        qualityGrid.appendChild(div);
+                        count++;
+                    }
+                }
+            }
+            resultSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function showError(message) {
+            errorSection.hidden = false;
+            document.getElementById('error-message').textContent = message;
+            errorSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // ============================================================
+        // RESET
+        // ============================================================
+
+        restartBtn.addEventListener('click', resetAll);
+        dismissError.addEventListener('click', function () { errorSection.hidden = true; });
+
+        function resetAll() {
+            resultSection.hidden = true;
+            errorSection.hidden = true;
+            processingSection.hidden = true;
+            recordedVideo.style.display = 'none';
+            uploadedVideoPreview.style.display = 'none';
+            recordedVideo.src = '';
+            uploadedVideoPreview.src = '';
+            videoBlob = null;
+            isVideoReady = false;
+            completedCount.textContent = '0';
+            submitBtn.disabled = true;
+            fileName.textContent = '';
+            fileInput.value = '';
+            recordingTimerDisplay.textContent = '';
+            btnStartRecording.disabled = true;
+            btnStartRecording.innerHTML = '<i class="fa-solid fa-circle"></i> Record (10s)';
+            btnStopRecording.disabled = true;
+            if (stream) stopCamera();
+            liveSection.classList.remove('hidden');
+            fileSection.classList.add('hidden');
+            btnLive.classList.add('active');
+            btnFile.classList.remove('active');
+            feedbackOverlay.style.display = 'none';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // ============================================================
+        // INITIAL
+        // ============================================================
+
+        liveSection.classList.remove('hidden');
+        fileSection.classList.add('hidden');
+        btnLive.classList.add('active');
+        btnFile.classList.remove('active');
+        updateFeedback('📷 Click "Start Camera" to begin.', 'info');
+
+    })();
 </script>
 {% endblock %}
