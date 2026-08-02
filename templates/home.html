@@ -30,7 +30,7 @@
             </p>
 
             <div class="hero-buttons">
-                <a href="#" class="btn btn-primary btn-hero">
+                <a href="{% url 'screening_menu' %}" class="btn btn-primary btn-hero">
                     Start Screening
                     <i class="fa-solid fa-arrow-right"></i>
                 </a>
@@ -58,11 +58,8 @@
         <div class="hero-visual">
             <div class="visual-glow"></div>
 
-            <img
-                class="brain-image"
-                src="{% static 'speech_app/images/brain.png' %}"
-                alt="AI-powered neurological brain visualization"
-            >
+            <img class="brain-image" src="{% static 'speech_app/images/brain.png' %}"
+                alt="AI-powered neurological brain visualization">
 
             <article class="floating-card card-gait">
                 <div class="card-icon icon-blue">
@@ -111,11 +108,8 @@
     <div class="about-container">
 
         <div class="about-image-wrapper">
-            <img
-                src="{% static 'speech_app/images/about-neurosense.png' %}"
-                alt="Neurological assessment using NeuroSense AI"
-                class="about-image"
-            >
+            <img src="{% static 'speech_app/images/about-neurosense.png' %}"
+                alt="Neurological assessment using NeuroSense AI" class="about-image">
         </div>
 
         <div class="about-content">
@@ -292,9 +286,9 @@
         <div class="features-list">
 
             <article class="feature-card">
-        <div class="feature-card-visual feature-video">
-        <img src="{% static 'speech_app/images/1.png' %}" alt="Video Assessment">
-        </div>
+                <div class="feature-card-visual feature-video">
+                    <img src="{% static 'speech_app/images/1.png' %}" alt="Video Assessment">
+                </div>
 
                 <div class="feature-card-content">
                     <div>
@@ -313,10 +307,10 @@
                 </div>
             </article>
 
-             <article class="feature-card">
-        <div class="feature-card-visual feature-video">
-        <img src="{% static 'speech_app/images/2.png' %}" alt="Audio Assessment">
-        </div>
+            <article class="feature-card">
+                <div class="feature-card-visual feature-video">
+                    <img src="{% static 'speech_app/images/2.png' %}" alt="Audio Assessment">
+                </div>
 
                 <div class="feature-card-content">
                     <div>
@@ -335,10 +329,10 @@
                 </div>
             </article>
 
-                <article class="feature-card">
-        <div class="feature-card-visual feature-video">
-        <img src="{% static 'speech_app/images/3.png' %}" alt="Behavioral Assessment">
-        </div>
+            <article class="feature-card">
+                <div class="feature-card-visual feature-video">
+                    <img src="{% static 'speech_app/images/3.png' %}" alt="Behavioral Assessment">
+                </div>
                 <div class="feature-card-content">
                     <div>
                         <span class="feature-number">03</span>
@@ -356,10 +350,10 @@
                 </div>
             </article>
 
-           <article class="feature-card">
-        <div class="feature-card-visual feature-video">
-        <img src="{% static 'speech_app/images/4.png' %}" alt="Risk Report Generation">
-        </div>
+            <article class="feature-card">
+                <div class="feature-card-visual feature-video">
+                    <img src="{% static 'speech_app/images/4.png' %}" alt="Risk Report Generation">
+                </div>
                 <div class="feature-card-content">
                     <div>
                         <span class="feature-number">04</span>
@@ -378,9 +372,9 @@
             </article>
 
             <article class="feature-card">
-        <div class="feature-card-visual feature-video">
-        <img src="{% static 'speech_app/images/5.png' %}" alt="Progress & Record Tracking">
-        </div>
+                <div class="feature-card-visual feature-video">
+                    <img src="{% static 'speech_app/images/5.png' %}" alt="Progress & Record Tracking">
+                </div>
 
                 <div class="feature-card-content">
                     <div>
@@ -406,11 +400,8 @@
     <div class="chatbot-container">
 
         <div class="chatbot-image-wrapper">
-            <img
-                src="{% static 'speech_app/images/chatbot-support.png' %}"
-                alt="NeuroSense AI chatbot support"
-                class="chatbot-image"
-            >
+            <img src="{% static 'speech_app/images/chatbot-support.png' %}" alt="NeuroSense AI chatbot support"
+                class="chatbot-image">
         </div>
 
         <div class="chatbot-content">
@@ -653,7 +644,7 @@
     featureCards.forEach((card, index) => {
         card.style.transitionDelay = `${index * 90}ms`;
         featureObserver.observe(card);
-    
+
     });
 
     const signCards = document.querySelectorAll(".sign-card");

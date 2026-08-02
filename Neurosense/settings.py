@@ -38,10 +38,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     "speech_app.apps.SpeechAppConfig",
+    'rest_framework',      
+    'corsheaders',
     'gait_app',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',   
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -162,3 +165,10 @@ AUDIO_FEATURE_EXTRACTION = {
     "missing_feature_fill_value": 0.0,
     "reject_unexpected_features": False,
 }
+
+# CORS settings
+CORS_ALLOW_ALL_ORIGINS = True
+
+# File upload settings
+FILE_UPLOAD_MAX_MEMORY_SIZE = 50 * 1024 * 1024  # 50MB for video
+DATA_UPLOAD_MAX_MEMORY_SIZE = 50 * 1024 * 1024  # 50MB for video

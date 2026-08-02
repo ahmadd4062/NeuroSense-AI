@@ -1,0 +1,639 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Gait Screening - NeuroSense AI{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'speech_app/css/screening.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="screening-dashboard">
+
+    <aside class="screening-sidebar">
+
+        <div class="sidebar-navigation">
+
+            <a href="#" class="sidebar-link">
+                <span class="sidebar-link-icon">
+                    <i class="fa-solid fa-house"></i>
+                </span>
+                <span>Assessment Center</span>
+            </a>
+
+            <div class="sidebar-link sidebar-tracker-link">
+                <span class="sidebar-link-icon">
+                    <i class="fa-solid fa-chart-line"></i>
+                </span>
+                <span>Screening Progress</span>
+            </div>
+
+        </div>
+
+        <div class="sidebar-divider"></div>
+
+        <div class="sidebar-section">
+
+            <p class="sidebar-section-title">Screening Workflow</p>
+
+            <div class="workflow-tracker">
+
+                <div class="workflow-item workflow-completed">
+                    <div class="workflow-indicator">
+                        <i class="fa-solid fa-check"></i>
+                    </div>
+                    <div class="workflow-copy">
+                        <strong>Questionnaire</strong>
+                        <span>Completed</span>
+                    </div>
+                </div>
+
+                <div class="workflow-connector workflow-connector-completed"></div>
+
+                <div class="workflow-item workflow-completed">
+                    <div class="workflow-indicator">
+                        <i class="fa-solid fa-check"></i>
+                    </div>
+                    <div class="workflow-copy">
+                        <strong>Audio Analysis</strong>
+                        <span>Completed</span>
+                    </div>
+                </div>
+
+                <div class="workflow-connector workflow-connector-completed"></div>
+
+                <div class="workflow-item workflow-current">
+                    <div class="workflow-indicator">
+                        <span>3</span>
+                    </div>
+                    <div class="workflow-copy">
+                        <strong>Video Analysis</strong>
+                        <span>In Progress</span>
+                    </div>
+                </div>
+
+                <div class="workflow-connector"></div>
+
+                <div class="workflow-item workflow-locked">
+                    <div class="workflow-indicator">
+                        <i class="fa-solid fa-lock"></i>
+                    </div>
+                    <div class="workflow-copy">
+                        <strong>AI Fusion & Report</strong>
+                        <span>Locked</span>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="sidebar-divider"></div>
+
+        <div class="sidebar-section">
+
+            <p class="sidebar-section-title">Others</p>
+
+            <div class="sidebar-secondary-links">
+                <a href="#" class="sidebar-secondary-link">
+                    <i class="fa-regular fa-file-lines"></i>
+                    <span>Previous Reports</span>
+                </a>
+                <a href="#" class="sidebar-secondary-link">
+                    <i class="fa-solid fa-robot"></i>
+                    <span>AI Assistant</span>
+                </a>
+                <a href="#" class="sidebar-secondary-link">
+                    <i class="fa-regular fa-star"></i>
+                    <span>Recommendations</span>
+                </a>
+                <a href="#" class="sidebar-secondary-link">
+                    <i class="fa-solid fa-gear"></i>
+                    <span>Settings</span>
+                </a>
+            </div>
+
+        </div>
+
+        <div class="sidebar-footer-area">
+
+            <div class="support-card">
+                <div class="support-card-icon">
+                    <i class="fa-solid fa-headset"></i>
+                </div>
+                <div class="support-card-copy">
+                    <strong>Need Help?</strong>
+                    <span>Contact our support team</span>
+                </div>
+            </div>
+
+            <p class="sidebar-copyright">
+                © 2026 NeuroSense AI<br>All rights reserved.
+            </p>
+
+        </div>
+
+    </aside>
+
+    <div class="screening-main-content">
+
+        <section class="screening-welcome">
+
+            <div class="welcome-copy">
+                <h1>
+                    Video Screening
+                    <span aria-hidden="true">🎥</span>
+                </h1>
+                <p>Upload a walking video for Parkinson's risk assessment.</p>
+            </div>
+
+            <div class="welcome-illustration" aria-hidden="true">
+                <div class="welcome-brain">
+                    <i class="fa-solid fa-person-walking"></i>
+                </div>
+                <div class="welcome-chart">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+
+        </section>
+
+        <section class="overall-progress-card">
+
+            <div class="overall-progress-header">
+                <strong>Overall Progress</strong>
+                <span>75%</span>
+            </div>
+
+            <div class="overall-progress-track">
+                <span class="overall-progress-value" style="width: 75%;"></span>
+            </div>
+
+            <div class="overall-progress-footer">
+                <p>You have completed 3 of 4 modules</p>
+                <p>Estimated time remaining: ~5 mins</p>
+            </div>
+
+        </section>
+
+        <section class="current-module-card">
+
+            <div class="current-module-heading">
+                <h2>Current Module: <span>Video Analysis</span></h2>
+                <span class="current-module-step">Step 3 of 4</span>
+            </div>
+
+            <div class="current-module-layout">
+
+                <div class="audio-module-summary">
+
+                    <div class="audio-module-icon">
+                        <i class="fa-solid fa-video"></i>
+                    </div>
+
+                    <h3>Video Analysis</h3>
+                    <p>Upload a walking video to analyze gait patterns, balance, and movement symmetry.</p>
+
+                    <div class="audio-estimated-time">
+                        <i class="fa-regular fa-clock"></i>
+                        <div>
+                            <span>Estimated Time</span>
+                            <strong>2–3 minutes</strong>
+                        </div>
+                    </div>
+
+                </div>
+
+                <aside class="recording-guidance-card" id="guidance-panel">
+
+                    <h3>Tips for best results</h3>
+
+                    <ul class="recording-guidance-list">
+                        <li>
+                            <i class="fa-solid fa-check"></i>
+                            <span>Record from a side view (profile)</span>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-check"></i>
+                            <span>Keep camera at waist height</span>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-check"></i>
+                            <span>Ensure full body is visible</span>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-check"></i>
+                            <span>Walk in a straight line for 10–15 seconds</span>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-check"></i>
+                            <span>Well-lit area with contrasting clothing</span>
+                        </li>
+                    </ul>
+
+                </aside>
+
+            </div>
+
+        </section>
+
+        <section class="audio-recording-section">
+
+            <div class="audio-recording-heading">
+
+                <div>
+                    <span class="section-label">Gait Analysis</span>
+                    <h2>Upload Walking Video</h2>
+                    <p>Upload a short walking video for AI analysis.</p>
+                </div>
+
+                <div class="recording-heading-actions">
+                    <div class="completion-badge" id="completion-badge">
+                        <span id="completed-count">0</span>/1 ready
+                    </div>
+                </div>
+
+            </div>
+
+            <form id="gait-form" enctype="multipart/form-data">
+
+                <div class="recording-grid">
+
+                    <article class="recording-card" data-recording-slot="1">
+
+                        <div class="recording-card-header">
+
+                            <div class="recording-number">01</div>
+
+                            <div class="recording-state">
+                                <span class="state-dot" aria-hidden="true"></span>
+                                <span class="state-text" id="state-text-1">Not uploaded</span>
+                            </div>
+
+                        </div>
+
+                        <div class="recording-card-body">
+
+                            <div class="recording-title-row">
+
+                                <div>
+                                    <span class="card-kicker">Video sample</span>
+                                    <h3>Walking Video</h3>
+                                </div>
+
+                                <button type="button" class="remove-recording-button" data-action="remove" aria-label="Remove video" hidden>
+                                    <i class="fa-solid fa-xmark"></i>
+                                </button>
+
+                            </div>
+
+                            <div class="upload-divider">
+                                <span>Upload a video file</span>
+                            </div>
+
+                            <label class="upload-control">
+                                <input type="file" name="video" class="recording-file-input" accept="video/*" required>
+                                <span class="upload-icon" aria-hidden="true">
+                                    <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                                </span>
+                                <span class="upload-copy">
+                                    <strong>Upload video file</strong>
+                                    <small>MP4, AVI, MOV, MKV</small>
+                                </span>
+                            </label>
+
+                            <p class="file-name" id="file-name-1" hidden></p>
+
+                            <video class="audio-preview" id="video-preview-1" controls preload="metadata" hidden></video>
+
+                            <p class="field-message" id="field-message-1" role="status" aria-live="polite"></p>
+
+                        </div>
+
+                    </article>
+
+                </div>
+
+                <div class="submission-panel">
+
+                    <div class="submission-copy">
+                        <div class="submission-icon" aria-hidden="true">
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </div>
+                        <div>
+                            <h3>Ready for analysis</h3>
+                            <p>A video must be uploaded before screening can begin.</p>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="button button-submit" id="submit-screening" disabled>
+                        <span>Analyze Video</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+
+                </div>
+
+            </form>
+
+        </section>
+
+        <section class="status-section" id="processing-section" hidden>
+
+            <div class="processing-card">
+
+                <div class="processing-spinner" aria-hidden="true"></div>
+
+                <div class="processing-content">
+                    <span class="section-label">Video analysis</span>
+                    <h2 id="processing-title">Analyzing your video</h2>
+                    <p id="processing-message">Processing gait patterns and movement features...</p>
+                    <div class="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="analysis-progress">
+                        <span id="analysis-progress-bar"></span>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+        <section class="results-section" id="results-section" hidden>
+
+            <div class="results-card">
+
+                <div class="results-header">
+
+                    <div>
+                        <span class="section-label">Gait module complete</span>
+                        <h2 id="results-title">Gait analysis result</h2>
+                    </div>
+
+                    <button type="button" class="button button-secondary" id="restart-screening">
+                        <i class="fa-solid fa-arrow-rotate-right"></i>
+                        <span>Start again</span>
+                    </button>
+
+                </div>
+
+                <div class="result-summary">
+
+                    <div class="result-status-card" id="result-status-card">
+
+                        <span class="result-label">Screening category</span>
+
+                        <strong id="result-category">—</strong>
+
+                        <p id="result-message"></p>
+
+                    </div>
+
+                    <div class="metrics-grid">
+
+                        <div class="metric-card">
+                            <span>Risk Score</span>
+                            <strong id="result-score">—</strong>
+                        </div>
+
+                        <div class="metric-card">
+                            <span>Confidence</span>
+                            <strong id="result-confidence">—</strong>
+                        </div>
+
+                        <div class="metric-card">
+                            <span>Gait Symmetry</span>
+                            <strong id="result-symmetry">—</strong>
+                        </div>
+
+                        <div class="metric-card">
+                            <span>Cadence</span>
+                            <strong id="result-cadence">—</strong>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="recording-results">
+
+                    <div class="results-subheading">
+                        <h3>Extracted Features</h3>
+                        <p>Detailed gait metrics from your walking video.</p>
+                    </div>
+
+                    <div class="quality-results-grid" id="quality-results-grid"></div>
+
+                </div>
+
+                <div class="disclaimer-panel">
+                    <i class="fa-solid fa-circle-info"></i>
+                    <p id="result-disclaimer">This result is intended for screening purposes only and is not a medical diagnosis.</p>
+                </div>
+
+            </div>
+
+        </section>
+
+        <section class="error-section" id="error-section" hidden>
+
+            <div class="error-card" role="alert">
+
+                <div class="error-icon" aria-hidden="true">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                </div>
+
+                <div class="error-content">
+                    <span class="section-label">Action required</span>
+                    <h2 id="error-title">Analysis could not be completed</h2>
+                    <p id="error-message"></p>
+                    <button type="button" class="button button-primary" id="dismiss-error">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        <span>Try again</span>
+                    </button>
+                </div>
+
+            </div>
+
+        </section>
+
+        <section class="screening-security-banner">
+
+            <div class="security-banner-icon" aria-hidden="true">
+                <i class="fa-solid fa-shield-halved"></i>
+            </div>
+
+            <div class="security-banner-copy">
+                <strong>Your data is secure and encrypted.</strong>
+                <span>We prioritize your privacy and data protection.</span>
+            </div>
+
+            <a href="#">
+                <i class="fa-solid fa-circle-info"></i>
+                Learn more about data security
+            </a>
+
+        </section>
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // File upload handler
+    const fileInput = document.querySelector('.recording-file-input');
+    const fileName = document.getElementById('file-name-1');
+    const videoPreview = document.getElementById('video-preview-1');
+    const stateText = document.getElementById('state-text-1');
+    const stateDot = document.querySelector('.state-dot');
+    const submitBtn = document.getElementById('submit-screening');
+    const completedCount = document.getElementById('completed-count');
+    const resultDiv = document.getElementById('results-section');
+    const processingDiv = document.getElementById('processing-section');
+    const errorDiv = document.getElementById('error-section');
+    const progressBar = document.getElementById('analysis-progress-bar');
+
+    let isUploaded = false;
+
+    fileInput.addEventListener('change', function() {
+        if (this.files && this.files[0]) {
+            const file = this.files[0];
+            fileName.textContent = file.name;
+            fileName.hidden = false;
+            
+            // Show video preview
+            videoPreview.src = URL.createObjectURL(file);
+            videoPreview.hidden = false;
+            
+            stateText.textContent = 'Uploaded';
+            stateDot.style.background = '#10b981';
+            isUploaded = true;
+            completedCount.textContent = '1';
+            submitBtn.disabled = false;
+        }
+    });
+
+    document.getElementById('gait-form').onsubmit = async (e) => {
+        e.preventDefault();
+        
+        const formData = new FormData(e.target);
+        
+        // Hide result, show processing
+        resultDiv.hidden = true;
+        errorDiv.hidden = true;
+        processingDiv.hidden = false;
+        submitBtn.disabled = true;
+        
+        // Simulate progress
+        let progress = 0;
+        const interval = setInterval(() => {
+            progress += 10;
+            progressBar.style.width = progress + '%';
+            if (progress >= 100) clearInterval(interval);
+        }, 300);
+        
+        try {
+            const response = await fetch('/api/gait/predict/', {
+                method: 'POST',
+                body: formData
+            });
+            
+            const data = await response.json();
+            
+            clearInterval(interval);
+            progressBar.style.width = '100%';
+            processingDiv.hidden = true;
+            
+            if (response.ok) {
+                displayResults(data);
+            } else {
+                showError(data.error || 'Analysis failed');
+            }
+            
+        } catch (error) {
+            clearInterval(interval);
+            processingDiv.hidden = true;
+            showError('Network error. Please try again.');
+        }
+        
+        submitBtn.disabled = false;
+    };
+
+    function displayResults(data) {
+        resultDiv.hidden = false;
+        
+        const isPD = data.prediction === 'PD';
+        const categoryEl = document.getElementById('result-category');
+        const messageEl = document.getElementById('result-message');
+        const scoreEl = document.getElementById('result-score');
+        const confidenceEl = document.getElementById('result-confidence');
+        const symmetryEl = document.getElementById('result-symmetry');
+        const cadenceEl = document.getElementById('result-cadence');
+        
+        categoryEl.textContent = data.prediction;
+        categoryEl.style.color = isPD ? '#ef4444' : '#10b981';
+        
+        messageEl.textContent = isPD ? 
+            'Movement patterns show indicators associated with Parkinsonian gait.' :
+            'Gait patterns appear within typical range.';
+        
+        scoreEl.textContent = `${(data.pd_probability * 100).toFixed(1)}%`;
+        confidenceEl.textContent = `${(Math.max(data.pd_probability, data.control_probability) * 100).toFixed(1)}%`;
+        
+        if (data.features) {
+            symmetryEl.textContent = data.features.symmetry_index ? 
+                `${data.features.symmetry_index.toFixed(1)}%` : '—';
+            cadenceEl.textContent = data.features.cadence ? 
+                `${data.features.cadence.toFixed(1)} steps/min` : '—';
+        }
+        
+        // Feature details grid
+        const grid = document.getElementById('quality-results-grid');
+        grid.innerHTML = '';
+        if (data.features) {
+            const featureNames = {
+                'step_time_L_mean': 'Left Step Time',
+                'step_time_R_mean': 'Right Step Time',
+                'step_asymmetry': 'Step Asymmetry',
+                'symmetry_index': 'Symmetry Index'
+            };
+            for (const [key, value] of Object.entries(data.features)) {
+                if (typeof value === 'number') {
+                    const div = document.createElement('div');
+                    div.className = 'metric-card';
+                    div.innerHTML = `
+                        <span>${featureNames[key] || key}</span>
+                        <strong>${value.toFixed(4)}</strong>
+                    `;
+                    grid.appendChild(div);
+                }
+            }
+        }
+    }
+
+    function showError(message) {
+        errorDiv.hidden = false;
+        document.getElementById('error-message').textContent = message;
+    }
+
+    document.getElementById('dismiss-error').addEventListener('click', () => {
+        errorDiv.hidden = true;
+    });
+
+    document.getElementById('restart-screening').addEventListener('click', () => {
+        resultDiv.hidden = true;
+        fileInput.value = '';
+        fileName.hidden = true;
+        videoPreview.hidden = true;
+        stateText.textContent = 'Not uploaded';
+        stateDot.style.background = '';
+        isUploaded = false;
+        completedCount.textContent = '0';
+        submitBtn.disabled = true;
+    });
+</script>
+{% endblock %}

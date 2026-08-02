@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Gait Results - NeuroSense AI{% endblock %}
+
+{% block content %}
+<section class="container" style="max-width: 800px; margin: 0 auto; padding: 40px 20px;">
+    <h1 style="font-size: 2.5rem; font-weight: 700; margin-bottom: 20px;">
+        Gait Analysis Results
+    </h1>
+    <p style="font-size: 1.1rem; color: #666; margin-bottom: 30px;">
+        Here are the results from your gait analysis.
+    </p>
+
+    <div id="result" style="padding: 30px; background: #f8f9fa; border-radius: 12px;">
+        <h2 id="result-title" style="font-size: 1.8rem; font-weight: 700;"></h2>
+        <p id="result-confidence" style="font-size: 1.2rem;"></p>
+        <div id="result-features" style="margin-top: 15px; background: white; padding: 15px; border-radius: 8px; font-size: 0.9rem;"></div>
+    </div>
+
+    <div style="margin-top: 30px;">
+        <a href="{% url 'gait_app:gait_screening' %}" class="btn btn-primary">Upload Another Video</a>
+        <a href="{% url 'speech_app:home' %}" class="btn btn-outline">Back to Home</a>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // This page expects data passed via URL parameters or session
+    // For simplicity, it will display data from the screening page
+    // You can pass data via session or URL parameters when redirecting
+    
+    // Example: Get data from sessionStorage
+    const resultData = sessionStorage.getItem('gaitResult');
+    if (resultData) {
+        const data = JSON.parse(resultData);
+        const isPD = data.prediction === 'PD';
+        document.getElementById('result-title').textContent = data.prediction;
+        document.getElementById('result-title').style.color = isPD ? '#dc3545' : '#28a745';
+        document.getElementById('result-confidence').textContent = `Confidence: ${(data.pd_probability * 100).toFixed(2)}% PD`;
+        
+        if (data.features) {
+            let html = '<h4>Extracted Features:</h4><ul style="list-style: none; padding: 0;">';
+            for (const [key, value] of Object.entries(data.features)) {
+                html += `<li>${key}: ${value.toFixed(4)}</li>`;
+            }
+            html += '</ul>';
+            document.getElementById('result-features').innerHTML = html;
+        }
+    } else {
+        document.getElementById('result-title').textContent = 'No data available';
+        document.getElementById('result-confidence').textContent = 'Please complete a gait screening first.';
+    }
+</script>
+{% endblock %}

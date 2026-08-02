@@ -16,8 +16,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
+from django.views.generic import TemplateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',include('speech_app.urls'))
+    path('', include('speech_app.urls')),  # Speech API
+    path('api/gait/', include('gait_app.urls')),          # Gait API
+    path('screening-menu/', TemplateView.as_view(template_name='screening_menu.html'), name='screening_menu'),
 ]
