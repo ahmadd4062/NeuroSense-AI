@@ -1124,7 +1124,7 @@
         </div>
         <div class="footer">
             <span>✅ 3 of 4 modules completed</span>
-            
+
         </div>
     </div>
 
@@ -1476,6 +1476,8 @@
             fileSection.classList.add('hidden');
             btnLive.classList.add('active');
             btnFile.classList.remove('active');
+            // Expand camera
+            document.getElementById('camera-container').classList.add('live-active');
             if (stream) stopCamera();
         });
 
@@ -1484,6 +1486,7 @@
             liveSection.classList.add('hidden');
             btnFile.classList.add('active');
             btnLive.classList.remove('active');
+            document.getElementById('camera-container').classList.remove('live-active');
             if (stream) stopCamera();
         });
 
@@ -1504,6 +1507,8 @@
                 btnStartCamera.innerHTML = '✅ Camera Active';
                 btnStartRecording.disabled = false;
                 cameraOverlay.style.display = 'none';
+                // Expand camera container
+                document.getElementById('camera-container').classList.add('live-active');
                 updateFeedback('✅ Ready to record. Position camera for side view.', 'success');
 
                 if (typeof Pose !== 'undefined') {
@@ -1550,6 +1555,7 @@
             isRecording = false;
             feedbackOverlay.style.display = 'none';
             poseDetector = null;
+            document.getElementById('camera-container').classList.remove('live-active');
         }
 
         function drawPoseResults(results) {
@@ -1745,11 +1751,12 @@
         }
 
         // ============================================================
-        // RESULTS
+        // DISPLAY RESULTS (UPDATED WITH ALL 15 FEATURES + SCALING STATUS)
         // ============================================================
 
         function displayResults(data) {
             resultSection.hidden = false;
+
             const isPD = data.prediction === 'PD';
             const statusCard = document.getElementById('result-status-card');
             statusCard.className = 'result-status ' + (isPD ? 'pd' : 'control');
@@ -1758,34 +1765,186 @@
             resultMessage.textContent = isPD ?
                 'Movement patterns show indicators associated with Parkinsonian gait.' :
                 'Gait patterns appear within typical range.';
+
             resultScore.textContent = (data.pd_probability * 100).toFixed(1) + '%';
             resultConfidence.textContent = (Math.max(data.pd_probability, data.control_probability) * 100).toFixed(1) + '%';
+
             if (data.features) {
                 resultSymmetry.textContent = data.features.symmetry_index ? data.features.symmetry_index.toFixed(1) + '%' : '—';
                 resultCadence.textContent = data.features.cadence ? data.features.cadence.toFixed(1) + ' steps/min' : '—';
             }
+
+            // ============================================================
+            // QUALITY GRID: Show abnormal features, scaling status, and all 15 features
+            // ============================================================
             qualityGrid.innerHTML = '';
+
+            // 1. Abnormal Features (only when PD)
+            if (isPD && data.abnormal_features && data.abnormal_features.length > 0) {
+                const abnormalContainer = document.createElement('div');
+                abnormalContainer.style.cssText = `
+                    grid-column: 1 / -1;
+                    background: #fef2f2;
+                    border: 1px solid #fca5a5;
+                    border-radius: 10px;
+                    padding: 16px;
+                    margin-bottom: 12px;
+                `;
+
+                let abnormalHtml = `
+                    <h4 style="color: #991b1b; margin: 0 0 8px 0; font-size: 0.95rem;">
+                        ⚠️ Abnormal Features Detected
+                    </h4>
+                    <p style="font-size: 0.8rem; color: #7f1d1d; margin-bottom: 10px;">
+                        The following gait features are outside the normal range:
+                    </p>
+                    <ul style="list-style: none; padding: 0; margin: 0;">
+                `;
+
+                for (const item of data.abnormal_features) {
+                    const severityColor = item.severity === 'High' ? '#dc2626' : '#f59e0b';
+                    abnormalHtml += `
+                        <li style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; margin-bottom: 4px; background: rgba(255,255,255,0.7); border-radius: 6px; border-left: 4px solid ${severityColor}; flex-wrap: wrap; gap: 4px;">
+                            <div>
+                                <strong>${item.name}</strong>
+                                <span style="font-size: 0.7rem; color: #6b7280;">(${item.description})</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                                <span style="font-weight: 600;">${item.value}</span>
+                                <span style="font-size: 0.65rem; color: #6b7280;">Normal: ${item.normal_range}</span>
+                                <span style="display: inline-block; padding: 1px 10px; border-radius: 12px; font-size: 0.6rem; font-weight: 600; background: ${severityColor}; color: white;">${item.severity}</span>
+                            </div>
+                        </li>
+                    `;
+                }
+
+                abnormalHtml += `</ul>`;
+                abnormalContainer.innerHTML = abnormalHtml;
+                qualityGrid.appendChild(abnormalContainer);
+            }
+            else if (isPD) {
+                const infoDiv = document.createElement('div');
+                infoDiv.style.cssText = `
+                    grid-column: 1 / -1;
+                    background: #fef3c7;
+                    border: 1px solid #fcd34d;
+                    border-radius: 10px;
+                    padding: 12px 16px;
+                    margin-bottom: 12px;
+                    color: #92400e;
+                `;
+                infoDiv.innerHTML = `
+                    <strong>ℹ️ No specific abnormal features detected.</strong>
+                    <span style="font-size: 0.85rem; display: block; margin-top: 4px;">The overall gait pattern suggests Parkinsonian gait, but individual features are within normal ranges.</span>
+                `;
+                qualityGrid.appendChild(infoDiv);
+            }
+            else {
+                const successDiv = document.createElement('div');
+                successDiv.style.cssText = `
+                    grid-column: 1 / -1;
+                    background: #f0fdf4;
+                    border: 1px solid #86efac;
+                    border-radius: 10px;
+                    padding: 12px 16px;
+                    margin-bottom: 12px;
+                    color: #065f46;
+                `;
+                successDiv.innerHTML = `
+                    <strong>✅ All features within normal range.</strong>
+                    <span style="font-size: 0.85rem; display: block; margin-top: 4px;">No gait abnormalities detected.</span>
+                `;
+                qualityGrid.appendChild(successDiv);
+            }
+
+            // 2. All 15 Features (displayed in 2 columns)
             if (data.features) {
-                const labels = {
-                    step_time_L_mean: 'Left Step Time',
-                    step_time_R_mean: 'Right Step Time',
-                    step_time_L_std: 'Left Step Variability',
-                    step_time_R_std: 'Right Step Variability',
-                    step_asymmetry: 'Step Asymmetry',
-                    symmetry_index: 'Symmetry Index',
-                    cadence: 'Cadence'
+                const featureLabels = {
+                    'step_time_L_mean': 'Left Step Time',
+                    'step_time_L_std': 'Left Step Variability',
+                    'step_time_R_mean': 'Right Step Time',
+                    'step_time_R_std': 'Right Step Variability',
+                    'step_time_L_CV': 'Left CV',
+                    'step_time_R_CV': 'Right CV',
+                    'step_asymmetry': 'Step Asymmetry',
+                    'symmetry_index': 'Symmetry Index',
+                    'cadence': 'Cadence',
+                    'step_regularity': 'Step Regularity',
+                    'step_ratio': 'Step Ratio',
+                    'step_diff': 'Step Difference',
+                    'total_std': 'Total Variability',
+                    'std_ratio': 'Variability Ratio',
+                    'cadence_reg': 'Cadence Regularity'
                 };
+
+                // Add a title for features
+                const titleDiv = document.createElement('div');
+                titleDiv.style.cssText = `
+                    grid-column: 1 / -1;
+                    font-size: 0.9rem;
+                    font-weight: 600;
+                    color: #1a1a2e;
+                    margin: 10px 0 6px 0;
+                    border-bottom: 1px solid #e5e7eb;
+                    padding-bottom: 6px;
+                `;
+                titleDiv.textContent = '📊 Extracted Features (15)';
+                qualityGrid.appendChild(titleDiv);
+
                 let count = 0;
+                const featureContainer = document.createElement('div');
+                featureContainer.style.cssText = `
+                    grid-column: 1 / -1;
+                    display: grid;
+                    grid-template-columns: 1fr 1fr 1fr;
+                    gap: 4px;
+                    width: 100%;
+                `;
+
                 for (const [key, value] of Object.entries(data.features)) {
-                    if (typeof value === 'number' && count < 8) {
+                    if (typeof value === 'number') {
+                        const label = featureLabels[key] || key;
                         const div = document.createElement('div');
-                        div.className = 'metric';
-                        div.innerHTML = `<span>${labels[key] || key}</span><strong>${value.toFixed(4)}</strong>`;
-                        qualityGrid.appendChild(div);
+                        div.style.cssText = `
+                            background: #f8fafc;
+                            padding: 4px 8px;
+                            border-radius: 4px;
+                            font-size: 0.7rem;
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+                        `;
+                        div.innerHTML = `
+                            <span style="color: #6b7280;">${label}</span>
+                            <span style="font-weight: 600; font-size: 0.7rem;">${value.toFixed(4)}</span>
+                        `;
+                        featureContainer.appendChild(div);
                         count++;
                     }
                 }
+                qualityGrid.appendChild(featureContainer);
             }
+
+            // 3. Scaling Status
+            if (data.scaling_applied !== undefined) {
+                const scaleDiv = document.createElement('div');
+                scaleDiv.style.cssText = `
+                    grid-column: 1 / -1;
+                    margin-top: 8px;
+                    padding: 6px 14px;
+                    border-radius: 6px;
+                    font-size: 0.75rem;
+                    background: ${data.scaling_applied ? '#fef3c7' : '#f0fdf4'};
+                    color: ${data.scaling_applied ? '#92400e' : '#065f46'};
+                    border: 1px solid ${data.scaling_applied ? '#fcd34d' : '#86efac'};
+                    text-align: center;
+                `;
+                scaleDiv.innerHTML = data.scaling_applied ?
+                    '🔵 Auto-scaling was applied (high variability detected)' :
+                    '🟢 No scaling needed (features within normal range)';
+                qualityGrid.appendChild(scaleDiv);
+            }
+
             resultSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 

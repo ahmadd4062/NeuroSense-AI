@@ -21,8 +21,8 @@ class GaitPredictor:
     
     def predict(self, feature_array):
         """
-        Predict PD or Control from 10 gait features.
-        feature_array: numpy array of 10 features (in correct order)
+        Predict PD or Control from 15 gait features.
+        feature_array: numpy array of 15 features (in correct order)
         Returns: dict with prediction and probabilities
         """
         # Scale the features
