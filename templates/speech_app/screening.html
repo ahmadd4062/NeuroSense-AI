@@ -8,221 +8,54 @@ Audio Screening | NeuroSense AI
 {% block extra_css %}
 <link
     rel="stylesheet"
-    href="{% static 'speech_app/css/screening.css' %}"
+    href="{% static 'speech_app/css/screenings.css' %}"
 >
 {% endblock %}
 
 {% block content %}
 
-<div class="screening-dashboard">
+<main class="audio-screening-page">
 
-    <aside class="screening-sidebar">
+    <section class="audio-hero">
+        <div class="audio-page-container audio-hero-layout">
 
-        <div class="sidebar-navigation">
+            <div class="audio-hero-copy">
 
-            <a
-                href="#"
-                class="sidebar-link sidebar-link-active"
-            >
-                <span class="sidebar-link-icon">
-                    <i class="fa-solid fa-house"></i>
+                <span class="audio-hero-badge">
+                    <i class="fa-solid fa-microphone-lines"></i>
+                    Audio Screening · Step 2 of 4
                 </span>
-
-                <span>Assessment Center</span>
-            </a>
-
-            <div class="sidebar-link sidebar-tracker-link">
-                <span class="sidebar-link-icon">
-                    <i class="fa-solid fa-chart-line"></i>
-                </span>
-
-                <span>Screening Progress</span>
-            </div>
-
-        </div>
-
-        <div class="sidebar-divider"></div>
-
-        <div class="sidebar-section">
-
-            <p class="sidebar-section-title">
-                Screening Workflow
-            </p>
-
-            <div class="workflow-tracker">
-
-                <div class="workflow-item workflow-completed">
-
-                    <div class="workflow-indicator">
-                        <i class="fa-solid fa-check"></i>
-                    </div>
-
-                    <div class="workflow-copy">
-                        <strong>Questionnaire</strong>
-                        <span>Completed</span>
-                    </div>
-
-                </div>
-
-                <div class="workflow-connector workflow-connector-completed"></div>
-
-                <div class="workflow-item workflow-current">
-
-                    <div class="workflow-indicator">
-                        <span>2</span>
-                    </div>
-
-                    <div class="workflow-copy">
-                        <strong>Audio Analysis</strong>
-                        <span>In Progress</span>
-                    </div>
-
-                </div>
-
-                <div class="workflow-connector"></div>
-
-                <div class="workflow-item workflow-locked">
-
-                    <div class="workflow-indicator">
-                        <i class="fa-solid fa-lock"></i>
-                    </div>
-
-                    <div class="workflow-copy">
-                        <strong>Video Analysis</strong>
-                        <span>Locked</span>
-                    </div>
-
-                </div>
-
-                <div class="workflow-connector"></div>
-
-                <div class="workflow-item workflow-locked">
-
-                    <div class="workflow-indicator">
-                        <i class="fa-solid fa-lock"></i>
-                    </div>
-
-                    <div class="workflow-copy">
-                        <strong>AI Fusion & Report</strong>
-                        <span>Locked</span>
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="sidebar-divider"></div>
-
-        <div class="sidebar-section">
-
-            <p class="sidebar-section-title">
-                Others
-            </p>
-
-            <div class="sidebar-secondary-links">
-
-                <a href="#" class="sidebar-secondary-link">
-                    <i class="fa-regular fa-file-lines"></i>
-                    <span>Previous Reports</span>
-                </a>
-
-                <a href="#" class="sidebar-secondary-link">
-                    <i class="fa-solid fa-robot"></i>
-                    <span>AI Assistant</span>
-                </a>
-
-                <a href="#" class="sidebar-secondary-link">
-                    <i class="fa-regular fa-star"></i>
-                    <span>Recommendations</span>
-                </a>
-
-                <a href="#" class="sidebar-secondary-link">
-                    <i class="fa-solid fa-gear"></i>
-                    <span>Settings</span>
-                </a>
-
-            </div>
-
-        </div>
-
-        <div class="sidebar-footer-area">
-
-            <div class="support-card">
-
-                <div class="support-card-icon">
-                    <i class="fa-solid fa-headset"></i>
-                </div>
-
-                <div class="support-card-copy">
-                    <strong>Need Help?</strong>
-                    <span>Contact our support team</span>
-                </div>
-
-            </div>
-
-            <p class="sidebar-copyright">
-                © 2026 NeuroSense AI
-                <br>
-                All rights reserved.
-            </p>
-
-        </div>
-
-    </aside>
-
-    <div class="screening-main-content">
-
-        <section class="screening-welcome">
-
-            <div class="welcome-copy">
 
                 <h1>
-                    Good Morning,
-                    {% if request.user.is_authenticated %}
-                        {{ request.user.first_name|default:request.user.username }}
-                    {% else %}
-                        User
-                    {% endif %}
-                    <span aria-hidden="true">👋</span>
+                    Audio Screening
                 </h1>
 
                 <p>
-                    Continue your screening to get your personalized
-                    neurological risk assessment.
+                    Complete three short voice recordings so NeuroSense AI can
+                    evaluate speech patterns and voice characteristics as part
+                    of your guided screening journey.
                 </p>
 
             </div>
 
-            <div
-                class="welcome-illustration"
-                aria-hidden="true"
-            >
-
-                <div class="welcome-brain">
-                    <i class="fa-solid fa-brain"></i>
-                </div>
-
-                <div class="welcome-chart">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-
+            <div class="audio-hero-visual" aria-hidden="true">
+                <img
+                    src="{% static 'speech_app/images/6.png' %}"
+                    alt="asdfgh"
+                >
             </div>
 
-        </section>
+        </div>
+    </section>
+
+
+    <div class="audio-page-container audio-page-content">
 
         <section class="overall-progress-card">
 
             <div class="overall-progress-header">
-
                 <strong>Overall Progress</strong>
-
                 <span>30%</span>
-
             </div>
 
             <div class="overall-progress-track">
@@ -230,39 +63,22 @@ Audio Screening | NeuroSense AI
             </div>
 
             <div class="overall-progress-footer">
-
-                <p>
-                    You have completed 1 of 4 modules
-                </p>
-
-                <p>
-                    Estimated time remaining: ~15 mins
-                </p>
-
+                <p>You have completed 1 of 4 modules</p>
+                <p>Estimated time remaining: ~15 mins</p>
             </div>
 
         </section>
 
-        <section class="current-module-card">
 
-            <div class="current-module-heading">
+        <section class="module-overview-grid">
 
-                <h2>
-                    Current Module:
-                    <span>Audio Analysis</span>
-                </h2>
+            <article class="module-overview-card">
 
-                <span class="current-module-step">
-                    Step 2 of 4
-                </span>
+                <h2>About This Module</h2>
 
-            </div>
+                <div class="module-summary-content">
 
-            <div class="current-module-layout">
-
-                <div class="audio-module-summary">
-
-                    <div class="audio-module-icon">
+                    <div class="module-summary-icon">
                         <i class="fa-solid fa-wave-square"></i>
                     </div>
 
@@ -273,152 +89,129 @@ Audio Screening | NeuroSense AI
                         and motor speech indicators.
                     </p>
 
-                    <div class="audio-estimated-time">
+                </div>
 
+                <div class="module-time">
+
+                    <span class="module-time-icon">
                         <i class="fa-regular fa-clock"></i>
+                    </span>
 
-                        <div>
-                            <span>Estimated Time</span>
-                            <strong>5–7 minutes</strong>
-                        </div>
-
+                    <div>
+                        <span>Estimated Time</span>
+                        <strong>5–7 minutes</strong>
                     </div>
 
                 </div>
 
-                <div class="module-steps-card">
+            </article>
 
-                    <h3>Audio Screening Steps</h3>
 
-                    <div class="module-step module-step-required">
+            <article class="module-overview-card screening-steps-card">
 
-                        <span class="module-step-marker">
-                            1
-                        </span>
+                <h2>Audio Screening Steps</h2>
 
-                        <div class="module-step-copy">
-                            <strong>First Voice Recording</strong>
-                            <small>
-                                Add your first independent sample
-                            </small>
-                        </div>
+                <div class="screening-step screening-step-required">
 
-                        <span class="module-step-status">
-                            Required
-                        </span>
+                    <span class="screening-step-number">1</span>
 
+                    <div class="screening-step-copy">
+                        <strong>First Voice Recording</strong>
+                        <small>Add your first independent sample</small>
                     </div>
 
-                    <div class="module-step module-step-required">
-
-                        <span class="module-step-marker">
-                            2
-                        </span>
-
-                        <div class="module-step-copy">
-                            <strong>Second Voice Recording</strong>
-                            <small>
-                                Add your second independent sample
-                            </small>
-                        </div>
-
-                        <span class="module-step-status">
-                            Required
-                        </span>
-
-                    </div>
-
-                    <div class="module-step module-step-required">
-
-                        <span class="module-step-marker">
-                            3
-                        </span>
-
-                        <div class="module-step-copy">
-                            <strong>Third Voice Recording</strong>
-                            <small>
-                                Add your third independent sample
-                            </small>
-                        </div>
-
-                        <span class="module-step-status">
-                            Required
-                        </span>
-
-                    </div>
-
-                    <div class="module-step">
-
-                        <span class="module-step-marker">
-                            4
-                        </span>
-
-                        <div class="module-step-copy">
-                            <strong>Voice Quality Assessment</strong>
-                            <small>
-                                Automatic AI screening
-                            </small>
-                        </div>
-
-                        <span class="module-step-status">
-                            Pending
-                        </span>
-
-                    </div>
+                    <span class="screening-step-status">Required</span>
 
                 </div>
 
-                <aside
-                    class="recording-guidance-card"
-                    id="guidance-panel"
+                <div class="screening-step screening-step-required">
+
+                    <span class="screening-step-number">2</span>
+
+                    <div class="screening-step-copy">
+                        <strong>Second Voice Recording</strong>
+                        <small>Add your second independent sample</small>
+                    </div>
+
+                    <span class="screening-step-status">Required</span>
+
+                </div>
+
+                <div class="screening-step screening-step-required">
+
+                    <span class="screening-step-number">3</span>
+
+                    <div class="screening-step-copy">
+                        <strong>Third Voice Recording</strong>
+                        <small>Add your third independent sample</small>
+                    </div>
+
+                    <span class="screening-step-status">Required</span>
+
+                </div>
+
+                <div class="screening-step">
+
+                    <span class="screening-step-number">4</span>
+
+                    <div class="screening-step-copy">
+                        <strong>Voice Quality Assessment</strong>
+                        <small>Automatic AI screening</small>
+                    </div>
+
+                    <span class="screening-step-status">Pending</span>
+
+                </div>
+
+            </article>
+
+
+            <aside
+                class="module-overview-card recording-guidance-card"
+                id="guidance-panel"
+            >
+
+                <h2>Tips for best results</h2>
+
+                <ul class="recording-guidance-list">
+
+                    <li>
+                        <i class="fa-solid fa-check"></i>
+                        <span>Find a quiet environment</span>
+                    </li>
+
+                    <li>
+                        <i class="fa-solid fa-check"></i>
+                        <span>Speak clearly and naturally</span>
+                    </li>
+
+                    <li>
+                        <i class="fa-solid fa-check"></i>
+                        <span>Keep the microphone about 15–20 cm away</span>
+                    </li>
+
+                    <li>
+                        <i class="fa-solid fa-check"></i>
+                        <span>Record three different voice samples</span>
+                    </li>
+
+                </ul>
+
+                <button
+                    type="button"
+                    class="guidance-button"
+                    id="help-button"
+                    aria-controls="guidance-panel"
+                    aria-expanded="false"
                 >
+                    <i class="fa-regular fa-circle-question"></i>
+                    View Recording Guidance
+                </button>
 
-                    <h3>Tips for best results</h3>
-
-                    <ul class="recording-guidance-list">
-
-                        <li>
-                            <i class="fa-solid fa-check"></i>
-                            <span>Find a quiet environment</span>
-                        </li>
-
-                        <li>
-                            <i class="fa-solid fa-check"></i>
-                            <span>Speak clearly and naturally</span>
-                        </li>
-
-                        <li>
-                            <i class="fa-solid fa-check"></i>
-                            <span>
-                                Keep the microphone about 15–20 cm away
-                            </span>
-                        </li>
-
-                        <li>
-                            <i class="fa-solid fa-check"></i>
-                            <span>
-                                Record three different voice samples
-                            </span>
-                        </li>
-
-                    </ul>
-
-                    <button
-                        type="button"
-                        class="guidance-button"
-                        id="help-button"
-                        aria-controls="guidance-panel"
-                        aria-expanded="false"
-                    >
-                        <i class="fa-regular fa-circle-question"></i>
-                        View Recording Guidance
-                    </button>
-
-                </aside>
-
-            </div>
+            </aside>
 
         </section>
+
 
         <section
             class="audio-recording-section"
@@ -438,8 +231,8 @@ Audio Screening | NeuroSense AI
                     </h2>
 
                     <p>
-                        Record directly using your microphone or upload
-                        an existing audio file.
+                        Record directly using your microphone or upload an
+                        existing audio file.
                     </p>
 
                 </div>
@@ -474,6 +267,7 @@ Audio Screening | NeuroSense AI
 
             </div>
 
+
             <form
                 id="screening-form"
                 method="post"
@@ -488,199 +282,204 @@ Audio Screening | NeuroSense AI
                 {% csrf_token %}
 
                 <div class="recording-grid">
+
                     {% for slot in "123" %}
 
-                        <article
-                            class="recording-card"
-                            data-recording-slot="{{ forloop.counter }}"
-                        >
+                    <article
+                        class="recording-card"
+                        data-recording-slot="{{ forloop.counter }}"
+                    >
 
-                            <div class="recording-card-header">
+                        <div class="recording-card-header">
 
-                                <div class="recording-number">
-                                    {{ forloop.counter|stringformat:"02d" }}
-                                </div>
+                            <div class="recording-number">
+                                {{ forloop.counter|stringformat:"02d" }}
+                            </div>
 
-                                <div class="recording-state">
+                            <div class="recording-state">
 
-                                    <span
-                                        class="state-dot"
-                                        aria-hidden="true"
-                                    ></span>
+                                <span
+                                    class="state-dot"
+                                    aria-hidden="true"
+                                ></span>
 
-                                    <span
-                                        class="state-text"
-                                        id="state-text-{{ forloop.counter }}"
-                                    >
-                                        Not recorded
-                                    </span>
-
-                                </div>
+                                <span
+                                    class="state-text"
+                                    id="state-text-{{ forloop.counter }}"
+                                >
+                                    Not recorded
+                                </span>
 
                             </div>
 
-                            <div class="recording-card-body">
+                        </div>
 
-                                <div class="recording-title-row">
 
-                                    <div>
+                        <div class="recording-card-body">
 
-                                        <span class="card-kicker">
-                                            Voice sample
-                                        </span>
+                            <div class="recording-title-row">
 
-                                        <h3>
-                                            Recording {{ forloop.counter }}
-                                        </h3>
+                                <div>
 
-                                    </div>
+                                    <span class="card-kicker">
+                                        Voice Sample
+                                    </span>
 
-                                    <button
-                                        type="button"
-                                        class="remove-recording-button"
-                                        data-action="remove"
-                                        aria-label="Remove recording {{ forloop.counter }}"
-                                        hidden
-                                    >
-                                        <i class="fa-solid fa-xmark"></i>
-                                    </button>
+                                    <h3>
+                                        Recording {{ forloop.counter }}
+                                    </h3>
 
                                 </div>
 
-                                <div
-                                    class="visualizer"
-                                    id="visualizer-{{ forloop.counter }}"
+                                <button
+                                    type="button"
+                                    class="remove-recording-button"
+                                    data-action="remove"
+                                    aria-label="Remove recording {{ forloop.counter }}"
+                                    hidden
+                                >
+                                    <i class="fa-solid fa-xmark"></i>
+                                </button>
+
+                            </div>
+
+
+                            <div
+                                class="visualizer"
+                                id="visualizer-{{ forloop.counter }}"
+                                aria-hidden="true"
+                            >
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+
+
+                            <div class="recording-meta">
+
+                                <span
+                                    class="recording-timer"
+                                    id="timer-{{ forloop.counter }}"
+                                >
+                                    00:00
+                                </span>
+
+                                <span class="recording-limit">
+                                    Maximum
+                                    {{ maximum_recording_seconds|default:6 }}
+                                    seconds
+                                </span>
+
+                            </div>
+
+
+                            <div class="recording-actions">
+
+                                <button
+                                    type="button"
+                                    class="button button-primary record-button"
+                                    data-action="record"
+                                >
+                                    <i class="fa-solid fa-microphone"></i>
+                                    <span>Start recording</span>
+                                </button>
+
+                                <button
+                                    type="button"
+                                    class="button button-secondary stop-button"
+                                    data-action="stop"
+                                    disabled
+                                >
+                                    <i class="fa-solid fa-stop"></i>
+                                    <span>Stop</span>
+                                </button>
+
+                            </div>
+
+
+                            <div class="upload-divider">
+                                <span>or upload a file</span>
+                            </div>
+
+
+                            <label class="upload-control">
+
+                                <input
+                                    type="file"
+                                    name="recording_{{ forloop.counter }}"
+                                    class="recording-file-input"
+                                    accept=".wav,.mp4,.ogg,.webm,audio/wav,audio/mp4,audio/ogg,audio/webm"
+                                    data-slot="{{ forloop.counter }}"
+                                >
+
+                                <span
+                                    class="upload-icon"
                                     aria-hidden="true"
                                 >
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
-                                </div>
+                                    <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                                </span>
 
-                                <div class="recording-meta">
+                                <span class="upload-copy">
 
-                                    <span
-                                        class="recording-timer"
-                                        id="timer-{{ forloop.counter }}"
-                                    >
-                                        00:00
-                                    </span>
+                                    <strong>
+                                        Upload audio file
+                                    </strong>
 
-                                    <span class="recording-limit">
-                                        Maximum
-                                        {{ maximum_recording_seconds|default:6 }}
-                                        seconds
-                                    </span>
+                                    <small>
+                                        WAV, MP4, OGG or WebM
+                                    </small>
 
-                                </div>
+                                </span>
 
-                                <div class="recording-actions">
+                            </label>
 
-                                    <button
-                                        type="button"
-                                        class="button button-primary record-button"
-                                        data-action="record"
-                                    >
-                                        <i class="fa-solid fa-microphone"></i>
 
-                                        <span>
-                                            Start recording
-                                        </span>
-                                    </button>
+                            <p
+                                class="file-name"
+                                id="file-name-{{ forloop.counter }}"
+                                hidden
+                            ></p>
 
-                                    <button
-                                        type="button"
-                                        class="button button-secondary stop-button"
-                                        data-action="stop"
-                                        disabled
-                                    >
-                                        <i class="fa-solid fa-stop"></i>
 
-                                        <span>
-                                            Stop
-                                        </span>
-                                    </button>
+                            <audio
+                                class="audio-preview"
+                                id="audio-preview-{{ forloop.counter }}"
+                                controls
+                                preload="metadata"
+                                hidden
+                            ></audio>
 
-                                </div>
 
-                                <div class="upload-divider">
-                                    <span>or upload a file</span>
-                                </div>
+                            <p
+                                class="field-message"
+                                id="field-message-{{ forloop.counter }}"
+                                role="status"
+                                aria-live="polite"
+                            ></p>
 
-                                <label class="upload-control">
+                        </div>
 
-                                    <input
-                                        type="file"
-                                        name="recording_{{ forloop.counter }}"
-                                        class="recording-file-input"
-                                        accept=".wav,.mp4,.ogg,.webm,audio/wav,audio/mp4,audio/ogg,audio/webm"
-                                        data-slot="{{ forloop.counter }}"
-                                    >
-
-                                    <span
-                                        class="upload-icon"
-                                        aria-hidden="true"
-                                    >
-                                        <i class="fa-solid fa-arrow-up-from-bracket"></i>
-                                    </span>
-
-                                    <span class="upload-copy">
-
-                                        <strong>
-                                            Upload audio file
-                                        </strong>
-
-                                        <small>
-                                            WAV, MP4, OGG or WebM
-                                        </small>
-
-                                    </span>
-
-                                </label>
-
-                                <p
-                                    class="file-name"
-                                    id="file-name-{{ forloop.counter }}"
-                                    hidden
-                                ></p>
-
-                                <audio
-                                    class="audio-preview"
-                                    id="audio-preview-{{ forloop.counter }}"
-                                    controls
-                                    preload="metadata"
-                                    hidden
-                                ></audio>
-
-                                <p
-                                    class="field-message"
-                                    id="field-message-{{ forloop.counter }}"
-                                    role="status"
-                                    aria-live="polite"
-                                ></p>
-
-                            </div>
-
-                        </article>
+                    </article>
 
                     {% endfor %}
 
                 </div>
+
 
                 <div class="submission-panel">
 
@@ -714,10 +513,7 @@ Audio Screening | NeuroSense AI
                         id="submit-screening"
                         disabled
                     >
-                        <span>
-                            Analyze recordings
-                        </span>
-
+                        <span>Analyze recordings</span>
                         <i class="fa-solid fa-arrow-right"></i>
                     </button>
 
@@ -726,6 +522,7 @@ Audio Screening | NeuroSense AI
             </form>
 
         </section>
+
 
         <section
             class="status-section"
@@ -744,7 +541,7 @@ Audio Screening | NeuroSense AI
                 <div class="processing-content">
 
                     <span class="section-label">
-                        Audio analysis
+                        Audio Analysis
                     </span>
 
                     <h2 id="processing-title">
@@ -772,6 +569,7 @@ Audio Screening | NeuroSense AI
 
         </section>
 
+
         <section
             class="results-section"
             id="results-section"
@@ -786,7 +584,7 @@ Audio Screening | NeuroSense AI
                     <div>
 
                         <span class="section-label">
-                            Audio module complete
+                            Audio Module Complete
                         </span>
 
                         <h2 id="results-title">
@@ -801,13 +599,11 @@ Audio Screening | NeuroSense AI
                         id="restart-screening"
                     >
                         <i class="fa-solid fa-arrow-rotate-right"></i>
-
-                        <span>
-                            Start again
-                        </span>
+                        <span>Start again</span>
                     </button>
 
                 </div>
+
 
                 <div class="result-summary">
 
@@ -827,6 +623,7 @@ Audio Screening | NeuroSense AI
                         <p id="result-message"></p>
 
                     </div>
+
 
                     <div class="metrics-grid">
 
@@ -854,6 +651,7 @@ Audio Screening | NeuroSense AI
 
                 </div>
 
+
                 <div class="recording-results">
 
                     <div class="results-subheading">
@@ -875,13 +673,14 @@ Audio Screening | NeuroSense AI
 
                 </div>
 
+
                 <div class="disclaimer-panel">
 
                     <i class="fa-solid fa-circle-info"></i>
 
                     <p id="result-disclaimer">
-                        This result is intended for screening purposes only
-                        and is not a medical diagnosis.
+                        This result is intended for screening purposes only and
+                        is not a medical diagnosis.
                     </p>
 
                 </div>
@@ -889,6 +688,7 @@ Audio Screening | NeuroSense AI
             </div>
 
         </section>
+
 
         <section
             class="error-section"
@@ -912,7 +712,7 @@ Audio Screening | NeuroSense AI
                 <div class="error-content">
 
                     <span class="section-label">
-                        Action required
+                        Action Required
                     </span>
 
                     <h2 id="error-title">
@@ -933,10 +733,7 @@ Audio Screening | NeuroSense AI
                         id="dismiss-error"
                     >
                         <i class="fa-solid fa-arrow-left"></i>
-
-                        <span>
-                            Review recordings
-                        </span>
+                        <span>Review recordings</span>
                     </button>
 
                 </div>
@@ -945,217 +742,6 @@ Audio Screening | NeuroSense AI
 
         </section>
 
-        <section class="dashboard-bottom-grid">
-
-            <div class="dashboard-mini-card">
-
-                <h3>Screening Workflow</h3>
-
-                <div class="mini-workflow-row mini-workflow-completed">
-
-                    <span class="mini-workflow-icon">
-                        <i class="fa-solid fa-check"></i>
-                    </span>
-
-                    <strong>Questionnaire</strong>
-
-                    <small>Completed</small>
-
-                </div>
-
-                <div class="mini-workflow-row mini-workflow-current">
-
-                    <span class="mini-workflow-icon">
-                        2
-                    </span>
-
-                    <strong>Audio Analysis</strong>
-
-                    <small>In Progress</small>
-
-                </div>
-
-                <div class="mini-workflow-row">
-
-                    <span class="mini-workflow-icon">
-                        <i class="fa-solid fa-lock"></i>
-                    </span>
-
-                    <strong>Video Analysis</strong>
-
-                    <small>Locked</small>
-
-                </div>
-
-                <div class="mini-workflow-row">
-
-                    <span class="mini-workflow-icon">
-                        <i class="fa-solid fa-lock"></i>
-                    </span>
-
-                    <strong>AI Fusion & Report</strong>
-
-                    <small>Locked</small>
-
-                </div>
-
-            </div>
-
-            <div class="dashboard-mini-card">
-
-                <h3>Recent Activity</h3>
-
-                <div class="activity-row">
-
-                    <span class="activity-icon activity-success">
-                        <i class="fa-solid fa-check"></i>
-                    </span>
-
-                    <div class="activity-copy">
-
-                        <strong>
-                            Questionnaire Completed
-                        </strong>
-
-                        <small>
-                            Current screening session
-                        </small>
-
-                    </div>
-
-                </div>
-
-                <div class="activity-row">
-
-                    <span class="activity-icon">
-                        <i class="fa-solid fa-microphone"></i>
-                    </span>
-
-                    <div class="activity-copy">
-
-                        <strong>
-                            Audio Module Started
-                        </strong>
-
-                        <small>
-                            Add three voice recordings
-                        </small>
-
-                    </div>
-
-                </div>
-
-                <div class="activity-row">
-
-                    <span class="activity-icon">
-                        <i class="fa-solid fa-wave-square"></i>
-                    </span>
-
-                    <div class="activity-copy">
-
-                        <strong>
-                            Voice Analysis Pending
-                        </strong>
-
-                        <small>
-                            Complete all three recordings
-                        </small>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="dashboard-mini-card assistant-preview-card">
-
-                <div class="assistant-preview-heading">
-
-                    <h3>AI Assistant</h3>
-
-                    <span>
-                        <i class="fa-solid fa-robot"></i>
-                    </span>
-
-                </div>
-
-                <div class="assistant-bubble assistant-bubble-bot">
-
-                    Hello! How can I assist you with your
-                    audio screening?
-
-                </div>
-
-                <button
-                    type="button"
-                    class="assistant-suggestion"
-                >
-                    What does this test measure?
-                </button>
-
-                <button
-                    type="button"
-                    class="assistant-suggestion"
-                >
-                    How can I improve my results?
-                </button>
-
-                <div class="assistant-input-preview">
-
-                    <span>
-                        Type your message...
-                    </span>
-
-                    <button
-                        type="button"
-                        aria-label="Send message"
-                    >
-                        <i class="fa-solid fa-arrow-right"></i>
-                    </button>
-
-                </div>
-
-            </div>
-
-            <div class="dashboard-mini-card">
-
-                <h3>Quick Actions</h3>
-
-                <button
-                    type="button"
-                    class="quick-action-button"
-                >
-                    <i class="fa-regular fa-book-open"></i>
-                    <span>View Instructions</span>
-                </button>
-
-                <button
-                    type="button"
-                    class="quick-action-button"
-                >
-                    <i class="fa-regular fa-square-check"></i>
-                    <span>Check Requirements</span>
-                </button>
-
-                <button
-                    type="button"
-                    class="quick-action-button"
-                >
-                    <i class="fa-regular fa-file-lines"></i>
-                    <span>View My Reports</span>
-                </button>
-
-                <button
-                    type="button"
-                    class="quick-action-button"
-                >
-                    <i class="fa-regular fa-star"></i>
-                    <span>Get Recommendations</span>
-                </button>
-
-            </div>
-
-        </section>
 
         <section class="screening-security-banner">
 
@@ -1187,7 +773,8 @@ Audio Screening | NeuroSense AI
 
     </div>
 
-</div>
+</main>
+
 
 <div
     class="toast-region"
@@ -1196,21 +783,19 @@ Audio Screening | NeuroSense AI
     aria-atomic="true"
 ></div>
 
-<noscript>
 
+<noscript>
     <div class="noscript-message">
         JavaScript is required to record audio and submit this screening.
     </div>
-
 </noscript>
 
 {% endblock %}
 
-{% block extra_js %}
 
+{% block extra_js %}
 <script
     src="{% static 'speech_app/js/screening.js' %}"
     defer
 ></script>
-
 {% endblock %}
