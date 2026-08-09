@@ -22,4 +22,6 @@ urlpatterns = [
     path('', include('speech_app.urls')),  
     path('api/gait/', include('gait_app.urls')),          # Gait API
     path('', include('gait_app.urls')),
+    path('', include('questionnaire_app.urls')),
+
 ]
