@@ -1,0 +1,261 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Questionnaire Assessment | NeuroSense AI{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'questionnaire_app/css/questionnaire_home.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<section class="questionnaire-hero">
+
+    <div class="container hero-container">
+
+        <div class="hero-content">
+
+            <div class="badge">
+                <i class="fa-solid fa-brain"></i>
+                AI Supported Assessment
+            </div>
+
+            <h1>
+                Parkinson's
+                <span>Questionnaire Assessment</span>
+            </h1>
+
+            <p class="hero-description">
+                Complete a short questionnaire covering movement,
+                speech, cognition, and family history. Your responses
+                will be analyzed as the first stage of the NeuroSense AI
+                multimodal screening process.
+            </p>
+
+            <div class="assessment-info">
+
+                <div class="info-box">
+
+                    <i class="fa-solid fa-list-check"></i>
+
+                    <div>
+                        <h3>11 Questions</h3>
+                        <p>
+                            Structured symptom-based screening
+                        </p>
+                    </div>
+
+                </div>
+
+                <div class="info-box">
+
+                    <i class="fa-solid fa-clock"></i>
+
+                    <div>
+                        <h3>3 - 5 Minutes</h3>
+                        <p>
+                            Quick and simple assessment
+                        </p>
+                    </div>
+
+                </div>
+
+                <div class="info-box">
+
+                    <i class="fa-solid fa-shield-heart"></i>
+
+                    <div>
+                        <h3>Secure</h3>
+                        <p>
+                            Your screening responses are handled securely
+                        </p>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="hero-buttons">
+
+                <a
+                    href="{% url 'questionnaire_app:form' %}"
+                    class="start-btn"
+                >
+                    <span>Start Assessment</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="hero-image">
+
+            <img
+                src="{% static 'questionnaire_app/images/q2.jpeg' %}"
+                alt="Questionnaire Assessment"
+            >
+
+            <div class="floating-card card-one">
+
+                <i class="fa-solid fa-check"></i>
+
+                <p>
+                    Simple Questions
+                </p>
+
+            </div>
+
+
+            <div class="floating-card card-two">
+
+                <i class="fa-solid fa-brain"></i>
+
+                <p>
+                    AI Supported
+                </p>
+
+            </div>
+
+
+            <div class="floating-card card-three">
+
+                <i class="fa-solid fa-layer-group"></i>
+
+                <p>
+                    Multimodal Screening
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="steps-section">
+
+    <div class="container">
+
+        <div class="section-heading">
+
+            <h2>
+                How The Assessment Works
+            </h2>
+
+            <p>
+                Complete the questionnaire first. Your result will then
+                become part of the wider NeuroSense AI screening workflow.
+            </p>
+
+        </div>
+
+
+        <div class="steps-grid">
+
+            <div class="step-card">
+
+                <div class="step-number">
+                    01
+                </div>
+
+                <i class="fa-solid fa-user-pen"></i>
+
+                <h3>
+                    Answer Questions
+                </h3>
+
+                <p>
+                    Complete 11 structured questions covering age,
+                    family history, movement, speech, and cognition.
+                </p>
+
+            </div>
+
+
+            <div class="step-card">
+
+                <div class="step-number">
+                    02
+                </div>
+
+                <i class="fa-solid fa-microchip"></i>
+
+                <h3>
+                    Intelligent Analysis
+                </h3>
+
+                <p>
+                    Your responses are evaluated using symptom-pattern
+                    checks, response reliability, and a supporting
+                    machine-learning model.
+                </p>
+
+            </div>
+
+
+            <div class="step-card">
+
+                <div class="step-number">
+                    03
+                </div>
+
+                <i class="fa-solid fa-arrow-right"></i>
+
+                <h3>
+                    Continue Screening
+                </h3>
+
+                <p>
+                    After the questionnaire result is saved, you can
+                    continue to the speech and gait assessment modules.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="notice-section">
+
+    <div class="container">
+
+        <div class="notice-card">
+
+            <div class="notice-icon">
+
+                <i class="fa-solid fa-circle-info"></i>
+
+            </div>
+
+
+            <div class="notice-content">
+
+                <h2>
+                    Important Information
+                </h2>
+
+                <p>
+                    This questionnaire is intended for preliminary
+                    screening only and does not provide a medical
+                    diagnosis. Questionnaire findings are considered
+                    together with the other NeuroSense AI screening
+                    modules before generating the final multimodal result.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

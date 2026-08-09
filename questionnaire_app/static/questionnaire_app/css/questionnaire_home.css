@@ -1,0 +1,879 @@
+/* =========================================================
+   NEUROSENSE AI - QUESTIONNAIRE HOME
+   ========================================================= */
+
+
+/* =========================================================
+   MAIN CONTAINER
+   ========================================================= */
+
+.container {
+    width: min(1180px, calc(100% - 48px));
+    margin: 0 auto;
+}
+
+
+/* =========================================================
+   HERO SECTION
+   ========================================================= */
+
+.questionnaire-hero {
+    min-height: 650px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 68px 0 64px;
+
+    background:
+        radial-gradient(
+            circle at 88% 15%,
+            rgba(11, 114, 239, 0.07),
+            transparent 32%
+        ),
+        linear-gradient(
+            135deg,
+            #ffffff 0%,
+            #f7faff 55%,
+            #eef6ff 100%
+        );
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   HERO GRID
+   ========================================================= */
+
+.hero-container {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1.05fr)
+        minmax(380px, 0.95fr);
+
+    gap: 72px;
+
+    align-items: center;
+}
+
+
+/* =========================================================
+   LEFT HERO CONTENT
+   ========================================================= */
+
+.hero-content {
+    max-width: 620px;
+}
+
+
+/* =========================================================
+   BADGE
+   ========================================================= */
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+
+    gap: 8px;
+
+    padding: 9px 16px;
+
+    margin-bottom: 20px;
+
+    border-radius: 50px;
+
+    background: #eaf4ff;
+    color: #0b72ef;
+
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.badge i {
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   HERO HEADING
+   ========================================================= */
+
+.hero-content h1 {
+    margin: 0;
+
+    color: #071747;
+
+    font-size: clamp(44px, 4.1vw, 58px);
+    line-height: 1.04;
+
+    font-weight: 800;
+
+    letter-spacing: -1.8px;
+}
+
+.hero-content h1 span {
+    display: block;
+
+    margin-top: 5px;
+
+    color: #0b72ef;
+}
+
+
+/* =========================================================
+   HERO DESCRIPTION
+   ========================================================= */
+
+.hero-description {
+    max-width: 610px;
+
+    margin: 24px 0 0;
+
+    color: #64748b;
+
+    font-size: 16px;
+    line-height: 1.78;
+}
+
+
+/* =========================================================
+   ASSESSMENT INFORMATION
+   ========================================================= */
+
+.assessment-info {
+    display: grid;
+
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+
+    gap: 14px;
+
+    margin-top: 30px;
+}
+
+
+/* =========================================================
+   INFORMATION CARD
+   ========================================================= */
+
+.info-box {
+    min-height: 104px;
+
+    display: flex;
+    align-items: flex-start;
+
+    gap: 11px;
+
+    padding: 17px 15px;
+
+    background: rgba(255, 255, 255, 0.96);
+
+    border: 1px solid #dfe8f3;
+    border-radius: 15px;
+
+    box-shadow:
+        0 7px 22px rgba(7, 23, 71, 0.045);
+
+    transition:
+        transform 0.22s ease,
+        border-color 0.22s ease,
+        box-shadow 0.22s ease;
+}
+
+.info-box:hover {
+    transform: translateY(-3px);
+
+    border-color: #c9dff9;
+
+    box-shadow:
+        0 12px 28px rgba(7, 23, 71, 0.07);
+}
+
+.info-box i {
+    width: 36px;
+    height: 36px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 10px;
+
+    background: #edf5ff;
+    color: #0b72ef;
+
+    font-size: 14px;
+}
+
+.info-box h3 {
+    margin: 1px 0 4px;
+
+    color: #071747;
+
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.info-box p {
+    margin: 0;
+
+    color: #7b899e;
+
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   START ASSESSMENT BUTTON
+   ========================================================= */
+
+.hero-buttons {
+    margin-top: 30px;
+}
+
+.start-btn {
+    position: relative;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 10px;
+
+    min-height: 50px;
+
+    padding: 0 26px;
+
+    overflow: hidden;
+
+    border-radius: 10px;
+
+    background: #0b72ef;
+    color: #ffffff;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    text-decoration: none;
+
+    box-shadow:
+        0 10px 25px rgba(11, 114, 239, 0.21);
+
+    transition:
+        background 0.22s ease,
+        transform 0.22s ease,
+        box-shadow 0.22s ease;
+}
+
+.start-btn:hover {
+    background: #075ac4;
+
+    color: #ffffff;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 14px 30px rgba(11, 114, 239, 0.27);
+}
+
+.start-btn i {
+    transition: transform 0.22s ease;
+}
+
+.start-btn:hover i {
+    transform: translateX(4px);
+}
+
+
+/* =========================================================
+   RIGHT HERO IMAGE
+   ========================================================= */
+
+.hero-image {
+    position: relative;
+
+    width: 100%;
+    max-width: 470px;
+
+    margin-left: auto;
+}
+
+
+/* =========================================================
+   MAIN SUPPORTING IMAGE
+   ========================================================= */
+
+.hero-image > img {
+    display: block;
+
+    width: 100%;
+    height: 440px;
+
+    object-fit: contain;
+    object-position: center;
+
+    background: #dff0ff;
+
+    border-radius: 26px;
+
+    box-shadow:
+        0 20px 50px rgba(7, 23, 71, 0.12);
+}
+
+
+/* =========================================================
+   FLOATING CARDS
+   ========================================================= */
+
+.floating-card {
+    position: absolute;
+
+    min-width: 150px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 12px 14px;
+
+    background: rgba(255, 255, 255, 0.98);
+
+    border: 1px solid #e2eaf4;
+    border-radius: 13px;
+
+    box-shadow:
+        0 12px 30px rgba(7, 23, 71, 0.11);
+}
+
+.floating-card i {
+    width: 32px;
+    height: 32px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 9px;
+
+    background: #edf5ff;
+    color: #0b72ef;
+
+    font-size: 13px;
+}
+
+.floating-card p {
+    margin: 0;
+
+    color: #071747;
+
+    font-size: 11.5px;
+    font-weight: 700;
+}
+
+
+/* Floating card locations */
+
+.card-one {
+    top: 40px;
+    left: -35px;
+}
+
+.card-two {
+    top: 185px;
+    right: -28px;
+}
+
+.card-three {
+    left: -25px;
+    bottom: 42px;
+}
+
+
+/* =========================================================
+   HOW IT WORKS SECTION
+   ========================================================= */
+
+.steps-section {
+    padding: 78px 0;
+
+    background: #ffffff;
+}
+
+
+/* =========================================================
+   SECTION HEADING
+   ========================================================= */
+
+.section-heading {
+    max-width: 680px;
+
+    margin: 0 auto 44px;
+
+    text-align: center;
+}
+
+.section-heading h2 {
+    margin: 0 0 13px;
+
+    color: #071747;
+
+    font-size: 34px;
+    line-height: 1.2;
+
+    font-weight: 800;
+}
+
+.section-heading p {
+    margin: 0;
+
+    color: #6b7c94;
+
+    font-size: 15px;
+    line-height: 1.75;
+}
+
+
+/* =========================================================
+   STEPS GRID
+   ========================================================= */
+
+.steps-grid {
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 24px;
+}
+
+
+/* =========================================================
+   STEP CARD
+   ========================================================= */
+
+.step-card {
+    position: relative;
+
+    padding: 30px 27px;
+
+    background: #ffffff;
+
+    border: 1px solid #e3eaf4;
+    border-radius: 18px;
+
+    box-shadow:
+        0 8px 28px rgba(7, 23, 71, 0.045);
+
+    transition:
+        transform 0.22s ease,
+        border-color 0.22s ease,
+        box-shadow 0.22s ease;
+}
+
+.step-card:hover {
+    transform: translateY(-5px);
+
+    border-color: #cce0fa;
+
+    box-shadow:
+        0 16px 38px rgba(7, 23, 71, 0.08);
+}
+
+
+/* =========================================================
+   STEP NUMBER
+   ========================================================= */
+
+.step-number {
+    position: absolute;
+
+    top: 22px;
+    right: 24px;
+
+    color: #dbeaff;
+
+    font-size: 31px;
+    font-weight: 800;
+}
+
+
+/* =========================================================
+   STEP ICON
+   ========================================================= */
+
+.step-card > i {
+    width: 50px;
+    height: 50px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 21px;
+
+    border-radius: 13px;
+
+    background: #edf5ff;
+    color: #0b72ef;
+
+    font-size: 19px;
+}
+
+
+/* =========================================================
+   STEP TEXT
+   ========================================================= */
+
+.step-card h3 {
+    margin: 0 0 10px;
+
+    color: #071747;
+
+    font-size: 18px;
+    font-weight: 750;
+}
+
+.step-card p {
+    margin: 0;
+
+    color: #718198;
+
+    font-size: 14px;
+    line-height: 1.72;
+}
+
+
+/* =========================================================
+   NOTICE SECTION
+   ========================================================= */
+
+.notice-section {
+    padding: 0 0 75px;
+
+    background: #ffffff;
+}
+
+.notice-card {
+    display: flex;
+    align-items: flex-start;
+
+    gap: 20px;
+
+    padding: 28px 30px;
+
+    background: #f1f7ff;
+
+    border: 1px solid #dce8f7;
+    border-radius: 18px;
+}
+
+
+/* =========================================================
+   NOTICE ICON
+   ========================================================= */
+
+.notice-icon {
+    width: 46px;
+    height: 46px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 12px;
+
+    background: #ffffff;
+    color: #0b72ef;
+
+    font-size: 18px;
+
+    box-shadow:
+        0 5px 15px rgba(11, 114, 239, 0.07);
+}
+
+
+/* =========================================================
+   NOTICE TEXT
+   ========================================================= */
+
+.notice-content h2 {
+    margin: 0 0 7px;
+
+    color: #071747;
+
+    font-size: 18px;
+    font-weight: 750;
+}
+
+.notice-content p {
+    margin: 0;
+
+    color: #65778f;
+
+    font-size: 14px;
+    line-height: 1.75;
+}
+
+
+/* =========================================================
+   SCROLL ANIMATION
+   ========================================================= */
+
+.hidden {
+    opacity: 0;
+
+    transform: translateY(22px);
+
+    transition:
+        opacity 0.55s ease,
+        transform 0.55s ease;
+}
+
+.show {
+    opacity: 1;
+
+    transform: translateY(0);
+}
+
+
+/* =========================================================
+   BUTTON RIPPLE
+   ========================================================= */
+
+.ripple {
+    position: absolute;
+
+    border-radius: 50%;
+
+    background: rgba(255, 255, 255, 0.4);
+
+    transform: scale(0);
+
+    animation: questionnaireRipple 0.6s linear;
+
+    pointer-events: none;
+}
+
+@keyframes questionnaireRipple {
+
+    to {
+        transform: scale(4);
+
+        opacity: 0;
+    }
+}
+
+
+/* =========================================================
+   SMALLER LAPTOPS
+   ========================================================= */
+
+@media (max-width: 1150px) {
+
+    .questionnaire-hero {
+        min-height: 620px;
+
+        padding: 60px 0;
+    }
+
+    .hero-container {
+        grid-template-columns:
+            minmax(0, 1fr)
+            minmax(360px, 0.9fr);
+
+        gap: 50px;
+    }
+
+    .hero-content h1 {
+        font-size: 49px;
+    }
+
+    .hero-image {
+        max-width: 430px;
+    }
+
+    .hero-image > img {
+        height: 410px;
+    }
+
+    .assessment-info {
+        gap: 11px;
+    }
+}
+
+
+/* =========================================================
+   TABLETS
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+    .questionnaire-hero {
+        min-height: auto;
+
+        padding: 55px 0 65px;
+    }
+
+    .hero-container {
+        grid-template-columns: 1fr;
+
+        gap: 45px;
+
+        text-align: center;
+    }
+
+    .hero-content {
+        max-width: 700px;
+
+        margin: 0 auto;
+    }
+
+    .hero-description {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .assessment-info {
+        grid-template-columns: repeat(3, 1fr);
+
+        max-width: 650px;
+
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .hero-buttons {
+        display: flex;
+
+        justify-content: center;
+    }
+
+    .hero-image {
+        max-width: 480px;
+
+        margin: 0 auto;
+    }
+
+    .hero-image > img {
+        height: 420px;
+    }
+
+    .steps-grid {
+        grid-template-columns: 1fr;
+
+        max-width: 650px;
+
+        margin: 0 auto;
+    }
+
+    .step-card {
+        text-align: left;
+    }
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 650px) {
+
+    .container {
+        width: calc(100% - 28px);
+    }
+
+    .questionnaire-hero {
+        padding: 42px 0 50px;
+    }
+
+    .hero-content h1 {
+        font-size: 38px;
+
+        letter-spacing: -1px;
+    }
+
+    .hero-description {
+        margin-top: 18px;
+
+        font-size: 14.5px;
+    }
+
+    .assessment-info {
+        grid-template-columns: 1fr;
+
+        gap: 10px;
+
+        margin-top: 25px;
+    }
+
+    .info-box {
+        min-height: 72px;
+    }
+
+    .hero-buttons {
+        margin-top: 25px;
+    }
+
+    .start-btn {
+        width: 100%;
+
+        min-height: 49px;
+    }
+
+    .hero-image {
+        max-width: 100%;
+    }
+
+    .hero-image > img {
+        width: 100%;
+        height: auto;
+
+        max-height: 370px;
+
+        object-fit: contain;
+
+        border-radius: 20px;
+    }
+
+    .floating-card {
+        display: none;
+    }
+
+    .steps-section {
+        padding: 60px 0;
+    }
+
+    .section-heading {
+        margin-bottom: 34px;
+    }
+
+    .section-heading h2 {
+        font-size: 28px;
+    }
+
+    .notice-section {
+        padding-bottom: 58px;
+    }
+
+    .notice-card {
+        gap: 15px;
+
+        padding: 22px 19px;
+    }
+
+    .notice-content h2 {
+        font-size: 17px;
+    }
+
+    .notice-content p {
+        font-size: 13px;
+    }
+}

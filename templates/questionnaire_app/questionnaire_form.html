@@ -1,0 +1,771 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Behavioral Assessment | NeuroSense AI{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'questionnaire_app/css/questionnaire_form.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<section class="assessment-page">
+
+    <div class="assessment-wrapper">
+
+        <div class="assessment-left">
+
+    <div class="assessment-badge">
+        <i class="fa-solid fa-brain"></i>
+        Behavioral Assessment
+    </div>
+
+    <h1>
+        Parkinson's
+        <span>Behavioral Screening</span>
+    </h1>
+
+    <p class="assessment-description">
+        Complete 11 short questions covering movement, speech,
+        cognition, and family history. Your responses will be
+        analyzed as the first stage of the NeuroSense AI screening workflow.
+    </p>
+
+    <div class="assessment-info">
+
+        <div class="info-card">
+            <i class="fa-solid fa-list-check"></i>
+            <div>
+                <h4>11 Questions</h4>
+                <span>Focused symptom screening</span>
+            </div>
+        </div>
+
+        <div class="info-card">
+            <i class="fa-solid fa-clock"></i>
+            <div>
+                <h4>3-5 Minutes</h4>
+                <span>Quick to complete</span>
+            </div>
+        </div>
+
+        <div class="info-card">
+            <i class="fa-solid fa-shield-halved"></i>
+            <div>
+                <h4>Secure</h4>
+                <span>Your responses are handled securely</span>
+            </div>
+        </div>
+
+        <div class="info-card">
+            <i class="fa-solid fa-microchip"></i>
+            <div>
+                <h4>AI Supported</h4>
+                <span>Clinical logic with ML support</span>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+        <div class="assessment-card">
+
+            <div class="card-header">
+
+                <div>
+
+                    <span class="assessment-step">
+                        Behavioral Assessment
+                    </span>
+
+                    <p class="assessment-description">
+                        Please answer each question based on your recent
+                        experiences. Select the option that best reflects
+                        your condition.
+                    </p>
+
+                    <h2>
+                        Question
+                        <span id="questionNumber">1</span>
+                        of
+                        <span id="totalQuestions">11</span>
+                    </h2>
+
+                </div>
+
+                <div
+                    id="progressPercent"
+                    class="progress-percent">
+                    9%
+                </div>
+
+            </div>
+
+            <div class="progress-bar">
+                <div
+                    id="progressFill"
+                    class="progress-fill"
+                    style="width:9%;">
+                </div>
+            </div>
+
+            {% if error %}
+            <div style="
+                background:#ffe8e8;
+                color:#b42318;
+                border:1px solid #ffc4c4;
+                border-radius:14px;
+                padding:14px 18px;
+                margin-bottom:25px;
+                font-size:14px;
+            ">
+                {{ error }}
+            </div>
+            {% endif %}
+
+            <form
+                id="questionnaireForm"
+                method="POST"
+                action="{% url 'questionnaire_app:form' %}"
+            >
+
+                {% csrf_token %}
+
+                <!-- ==================================================
+                     QUESTION 1 - AGE
+                =================================================== -->
+
+                <div class="question-slide active">
+
+                    <div class="question-icon">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+
+                    <h3 class="question-title">
+                        What is your age?
+                    </h3>
+
+                    <p class="question-description">
+                        Enter your current age in years.
+                    </p>
+
+                    <input
+                        type="number"
+                        name="age"
+                        min="18"
+                        max="100"
+                        class="question-input"
+                        placeholder="Enter your age"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- ==================================================
+                     QUESTION 2 - FAMILY HISTORY
+                =================================================== -->
+
+                <div class="question-slide">
+
+                    <div class="question-icon">
+                        <i class="fa-solid fa-people-roof"></i>
+                    </div>
+
+                    <h3 class="question-title">
+                        Has a parent, sibling, or close family member
+                        been diagnosed with Parkinson's disease?
+                    </h3>
+
+                    <p class="question-description">
+                        Select the option that applies to you.
+                    </p>
+
+                    <div class="options">
+
+                        <label class="option-card">
+                            <input
+                                type="radio"
+                                name="family_history"
+                                value="0"
+                                required
+                            >
+                            <span>No</span>
+                        </label>
+
+                        <label class="option-card">
+                            <input
+                                type="radio"
+                                name="family_history"
+                                value="1"
+                            >
+                            <span>Yes</span>
+                        </label>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ==================================================
+                     QUESTION 3 - ARM / LEG SHAKING
+                =================================================== -->
+
+                <div class="question-slide">
+
+                    <div class="question-icon">
+                        <i class="fa-solid fa-hand"></i>
+                    </div>
+
+                    <h3 class="question-title">
+                        Have you noticed shaking or trembling in your
+                        arms or legs, particularly while relaxed or at rest?
+                    </h3>
+
+                    <p class="question-description">
+                        Consider repeated or noticeable trembling that occurs
+                        without intentional movement.
+                    </p>
+
+                    <div class="options-grid">
+
+                        <label class="option-card">
+                            <input
+                                type="radio"
+                                name="arm_leg_shaking"
+                                value="0"
+                                required
+                            >
+                            <span>No</span>
+                        </label>
+
+                        <label class="option-card">
+                            <input
+                                type="radio"
+                                name="arm_leg_shaking"
+                                value="1"
+                            >
+                            <span>Yes</span>
+                        </label>
+
+                        <label class="option-card">
+                            <input
+                                type="radio"
+                                name="arm_leg_shaking"
+                                value="2"
+                            >
+                            <span>Not sure</span>
+                        </label>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ==================================================
+                     QUESTION 4 - MOVEMENT SLOWNESS
+                =================================================== -->
+
+                <div class="question-slide">
+
+                    <div class="question-icon">
+                        <i class="fa-solid fa-person-walking"></i>
+                    </div>
+
+                    <h3 class="question-title">
+                        Do you feel that you move noticeably more slowly
+                        than other people your age or more slowly than before?
+                    </h3>
+
+                    <p class="question-description">
+                        Think about walking, standing up, turning,
+                        dressing, or other routine movements.
+                    </p>
+
+                    <div class="options-grid">
+
+                        <label class="option-card">
+                            <input
+                                type="radio"
+                                name="movement_slowness"
+                                value="0"
+                                required
+                            >
+                            <span>No</span>
+                        </label>
+
+                        <label class="option-card">
+                            <input
+                                type="radio"
+                                name="movement_slowness"
+                                value="1"
+                            >
+                            <span>Yes</span>
+                        </label>
+
+                        <label class="option-card">
+                            <input
+                                type="radio"
+                                name="movement_slowness"
+                                value="2"
+                            >
+                            <span>Not sure</span>
+                        </label>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ==================================================
+                     QUESTION 5 - FEET STUCK
+                =================================================== -->
+
+                <div class="question-slide">
+
+                    <div class="question-icon">
+                        <i class="fa-solid fa-shoe-prints"></i>
+                    </div>
+
+                    <h3 class="question-title">
+                        When you start walking, do you sometimes feel as
+                        if your feet are briefly stuck to the floor?
+                    </h3>
+
+                    <p class="question-description">
+                        Think about difficulty taking the first step
+                        or suddenly feeling unable to move your feet.
+                    </p>
+
+                    <div class="options-grid">
+
+                        <label class="option-card">
+                            <input
+                                type="radio"
+                                name="feet_stuck"
+                                value="0"
+                                required
+                            >
+                            <span>No</span>
+                        </label>
+
+                        <label class="option-card">
+                            <input
+                                type="radio"
+                                name="feet_stuck"
+                                value="1"
+                            >
+                            <span>Yes</span>
+                        </label>
+
+                        <label class="option-card">
+                            <input
+                                type="radio"
+                                name="feet_stuck"
+                                value="2"
+                            >
+                            <span>Not sure</span>
+                        </label>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ==================================================
+                     QUESTION 6 - SHUFFLING
+                =================================================== -->
+
+                <div class="question-slide">
+
+                    <div class="question-icon">
+                        <i class="fa-solid fa-person-walking-arrow-right"></i>
+                    </div>
+
+                    <h3 class="question-title">
+                        Have you started shuffling your feet or taking
+                        unusually small steps while walking?
+                    </h3>
+
+                    <p class="question-description">
+                        Consider whether your walking pattern has changed
+                        compared with before.
+                    </p>
+
+                    <div class="options-grid">
+
+                        <label class="option-card">
+                            <input
+                                type="radio"
+                                name="shuffling_walk"
+                                value="0"
+                                required
+                            >
+                            <span>No</span>
+                        </label>
+
+                        <label class="option-card">
+                            <input
+                                type="radio"
+                                name="shuffling_walk"
+                                value="1"
+                            >
+                            <span>Yes</span>
+                        </label>
+
+                        <label class="option-card">
+                            <input
+                                type="radio"
+                                name="shuffling_walk"
+                                value="2"
+                            >
+                            <span>Not sure</span>
+                        </label>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ==================================================
+                     QUESTION 7 - POOR BALANCE
+                =================================================== -->
+
+                <div class="question-slide">
+
+                    <div class="question-icon">
+                        <i class="fa-solid fa-scale-balanced"></i>
+                    </div>
+
+                    <h3 class="question-title">
+                        Have you developed noticeable difficulty maintaining
+                        your balance while standing or walking?
+                    </h3>
+
+                    <p class="question-description">
+                        Consider repeated unsteadiness rather than a
+                        single accidental loss of balance.
+                    </p>
+
+                    <div class="options-grid">
+
+                        <label class="option-card">
+                            <input
+                                type="radio"
+                                name="poor_balance"
+                                value="0"
+                                required
+                            >
+                            <span>No</span>
+                        </label>
+
+                        <label class="option-card">
+                            <input
+                                type="radio"
+                                name="poor_balance"
+                                value="1"
+                            >
+                            <span>Yes</span>
+                        </label>
+
+                        <label class="option-card">
+                            <input
+                                type="radio"
+                                name="poor_balance"
+                                value="2"
+                            >
+                            <span>Not sure</span>
+                        </label>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ==================================================
+                     QUESTION 8 - SMALL HANDWRITING
+                =================================================== -->
+
+                <div class="question-slide">
+
+                    <div class="question-icon">
+                        <i class="fa-solid fa-pen"></i>
+                    </div>
+
+                    <h3 class="question-title">
+                        Has your handwriting become noticeably smaller
+                        or more cramped than before?
+                    </h3>
+
+                    <p class="question-description">
+                        Compare your current handwriting with how you
+                        normally used to write.
+                    </p>
+
+                    <div class="options-grid">
+
+                        <label class="option-card">
+                            <input
+                                type="radio"
+                                name="small_handwriting"
+                                value="0"
+                                required
+                            >
+                            <span>No</span>
+                        </label>
+
+                        <label class="option-card">
+                            <input
+                                type="radio"
+                                name="small_handwriting"
+                                value="1"
+                            >
+                            <span>Yes</span>
+                        </label>
+
+                        <label class="option-card">
+                            <input
+                                type="radio"
+                                name="small_handwriting"
+                                value="2"
+                            >
+                            <span>Not sure</span>
+                        </label>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ==================================================
+                     QUESTION 9 - FACIAL EXPRESSION
+                =================================================== -->
+
+                <div class="question-slide">
+
+                    <div class="question-icon">
+                        <i class="fa-solid fa-face-meh"></i>
+                    </div>
+
+                    <h3 class="question-title">
+                        Have family members or friends noticed that your
+                        face has become less expressive than before?
+                    </h3>
+
+                    <p class="question-description">
+                        This may include reduced facial movement or
+                        fewer visible expressions.
+                    </p>
+
+                    <div class="options-grid">
+
+                        <label class="option-card">
+                            <input
+                                type="radio"
+                                name="reduced_facial_expression"
+                                value="0"
+                                required
+                            >
+                            <span>No</span>
+                        </label>
+
+                        <label class="option-card">
+                            <input
+                                type="radio"
+                                name="reduced_facial_expression"
+                                value="1"
+                            >
+                            <span>Yes</span>
+                        </label>
+
+                        <label class="option-card">
+                            <input
+                                type="radio"
+                                name="reduced_facial_expression"
+                                value="2"
+                            >
+                            <span>Not sure</span>
+                        </label>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ==================================================
+                     QUESTION 10 - SOFT VOICE
+                =================================================== -->
+
+                <div class="question-slide">
+
+                    <div class="question-icon">
+                        <i class="fa-solid fa-microphone"></i>
+                    </div>
+
+                    <h3 class="question-title">
+                        Have people noticed that your voice has become
+                        softer or quieter than before?
+                    </h3>
+
+                    <p class="question-description">
+                        Consider whether other people frequently ask
+                        you to speak louder or repeat yourself.
+                    </p>
+
+                    <div class="options-grid">
+
+                        <label class="option-card">
+                            <input
+                                type="radio"
+                                name="soft_voice"
+                                value="0"
+                                required
+                            >
+                            <span>No</span>
+                        </label>
+
+                        <label class="option-card">
+                            <input
+                                type="radio"
+                                name="soft_voice"
+                                value="1"
+                            >
+                            <span>Yes</span>
+                        </label>
+
+                        <label class="option-card">
+                            <input
+                                type="radio"
+                                name="soft_voice"
+                                value="2"
+                            >
+                            <span>Not sure</span>
+                        </label>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ==================================================
+                     QUESTION 11 - COGNITION
+                =================================================== -->
+
+                <div class="question-slide">
+
+                    <div class="question-icon">
+                        <i class="fa-solid fa-brain"></i>
+                    </div>
+
+                    <h3 class="question-title">
+                        Compared with before, how much difficulty do you
+                        experience organizing thoughts, remembering information,
+                        or responding appropriately during everyday activities?
+                    </h3>
+
+                    <p class="question-description">
+                        Select the option that best reflects your recent
+                        everyday cognitive experience.
+                    </p>
+
+                    <div class="options-grid">
+
+                        <label class="option-card">
+                            <input
+                                type="radio"
+                                name="cognitive_difficulty"
+                                value="0"
+                                required
+                            >
+                            <span>No noticeable difficulty</span>
+                        </label>
+
+                        <label class="option-card">
+                            <input
+                                type="radio"
+                                name="cognitive_difficulty"
+                                value="1"
+                            >
+                            <span>Slight difficulty</span>
+                        </label>
+
+                        <label class="option-card">
+                            <input
+                                type="radio"
+                                name="cognitive_difficulty"
+                                value="2"
+                            >
+                            <span>Mild difficulty</span>
+                        </label>
+
+                        <label class="option-card">
+                            <input
+                                type="radio"
+                                name="cognitive_difficulty"
+                                value="3"
+                            >
+                            <span>Moderate difficulty</span>
+                        </label>
+
+                        <label class="option-card">
+                            <input
+                                type="radio"
+                                name="cognitive_difficulty"
+                                value="4"
+                            >
+                            <span>Severe difficulty</span>
+                        </label>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ==================================================
+                     NAVIGATION
+                =================================================== -->
+
+                <div class="navigation-buttons">
+
+                    <button
+                        type="button"
+                        class="nav-btn previous-btn"
+                        id="prevBtn"
+                        disabled
+                    >
+                        <i class="fa-solid fa-arrow-left"></i>
+                        Previous
+                    </button>
+
+                    <button
+                        type="button"
+                        class="nav-btn next-btn"
+                        id="nextBtn"
+                    >
+                        Next
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="nav-btn submit-btn"
+                        id="submitBtn"
+                        style="display:none;"
+                    >
+                        Finish Assessment
+                        <i class="fa-solid fa-check"></i>
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
+
+<script src="{% static 'questionnaire_app/js/questionnaire_form.js' %}"></script>
+{% endblock %}
