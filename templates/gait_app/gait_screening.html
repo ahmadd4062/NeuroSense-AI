@@ -1,7 +1,13 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Gait Screening - NeuroSense AI{% endblock %}
+{% block title %}
+{% if lang == 'ur' %}
+چال اسکریننگ - نیوروسینس اے آئی
+{% else %}
+Gait Screening - NeuroSense AI
+{% endif %}
+{% endblock %}
 
 {% block extra_css %}
 <style>
@@ -40,6 +46,86 @@
         --radius-lg: 16px;
         --radius-xl: 20px;
         --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* ---------- Urdu RTL Support ---------- */
+    .lang-ur {
+        direction: rtl;
+        text-align: right;
+    }
+
+    .lang-ur .gait-hero-stats {
+        direction: ltr;
+        text-align: center;
+    }
+
+    .lang-ur .guidance-grid li {
+        direction: rtl;
+        text-align: right;
+    }
+
+    .lang-ur .guidance-grid li i {
+        margin-left: 10px;
+        margin-right: 0;
+    }
+
+    .lang-ur .workflow-item .status {
+        margin-left: 0;
+        margin-right: auto;
+    }
+
+    .lang-ur .workflow-item {
+        direction: rtl;
+    }
+
+    .lang-ur .submission-panel .left {
+        direction: rtl;
+    }
+
+    .lang-ur .action-guide ul {
+        padding-right: 20px;
+        padding-left: 0;
+    }
+
+    .lang-ur .privacy-banner .item i {
+        margin-left: 8px;
+        margin-right: 0;
+    }
+
+    /* Language Toggle Button */
+    .lang-toggle {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: var(--gray-100);
+        border: 1px solid var(--gray-200);
+        border-radius: 30px;
+        padding: 4px 8px;
+        font-size: 0.7rem;
+        font-weight: 600;
+        color: var(--gray-600);
+        cursor: pointer;
+        transition: var(--transition);
+        text-decoration: none;
+    }
+
+    .lang-toggle:hover {
+        background: var(--primary-light);
+        border-color: var(--primary);
+        color: var(--primary);
+    }
+
+    .lang-toggle .lang-active {
+        background: var(--primary);
+        color: white;
+        padding: 2px 12px;
+        border-radius: 20px;
+    }
+
+    .lang-toggle .lang-inactive {
+        padding: 2px 12px;
+        border-radius: 20px;
+        opacity: 0.6;
     }
 
     /* ---------- Page Container ---------- */
@@ -680,6 +766,112 @@
     .feedback-overlay.error { border-color: var(--danger); }
     .feedback-overlay.info { border-color: var(--primary); }
 
+    /* ---------- Quality Guidance Overlay ---------- */
+    .guidance-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        pointer-events: none;
+        z-index: 10;
+    }
+
+    .guidance-overlay .guide-line {
+        position: absolute;
+        border: 2px dashed rgba(255,255,255,0.3);
+        border-radius: 4px;
+        opacity: 0;
+        transition: opacity 0.5s ease;
+    }
+
+    .guidance-overlay .guide-line.active {
+        opacity: 1;
+    }
+
+    .guidance-overlay .guide-line.side-view {
+        top: 10%;
+        left: 15%;
+        right: 15%;
+        bottom: 10%;
+        border-color: rgba(74,108,247,0.5);
+    }
+
+    .guidance-overlay .guide-line.side-view.active {
+        border-color: rgba(16,185,129,0.6);
+    }
+
+    .guidance-overlay .guide-label {
+        position: absolute;
+        bottom: 20%;
+        left: 50%;
+        transform: translateX(-50%);
+        color: white;
+        font-size: 0.7rem;
+        font-weight: 600;
+        background: rgba(0,0,0,0.6);
+        padding: 4px 16px;
+        border-radius: 20px;
+        backdrop-filter: blur(4px);
+        opacity: 0;
+        transition: opacity 0.5s ease;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+    }
+
+    .guidance-overlay .guide-label.active {
+        opacity: 1;
+    }
+
+    .guidance-overlay .guide-label.success {
+        background: rgba(16,185,129,0.8);
+    }
+
+    .guidance-overlay .guide-label.warning {
+        background: rgba(245,158,11,0.8);
+    }
+
+    /* ---------- Quality Indicators ---------- */
+    .quality-indicators {
+        display: flex;
+        gap: 12px;
+        margin-top: 12px;
+        flex-wrap: wrap;
+    }
+
+    .quality-indicator {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 0.7rem;
+        color: var(--gray-500);
+        padding: 4px 12px;
+        border-radius: 20px;
+        background: var(--gray-50);
+        border: 1px solid var(--gray-200);
+        transition: var(--transition);
+    }
+
+    .quality-indicator .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        display: inline-block;
+    }
+
+    .quality-indicator .dot.ready { background: var(--gray-300); }
+    .quality-indicator .dot.good { background: var(--success); }
+    .quality-indicator .dot.warning { background: var(--warning); }
+    .quality-indicator .dot.bad { background: var(--danger); }
+
+    .quality-indicator.active {
+        border-color: var(--primary);
+        background: var(--primary-light);
+    }
+
+    .quality-indicator.active .dot.good { box-shadow: 0 0 8px rgba(16,185,129,0.4); }
+    .quality-indicator.active .dot.warning { box-shadow: 0 0 8px rgba(245,158,11,0.4); }
+
     /* ---------- Buttons ---------- */
     .btn-group {
         display: flex;
@@ -1268,7 +1460,21 @@
 
 {% block content %}
 
-<div class="gait-page">
+{% with lang=request.GET.lang|default:'en' %}
+
+<div class="gait-page {% if lang == 'ur' %}lang-ur{% endif %}">
+
+    <!-- ========================================== -->
+    <!-- LANGUAGE TOGGLE -->
+    <!-- ========================================== -->
+    <div style="display:flex;justify-content:flex-end;margin-bottom:16px;">
+        <a href="?lang={% if lang == 'ur' %}en{% else %}ur{% endif %}" class="lang-toggle">
+            <i class="fa-solid fa-language"></i>
+            <span class="{% if lang == 'ur' %}lang-active{% else %}lang-inactive{% endif %}">اردو</span>
+            <span style="color:var(--gray-300);">|</span>
+            <span class="{% if lang == 'en' %}lang-active{% else %}lang-inactive{% endif %}">English</span>
+        </a>
+    </div>
 
     <!-- ========================================== -->
     <!-- HERO SECTION -->
@@ -1277,27 +1483,40 @@
         <div class="gait-hero-copy">
             <div class="gait-hero-badge">
                 <i class="fa-solid fa-video"></i>
+                {% if lang == 'ur' %}
+                ویڈیو اسکریننگ · مرحلہ 3 از 4
+                {% else %}
                 Video Screening · Step 3 of 4
+                {% endif %}
             </div>
             <h1>
+                {% if lang == 'ur' %}
+                چال اور <span>حرکت کا تجزیہ</span>
+                {% else %}
                 Gait &amp; <span>Movement Analysis</span>
+                {% endif %}
             </h1>
             <p>
+                {% if lang == 'ur' %}
+                پارکنسنز کے خطرے کی تشخیص کے لیے چلنے کی ویڈیو ریکارڈ کریں یا اپ لوڈ کریں۔
+                چال کے پیٹرن، توازن اور حرکت کے اشارے کا تجزیہ کریں۔
+                {% else %}
                 Record or upload a walking video for AI-powered Parkinson's risk assessment.
                 Analyze gait patterns, balance, and movement indicators.
+                {% endif %}
             </p>
             <div class="gait-hero-stats">
                 <div class="gait-hero-stat">
                     <span class="number">86.4%</span>
-                    <span class="label">Model Accuracy</span>
+                    <span class="label">{% if lang == 'ur' %}ماڈل کی درستگی{% else %}Model Accuracy{% endif %}</span>
                 </div>
                 <div class="gait-hero-stat">
                     <span class="number">292</span>
-                    <span class="label">Training Samples</span>
+                    <span class="label">{% if lang == 'ur' %}ٹریننگ نمونے{% else %}Training Samples{% endif %}</span>
                 </div>
                 <div class="gait-hero-stat">
                     <span class="number">50</span>
-                    <span class="label">Frames Analyzed</span>
+                    <span class="label">{% if lang == 'ur' %}فریمز کا تجزیہ{% else %}Frames Analyzed{% endif %}</span>
                 </div>
             </div>
         </div>
@@ -1311,15 +1530,15 @@
     <!-- ========================================== -->
     <div class="progress-card">
         <div class="header">
-            <span>Overall Progress</span>
+            <span>{% if lang == 'ur' %}مجموعی پیشرفت{% else %}Overall Progress{% endif %}</span>
             <span class="pct">75%</span>
         </div>
         <div class="progress-track">
             <div class="bar" style="width: 75%;"></div>
         </div>
         <div class="footer">
-            <span>✅ 3 of 4 modules completed</span>
-            <span>⏱️ Estimated time remaining: ~10 mins</span>
+            <span>✅ {% if lang == 'ur' %}4 میں سے 3 ماڈیولز مکمل{% else %}3 of 4 modules completed{% endif %}</span>
+            <span>⏱️ {% if lang == 'ur' %}متوقع وقت: ~10 منٹ{% else %}Estimated time remaining: ~10 mins{% endif %}</span>
         </div>
     </div>
 
@@ -1336,17 +1555,17 @@
                 <div class="card-header">
                     <div class="card-icon"><i class="fa-solid fa-circle-info"></i></div>
                     <div>
-                        <h3>Preparation Checklist</h3>
-                        <p class="card-sub">Follow these guidelines for optimal results</p>
+                        <h3>{% if lang == 'ur' %}تیاری کی چیک لسٹ{% else %}Preparation Checklist{% endif %}</h3>
+                        <p class="card-sub">{% if lang == 'ur' %}بہترین نتائج کے لیے ان ہدایات پر عمل کریں{% else %}Follow these guidelines for optimal results{% endif %}</p>
                     </div>
                 </div>
                 <ul class="guidance-grid">
-                    <li><i class="fa-solid fa-check-circle"></i> Side view (profile)</li>
-                    <li><i class="fa-solid fa-check-circle"></i> Camera at waist height</li>
-                    <li><i class="fa-solid fa-check-circle"></i> Full body visible</li>
-                    <li><i class="fa-solid fa-check-circle"></i> Walk in a straight line</li>
-                    <li><i class="fa-solid fa-check-circle"></i> Well-lit area</li>
-                    <li><i class="fa-solid fa-check-circle"></i> Contrasting clothing</li>
+                    <li><i class="fa-solid fa-check-circle"></i> {% if lang == 'ur' %}سائیڈ ویو (پروفائل){% else %}Side view (profile){% endif %}</li>
+                    <li><i class="fa-solid fa-check-circle"></i> {% if lang == 'ur' %}کیمرہ کمر کی اونچائی پر{% else %}Camera at waist height{% endif %}</li>
+                    <li><i class="fa-solid fa-check-circle"></i> {% if lang == 'ur' %}پورا جسم نظر آئے{% else %}Full body visible{% endif %}</li>
+                    <li><i class="fa-solid fa-check-circle"></i> {% if lang == 'ur' %}سیدھی لائن میں چلیں{% else %}Walk in a straight line{% endif %}</li>
+                    <li><i class="fa-solid fa-check-circle"></i> {% if lang == 'ur' %}اچھی روشنی{% else %}Well-lit area{% endif %}</li>
+                    <li><i class="fa-solid fa-check-circle"></i> {% if lang == 'ur' %}متضاد لباس{% else %}Contrasting clothing{% endif %}</li>
                 </ul>
             </div>
 
@@ -1355,8 +1574,8 @@
                 <div class="card-header">
                     <div class="card-icon"><i class="fa-solid fa-video"></i></div>
                     <div>
-                        <h3>Reference Videos</h3>
-                        <p class="card-sub">See examples of good quality walking videos</p>
+                        <h3>{% if lang == 'ur' %}حوالہ جاتی ویڈیوز{% else %}Reference Videos{% endif %}</h3>
+                        <p class="card-sub">{% if lang == 'ur' %}معیاری چلنے کی ویڈیوز کی مثالیں دیکھیں{% else %}See examples of good quality walking videos{% endif %}</p>
                     </div>
                 </div>
                 <div class="ref-videos">
@@ -1364,17 +1583,17 @@
                         <video controls muted preload="metadata" poster="{% static 'speech_app/images/video-placeholder.png' %}">
                             <source src="{% static 'gait_app/videos/normal_gait.mp4' %}" type="video/mp4">
                         </video>
-                        <div class="label">✅ Normal Gait · Steady pace</div>
+                        <div class="label">✅ {% if lang == 'ur' %}عام چال · مستقل رفتار{% else %}Normal Gait · Steady pace{% endif %}</div>
                     </div>
                     <div class="ref-video-item abnormal">
                         <video controls muted preload="metadata" poster="{% static 'speech_app/images/video-placeholder.png' %}">
                             <source src="{% static 'gait_app/videos/abnormal_gait.mp4' %}" type="video/mp4">
                         </video>
-                        <div class="label">⚠️ Abnormal Gait · Shorter steps</div>
+                        <div class="label">⚠️ {% if lang == 'ur' %}غیر معمولی چال · چھوٹے قدم{% else %}Abnormal Gait · Shorter steps{% endif %}</div>
                     </div>
                 </div>
                 <div class="ref-note">
-                    <i class="fa-regular fa-circle-info"></i> Record 10-15 seconds of walking from a side view
+                    <i class="fa-regular fa-circle-info"></i> {% if lang == 'ur' %}سائیڈ ویو سے 10-15 سیکنڈ چلنے کی ویڈیو ریکارڈ کریں{% else %}Record 10-15 seconds of walking from a side view{% endif %}
                 </div>
             </div>
 
@@ -1383,30 +1602,30 @@
                 <div class="card-header">
                     <div class="card-icon success"><i class="fa-solid fa-diagram-project"></i></div>
                     <div>
-                        <h3>Screening Workflow</h3>
-                        <p class="card-sub">Track your progress through the assessment</p>
+                        <h3>{% if lang == 'ur' %}اسکریننگ کا عمل{% else %}Screening Workflow{% endif %}</h3>
+                        <p class="card-sub">{% if lang == 'ur' %}تشخیص میں اپنی پیشرفت ٹریک کریں{% else %}Track your progress through the assessment{% endif %}</p>
                     </div>
                 </div>
                 <div class="workflow-items">
                     <div class="workflow-item">
                         <span class="dot completed"><i class="fa-solid fa-check"></i></span>
-                        <span>Questionnaire</span>
-                        <span class="status">Completed</span>
+                        <span>{% if lang == 'ur' %}سوالنامہ{% else %}Questionnaire{% endif %}</span>
+                        <span class="status">{% if lang == 'ur' %}مکمل{% else %}Completed{% endif %}</span>
                     </div>
                     <div class="workflow-item">
                         <span class="dot completed"><i class="fa-solid fa-check"></i></span>
-                        <span>Audio Analysis</span>
-                        <span class="status">Completed</span>
+                        <span>{% if lang == 'ur' %}آڈیو تجزیہ{% else %}Audio Analysis{% endif %}</span>
+                        <span class="status">{% if lang == 'ur' %}مکمل{% else %}Completed{% endif %}</span>
                     </div>
                     <div class="workflow-item">
                         <span class="dot current">3</span>
-                        <span><strong>Video Analysis</strong></span>
-                        <span class="status active">In Progress</span>
+                        <span><strong>{% if lang == 'ur' %}ویڈیو تجزیہ{% else %}Video Analysis{% endif %}</strong></span>
+                        <span class="status active">{% if lang == 'ur' %}جاری{% else %}In Progress{% endif %}</span>
                     </div>
                     <div class="workflow-item">
                         <span class="dot locked"><i class="fa-solid fa-lock"></i></span>
-                        <span>AI Fusion &amp; Report</span>
-                        <span class="status">Locked</span>
+                        <span>{% if lang == 'ur' %}اے آئی فیوژن اور رپورٹ{% else %}AI Fusion &amp; Report{% endif %}</span>
+                        <span class="status">{% if lang == 'ur' %}مقفل{% else %}Locked{% endif %}</span>
                     </div>
                 </div>
             </div>
@@ -1421,14 +1640,14 @@
                 <div class="card-header">
                     <div class="card-icon"><i class="fa-solid fa-camera"></i></div>
                     <div>
-                        <h3>Recording Method</h3>
-                        <p class="card-sub">Choose how to provide your video</p>
+                        <h3>{% if lang == 'ur' %}ریکارڈنگ کا طریقہ{% else %}Recording Method{% endif %}</h3>
+                        <p class="card-sub">{% if lang == 'ur' %}اپنی ویڈیو فراہم کرنے کا طریقہ منتخب کریں{% else %}Choose how to provide your video{% endif %}</p>
                     </div>
                 </div>
 
                 <div class="recording-methods">
-                    <button class="btn active" id="btn-live-record"><i class="fa-solid fa-camera"></i> Record Live</button>
-                    <button class="btn" id="btn-file-upload"><i class="fa-solid fa-upload"></i> Upload File</button>
+                    <button class="btn active" id="btn-live-record"><i class="fa-solid fa-camera"></i> {% if lang == 'ur' %}لائیو ریکارڈ{% else %}Record Live{% endif %}</button>
+                    <button class="btn" id="btn-file-upload"><i class="fa-solid fa-upload"></i> {% if lang == 'ur' %}فائل اپ لوڈ{% else %}Upload File{% endif %}</button>
                 </div>
 
                 <!-- Live Recording -->
@@ -1437,26 +1656,56 @@
                         <video id="video-preview" autoplay muted></video>
                         <canvas id="pose-canvas"></canvas>
                         <div class="camera-overlay" id="camera-overlay">
-                            <h3>🎥 Position Camera</h3>
-                            <p>Side view · Waist height · Full body</p>
+                            <h3>🎥 {% if lang == 'ur' %}کیمرہ پوزیشن کریں{% else %}Position Camera{% endif %}</h3>
+                            <p>{% if lang == 'ur' %}سائیڈ ویو · کمر کی اونچائی · پورا جسم{% else %}Side view · Waist height · Full body{% endif %}</p>
                         </div>
                         <div class="countdown-display" id="countdown-display">3</div>
                         <div class="recording-indicator" id="recording-indicator">
-                            <span class="dot"></span> RECORDING
+                            <span class="dot"></span> {% if lang == 'ur' %}ریکارڈنگ{% else %}RECORDING{% endif %}
                         </div>
                         <div class="feedback-overlay info" id="feedback-overlay">
-                            <span id="feedback-text">Click "Start Camera" to begin</span>
+                            <span id="feedback-text">{% if lang == 'ur' %}شروع کرنے کے لیے "کیمرہ شروع کریں" پر کلک کریں{% else %}Click "Start Camera" to begin{% endif %}</span>
+                        </div>
+
+                        <!-- === REAL-TIME GUIDANCE OVERLAY === -->
+                        <div class="guidance-overlay" id="guidance-overlay">
+                            <div class="guide-line side-view" id="guide-side-view"></div>
+                            <div class="guide-label" id="guide-label">📐 {% if lang == 'ur' %}سائیڈ میں کھڑے ہوں{% else %}Stand sideways{% endif %}</div>
+                        </div>
+                    </div>
+
+                    <!-- Quality Indicators -->
+                    <div class="quality-indicators" id="quality-indicators">
+                        <div class="quality-indicator" id="qi-person">
+                            <span class="dot ready"></span>
+                            {% if lang == 'ur' %}شخص{% else %}Person{% endif %}
+                        </div>
+                        <div class="quality-indicator" id="qi-fullbody">
+                            <span class="dot ready"></span>
+                            {% if lang == 'ur' %}پورا جسم{% else %}Full Body{% endif %}
+                        </div>
+                        <div class="quality-indicator" id="qi-sideview">
+                            <span class="dot ready"></span>
+                            {% if lang == 'ur' %}سائیڈ ویو{% else %}Side View{% endif %}
+                        </div>
+                        <div class="quality-indicator" id="qi-movement">
+                            <span class="dot ready"></span>
+                            {% if lang == 'ur' %}حرکت{% else %}Movement{% endif %}
+                        </div>
+                        <div class="quality-indicator" id="qi-arms">
+                            <span class="dot ready"></span>
+                            {% if lang == 'ur' %}بازو کی حرکت{% else %}Arm Swing{% endif %}
                         </div>
                     </div>
 
                     <div class="btn-group">
-                        <button class="btn btn-success" id="btn-start-camera"><i class="fa-solid fa-play"></i> Start Camera</button>
-                        <button class="btn btn-danger" id="btn-start-recording" disabled><i class="fa-solid fa-circle"></i> Record (10s)</button>
-                        <button class="btn btn-secondary" id="btn-stop-recording" disabled><i class="fa-solid fa-stop"></i> Stop</button>
+                        <button class="btn btn-success" id="btn-start-camera"><i class="fa-solid fa-play"></i> {% if lang == 'ur' %}کیمرہ شروع کریں{% else %}Start Camera{% endif %}</button>
+                        <button class="btn btn-danger" id="btn-start-recording" disabled><i class="fa-solid fa-circle"></i> {% if lang == 'ur' %}ریکارڈ (10 سیکنڈ){% else %}Record (10s){% endif %}</button>
+                        <button class="btn btn-secondary" id="btn-stop-recording" disabled><i class="fa-solid fa-stop"></i> {% if lang == 'ur' %}روکیں{% else %}Stop{% endif %}</button>
                     </div>
 
                     <div style="display:flex;align-items:center;gap:12px;margin-top:10px;flex-wrap:wrap;">
-                        <span class="record-tip"><i class="fa-regular fa-clock"></i> Auto-stops after 10s</span>
+                        <span class="record-tip"><i class="fa-regular fa-clock"></i> {% if lang == 'ur' %}10 سیکنڈ کے بعد خود روک ہو جائے گا{% else %}Auto-stops after 10s{% endif %}</span>
                         <span id="recording-timer-display" style="font-weight:700;color:var(--primary);font-size:0.9rem;"></span>
                     </div>
 
@@ -1469,7 +1718,7 @@
                         <label class="upload-area">
                             <input type="file" name="video" accept="video/*" style="display:none;" id="file-input">
                             <span class="icon">📤</span>
-                            <strong>Upload video file</strong>
+                            <strong>{% if lang == 'ur' %}ویڈیو فائل اپ لوڈ کریں{% else %}Upload video file{% endif %}</strong>
                             <small>MP4, AVI, MOV, MKV</small>
                         </label>
                         <p id="file-name-1" style="font-weight:600;margin-top:10px;color:var(--gray-700);"></p>
@@ -1482,25 +1731,25 @@
             <div class="gait-card" style="margin-top:20px;">
                 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px;">
                     <div>
-                        <span style="font-size:0.65rem;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:0.06em;">Gait Analysis</span>
-                        <h3 style="margin:0;font-size:1rem;">Submit for Analysis</h3>
+                        <span style="font-size:0.65rem;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:0.06em;">{% if lang == 'ur' %}چال کا تجزیہ{% else %}Gait Analysis{% endif %}</span>
+                        <h3 style="margin:0;font-size:1rem;">{% if lang == 'ur' %}تجزیہ کے لیے جمع کریں{% else %}Submit for Analysis{% endif %}</h3>
                     </div>
                     <div class="completion-badge">
-                        <span class="num" id="completed-count">0</span>/1 ready
+                        <span class="num" id="completed-count">0</span>/1 {% if lang == 'ur' %}تیار{% else %}ready{% endif %}
                     </div>
                 </div>
-                <p style="font-size:0.85rem;color:var(--gray-500);margin-top:0;">Once you have a video ready, click the button below to analyze.</p>
+                <p style="font-size:0.85rem;color:var(--gray-500);margin-top:0;">{% if lang == 'ur' %}ویڈیو تیار ہونے پر تجزیہ کے لیے نیچے کلک کریں{% else %}Once you have a video ready, click the button below to analyze{% endif %}</p>
 
                 <div class="submission-panel">
                     <div class="left">
                         <i class="fa-solid fa-shield-halved"></i>
                         <div>
-                            <h3>Ready for analysis</h3>
-                            <p>A video must be uploaded or recorded before screening can begin.</p>
+                            <h3>{% if lang == 'ur' %}تجزیہ کے لیے تیار{% else %}Ready for analysis{% endif %}</h3>
+                            <p>{% if lang == 'ur' %}اسکریننگ شروع کرنے سے پہلے ویڈیو اپ لوڈ یا ریکارڈ کرنا ضروری ہے{% else %}A video must be uploaded or recorded before screening can begin{% endif %}</p>
                         </div>
                     </div>
                     <button class="btn-submit" id="submit-screening" disabled>
-                        <span>Analyze Video</span> <i class="fa-solid fa-arrow-right"></i>
+                        <span>{% if lang == 'ur' %}ویڈیو کا تجزیہ کریں{% else %}Analyze Video{% endif %}</span> <i class="fa-solid fa-arrow-right"></i>
                     </button>
                 </div>
             </div>
@@ -1515,8 +1764,8 @@
     <section id="processing-section" hidden>
         <div class="processing-card">
             <div class="processing-spinner"></div>
-            <h3>🔍 Analyzing your video...</h3>
-            <p id="processing-message" style="color:var(--gray-500);">Processing gait patterns and movement features.</p>
+            <h3>🔍 {% if lang == 'ur' %}آپ کی ویڈیو کا تجزیہ ہو رہا ہے...{% else %}Analyzing your video...{% endif %}</h3>
+            <p id="processing-message" style="color:var(--gray-500);">{% if lang == 'ur' %}چال کے پیٹرن اور حرکت کی خصوصیات پر کارروائی{% else %}Processing gait patterns and movement features{% endif %}</p>
             <div class="progress-track">
                 <div id="analysis-progress-bar" class="bar"></div>
             </div>
@@ -1529,9 +1778,9 @@
     <section id="results-section" hidden>
         <div class="result-card">
             <div class="result-header">
-                <h2>📊 Gait Analysis Result</h2>
+                <h2>📊 {% if lang == 'ur' %}چال کے تجزیہ کا نتیجہ{% else %}Gait Analysis Result{% endif %}</h2>
                 <button class="btn btn-secondary" id="restart-screening" style="padding:8px 20px;border:none;border-radius:var(--radius-sm);background:var(--gray-100);color:var(--gray-600);font-weight:600;cursor:pointer;transition:var(--transition);display:flex;align-items:center;gap:6px;">
-                    <i class="fa-solid fa-arrow-rotate-right"></i> Start again
+                    <i class="fa-solid fa-arrow-rotate-right"></i> {% if lang == 'ur' %}دوبارہ شروع کریں{% else %}Start again{% endif %}
                 </button>
             </div>
             <div id="result-status-card" class="result-status">
@@ -1539,10 +1788,10 @@
                 <p id="result-message"></p>
             </div>
             <div class="metrics-grid">
-                <div class="metric"><span>Risk Score</span><strong id="result-score">—</strong></div>
-                <div class="metric"><span>Confidence</span><strong id="result-confidence">—</strong></div>
-                <div class="metric"><span>Gait Symmetry</span><strong id="result-symmetry">—</strong></div>
-                <div class="metric"><span>Cadence</span><strong id="result-cadence">—</strong></div>
+                <div class="metric"><span>{% if lang == 'ur' %}خطرے کا سکور{% else %}Risk Score{% endif %}</span><strong id="result-score">—</strong></div>
+                <div class="metric"><span>{% if lang == 'ur' %}اعتماد{% else %}Confidence{% endif %}</span><strong id="result-confidence">—</strong></div>
+                <div class="metric"><span>{% if lang == 'ur' %}چال کی ہم آہنگی{% else %}Gait Symmetry{% endif %}</span><strong id="result-symmetry">—</strong></div>
+                <div class="metric"><span>{% if lang == 'ur' %}رفتار{% else %}Cadence{% endif %}</span><strong id="result-cadence">—</strong></div>
             </div>
 
             <!-- Model Performance -->
@@ -1550,7 +1799,7 @@
                 <div class="content">
                     <span class="icon">🎯</span>
                     <div class="info">
-                        <strong>Model Performance</strong>
+                        <strong>{% if lang == 'ur' %}ماڈل کی کارکردگی{% else %}Model Performance{% endif %}</strong>
                         <p>LSTM Model • 86.4% Accuracy • Trained on 292 clinical samples</p>
                     </div>
                 </div>
@@ -1558,27 +1807,27 @@
 
             <!-- Action Guide -->
             <div class="action-guide">
-                <strong>📋 Recommended Next Steps</strong>
+                <strong>📋 {% if lang == 'ur' %}تجاویز{% else %}Recommended Next Steps{% endif %}</strong>
                 <ul id="action-list">
-                    <li>✅ Continue regular health checkups</li>
-                    <li>💪 Maintain physical activity for brain health</li>
-                    <li>📊 Repeat screening annually or as recommended</li>
-                    <li>📝 Stay aware of any new symptoms</li>
+                    <li>✅ {% if lang == 'ur' %}باقاعدہ طبی معائنہ جاری رکھیں{% else %}Continue regular health checkups{% endif %}</li>
+                    <li>💪 {% if lang == 'ur' %}دماغی صحت کے لیے جسمانی سرگرمی برقرار رکھیں{% else %}Maintain physical activity for brain health{% endif %}</li>
+                    <li>📊 {% if lang == 'ur' %}سالانہ یا تجویز کردہ اسکریننگ دہرائیں{% else %}Repeat screening annually or as recommended{% endif %}</li>
+                    <li>📝 {% if lang == 'ur' %}نئی علامات سے آگاہ رہیں{% else %}Stay aware of any new symptoms{% endif %}</li>
                 </ul>
             </div>
 
             <!-- Privacy Banner -->
             <div class="privacy-banner">
-                <div class="item"><i class="fa-solid fa-lock"></i> Data encrypted</div>
-                <div class="item"><i class="fa-solid fa-shield-halved"></i> No permanent storage</div>
-                <div class="item"><i class="fa-solid fa-clock"></i> Results expire in 24h</div>
+                <div class="item"><i class="fa-solid fa-lock"></i> {% if lang == 'ur' %}ڈیٹا انکرپٹ{% else %}Data encrypted{% endif %}</div>
+                <div class="item"><i class="fa-solid fa-shield-halved"></i> {% if lang == 'ur' %}مستقل ذخیرہ نہیں{% else %}No permanent storage{% endif %}</div>
+                <div class="item"><i class="fa-solid fa-clock"></i> {% if lang == 'ur' %}نتائج 24 گھنٹے میں ختم ہو جاتے ہیں{% else %}Results expire in 24h{% endif %}</div>
             </div>
 
             <hr style="border:none;border-top:1px solid var(--gray-200);margin:16px 0;">
 
             <!-- Disclaimer -->
             <div style="padding:12px;background:var(--gray-50);border-radius:var(--radius-sm);font-size:0.75rem;color:var(--gray-400);text-align:center;">
-                <i class="fa-solid fa-circle-info"></i> This result is intended for screening purposes only and is not a medical diagnosis.
+                <i class="fa-solid fa-circle-info"></i> {% if lang == 'ur' %}یہ نتیجہ صرف اسکریننگ کے مقاصد کے لیے ہے اور طبی تشخیص نہیں ہے{% else %}This result is intended for screening purposes only and is not a medical diagnosis{% endif %}
             </div>
         </div>
     </section>
@@ -1588,10 +1837,10 @@
     <!-- ========================================== -->
     <section id="error-section" hidden>
         <div class="error-card">
-            <h2>⚠️ Analysis could not be completed</h2>
+            <h2>⚠️ {% if lang == 'ur' %}تجزیہ مکمل نہیں ہو سکا{% else %}Analysis could not be completed{% endif %}</h2>
             <p id="error-message"></p>
             <button class="btn-primary" id="dismiss-error">
-                <i class="fa-solid fa-arrow-left"></i> Try again
+                <i class="fa-solid fa-arrow-left"></i> {% if lang == 'ur' %}دوبارہ کوشش کریں{% else %}Try again{% endif %}
             </button>
         </div>
     </section>
@@ -1601,11 +1850,13 @@
     <!-- ========================================== -->
     <div class="security-banner">
         <i class="fa-solid fa-shield-halved"></i>
-        <span><strong>Your data is secure and encrypted.</strong> We prioritize your privacy and data protection.</span>
-        <a href="#"><i class="fa-solid fa-circle-info"></i> Learn more</a>
+        <span><strong>{% if lang == 'ur' %}آپ کا ڈیٹا محفوظ اور انکرپٹ ہے{% else %}Your data is secure and encrypted{% endif %}</strong> {% if lang == 'ur' %}ہم آپ کی پرائیویسی اور ڈیٹا کے تحفظ کو ترجیح دیتے ہیں{% else %}We prioritize your privacy and data protection{% endif %}</span>
+        <a href="#"><i class="fa-solid fa-circle-info"></i> {% if lang == 'ur' %}مزید جانیں{% else %}Learn more{% endif %}</a>
     </div>
 
 </div>
+
+{% endwith %}
 
 {% endblock %}
 
@@ -1654,6 +1905,17 @@
         const dismissError = document.getElementById('dismiss-error');
         const actionList = document.getElementById('action-list');
 
+        // Quality Indicators
+        const qiPerson = document.getElementById('qi-person');
+        const qiFullbody = document.getElementById('qi-fullbody');
+        const qiSideview = document.getElementById('qi-sideview');
+        const qiMovement = document.getElementById('qi-movement');
+        const qiArms = document.getElementById('qi-arms');
+
+        // Guidance Overlay
+        const guideSideView = document.getElementById('guide-side-view');
+        const guideLabel = document.getElementById('guide-label');
+
         // State
         let stream = null;
         let mediaRecorder = null;
@@ -1665,6 +1927,157 @@
         let isVideoReady = false;
         let timerInterval = null;
         let poseDetector = null;
+
+        // Quality tracking
+        let qualityState = {
+            personDetected: false,
+            fullBodyVisible: false,
+            sideViewDetected: false,
+            movementDetected: false,
+            armSwingDetected: false
+        };
+
+        // Get current language
+        const urlParams = new URLSearchParams(window.location.search);
+        const currentLang = urlParams.get('lang') || 'en';
+
+        // Translations
+        const translations = {
+            'en': {
+                startCamera: 'Click "Start Camera" to begin',
+                ready: '✅ Ready to record. Position camera for side view.',
+                noPerson: '⚠️ No person detected. Please stand in frame.',
+                fullBody: '✅ Full body detected. Good!',
+                stepBack: '📐 Tip: Step back. Full body not visible.',
+                turnSideways: '📐 Tip: Turn sideways for best view.',
+                sideView: '✅ Side view detected.',
+                standSideways: '📐 Stand sideways',
+                perfect: '✅ Perfect! Keep going',
+                turnSide: '🔄 Turn sideways',
+                startWalking: '🚶 Start walking',
+                swingArms: '💪 Swing your arms',
+                stepBackFull: '📐 Step back for full body',
+                standInFrame: '👤 Stand in frame',
+                recordingComplete: '✅ Recording complete! Review and submit.',
+                recording: '🔴 Recording...',
+                analyzing: 'Analyzing gait patterns...',
+                perfectRecording: '✅ Perfect! Recording will be high quality.',
+                swingArmsNaturally: '💪 Swing your arms naturally while walking.',
+                getReady: '⏳ Get ready...'
+            },
+            'ur': {
+                startCamera: 'شروع کرنے کے لیے "کیمرہ شروع کریں" پر کلک کریں',
+                ready: '✅ ریکارڈ کرنے کے لیے تیار۔ کیمرہ سائیڈ ویو میں رکھیں۔',
+                noPerson: '⚠️ کوئی شخص نظر نہیں آیا۔ براہ کرم فریم میں کھڑے ہوں۔',
+                fullBody: '✅ پورا جسم نظر آیا۔ بہت اچھے!',
+                stepBack: '📐 مشورہ: پیچھے ہٹیں۔ پورا جسم نظر نہیں آرہا۔',
+                turnSideways: '📐 مشورہ: بہترین ویو کے لیے سائیڈ میں مڑیں۔',
+                sideView: '✅ سائیڈ ویو نظر آیا۔',
+                standSideways: '📐 سائیڈ میں کھڑے ہوں',
+                perfect: '✅ بہت اچھے! جاری رکھیں',
+                turnSide: '🔄 سائیڈ میں مڑیں',
+                startWalking: '🚶 چلنا شروع کریں',
+                swingArms: '💪 اپنے بازو ہلائیں',
+                stepBackFull: '📐 پورا جسم کے لیے پیچھے ہٹیں',
+                standInFrame: '👤 فریم میں کھڑے ہوں',
+                recordingComplete: '✅ ریکارڈنگ مکمل! جائزہ لیں اور جمع کریں۔',
+                recording: '🔴 ریکارڈنگ ہو رہی ہے...',
+                analyzing: 'چال کے پیٹرن کا تجزیہ...',
+                perfectRecording: '✅ بہترین! ریکارڈنگ اعلیٰ معیار کی ہوگی۔',
+                swingArmsNaturally: '💪 چلتے ہوئے اپنے بازو قدرتی طور پر ہلائیں۔',
+                getReady: '⏳ تیار ہو جائیں...'
+            }
+        };
+
+        const t = translations[currentLang] || translations['en'];
+
+        // ============================================================
+        // QUALITY INDICATOR HELPERS
+        // ============================================================
+
+        function updateQualityIndicator(indicator, status, text) {
+            const dot = indicator.querySelector('.dot');
+            dot.classList.remove('ready', 'good', 'warning', 'bad');
+            
+            if (status === 'good') {
+                dot.classList.add('good');
+                indicator.classList.add('active');
+            } else if (status === 'warning') {
+                dot.classList.add('warning');
+                indicator.classList.add('active');
+            } else if (status === 'bad') {
+                dot.classList.add('bad');
+                indicator.classList.add('active');
+            } else {
+                dot.classList.add('ready');
+                indicator.classList.remove('active');
+            }
+        }
+
+        function updateQualityIndicators(quality) {
+            if (quality.personDetected) {
+                updateQualityIndicator(qiPerson, 'good');
+            } else {
+                updateQualityIndicator(qiPerson, 'ready');
+            }
+
+            if (quality.fullBodyVisible) {
+                updateQualityIndicator(qiFullbody, 'good');
+            } else {
+                updateQualityIndicator(qiFullbody, 'warning');
+            }
+
+            if (quality.sideViewDetected) {
+                updateQualityIndicator(qiSideview, 'good');
+            } else {
+                updateQualityIndicator(qiSideview, 'warning');
+            }
+
+            if (quality.movementDetected) {
+                updateQualityIndicator(qiMovement, 'good');
+            } else {
+                updateQualityIndicator(qiMovement, 'warning');
+            }
+
+            if (quality.armSwingDetected) {
+                updateQualityIndicator(qiArms, 'good');
+            } else {
+                updateQualityIndicator(qiArms, 'warning');
+            }
+
+            updateGuidanceOverlay(quality);
+        }
+
+        function updateGuidanceOverlay(quality) {
+            const allGood = quality.personDetected && quality.fullBodyVisible && 
+                           quality.sideViewDetected && quality.movementDetected;
+
+            if (allGood) {
+                guideSideView.classList.add('active');
+                guideLabel.textContent = t.perfect;
+                guideLabel.className = 'guide-label active success';
+            } else if (quality.personDetected && quality.fullBodyVisible) {
+                guideSideView.classList.add('active');
+                if (!quality.sideViewDetected) {
+                    guideLabel.textContent = t.turnSide;
+                    guideLabel.className = 'guide-label active warning';
+                } else if (!quality.movementDetected) {
+                    guideLabel.textContent = t.startWalking;
+                    guideLabel.className = 'guide-label active warning';
+                } else {
+                    guideLabel.textContent = t.swingArms;
+                    guideLabel.className = 'guide-label active warning';
+                }
+            } else if (quality.personDetected) {
+                guideSideView.classList.remove('active');
+                guideLabel.textContent = t.stepBackFull;
+                guideLabel.className = 'guide-label active warning';
+            } else {
+                guideSideView.classList.remove('active');
+                guideLabel.textContent = t.standInFrame;
+                guideLabel.className = 'guide-label active warning';
+            }
+        }
 
         // ============================================================
         // UI Helpers
@@ -1721,7 +2134,12 @@
                 btnStartRecording.disabled = false;
                 cameraOverlay.style.display = 'none';
                 document.getElementById('camera-container').classList.add('live-active');
-                updateFeedback('✅ Ready to record. Position camera for side view.', 'success');
+                updateFeedback(t.ready, 'success');
+
+                document.getElementById('guidance-overlay').style.display = 'block';
+                guideSideView.classList.add('active');
+                guideLabel.textContent = t.standSideways;
+                guideLabel.className = 'guide-label active';
 
                 if (typeof Pose !== 'undefined') {
                     const pose = new Pose({
@@ -1735,7 +2153,7 @@
                     });
                     pose.onResults((results) => {
                         drawPoseResults(results);
-                        analyzePoseResults(results);
+                        analyzePoseResultsEnhanced(results);
                     });
                     const camera = new Camera(videoPreview, {
                         onFrame: async () => await pose.send({ image: videoPreview }),
@@ -1768,6 +2186,16 @@
             feedbackOverlay.style.display = 'none';
             poseDetector = null;
             document.getElementById('camera-container').classList.remove('live-active');
+            document.getElementById('guidance-overlay').style.display = 'none';
+            
+            qualityState = {
+                personDetected: false,
+                fullBodyVisible: false,
+                sideViewDetected: false,
+                movementDetected: false,
+                armSwingDetected: false
+            };
+            updateQualityIndicators(qualityState);
         }
 
         function drawPoseResults(results) {
@@ -1796,28 +2224,87 @@
             }
         }
 
-        function analyzePoseResults(results) {
+        // === ENHANCED POSE ANALYSIS ===
+        function analyzePoseResultsEnhanced(results) {
             if (!results.poseLandmarks || results.poseLandmarks.length === 0) {
-                updateFeedback('⚠️ No person detected. Please stand in frame.', 'error');
+                updateFeedback(t.noPerson, 'error');
+                qualityState.personDetected = false;
+                updateQualityIndicators(qualityState);
                 return;
             }
+
             const lm = results.poseLandmarks;
-            const head = lm[0], lAnkle = lm[27], rAnkle = lm[28];
-            if (head && lAnkle && rAnkle) {
+            const head = lm[0];
+            const lShoulder = lm[11], rShoulder = lm[12];
+            const lHip = lm[23], rHip = lm[24];
+            const lAnkle = lm[27], rAnkle = lm[28];
+            const lWrist = lm[15], rWrist = lm[16];
+
+            let newQuality = {
+                personDetected: true,
+                fullBodyVisible: false,
+                sideViewDetected: false,
+                movementDetected: false,
+                armSwingDetected: false
+            };
+
+            // 1. Check full body visibility
+            if (head && lAnkle && rAnkle && lShoulder && rShoulder) {
                 const bodyHeight = Math.abs(head.y - lAnkle.y);
                 if (bodyHeight > 0.5) {
-                    updateFeedback('✅ Full body detected. Good!', 'success');
+                    newQuality.fullBodyVisible = true;
+                    updateFeedback(t.fullBody, 'success');
                 } else {
-                    updateFeedback('📐 Tip: Step back. Full body not visible.', 'warning');
+                    updateFeedback(t.stepBack, 'warning');
                 }
-                const lShoulder = lm[11], rShoulder = lm[12], lHip = lm[23], rHip = lm[24];
-                if (lShoulder && rShoulder && lHip && rHip) {
-                    if (Math.abs(lShoulder.x - rShoulder.x) > 0.15 || Math.abs(lHip.x - rHip.x) > 0.15) {
-                        updateFeedback('📐 Tip: Turn sideways for best view.', 'info');
-                    }
+            }
+
+            // 2. Check side view
+            if (lShoulder && rShoulder && lHip && rHip) {
+                const shoulderWidth = Math.abs(lShoulder.x - rShoulder.x);
+                const hipWidth = Math.abs(lHip.x - rHip.x);
+                
+                if (shoulderWidth > 0.15 || hipWidth > 0.15) {
+                    newQuality.sideViewDetected = false;
+                    updateFeedback(t.turnSideways, 'info');
+                } else {
+                    newQuality.sideViewDetected = true;
+                    updateFeedback(t.sideView, 'success');
                 }
-            } else {
-                updateFeedback('⚠️ Step back. Full body not visible.', 'warning');
+            }
+
+            // 3. Check movement
+            if (lHip && rHip) {
+                const hipCenterX = (lHip.x + rHip.x) / 2;
+                if (!window._prevHipX) window._prevHipX = hipCenterX;
+                const movement = Math.abs(hipCenterX - window._prevHipX);
+                window._prevHipX = hipCenterX;
+                
+                if (movement > 0.01) {
+                    newQuality.movementDetected = true;
+                }
+            }
+
+            // 4. Check arm swing
+            if (lWrist && lShoulder && rWrist && rShoulder) {
+                const lArmSwing = Math.abs(lWrist.x - lShoulder.x);
+                const rArmSwing = Math.abs(rWrist.x - rShoulder.x);
+                
+                if (lArmSwing > 0.05 || rArmSwing > 0.05) {
+                    newQuality.armSwingDetected = true;
+                }
+            }
+
+            qualityState = newQuality;
+            updateQualityIndicators(qualityState);
+
+            const allGood = qualityState.personDetected && qualityState.fullBodyVisible && 
+                           qualityState.sideViewDetected && qualityState.movementDetected;
+
+            if (allGood && qualityState.armSwingDetected) {
+                updateFeedback(t.perfectRecording, 'success');
+            } else if (allGood) {
+                updateFeedback(t.swingArmsNaturally, 'info');
             }
         }
 
@@ -1832,7 +2319,7 @@
             countdownDisplay.style.display = 'block';
             countdownDisplay.textContent = count;
             cameraOverlay.style.display = 'none';
-            updateFeedback('⏳ Get ready...', 'info');
+            updateFeedback(t.getReady, 'info');
             countdownInterval = setInterval(() => {
                 count--;
                 if (count > 0) {
@@ -1866,7 +2353,7 @@
                 isRecording = false;
                 clearInterval(timerInterval);
                 recordingTimerDisplay.textContent = '';
-                updateFeedback('✅ Recording complete! Review and submit.', 'success');
+                updateFeedback(t.recordingComplete, 'success');
                 btnStartRecording.disabled = false;
                 btnStartRecording.innerHTML = '<i class="fa-solid fa-circle"></i> Record (10s)';
                 btnStopRecording.disabled = true;
@@ -1876,7 +2363,7 @@
             recordingIndicator.style.display = 'flex';
             btnStartRecording.disabled = true;
             btnStopRecording.disabled = false;
-            updateFeedback('🔴 Recording...', 'error');
+            updateFeedback(t.recording, 'error');
             let seconds = 0;
             timerInterval = setInterval(() => {
                 seconds++;
@@ -1936,7 +2423,7 @@
             errorSection.hidden = true;
             processingSection.hidden = false;
             submitBtn.disabled = true;
-            processingMessage.textContent = 'Analyzing gait patterns...';
+            processingMessage.textContent = t.analyzing;
             let progress = 0;
             const interval = setInterval(() => {
                 progress += 10;
@@ -2081,7 +2568,10 @@
         fileSection.classList.add('hidden');
         btnLive.classList.add('active');
         btnFile.classList.remove('active');
-        updateFeedback('📷 Click "Start Camera" to begin.', 'info');
+        updateFeedback(t.startCamera, 'info');
+        
+        // Hide guidance overlay initially
+        document.getElementById('guidance-overlay').style.display = 'none';
 
     })();
 </script>
