@@ -1,176 +1,139 @@
 from django.shortcuts import render
-from django.http import JsonResponse
 from rest_framework.decorators import api_view, parser_classes
-from rest_framework.parsers import FileUploadParser, MultiPartParser
+from rest_framework.parsers import MultiPartParser
 from rest_framework.response import Response
 from rest_framework import status
 import os
 import tempfile
+import logging
+import uuid
+import numpy as np
+
 from .gait_model import predictor
-from .feature_extractor import extract_features_from_video
+from .feature_extractor import extract_pose_sequence_from_video
+from .models import GaitResult
 
-def get_abnormal_features(features):
-    """
-    Identify which gait features are outside normal range
-    Returns: List of abnormal features with their values and descriptions
-    """
-    
-    # Normal ranges for all 15 features
-    normal_ranges = {
-        'symmetry_index': {
-            'min': -20, 'max': 20,
-            'description': 'Gait symmetry should be close to 0%'
-        },
-        'step_time_L_std': {
-            'min': 0, 'max': 0.8,
-            'description': 'Left step timing should be consistent'
-        },
-        'step_time_R_std': {
-            'min': 0, 'max': 0.8,
-            'description': 'Right step timing should be consistent'
-        },
-        'step_time_L_CV': {
-            'min': 0, 'max': 0.5,
-            'description': 'Left step variability should be low'
-        },
-        'step_time_R_CV': {
-            'min': 0, 'max': 0.5,
-            'description': 'Right step variability should be low'
-        },
-        'step_asymmetry': {
-            'min': 0, 'max': 0.2,
-            'description': 'Left and right steps should be similar'
-        },
-        'cadence': {
-            'min': 60, 'max': 130,
-            'description': 'Normal walking speed is 60-130 steps/min'
-        },
-        'step_regularity': {
-            'min': 0.5, 'max': 1.0,
-            'description': 'Step pattern should be regular'
-        },
-        'step_ratio': {
-            'min': 0.8, 'max': 1.2,
-            'description': 'Left/right step time ratio should be balanced'
-        },
-        'step_diff': {
-            'min': -0.2, 'max': 0.2,
-            'description': 'Left-right step time difference should be small'
-        },
-        'total_std': {
-            'min': 0, 'max': 1.0,
-            'description': 'Combined step variability should be low'
-        },
-        'std_ratio': {
-            'min': 0.5, 'max': 2.0,
-            'description': 'Left/right variability ratio should be balanced'
-        },
-        'cadence_reg': {
-            'min': 30, 'max': 100,
-            'description': 'Cadence-regularity product should be normal'
-        }
-    }
+# Set up logging
+logger = logging.getLogger(__name__)
 
-    # Friendly names for display
-    friendly_names = {
-        'symmetry_index': 'Gait Symmetry',
-        'step_time_L_std': 'Left Step Variability',
-        'step_time_R_std': 'Right Step Variability',
-        'step_time_L_CV': 'Left Step Consistency',
-        'step_time_R_CV': 'Right Step Consistency',
-        'step_asymmetry': 'Step Asymmetry',
-        'cadence': 'Walking Speed',
-        'step_regularity': 'Step Regularity',
-        'step_ratio': 'Step Time Ratio',
-        'step_diff': 'Step Time Difference',
-        'total_std': 'Total Variability',
-        'std_ratio': 'Variability Ratio',
-        'cadence_reg': 'Cadence Regularity'
-    }
-
-    abnormal = []
-
-    for feature, value in features.items():
-        if feature in normal_ranges and feature in friendly_names:
-            rule = normal_ranges[feature]
-            is_abnormal = False
-            severity = 'Normal'
-
-            if 'min' in rule and 'max' in rule:
-                if value < rule['min'] or value > rule['max']:
-                    is_abnormal = True
-                    if value < rule['min'] * 0.5 or value > rule['max'] * 1.5:
-                        severity = 'High'
-                    else:
-                        severity = 'Medium'
-            elif 'max' in rule and value > rule['max']:
-                is_abnormal = True
-                if value > rule['max'] * 1.5:
-                    severity = 'High'
-                else:
-                    severity = 'Medium'
-            elif 'min' in rule and value < rule['min']:
-                is_abnormal = True
-                if value < rule['min'] * 0.5:
-                    severity = 'High'
-                else:
-                    severity = 'Medium'
-
-            if is_abnormal:
-                abnormal.append({
-                    'feature': feature,
-                    'name': friendly_names.get(feature, feature),
-                    'value': round(value, 4),
-                    'normal_range': f"{rule.get('min', 0)} - {rule.get('max', '∞')}",
-                    'severity': severity,
-                    'description': rule.get('description', 'Out of normal range')
-                })
-
-    return abnormal
 
 @api_view(['POST'])
 @parser_classes([MultiPartParser])
 def gait_predict(request):
+    """
+    API endpoint for gait analysis.
+    
+    Expects:
+        - video file in request.FILES
+        - screening_id (optional) in request.data
+    
+    Returns:
+        - prediction: PD or Control
+        - pd_probability: float (0-1)
+        - control_probability: float (0-1)
+        - model_used: string (LSTM)
+        - screening_id: string
+    """
     try:
+        # Check if video file is provided
         if 'video' not in request.FILES:
-            return Response({'error': 'No video file provided'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                {'error': 'No video file provided'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
         
         video_file = request.FILES['video']
         
+        # Get screening_id from request or generate new
+        screening_id = request.data.get('screening_id') or request.POST.get('screening_id')
+        if not screening_id:
+            screening_id = uuid.uuid4().hex
+        
+        # Save uploaded video to temporary file
         with tempfile.NamedTemporaryFile(delete=False, suffix='.mp4') as tmp_file:
             for chunk in video_file.chunks():
                 tmp_file.write(chunk)
             tmp_path = tmp_file.name
         
-        # Extract features (15 features with auto-scaling)
-        feature_array, feature_dict = extract_features_from_video(tmp_path)
+        logger.info(f"Processing video: {video_file.name}, size: {video_file.size} bytes")
         
-        # Predict
-        result = predictor.predict(feature_array)
+        # Extract pose sequence for LSTM
+        pose_sequence = extract_pose_sequence_from_video(tmp_path)
         
-        # Get abnormal features (using the 15 features)
-        abnormal_features = get_abnormal_features(feature_dict)
-        
+        # Clean up temp file
         os.unlink(tmp_path)
         
+        if pose_sequence is None:
+            return Response(
+                {
+                    'error': 'Could not extract pose from video. '
+                             'Please ensure side view, good lighting, '
+                             'and the person is clearly visible.'
+                },
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        # Get prediction from LSTM model
+        result = predictor.predict(pose_sequence)
+        
+        # Calculate confidence (max probability)
+        confidence = max(result['pd_probability'], result['control_probability'])
+        
+        # Save to database (pose sequence stored)
+        try:
+            # Convert pose sequence to list for JSON storage
+            pose_sequence_list = pose_sequence[0].tolist()  # (50, 34)
+            
+            GaitResult.objects.create(
+                screening_id=screening_id,
+                prediction=result['prediction'],
+                pd_probability=float(result['pd_probability']),
+                control_probability=float(result['control_probability']),
+                model_used='LSTM',
+                pose_sequence=pose_sequence_list,
+                video_fps=30,  # Default, can be extracted from video
+                pose_quality_score=0.85  # Placeholder
+            )
+            logger.info(f"Saved gait result for screening: {screening_id}")
+        except Exception as e:
+            logger.warning(f"Failed to save gait result: {str(e)}")
+        
+        # Store in session for fusion module
+        request.session['gait_result'] = {
+            'screening_id': screening_id,
+            'prediction': result['prediction'],
+            'pd_probability': float(result['pd_probability']),
+            'control_probability': float(result['control_probability']),
+            'model_used': 'LSTM'
+        }
+        request.session.modified = True
+        
+        # Prepare response
         response_data = {
             'prediction': result['prediction'],
             'pd_probability': result['pd_probability'],
             'control_probability': result['control_probability'],
-            'features': feature_dict,
-            'abnormal_features': abnormal_features,
-            'scaling_applied': feature_dict.get('scaling_applied', False)
+            'model_used': 'LSTM',
+            'screening_id': screening_id
         }
+        
+        logger.info(f"Prediction: {result['prediction']}, Confidence: {confidence:.3f}")
         
         return Response(response_data, status=status.HTTP_200_OK)
         
-    except ValueError as e:
-        return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
     except Exception as e:
-        return Response({'error': f'Processing error: {str(e)}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        logger.error(f"Gait prediction error: {str(e)}")
+        return Response(
+            {'error': f'Processing error: {str(e)}'},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
+
 
 def gait_screening_page(request):
+    """Render the gait screening page"""
     return render(request, 'gait_app/gait_screening.html')
 
+
 def gait_results_page(request):
+    """Render the gait results page"""
     return render(request, 'gait_app/gait_results.html')

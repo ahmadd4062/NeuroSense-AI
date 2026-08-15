@@ -20,8 +20,7 @@ from django.urls import path,include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('speech_app.urls')),  
-    path('api/gait/', include('gait_app.urls')),          # Gait API
+    path('api/gait/', include('gait_app.urls')),       
     path('', include('gait_app.urls')),
     path('', include('questionnaire_app.urls')),
-
 ]

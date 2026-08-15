@@ -6,367 +6,566 @@
 {% block extra_css %}
 <style>
     /* ============================================
-       GAIT SCREENING - PREMIUM UI v2
+       PREMIUM MEDICAL-GRADE GAIT SCREENING
        ============================================ */
 
-    /* ---------- Container ---------- */
-    .gait-container {
-        max-width: 1200px;
+    /* ---------- Variables ---------- */
+    :root {
+        --primary: #4A6CF7;
+        --primary-dark: #3b5de7;
+        --primary-light: #eef2ff;
+        --primary-gradient: linear-gradient(135deg, #4A6CF7 0%, #7c3aed 100%);
+        --success: #10b981;
+        --success-light: #ecfdf5;
+        --danger: #ef4444;
+        --danger-light: #fef2f2;
+        --warning: #f59e0b;
+        --warning-light: #fffbeb;
+        --gray-50: #f8fafc;
+        --gray-100: #f1f5f9;
+        --gray-200: #e2e8f0;
+        --gray-300: #cbd5e1;
+        --gray-400: #94a3b8;
+        --gray-500: #64748b;
+        --gray-600: #475569;
+        --gray-700: #334155;
+        --gray-800: #1e293b;
+        --gray-900: #0f172a;
+        --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+        --shadow-md: 0 4px 24px rgba(0,0,0,0.06);
+        --shadow-lg: 0 8px 48px rgba(74,108,247,0.10);
+        --shadow-xl: 0 12px 64px rgba(74,108,247,0.15);
+        --radius-sm: 8px;
+        --radius-md: 12px;
+        --radius-lg: 16px;
+        --radius-xl: 20px;
+        --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* ---------- Page Container ---------- */
+    .gait-page {
+        max-width: 1280px;
         margin: 0 auto;
-        padding: 40px 24px 60px;
-    }
-
-    /* ---------- Header ---------- */
-    .gait-header {
-        margin-bottom: 40px;
-        animation: fadeUp 0.6s ease-out;
-    }
-
-    .gait-header h1 {
-        font-size: 2.4rem;
-        font-weight: 800;
-        background: linear-gradient(135deg, #1a1a2e 0%, #4A6CF7 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        margin-bottom: 8px;
-    }
-
-    .gait-header p {
-        font-size: 1.1rem;
-        color: #6b7280;
-        -webkit-text-fill-color: #6b7280;
-    }
-
-    .gait-header .header-badge {
-        display: inline-block;
-        background: #eef2ff;
-        color: #4A6CF7;
-        padding: 4px 16px;
-        border-radius: 20px;
-        font-size: 0.75rem;
-        font-weight: 600;
-        margin-bottom: 12px;
-    }
-
-    /* ---------- Animations ---------- */
-    @keyframes fadeUp {
-        from {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    @keyframes pulse {
-
-        0%,
-        100% {
-            transform: scale(1);
-        }
-
-        50% {
-            transform: scale(1.02);
-        }
-    }
-
-    .animate-in {
-        animation: fadeUp 0.6s ease-out forwards;
-        opacity: 0;
-    }
-
-    .animate-in:nth-child(1) {
-        animation-delay: 0.1s;
-    }
-
-    .animate-in:nth-child(2) {
-        animation-delay: 0.2s;
-    }
-
-    .animate-in:nth-child(3) {
-        animation-delay: 0.3s;
-    }
-
-    .animate-in:nth-child(4) {
-        animation-delay: 0.4s;
-    }
-
-    /* ---------- Glass Card ---------- */
-    .gait-card {
-        background: rgba(255, 255, 255, 0.85);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        border-radius: 16px;
-        padding: 28px;
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
-        margin-bottom: 24px;
-        transition: all 0.3s ease;
-    }
-
-    .gait-card:hover {
-        box-shadow: 0 8px 40px rgba(74, 108, 247, 0.08), 0 1px 2px rgba(0, 0, 0, 0.02);
-        transform: translateY(-2px);
-    }
-
-    .gait-card .card-icon {
-        width: 40px;
-        height: 40px;
-        border-radius: 12px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.2rem;
-        margin-bottom: 12px;
-        background: #eef2ff;
-        color: #4A6CF7;
-    }
-
-    .gait-card h3 {
-        font-size: 1rem;
-        font-weight: 700;
-        margin-bottom: 12px;
-        color: #1a1a2e;
-        letter-spacing: -0.01em;
-    }
-
-    .gait-card .card-sub {
-        font-size: 0.85rem;
-        color: #6b7280;
+        padding: 32px 24px 60px;
     }
 
     /* ==========================================
-       BEFORE YOU RECORD - PROMINENT
+       HEADER / HERO
        ========================================== */
-    .before-record-card {
-        background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
-        border: 2px solid #4A6CF7;
-        border-radius: 16px;
-        padding: 24px 28px;
+    .gait-hero {
+        background: white;
+        border-radius: var(--radius-xl);
+        padding: 48px 56px;
+        margin-bottom: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 40px;
+        border: 1px solid var(--gray-200);
+        box-shadow: var(--shadow-sm);
         position: relative;
         overflow: hidden;
     }
 
-    .before-record-card::before {
+    .gait-hero::before {
         content: '';
         position: absolute;
-        top: -50%;
-        right: -20%;
-        width: 250px;
-        height: 250px;
-        background: rgba(74, 108, 247, 0.06);
-        border-radius: 50%;
+        top: -40%;
+        right: -10%;
+        width: 400px;
+        height: 400px;
+        background: radial-gradient(circle, rgba(74,108,247,0.04) 0%, transparent 70%);
         pointer-events: none;
     }
 
-    .before-record-card .badge {
-        display: inline-block;
-        background: #4A6CF7;
-        color: white;
-        padding: 2px 16px;
-        border-radius: 20px;
+    .gait-hero::after {
+        content: '';
+        position: absolute;
+        bottom: -30%;
+        left: 20%;
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(circle, rgba(124,58,237,0.03) 0%, transparent 70%);
+        pointer-events: none;
+    }
+
+    .gait-hero-copy {
+        flex: 1;
+        position: relative;
+        z-index: 1;
+    }
+
+    .gait-hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--primary-light);
+        padding: 6px 16px;
+        border-radius: 100px;
         font-size: 0.7rem;
         font-weight: 700;
-        text-transform: uppercase;
+        color: var(--primary);
         letter-spacing: 0.04em;
-        margin-bottom: 6px;
+        text-transform: uppercase;
+        margin-bottom: 16px;
     }
 
-    .before-record-card h3 {
-        font-size: 1.2rem;
-        font-weight: 700;
-        color: #1a1a2e;
-        margin-bottom: 6px;
+    .gait-hero-badge i {
+        font-size: 0.7rem;
     }
 
-    .before-record-card .sub-text {
-        color: #475569;
-        font-size: 0.9rem;
-        margin-bottom: 14px;
+    .gait-hero h1 {
+        font-size: 2.8rem;
+        font-weight: 800;
+        margin: 0 0 12px;
+        color: var(--gray-900);
+        letter-spacing: -0.025em;
+        line-height: 1.1;
     }
 
-    .before-record-card .guidance-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 10px;
-        list-style: none;
-        padding: 0;
+    .gait-hero h1 span {
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .gait-hero p {
+        font-size: 1.05rem;
+        color: var(--gray-500);
+        max-width: 520px;
+        line-height: 1.7;
         margin: 0;
     }
 
-    .before-record-card .guidance-grid li {
+    .gait-hero-stats {
+        display: flex;
+        gap: 32px;
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px solid var(--gray-100);
+    }
+
+    .gait-hero-stat {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .gait-hero-stat .number {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: var(--gray-900);
+    }
+
+    .gait-hero-stat .label {
+        font-size: 0.75rem;
+        color: var(--gray-400);
+        font-weight: 500;
+    }
+
+    .gait-hero-visual {
+        flex-shrink: 0;
+        width: 180px;
+        height: 180px;
+        background: var(--primary-gradient);
+        border-radius: 50%;
         display: flex;
         align-items: center;
-        gap: 10px;
-        font-size: 0.9rem;
-        color: #1f2937;
-        padding: 10px 14px;
-        background: rgba(255, 255, 255, 0.7);
-        backdrop-filter: blur(4px);
-        border-radius: 10px;
-        border: 1px solid rgba(74, 108, 247, 0.08);
-        transition: all 0.2s;
-    }
-
-    .before-record-card .guidance-grid li:hover {
-        background: white;
-        border-color: #4A6CF7;
-        transform: translateX(4px);
-    }
-
-    .before-record-card .guidance-grid li i {
-        color: #10b981;
-        width: 18px;
-        font-size: 1rem;
-    }
-
-    /* ---------- Layout ---------- */
-    .gait-two-col {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 32px;
-    }
-
-    @media (max-width: 768px) {
-        .gait-two-col {
-            grid-template-columns: 1fr;
-        }
-    }
-
-    /* ---------- Progress Card ---------- */
-    .progress-card {
-        background: linear-gradient(135deg, #4A6CF7 0%, #7c3aed 100%);
-        border-radius: 16px;
-        padding: 20px 28px;
-        margin-bottom: 28px;
+        justify-content: center;
+        font-size: 4.5rem;
         color: white;
-        box-shadow: 0 4px 24px rgba(74, 108, 247, 0.25);
-        animation: fadeUp 0.6s ease-out;
+        box-shadow: 0 12px 48px rgba(74,108,247,0.25);
+        position: relative;
+        z-index: 1;
+        animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+    }
+
+    .gait-hero-visual::after {
+        content: '';
+        position: absolute;
+        inset: -4px;
+        border-radius: 50%;
+        background: var(--primary-gradient);
+        opacity: 0.15;
+        filter: blur(20px);
+        z-index: -1;
+    }
+
+    /* ==========================================
+       PROGRESS BAR
+       ========================================== */
+    .progress-card {
+        background: var(--gray-900);
+        border-radius: var(--radius-lg);
+        padding: 20px 28px;
+        margin-bottom: 32px;
+        color: white;
+        box-shadow: 0 4px 24px rgba(15,23,42,0.15);
     }
 
     .progress-card .header {
         display: flex;
         justify-content: space-between;
-        font-weight: 600;
-        font-size: 0.95rem;
-        opacity: 0.9;
+        font-size: 0.85rem;
+        font-weight: 500;
+        opacity: 0.8;
+        margin-bottom: 8px;
     }
 
     .progress-card .header .pct {
         font-weight: 700;
-        font-size: 1.1rem;
+        font-size: 1rem;
         opacity: 1;
     }
 
     .progress-track {
-        height: 8px;
-        background: rgba(255, 255, 255, 0.25);
-        border-radius: 4px;
-        margin: 12px 0;
+        height: 6px;
+        background: rgba(255,255,255,0.15);
+        border-radius: 3px;
         overflow: hidden;
+        margin: 8px 0;
     }
 
     .progress-track .bar {
         height: 100%;
-        background: white;
-        border-radius: 4px;
+        background: var(--primary-gradient);
+        border-radius: 3px;
         width: 75%;
-        transition: width 0.8s ease;
-        box-shadow: 0 0 16px rgba(255, 255, 255, 0.3);
+        transition: width 1s ease;
+        box-shadow: 0 0 20px rgba(74,108,247,0.3);
     }
 
     .progress-card .footer {
         display: flex;
         justify-content: space-between;
-        font-size: 0.8rem;
-        opacity: 0.8;
+        font-size: 0.75rem;
+        opacity: 0.6;
+        margin-top: 6px;
     }
 
     /* ==========================================
-       REFERENCE VIDEOS - LARGER
+       MAIN GRID
        ========================================== */
-    .ref-videos {
+    .gait-grid {
+        display: grid;
+        grid-template-columns: 1fr 1.2fr;
+        gap: 32px;
+        margin-bottom: 32px;
+    }
+
+    @media (max-width: 1024px) {
+        .gait-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    /* ==========================================
+       CARDS
+       ========================================== */
+    .gait-card {
+        background: white;
+        border-radius: var(--radius-lg);
+        padding: 28px;
+        border: 1px solid var(--gray-200);
+        box-shadow: var(--shadow-sm);
+        transition: var(--transition);
+    }
+
+    .gait-card:hover {
+        box-shadow: var(--shadow-md);
+    }
+
+    .gait-card .card-header {
         display: flex;
-        gap: 20px;
-        flex-wrap: wrap;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 16px;
+    }
+
+    .gait-card .card-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: var(--radius-sm);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.1rem;
+        background: var(--primary-light);
+        color: var(--primary);
+        flex-shrink: 0;
+    }
+
+    .gait-card .card-icon.success {
+        background: var(--success-light);
+        color: var(--success);
+    }
+
+    .gait-card .card-icon.warning {
+        background: var(--warning-light);
+        color: var(--warning);
+    }
+
+    .gait-card .card-icon.danger {
+        background: var(--danger-light);
+        color: var(--danger);
+    }
+
+    .gait-card h3 {
+        font-size: 1rem;
+        font-weight: 700;
+        margin: 0;
+        color: var(--gray-900);
+    }
+
+    .gait-card .card-sub {
+        font-size: 0.85rem;
+        color: var(--gray-500);
+        margin: 0;
+    }
+
+    /* ---------- Guidance List ---------- */
+    .guidance-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        list-style: none;
+        padding: 0;
+        margin: 12px 0 0;
+    }
+
+    @media (max-width: 600px) {
+        .guidance-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .guidance-grid li {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 0.85rem;
+        color: var(--gray-700);
+        padding: 10px 14px;
+        background: var(--gray-50);
+        border-radius: var(--radius-sm);
+        border: 1px solid var(--gray-100);
+        transition: var(--transition);
+    }
+
+    .guidance-grid li:hover {
+        background: white;
+        border-color: var(--primary);
+        transform: translateX(4px);
+    }
+
+    .guidance-grid li i {
+        color: var(--success);
+        font-size: 0.9rem;
+        width: 18px;
+    }
+
+    /* ---------- Reference Videos ---------- */
+    .ref-videos {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
         margin-top: 12px;
     }
 
+    @media (max-width: 600px) {
+        .ref-videos {
+            grid-template-columns: 1fr;
+        }
+    }
+
     .ref-video-item {
-        flex: 1;
-        min-width: 220px;
-        background: #f8fafc;
-        border-radius: 12px;
+        background: var(--gray-900);
+        border-radius: var(--radius-md);
         overflow: hidden;
         border: 2px solid transparent;
-        transition: all 0.3s ease;
+        transition: var(--transition);
     }
 
     .ref-video-item:hover {
-        transform: scale(1.01);
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        transform: scale(1.02);
+        box-shadow: var(--shadow-lg);
     }
 
     .ref-video-item.normal {
-        border-color: #10b981;
+        border-color: var(--success);
     }
 
     .ref-video-item.abnormal {
-        border-color: #ef4444;
+        border-color: var(--danger);
     }
 
     .ref-video-item video {
         width: 100%;
-        max-height: 200px;
+        max-height: 160px;
         object-fit: cover;
         display: block;
         background: #0f172a;
     }
 
     .ref-video-item .label {
-        padding: 10px 16px;
-        font-size: 0.85rem;
+        padding: 10px 14px;
+        font-size: 0.75rem;
         font-weight: 600;
         text-align: center;
-        letter-spacing: 0.01em;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
     }
 
     .ref-video-item.normal .label {
-        background: #ecfdf5;
+        background: var(--success-light);
         color: #065f46;
     }
 
     .ref-video-item.abnormal .label {
-        background: #fef2f2;
+        background: var(--danger-light);
         color: #991b1b;
     }
 
     .ref-note {
-        font-size: 0.8rem;
-        color: #6b7280;
+        font-size: 0.75rem;
+        color: var(--gray-400);
         text-align: center;
-        margin-top: 12px;
+        margin-top: 10px;
+    }
+
+    /* ---------- Workflow ---------- */
+    .workflow-items {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        margin-top: 8px;
+    }
+
+    .workflow-item {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        font-size: 0.85rem;
+        padding: 8px 12px;
+        border-radius: var(--radius-sm);
+        background: var(--gray-50);
+        color: var(--gray-700);
+        transition: var(--transition);
+    }
+
+    .workflow-item:hover {
+        background: white;
+        box-shadow: var(--shadow-sm);
+    }
+
+    .workflow-item .dot {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.65rem;
+        font-weight: 700;
+        color: white;
+        flex-shrink: 0;
+    }
+
+    .workflow-item .dot.completed {
+        background: var(--success);
+    }
+
+    .workflow-item .dot.current {
+        background: var(--primary-gradient);
+        box-shadow: 0 0 0 4px rgba(74,108,247,0.2);
+        animation: pulse-dot 2s infinite;
+    }
+
+    .workflow-item .dot.locked {
+        background: var(--gray-300);
+    }
+
+    @keyframes pulse-dot {
+        0%, 100% { box-shadow: 0 0 0 4px rgba(74,108,247,0.2); }
+        50% { box-shadow: 0 0 0 8px rgba(74,108,247,0.05); }
+    }
+
+    .workflow-item .status {
+        font-size: 0.65rem;
+        color: var(--gray-400);
+        margin-left: auto;
+        font-weight: 600;
+        background: white;
+        padding: 2px 12px;
+        border-radius: 30px;
+        border: 1px solid var(--gray-200);
+    }
+
+    .workflow-item .status.active {
+        background: var(--primary-light);
+        color: var(--primary);
+        border-color: var(--primary);
     }
 
     /* ==========================================
-       CAMERA - EXPAND ON LIVE
+       RECORDING SECTION
        ========================================== */
+    .recording-methods {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 16px;
+        background: var(--gray-50);
+        padding: 4px;
+        border-radius: var(--radius-sm);
+        border: 1px solid var(--gray-200);
+    }
+
+    .recording-methods .btn {
+        flex: 1;
+        padding: 10px 16px;
+        border: none;
+        border-radius: var(--radius-sm);
+        background: transparent;
+        color: var(--gray-500);
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 0.8rem;
+        transition: var(--transition);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+    }
+
+    .recording-methods .btn:hover {
+        color: var(--gray-700);
+    }
+
+    .recording-methods .btn.active {
+        background: white;
+        color: var(--primary);
+        box-shadow: var(--shadow-sm);
+    }
+
+    /* ---------- Camera Container ---------- */
     .camera-container {
-        background: #0f172a;
-        border-radius: 14px;
+        background: var(--gray-900);
+        border-radius: var(--radius-md);
         overflow: hidden;
         position: relative;
-        margin: 16px 0;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
-        transition: all 0.3s ease;
-        min-height: 280px;
+        margin: 12px 0;
+        min-height: 260px;
+        transition: var(--transition);
     }
 
     .camera-container.live-active {
-        min-height: 420px;
+        min-height: 380px;
     }
 
     .camera-container video {
@@ -377,7 +576,7 @@
     }
 
     .camera-container.live-active video {
-        min-height: 380px;
+        min-height: 340px;
     }
 
     #pose-canvas {
@@ -400,16 +599,16 @@
     }
 
     .camera-overlay h3 {
-        font-size: 1.6rem;
+        font-size: 1.2rem;
         font-weight: 700;
-        text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
+        text-shadow: 0 4px 20px rgba(0,0,0,0.8);
         margin-bottom: 4px;
     }
 
     .camera-overlay p {
-        font-size: 0.9rem;
-        opacity: 0.8;
-        text-shadow: 0 2px 12px rgba(0, 0, 0, 0.8);
+        font-size: 0.85rem;
+        opacity: 0.7;
+        text-shadow: 0 2px 12px rgba(0,0,0,0.8);
     }
 
     .countdown-display {
@@ -417,10 +616,10 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        font-size: 6rem;
+        font-size: 5rem;
         font-weight: 800;
         color: white;
-        text-shadow: 0 0 60px rgba(0, 0, 0, 0.9);
+        text-shadow: 0 0 60px rgba(0,0,0,0.9);
         z-index: 20;
         display: none;
     }
@@ -429,11 +628,11 @@
         position: absolute;
         top: 14px;
         right: 14px;
-        background: rgba(239, 68, 68, 0.9);
+        background: rgba(239,68,68,0.9);
         color: white;
         padding: 4px 16px;
-        border-radius: 20px;
-        font-size: 0.75rem;
+        border-radius: 30px;
+        font-size: 0.7rem;
         font-weight: 700;
         z-index: 15;
         display: none;
@@ -444,23 +643,16 @@
     }
 
     .recording-indicator .dot {
-        width: 10px;
-        height: 10px;
+        width: 8px;
+        height: 8px;
         background: white;
         border-radius: 50%;
         display: inline-block;
     }
 
     @keyframes blink {
-
-        0%,
-        100% {
-            opacity: 1;
-        }
-
-        50% {
-            opacity: 0.5;
-        }
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.5; }
     }
 
     .feedback-overlay {
@@ -468,13 +660,12 @@
         bottom: 16px;
         left: 50%;
         transform: translateX(-50%);
-        background: rgba(15, 23, 42, 0.85);
+        background: rgba(15,23,42,0.85);
         backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
         color: white;
-        padding: 8px 22px;
+        padding: 6px 20px;
         border-radius: 30px;
-        font-size: 0.85rem;
+        font-size: 0.8rem;
         z-index: 15;
         pointer-events: none;
         text-align: center;
@@ -484,111 +675,61 @@
         font-weight: 500;
     }
 
-    .feedback-overlay.success {
-        border-color: #10b981;
-    }
+    .feedback-overlay.success { border-color: var(--success); }
+    .feedback-overlay.warning { border-color: var(--warning); }
+    .feedback-overlay.error { border-color: var(--danger); }
+    .feedback-overlay.info { border-color: var(--primary); }
 
-    .feedback-overlay.warning {
-        border-color: #f59e0b;
-    }
-
-    .feedback-overlay.error {
-        border-color: #ef4444;
-    }
-
-    .feedback-overlay.info {
-        border-color: #3b82f6;
-    }
-
-    /* ---------- Recording Methods ---------- */
-    .recording-methods {
-        display: flex;
-        gap: 12px;
-        margin: 16px 0 20px;
-    }
-
-    .recording-methods .btn {
-        padding: 10px 24px;
-        border: 2px solid #e2e8f0;
-        border-radius: 10px;
-        background: white;
-        color: #475569;
-        cursor: pointer;
-        font-weight: 600;
-        font-size: 0.9rem;
-        transition: all 0.25s ease;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-    }
-
-    .recording-methods .btn i {
-        font-size: 1rem;
-    }
-
-    .recording-methods .btn:hover {
-        border-color: #4A6CF7;
-        color: #4A6CF7;
-        background: #f8faff;
-    }
-
-    .recording-methods .btn.active {
-        background: #4A6CF7;
-        color: white;
-        border-color: #4A6CF7;
-        box-shadow: 0 4px 12px rgba(74, 108, 247, 0.25);
-    }
-
-    /* ---------- Buttons Group ---------- */
+    /* ---------- Buttons ---------- */
     .btn-group {
         display: flex;
-        gap: 12px;
+        gap: 8px;
         flex-wrap: wrap;
-        margin-top: 14px;
+        margin-top: 12px;
     }
 
     .btn-group .btn {
-        padding: 10px 24px;
+        padding: 10px 20px;
         border: none;
-        border-radius: 10px;
+        border-radius: var(--radius-sm);
         font-weight: 600;
-        font-size: 0.85rem;
+        font-size: 0.8rem;
         cursor: pointer;
-        transition: all 0.25s ease;
+        transition: var(--transition);
         display: flex;
         align-items: center;
         gap: 8px;
     }
 
     .btn-group .btn-success {
-        background: #10b981;
+        background: var(--success);
         color: white;
     }
 
     .btn-group .btn-success:hover:not(:disabled) {
         background: #059669;
         transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        box-shadow: 0 4px 12px rgba(16,185,129,0.3);
     }
 
     .btn-group .btn-danger {
-        background: #ef4444;
+        background: var(--danger);
         color: white;
     }
 
     .btn-group .btn-danger:hover:not(:disabled) {
         background: #dc2626;
         transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+        box-shadow: 0 4px 12px rgba(239,68,68,0.3);
     }
 
     .btn-group .btn-secondary {
-        background: #94a3b8;
-        color: white;
+        background: var(--gray-200);
+        color: var(--gray-600);
     }
 
     .btn-group .btn-secondary:hover:not(:disabled) {
-        background: #64748b;
+        background: var(--gray-300);
     }
 
     .btn-group .btn:disabled {
@@ -597,8 +738,49 @@
         transform: none !important;
     }
 
-    .hidden {
-        display: none !important;
+    .record-tip {
+        font-size: 0.75rem;
+        color: var(--gray-400);
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .hidden { display: none !important; }
+
+    /* ---------- Upload Area ---------- */
+    .upload-area {
+        display: block;
+        padding: 28px;
+        border: 2px dashed var(--gray-200);
+        border-radius: var(--radius-md);
+        text-align: center;
+        cursor: pointer;
+        background: var(--gray-50);
+        transition: var(--transition);
+    }
+
+    .upload-area:hover {
+        border-color: var(--primary);
+        background: var(--primary-light);
+    }
+
+    .upload-area .icon {
+        font-size: 2rem;
+        color: var(--gray-400);
+        display: block;
+        margin-bottom: 8px;
+    }
+
+    .upload-area strong {
+        display: block;
+        font-size: 0.95rem;
+        color: var(--gray-700);
+    }
+
+    .upload-area small {
+        color: var(--gray-400);
+        font-size: 0.75rem;
     }
 
     /* ---------- Submission Panel ---------- */
@@ -606,13 +788,19 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        background: linear-gradient(135deg, #f8faff 0%, #eef2ff 100%);
-        padding: 18px 24px;
-        border-radius: 14px;
+        background: var(--gray-50);
+        padding: 16px 20px;
+        border-radius: var(--radius-md);
         flex-wrap: wrap;
         gap: 16px;
         margin-top: 16px;
-        border: 1px solid #e0e7ff;
+        border: 1px solid var(--gray-200);
+        transition: var(--transition);
+    }
+
+    .submission-panel:hover {
+        border-color: var(--primary);
+        box-shadow: var(--shadow-sm);
     }
 
     .submission-panel .left {
@@ -623,40 +811,41 @@
 
     .submission-panel .left i {
         font-size: 1.5rem;
-        color: #4A6CF7;
+        color: var(--primary);
         background: white;
         padding: 10px;
-        border-radius: 12px;
-        box-shadow: 0 2px 8px rgba(74, 108, 247, 0.1);
+        border-radius: var(--radius-sm);
+        box-shadow: var(--shadow-sm);
     }
 
     .submission-panel .left h3 {
-        font-size: 0.95rem;
+        font-size: 0.9rem;
         font-weight: 700;
         margin: 0;
-        color: #1a1a2e;
+        color: var(--gray-900);
     }
 
     .submission-panel .left p {
         font-size: 0.8rem;
-        color: #6b7280;
+        color: var(--gray-500);
         margin: 0;
     }
 
     .btn-submit {
-        background: linear-gradient(135deg, #4A6CF7 0%, #7c3aed 100%);
+        background: var(--primary-gradient);
         color: white;
         padding: 12px 32px;
         border: none;
-        border-radius: 10px;
+        border-radius: var(--radius-sm);
         font-weight: 700;
-        font-size: 0.95rem;
+        font-size: 0.9rem;
         cursor: pointer;
         display: flex;
         align-items: center;
         gap: 10px;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 16px rgba(74, 108, 247, 0.25);
+        transition: var(--transition);
+        box-shadow: 0 4px 16px rgba(74,108,247,0.25);
+        flex-shrink: 0;
     }
 
     .btn-submit:disabled {
@@ -667,87 +856,35 @@
 
     .btn-submit:not(:disabled):hover {
         transform: translateY(-2px);
-        box-shadow: 0 8px 32px rgba(74, 108, 247, 0.35);
+        box-shadow: 0 8px 32px rgba(74,108,247,0.35);
     }
 
     .completion-badge {
         background: white;
         padding: 4px 16px;
         border-radius: 30px;
-        font-size: 0.8rem;
+        font-size: 0.75rem;
         font-weight: 700;
-        color: #1a1a2e;
-        border: 1px solid #e2e8f0;
-        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.02);
+        color: var(--gray-700);
+        border: 1px solid var(--gray-200);
+        box-shadow: var(--shadow-sm);
     }
 
     .completion-badge .num {
-        color: #4A6CF7;
-        font-size: 1rem;
+        color: var(--primary);
+        font-size: 0.95rem;
     }
 
-    /* ---------- Workflow ---------- */
-    .workflow-items {
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-    }
-
-    .workflow-item {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        font-size: 0.85rem;
-        padding: 6px 0;
-        color: #1f2937;
-    }
-
-    .workflow-item .dot {
-        width: 24px;
-        height: 24px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 0.65rem;
-        font-weight: 700;
-        color: white;
-        flex-shrink: 0;
-        transition: all 0.3s;
-    }
-
-    .workflow-item .dot.completed {
-        background: #10b981;
-    }
-
-    .workflow-item .dot.current {
-        background: #4A6CF7;
-        box-shadow: 0 0 0 4px rgba(74, 108, 247, 0.2);
-        animation: pulse 2s infinite;
-    }
-
-    .workflow-item .dot.locked {
-        background: #cbd5e1;
-    }
-
-    .workflow-item .status {
-        font-size: 0.7rem;
-        color: #94a3b8;
-        margin-left: auto;
-        font-weight: 500;
-        background: #f1f5f9;
-        padding: 2px 12px;
-        border-radius: 30px;
-    }
-
-    /* ---------- Results ---------- */
+    /* ==========================================
+       RESULTS SECTION
+       ========================================== */
     .result-card {
         background: white;
-        border-radius: 16px;
-        padding: 28px;
-        border: 1px solid #e2e8f0;
+        border-radius: var(--radius-lg);
+        padding: 32px;
+        border: 1px solid var(--gray-200);
         margin-top: 24px;
-        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+        box-shadow: var(--shadow-sm);
     }
 
     .result-card .result-header {
@@ -755,48 +892,60 @@
         justify-content: space-between;
         align-items: center;
         margin-bottom: 20px;
+        flex-wrap: wrap;
+        gap: 12px;
     }
 
     .result-card .result-header h2 {
         font-size: 1.2rem;
         font-weight: 700;
         margin: 0;
-        color: #1a1a2e;
+        color: var(--gray-900);
     }
 
     .result-status {
-        padding: 24px;
-        border-radius: 14px;
+        padding: 28px;
+        border-radius: var(--radius-md);
         text-align: center;
         margin-bottom: 20px;
     }
 
     .result-status.pd {
-        background: linear-gradient(135deg, #fef2f2 0%, #fecaca 100%);
+        background: var(--danger-light);
         border: 1px solid #fca5a5;
     }
 
     .result-status.control {
-        background: linear-gradient(135deg, #f0fdf4 0%, #bbf7d0 100%);
+        background: var(--success-light);
         border: 1px solid #86efac;
     }
 
+    .result-status.borderline {
+        background: var(--warning-light);
+        border: 1px solid #fcd34d;
+    }
+
     .result-status .big {
-        font-size: 2.4rem;
+        font-size: 2.6rem;
         font-weight: 800;
         letter-spacing: -0.02em;
     }
 
+    .result-status.pd .big { color: var(--danger); }
+    .result-status.control .big { color: var(--success); }
+    .result-status.borderline .big { color: var(--warning); }
+
     .result-status p {
-        margin: 4px 0 0;
+        margin: 6px 0 0;
         font-weight: 500;
-        color: #1f2937;
+        color: var(--gray-700);
     }
 
     .metrics-grid {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
         gap: 12px;
+        margin-bottom: 20px;
     }
 
     @media (max-width: 600px) {
@@ -806,65 +955,231 @@
     }
 
     .metrics-grid .metric {
-        background: #f8fafc;
-        padding: 14px;
-        border-radius: 10px;
+        background: var(--gray-50);
+        padding: 16px;
+        border-radius: var(--radius-sm);
         text-align: center;
-        border: 1px solid #f1f5f9;
-        transition: all 0.2s;
+        border: 1px solid var(--gray-100);
+        transition: var(--transition);
     }
 
     .metrics-grid .metric:hover {
-        background: #eef2ff;
-        border-color: #c7d2fe;
+        background: white;
+        border-color: var(--primary);
+        box-shadow: var(--shadow-sm);
     }
 
     .metrics-grid .metric span {
         display: block;
-        font-size: 0.7rem;
-        color: #94a3b8;
-        font-weight: 500;
+        font-size: 0.65rem;
+        color: var(--gray-400);
+        font-weight: 600;
         text-transform: uppercase;
         letter-spacing: 0.04em;
     }
 
     .metrics-grid .metric strong {
         font-size: 1.2rem;
-        color: #1a1a2e;
+        color: var(--gray-900);
         margin-top: 4px;
         display: block;
+    }
+
+    /* ---------- Model Performance ---------- */
+    .model-performance {
+        background: var(--success-light);
+        border: 1px solid #86efac;
+        border-radius: var(--radius-sm);
+        padding: 16px;
+        margin-top: 12px;
+    }
+
+    .model-performance .content {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .model-performance .content .icon {
+        font-size: 1.8rem;
+    }
+
+    .model-performance .content .info strong {
+        color: #065f46;
+    }
+
+    .model-performance .content .info p {
+        margin: 2px 0 0;
+        color: #065f46;
+        font-size: 0.8rem;
+    }
+
+    /* ---------- Action Guide ---------- */
+    .action-guide {
+        background: var(--primary-light);
+        border: 1px solid #93c5fd;
+        border-radius: var(--radius-sm);
+        padding: 16px;
+        margin-top: 12px;
+    }
+
+    .action-guide strong {
+        color: #1e3a5f;
+    }
+
+    .action-guide ul {
+        margin: 8px 0 0;
+        padding-left: 20px;
+        color: #1e3a5f;
+        font-size: 0.85rem;
+    }
+
+    .action-guide ul li {
+        line-height: 1.8;
+    }
+
+    /* ---------- Privacy Banner ---------- */
+    .privacy-banner {
+        display: flex;
+        gap: 20px;
+        margin-top: 12px;
+        flex-wrap: wrap;
+        padding: 12px 16px;
+        background: var(--gray-50);
+        border-radius: var(--radius-sm);
+        border: 1px solid var(--gray-100);
+    }
+
+    .privacy-banner .item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.75rem;
+        color: var(--gray-500);
+    }
+
+    .privacy-banner .item i {
+        color: var(--primary);
+    }
+
+    /* ---------- Processing ---------- */
+    .processing-card {
+        text-align: center;
+        padding: 48px 20px;
+        background: white;
+        border-radius: var(--radius-lg);
+        border: 1px solid var(--gray-200);
+        box-shadow: var(--shadow-sm);
+    }
+
+    .processing-spinner {
+        width: 48px;
+        height: 48px;
+        border: 4px solid var(--gray-200);
+        border-top: 4px solid var(--primary);
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+        margin: 0 auto 16px;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    .processing-card h3 {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--gray-900);
+    }
+
+    .processing-card p {
+        color: var(--gray-500);
+    }
+
+    .processing-card .progress-track {
+        max-width: 400px;
+        margin: 12px auto 0;
+        height: 6px;
+        background: var(--gray-200);
+        border-radius: 3px;
+        overflow: hidden;
+    }
+
+    .processing-card .progress-track .bar {
+        height: 100%;
+        background: var(--primary-gradient);
+        width: 0%;
+        border-radius: 3px;
+        transition: width 0.3s ease;
+    }
+
+    /* ---------- Error ---------- */
+    .error-card {
+        background: var(--danger-light);
+        border: 1px solid #fca5a5;
+        padding: 32px;
+        border-radius: var(--radius-lg);
+        text-align: center;
+    }
+
+    .error-card h2 {
+        color: #991b1b;
+        font-size: 1.1rem;
+        font-weight: 700;
+        margin: 0 0 8px;
+    }
+
+    .error-card p {
+        color: #7f1d1d;
+        margin: 0 0 16px;
+    }
+
+    .error-card .btn-primary {
+        background: var(--danger);
+        color: white;
+        padding: 10px 28px;
+        border: none;
+        border-radius: var(--radius-sm);
+        font-weight: 600;
+        cursor: pointer;
+        transition: var(--transition);
+    }
+
+    .error-card .btn-primary:hover {
+        background: #dc2626;
     }
 
     /* ---------- Security Banner ---------- */
     .security-banner {
         display: flex;
         align-items: center;
-        gap: 14px;
-        background: #f8fafc;
+        gap: 16px;
+        background: var(--gray-50);
         padding: 14px 24px;
-        border-radius: 14px;
-        margin-top: 28px;
+        border-radius: var(--radius-md);
+        margin-top: 32px;
         font-size: 0.85rem;
         flex-wrap: wrap;
-        border: 1px solid #f1f5f9;
+        border: 1px solid var(--gray-200);
     }
 
     .security-banner i {
-        color: #4A6CF7;
+        color: var(--primary);
         font-size: 1.2rem;
     }
 
     .security-banner a {
-        color: #4A6CF7;
+        color: var(--primary);
         text-decoration: none;
         margin-left: auto;
-        font-size: 0.8rem;
+        font-size: 0.75rem;
         font-weight: 600;
-        transition: color 0.2s;
+        transition: var(--transition);
     }
 
     .security-banner a:hover {
-        color: #7c3aed;
+        color: var(--primary-dark);
     }
 
     @media (max-width: 600px) {
@@ -873,180 +1188,38 @@
         }
     }
 
-    /* ---------- Processing ---------- */
-    .processing-card {
-        text-align: center;
-        padding: 48px 20px;
-        background: white;
-        border-radius: 16px;
-        border: 1px solid #e2e8f0;
-    }
-
-    .processing-spinner {
-        width: 48px;
-        height: 48px;
-        border: 4px solid #e2e8f0;
-        border-top: 4px solid #4A6CF7;
-        border-radius: 50%;
-        animation: spin 0.8s linear infinite;
-        margin: 0 auto 16px;
-    }
-
-    @keyframes spin {
-        0% {
-            transform: rotate(0deg);
+    /* ---------- Responsive ---------- */
+    @media (max-width: 768px) {
+        .gait-hero {
+            flex-direction: column;
+            text-align: center;
+            padding: 32px 24px;
         }
 
-        100% {
-            transform: rotate(360deg);
+        .gait-hero p {
+            max-width: 100%;
         }
-    }
 
-    .processing-card h3 {
-        font-size: 1.2rem;
-        font-weight: 700;
-        color: #1a1a2e;
-    }
+        .gait-hero h1 {
+            font-size: 2rem;
+        }
 
-    .processing-card p {
-        color: #6b7280;
-    }
+        .gait-hero-stats {
+            justify-content: center;
+        }
 
-    /* ---------- Error ---------- */
-    .error-card {
-        background: #fef2f2;
-        border: 1px solid #fca5a5;
-        padding: 24px;
-        border-radius: 14px;
-        text-align: center;
-    }
+        .gait-hero-visual {
+            width: 120px;
+            height: 120px;
+            font-size: 3rem;
+        }
 
-    .error-card h2 {
-        color: #991b1b;
-        font-size: 1.1rem;
-        font-weight: 700;
-    }
-
-    .error-card p {
-        color: #7f1d1d;
-    }
-
-    .error-card .btn-primary {
-        background: #ef4444;
-        color: white;
-        padding: 8px 28px;
-        border: none;
-        border-radius: 8px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.2s;
-        margin-top: 12px;
-    }
-
-    .error-card .btn-primary:hover {
-        background: #dc2626;
-    }
-
-    /* ---------- Misc ---------- */
-    .text-center {
-        text-align: center;
-    }
-
-    .mt-8 {
-        margin-top: 8px;
-    }
-
-    .mt-12 {
-        margin-top: 12px;
-    }
-
-    .mt-16 {
-        margin-top: 16px;
-    }
-
-    .mb-8 {
-        margin-bottom: 8px;
-    }
-
-    .flex {
-        display: flex;
-    }
-
-    .flex-between {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .gap-8 {
-        gap: 8px;
-    }
-
-    .gap-12 {
-        gap: 12px;
-    }
-
-    .divider {
-        height: 1px;
-        background: linear-gradient(to right, transparent, #e2e8f0, transparent);
-        margin: 16px 0;
-    }
-
-    .record-tip {
-        font-size: 0.8rem;
-        color: #94a3b8;
-        padding: 6px 14px;
-        background: #f1f5f9;
-        border-radius: 30px;
-        display: inline-block;
-    }
-
-    /* ---------- Upload Area ---------- */
-    .upload-area {
-        display: block;
-        padding: 32px;
-        border: 2px dashed #cbd5e1;
-        border-radius: 14px;
-        text-align: center;
-        cursor: pointer;
-        background: #fafcff;
-        transition: all 0.3s ease;
-    }
-
-    .upload-area:hover {
-        border-color: #4A6CF7;
-        background: #f8faff;
-    }
-
-    .upload-area .icon {
-        font-size: 2.5rem;
-        margin-bottom: 8px;
-        display: block;
-    }
-
-    .upload-area strong {
-        display: block;
-        font-size: 1rem;
-        color: #1a1a2e;
-    }
-
-    .upload-area small {
-        color: #94a3b8;
-        font-size: 0.8rem;
-    }
-
-    /* ---------- Responsive tweaks ---------- */
-    @media (max-width: 480px) {
-        .gait-container {
+        .gait-page {
             padding: 20px 16px;
         }
 
-        .gait-header h1 {
-            font-size: 1.6rem;
-        }
-
         .gait-card {
-            padding: 18px;
+            padding: 20px;
         }
 
         .submission-panel {
@@ -1063,11 +1236,6 @@
             justify-content: center;
         }
 
-        .recording-methods .btn {
-            flex: 1;
-            justify-content: center;
-        }
-
         .feedback-overlay {
             font-size: 0.7rem;
             padding: 6px 14px;
@@ -1079,20 +1247,20 @@
             gap: 4px;
         }
 
-        .ref-video-item {
-            min-width: 140px;
-        }
-
-        .before-record-card .guidance-grid {
-            grid-template-columns: 1fr;
-        }
-
         .camera-container.live-active {
-            min-height: 300px;
+            min-height: 280px;
         }
 
         .camera-container.live-active video {
-            min-height: 260px;
+            min-height: 240px;
+        }
+
+        .result-card {
+            padding: 20px;
+        }
+
+        .result-status .big {
+            font-size: 2rem;
         }
     }
 </style>
@@ -1100,19 +1268,46 @@
 
 {% block content %}
 
-<div class="gait-container">
+<div class="gait-page">
 
     <!-- ========================================== -->
-    <!-- HEADER -->
+    <!-- HERO SECTION -->
     <!-- ========================================== -->
-    <div class="gait-header">
-        <span class="header-badge">⚡ AI-Powered Screening</span>
-        <h1>🎥 Video Screening</h1>
-        <p>Record or upload a walking video for Parkinson's risk assessment.</p>
-    </div>
+    <section class="gait-hero">
+        <div class="gait-hero-copy">
+            <div class="gait-hero-badge">
+                <i class="fa-solid fa-video"></i>
+                Video Screening · Step 3 of 4
+            </div>
+            <h1>
+                Gait &amp; <span>Movement Analysis</span>
+            </h1>
+            <p>
+                Record or upload a walking video for AI-powered Parkinson's risk assessment.
+                Analyze gait patterns, balance, and movement indicators.
+            </p>
+            <div class="gait-hero-stats">
+                <div class="gait-hero-stat">
+                    <span class="number">86.4%</span>
+                    <span class="label">Model Accuracy</span>
+                </div>
+                <div class="gait-hero-stat">
+                    <span class="number">292</span>
+                    <span class="label">Training Samples</span>
+                </div>
+                <div class="gait-hero-stat">
+                    <span class="number">50</span>
+                    <span class="label">Frames Analyzed</span>
+                </div>
+            </div>
+        </div>
+        <div class="gait-hero-visual" aria-hidden="true">
+            <i class="fa-solid fa-person-walking"></i>
+        </div>
+    </section>
 
     <!-- ========================================== -->
-    <!-- PROGRESS -->
+    <!-- PROGRESS CARD -->
     <!-- ========================================== -->
     <div class="progress-card">
         <div class="header">
@@ -1124,74 +1319,74 @@
         </div>
         <div class="footer">
             <span>✅ 3 of 4 modules completed</span>
-
+            <span>⏱️ Estimated time remaining: ~10 mins</span>
         </div>
     </div>
 
     <!-- ========================================== -->
-    <!-- TWO COLUMN LAYOUT -->
+    <!-- MAIN GRID -->
     <!-- ========================================== -->
-    <div class="gait-two-col">
+    <div class="gait-grid">
 
         <!-- ===== LEFT COLUMN ===== -->
         <div>
 
-            <!-- Before you record - PROMINENT -->
-            <div class="gait-card before-record-card animate-in">
-                <span class="badge">📌 Important</span>
-                <h3>📋 Before you record</h3>
-                <p style="color:#475569;font-size:0.9rem;margin-bottom:12px;">Follow these guidelines for the best
-                    results:</p>
+            <!-- Before you record -->
+            <div class="gait-card">
+                <div class="card-header">
+                    <div class="card-icon"><i class="fa-solid fa-circle-info"></i></div>
+                    <div>
+                        <h3>Preparation Checklist</h3>
+                        <p class="card-sub">Follow these guidelines for optimal results</p>
+                    </div>
+                </div>
                 <ul class="guidance-grid">
-                    <li><i class="fa-solid fa-check-circle" style="color:#10b981;"></i> Side view (profile)</li>
-                    <li><i class="fa-solid fa-check-circle" style="color:#10b981;"></i> Camera at waist height</li>
-                    <li><i class="fa-solid fa-check-circle" style="color:#10b981;"></i> Full body visible</li>
-                    <li><i class="fa-solid fa-check-circle" style="color:#10b981;"></i> Walk in a straight line</li>
-                    <li><i class="fa-solid fa-check-circle" style="color:#10b981;"></i> Well-lit area</li>
-                    <li><i class="fa-solid fa-check-circle" style="color:#10b981;"></i> Contrasting clothing</li>
+                    <li><i class="fa-solid fa-check-circle"></i> Side view (profile)</li>
+                    <li><i class="fa-solid fa-check-circle"></i> Camera at waist height</li>
+                    <li><i class="fa-solid fa-check-circle"></i> Full body visible</li>
+                    <li><i class="fa-solid fa-check-circle"></i> Walk in a straight line</li>
+                    <li><i class="fa-solid fa-check-circle"></i> Well-lit area</li>
+                    <li><i class="fa-solid fa-check-circle"></i> Contrasting clothing</li>
                 </ul>
             </div>
 
-
-            <!-- Reference Videos - LARGER -->
-            <div class="gait-card animate-in">
-                <div class="flex-between">
-                    <div class="card-icon" style="margin-bottom:0;"><i class="fa-solid fa-video"></i></div>
-                    <span
-                        style="font-size:0.75rem;color:#94a3b8;font-weight:500;background:#f1f5f9;padding:2px 14px;border-radius:30px;">📹
-                        Watch to understand</span>
+            <!-- Reference Videos -->
+            <div class="gait-card" style="margin-top:20px;">
+                <div class="card-header">
+                    <div class="card-icon"><i class="fa-solid fa-video"></i></div>
+                    <div>
+                        <h3>Reference Videos</h3>
+                        <p class="card-sub">See examples of good quality walking videos</p>
+                    </div>
                 </div>
-                <h3>Reference Videos</h3>
-                <p style="color:#6b7280;font-size:0.85rem;margin-bottom:12px;">See examples of good quality walking
-                    videos:</p>
                 <div class="ref-videos">
                     <div class="ref-video-item normal">
-                        <video controls muted preload="metadata"
-                            poster="{% static 'speech_app/images/video-placeholder.png' %}">
+                        <video controls muted preload="metadata" poster="{% static 'speech_app/images/video-placeholder.png' %}">
                             <source src="{% static 'gait_app/videos/normal_gait.mp4' %}" type="video/mp4">
-                            Your browser does not support the video tag.
                         </video>
-                        <div class="label">✅ Normal Gait · Side view · Steady pace</div>
+                        <div class="label">✅ Normal Gait · Steady pace</div>
                     </div>
                     <div class="ref-video-item abnormal">
-                        <video controls muted preload="metadata"
-                            poster="{% static 'speech_app/images/video-placeholder.png' %}">
+                        <video controls muted preload="metadata" poster="{% static 'speech_app/images/video-placeholder.png' %}">
                             <source src="{% static 'gait_app/videos/abnormal_gait.mp4' %}" type="video/mp4">
-                            Your browser does not support the video tag.
                         </video>
-                        <div class="label">⚠️ Abnormal Gait · Shorter steps · Reduced arm swing</div>
+                        <div class="label">⚠️ Abnormal Gait · Shorter steps</div>
                     </div>
                 </div>
-                <div class="ref-note" style="font-size:0.8rem;color:#6b7280;margin-top:12px;">
-                    <i class="fa-regular fa-circle-info"></i> Your recording should be 10-15 seconds of walking from a
-                    side view.
+                <div class="ref-note">
+                    <i class="fa-regular fa-circle-info"></i> Record 10-15 seconds of walking from a side view
                 </div>
             </div>
 
             <!-- Workflow -->
-            <div class="gait-card animate-in">
-                <div class="card-icon"><i class="fa-solid fa-diagram-project"></i></div>
-                <h3>📋 Screening Workflow</h3>
+            <div class="gait-card" style="margin-top:20px;">
+                <div class="card-header">
+                    <div class="card-icon success"><i class="fa-solid fa-diagram-project"></i></div>
+                    <div>
+                        <h3>Screening Workflow</h3>
+                        <p class="card-sub">Track your progress through the assessment</p>
+                    </div>
+                </div>
                 <div class="workflow-items">
                     <div class="workflow-item">
                         <span class="dot completed"><i class="fa-solid fa-check"></i></span>
@@ -1206,7 +1401,7 @@
                     <div class="workflow-item">
                         <span class="dot current">3</span>
                         <span><strong>Video Analysis</strong></span>
-                        <span class="status" style="background:#eef2ff;color:#4A6CF7;">In Progress</span>
+                        <span class="status active">In Progress</span>
                     </div>
                     <div class="workflow-item">
                         <span class="dot locked"><i class="fa-solid fa-lock"></i></span>
@@ -1221,13 +1416,18 @@
         <!-- ===== RIGHT COLUMN ===== -->
         <div>
 
-            <!-- Recording Methods -->
-            <div class="gait-card animate-in">
-                <div class="card-icon"><i class="fa-solid fa-camera"></i></div>
-                <h3>🎬 Recording Methods</h3>
+            <!-- Recording -->
+            <div class="gait-card">
+                <div class="card-header">
+                    <div class="card-icon"><i class="fa-solid fa-camera"></i></div>
+                    <div>
+                        <h3>Recording Method</h3>
+                        <p class="card-sub">Choose how to provide your video</p>
+                    </div>
+                </div>
+
                 <div class="recording-methods">
-                    <button class="btn active" id="btn-live-record"><i class="fa-solid fa-camera"></i> Record
-                        Live</button>
+                    <button class="btn active" id="btn-live-record"><i class="fa-solid fa-camera"></i> Record Live</button>
                     <button class="btn" id="btn-file-upload"><i class="fa-solid fa-upload"></i> Upload File</button>
                 </div>
 
@@ -1250,22 +1450,17 @@
                     </div>
 
                     <div class="btn-group">
-                        <button class="btn btn-success" id="btn-start-camera"><i class="fa-solid fa-play"></i> Start
-                            Camera</button>
-                        <button class="btn btn-danger" id="btn-start-recording" disabled><i
-                                class="fa-solid fa-circle"></i> Record (10s)</button>
-                        <button class="btn btn-secondary" id="btn-stop-recording" disabled><i
-                                class="fa-solid fa-stop"></i> Stop</button>
+                        <button class="btn btn-success" id="btn-start-camera"><i class="fa-solid fa-play"></i> Start Camera</button>
+                        <button class="btn btn-danger" id="btn-start-recording" disabled><i class="fa-solid fa-circle"></i> Record (10s)</button>
+                        <button class="btn btn-secondary" id="btn-stop-recording" disabled><i class="fa-solid fa-stop"></i> Stop</button>
                     </div>
 
                     <div style="display:flex;align-items:center;gap:12px;margin-top:10px;flex-wrap:wrap;">
-                        <span class="record-tip"><i class="fa-solid fa-info-circle"></i> Auto-stops after 10s</span>
-                        <span id="recording-timer-display"
-                            style="font-weight:700;color:#4A6CF7;font-size:0.9rem;"></span>
+                        <span class="record-tip"><i class="fa-regular fa-clock"></i> Auto-stops after 10s</span>
+                        <span id="recording-timer-display" style="font-weight:700;color:var(--primary);font-size:0.9rem;"></span>
                     </div>
 
-                    <video id="recorded-video" controls
-                        style="width:100%;margin-top:12px;display:none;border-radius:12px;background:#0f172a;box-shadow:0 4px 16px rgba(0,0,0,0.08);"></video>
+                    <video id="recorded-video" controls style="width:100%;margin-top:12px;display:none;border-radius:var(--radius-sm);background:var(--gray-900);"></video>
                 </div>
 
                 <!-- File Upload -->
@@ -1277,28 +1472,24 @@
                             <strong>Upload video file</strong>
                             <small>MP4, AVI, MOV, MKV</small>
                         </label>
-                        <p id="file-name-1" style="font-weight:600;margin-top:10px;color:#1a1a2e;"></p>
-                        <video id="uploaded-video-preview" controls
-                            style="width:100%;margin-top:10px;display:none;border-radius:12px;background:#0f172a;"></video>
+                        <p id="file-name-1" style="font-weight:600;margin-top:10px;color:var(--gray-700);"></p>
+                        <video id="uploaded-video-preview" controls style="width:100%;margin-top:10px;display:none;border-radius:var(--radius-sm);background:var(--gray-900);"></video>
                     </form>
                 </div>
             </div>
 
             <!-- Submit -->
-            <div class="gait-card animate-in">
-                <div class="flex-between" style="margin-bottom:6px;">
+            <div class="gait-card" style="margin-top:20px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px;">
                     <div>
-                        <span
-                            style="font-size:0.7rem;font-weight:700;color:#4A6CF7;text-transform:uppercase;letter-spacing:0.06em;">Gait
-                            Analysis</span>
-                        <h3 style="margin:0;">Submit for Analysis</h3>
+                        <span style="font-size:0.65rem;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:0.06em;">Gait Analysis</span>
+                        <h3 style="margin:0;font-size:1rem;">Submit for Analysis</h3>
                     </div>
                     <div class="completion-badge">
                         <span class="num" id="completed-count">0</span>/1 ready
                     </div>
                 </div>
-                <p style="font-size:0.85rem;color:#6b7280;margin-top:8px;">Once you have a video ready, click the button
-                    below to analyze.</p>
+                <p style="font-size:0.85rem;color:var(--gray-500);margin-top:0;">Once you have a video ready, click the button below to analyze.</p>
 
                 <div class="submission-panel">
                     <div class="left">
@@ -1325,10 +1516,9 @@
         <div class="processing-card">
             <div class="processing-spinner"></div>
             <h3>🔍 Analyzing your video...</h3>
-            <p id="processing-message" style="color:#6b7280;">Processing gait patterns and movement features.</p>
-            <div class="progress-track" style="max-width:400px;margin:12px auto 0;height:6px;">
-                <div id="analysis-progress-bar" style="width:0%;height:100%;background:#4A6CF7;border-radius:3px;">
-                </div>
+            <p id="processing-message" style="color:var(--gray-500);">Processing gait patterns and movement features.</p>
+            <div class="progress-track">
+                <div id="analysis-progress-bar" class="bar"></div>
             </div>
         </div>
     </section>
@@ -1340,8 +1530,7 @@
         <div class="result-card">
             <div class="result-header">
                 <h2>📊 Gait Analysis Result</h2>
-                <button class="btn btn-secondary" id="restart-screening"
-                    style="padding:8px 20px;border:none;border-radius:8px;background:#f1f5f9;color:#475569;font-weight:600;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:6px;">
+                <button class="btn btn-secondary" id="restart-screening" style="padding:8px 20px;border:none;border-radius:var(--radius-sm);background:var(--gray-100);color:var(--gray-600);font-weight:600;cursor:pointer;transition:var(--transition);display:flex;align-items:center;gap:6px;">
                     <i class="fa-solid fa-arrow-rotate-right"></i> Start again
                 </button>
             </div>
@@ -1355,16 +1544,41 @@
                 <div class="metric"><span>Gait Symmetry</span><strong id="result-symmetry">—</strong></div>
                 <div class="metric"><span>Cadence</span><strong id="result-cadence">—</strong></div>
             </div>
-            <div style="margin-top:20px;">
-                <h4 style="font-size:0.9rem;font-weight:700;color:#1a1a2e;margin-bottom:12px;">🔬 Extracted Features
-                </h4>
-                <div class="metrics-grid" id="quality-results-grid"></div>
+
+            <!-- Model Performance -->
+            <div class="model-performance">
+                <div class="content">
+                    <span class="icon">🎯</span>
+                    <div class="info">
+                        <strong>Model Performance</strong>
+                        <p>LSTM Model • 86.4% Accuracy • Trained on 292 clinical samples</p>
+                    </div>
+                </div>
             </div>
-            <div class="divider"></div>
-            <div class="disclaimer-panel"
-                style="padding:12px;background:#f8fafc;border-radius:10px;font-size:0.8rem;color:#94a3b8;text-align:center;">
-                <i class="fa-solid fa-circle-info"></i> This result is intended for screening purposes only and is not a
-                medical diagnosis.
+
+            <!-- Action Guide -->
+            <div class="action-guide">
+                <strong>📋 Recommended Next Steps</strong>
+                <ul id="action-list">
+                    <li>✅ Continue regular health checkups</li>
+                    <li>💪 Maintain physical activity for brain health</li>
+                    <li>📊 Repeat screening annually or as recommended</li>
+                    <li>📝 Stay aware of any new symptoms</li>
+                </ul>
+            </div>
+
+            <!-- Privacy Banner -->
+            <div class="privacy-banner">
+                <div class="item"><i class="fa-solid fa-lock"></i> Data encrypted</div>
+                <div class="item"><i class="fa-solid fa-shield-halved"></i> No permanent storage</div>
+                <div class="item"><i class="fa-solid fa-clock"></i> Results expire in 24h</div>
+            </div>
+
+            <hr style="border:none;border-top:1px solid var(--gray-200);margin:16px 0;">
+
+            <!-- Disclaimer -->
+            <div style="padding:12px;background:var(--gray-50);border-radius:var(--radius-sm);font-size:0.75rem;color:var(--gray-400);text-align:center;">
+                <i class="fa-solid fa-circle-info"></i> This result is intended for screening purposes only and is not a medical diagnosis.
             </div>
         </div>
     </section>
@@ -1383,7 +1597,7 @@
     </section>
 
     <!-- ========================================== -->
-    <!-- SECURITY -->
+    <!-- SECURITY BANNER -->
     <!-- ========================================== -->
     <div class="security-banner">
         <i class="fa-solid fa-shield-halved"></i>
@@ -1436,9 +1650,9 @@
         const resultConfidence = document.getElementById('result-confidence');
         const resultSymmetry = document.getElementById('result-symmetry');
         const resultCadence = document.getElementById('result-cadence');
-        const qualityGrid = document.getElementById('quality-results-grid');
         const restartBtn = document.getElementById('restart-screening');
         const dismissError = document.getElementById('dismiss-error');
+        const actionList = document.getElementById('action-list');
 
         // State
         let stream = null;
@@ -1476,7 +1690,6 @@
             fileSection.classList.add('hidden');
             btnLive.classList.add('active');
             btnFile.classList.remove('active');
-            // Expand camera
             document.getElementById('camera-container').classList.add('live-active');
             if (stream) stopCamera();
         });
@@ -1507,7 +1720,6 @@
                 btnStartCamera.innerHTML = '✅ Camera Active';
                 btnStartRecording.disabled = false;
                 cameraOverlay.style.display = 'none';
-                // Expand camera container
                 document.getElementById('camera-container').classList.add('live-active');
                 updateFeedback('✅ Ready to record. Position camera for side view.', 'success');
 
@@ -1751,203 +1963,76 @@
         }
 
         // ============================================================
-        // DISPLAY RESULTS (UPDATED WITH ALL 15 FEATURES + SCALING STATUS)
+        // DISPLAY RESULTS
         // ============================================================
 
         function displayResults(data) {
             resultSection.hidden = false;
 
             const isPD = data.prediction === 'PD';
+            const isControl = data.prediction === 'Control';
+            const isBorderline = data.prediction === 'Borderline';
+
             const statusCard = document.getElementById('result-status-card');
-            statusCard.className = 'result-status ' + (isPD ? 'pd' : 'control');
-            resultCategory.textContent = data.prediction;
-            resultCategory.style.color = isPD ? '#dc2626' : '#16a34a';
-            resultMessage.textContent = isPD ?
-                'Movement patterns show indicators associated with Parkinsonian gait.' :
-                'Gait patterns appear within typical range.';
+            statusCard.className = 'result-status ' + (isPD ? 'pd' : isBorderline ? 'borderline' : 'control');
+            resultCategory.textContent = data.prediction || '—';
+
+            if (isPD) {
+                resultMessage.textContent = '⚠️ Movement patterns show indicators associated with Parkinsonian gait. We recommend consulting a neurologist.';
+            } else if (isBorderline) {
+                resultMessage.textContent = '🟡 Gait patterns show some borderline indicators. Further assessment is recommended.';
+            } else {
+                resultMessage.textContent = '✅ Gait patterns appear within typical range.';
+            }
 
             resultScore.textContent = (data.pd_probability * 100).toFixed(1) + '%';
             resultConfidence.textContent = (Math.max(data.pd_probability, data.control_probability) * 100).toFixed(1) + '%';
+            
+            resultSymmetry.textContent = '—';
+            resultCadence.textContent = '—';
 
-            if (data.features) {
-                resultSymmetry.textContent = data.features.symmetry_index ? data.features.symmetry_index.toFixed(1) + '%' : '—';
-                resultCadence.textContent = data.features.cadence ? data.features.cadence.toFixed(1) + ' steps/min' : '—';
-            }
-
-            // ============================================================
-            // QUALITY GRID: Show abnormal features, scaling status, and all 15 features
-            // ============================================================
-            qualityGrid.innerHTML = '';
-
-            // 1. Abnormal Features (only when PD)
-            if (isPD && data.abnormal_features && data.abnormal_features.length > 0) {
-                const abnormalContainer = document.createElement('div');
-                abnormalContainer.style.cssText = `
-                    grid-column: 1 / -1;
-                    background: #fef2f2;
-                    border: 1px solid #fca5a5;
-                    border-radius: 10px;
-                    padding: 16px;
-                    margin-bottom: 12px;
-                `;
-
-                let abnormalHtml = `
-                    <h4 style="color: #991b1b; margin: 0 0 8px 0; font-size: 0.95rem;">
-                        ⚠️ Abnormal Features Detected
-                    </h4>
-                    <p style="font-size: 0.8rem; color: #7f1d1d; margin-bottom: 10px;">
-                        The following gait features are outside the normal range:
-                    </p>
-                    <ul style="list-style: none; padding: 0; margin: 0;">
-                `;
-
-                for (const item of data.abnormal_features) {
-                    const severityColor = item.severity === 'High' ? '#dc2626' : '#f59e0b';
-                    abnormalHtml += `
-                        <li style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; margin-bottom: 4px; background: rgba(255,255,255,0.7); border-radius: 6px; border-left: 4px solid ${severityColor}; flex-wrap: wrap; gap: 4px;">
-                            <div>
-                                <strong>${item.name}</strong>
-                                <span style="font-size: 0.7rem; color: #6b7280;">(${item.description})</span>
-                            </div>
-                            <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
-                                <span style="font-weight: 600;">${item.value}</span>
-                                <span style="font-size: 0.65rem; color: #6b7280;">Normal: ${item.normal_range}</span>
-                                <span style="display: inline-block; padding: 1px 10px; border-radius: 12px; font-size: 0.6rem; font-weight: 600; background: ${severityColor}; color: white;">${item.severity}</span>
-                            </div>
-                        </li>
-                    `;
-                }
-
-                abnormalHtml += `</ul>`;
-                abnormalContainer.innerHTML = abnormalHtml;
-                qualityGrid.appendChild(abnormalContainer);
-            }
-            else if (isPD) {
-                const infoDiv = document.createElement('div');
-                infoDiv.style.cssText = `
-                    grid-column: 1 / -1;
-                    background: #fef3c7;
-                    border: 1px solid #fcd34d;
-                    border-radius: 10px;
-                    padding: 12px 16px;
-                    margin-bottom: 12px;
-                    color: #92400e;
-                `;
-                infoDiv.innerHTML = `
-                    <strong>ℹ️ No specific abnormal features detected.</strong>
-                    <span style="font-size: 0.85rem; display: block; margin-top: 4px;">The overall gait pattern suggests Parkinsonian gait, but individual features are within normal ranges.</span>
-                `;
-                qualityGrid.appendChild(infoDiv);
-            }
-            else {
-                const successDiv = document.createElement('div');
-                successDiv.style.cssText = `
-                    grid-column: 1 / -1;
-                    background: #f0fdf4;
-                    border: 1px solid #86efac;
-                    border-radius: 10px;
-                    padding: 12px 16px;
-                    margin-bottom: 12px;
-                    color: #065f46;
-                `;
-                successDiv.innerHTML = `
-                    <strong>✅ All features within normal range.</strong>
-                    <span style="font-size: 0.85rem; display: block; margin-top: 4px;">No gait abnormalities detected.</span>
-                `;
-                qualityGrid.appendChild(successDiv);
-            }
-
-            // 2. All 15 Features (displayed in 2 columns)
-            if (data.features) {
-                const featureLabels = {
-                    'step_time_L_mean': 'Left Step Time',
-                    'step_time_L_std': 'Left Step Variability',
-                    'step_time_R_mean': 'Right Step Time',
-                    'step_time_R_std': 'Right Step Variability',
-                    'step_time_L_CV': 'Left CV',
-                    'step_time_R_CV': 'Right CV',
-                    'step_asymmetry': 'Step Asymmetry',
-                    'symmetry_index': 'Symmetry Index',
-                    'cadence': 'Cadence',
-                    'step_regularity': 'Step Regularity',
-                    'step_ratio': 'Step Ratio',
-                    'step_diff': 'Step Difference',
-                    'total_std': 'Total Variability',
-                    'std_ratio': 'Variability Ratio',
-                    'cadence_reg': 'Cadence Regularity'
-                };
-
-                // Add a title for features
-                const titleDiv = document.createElement('div');
-                titleDiv.style.cssText = `
-                    grid-column: 1 / -1;
-                    font-size: 0.9rem;
-                    font-weight: 600;
-                    color: #1a1a2e;
-                    margin: 10px 0 6px 0;
-                    border-bottom: 1px solid #e5e7eb;
-                    padding-bottom: 6px;
-                `;
-                titleDiv.textContent = '📊 Extracted Features (15)';
-                qualityGrid.appendChild(titleDiv);
-
-                let count = 0;
-                const featureContainer = document.createElement('div');
-                featureContainer.style.cssText = `
-                    grid-column: 1 / -1;
-                    display: grid;
-                    grid-template-columns: 1fr 1fr 1fr;
-                    gap: 4px;
-                    width: 100%;
-                `;
-
-                for (const [key, value] of Object.entries(data.features)) {
-                    if (typeof value === 'number') {
-                        const label = featureLabels[key] || key;
-                        const div = document.createElement('div');
-                        div.style.cssText = `
-                            background: #f8fafc;
-                            padding: 4px 8px;
-                            border-radius: 4px;
-                            font-size: 0.7rem;
-                            display: flex;
-                            justify-content: space-between;
-                            align-items: center;
-                        `;
-                        div.innerHTML = `
-                            <span style="color: #6b7280;">${label}</span>
-                            <span style="font-weight: 600; font-size: 0.7rem;">${value.toFixed(4)}</span>
-                        `;
-                        featureContainer.appendChild(div);
-                        count++;
-                    }
-                }
-                qualityGrid.appendChild(featureContainer);
-            }
-
-            // 3. Scaling Status
-            if (data.scaling_applied !== undefined) {
-                const scaleDiv = document.createElement('div');
-                scaleDiv.style.cssText = `
-                    grid-column: 1 / -1;
-                    margin-top: 8px;
-                    padding: 6px 14px;
-                    border-radius: 6px;
-                    font-size: 0.75rem;
-                    background: ${data.scaling_applied ? '#fef3c7' : '#f0fdf4'};
-                    color: ${data.scaling_applied ? '#92400e' : '#065f46'};
-                    border: 1px solid ${data.scaling_applied ? '#fcd34d' : '#86efac'};
-                    text-align: center;
-                `;
-                scaleDiv.innerHTML = data.scaling_applied ?
-                    '🔵 Auto-scaling was applied (high variability detected)' :
-                    '🟢 No scaling needed (features within normal range)';
-                qualityGrid.appendChild(scaleDiv);
-            }
+            updateActionGuide(isPD, isBorderline, isControl);
 
             resultSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
+        // ---- Update Action Guide ----
+        function updateActionGuide(isPD, isBorderline, isControl) {
+            actionList.innerHTML = '';
+            
+            let actions = [];
+            
+            if (isPD) {
+                actions = [
+                    '📞 <strong>Schedule consultation</strong> with a neurologist within 2 weeks',
+                    '📝 <strong>Keep a symptom diary</strong> to track changes',
+                    '💪 <strong>Consider physical therapy</strong> for gait improvement',
+                    '📊 <strong>Repeat screening</strong> in 3 months to monitor progression'
+                ];
+            } else if (isBorderline) {
+                actions = [
+                    '📊 <strong>Monitor symptoms</strong> for any changes',
+                    '🔄 <strong>Repeat screening</strong> in 3 months',
+                    '📝 <strong>Consult a doctor</strong> if symptoms worsen',
+                    '💪 <strong>Stay physically active</strong> for brain health'
+                ];
+            } else {
+                actions = [
+                    '✅ <strong>Continue regular health checkups</strong>',
+                    '💪 <strong>Maintain physical activity</strong> for brain health',
+                    '📊 <strong>Repeat screening</strong> annually or as recommended',
+                    '📝 <strong>Stay aware</strong> of any new symptoms'
+                ];
+            }
+            
+            actions.forEach(action => {
+                const li = document.createElement('li');
+                li.innerHTML = action;
+                actionList.appendChild(li);
+            });
+        }
+
+        // ---- Error display ----
         function showError(message) {
             errorSection.hidden = false;
             document.getElementById('error-message').textContent = message;
