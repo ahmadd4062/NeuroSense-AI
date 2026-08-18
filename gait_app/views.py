@@ -17,94 +17,6 @@ from .models import GaitResult
 logger = logging.getLogger(__name__)
 
 
-def validate_video_quality(pose_sequence, fps=30):
-    """
-    Validate the quality of extracted pose sequence.
-    Returns: (is_valid, quality_score, feedback_list)
-    """
-    feedback = []
-    quality_score = 0.0
-    
-    if pose_sequence is None:
-        return False, 0.0, ["❌ No pose data extracted"]
-    
-    # Reshape to (frames, 17, 2)
-    try:
-        poses = pose_sequence[0].reshape(50, 17, 2)
-    except:
-        return False, 0.0, ["❌ Invalid pose data format"]
-    
-    # 1. Check if any poses were detected (not all zeros)
-    total_zeros = np.sum(np.all(poses == 0, axis=2))
-    zero_frames = np.sum(np.all(poses.reshape(50, 34) == 0, axis=1))
-    
-    if zero_frames > 20:  # More than 40% frames are empty
-        feedback.append("❌ No person detected in most frames. Please ensure full body is visible.")
-        quality_score += 0.1
-    elif zero_frames > 10:
-        feedback.append("⚠️ Person not visible in some frames. Try to stay in frame.")
-        quality_score += 0.3
-    else:
-        feedback.append("✅ Person detected throughout the video.")
-        quality_score += 0.4
-    
-    # 2. Check body height (full body visibility)
-    shoulder_hip_dist = np.mean(np.abs(poses[:, 5, 1] - poses[:, 11, 1]))  # Shoulder - Hip
-    hip_ankle_dist = np.mean(np.abs(poses[:, 11, 1] - poses[:, 15, 1]))    # Hip - Ankle
-    
-    if shoulder_hip_dist < 0.05 or hip_ankle_dist < 0.05:
-        feedback.append("⚠️ Full body not visible. Please step back for side view.")
-        quality_score += 0.1
-    else:
-        feedback.append("✅ Full body visible.")
-        quality_score += 0.3
-    
-    # 3. Check movement (walking)
-    hip_center = np.mean(poses[:, 11:13, 0], axis=1)
-    movement_range = np.max(hip_center) - np.min(hip_center)
-    
-    if movement_range < 0.05:
-        feedback.append("⚠️ Limited movement detected. Please walk in a straight line.")
-        quality_score += 0.1
-    else:
-        feedback.append("✅ Walking movement detected.")
-        quality_score += 0.3
-    
-    # 4. Check posture (side view)
-    shoulder_diff = np.mean(np.abs(poses[:, 5, 0] - poses[:, 6, 0]))
-    hip_diff = np.mean(np.abs(poses[:, 11, 0] - poses[:, 12, 0]))
-    
-    if shoulder_diff < 0.05 or hip_diff < 0.05:
-        feedback.append("⚠️ Side view not detected. Please turn sideways.")
-        quality_score += 0.1
-    else:
-        feedback.append("✅ Side view detected.")
-        quality_score += 0.3
-    
-    # 5. Check arm swing
-    arm_swing = np.mean(np.abs(poses[:, 9, 0] - poses[:, 5, 0]))  # Wrist - Shoulder
-    if arm_swing < 0.02:
-        feedback.append("⚠️ Limited arm swing detected. Walk naturally with arms swinging.")
-        quality_score += 0.1
-    else:
-        feedback.append("✅ Arm swing detected.")
-        quality_score += 0.3
-    
-    # Calculate final quality score (0-1)
-    quality_score = min(max(quality_score / 1.7, 0), 1)  # Normalize to 0-1
-    
-    # Determine if video is usable
-    is_valid = quality_score >= 0.4
-    
-    # Add overall status
-    if is_valid:
-        feedback.insert(0, "✅ Video quality is acceptable for analysis.")
-    else:
-        feedback.insert(0, "❌ Video quality is poor. Please re-record following the guidelines.")
-    
-    return is_valid, round(quality_score, 2), feedback
-
-
 @api_view(['POST'])
 @parser_classes([MultiPartParser])
 def gait_predict(request):
@@ -190,12 +102,16 @@ def gait_predict(request):
         # Calculate confidence (max probability)
         confidence = max(result['pd_probability'], result['control_probability'])
         
+        # Convert pose sequence to list for JSON storage
+        pose_sequence_list = pose_sequence[0].tolist()  # (50, 34)
+        
+        # Get user from session or request (if authenticated)
+        user = request.user if request.user.is_authenticated else None
+        
         # Save to database (pose sequence stored)
         try:
-            # Convert pose sequence to list for JSON storage
-            pose_sequence_list = pose_sequence[0].tolist()  # (50, 34)
-            
             GaitResult.objects.create(
+                user=user,  # Link to user (matches Fatima and Bushra's database)
                 screening_id=screening_id,
                 prediction=result['prediction'],
                 pd_probability=float(result['pd_probability']),
@@ -205,7 +121,7 @@ def gait_predict(request):
                 video_fps=30,  # Default, can be extracted from video
                 pose_quality_score=quality_score
             )
-            logger.info(f"Saved gait result for screening: {screening_id}")
+            logger.info(f"Saved gait result for screening: {screening_id}, User: {user}")
         except Exception as e:
             logger.warning(f"Failed to save gait result: {str(e)}")
         
