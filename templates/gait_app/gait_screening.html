@@ -37,10 +37,10 @@ Gait Screening - NeuroSense AI
         --gray-700: #334155;
         --gray-800: #1e293b;
         --gray-900: #0f172a;
-        --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
-        --shadow-md: 0 4px 24px rgba(0,0,0,0.06);
-        --shadow-lg: 0 8px 48px rgba(74,108,247,0.10);
-        --shadow-xl: 0 12px 64px rgba(74,108,247,0.15);
+        --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+        --shadow-md: 0 4px 24px rgba(0, 0, 0, 0.06);
+        --shadow-lg: 0 8px 48px rgba(74, 108, 247, 0.10);
+        --shadow-xl: 0 12px 64px rgba(74, 108, 247, 0.15);
         --radius-sm: 8px;
         --radius-md: 12px;
         --radius-lg: 16px;
@@ -160,7 +160,7 @@ Gait Screening - NeuroSense AI
         right: -10%;
         width: 400px;
         height: 400px;
-        background: radial-gradient(circle, rgba(74,108,247,0.04) 0%, transparent 70%);
+        background: radial-gradient(circle, rgba(74, 108, 247, 0.04) 0%, transparent 70%);
         pointer-events: none;
     }
 
@@ -171,7 +171,7 @@ Gait Screening - NeuroSense AI
         left: 20%;
         width: 300px;
         height: 300px;
-        background: radial-gradient(circle, rgba(124,58,237,0.03) 0%, transparent 70%);
+        background: radial-gradient(circle, rgba(124, 58, 237, 0.03) 0%, transparent 70%);
         pointer-events: none;
     }
 
@@ -259,15 +259,22 @@ Gait Screening - NeuroSense AI
         justify-content: center;
         font-size: 4.5rem;
         color: white;
-        box-shadow: 0 12px 48px rgba(74,108,247,0.25);
+        box-shadow: 0 12px 48px rgba(74, 108, 247, 0.25);
         position: relative;
         z-index: 1;
         animation: float 6s ease-in-out infinite;
     }
 
     @keyframes float {
-        0%, 100% { transform: translateY(0px); }
-        50% { transform: translateY(-10px); }
+
+        0%,
+        100% {
+            transform: translateY(0px);
+        }
+
+        50% {
+            transform: translateY(-10px);
+        }
     }
 
     .gait-hero-visual::after {
@@ -290,7 +297,7 @@ Gait Screening - NeuroSense AI
         padding: 20px 28px;
         margin-bottom: 32px;
         color: white;
-        box-shadow: 0 4px 24px rgba(15,23,42,0.15);
+        box-shadow: 0 4px 24px rgba(15, 23, 42, 0.15);
     }
 
     .progress-card .header {
@@ -310,7 +317,7 @@ Gait Screening - NeuroSense AI
 
     .progress-track {
         height: 6px;
-        background: rgba(255,255,255,0.15);
+        background: rgba(255, 255, 255, 0.15);
         border-radius: 3px;
         overflow: hidden;
         margin: 8px 0;
@@ -322,7 +329,7 @@ Gait Screening - NeuroSense AI
         border-radius: 3px;
         width: 75%;
         transition: width 1s ease;
-        box-shadow: 0 0 20px rgba(74,108,247,0.3);
+        box-shadow: 0 0 20px rgba(74, 108, 247, 0.3);
     }
 
     .progress-card .footer {
@@ -569,7 +576,7 @@ Gait Screening - NeuroSense AI
 
     .workflow-item .dot.current {
         background: var(--primary-gradient);
-        box-shadow: 0 0 0 4px rgba(74,108,247,0.2);
+        box-shadow: 0 0 0 4px rgba(74, 108, 247, 0.2);
         animation: pulse-dot 2s infinite;
     }
 
@@ -578,8 +585,15 @@ Gait Screening - NeuroSense AI
     }
 
     @keyframes pulse-dot {
-        0%, 100% { box-shadow: 0 0 0 4px rgba(74,108,247,0.2); }
-        50% { box-shadow: 0 0 0 8px rgba(74,108,247,0.05); }
+
+        0%,
+        100% {
+            box-shadow: 0 0 0 4px rgba(74, 108, 247, 0.2);
+        }
+
+        50% {
+            box-shadow: 0 0 0 8px rgba(74, 108, 247, 0.05);
+        }
     }
 
     .workflow-item .status {
@@ -687,14 +701,14 @@ Gait Screening - NeuroSense AI
     .camera-overlay h3 {
         font-size: 1.2rem;
         font-weight: 700;
-        text-shadow: 0 4px 20px rgba(0,0,0,0.8);
+        text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
         margin-bottom: 4px;
     }
 
     .camera-overlay p {
         font-size: 0.85rem;
         opacity: 0.7;
-        text-shadow: 0 2px 12px rgba(0,0,0,0.8);
+        text-shadow: 0 2px 12px rgba(0, 0, 0, 0.8);
     }
 
     .countdown-display {
@@ -705,7 +719,7 @@ Gait Screening - NeuroSense AI
         font-size: 5rem;
         font-weight: 800;
         color: white;
-        text-shadow: 0 0 60px rgba(0,0,0,0.9);
+        text-shadow: 0 0 60px rgba(0, 0, 0, 0.9);
         z-index: 20;
         display: none;
     }
@@ -714,7 +728,7 @@ Gait Screening - NeuroSense AI
         position: absolute;
         top: 14px;
         right: 14px;
-        background: rgba(239,68,68,0.9);
+        background: rgba(239, 68, 68, 0.9);
         color: white;
         padding: 4px 16px;
         border-radius: 30px;
@@ -737,8 +751,15 @@ Gait Screening - NeuroSense AI
     }
 
     @keyframes blink {
-        0%, 100% { opacity: 1; }
-        50% { opacity: 0.5; }
+
+        0%,
+        100% {
+            opacity: 1;
+        }
+
+        50% {
+            opacity: 0.5;
+        }
     }
 
     .feedback-overlay {
@@ -746,7 +767,7 @@ Gait Screening - NeuroSense AI
         bottom: 16px;
         left: 50%;
         transform: translateX(-50%);
-        background: rgba(15,23,42,0.85);
+        background: rgba(15, 23, 42, 0.85);
         backdrop-filter: blur(8px);
         color: white;
         padding: 6px 20px;
@@ -761,10 +782,21 @@ Gait Screening - NeuroSense AI
         font-weight: 500;
     }
 
-    .feedback-overlay.success { border-color: var(--success); }
-    .feedback-overlay.warning { border-color: var(--warning); }
-    .feedback-overlay.error { border-color: var(--danger); }
-    .feedback-overlay.info { border-color: var(--primary); }
+    .feedback-overlay.success {
+        border-color: var(--success);
+    }
+
+    .feedback-overlay.warning {
+        border-color: var(--warning);
+    }
+
+    .feedback-overlay.error {
+        border-color: var(--danger);
+    }
+
+    .feedback-overlay.info {
+        border-color: var(--primary);
+    }
 
     /* ---------- Quality Guidance Overlay ---------- */
     .guidance-overlay {
@@ -779,7 +811,7 @@ Gait Screening - NeuroSense AI
 
     .guidance-overlay .guide-line {
         position: absolute;
-        border: 2px dashed rgba(255,255,255,0.3);
+        border: 2px dashed rgba(255, 255, 255, 0.3);
         border-radius: 4px;
         opacity: 0;
         transition: opacity 0.5s ease;
@@ -794,11 +826,11 @@ Gait Screening - NeuroSense AI
         left: 15%;
         right: 15%;
         bottom: 10%;
-        border-color: rgba(74,108,247,0.5);
+        border-color: rgba(74, 108, 247, 0.5);
     }
 
     .guidance-overlay .guide-line.side-view.active {
-        border-color: rgba(16,185,129,0.6);
+        border-color: rgba(16, 185, 129, 0.6);
     }
 
     .guidance-overlay .guide-label {
@@ -809,7 +841,7 @@ Gait Screening - NeuroSense AI
         color: white;
         font-size: 0.7rem;
         font-weight: 600;
-        background: rgba(0,0,0,0.6);
+        background: rgba(0, 0, 0, 0.6);
         padding: 4px 16px;
         border-radius: 20px;
         backdrop-filter: blur(4px);
@@ -824,11 +856,11 @@ Gait Screening - NeuroSense AI
     }
 
     .guidance-overlay .guide-label.success {
-        background: rgba(16,185,129,0.8);
+        background: rgba(16, 185, 129, 0.8);
     }
 
     .guidance-overlay .guide-label.warning {
-        background: rgba(245,158,11,0.8);
+        background: rgba(245, 158, 11, 0.8);
     }
 
     /* ---------- Quality Indicators ---------- */
@@ -859,18 +891,34 @@ Gait Screening - NeuroSense AI
         display: inline-block;
     }
 
-    .quality-indicator .dot.ready { background: var(--gray-300); }
-    .quality-indicator .dot.good { background: var(--success); }
-    .quality-indicator .dot.warning { background: var(--warning); }
-    .quality-indicator .dot.bad { background: var(--danger); }
+    .quality-indicator .dot.ready {
+        background: var(--gray-300);
+    }
+
+    .quality-indicator .dot.good {
+        background: var(--success);
+    }
+
+    .quality-indicator .dot.warning {
+        background: var(--warning);
+    }
+
+    .quality-indicator .dot.bad {
+        background: var(--danger);
+    }
 
     .quality-indicator.active {
         border-color: var(--primary);
         background: var(--primary-light);
     }
 
-    .quality-indicator.active .dot.good { box-shadow: 0 0 8px rgba(16,185,129,0.4); }
-    .quality-indicator.active .dot.warning { box-shadow: 0 0 8px rgba(245,158,11,0.4); }
+    .quality-indicator.active .dot.good {
+        box-shadow: 0 0 8px rgba(16, 185, 129, 0.4);
+    }
+
+    .quality-indicator.active .dot.warning {
+        box-shadow: 0 0 8px rgba(245, 158, 11, 0.4);
+    }
 
     /* ---------- Buttons ---------- */
     .btn-group {
@@ -901,7 +949,7 @@ Gait Screening - NeuroSense AI
     .btn-group .btn-success:hover:not(:disabled) {
         background: #059669;
         transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(16,185,129,0.3);
+        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
     }
 
     .btn-group .btn-danger {
@@ -912,7 +960,7 @@ Gait Screening - NeuroSense AI
     .btn-group .btn-danger:hover:not(:disabled) {
         background: #dc2626;
         transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(239,68,68,0.3);
+        box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
     }
 
     .btn-group .btn-secondary {
@@ -938,7 +986,9 @@ Gait Screening - NeuroSense AI
         gap: 6px;
     }
 
-    .hidden { display: none !important; }
+    .hidden {
+        display: none !important;
+    }
 
     /* ---------- Upload Area ---------- */
     .upload-area {
@@ -1036,7 +1086,7 @@ Gait Screening - NeuroSense AI
         align-items: center;
         gap: 10px;
         transition: var(--transition);
-        box-shadow: 0 4px 16px rgba(74,108,247,0.25);
+        box-shadow: 0 4px 16px rgba(74, 108, 247, 0.25);
         flex-shrink: 0;
     }
 
@@ -1048,7 +1098,7 @@ Gait Screening - NeuroSense AI
 
     .btn-submit:not(:disabled):hover {
         transform: translateY(-2px);
-        box-shadow: 0 8px 32px rgba(74,108,247,0.35);
+        box-shadow: 0 8px 32px rgba(74, 108, 247, 0.35);
     }
 
     .completion-badge {
@@ -1123,9 +1173,17 @@ Gait Screening - NeuroSense AI
         letter-spacing: -0.02em;
     }
 
-    .result-status.pd .big { color: var(--danger); }
-    .result-status.control .big { color: var(--success); }
-    .result-status.borderline .big { color: var(--warning); }
+    .result-status.pd .big {
+        color: var(--danger);
+    }
+
+    .result-status.control .big {
+        color: var(--success);
+    }
+
+    .result-status.borderline .big {
+        color: var(--warning);
+    }
 
     .result-status p {
         margin: 6px 0 0;
@@ -1275,8 +1333,13 @@ Gait Screening - NeuroSense AI
     }
 
     @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
     }
 
     .processing-card h3 {
@@ -1507,16 +1570,16 @@ Gait Screening - NeuroSense AI
             </p>
             <div class="gait-hero-stats">
                 <div class="gait-hero-stat">
-                    <span class="number">86.4%</span>
-                    <span class="label">{% if lang == 'ur' %}ماڈل کی درستگی{% else %}Model Accuracy{% endif %}</span>
+                    <span class="number">📋</span>
+                    <span class="label">{% if lang == 'ur' %}10-15 سیکنڈ ویڈیو{% else %}10-15 second video{% endif %}</span>
                 </div>
                 <div class="gait-hero-stat">
-                    <span class="number">292</span>
-                    <span class="label">{% if lang == 'ur' %}ٹریننگ نمونے{% else %}Training Samples{% endif %}</span>
+                    <span class="number">🎯</span>
+                    <span class="label">{% if lang == 'ur' %}سائیڈ ویو ضروری{% else %}Side view required{% endif %}</span>
                 </div>
                 <div class="gait-hero-stat">
-                    <span class="number">50</span>
-                    <span class="label">{% if lang == 'ur' %}فریمز کا تجزیہ{% else %}Frames Analyzed{% endif %}</span>
+                    <span class="number">📱</span>
+                    <span class="label">{% if lang == 'ur' %}اسمارٹ فون مطابقت{% else %}Smartphone compatible{% endif %}</span>
                 </div>
             </div>
         </div>
@@ -1775,59 +1838,58 @@ Gait Screening - NeuroSense AI
     <!-- ========================================== -->
     <!-- RESULTS -->
     <!-- ========================================== -->
+    <!-- COMPLETION CONFIRMATION (INSTEAD OF RESULTS) -->
+    <!-- ========================================== -->
     <section id="results-section" hidden>
-        <div class="result-card">
-            <div class="result-header">
-                <h2>📊 {% if lang == 'ur' %}چال کے تجزیہ کا نتیجہ{% else %}Gait Analysis Result{% endif %}</h2>
-                <button class="btn btn-secondary" id="restart-screening" style="padding:8px 20px;border:none;border-radius:var(--radius-sm);background:var(--gray-100);color:var(--gray-600);font-weight:600;cursor:pointer;transition:var(--transition);display:flex;align-items:center;gap:6px;">
-                    <i class="fa-solid fa-arrow-rotate-right"></i> {% if lang == 'ur' %}دوبارہ شروع کریں{% else %}Start again{% endif %}
-                </button>
-            </div>
-            <div id="result-status-card" class="result-status">
-                <div class="big" id="result-category">—</div>
-                <p id="result-message"></p>
-            </div>
-            <div class="metrics-grid">
-                <div class="metric"><span>{% if lang == 'ur' %}خطرے کا سکور{% else %}Risk Score{% endif %}</span><strong id="result-score">—</strong></div>
-                <div class="metric"><span>{% if lang == 'ur' %}اعتماد{% else %}Confidence{% endif %}</span><strong id="result-confidence">—</strong></div>
-                <div class="metric"><span>{% if lang == 'ur' %}چال کی ہم آہنگی{% else %}Gait Symmetry{% endif %}</span><strong id="result-symmetry">—</strong></div>
-                <div class="metric"><span>{% if lang == 'ur' %}رفتار{% else %}Cadence{% endif %}</span><strong id="result-cadence">—</strong></div>
-            </div>
+        <div class="result-card" style="text-align: center; padding: 48px 32px;">
+            
+            <h2 style="font-size: 1.8rem; font-weight: 700; color: #1a1a2e; margin: 0 0 8px;">
+                {% if lang == 'ur' %}
+                چال کا تجزیہ مکمل!
+                {% else %}
+                Gait Analysis Complete!
+                {% endif %}
+            </h2>
+            <p style="color: #6b7280; font-size: 1.05rem; max-width: 500px; margin: 0 auto 20px;">
+                {% if lang == 'ur' %}
+                آپ کی چلنے کی ویڈیو کا کامیابی سے تجزیہ ہو گیا ہے۔
+                نتائج کو آپ کی حتمی رپورٹ میں شامل کیا جائے گا۔
+                {% else %}
+                Your walking video has been successfully analyzed.
+                The results will be combined with your final report.
+                {% endif %}
+            </p>
 
-            <!-- Model Performance -->
-            <div class="model-performance">
-                <div class="content">
-                    <span class="icon">🎯</span>
-                    <div class="info">
-                        <strong>{% if lang == 'ur' %}ماڈل کی کارکردگی{% else %}Model Performance{% endif %}</strong>
-                        <p>LSTM Model • 86.4% Accuracy • Trained on 292 clinical samples</p>
-                    </div>
+            <!-- Module Completion Status -->
+            <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin: 24px 0 32px;">
+                <div style="display: flex; align-items: center; gap: 8px; background: #f0fdf4; padding: 10px 20px; border-radius: 10px; border: 1px solid #86efac;">
+                    <span style="font-size: 1.2rem;">📋</span>
+                    <span style="font-size: 0.9rem; color: #065f46; font-weight: 500;">{% if lang == 'ur' %}سوالنامہ{% else %}Questionnaire{% endif %}</span>
+                    <span style="color: #10b981;">✅</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 8px; background: #f0fdf4; padding: 10px 20px; border-radius: 10px; border: 1px solid #86efac;">
+                    <span style="font-size: 1.2rem;">🎙️</span>
+                    <span style="font-size: 0.9rem; color: #065f46; font-weight: 500;">{% if lang == 'ur' %}آواز کا تجزیہ{% else %}Voice Analysis{% endif %}</span>
+                    <span style="color: #10b981;">✅</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 8px; background: #eef2ff; padding: 10px 20px; border-radius: 10px; border: 2px solid #4A6CF7;">
+                    <span style="font-size: 1.2rem;">🎥</span>
+                    <span style="font-size: 0.9rem; color: #1a1a2e; font-weight: 600;">{% if lang == 'ur' %}چال کا تجزیہ{% else %}Gait Analysis{% endif %}</span>
+                    <span style="color: #4A6CF7;">✅</span>
                 </div>
             </div>
 
-            <!-- Action Guide -->
-            <div class="action-guide">
-                <strong>📋 {% if lang == 'ur' %}تجاویز{% else %}Recommended Next Steps{% endif %}</strong>
-                <ul id="action-list">
-                    <li>✅ {% if lang == 'ur' %}باقاعدہ طبی معائنہ جاری رکھیں{% else %}Continue regular health checkups{% endif %}</li>
-                    <li>💪 {% if lang == 'ur' %}دماغی صحت کے لیے جسمانی سرگرمی برقرار رکھیں{% else %}Maintain physical activity for brain health{% endif %}</li>
-                    <li>📊 {% if lang == 'ur' %}سالانہ یا تجویز کردہ اسکریننگ دہرائیں{% else %}Repeat screening annually or as recommended{% endif %}</li>
-                    <li>📝 {% if lang == 'ur' %}نئی علامات سے آگاہ رہیں{% else %}Stay aware of any new symptoms{% endif %}</li>
-                </ul>
-            </div>
-
-            <!-- Privacy Banner -->
-            <div class="privacy-banner">
-                <div class="item"><i class="fa-solid fa-lock"></i> {% if lang == 'ur' %}ڈیٹا انکرپٹ{% else %}Data encrypted{% endif %}</div>
-                <div class="item"><i class="fa-solid fa-shield-halved"></i> {% if lang == 'ur' %}مستقل ذخیرہ نہیں{% else %}No permanent storage{% endif %}</div>
-                <div class="item"><i class="fa-solid fa-clock"></i> {% if lang == 'ur' %}نتائج 24 گھنٹے میں ختم ہو جاتے ہیں{% else %}Results expire in 24h{% endif %}</div>
-            </div>
-
-            <hr style="border:none;border-top:1px solid var(--gray-200);margin:16px 0;">
-
-            <!-- Disclaimer -->
-            <div style="padding:12px;background:var(--gray-50);border-radius:var(--radius-sm);font-size:0.75rem;color:var(--gray-400);text-align:center;">
-                <i class="fa-solid fa-circle-info"></i> {% if lang == 'ur' %}یہ نتیجہ صرف اسکریننگ کے مقاصد کے لیے ہے اور طبی تشخیص نہیں ہے{% else %}This result is intended for screening purposes only and is not a medical diagnosis{% endif %}
+            <!-- Action Buttons -->
+            <div style="display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;">
+                <a href="{% url 'gait_app:gait_screening' %}" style="background: #f1f5f9; color: #475569; padding: 12px 28px; border: 2px solid #e2e8f0; border-radius: 10px; text-decoration: none; font-weight: 600; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px;">
+                    <i class="fa-solid fa-camera"></i> {% if lang == 'ur' %}دوبارہ ویڈیو اپ لوڈ کریں{% else %}Upload Another Video{% endif %}
+                </a>
+                <a href="#" style="background: #4A6CF7; color: white; padding: 12px 28px; border-radius: 10px; text-decoration: none; font-weight: 600; transition: background 0.2s; display: inline-flex; align-items: center; gap: 8px; opacity: 0.5; pointer-events: none; cursor: not-allowed;">
+                    <i class="fa-solid fa-file-lines"></i> {% if lang == 'ur' %}حتمی رپورٹ (جلد آ رہی ہے){% else %}Final Report (Coming Soon){% endif %}
+                </a>
+                <a href="{% url 'speech_app:home' %}" style="background: transparent; color: #4A6CF7; padding: 12px 28px; border: 2px solid #4A6CF7; border-radius: 10px; text-decoration: none; font-weight: 600; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px;">
+                    <i class="fa-solid fa-house"></i> {% if lang == 'ur' %}ہوم پیج{% else %}Back to Home{% endif %}
+                </a>
             </div>
         </div>
     </section>
@@ -1998,7 +2060,7 @@ Gait Screening - NeuroSense AI
         function updateQualityIndicator(indicator, status, text) {
             const dot = indicator.querySelector('.dot');
             dot.classList.remove('ready', 'good', 'warning', 'bad');
-            
+
             if (status === 'good') {
                 dot.classList.add('good');
                 indicator.classList.add('active');
@@ -2049,8 +2111,8 @@ Gait Screening - NeuroSense AI
         }
 
         function updateGuidanceOverlay(quality) {
-            const allGood = quality.personDetected && quality.fullBodyVisible && 
-                           quality.sideViewDetected && quality.movementDetected;
+            const allGood = quality.personDetected && quality.fullBodyVisible &&
+                quality.sideViewDetected && quality.movementDetected;
 
             if (allGood) {
                 guideSideView.classList.add('active');
@@ -2187,7 +2249,7 @@ Gait Screening - NeuroSense AI
             poseDetector = null;
             document.getElementById('camera-container').classList.remove('live-active');
             document.getElementById('guidance-overlay').style.display = 'none';
-            
+
             qualityState = {
                 personDetected: false,
                 fullBodyVisible: false,
@@ -2263,7 +2325,7 @@ Gait Screening - NeuroSense AI
             if (lShoulder && rShoulder && lHip && rHip) {
                 const shoulderWidth = Math.abs(lShoulder.x - rShoulder.x);
                 const hipWidth = Math.abs(lHip.x - rHip.x);
-                
+
                 if (shoulderWidth > 0.15 || hipWidth > 0.15) {
                     newQuality.sideViewDetected = false;
                     updateFeedback(t.turnSideways, 'info');
@@ -2279,7 +2341,7 @@ Gait Screening - NeuroSense AI
                 if (!window._prevHipX) window._prevHipX = hipCenterX;
                 const movement = Math.abs(hipCenterX - window._prevHipX);
                 window._prevHipX = hipCenterX;
-                
+
                 if (movement > 0.01) {
                     newQuality.movementDetected = true;
                 }
@@ -2289,7 +2351,7 @@ Gait Screening - NeuroSense AI
             if (lWrist && lShoulder && rWrist && rShoulder) {
                 const lArmSwing = Math.abs(lWrist.x - lShoulder.x);
                 const rArmSwing = Math.abs(rWrist.x - rShoulder.x);
-                
+
                 if (lArmSwing > 0.05 || rArmSwing > 0.05) {
                     newQuality.armSwingDetected = true;
                 }
@@ -2298,8 +2360,8 @@ Gait Screening - NeuroSense AI
             qualityState = newQuality;
             updateQualityIndicators(qualityState);
 
-            const allGood = qualityState.personDetected && qualityState.fullBodyVisible && 
-                           qualityState.sideViewDetected && qualityState.movementDetected;
+            const allGood = qualityState.personDetected && qualityState.fullBodyVisible &&
+                qualityState.sideViewDetected && qualityState.movementDetected;
 
             if (allGood && qualityState.armSwingDetected) {
                 updateFeedback(t.perfectRecording, 'success');
@@ -2453,42 +2515,24 @@ Gait Screening - NeuroSense AI
         // DISPLAY RESULTS
         // ============================================================
 
+        // ============================================================
+        // DISPLAY RESULTS (Confirmation Only - No Results Shown)
+        // ============================================================
+
         function displayResults(data) {
+            // Just show the confirmation - no prediction/risk/confidence displayed
             resultSection.hidden = false;
 
-            const isPD = data.prediction === 'PD';
-            const isControl = data.prediction === 'Control';
-            const isBorderline = data.prediction === 'Borderline';
-
-            const statusCard = document.getElementById('result-status-card');
-            statusCard.className = 'result-status ' + (isPD ? 'pd' : isBorderline ? 'borderline' : 'control');
-            resultCategory.textContent = data.prediction || '—';
-
-            if (isPD) {
-                resultMessage.textContent = '⚠️ Movement patterns show indicators associated with Parkinsonian gait. We recommend consulting a neurologist.';
-            } else if (isBorderline) {
-                resultMessage.textContent = '🟡 Gait patterns show some borderline indicators. Further assessment is recommended.';
-            } else {
-                resultMessage.textContent = '✅ Gait patterns appear within typical range.';
-            }
-
-            resultScore.textContent = (data.pd_probability * 100).toFixed(1) + '%';
-            resultConfidence.textContent = (Math.max(data.pd_probability, data.control_probability) * 100).toFixed(1) + '%';
-            
-            resultSymmetry.textContent = '—';
-            resultCadence.textContent = '—';
-
-            updateActionGuide(isPD, isBorderline, isControl);
-
+            // Scroll to the confirmation
             resultSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
         // ---- Update Action Guide ----
         function updateActionGuide(isPD, isBorderline, isControl) {
             actionList.innerHTML = '';
-            
+
             let actions = [];
-            
+
             if (isPD) {
                 actions = [
                     '📞 <strong>Schedule consultation</strong> with a neurologist within 2 weeks',
@@ -2511,7 +2555,7 @@ Gait Screening - NeuroSense AI
                     '📝 <strong>Stay aware</strong> of any new symptoms'
                 ];
             }
-            
+
             actions.forEach(action => {
                 const li = document.createElement('li');
                 li.innerHTML = action;
@@ -2569,7 +2613,7 @@ Gait Screening - NeuroSense AI
         btnLive.classList.add('active');
         btnFile.classList.remove('active');
         updateFeedback(t.startCamera, 'info');
-        
+
         // Hide guidance overlay initially
         document.getElementById('guidance-overlay').style.display = 'none';
 

@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Gait Results - NeuroSense AI{% endblock %}
+{% block title %}Gait Analysis Complete - NeuroSense AI{% endblock %}
 
 {% block content %}
 <section class="container" style="max-width: 900px; margin: 0 auto; padding: 40px 20px;">
@@ -10,73 +10,59 @@
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; flex-wrap: wrap; gap: 16px;">
         <div>
             <h1 style="font-size: 2.2rem; font-weight: 700; margin: 0; background: linear-gradient(135deg, #1a1a2e 0%, #4A6CF7 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
-                Gait Analysis Results
+                ✅ Gait Analysis Complete
             </h1>
-            <p style="color: #6b7280; margin: 4px 0 0;">AI-powered gait analysis complete</p>
+            <p style="color: #6b7280; margin: 4px 0 0;">Your walking video has been successfully analyzed</p>
         </div>
         <button id="restart-btn" style="background: #f1f5f9; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 600; color: #475569; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 8px;">
             <i class="fa-solid fa-arrow-rotate-right"></i> New Screening
         </button>
     </div>
 
-    <!-- Result Card -->
-    <div id="result-card" style="background: #f8f9fa; border-radius: 16px; padding: 30px; border: 1px solid #e2e8f0; box-shadow: 0 4px 24px rgba(0,0,0,0.04);">
+    <!-- Confirmation Card -->
+    <div id="result-card" style="background: #f8f9fa; border-radius: 16px; padding: 40px 30px; border: 1px solid #e2e8f0; box-shadow: 0 4px 24px rgba(0,0,0,0.04); text-align: center;">
         
-        <!-- Prediction Status -->
-        <div id="result-status" style="padding: 24px; border-radius: 12px; text-align: center; margin-bottom: 24px;">
-            <div id="result-category" style="font-size: 2.8rem; font-weight: 800; letter-spacing: -0.02em;"></div>
-            <p id="result-message" style="margin: 8px 0 0; font-weight: 500; color: #1f2937;"></p>
+        <!-- Success Icon -->
+        <div style="font-size: 4rem; margin-bottom: 16px;">
+            ✅
         </div>
 
-        <!-- Quick Metrics -->
-        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px;">
-            <div style="background: white; padding: 16px; border-radius: 10px; text-align: center; border: 1px solid #f1f5f9;">
-                <span style="display: block; font-size: 0.7rem; color: #94a3b8; font-weight: 500; text-transform: uppercase; letter-spacing: 0.04em;">Risk Score</span>
-                <strong id="result-score" style="font-size: 1.2rem; display: block; margin-top: 4px; color: #1a1a2e;">—</strong>
+        <h2 style="font-size: 1.5rem; font-weight: 700; color: #1a1a2e; margin: 0 0 8px;">
+            Gait Analysis Complete
+        </h2>
+        
+        <p style="color: #6b7280; font-size: 1rem; max-width: 500px; margin: 0 auto 20px;">
+            Your walking video has been successfully analyzed. The results will be combined with your:
+        </p>
+
+        <!-- Module List -->
+        <div style="display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; margin: 20px 0 28px;">
+            <div style="display: flex; align-items: center; gap: 8px; background: white; padding: 10px 20px; border-radius: 10px; border: 1px solid #e2e8f0;">
+                <span style="font-size: 1.2rem;">📋</span>
+                <span style="font-size: 0.9rem; color: #1a1a2e; font-weight: 500;">Questionnaire</span>
+                <span style="font-size: 0.7rem; color: #10b981;">✅</span>
             </div>
-            <div style="background: white; padding: 16px; border-radius: 10px; text-align: center; border: 1px solid #f1f5f9;">
-                <span style="display: block; font-size: 0.7rem; color: #94a3b8; font-weight: 500; text-transform: uppercase; letter-spacing: 0.04em;">Confidence</span>
-                <strong id="result-confidence" style="font-size: 1.2rem; display: block; margin-top: 4px; color: #1a1a2e;">—</strong>
+            <div style="display: flex; align-items: center; gap: 8px; background: white; padding: 10px 20px; border-radius: 10px; border: 1px solid #e2e8f0;">
+                <span style="font-size: 1.2rem;">🎙️</span>
+                <span style="font-size: 0.9rem; color: #1a1a2e; font-weight: 500;">Voice Analysis</span>
+                <span style="font-size: 0.7rem; color: #10b981;">✅</span>
             </div>
-            <div style="background: white; padding: 16px; border-radius: 10px; text-align: center; border: 1px solid #f1f5f9;">
-                <span style="display: block; font-size: 0.7rem; color: #94a3b8; font-weight: 500; text-transform: uppercase; letter-spacing: 0.04em;">Model</span>
-                <strong id="result-model" style="font-size: 1.2rem; display: block; margin-top: 4px; color: #1a1a2e;">LSTM</strong>
-            </div>
-            <div style="background: white; padding: 16px; border-radius: 10px; text-align: center; border: 1px solid #f1f5f9;">
-                <span style="display: block; font-size: 0.7rem; color: #94a3b8; font-weight: 500; text-transform: uppercase; letter-spacing: 0.04em;">Status</span>
-                <strong id="result-status-text" style="font-size: 1.2rem; display: block; margin-top: 4px; color: #1a1a2e;">—</strong>
+            <div style="display: flex; align-items: center; gap: 8px; background: #eef2ff; padding: 10px 20px; border-radius: 10px; border: 2px solid #4A6CF7;">
+                <span style="font-size: 1.2rem;">🎥</span>
+                <span style="font-size: 0.9rem; color: #1a1a2e; font-weight: 600;">Gait Analysis</span>
+                <span style="font-size: 0.7rem; color: #4A6CF7;">✅</span>
             </div>
         </div>
+
+        <p style="color: #6b7280; font-size: 0.95rem;">
+            Proceed to the <strong>Final Report</strong> to view your complete neurological risk assessment.
+        </p>
 
         <!-- Divider -->
-        <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 20px 0;">
-
-        <!-- Model Performance Card -->
-        <div style="background: #f0fdf4; border: 1px solid #86efac; border-radius: 10px; padding: 16px; margin-top: 16px;">
-            <div style="display: flex; align-items: center; gap: 12px;">
-                <span style="font-size: 2rem;">🎯</span>
-                <div>
-                    <strong style="color: #065f46;">Model Performance</strong>
-                    <p style="margin: 2px 0 0; color: #065f46; font-size: 0.85rem;">
-                        LSTM Model • 86.4% Accuracy • Trained on 292 clinical samples
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Clinical Action Guide -->
-        <div id="action-guide" style="background: #eff6ff; border: 1px solid #93c5fd; border-radius: 10px; padding: 16px; margin-top: 12px;">
-            <strong style="color: #1e3a5f;">📋 Recommended Next Steps</strong>
-            <ul id="action-list" style="margin: 8px 0 0; padding-left: 20px; color: #1e3a5f; font-size: 0.85rem;">
-                <li>✅ Continue regular health checkups</li>
-                <li>💪 Maintain physical activity for brain health</li>
-                <li>📊 Repeat screening annually or as recommended</li>
-                <li>📝 Stay aware of any new symptoms</li>
-            </ul>
-        </div>
+        <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 24px 0;">
 
         <!-- Privacy & Security -->
-        <div style="display: flex; gap: 16px; margin-top: 12px; flex-wrap: wrap; padding: 12px; background: #f8fafc; border-radius: 8px;">
+        <div style="display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; padding: 12px; background: #f8fafc; border-radius: 8px;">
             <div style="display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: #6b7280;">
                 <i class="fa-solid fa-lock" style="color: #4A6CF7;"></i>
                 Data encrypted
@@ -91,11 +77,8 @@
             </div>
         </div>
 
-        <!-- Divider -->
-        <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 20px 0;">
-
         <!-- Disclaimer -->
-        <div style="padding: 14px; background: #f8fafc; border-radius: 10px; font-size: 0.8rem; color: #94a3b8; text-align: center;">
+        <div style="padding: 14px; background: #f8fafc; border-radius: 10px; font-size: 0.8rem; color: #94a3b8; text-align: center; margin-top: 16px;">
             <i class="fa-solid fa-circle-info"></i> 
             This result is intended for screening purposes only and is not a medical diagnosis. 
             Please consult a healthcare professional for clinical evaluation.
@@ -104,8 +87,11 @@
 
     <!-- Action Buttons -->
     <div style="margin-top: 30px; display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;">
-        <a href="{% url 'gait_app:gait_screening' %}" style="background: #4A6CF7; color: white; padding: 12px 28px; border-radius: 10px; text-decoration: none; font-weight: 600; transition: background 0.2s; display: inline-flex; align-items: center; gap: 8px;">
+        <a href="{% url 'gait_app:gait_screening' %}" style="background: #f1f5f9; color: #475569; padding: 12px 28px; border: 2px solid #e2e8f0; border-radius: 10px; text-decoration: none; font-weight: 600; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px;">
             <i class="fa-solid fa-camera"></i> Upload Another Video
+        </a>
+        <a href="{% url 'fusion_app:report' %}" style="background: #4A6CF7; color: white; padding: 12px 28px; border-radius: 10px; text-decoration: none; font-weight: 600; transition: background 0.2s; display: inline-flex; align-items: center; gap: 8px;">
+            <i class="fa-solid fa-file-lines"></i> View Final Report
         </a>
         <a href="{% url 'speech_app:home' %}" style="background: transparent; color: #4A6CF7; padding: 12px 28px; border: 2px solid #4A6CF7; border-radius: 10px; text-decoration: none; font-weight: 600; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px;">
             <i class="fa-solid fa-house"></i> Back to Home
@@ -114,27 +100,6 @@
 </section>
 
 <style>
-    .pd-status {
-        background: linear-gradient(135deg, #fef2f2 0%, #fecaca 100%);
-        border: 1px solid #fca5a5;
-    }
-    .pd-status #result-category {
-        color: #dc2626;
-    }
-    .control-status {
-        background: linear-gradient(135deg, #f0fdf4 0%, #bbf7d0 100%);
-        border: 1px solid #86efac;
-    }
-    .control-status #result-category {
-        color: #16a34a;
-    }
-    .borderline-status {
-        background: linear-gradient(135deg, #fffbeb 0%, #fde68a 100%);
-        border: 1px solid #fcd34d;
-    }
-    .borderline-status #result-category {
-        color: #d97706;
-    }
     .btn-outline:hover {
         background: #4A6CF7;
         color: white;
@@ -152,124 +117,7 @@
     (function() {
         'use strict';
 
-        // DOM Elements
-        const statusCard = document.getElementById('result-status');
-        const categoryEl = document.getElementById('result-category');
-        const messageEl = document.getElementById('result-message');
-        const scoreEl = document.getElementById('result-score');
-        const confidenceEl = document.getElementById('result-confidence');
-        const modelEl = document.getElementById('result-model');
-        const statusTextEl = document.getElementById('result-status-text');
         const restartBtn = document.getElementById('restart-btn');
-        const actionList = document.getElementById('action-list');
-
-        // Get result from sessionStorage
-        const resultData = sessionStorage.getItem('gaitResult');
-
-        if (resultData) {
-            try {
-                const data = JSON.parse(resultData);
-                displayResults(data);
-            } catch (e) {
-                console.error('Error parsing result data:', e);
-                showError('Failed to parse result data.');
-            }
-        } else {
-            showError('No analysis data found. Please complete a gait screening first.');
-        }
-
-        // ---- Main display function ----
-        function displayResults(data) {
-            // 1. Prediction Status
-            const isPD = data.prediction === 'PD';
-            const isControl = data.prediction === 'Control';
-            const isBorderline = data.prediction === 'Borderline';
-
-            statusCard.className = '';
-            if (isPD) {
-                statusCard.classList.add('pd-status');
-            } else if (isBorderline) {
-                statusCard.classList.add('borderline-status');
-            } else {
-                statusCard.classList.add('control-status');
-            }
-
-            categoryEl.textContent = data.prediction || '—';
-
-            if (isPD) {
-                messageEl.textContent = '⚠️ Movement patterns show indicators associated with Parkinsonian gait. We recommend consulting a neurologist.';
-            } else if (isBorderline) {
-                messageEl.textContent = '🟡 Gait patterns show some borderline indicators. Further assessment is recommended.';
-            } else {
-                messageEl.textContent = '✅ Gait patterns appear within typical range.';
-            }
-
-            // 2. Quick Metrics
-            const pdProb = data.pd_probability !== undefined ? (data.pd_probability * 100).toFixed(1) : '—';
-            scoreEl.textContent = pdProb !== '—' ? pdProb + '%' : '—';
-            
-            let confidence = '—';
-            if (data.pd_probability !== undefined && data.control_probability !== undefined) {
-                const maxProb = Math.max(data.pd_probability, data.control_probability);
-                confidence = (maxProb * 100).toFixed(1) + '%';
-            }
-            confidenceEl.textContent = confidence;
-            modelEl.textContent = data.model_used || 'LSTM';
-            statusTextEl.textContent = isPD ? '⚠️ Needs Review' : isBorderline ? '🟡 Borderline' : '✅ Normal';
-
-            // 3. Update Action Guide based on prediction
-            updateActionGuide(isPD, isBorderline, isControl);
-        }
-
-        // ---- Update Action Guide ----
-        function updateActionGuide(isPD, isBorderline, isControl) {
-            actionList.innerHTML = '';
-            
-            let actions = [];
-            
-            if (isPD) {
-                actions = [
-                    '📞 <strong>Schedule consultation</strong> with a neurologist within 2 weeks',
-                    '📝 <strong>Keep a symptom diary</strong> to track changes',
-                    '💪 <strong>Consider physical therapy</strong> for gait improvement',
-                    '📊 <strong>Repeat screening</strong> in 3 months to monitor progression'
-                ];
-            } else if (isBorderline) {
-                actions = [
-                    '📊 <strong>Monitor symptoms</strong> for any changes',
-                    '🔄 <strong>Repeat screening</strong> in 3 months',
-                    '📝 <strong>Consult a doctor</strong> if symptoms worsen',
-                    '💪 <strong>Stay physically active</strong> for brain health'
-                ];
-            } else {
-                actions = [
-                    '✅ <strong>Continue regular health checkups</strong>',
-                    '💪 <strong>Maintain physical activity</strong> for brain health',
-                    '📊 <strong>Repeat screening</strong> annually or as recommended',
-                    '📝 <strong>Stay aware</strong> of any new symptoms'
-                ];
-            }
-            
-            actions.forEach(action => {
-                const li = document.createElement('li');
-                li.innerHTML = action;
-                actionList.appendChild(li);
-            });
-        }
-
-        // ---- Error display ----
-        function showError(message) {
-            statusCard.className = '';
-            statusCard.style.background = '#fef2f2';
-            statusCard.style.border = '1px solid #fca5a5';
-            categoryEl.textContent = '⚠️ Error';
-            categoryEl.style.color = '#dc2626';
-            messageEl.textContent = message;
-            document.getElementById('result-score').textContent = '—';
-            document.getElementById('result-confidence').textContent = '—';
-            document.getElementById('result-model').textContent = '—';
-            document.getElementById('result-status-text').textContent = '❌ Failed';
-        }
 
         // ---- Restart Button ----
         restartBtn.addEventListener('click', function() {
