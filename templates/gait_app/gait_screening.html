@@ -2054,6 +2054,25 @@ Gait Screening - NeuroSense AI
         const t = translations[currentLang] || translations['en'];
 
         // ============================================================
+        // CSRF TOKEN HELPER
+        // ============================================================
+
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        // ============================================================
         // QUALITY INDICATOR HELPERS
         // ============================================================
 
@@ -2472,32 +2491,50 @@ Gait Screening - NeuroSense AI
         });
 
         // ============================================================
-        // SUBMIT
+        // SUBMIT (WITH CSRF TOKEN FIX)
         // ============================================================
 
         submitBtn.addEventListener('click', submitVideo);
 
         async function submitVideo() {
-            if (!isVideoReady) { alert('Please record or upload a video first.'); return; }
+            if (!isVideoReady) { 
+                alert('Please record or upload a video first.'); 
+                return; 
+            }
+            
             let formData = new FormData();
             formData.append('video', videoBlob, videoBlob instanceof File ? videoBlob.name : 'recording.mp4');
+            
+            // Get CSRF token from cookie
+            const csrftoken = getCookie('csrftoken');
+            
             resultSection.hidden = true;
             errorSection.hidden = true;
             processingSection.hidden = false;
             submitBtn.disabled = true;
             processingMessage.textContent = t.analyzing;
+            
             let progress = 0;
             const interval = setInterval(() => {
                 progress += 10;
                 progressBar.style.width = Math.min(progress, 90) + '%';
                 if (progress >= 90) clearInterval(interval);
             }, 200);
+            
             try {
-                const response = await fetch('/api/gait/predict/', { method: 'POST', body: formData });
+                const response = await fetch('/api/gait/predict/', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRFToken': csrftoken
+                    }
+                });
+                
                 clearInterval(interval);
                 progressBar.style.width = '100%';
                 const data = await response.json();
                 processingSection.hidden = true;
+                
                 if (response.ok) {
                     displayResults(data);
                 } else {
@@ -2508,12 +2545,9 @@ Gait Screening - NeuroSense AI
                 processingSection.hidden = true;
                 showError('Network error. Please check your connection.');
             }
+            
             submitBtn.disabled = false;
         }
-
-        // ============================================================
-        // DISPLAY RESULTS
-        // ============================================================
 
         // ============================================================
         // DISPLAY RESULTS (Confirmation Only - No Results Shown)

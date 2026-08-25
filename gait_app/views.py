@@ -12,6 +12,7 @@ import numpy as np
 from .gait_model import predictor
 from .feature_extractor import extract_pose_sequence_from_video, validate_video_quality
 from .models import GaitResult
+from django.views.decorators.csrf import csrf_exempt
 
 # Set up logging
 logger = logging.getLogger(__name__)
@@ -19,6 +20,7 @@ logger = logging.getLogger(__name__)
 
 @api_view(['POST'])
 @parser_classes([MultiPartParser])
+@csrf_exempt
 def gait_predict(request):
     """
     API endpoint for gait analysis.
