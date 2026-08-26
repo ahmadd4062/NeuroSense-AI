@@ -1,0 +1,723 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Final Report - NeuroSense AI{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* ============================================
+       PROFESSIONAL MEDICAL REPORT
+       ============================================ */
+
+    .report-container {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 40px 20px;
+    }
+
+    /* ---------- Report Header ---------- */
+    .report-header {
+        background: white;
+        border-radius: 16px;
+        padding: 32px 40px;
+        margin-bottom: 28px;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 4px 24px rgba(0,0,0,0.04);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .report-header::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -20%;
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(circle, rgba(74,108,247,0.04) 0%, transparent 70%);
+        pointer-events: none;
+    }
+
+    .report-header-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        gap: 16px;
+        position: relative;
+        z-index: 1;
+    }
+
+    .report-header .logo-section {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .report-header .logo-icon {
+        width: 44px;
+        height: 44px;
+        background: linear-gradient(135deg, #4A6CF7 0%, #7c3aed 100%);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.2rem;
+        font-weight: 700;
+    }
+
+    .report-header .logo-text h1 {
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin: 0;
+        color: #1a1a2e;
+        letter-spacing: -0.02em;
+    }
+
+    .report-header .logo-text p {
+        font-size: 0.7rem;
+        color: #6b7280;
+        margin: 0;
+    }
+
+    .report-header .report-meta {
+        font-size: 0.8rem;
+        color: #6b7280;
+        line-height: 1.8;
+    }
+
+    .report-header .report-meta strong {
+        color: #1a1a2e;
+    }
+
+    .report-header .report-meta .status-complete {
+        color: #10b981;
+        font-weight: 600;
+    }
+
+    .report-header .report-divider {
+        border: none;
+        border-top: 1px solid #eef2ff;
+        margin: 16px 0;
+        position: relative;
+        z-index: 1;
+    }
+
+    .report-header .report-patient-info {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+        margin-top: 8px;
+        position: relative;
+        z-index: 1;
+    }
+
+    @media (max-width: 768px) {
+        .report-header .report-patient-info {
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+
+    .report-header .patient-field {
+        font-size: 0.8rem;
+    }
+
+    .report-header .patient-field .label {
+        color: #94a3b8;
+        font-size: 0.65rem;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        font-weight: 600;
+    }
+
+    .report-header .patient-field .value {
+        color: #1a1a2e;
+        font-weight: 600;
+        margin-top: 2px;
+    }
+
+    /* ---------- Section Cards ---------- */
+    .report-card {
+        background: white;
+        border-radius: 16px;
+        padding: 24px 32px;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 4px 24px rgba(0,0,0,0.04);
+        margin-bottom: 24px;
+        transition: all 0.3s ease;
+    }
+
+    .report-card:hover {
+        box-shadow: 0 8px 40px rgba(74,108,247,0.06);
+    }
+
+    .report-card .card-title {
+        font-size: 1rem;
+        font-weight: 700;
+        color: #1a1a2e;
+        margin: 0 0 16px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .report-card .card-title .title-icon {
+        color: #4A6CF7;
+    }
+
+    /* ---------- Risk Assessment ---------- */
+    .risk-box {
+        background: linear-gradient(135deg, #f8fafc 0%, #eef2ff 100%);
+        border-radius: 12px;
+        padding: 28px 32px;
+        text-align: center;
+        border: 2px solid #e2e8f0;
+    }
+
+    .risk-box .risk-label {
+        font-size: 0.7rem;
+        color: #94a3b8;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+    }
+
+    .risk-box .risk-level {
+        font-size: 2.8rem;
+        font-weight: 800;
+        margin: 4px 0;
+    }
+
+    .risk-box .risk-level.low { color: #16a34a; }
+    .risk-box .risk-level.medium { color: #d97706; }
+    .risk-box .risk-level.high { color: #dc2626; }
+
+    .risk-box .risk-score {
+        font-size: 1.1rem;
+        color: #475569;
+        margin-top: 4px;
+    }
+
+    .risk-box .risk-score strong {
+        color: #1a1a2e;
+    }
+
+    .risk-box .risk-interpretation {
+        font-size: 0.9rem;
+        color: #6b7280;
+        margin-top: 12px;
+        line-height: 1.6;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .risk-box .risk-ranges {
+        display: flex;
+        justify-content: center;
+        gap: 24px;
+        margin-top: 14px;
+        flex-wrap: wrap;
+        font-size: 0.75rem;
+    }
+
+    .risk-box .risk-ranges .range-item {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .risk-box .risk-ranges .range-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        display: inline-block;
+    }
+
+    .risk-box .risk-ranges .range-dot.low { background: #16a34a; }
+    .risk-box .risk-ranges .range-dot.medium { background: #d97706; }
+    .risk-box .risk-ranges .range-dot.high { background: #dc2626; }
+
+    /* ---------- Module Table ---------- */
+    .module-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.9rem;
+    }
+
+    .module-table thead th {
+        text-align: left;
+        padding: 12px 16px;
+        background: #f8fafc;
+        color: #6b7280;
+        font-weight: 600;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        border-bottom: 2px solid #e2e8f0;
+    }
+
+    .module-table tbody td {
+        padding: 14px 16px;
+        border-bottom: 1px solid #f1f5f9;
+        color: #1a1a2e;
+    }
+
+    .module-table tbody tr:hover {
+        background: #f8fafc;
+    }
+
+    .module-table .status-badge {
+        display: inline-block;
+        padding: 2px 16px;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 600;
+    }
+
+    .module-table .status-badge.pd {
+        background: #fef2f2;
+        color: #dc2626;
+    }
+
+    .module-table .status-badge.control {
+        background: #f0fdf4;
+        color: #16a34a;
+    }
+
+    .module-table .status-badge.borderline {
+        background: #fffbeb;
+        color: #d97706;
+    }
+
+    .module-table .status-badge.normal {
+        background: #f0fdf4;
+        color: #16a34a;
+    }
+
+    .module-table .weight-badge {
+        display: inline-block;
+        background: #f1f5f9;
+        padding: 2px 12px;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: #6b7280;
+    }
+
+    /* ---------- Clinical Interpretation ---------- */
+    .interpretation-box {
+        background: #f8fafc;
+        border-radius: 12px;
+        padding: 20px 24px;
+        border-left: 4px solid #4A6CF7;
+        font-size: 0.9rem;
+        color: #475569;
+        line-height: 1.7;
+    }
+
+    /* ---------- Action Buttons ---------- */
+    .action-buttons {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 8px;
+    }
+
+    .btn {
+        padding: 12px 28px;
+        border-radius: 10px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        text-decoration: none;
+        border: none;
+    }
+
+    .btn-pdf {
+        background: #dc2626;
+        color: white;
+    }
+
+    .btn-pdf:hover {
+        background: #b91c1c;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 16px rgba(220,38,38,0.3);
+    }
+
+    .btn-primary {
+        background: #4A6CF7;
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background: #3b5de7;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 16px rgba(74,108,247,0.3);
+    }
+
+    .btn-outline {
+        background: transparent;
+        color: #475569;
+        border: 2px solid #e2e8f0;
+    }
+
+    .btn-outline:hover {
+        background: #f8fafc;
+        border-color: #4A6CF7;
+        color: #4A6CF7;
+    }
+
+    /* ---------- Footer ---------- */
+    .report-footer {
+        text-align: center;
+        padding: 16px 24px;
+        background: #f8fafc;
+        border-radius: 12px;
+        font-size: 0.7rem;
+        color: #94a3b8;
+        margin-top: 24px;
+        border: 1px solid #e2e8f0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .report-footer .footer-status {
+        color: #10b981;
+        font-weight: 600;
+    }
+
+    .report-footer i {
+        color: #4A6CF7;
+    }
+
+    /* ---------- Error Box ---------- */
+    .error-box {
+        background: #fef2f2;
+        border: 1px solid #fca5a5;
+        border-radius: 12px;
+        padding: 32px;
+        text-align: center;
+        color: #991b1b;
+    }
+
+    .error-box h2 {
+        margin: 0 0 8px;
+        font-size: 1.2rem;
+    }
+
+    .error-box p {
+        margin: 0 0 16px;
+    }
+
+    /* ---------- Responsive ---------- */
+    @media (max-width: 600px) {
+        .report-header {
+            padding: 20px;
+        }
+
+        .report-header-top {
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .report-header .report-meta {
+            text-align: center;
+        }
+
+        .report-card {
+            padding: 16px 20px;
+        }
+
+        .risk-box .risk-level {
+            font-size: 2rem;
+        }
+
+        .risk-box .risk-ranges {
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .module-table {
+            font-size: 0.75rem;
+        }
+
+        .module-table thead th,
+        .module-table tbody td {
+            padding: 8px 10px;
+        }
+
+        .action-buttons .btn {
+            flex: 1;
+            justify-content: center;
+        }
+
+        .report-footer {
+            flex-direction: column;
+            text-align: center;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="report-container">
+
+    <!-- ========================================== -->
+    <!-- REPORT HEADER -->
+    <!-- ========================================== -->
+    <header class="report-header">
+        <div class="report-header-top">
+            <div class="logo-section">
+                <div class="logo-icon">🧠</div>
+                <div class="logo-text">
+                    <h1>NeuroSense AI</h1>
+                    <p>Neurological Risk Screening · AI-Powered Assessment</p>
+                </div>
+            </div>
+            <div class="report-meta">
+                <div><strong>Report ID:</strong> {{ fusion.screening_id|default:"N/A"|truncatechars:12 }}</div>
+                <div><strong>Assessment Date:</strong> {% now "d M Y, h:i A" %}</div>
+                <div><strong>Status:</strong> <span class="status-complete">Complete</span></div>
+            </div>
+        </div>
+
+        <hr class="report-divider">
+
+        <div class="report-patient-info">
+            <div class="patient-field">
+                <div class="label">Patient ID</div>
+                <div class="value">NS-{% now "Ymd" %}-001</div>
+            </div>
+            <div class="patient-field">
+                <div class="label">Name</div>
+                <div class="value">{{ user.get_full_name|default:"Guest User" }}</div>
+            </div>
+            <div class="patient-field">
+                <div class="label">Age / Gender</div>
+                <div class="value">— / —</div>
+            </div>
+            <div class="patient-field">
+                <div class="label">Assessment Date</div>
+                <div class="value">{% now "d M Y, h:i A" %}</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ========================================== -->
+    <!-- ERROR -->
+    <!-- ========================================== -->
+    {% if error %}
+    <div class="error-box">
+        <h2>⚠️ {{ error }}</h2>
+        <p>Please complete all screening modules before viewing the report.</p>
+        <a href="/" class="btn btn-primary">
+            <i class="fa-solid fa-house"></i> Go to Home
+        </a>
+    </div>
+    {% else %}
+
+    <!-- ========================================== -->
+    <!-- RISK ASSESSMENT -->
+    <!-- ========================================== -->
+    <section class="report-card">
+        <div class="card-title">
+            <span class="title-icon"><i class="fa-solid fa-chart-simple"></i></span>
+            Risk Assessment
+        </div>
+
+        <div class="risk-box">
+            <div class="risk-label">Overall Risk Level</div>
+            <div class="risk-level {% if fusion.risk_level == 'Low' %}low{% elif fusion.risk_level == 'Medium' %}medium{% else %}high{% endif %}">
+                {{ fusion.risk_level|upper }} RISK
+            </div>
+            <div class="risk-score">
+                <strong>PD Risk Score:</strong> {{ fusion.final_pd_probability|floatformat:2 }} / 1.00
+            </div>
+            <div class="risk-interpretation">
+                Your assessment indicates a <strong>{{ fusion.risk_level|lower }}</strong> risk of Parkinsonian disorder.
+                {% if fusion.risk_level == 'High' %}
+                Multiple indicators associated with Parkinsonian symptoms were detected. It is strongly recommended to consult a neurologist.
+                {% elif fusion.risk_level == 'Medium' %}
+                Some early signs associated with motor and non-motor symptoms were detected. It is recommended to consult a neurologist for detailed clinical evaluation.
+                {% else %}
+                No significant indicators of Parkinsonian disorder were detected. Continue regular health monitoring.
+                {% endif %}
+            </div>
+            <div class="risk-ranges">
+                <span class="range-item">
+                    <span class="range-dot low"></span>
+                    Low Risk (0.00 – 0.33)
+                </span>
+                <span class="range-item">
+                    <span class="range-dot medium"></span>
+                    Medium Risk (0.34 – 0.66)
+                </span>
+                <span class="range-item">
+                    <span class="range-dot high"></span>
+                    High Risk (0.67 – 1.00)
+                </span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- MODULE RESULTS (TABLE FORMAT) -->
+    <!-- ========================================== -->
+    <section class="report-card">
+        <div class="card-title">
+            <span class="title-icon"><i class="fa-solid fa-layer-group"></i></span>
+            Module Results
+        </div>
+
+        <table class="module-table">
+            <thead>
+                <tr>
+                    <th>Module</th>
+                    <th>Description</th>
+                    <th>Result</th>
+                    <th style="text-align:right;">Weight</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Gait -->
+                <tr>
+                    <td><strong>Gait Analysis</strong></td>
+                    <td>Motor Function Assessment</td>
+                    <td>
+                        <span class="status-badge {% if fusion.modules.gait.prediction == 'PD' %}pd{% elif fusion.modules.gait.prediction == 'Borderline' %}borderline{% else %}control{% endif %}">
+                            {{ fusion.modules.gait.prediction|default:"N/A"|upper }}
+                        </span>
+                        <br>
+                        <small style="color:#94a3b8;">Risk: {{ fusion.modules.gait.pd_probability|floatformat:1 }}</small>
+                    </td>
+                    <td style="text-align:right;">
+                        <span class="weight-badge">{% widthratio fusion.modules.gait.weight 1 100 %}%</span>
+                    </td>
+                </tr>
+
+                <!-- Speech -->
+                <tr>
+                    <td><strong>Speech Analysis</strong></td>
+                    <td>Voice &amp; Speech Assessment</td>
+                    <td>
+                        <span class="status-badge {% if fusion.modules.speech.prediction == 'PD' %}pd{% elif fusion.modules.speech.prediction == 'Borderline' %}borderline{% else %}control{% endif %}">
+                            {{ fusion.modules.speech.prediction|default:"N/A"|upper }}
+                        </span>
+                        <br>
+                        <small style="color:#94a3b8;">Risk: {{ fusion.modules.speech.pd_probability|floatformat:4 }}</small>
+                    </td>
+                    <td style="text-align:right;">
+                        <span class="weight-badge">{% widthratio fusion.modules.speech.weight 1 100 %}%</span>
+                    </td>
+                </tr>
+
+                <!-- Questionnaire -->
+                <tr>
+                    <td><strong>Questionnaire</strong></td>
+                    <td>Symptoms Assessment</td>
+                    <td>
+                        <span class="status-badge {% if fusion.modules.questionnaire.prediction == 'PD' %}pd{% elif fusion.modules.questionnaire.prediction == 'Borderline' %}borderline{% else %}control{% endif %}">
+                            {{ fusion.modules.questionnaire.prediction|default:"N/A"|upper }}
+                        </span>
+                        <br>
+                        <small style="color:#94a3b8;">Risk: {{ fusion.modules.questionnaire.pd_probability|floatformat:1 }}</small>
+                    </td>
+                    <td style="text-align:right;">
+                        <span class="weight-badge">{% widthratio fusion.modules.questionnaire.weight 1 100 %}%</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- CLINICAL INTERPRETATION -->
+    <!-- ========================================== -->
+    <section class="report-card">
+        <div class="card-title">
+            <span class="title-icon"><i class="fa-solid fa-microscope"></i></span>
+            Clinical Interpretation
+        </div>
+
+        <div class="interpretation-box">
+            {% if fusion.modules.gait.prediction == 'PD' %}
+            <strong>Gait analysis</strong> shows signs associated with Parkinsonian patterns.
+            {% elif fusion.modules.gait.prediction == 'Borderline' %}
+            <strong>Gait analysis</strong> shows some irregularities that may warrant monitoring.
+            {% else %}
+            <strong>Gait analysis</strong> is within normal range.
+            {% endif %}
+
+            {% if fusion.modules.speech.prediction == 'PD' %}
+            <strong>Speech analysis</strong> shows indicators associated with Parkinsonian voice patterns.
+            {% elif fusion.modules.speech.prediction == 'Borderline' %}
+            <strong>Speech analysis</strong> shows some voice irregularities.
+            {% else %}
+            <strong>Speech analysis</strong> is within normal range.
+            {% endif %}
+
+            {% if fusion.modules.questionnaire.prediction == 'PD' %}
+            <strong>Questionnaire responses</strong> indicate multiple motor and non-motor symptoms.
+            {% elif fusion.modules.questionnaire.prediction == 'Borderline' %}
+            <strong>Questionnaire responses</strong> indicate mild symptoms.
+            {% else %}
+            <strong>Questionnaire responses</strong> are within normal range.
+            {% endif %}
+
+            <br><br>
+            <strong>Combined results</strong> suggest a <strong>{{ fusion.risk_level|lower }}</strong> overall risk.
+            {% if fusion.risk_level == 'High' %}
+            It is strongly recommended to consult a neurologist for clinical evaluation.
+            {% elif fusion.risk_level == 'Medium' %}
+            It is recommended to consult a neurologist for clinical evaluation.
+            {% else %}
+            Continue regular health monitoring.
+            {% endif %}
+        </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- ACTION BUTTONS -->
+    <!-- ========================================== -->
+    <div class="action-buttons">
+        <button class="btn btn-pdf" onclick="window.print()">
+            <i class="fa-solid fa-file-pdf"></i> Download Report
+        </button>
+        <a href="#" class="btn btn-primary" onclick="alert('Recommendations coming soon!')">
+            <i class="fa-solid fa-lightbulb"></i> View Recommendations
+        </a>
+        <a href="{% url 'speech_app:home' %}" class="btn btn-outline">
+            <i class="fa-solid fa-house"></i> Back to Home
+        </a>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- FOOTER -->
+    <!-- ========================================== -->
+    <div class="report-footer">
+        <span>
+            <i class="fa-solid fa-circle-info"></i>
+            This report is generated by an AI system and is intended for screening purposes only.
+            It is not a medical diagnosis.
+        </span>
+        <span class="footer-status">Report Status: Complete</span>
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

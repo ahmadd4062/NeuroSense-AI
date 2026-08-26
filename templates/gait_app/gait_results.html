@@ -54,9 +54,16 @@
             </div>
         </div>
 
-        <p style="color: #6b7280; font-size: 0.95rem;">
+        <p style="color: #6b7280; font-size: 1rem; margin-bottom: 24px;">
             Proceed to the <strong>Final Report</strong> to view your complete neurological risk assessment.
         </p>
+
+        <!-- Action Buttons -->
+        <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; margin-bottom: 24px;">
+            <a href="/fusion/report/" style="background: #4A6CF7; color: white; padding: 14px 36px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 1rem; transition: background 0.2s; display: inline-flex; align-items: center; gap: 10px; box-shadow: 0 4px 16px rgba(74,108,247,0.3);">
+                <i class="fa-solid fa-file-lines"></i> View Final Report
+            </a>
+        </div>
 
         <!-- Divider -->
         <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 24px 0;">
@@ -85,18 +92,6 @@
         </div>
     </div>
 
-    <!-- Action Buttons -->
-    <div style="margin-top: 30px; display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;">
-        <a href="{% url 'gait_app:gait_screening' %}" style="background: #f1f5f9; color: #475569; padding: 12px 28px; border: 2px solid #e2e8f0; border-radius: 10px; text-decoration: none; font-weight: 600; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px;">
-            <i class="fa-solid fa-camera"></i> Upload Another Video
-        </a>
-        <a href="{% url 'fusion_app:report' %}" style="background: #4A6CF7; color: white; padding: 12px 28px; border-radius: 10px; text-decoration: none; font-weight: 600; transition: background 0.2s; display: inline-flex; align-items: center; gap: 8px;">
-            <i class="fa-solid fa-file-lines"></i> View Final Report
-        </a>
-        <a href="{% url 'speech_app:home' %}" style="background: transparent; color: #4A6CF7; padding: 12px 28px; border: 2px solid #4A6CF7; border-radius: 10px; text-decoration: none; font-weight: 600; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px;">
-            <i class="fa-solid fa-house"></i> Back to Home
-        </a>
-    </div>
 </section>
 
 <style>

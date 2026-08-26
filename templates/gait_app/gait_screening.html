@@ -1884,8 +1884,8 @@ Gait Screening - NeuroSense AI
                 <a href="{% url 'gait_app:gait_screening' %}" style="background: #f1f5f9; color: #475569; padding: 12px 28px; border: 2px solid #e2e8f0; border-radius: 10px; text-decoration: none; font-weight: 600; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px;">
                     <i class="fa-solid fa-camera"></i> {% if lang == 'ur' %}دوبارہ ویڈیو اپ لوڈ کریں{% else %}Upload Another Video{% endif %}
                 </a>
-                <a href="#" style="background: #4A6CF7; color: white; padding: 12px 28px; border-radius: 10px; text-decoration: none; font-weight: 600; transition: background 0.2s; display: inline-flex; align-items: center; gap: 8px; opacity: 0.5; pointer-events: none; cursor: not-allowed;">
-                    <i class="fa-solid fa-file-lines"></i> {% if lang == 'ur' %}حتمی رپورٹ (جلد آ رہی ہے){% else %}Final Report (Coming Soon){% endif %}
+                <a href="/fusion/report/" style="background: #4A6CF7; color: white; padding: 12px 28px; border-radius: 10px; text-decoration: none; font-weight: 600; transition: background 0.2s; display: inline-flex; align-items: center; gap: 8px;">
+                    <i class="fa-solid fa-file-lines"></i> {% if lang == 'ur' %}حتمی رپورٹ دیکھیں{% else %}View Final Report{% endif %}
                 </a>
                 <a href="{% url 'speech_app:home' %}" style="background: transparent; color: #4A6CF7; padding: 12px 28px; border: 2px solid #4A6CF7; border-radius: 10px; text-decoration: none; font-weight: 600; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px;">
                     <i class="fa-solid fa-house"></i> {% if lang == 'ur' %}ہوم پیج{% else %}Back to Home{% endif %}
