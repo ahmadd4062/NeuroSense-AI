@@ -14,26 +14,31 @@ Audio Screening | NeuroSense AI
 
 {% block content %}
 
-<main class="audio-screening-page">
+<main class="audio-screening-page" lang="en" dir="ltr">
 
     <section class="audio-hero">
         <div class="audio-page-container audio-hero-layout">
 
             <div class="audio-hero-copy">
 
+                <div class="language-switcher" aria-label="Language selector">
+
+                    <button type="button" class="language-button is-active" data-language="en">English</button>
+                    <button type="button" class="language-button" data-language="ur">اردو</button>
+
+                </div>
+
                 <span class="audio-hero-badge">
                     <i class="fa-solid fa-microphone-lines"></i>
-                    Audio Screening · Step 2 of 4
+                    <span data-i18n="hero_badge">Audio Screening · Step 2 of 4</span>
                 </span>
 
-                <h1>
+                <h1 data-i18n="hero_title">
                     Audio Screening
                 </h1>
 
-                <p>
-                    Complete three short voice recordings so NeuroSense AI can
-                    evaluate speech patterns and voice characteristics as part
-                    of your guided screening journey.
+                <p data-i18n="hero_description">
+                    Pronounce and sustain the /aaaa/ sound for a few seconds so NeuroSense AI can analyze key voice characteristics as part of your guided screening journey.
                 </p>
 
             </div>
@@ -54,7 +59,7 @@ Audio Screening | NeuroSense AI
         <section class="overall-progress-card">
 
             <div class="overall-progress-header">
-                <strong>Overall Progress</strong>
+                <strong data-i18n="overall_progress">Overall Progress</strong>
                 <span>30%</span>
             </div>
 
@@ -63,8 +68,8 @@ Audio Screening | NeuroSense AI
             </div>
 
             <div class="overall-progress-footer">
-                <p>You have completed 1 of 4 modules</p>
-                <p>Estimated time remaining: ~15 mins</p>
+                <p data-i18n="progress_completed">You have completed 1 of 4 modules</p>
+                <p data-i18n="progress_remaining">Estimated time remaining: ~15 mins</p>
             </div>
 
         </section>
@@ -72,36 +77,32 @@ Audio Screening | NeuroSense AI
 
         <section class="module-overview-grid">
 
-            <article class="module-overview-card">
+            <article class="module-overview-card sample-audio-card">
 
-                <h2>About This Module</h2>
+                <h2 data-i18n="sample_title">Listen to a Sample</h2>
 
-                <div class="module-summary-content">
-
-                    <div class="module-summary-icon">
-                        <i class="fa-solid fa-wave-square"></i>
+                <div class="sample-audio-content">
+                    <div class="sample-audio-icon"><i class="fa-solid fa-volume-high"></i></div>
+                    <div class="sample-audio-copy">
+                        <h3 data-i18n="sample_recording">Sample Voice Recording</h3>
+                        <p data-i18n="sample_description">Listen to the sample to understand how to sustain the “Aaaa” sound before recording your own voice.</p>
                     </div>
-
-                    <h3>Audio Analysis</h3>
-
-                    <p>
-                        Analyze your speech patterns, voice characteristics,
-                        and motor speech indicators.
+                    <audio class="sample-audio-player" controls preload="metadata">
+                        <source src="{% static 'speech_app/audio/sample_aaaa.wav' %}" type="audio/wav">
+                        Your browser does not support audio playback.
+                    </audio>
+                    <p class="sample-audio-note">
+                        <i class="fa-solid fa-circle-info"></i>
+                        <span data-i18n="sample_note">Match the clarity and steady tone — not the exact voice.</span>
                     </p>
-
                 </div>
 
                 <div class="module-time">
-
-                    <span class="module-time-icon">
-                        <i class="fa-regular fa-clock"></i>
-                    </span>
-
+                    <span class="module-time-icon"><i class="fa-regular fa-clock"></i></span>
                     <div>
-                        <span>Estimated Time</span>
-                        <strong>5–7 minutes</strong>
+                        <span data-i18n="estimated_time">Estimated Time</span>
+                        <strong data-i18n="estimated_duration">5–7 minutes</strong>
                     </div>
-
                 </div>
 
             </article>
@@ -109,18 +110,18 @@ Audio Screening | NeuroSense AI
 
             <article class="module-overview-card screening-steps-card">
 
-                <h2>Audio Screening Steps</h2>
+                <h2 data-i18n="steps_title">Audio Screening Steps</h2>
 
                 <div class="screening-step screening-step-required">
 
                     <span class="screening-step-number">1</span>
 
                     <div class="screening-step-copy">
-                        <strong>First Voice Recording</strong>
-                        <small>Add your first independent sample</small>
+                        <strong data-i18n="first_recording">First Voice Recording</strong>
+                        <small data-i18n="first_recording_help">Sustain the “Aaaa” sound clearly for 4–6 seconds.</small>
                     </div>
 
-                    <span class="screening-step-status">Required</span>
+                    <span class="screening-step-status" data-i18n="required">Required</span>
 
                 </div>
 
@@ -129,11 +130,11 @@ Audio Screening | NeuroSense AI
                     <span class="screening-step-number">2</span>
 
                     <div class="screening-step-copy">
-                        <strong>Second Voice Recording</strong>
-                        <small>Add your second independent sample</small>
+                        <strong data-i18n="second_recording">Second Voice Recording</strong>
+                        <small data-i18n="second_recording_help">Repeat the “Aaaa” sound for another 4–6 seconds.</small>
                     </div>
 
-                    <span class="screening-step-status">Required</span>
+                    <span class="screening-step-status" data-i18n="required">Required</span>
 
                 </div>
 
@@ -142,11 +143,11 @@ Audio Screening | NeuroSense AI
                     <span class="screening-step-number">3</span>
 
                     <div class="screening-step-copy">
-                        <strong>Third Voice Recording</strong>
-                        <small>Add your third independent sample</small>
+                        <strong data-i18n="third_recording">Third Voice Recording</strong>
+                        <small data-i18n="third_recording_help">Complete one final “Aaaa” recording for 4–6 seconds.</small>
                     </div>
 
-                    <span class="screening-step-status">Required</span>
+                    <span class="screening-step-status" data-i18n="required">Required</span>
 
                 </div>
 
@@ -155,11 +156,11 @@ Audio Screening | NeuroSense AI
                     <span class="screening-step-number">4</span>
 
                     <div class="screening-step-copy">
-                        <strong>Voice Quality Assessment</strong>
-                        <small>Automatic AI screening</small>
+                        <strong data-i18n="quality_assessment">Voice Quality Assessment</strong>
+                        <small data-i18n="automatic_screening">Automatic AI screening</small>
                     </div>
 
-                    <span class="screening-step-status">Pending</span>
+                    <span class="screening-step-status" data-i18n="pending">Pending</span>
 
                 </div>
 
@@ -171,28 +172,28 @@ Audio Screening | NeuroSense AI
                 id="guidance-panel"
             >
 
-                <h2>Tips for best results</h2>
+                <h2 data-i18n="tips_title">Tips for best results</h2>
 
                 <ul class="recording-guidance-list">
 
                     <li>
                         <i class="fa-solid fa-check"></i>
-                        <span>Find a quiet environment</span>
+                        <span data-i18n="quiet_environment">Find a quiet environment</span>
                     </li>
 
                     <li>
                         <i class="fa-solid fa-check"></i>
-                        <span>Speak clearly and naturally</span>
+                        <span data-i18n="speak_clearly">Speak clearly and naturally</span>
                     </li>
 
                     <li>
                         <i class="fa-solid fa-check"></i>
-                        <span>Keep the microphone about 15–20 cm away</span>
+                        <span data-i18n="microphone_distance">Keep the microphone about 15–20 cm away</span>
                     </li>
 
                     <li>
                         <i class="fa-solid fa-check"></i>
-                        <span>Record three different voice samples</span>
+                        <span data-i18n="different_samples">Record three different voice samples</span>
                     </li>
 
                 </ul>
@@ -205,7 +206,7 @@ Audio Screening | NeuroSense AI
                     aria-expanded="false"
                 >
                     <i class="fa-regular fa-circle-question"></i>
-                    View Recording Guidance
+                    <span data-i18n="view_guidance">View Recording Guidance</span>
                 </button>
 
             </aside>
@@ -222,17 +223,16 @@ Audio Screening | NeuroSense AI
 
                 <div>
 
-                    <span class="section-label">
+                    <span class="section-label" data-i18n="audio_recording">
                         Audio Recording
                     </span>
 
-                    <h2 id="screening-heading">
+                    <h2 id="screening-heading" data-i18n="add_recordings">
                         Add your voice recordings
                     </h2>
 
-                    <p>
-                        Record directly using your microphone or upload an
-                        existing audio file.
+                    <p data-i18n="add_recordings_help">
+                        Record directly using your microphone or upload an existing audio file.
                     </p>
 
                 </div>
@@ -250,7 +250,7 @@ Audio Screening | NeuroSense AI
                             aria-hidden="true"
                         ></span>
 
-                        <span data-status-text>
+                        <span data-status-text data-i18n="checking_service">
                             Checking service
                         </span>
                     </span>
@@ -260,7 +260,7 @@ Audio Screening | NeuroSense AI
                         id="completion-badge"
                         aria-live="polite"
                     >
-                        <span id="completed-count">0</span>/3 ready
+                        <span id="completed-count">0</span><span data-i18n="ready_suffix">/3 ready</span>
                     </div>
 
                 </div>
@@ -307,7 +307,7 @@ Audio Screening | NeuroSense AI
                                     class="state-text"
                                     id="state-text-{{ forloop.counter }}"
                                 >
-                                    Not recorded
+                                    <span data-i18n="not_recorded">Not recorded</span>
                                 </span>
 
                             </div>
@@ -321,12 +321,12 @@ Audio Screening | NeuroSense AI
 
                                 <div>
 
-                                    <span class="card-kicker">
+                                    <span class="card-kicker" data-i18n="voice_sample">
                                         Voice Sample
                                     </span>
 
                                     <h3>
-                                        Recording {{ forloop.counter }}
+                                        <span data-i18n="recording_label">Recording</span> {{ forloop.counter }}
                                     </h3>
 
                                 </div>
@@ -380,9 +380,9 @@ Audio Screening | NeuroSense AI
                                 </span>
 
                                 <span class="recording-limit">
-                                    Maximum
+                                    <span data-i18n="maximum">Maximum</span>
                                     {{ maximum_recording_seconds|default:6 }}
-                                    seconds
+                                    <span data-i18n="seconds">seconds</span>
                                 </span>
 
                             </div>
@@ -396,7 +396,7 @@ Audio Screening | NeuroSense AI
                                     data-action="record"
                                 >
                                     <i class="fa-solid fa-microphone"></i>
-                                    <span>Start recording</span>
+                                    <span data-i18n="start_recording">Start recording</span>
                                 </button>
 
                                 <button
@@ -406,14 +406,14 @@ Audio Screening | NeuroSense AI
                                     disabled
                                 >
                                     <i class="fa-solid fa-stop"></i>
-                                    <span>Stop</span>
+                                    <span data-i18n="stop">Stop</span>
                                 </button>
 
                             </div>
 
 
                             <div class="upload-divider">
-                                <span>or upload a file</span>
+                                <span data-i18n="or_upload">or upload a file</span>
                             </div>
 
 
@@ -436,11 +436,11 @@ Audio Screening | NeuroSense AI
 
                                 <span class="upload-copy">
 
-                                    <strong>
+                                    <strong data-i18n="upload_file">
                                         Upload audio file
                                     </strong>
 
-                                    <small>
+                                    <small data-i18n="upload_formats">
                                         WAV, MP4, OGG or WebM
                                     </small>
 
@@ -494,13 +494,12 @@ Audio Screening | NeuroSense AI
 
                         <div>
 
-                            <h3>
+                            <h3 data-i18n="ready_analysis">
                                 Ready for analysis
                             </h3>
 
-                            <p>
-                                All three recordings must be added before
-                                screening can begin.
+                            <p data-i18n="all_recordings_required">
+                                All three recordings must be added before screening can begin.
                             </p>
 
                         </div>
@@ -513,7 +512,7 @@ Audio Screening | NeuroSense AI
                         id="submit-screening"
                         disabled
                     >
-                        <span>Analyze recordings</span>
+                        <span data-i18n="analyze_recordings">Analyze recordings</span>
                         <i class="fa-solid fa-arrow-right"></i>
                     </button>
 
@@ -540,15 +539,15 @@ Audio Screening | NeuroSense AI
 
                 <div class="processing-content">
 
-                    <span class="section-label">
+                    <span class="section-label" data-i18n="audio_analysis">
                         Audio Analysis
                     </span>
 
-                    <h2 id="processing-title">
+                    <h2 id="processing-title" data-i18n="analyzing_recordings">
                         Analyzing your recordings
                     </h2>
 
-                    <p id="processing-message">
+                    <p id="processing-message" data-i18n="preparing_quality">
                         Preparing audio for quality assessment.
                     </p>
 
@@ -583,11 +582,11 @@ Audio Screening | NeuroSense AI
 
                     <div>
 
-                        <span class="section-label">
+                        <span class="section-label" data-i18n="audio_module_complete">
                             Audio Module Complete
                         </span>
 
-                        <h2 id="results-title">
+                        <h2 id="results-title" data-i18n="voice_screening_result">
                             Voice screening result
                         </h2>
 
@@ -599,7 +598,7 @@ Audio Screening | NeuroSense AI
                         id="restart-screening"
                     >
                         <i class="fa-solid fa-arrow-rotate-right"></i>
-                        <span>Start again</span>
+                        <span data-i18n="start_again">Start again</span>
                     </button>
 
                 </div>
@@ -612,7 +611,7 @@ Audio Screening | NeuroSense AI
                         id="result-status-card"
                     >
 
-                        <span class="result-label">
+                        <span class="result-label" data-i18n="screening_category">
                             Screening category
                         </span>
 
@@ -628,22 +627,22 @@ Audio Screening | NeuroSense AI
                     <div class="metrics-grid">
 
                         <div class="metric-card">
-                            <span>Decision score</span>
+                            <span data-i18n="decision_score">Decision score</span>
                             <strong id="result-score">—</strong>
                         </div>
 
                         <div class="metric-card">
-                            <span>Confidence</span>
+                            <span data-i18n="confidence">Confidence</span>
                             <strong id="result-confidence">—</strong>
                         </div>
 
                         <div class="metric-card">
-                            <span>Consistency</span>
+                            <span data-i18n="consistency">Consistency</span>
                             <strong id="result-consistency">—</strong>
                         </div>
 
                         <div class="metric-card">
-                            <span>Agreement</span>
+                            <span data-i18n="agreement">Agreement</span>
                             <strong id="result-agreement">—</strong>
                         </div>
 
@@ -656,11 +655,11 @@ Audio Screening | NeuroSense AI
 
                     <div class="results-subheading">
 
-                        <h3>
+                        <h3 data-i18n="recording_quality">
                             Recording quality
                         </h3>
 
-                        <p>
+                        <p data-i18n="recording_quality_help">
                             Individual recording quality and prediction details.
                         </p>
 
@@ -678,9 +677,8 @@ Audio Screening | NeuroSense AI
 
                     <i class="fa-solid fa-circle-info"></i>
 
-                    <p id="result-disclaimer">
-                        This result is intended for screening purposes only and
-                        is not a medical diagnosis.
+                    <p id="result-disclaimer" data-i18n="result_disclaimer">
+                        This result is intended for screening purposes only and is not a medical diagnosis.
                     </p>
 
                 </div>
@@ -711,11 +709,11 @@ Audio Screening | NeuroSense AI
 
                 <div class="error-content">
 
-                    <span class="section-label">
+                    <span class="section-label" data-i18n="action_required">
                         Action Required
                     </span>
 
-                    <h2 id="error-title">
+                    <h2 id="error-title" data-i18n="screening_failed">
                         Screening could not be completed
                     </h2>
 
@@ -733,7 +731,7 @@ Audio Screening | NeuroSense AI
                         id="dismiss-error"
                     >
                         <i class="fa-solid fa-arrow-left"></i>
-                        <span>Review recordings</span>
+                        <span data-i18n="review_recordings">Review recordings</span>
                     </button>
 
                 </div>
@@ -754,11 +752,11 @@ Audio Screening | NeuroSense AI
 
             <div class="security-banner-copy">
 
-                <strong>
+                <strong data-i18n="secure_data">
                     Your data is secure and encrypted.
                 </strong>
 
-                <span>
+                <span data-i18n="privacy">
                     We prioritize your privacy and data protection.
                 </span>
 
@@ -766,7 +764,7 @@ Audio Screening | NeuroSense AI
 
             <a href="#">
                 <i class="fa-solid fa-circle-info"></i>
-                Learn more about data security
+                <span data-i18n="learn_security">Learn more about data security</span>
             </a>
 
         </section>
@@ -785,7 +783,7 @@ Audio Screening | NeuroSense AI
 
 
 <noscript>
-    <div class="noscript-message">
+    <div class="noscript-message" data-i18n="javascript_required">
         JavaScript is required to record audio and submit this screening.
     </div>
 </noscript>

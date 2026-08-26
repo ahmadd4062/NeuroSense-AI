@@ -44,7 +44,7 @@ logger = logging.getLogger(__name__)
 DEFAULT_MINIMUM_DURATION_SECONDS = 3.0
 DEFAULT_RECOMMENDED_MAXIMUM_DURATION_SECONDS = 5.0
 
-DEFAULT_MINIMUM_SNR_DB = 8.0
+DEFAULT_MINIMUM_SNR_DB = 5.0
 DEFAULT_MAXIMUM_SILENCE_PERCENTAGE = 45.0
 
 DEFAULT_MINIMUM_RMS_DBFS = -40.0
@@ -820,14 +820,14 @@ def assess_audio_quality(
                 "excessive_clipping"
             )
 
-        if (
-            not np.isfinite(estimated_snr)
-            or estimated_snr
-            < active_config.minimum_snr_db
-        ):
-            result.blocking_reasons.append(
-                "snr_below_minimum"
-            )
+        if not np.isfinite(estimated_snr):
+            result.blocking_reasons.append("invalid_snr")
+
+        elif estimated_snr < 2.0:
+            result.blocking_reasons.append("snr_extremely_low")
+
+        elif estimated_snr < 8.0:
+            result.warnings.append("snr_below_recommended")
 
         if (
             silence_percentage

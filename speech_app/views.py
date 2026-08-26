@@ -244,6 +244,83 @@ def _replacement_slots(
     )
 
 
+def _get_quality_message(reason: str) -> str:
+    messages = {
+        "snr_extremely_low": (
+            "Too much background noise was detected. "
+            "Please move to a quieter place and record again."
+        ),
+        "invalid_snr": (
+            "We couldn't assess the recording quality. "
+            "Please record again."
+        ),
+        "duration_below_minimum": (
+            "The recording is too short. "
+            "Please sustain 'Aaaa' for at least 3 seconds."
+        ),
+        "rms_below_minimum": (
+            "Your voice is too quiet. "
+            "Please speak a little louder or move closer to the microphone."
+        ),
+        "excessive_clipping": (
+            "Your voice is too loud or too close to the microphone. "
+            "Please move slightly away and record again."
+        ),
+        "silence_above_maximum": (
+            "Too much silence was detected. "
+            "Please sustain 'Aaaa' continuously while recording."
+        ),
+        "unexpected_sample_rate": (
+            "This audio format could not be processed correctly. "
+            "Please record again."
+        ),
+        "unexpected_channel_count": (
+            "This audio format is not supported correctly. "
+            "Please record again."
+        ),
+        "processing_failure": (
+            "We couldn't process this recording. "
+            "Please record or upload it again."
+        ),
+    }
+
+    return messages.get(
+        reason,
+        "The recording quality was not sufficient. Please record again."
+    )
+
+def _build_quality_feedback(
+    quality_results,
+    duplicate_slot_numbers=None,
+):
+    feedback = []
+    duplicate_slots = set(
+        int(slot)
+        for slot in (duplicate_slot_numbers or [])
+    )
+
+    for result in quality_results:
+        messages = []
+
+        if not result.is_valid:
+            messages.extend(
+                _get_quality_message(reason)
+                for reason in result.blocking_reasons
+            )
+
+        if int(result.slot_number) in duplicate_slots:
+            messages.append(
+                "This recording appears to be the same as another recording. "
+                "Please provide a new and different voice sample."
+            )
+
+        if messages:
+            feedback.append({
+                "slot": result.slot_number,
+                "messages": messages,
+            })
+
+    return feedback
 @require_POST
 def analyze_screening(request: HttpRequest) -> JsonResponse:
     request_directory: Path | None = None
@@ -303,12 +380,15 @@ def analyze_screening(request: HttpRequest) -> JsonResponse:
                     "success": False,
                     "code": "recordings_need_replacement",
                     "message": (
-                        "One or more recordings need to be "
-                        "recorded again."
+                        "Some recordings need to be recorded again."
                     ),
                     "screening_id": screening_id,
                     "replacement_required": True,
                     "replacement_slots": replacement_slots,
+                    "quality_feedback": _build_quality_feedback(
+                        quality_results,
+                        duplicate_slot_numbers,
+                    ),
                 },
                 status=422,
             )
@@ -593,7 +673,4 @@ def screening_health(request: HttpRequest) -> JsonResponse:
 
 
 def module_three_placeholder(request):
-    return render(
-        request,
-        "speech_app/module_three.html",
-    )
+    return render(request, "gait_app/gait_screening.html")
