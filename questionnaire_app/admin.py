@@ -7,6 +7,7 @@ class QuestionnaireResultAdmin(admin.ModelAdmin):
     list_display = (
         "id",
         "final_prediction",
+        "internal_model_score",
         "module_confidence",
         "confidence_level",
         "motor_score",

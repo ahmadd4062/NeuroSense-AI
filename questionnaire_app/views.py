@@ -115,6 +115,23 @@ def questionnaire_form(request):
                 "questionnaire_result_id"
             ] = saved_result.id
 
+            request.session['questionnaire_result'] = {
+                'prediction': result['final_prediction'],
+                'pd_probability': result['internal_model_score'],
+                'control_probability': 1 - result['internal_model_score'],
+                'confidence': result['module_confidence'],
+                'motor_score': result['motor_score'],
+                'motor_pattern': result['motor_pattern'],
+                'support_level': result['secondary_support_level'],
+                'reliability': result['reliability_level'],
+                'positive_motor_symptoms': result['positive_motor_symptoms'],
+                'uncertain_answers': result['uncertain_answers'],
+                'age_in_model_range': result['age_in_model_range'],
+                'internal_model_zone': result['internal_model_zone'],
+                'final_prediction_rule_based': result['final_prediction']
+                }
+            request.session.modified = True
+
         return redirect(
             "speech_app:screening"
         )

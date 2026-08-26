@@ -3,6 +3,7 @@
 from django.urls import path
 
 from . import views
+from django.shortcuts import redirect
 
 
 app_name = "speech_app"
@@ -25,9 +26,8 @@ urlpatterns = [
     ),
     path(
         "module-three/",
-        views.module_three_placeholder,
-        name="module_three",
-    ),
+        lambda request: redirect('gait_app:gait_screening'),
+        name="module_three"),
     path("", views.home, name="home"),
 
 ]

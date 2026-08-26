@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'rest_framework',      
     'corsheaders',
     'gait_app',
-    'questionnaire_app'
+    'questionnaire_app',
+    'fusion_app',
 ]
 
 MIDDLEWARE = [

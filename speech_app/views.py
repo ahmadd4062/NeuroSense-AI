@@ -423,7 +423,14 @@ def analyze_screening(request: HttpRequest) -> JsonResponse:
             screening_id,
         )
 
-        request.session["audio_module_result"] = fusion_result.to_dict()
+        request.session["audio_module_result"] = {
+            'prediction': fusion_result.final_label,  
+            'pd_probability': fusion_result.fused_score,
+            'control_probability': 1 - fusion_result.fused_score,
+            'screening_id': screening_id,
+            'model_used': 'Linear SVM'
+            }
+        request.session.modified = True
         request.session["screening_id"] = screening_id
         request.session.modified = True
 
