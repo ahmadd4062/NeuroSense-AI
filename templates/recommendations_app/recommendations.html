@@ -1,0 +1,980 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Clinical Recommendations - NeuroSense AI{% endblock %}
+
+{% block extra_css %}
+<style>
+
+    /* --- Hero Section --- */
+    .rec-hero {
+        background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+        padding: 60px 20px 50px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        margin-bottom: 40px;
+    }
+
+    .rec-hero::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -20%;
+        width: 400px;
+        height: 400px;
+        background: radial-gradient(circle, rgba(74,108,247,0.08) 0%, transparent 70%);
+        border-radius: 50%;
+    }
+
+    .rec-hero::after {
+        content: '';
+        position: absolute;
+        bottom: -40%;
+        left: -10%;
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(circle, rgba(74,108,247,0.06) 0%, transparent 70%);
+        border-radius: 50%;
+    }
+
+    .rec-hero-content {
+        max-width: 800px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+    }
+
+    .rec-hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(74,108,247,0.12);
+        color: #4A6CF7;
+        padding: 6px 18px;
+        border-radius: 20px;
+        font-size: 0.7rem;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        margin-bottom: 16px;
+        border: 1px solid rgba(74,108,247,0.15);
+    }
+
+    .rec-hero-badge i {
+        font-size: 0.75rem;
+    }
+
+    .rec-hero h1 {
+        font-size: 2.8rem;
+        font-weight: 800;
+        color: #1a1a2e;
+        margin: 0 0 12px;
+        line-height: 1.2;
+    }
+
+    .rec-hero h1 span {
+        background: linear-gradient(135deg, #4A6CF7 0%, #3b5de7 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .rec-hero p {
+        font-size: 1.1rem;
+        color: #475569;
+        max-width: 600px;
+        margin: 0 auto;
+        line-height: 1.7;
+    }
+
+    .rec-hero-stats {
+        display: flex;
+        justify-content: center;
+        gap: 40px;
+        margin-top: 28px;
+        flex-wrap: wrap;
+    }
+
+    .rec-hero-stat {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: #475569;
+        font-size: 0.85rem;
+    }
+
+    .rec-hero-stat i {
+        color: #4A6CF7;
+        font-size: 1rem;
+        width: 20px;
+        text-align: center;
+    }
+
+    .rec-hero-stat strong {
+        color: #1a1a2e;
+        font-weight: 700;
+    }
+
+    /* --- Risk Summary Card --- */
+    .risk-summary-card {
+        background: white;
+        border-radius: 16px;
+        padding: 24px 32px;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+        margin-bottom: 28px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 16px;
+    }
+
+    .risk-summary-left {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+    }
+
+    .risk-summary-left .risk-dot {
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        flex-shrink: 0;
+    }
+
+    .risk-summary-left .risk-dot.low { background: #16a34a; }
+    .risk-summary-left .risk-dot.medium { background: #d97706; }
+    .risk-summary-left .risk-dot.high { background: #dc2626; }
+
+    .risk-summary-left .risk-label {
+        font-size: 0.8rem;
+        color: #94a3b8;
+        font-weight: 500;
+    }
+
+    .risk-summary-left .risk-value {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #1a1a2e;
+    }
+
+    .risk-summary-left .risk-score {
+        font-size: 0.85rem;
+        color: #6b7280;
+        margin-left: 4px;
+    }
+
+    .risk-summary-right {
+        display: flex;
+        gap: 20px;
+        font-size: 0.8rem;
+        color: #6b7280;
+    }
+
+    .risk-summary-right span {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .risk-summary-right i {
+        color: #4A6CF7;
+    }
+
+    /* --- Main Recommendations Card --- */
+    .rec-main-card {
+        background: white;
+        border-radius: 16px;
+        padding: 40px 44px;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 4px 24px rgba(0,0,0,0.04);
+        margin-bottom: 28px;
+    }
+
+    .rec-main-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 16px;
+        margin-bottom: 28px;
+        padding-bottom: 20px;
+        border-bottom: 2px solid #f1f5f9;
+    }
+
+    .rec-main-header .header-left {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+    }
+
+    .rec-main-header .header-icon {
+        width: 48px;
+        height: 48px;
+        background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.4rem;
+        color: #4A6CF7;
+    }
+
+    .rec-main-header .header-title h2 {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: #1a1a2e;
+        margin: 0;
+    }
+
+    .rec-main-header .header-title p {
+        font-size: 0.8rem;
+        color: #94a3b8;
+        margin: 0;
+    }
+
+    .rec-main-header .header-badge {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: #f1f5f9;
+        padding: 6px 16px;
+        border-radius: 20px;
+        font-size: 0.7rem;
+        color: #6b7280;
+        font-weight: 500;
+    }
+
+    .rec-main-header .header-badge .dot {
+        width: 6px;
+        height: 6px;
+        background: #10b981;
+        border-radius: 50%;
+        animation: pulse-dot 2s infinite;
+    }
+
+    @keyframes pulse-dot {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.3; }
+    }
+
+    .rec-content {
+        font-size: 0.95rem;
+        line-height: 1.8;
+        color: #1a1a2e;
+    }
+
+    /* --- H1 - Main Title --- */
+    .rec-content .rec-h1 {
+        font-size: 1.4rem;
+        font-weight: 800;
+        color: #1a1a2e;
+        margin: 28px 0 16px 0;
+        padding-bottom: 12px;
+        border-bottom: 2px solid #e2e8f0;
+    }
+
+    /* --- H2 - Main Section Headings --- */
+    .rec-content .rec-h2 {
+        font-size: 1.15rem;
+        font-weight: 700;
+        color: #1a1a2e;
+        margin: 32px 0 16px 0;
+        padding: 12px 16px;
+        background: #f8fafc;
+        border-radius: 8px;
+        border-left: 4px solid #4A6CF7;
+        letter-spacing: -0.01em;
+    }
+
+    /* --- H3 - Sub-section Headings --- */
+    .rec-content .rec-h3 {
+        font-size: 1rem;
+        font-weight: 600;
+        color: #4A6CF7;
+        margin: 20px 0 10px 0;
+        padding-left: 4px;
+    }
+
+    /* --- H4 - Sub-sub-section Headings --- */
+    .rec-content .rec-h4 {
+        font-size: 0.92rem;
+        font-weight: 600;
+        color: #1a1a2e;
+        margin: 16px 0 8px 0;
+        padding-left: 4px;
+    }
+
+    /* --- Paragraphs --- */
+    .rec-content .rec-p {
+        margin: 8px 0;
+        color: #334155;
+        line-height: 1.8;
+    }
+
+    /* --- Unordered Lists --- */
+    .rec-content .rec-list {
+        margin: 10px 0 14px 0;
+        padding-left: 0;
+        list-style: none;
+    }
+
+    .rec-content .rec-list li {
+        margin-bottom: 8px;
+        color: #334155;
+        padding-left: 28px;
+        position: relative;
+        line-height: 1.7;
+    }
+
+    .rec-content .rec-list li::before {
+        content: '';
+        position: absolute;
+        left: 4px;
+        top: 10px;
+        width: 8px;
+        height: 8px;
+        background: #4A6CF7;
+        border-radius: 50%;
+        opacity: 0.5;
+        flex-shrink: 0;
+    }
+
+    .rec-content .rec-list li strong {
+        color: #1a1a2e;
+    }
+
+    /* --- Ordered Lists --- */
+    .rec-content .rec-ol {
+        margin: 10px 0 14px 0;
+        padding-left: 0;
+        list-style: none;
+        counter-reset: item;
+    }
+
+    .rec-content .rec-ol li {
+        margin-bottom: 8px;
+        color: #334155;
+        padding-left: 32px;
+        position: relative;
+        line-height: 1.7;
+        counter-increment: item;
+    }
+
+    .rec-content .rec-ol li::before {
+        content: counter(item) ".";
+        position: absolute;
+        left: 0;
+        top: 0;
+        color: #4A6CF7;
+        font-weight: 700;
+        font-size: 0.85rem;
+    }
+
+    .rec-content .rec-ol li strong {
+        color: #1a1a2e;
+    }
+
+    /* --- Bold / Strong --- */
+    .rec-content strong {
+        color: #1a1a2e;
+        font-weight: 700;
+    }
+
+    /* --- Italic --- */
+    .rec-content em {
+        color: #4A6CF7;
+        font-style: italic;
+    }
+
+    /* --- Disclaimer Block --- */
+    .rec-content .disclaimer-block {
+        background: #fef3c7;
+        border: 1px solid #f59e0b;
+        border-radius: 12px;
+        padding: 18px 22px;
+        margin-bottom: 28px;
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+        font-size: 0.85rem;
+        color: #78350f;
+        line-height: 1.7;
+    }
+
+    .rec-content .disclaimer-block i {
+        color: #f59e0b;
+        font-size: 1.2rem;
+        margin-top: 2px;
+        flex-shrink: 0;
+    }
+
+    .rec-content .disclaimer-block strong {
+        color: #78350f;
+    }
+
+    /* --- Greeting Block --- */
+    .rec-content .greeting-block {
+        background: #f8fafc;
+        border-radius: 12px;
+        padding: 18px 24px;
+        margin-bottom: 28px;
+        border-left: 4px solid #4A6CF7;
+        font-size: 0.95rem;
+        color: #475569;
+        line-height: 1.8;
+    }
+
+    .rec-content .greeting-block strong {
+        color: #1a1a2e;
+    }
+
+    /* --- Risk Tags --- */
+    .rec-content .risk-tag {
+        display: inline-block;
+        padding: 2px 16px;
+        border-radius: 20px;
+        font-weight: 700;
+        font-size: 0.85rem;
+    }
+
+    .rec-content .risk-tag.risk-medium {
+        background: #fffbeb;
+        color: #d97706;
+        border: 1px solid #fcd34d;
+    }
+
+    .rec-content .risk-tag.risk-high {
+        background: #fef2f2;
+        color: #dc2626;
+        border: 1px solid #fca5a5;
+    }
+
+    .rec-content .risk-tag.risk-low {
+        background: #f0fdf4;
+        color: #16a34a;
+        border: 1px solid #86efac;
+    }
+
+    /* --- Urgency Tags --- */
+    .rec-content .urgency-tag {
+        display: inline-block;
+        padding: 2px 14px;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+    }
+
+    .rec-content .urgency-tag.urgency-urgent {
+        background: #fef2f2;
+        color: #dc2626;
+        border: 1px solid #fca5a5;
+    }
+
+    .rec-content .urgency-tag.urgency-soon {
+        background: #fffbeb;
+        color: #d97706;
+        border: 1px solid #fcd34d;
+    }
+
+    .rec-content .urgency-tag.urgency-routine {
+        background: #f0fdf4;
+        color: #16a34a;
+        border: 1px solid #86efac;
+    }
+
+    /* --- Bottom Disclaimer --- */
+    .rec-disclaimer {
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 18px 24px;
+        margin-top: 28px;
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+        font-size: 0.8rem;
+        color: #6b7280;
+        line-height: 1.7;
+    }
+
+    .rec-disclaimer i {
+        color: #4A6CF7;
+        font-size: 1.1rem;
+        margin-top: 2px;
+        flex-shrink: 0;
+    }
+
+    .rec-disclaimer strong {
+        color: #1a1a2e;
+    }
+
+    /* --- Action Buttons --- */
+    .rec-actions {
+        display: flex;
+        gap: 14px;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 8px;
+    }
+
+    .rec-actions .btn {
+        padding: 12px 28px;
+        border-radius: 10px;
+        font-weight: 600;
+        font-size: 0.85rem;
+        cursor: pointer;
+        transition: all 0.25s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+        border: none;
+        font-family: inherit;
+    }
+
+    .btn-pdf {
+        background: #dc2626;
+        color: white;
+    }
+
+    .btn-pdf:hover {
+        background: #b91c1c;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(220,38,38,0.3);
+    }
+
+    .btn-primary-rec {
+        background: #4A6CF7;
+        color: white;
+    }
+
+    .btn-primary-rec:hover {
+        background: #3b5de7;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(74,108,247,0.3);
+    }
+
+    .btn-outline-rec {
+        background: transparent;
+        color: #475569;
+        border: 2px solid #e2e8f0;
+    }
+
+    .btn-outline-rec:hover {
+        background: #f8fafc;
+        border-color: #4A6CF7;
+        color: #4A6CF7;
+        transform: translateY(-2px);
+    }
+
+    .btn-secondary-rec {
+        background: #f1f5f9;
+        color: #475569;
+    }
+
+    .btn-secondary-rec:hover {
+        background: #e2e8f0;
+        transform: translateY(-2px);
+    }
+
+    /* --- Loading State --- */
+    .rec-loading {
+        background: white;
+        border-radius: 16px;
+        padding: 60px 40px;
+        text-align: center;
+        border: 1px solid #e2e8f0;
+    }
+
+    .rec-loading .spinner {
+        width: 48px;
+        height: 48px;
+        border: 4px solid #e2e8f0;
+        border-top: 4px solid #4A6CF7;
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+        margin: 0 auto 20px;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    .rec-loading h3 {
+        color: #1a1a2e;
+        margin: 0 0 8px;
+        font-size: 1.2rem;
+    }
+
+    .rec-loading p {
+        color: #94a3b8;
+        margin: 0;
+        font-size: 0.95rem;
+    }
+
+    /* --- Error State --- */
+    .rec-error {
+        background: #fef2f2;
+        border: 1px solid #fca5a5;
+        border-radius: 16px;
+        padding: 40px;
+        text-align: center;
+        color: #991b1b;
+    }
+
+    .rec-error h2 {
+        margin: 0 0 8px;
+        font-size: 1.3rem;
+    }
+
+    .rec-error p {
+        margin: 0 0 16px;
+        color: #7f1d1d;
+    }
+
+    /* --- Empty State --- */
+    .rec-empty {
+        background: white;
+        border-radius: 16px;
+        padding: 60px 40px;
+        text-align: center;
+        border: 1px solid #e2e8f0;
+    }
+
+    .rec-empty i {
+        font-size: 3rem;
+        color: #cbd5e1;
+        margin-bottom: 16px;
+    }
+
+    .rec-empty h3 {
+        color: #1a1a2e;
+        margin: 0 0 8px;
+    }
+
+    .rec-empty p {
+        color: #94a3b8;
+        margin: 0 0 20px;
+    }
+
+    /* --- Responsive --- */
+    @media (max-width: 768px) {
+        .rec-hero {
+            padding: 40px 16px 36px;
+        }
+
+        .rec-hero h1 {
+            font-size: 2rem;
+        }
+
+        .rec-hero p {
+            font-size: 0.95rem;
+        }
+
+        .rec-hero-stats {
+            gap: 20px;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .risk-summary-card {
+            flex-direction: column;
+            align-items: stretch;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .risk-summary-left {
+            justify-content: center;
+        }
+
+        .risk-summary-right {
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .rec-main-card {
+            padding: 24px 18px;
+        }
+
+        .rec-main-header {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .rec-main-header .header-left {
+            flex-direction: column;
+        }
+
+        .rec-actions .btn {
+            flex: 1;
+            justify-content: center;
+            font-size: 0.8rem;
+            padding: 10px 16px;
+        }
+
+        .rec-content .disclaimer-block {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .rec-disclaimer {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .rec-content .rec-h2 {
+            padding: 10px 12px;
+            font-size: 1rem;
+        }
+
+        .rec-content .rec-h3 {
+            font-size: 0.92rem;
+        }
+
+        .rec-content .rec-list li {
+            padding-left: 22px;
+        }
+
+        .rec-content .rec-ol li {
+            padding-left: 26px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .rec-hero h1 {
+            font-size: 1.6rem;
+        }
+
+        .rec-main-card {
+            padding: 18px 14px;
+        }
+
+        .rec-content .rec-h2 {
+            padding: 8px 10px;
+            font-size: 0.95rem;
+        }
+
+        .rec-content .rec-h3 {
+            font-size: 0.85rem;
+        }
+
+        .rec-content .rec-list li {
+            padding-left: 20px;
+            font-size: 0.9rem;
+        }
+
+        .rec-content .rec-ol li {
+            padding-left: 22px;
+            font-size: 0.9rem;
+        }
+    }
+
+    /* --- Print Styles --- */
+    @media print {
+        .rec-hero {
+            background: none;
+            padding: 20px 0;
+        }
+
+        .rec-hero::before,
+        .rec-hero::after {
+            display: none;
+        }
+
+        .rec-main-card {
+            border: 1px solid #e2e8f0;
+            box-shadow: none;
+            padding: 20px;
+        }
+
+        .rec-actions {
+            display: none;
+        }
+
+        .risk-summary-card {
+            border: 1px solid #e2e8f0;
+        }
+
+        .rec-content .rec-h2 {
+            background: none;
+            border-left: 3px solid #4A6CF7;
+            padding: 4px 0 4px 12px;
+        }
+
+        .rec-content .rec-h3 {
+            color: #4A6CF7;
+        }
+
+        .rec-content .disclaimer-block {
+            border: 1px solid #f59e0b;
+            background: #fef3c7;
+        }
+
+        .rec-content .rec-list li::before {
+            background: #4A6CF7;
+            opacity: 0.5;
+        }
+
+        .rec-content .rec-ol li::before {
+            color: #4A6CF7;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<section class="rec-hero">
+    <div class="rec-hero-content">
+        <div class="rec-hero-badge">
+            <i class="fa-solid fa-star-of-life"></i>
+            Clinical Recommendations
+        </div>
+
+        <h1>
+            Your Personalized
+            <span>Wellness Plan</span>
+        </h1>
+
+        <p>
+            AI-generated clinical recommendations tailored to your screening results.
+            These insights are designed to guide your next steps toward better neurological health.
+        </p>
+
+        <div class="rec-hero-stats">
+            <span class="rec-hero-stat">
+                <i class="fa-regular fa-clock"></i>
+                Generated in <strong>real-time</strong>
+            </span>
+            <span class="rec-hero-stat">
+                <i class="fa-regular fa-circle-check"></i>
+                Based on <strong>3 screening modules</strong>
+            </span>
+            <span class="rec-hero-stat">
+                <i class="fa-regular fa-message"></i>
+                Powered by <strong>Gemini AI</strong>
+            </span>
+        </div>
+    </div>
+</section>
+
+
+<div class="rec-container" style="max-width: 1000px; margin: 0 auto; padding: 0 20px 60px;">
+
+    {% if error %}
+    <!-- ========== ERROR STATE ========== -->
+    <div class="rec-error">
+        <h2>⚠️ {{ error }}</h2>
+        <p>Please complete all screening modules first or try again.</p>
+        <a href="{% url 'speech_app:home' %}" class="btn btn-primary-rec">
+            <i class="fa-solid fa-house"></i> Go to Home
+        </a>
+    </div>
+
+    {% elif is_generating %}
+    <!-- ========== LOADING STATE ========== -->
+    <div class="rec-loading">
+        <div class="spinner"></div>
+        <h3>Generating Your Recommendations</h3>
+        <p>Our AI is analyzing your screening results to create personalized insights.</p>
+    </div>
+
+    {% elif recommendations %}
+    <!-- ========== RECOMMENDATIONS DISPLAY ========== -->
+
+    <!-- Risk Summary Bar -->
+    <div class="risk-summary-card">
+        <div class="risk-summary-left">
+            <span class="risk-dot 
+                {% if fusion.risk_level == 'Low' %}low
+                {% elif fusion.risk_level == 'Medium' %}medium
+                {% else %}high{% endif %}">
+            </span>
+            <div>
+                <span class="risk-label">Overall Risk Level</span>
+                <span class="risk-value">
+                    {{ fusion.risk_level|upper }}
+                    <span class="risk-score">· {{ fusion.final_pd_probability|floatformat:2 }} / 1.00</span>
+                </span>
+            </div>
+        </div>
+        <div class="risk-summary-right">
+            <span><i class="fa-regular fa-file-lines"></i> {{ fusion.screening_id|default:"Report"|truncatechars:10 }}</span>
+            <span><i class="fa-regular fa-calendar"></i> {% now "d M Y" %}</span>
+        </div>
+    </div>
+
+    <!-- Main Recommendations Card -->
+    <div class="rec-main-card">
+        <!-- Header -->
+        <div class="rec-main-header">
+            <div class="header-left">
+                <div class="header-icon">
+                    <i class="fa-regular fa-lightbulb"></i>
+                </div>
+                <div class="header-title">
+                    <h2>Clinical Recommendations</h2>
+                    <p>Personalized guidance based on your screening results</p>
+                </div>
+            </div>
+            <div class="header-badge">
+                <span class="dot"></span>
+                Gemini AI
+            </div>
+        </div>
+
+        <div class="rec-content">
+            {% if recommendations %}
+                {{ recommendations|safe }}
+            {% else %}
+                <p class="rec-p">No recommendations available.</p>
+            {% endif %}
+        </div>
+
+        <!-- Bottom Disclaimer -->
+        <div class="rec-disclaimer">
+            <i class="fa-regular fa-circle-info"></i>
+            <div>
+                <strong>Important:</strong> These recommendations are generated by AI based on your screening results and are for informational purposes only. They are not a substitute for professional medical advice, diagnosis, or treatment. Always consult a qualified healthcare provider for clinical decisions.
+            </div>
+        </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="rec-actions">
+        <button class="btn btn-pdf" onclick="window.print()">
+            <i class="fa-regular fa-file-pdf"></i> Download PDF
+        </button>
+        <a href="{% url 'fusion_app:report' %}" class="btn btn-outline-rec">
+            <i class="fa-regular fa-file-lines"></i> Back to Report
+        </a>
+        <a href="{% url 'recommendations_app:regenerate' %}" class="btn btn-secondary-rec" onclick="return confirm('Regenerate recommendations? This will use your Gemini API credits.');">
+            <i class="fa-solid fa-rotate"></i> Regenerate
+        </a>
+        <a href="{% url 'speech_app:home' %}" class="btn btn-primary-rec">
+            <i class="fa-solid fa-house"></i> Home
+        </a>
+    </div>
+
+    {% else %}
+    <!-- ========== EMPTY STATE ========== -->
+    <div class="rec-empty">
+        <i class="fa-regular fa-clipboard"></i>
+        <h3>No Recommendations Available</h3>
+        <p>Please complete the full screening process first.</p>
+        <a href="{% url 'questionnaire_app:home' %}" class="btn btn-primary-rec">
+            <i class="fa-solid fa-arrow-right"></i> Start Screening
+        </a>
+    </div>
+    {% endif %}
+
+</div>
+
+{% endblock %}

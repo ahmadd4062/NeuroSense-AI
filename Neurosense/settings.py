@@ -27,6 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+GEMINI_API_KEY = "AQ.Ab8RN6ICcOfTD-3C6BYoP3FLulVyVA3zMZfAyYRkEkbDqW_ItA"
+
 
 # Application definition
 
@@ -43,6 +45,7 @@ INSTALLED_APPS = [
     'gait_app',
     'questionnaire_app',
     'fusion_app',
+    'recommendations_app',
 ]
 
 MIDDLEWARE = [
