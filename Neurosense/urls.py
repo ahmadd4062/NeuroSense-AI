@@ -23,5 +23,6 @@ urlpatterns = [
     path('api/gait/', include('gait_app.urls')),   
     path('gait/', include('gait_app.urls')),       
     path('questionnaire/', include('questionnaire_app.urls')), 
-    path('fusion/', include('fusion_app.urls')),   
+    path('fusion/', include('fusion_app.urls')), 
+    path('recommendations/', include('recommendations_app.urls')),  
 ]
