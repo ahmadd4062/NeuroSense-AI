@@ -18,24 +18,11 @@
     /* ---------- Report Header ---------- */
     .report-header {
         background: white;
-        border-radius: 16px;
         padding: 32px 40px;
         margin-bottom: 28px;
         border: 1px solid #e2e8f0;
-        box-shadow: 0 4px 24px rgba(0,0,0,0.04);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
         position: relative;
-        overflow: hidden;
-    }
-
-    .report-header::before {
-        content: '';
-        position: absolute;
-        top: -50%;
-        right: -20%;
-        width: 300px;
-        height: 300px;
-        background: radial-gradient(circle, rgba(74,108,247,0.04) 0%, transparent 70%);
-        pointer-events: none;
     }
 
     .report-header-top {
@@ -44,8 +31,6 @@
         align-items: flex-start;
         flex-wrap: wrap;
         gap: 16px;
-        position: relative;
-        z-index: 1;
     }
 
     .report-header .logo-section {
@@ -55,10 +40,10 @@
     }
 
     .report-header .logo-icon {
-        width: 44px;
-        height: 44px;
-        background: linear-gradient(135deg, #4A6CF7 0%, #7c3aed 100%);
-        border-radius: 12px;
+        width: 48px;
+        height: 48px;
+        background: linear-gradient(135deg, #1a1a2e 0%, #4A6CF7 100%);
+        border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -68,7 +53,7 @@
     }
 
     .report-header .logo-text h1 {
-        font-size: 1.2rem;
+        font-size: 1.3rem;
         font-weight: 700;
         margin: 0;
         color: #1a1a2e;
@@ -79,12 +64,14 @@
         font-size: 0.7rem;
         color: #6b7280;
         margin: 0;
+        letter-spacing: 0.04em;
     }
 
     .report-header .report-meta {
-        font-size: 0.8rem;
+        font-size: 0.75rem;
         color: #6b7280;
         line-height: 1.8;
+        text-align: right;
     }
 
     .report-header .report-meta strong {
@@ -96,91 +83,91 @@
         font-weight: 600;
     }
 
-    .report-header .report-divider {
+    .report-divider {
         border: none;
-        border-top: 1px solid #eef2ff;
+        border-top: 2px solid #eef2ff;
         margin: 16px 0;
-        position: relative;
-        z-index: 1;
     }
 
-    .report-header .report-patient-info {
+    .report-patient-info {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
         gap: 16px;
         margin-top: 8px;
-        position: relative;
-        z-index: 1;
     }
 
     @media (max-width: 768px) {
-        .report-header .report-patient-info {
+        .report-patient-info {
             grid-template-columns: 1fr 1fr;
+        }
+        .report-header .report-meta {
+            text-align: left;
         }
     }
 
-    .report-header .patient-field {
-        font-size: 0.8rem;
-    }
-
-    .report-header .patient-field .label {
+    .patient-field .label {
         color: #94a3b8;
-        font-size: 0.65rem;
+        font-size: 0.6rem;
         text-transform: uppercase;
-        letter-spacing: 0.04em;
+        letter-spacing: 0.06em;
         font-weight: 600;
     }
 
-    .report-header .patient-field .value {
+    .patient-field .value {
         color: #1a1a2e;
         font-weight: 600;
+        font-size: 0.9rem;
         margin-top: 2px;
     }
 
-    /* ---------- Section Cards ---------- */
+    /* ---------- Report Cards ---------- */
     .report-card {
         background: white;
-        border-radius: 16px;
-        padding: 24px 32px;
         border: 1px solid #e2e8f0;
-        box-shadow: 0 4px 24px rgba(0,0,0,0.04);
+        border-radius: 8px;
+        padding: 24px 32px;
         margin-bottom: 24px;
-        transition: all 0.3s ease;
-    }
-
-    .report-card:hover {
-        box-shadow: 0 8px 40px rgba(74,108,247,0.06);
+        box-shadow: 0 1px 4px rgba(0,0,0,0.04);
     }
 
     .report-card .card-title {
-        font-size: 1rem;
+        font-size: 0.85rem;
         font-weight: 700;
         color: #1a1a2e;
         margin: 0 0 16px;
         display: flex;
         align-items: center;
         gap: 10px;
+        letter-spacing: 0.02em;
     }
 
     .report-card .card-title .title-icon {
         color: #4A6CF7;
+        font-size: 1rem;
+    }
+
+    .report-card .card-title .title-line {
+        flex: 1;
+        height: 1px;
+        background: #e2e8f0;
+        margin-left: 8px;
     }
 
     /* ---------- Risk Assessment ---------- */
     .risk-box {
-        background: linear-gradient(135deg, #f8fafc 0%, #eef2ff 100%);
-        border-radius: 12px;
+        background: #f8fafc;
+        border: 2px solid #e2e8f0;
+        border-radius: 8px;
         padding: 28px 32px;
         text-align: center;
-        border: 2px solid #e2e8f0;
     }
 
     .risk-box .risk-label {
-        font-size: 0.7rem;
+        font-size: 0.65rem;
         color: #94a3b8;
         font-weight: 600;
         text-transform: uppercase;
-        letter-spacing: 0.06em;
+        letter-spacing: 0.08em;
     }
 
     .risk-box .risk-level {
@@ -194,7 +181,7 @@
     .risk-box .risk-level.high { color: #dc2626; }
 
     .risk-box .risk-score {
-        font-size: 1.1rem;
+        font-size: 1rem;
         color: #475569;
         margin-top: 4px;
     }
@@ -204,75 +191,80 @@
     }
 
     .risk-box .risk-interpretation {
-        font-size: 0.9rem;
+        font-size: 0.85rem;
         color: #6b7280;
         margin-top: 12px;
-        line-height: 1.6;
+        line-height: 1.7;
         max-width: 600px;
         margin-left: auto;
         margin-right: auto;
     }
 
-    .risk-box .risk-ranges {
+    .risk-ranges {
         display: flex;
         justify-content: center;
         gap: 24px;
         margin-top: 14px;
         flex-wrap: wrap;
-        font-size: 0.75rem;
+        font-size: 0.7rem;
     }
 
-    .risk-box .risk-ranges .range-item {
+    .risk-ranges .range-item {
         display: flex;
         align-items: center;
         gap: 6px;
+        color: #6b7280;
     }
 
-    .risk-box .risk-ranges .range-dot {
+    .risk-ranges .range-dot {
         width: 10px;
         height: 10px;
         border-radius: 50%;
         display: inline-block;
     }
 
-    .risk-box .risk-ranges .range-dot.low { background: #16a34a; }
-    .risk-box .risk-ranges .range-dot.medium { background: #d97706; }
-    .risk-box .risk-ranges .range-dot.high { background: #dc2626; }
+    .risk-ranges .range-dot.low { background: #16a34a; }
+    .risk-ranges .range-dot.medium { background: #d97706; }
+    .risk-ranges .range-dot.high { background: #dc2626; }
 
     /* ---------- Module Table ---------- */
     .module-table {
         width: 100%;
         border-collapse: collapse;
-        font-size: 0.9rem;
+        font-size: 0.85rem;
     }
 
     .module-table thead th {
         text-align: left;
-        padding: 12px 16px;
+        padding: 10px 14px;
         background: #f8fafc;
         color: #6b7280;
         font-weight: 600;
-        font-size: 0.75rem;
+        font-size: 0.65rem;
         text-transform: uppercase;
-        letter-spacing: 0.04em;
+        letter-spacing: 0.06em;
         border-bottom: 2px solid #e2e8f0;
     }
 
     .module-table tbody td {
-        padding: 14px 16px;
+        padding: 12px 14px;
         border-bottom: 1px solid #f1f5f9;
         color: #1a1a2e;
     }
 
+    .module-table tbody tr:last-child td {
+        border-bottom: none;
+    }
+
     .module-table tbody tr:hover {
-        background: #f8fafc;
+        background: #fafcff;
     }
 
     .module-table .status-badge {
         display: inline-block;
-        padding: 2px 16px;
+        padding: 2px 14px;
         border-radius: 20px;
-        font-size: 0.75rem;
+        font-size: 0.7rem;
         font-weight: 600;
     }
 
@@ -291,30 +283,34 @@
         color: #d97706;
     }
 
-    .module-table .status-badge.normal {
-        background: #f0fdf4;
-        color: #16a34a;
-    }
-
     .module-table .weight-badge {
         display: inline-block;
         background: #f1f5f9;
-        padding: 2px 12px;
+        padding: 2px 10px;
         border-radius: 20px;
-        font-size: 0.75rem;
+        font-size: 0.7rem;
         font-weight: 600;
         color: #6b7280;
+    }
+
+    .module-table .risk-value {
+        font-size: 0.75rem;
+        color: #94a3b8;
     }
 
     /* ---------- Clinical Interpretation ---------- */
     .interpretation-box {
         background: #f8fafc;
-        border-radius: 12px;
-        padding: 20px 24px;
-        border-left: 4px solid #4A6CF7;
-        font-size: 0.9rem;
+        border-radius: 6px;
+        padding: 18px 22px;
+        border-left: 3px solid #4A6CF7;
+        font-size: 0.85rem;
         color: #475569;
-        line-height: 1.7;
+        line-height: 1.8;
+    }
+
+    .interpretation-box strong {
+        color: #1a1a2e;
     }
 
     /* ---------- Action Buttons ---------- */
@@ -327,10 +323,10 @@
     }
 
     .btn {
-        padding: 12px 28px;
-        border-radius: 10px;
+        padding: 10px 24px;
+        border-radius: 6px;
         font-weight: 600;
-        font-size: 0.9rem;
+        font-size: 0.85rem;
         cursor: pointer;
         transition: all 0.2s ease;
         display: inline-flex;
@@ -338,17 +334,18 @@
         gap: 8px;
         text-decoration: none;
         border: none;
+        letter-spacing: 0.02em;
     }
 
     .btn-pdf {
-        background: #dc2626;
+        background: #1a1a2e;
         color: white;
     }
 
     .btn-pdf:hover {
-        background: #b91c1c;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 16px rgba(220,38,38,0.3);
+        background: #0f0f1a;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(26,26,46,0.3);
     }
 
     .btn-primary {
@@ -358,14 +355,14 @@
 
     .btn-primary:hover {
         background: #3b5de7;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 16px rgba(74,108,247,0.3);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(74,108,247,0.3);
     }
 
     .btn-outline {
         background: transparent;
         color: #475569;
-        border: 2px solid #e2e8f0;
+        border: 1.5px solid #e2e8f0;
     }
 
     .btn-outline:hover {
@@ -374,13 +371,13 @@
         color: #4A6CF7;
     }
 
-    /* ---------- Footer ---------- */
+    /* ---------- Report Footer ---------- */
     .report-footer {
         text-align: center;
         padding: 16px 24px;
         background: #f8fafc;
-        border-radius: 12px;
-        font-size: 0.7rem;
+        border-radius: 6px;
+        font-size: 0.65rem;
         color: #94a3b8;
         margin-top: 24px;
         border: 1px solid #e2e8f0;
@@ -404,7 +401,7 @@
     .error-box {
         background: #fef2f2;
         border: 1px solid #fca5a5;
-        border-radius: 12px;
+        border-radius: 8px;
         padding: 32px;
         text-align: center;
         color: #991b1b;
@@ -436,36 +433,78 @@
         }
 
         .report-card {
-            padding: 16px 20px;
+            padding: 16px 18px;
+        }
+
+        .risk-box {
+            padding: 20px;
         }
 
         .risk-box .risk-level {
             font-size: 2rem;
         }
 
-        .risk-box .risk-ranges {
+        .risk-ranges {
             flex-direction: column;
             align-items: center;
             gap: 4px;
         }
 
         .module-table {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
         }
 
         .module-table thead th,
         .module-table tbody td {
-            padding: 8px 10px;
+            padding: 6px 8px;
         }
 
         .action-buttons .btn {
             flex: 1;
             justify-content: center;
+            font-size: 0.75rem;
+            padding: 8px 16px;
         }
 
         .report-footer {
             flex-direction: column;
             text-align: center;
+        }
+    }
+
+    /* ---------- Print Styles ---------- */
+    @media print {
+        .report-container {
+            padding: 20px;
+        }
+
+        .report-header {
+            border: none;
+            box-shadow: none;
+            padding: 20px 0;
+        }
+
+        .report-card {
+            border: 1px solid #e2e8f0;
+            box-shadow: none;
+            break-inside: avoid;
+        }
+
+        .action-buttons {
+            display: none;
+        }
+
+        .btn {
+            display: none;
+        }
+
+        .report-footer {
+            border: none;
+            background: none;
+        }
+
+        body {
+            background: white;
         }
     }
 </style>
@@ -475,9 +514,6 @@
 
 <div class="report-container">
 
-    <!-- ========================================== -->
-    <!-- REPORT HEADER -->
-    <!-- ========================================== -->
     <header class="report-header">
         <div class="report-header-top">
             <div class="logo-section">
@@ -516,9 +552,6 @@
         </div>
     </header>
 
-    <!-- ========================================== -->
-    <!-- ERROR -->
-    <!-- ========================================== -->
     {% if error %}
     <div class="error-box">
         <h2>⚠️ {{ error }}</h2>
@@ -529,13 +562,12 @@
     </div>
     {% else %}
 
-    <!-- ========================================== -->
-    <!-- RISK ASSESSMENT -->
-    <!-- ========================================== -->
+
     <section class="report-card">
         <div class="card-title">
             <span class="title-icon"><i class="fa-solid fa-chart-simple"></i></span>
             Risk Assessment
+            <span class="title-line"></span>
         </div>
 
         <div class="risk-box">
@@ -573,13 +605,12 @@
         </div>
     </section>
 
-    <!-- ========================================== -->
-    <!-- MODULE RESULTS (TABLE FORMAT) -->
-    <!-- ========================================== -->
+
     <section class="report-card">
         <div class="card-title">
             <span class="title-icon"><i class="fa-solid fa-layer-group"></i></span>
             Module Results
+            <span class="title-line"></span>
         </div>
 
         <table class="module-table">
@@ -601,7 +632,7 @@
                             {{ fusion.modules.gait.prediction|default:"N/A"|upper }}
                         </span>
                         <br>
-                        <small style="color:#94a3b8;">Risk: {{ fusion.modules.gait.pd_probability|floatformat:1 }}</small>
+                        <span class="risk-value">Risk: {{ fusion.modules.gait.pd_probability|floatformat:1 }}</span>
                     </td>
                     <td style="text-align:right;">
                         <span class="weight-badge">{% widthratio fusion.modules.gait.weight 1 100 %}%</span>
@@ -617,7 +648,7 @@
                             {{ fusion.modules.speech.prediction|default:"N/A"|upper }}
                         </span>
                         <br>
-                        <small style="color:#94a3b8;">Risk: {{ fusion.modules.speech.pd_probability|floatformat:4 }}</small>
+                        <span class="risk-value">Risk: {{ fusion.modules.speech.pd_probability|floatformat:4 }}</span>
                     </td>
                     <td style="text-align:right;">
                         <span class="weight-badge">{% widthratio fusion.modules.speech.weight 1 100 %}%</span>
@@ -633,7 +664,7 @@
                             {{ fusion.modules.questionnaire.prediction|default:"N/A"|upper }}
                         </span>
                         <br>
-                        <small style="color:#94a3b8;">Risk: {{ fusion.modules.questionnaire.pd_probability|floatformat:1 }}</small>
+                        <span class="risk-value">Risk: {{ fusion.modules.questionnaire.pd_probability|floatformat:1 }}</span>
                     </td>
                     <td style="text-align:right;">
                         <span class="weight-badge">{% widthratio fusion.modules.questionnaire.weight 1 100 %}%</span>
@@ -643,13 +674,11 @@
         </table>
     </section>
 
-    <!-- ========================================== -->
-    <!-- CLINICAL INTERPRETATION -->
-    <!-- ========================================== -->
     <section class="report-card">
         <div class="card-title">
             <span class="title-icon"><i class="fa-solid fa-microscope"></i></span>
             Clinical Interpretation
+            <span class="title-line"></span>
         </div>
 
         <div class="interpretation-box">
@@ -689,14 +718,12 @@
         </div>
     </section>
 
-    <!-- ========================================== -->
-    <!-- ACTION BUTTONS -->
-    <!-- ========================================== -->
+
     <div class="action-buttons">
         <button class="btn btn-pdf" onclick="window.print()">
             <i class="fa-solid fa-file-pdf"></i> Download Report
         </button>
-        <a href="#" class="btn btn-primary" onclick="alert('Recommendations coming soon!')">
+        <a href="{% url 'recommendations_app:recommendations' %}" class="btn btn-primary">
             <i class="fa-solid fa-lightbulb"></i> View Recommendations
         </a>
         <a href="{% url 'speech_app:home' %}" class="btn btn-outline">
@@ -704,9 +731,6 @@
         </a>
     </div>
 
-    <!-- ========================================== -->
-    <!-- FOOTER -->
-    <!-- ========================================== -->
     <div class="report-footer">
         <span>
             <i class="fa-solid fa-circle-info"></i>

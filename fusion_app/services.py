@@ -57,7 +57,7 @@ def calculate_questionnaire_risk(questionnaire_data):
     
     # 6. Combined risk calculation
     # Weighted combination of ML score, rule-based score, and clinical factors
-    base_risk = (0.4 * q_ml_score) + (0.3 * rule_risk) + (0.2 * motor_contribution) + (0.1 * support_contribution)
+    base_risk = (0.35 * q_ml_score) + (0.25 * rule_risk) + (0.25 * motor_contribution) + (0.15 * support_contribution)
     
     # Apply reliability factor
     adjusted_risk = base_risk * reliability_factor
