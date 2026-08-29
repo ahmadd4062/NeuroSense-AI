@@ -16,10 +16,6 @@ def clean_markdown(text):
     if not text:
         return text
     
-    print("=" * 70)
-    print("🔧 CLEAN_MARKDOWN EXECUTED")
-    print("=" * 70)
-    
     # Fix bold with spaces after them
     text = re.sub(r'\*\*([A-Z]+)\*\*\s+([a-z])', r'<strong>\1</strong>\2', text)
     text = re.sub(r'\*\*([A-Z]+)\*\*\s+ly', r'<strong>\1</strong>ly', text)
@@ -40,32 +36,14 @@ def clean_markdown(text):
     lines = text.split('\n')
     result = []
     in_list = False
-    in_ordered_list = False
     
     for line in lines:
         line_stripped = line.strip()
         
-        # Check for numbered list: 1. 2. 3.
-        numbered_match = re.match(r'^[\s]*(\d+)\.\s+(.+)$', line)
         # Check for bullet point
         bullet_match = re.match(r'^[\s]*[\*\-•]\s+(.+)$', line)
         
-        if numbered_match:
-            if not in_ordered_list:
-                if in_list:
-                    result.append('</ul>')
-                    in_list = False
-                result.append('<ol class="rec-list rec-ol">')
-                in_ordered_list = True
-            content = numbered_match.group(2)
-            content = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', content)
-            content = re.sub(r'\*(.*?)\*', r'<em>\1</em>', content)
-            result.append(f'<li>{content}</li>')
-            
-        elif bullet_match:
-            if in_ordered_list:
-                result.append('</ol>')
-                in_ordered_list = False
+        if bullet_match:
             if not in_list:
                 result.append('<ul class="rec-list">')
                 in_list = True
@@ -77,9 +55,6 @@ def clean_markdown(text):
             if in_list:
                 result.append('</ul>')
                 in_list = False
-            if in_ordered_list:
-                result.append('</ol>')
-                in_ordered_list = False
             
             if line_stripped == '':
                 result.append('')
@@ -91,10 +66,6 @@ def clean_markdown(text):
             if 'disclaimer' in lower_line or 'not a substitute' in lower_line:
                 line_stripped = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', line_stripped)
                 result.append(f'<div class="disclaimer-block"><i class="fa-regular fa-circle-exclamation"></i><div>{line_stripped}</div></div>')
-            # Greeting block (starts with Hello, Thank you, etc.)
-            elif re.match(r'^(Hello|Thank you|First,|I want to)', line_stripped, re.IGNORECASE):
-                line_stripped = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', line_stripped)
-                result.append(f'<div class="greeting-block">{line_stripped}</div>')
             else:
                 line_stripped = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', line_stripped)
                 line_stripped = re.sub(r'\*(.*?)\*', r'<em>\1</em>', line_stripped)
@@ -102,8 +73,6 @@ def clean_markdown(text):
     
     if in_list:
         result.append('</ul>')
-    if in_ordered_list:
-        result.append('</ol>')
     
     text = '\n'.join(result)
     text = re.sub(r'<p class="rec-p">\s*</p>', '', text)
@@ -117,10 +86,6 @@ def clean_markdown(text):
     text = re.sub(r'(Within 2 weeks)', r'<span class="urgency-tag urgency-soon">\1</span>', text, flags=re.IGNORECASE)
     text = re.sub(r'(Immediate)', r'<span class="urgency-tag urgency-urgent">\1</span>', text, flags=re.IGNORECASE)
     text = re.sub(r'(Within 3 months|Routine)', r'<span class="urgency-tag urgency-routine">\1</span>', text, flags=re.IGNORECASE)
-    
-    print("📝 CLEANED OUTPUT PREVIEW (first 500 chars):")
-    print(text[:500])
-    print("=" * 70)
     
     return text
 
@@ -144,14 +109,7 @@ def recommendations_page(request):
         recommendations = request.session.get('recommendations')
         generating = request.session.get('generating_recommendations', False)
         
-        print("=" * 70)
-        print("📊 RECOMMENDATIONS PAGE LOADED")
-        print(f"Has recommendations in session: {bool(recommendations)}")
-        print(f"Is generating: {generating}")
-        print("=" * 70)
-        
         if not recommendations and not generating:
-            print("🔄 Generating new recommendations...")
             request.session['generating_recommendations'] = True
             request.session.modified = True
             
@@ -166,29 +124,21 @@ def recommendations_page(request):
                 user
             )
             
-            print(f"📝 Raw recommendations length: {len(raw_recommendations)}")
-            print(f"📝 Raw preview (first 300 chars):")
-            print(raw_recommendations[:300])
-            print("-" * 50)
+            # Log for debugging
+            logger.info(f"Raw recommendations length: {len(raw_recommendations)}")
             
             # Convert to HTML
             recommendations = clean_markdown(raw_recommendations)
-            
-            print(f"📝 Converted length: {len(recommendations)}")
             
             request.session['recommendations'] = recommendations
             request.session['generating_recommendations'] = False
             request.session.modified = True
         
         # Double-check if recommendations need cleaning
-        if recommendations:
-            # Check if Markdown symbols still exist
-            has_markdown = '##' in recommendations or '###' in recommendations or '**' in recommendations
-            if has_markdown:
-                print("⚠️ Found Markdown symbols, cleaning again...")
-                recommendations = clean_markdown(recommendations)
-                request.session['recommendations'] = recommendations
-                request.session.modified = True
+        if recommendations and ('**' in recommendations or '##' in recommendations or '###' in recommendations):
+            recommendations = clean_markdown(recommendations)
+            request.session['recommendations'] = recommendations
+            request.session.modified = True
         
         return render(request, 'recommendations_app/recommendations.html', {
             'recommendations': recommendations,

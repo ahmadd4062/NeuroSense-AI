@@ -5,6 +5,9 @@
 
 {% block extra_css %}
 <style>
+    /* ============================================
+       RECOMMENDATIONS PAGE - PROFESSIONAL MEDICAL THEME
+       ============================================ */
 
     /* --- Hero Section --- */
     .rec-hero {
@@ -259,6 +262,10 @@
         0%, 100% { opacity: 1; }
         50% { opacity: 0.3; }
     }
+
+    /* ============================================
+       PROFESSIONAL CONTENT STYLING
+       ============================================ */
 
     .rec-content {
         font-size: 0.95rem;
@@ -831,6 +838,9 @@
 
 {% block content %}
 
+<!-- ========================================== -->
+<!-- HERO SECTION -->
+<!-- ========================================== -->
 <section class="rec-hero">
     <div class="rec-hero-content">
         <div class="rec-hero-badge">
@@ -865,7 +875,9 @@
     </div>
 </section>
 
-
+<!-- ========================================== -->
+<!-- MAIN CONTENT -->
+<!-- ========================================== -->
 <div class="rec-container" style="max-width: 1000px; margin: 0 auto; padding: 0 20px 60px;">
 
     {% if error %}
@@ -930,6 +942,9 @@
             </div>
         </div>
 
+        <!-- ========================================== -->
+        <!-- RENDER RECOMMENDATIONS AS HTML -->
+        <!-- ========================================== -->
         <div class="rec-content">
             {% if recommendations %}
                 {{ recommendations|safe }}
