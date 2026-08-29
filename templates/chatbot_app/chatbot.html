@@ -1,0 +1,438 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+NeuroSense AI Assistant
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'chatbot_app/css/chatbot.css' %}">
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+{% endblock %}
+
+{% block content %}
+
+<main class="chatbot-page">
+
+    <section class="chatbot-wrapper">
+
+        <aside class="chat-sidebar">
+
+            <div class="sidebar-brand">
+                <div class="brand-icon">
+                    <i class="fa-solid fa-brain"></i>
+                </div>
+
+                <div>
+                    <h2>NeuroSense AI</h2>
+                    <p>Health Guidance Assistant</p>
+                </div>
+            </div>
+
+
+            <div class="language-switcher">
+                <button class="language-btn active" data-language="en">
+                    English
+                </button>
+
+                <button class="language-btn" data-language="ur">
+                    اردو
+                </button>
+            </div>
+
+
+            <div class="new-chat-wrapper">
+                <button class="new-chat-btn" id="newChatBtn">
+
+                    <i class="fa-solid fa-plus"></i>
+
+                    <span data-en="New Conversation"
+                          data-ur="نئی گفتگو">
+                        New Conversation
+                    </span>
+
+                </button>
+            </div>
+
+
+            <div class="sidebar-section">
+
+                <span class="sidebar-label"
+                      data-en="Assistant"
+                      data-ur="اسسٹنٹ">
+                    Assistant
+                </span>
+
+
+                <div class="sidebar-card active">
+
+                    <div class="sidebar-card-icon">
+                        <i class="fa-regular fa-message"></i>
+                    </div>
+
+                    <div>
+
+                        <strong
+                            data-en="Health Assistant"
+                            data-ur="ہیلتھ اسسٹنٹ">
+                            Health Assistant
+                        </strong>
+
+                        <span
+                            data-en="Ask about symptoms and screening"
+                            data-ur="علامات اور اسکریننگ کے بارے میں پوچھیں">
+                            Ask about symptoms and screening
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="sidebar-info-card">
+
+                <div class="info-icon">
+                    <i class="fa-solid fa-shield-heart"></i>
+                </div>
+
+                <div>
+
+                    <strong
+                        data-en="Safe & Informative"
+                        data-ur="محفوظ اور معلوماتی">
+                        Safe & Informative
+                    </strong>
+
+                    <p
+                        data-en="NeuroSense provides educational guidance and does not replace professional medical advice."
+                        data-ur="NeuroSense معلوماتی رہنمائی فراہم کرتا ہے اور پیشہ ورانہ طبی مشورے کا متبادل نہیں ہے۔">
+
+                        NeuroSense provides educational guidance
+                        and does not replace professional medical advice.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </aside>
+
+
+
+        <section class="chat-panel">
+
+
+            <header class="chat-header">
+
+                <div class="assistant-profile">
+
+                    <div class="assistant-avatar">
+
+                        <i class="fa-solid fa-robot"></i>
+
+                        <span class="online-indicator"></span>
+
+                    </div>
+
+
+                    <div>
+
+                        <h1
+                            data-en="NeuroSense Assistant"
+                            data-ur="NeuroSense اسسٹنٹ">
+                            NeuroSense Assistant
+                        </h1>
+
+                        <div class="assistant-status">
+                            <span
+                                data-en="AI-powered support"
+                                data-ur="AI سے چلنے والی معاونت">
+                                AI-powered support
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="header-actions">
+
+                    <button
+                        class="header-action-btn"
+                        type="button"
+                        title="Clear conversation"
+                        id="clearChatBtn">
+
+                        <i class="fa-solid fa-rotate-right"></i>
+
+                    </button>
+
+                </div>
+
+            </header>
+
+
+
+            <div class="chat-messages"
+                 id="chatMessages">
+
+
+                <div class="welcome-section">
+
+
+                    <div class="welcome-robot">
+                    <div class="robot-glow"></div>
+
+                    <img
+                        src="{% static 'chatbot_app/images/robot.png' %}"
+                        alt="NeuroSense AI Assistant">
+                </div>
+
+
+                    <h2>
+
+                        <span
+                            data-en="Hello"
+                            data-ur="السلام علیکم">
+                            Hello
+                        </span>
+
+                        {% if request.user.is_authenticated and request.user.first_name %}
+                            , {{ request.user.first_name }}
+                        {% endif %}
+
+                        !
+
+                    </h2>
+
+
+                    <p
+                        data-en="I'm your NeuroSense AI assistant. I can provide clear and supportive information about neurological screening, Parkinson's-related concerns and your NeuroSense journey."
+                        data-ur="میں آپ کا NeuroSense AI اسسٹنٹ ہوں۔ میں نیورولوجیکل اسکریننگ، پارکنسن سے متعلق سوالات اور NeuroSense کے استعمال کے بارے میں آسان اور مددگار معلومات فراہم کر سکتا ہوں۔">
+
+                        I'm your NeuroSense AI assistant. I can provide
+                        clear and supportive information about neurological
+                        screening, Parkinson's-related concerns and your
+                        NeuroSense journey.
+
+                    </p>
+
+
+
+                    <div class="suggestion-grid">
+
+
+                        <button
+                            class="suggestion-card"
+                            data-message-en="What is Parkinson's disease?"
+                            data-message-ur="پارکنسن کی بیماری کیا ہے؟">
+
+                            <div class="suggestion-icon">
+                                <i class="fa-solid fa-brain"></i>
+                            </div>
+
+                            <div>
+
+                                <strong
+                                    data-en="Understand Parkinson's"
+                                    data-ur="پارکنسن کو سمجھیں">
+                                    Understand Parkinson's
+                                </strong>
+
+                                <span
+                                    data-en="Learn about common signs and symptoms"
+                                    data-ur="عام علامات کے بارے میں جانیں">
+                                    Learn about common signs and symptoms
+                                </span>
+
+                            </div>
+
+                            <i class="fa-solid fa-arrow-right suggestion-arrow"></i>
+
+                        </button>
+
+
+
+                        <button
+                            class="suggestion-card"
+                            data-message-en="What symptoms should I pay attention to?"
+                            data-message-ur="مجھے کن علامات پر توجہ دینی چاہیے؟">
+
+                            <div class="suggestion-icon">
+                                <i class="fa-solid fa-stethoscope"></i>
+                            </div>
+
+                            <div>
+
+                                <strong
+                                    data-en="Discuss a Symptom"
+                                    data-ur="علامت کے بارے میں بات کریں">
+                                    Discuss a Symptom
+                                </strong>
+
+                                <span
+                                    data-en="Ask about a concern you're experiencing"
+                                    data-ur="اپنی علامات کے بارے میں سوال کریں">
+                                    Ask about a concern you're experiencing
+                                </span>
+
+                            </div>
+
+                            <i class="fa-solid fa-arrow-right suggestion-arrow"></i>
+
+                        </button>
+
+
+
+                        <button
+                            class="suggestion-card"
+                            data-message-en="How does NeuroSense screening work?"
+                            data-message-ur="NeuroSense اسکریننگ کیسے کام کرتی ہے؟">
+
+                            <div class="suggestion-icon">
+                                <i class="fa-solid fa-wave-square"></i>
+                            </div>
+
+                            <div>
+
+                                <strong
+                                    data-en="Screening Guidance"
+                                    data-ur="اسکریننگ رہنمائی">
+                                    Screening Guidance
+                                </strong>
+
+                                <span
+                                    data-en="Understand the NeuroSense assessment process"
+                                    data-ur="NeuroSense اسیسمنٹ کے طریقہ کار کو سمجھیں">
+                                    Understand the NeuroSense assessment process
+                                </span>
+
+                            </div>
+
+                            <i class="fa-solid fa-arrow-right suggestion-arrow"></i>
+
+                        </button>
+
+
+
+                        <button
+                            class="suggestion-card"
+                            data-message-en="How can someone with Parkinson's stay active?"
+                            data-message-ur="پارکنسن کے مریض روزمرہ زندگی میں فعال کیسے رہ سکتے ہیں؟">
+
+                            <div class="suggestion-icon">
+                                <i class="fa-solid fa-person-walking"></i>
+                            </div>
+
+                            <div>
+
+                                <strong
+                                    data-en="Daily Wellbeing"
+                                    data-ur="روزمرہ فلاح و بہبود">
+                                    Daily Wellbeing
+                                </strong>
+
+                                <span
+                                    data-en="Explore supportive everyday guidance"
+                                    data-ur="روزمرہ زندگی کے لیے مددگار رہنمائی">
+                                    Explore supportive everyday guidance
+                                </span>
+
+                            </div>
+
+                            <i class="fa-solid fa-arrow-right suggestion-arrow"></i>
+
+                        </button>
+
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="typing-indicator"
+                 id="typingIndicator">
+
+                <div class="typing-avatar">
+                    <i class="fa-solid fa-robot"></i>
+                </div>
+
+                <div class="typing-bubble">
+
+                    <span></span>
+                    <span></span>
+                    <span></span>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="chat-input-area">
+
+
+                <div class="chat-input-wrapper">
+
+                    <textarea
+                        id="messageInput"
+                        rows="1"
+                        maxlength="1000"
+                        placeholder="Ask NeuroSense anything...">
+                    </textarea>
+
+
+                    <button
+                        id="sendMessageBtn"
+                        class="send-btn"
+                        type="button"
+                        aria-label="Send message">
+
+                        <i class="fa-solid fa-arrow-up"></i>
+
+                    </button>
+
+                </div>
+
+
+                <p class="chat-disclaimer">
+
+                    <i class="fa-solid fa-shield-halved"></i>
+
+                    <span
+                        data-en="NeuroSense AI provides informational guidance only and does not replace professional medical consultation."
+                        data-ur="NeuroSense AI صرف معلوماتی رہنمائی فراہم کرتا ہے اور پیشہ ورانہ طبی مشورے کا متبادل نہیں ہے۔">
+
+                        NeuroSense AI provides informational guidance only and
+                        does not replace professional medical consultation.
+
+                    </span>
+
+                </p>
+
+
+            </div>
+
+        </section>
+
+    </section>
+
+</main>
+
+
+<script>
+    const CHAT_API_URL = "/chatbot/api/chat/";
+</script>
+
+<script src="{% static 'chatbot_app/js/chatbot.js' %}"></script>
+
+{% endblock %}

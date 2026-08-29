@@ -10,7 +10,7 @@
             <a href="#features">Features</a>
             <a href="#how-it-works">How It Works</a>
             <a href="#about">About Us</a>
-            <a href="#resources">Resources</a>
+            <a href="{% url 'chatbot_app:chatbot' %}">Chatbot</a>
             <a href="{% url 'questionnaire_app:home'%}">Dashboard</a>
         </nav>
 
@@ -24,3 +24,45 @@
         </button>
     </div>
 </header>
+<nav class="mobile-nav" aria-label="Mobile navigation">
+    <a href="{% url 'speech_app:home' %}">Home</a>
+    <a href="#features">Features</a>
+    <a href="#how-it-works">How It Works</a>
+    <a href="#about">About Us</a>
+    <a href="{% url 'chatbot_app:chatbot' %}">Chatbot</a>
+    <a href="{% url 'questionnaire_app:home' %}">Dashboard</a>
+
+    <div class="mobile-nav-actions">
+        <a href="#" class="btn btn-login">Log In</a>
+        <a href="{% url 'questionnaire_app:home' %}" class="btn btn-primary">Get Started</a>
+    </div>
+</nav>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const menuToggle = document.querySelector(".menu-toggle");
+    const mobileNav = document.querySelector(".mobile-nav");
+
+    if (!menuToggle || !mobileNav) {
+        console.log("Navbar elements not found");
+        return;
+    }
+
+    menuToggle.addEventListener("click", function () {
+
+        mobileNav.classList.toggle("is-open");
+
+        const isOpen = mobileNav.classList.contains("is-open");
+
+        menuToggle.innerHTML = isOpen
+            ? '<i class="fa-solid fa-xmark"></i>'
+            : '<i class="fa-solid fa-bars"></i>';
+
+        menuToggle.setAttribute(
+            "aria-expanded",
+            isOpen ? "true" : "false"
+        );
+    });
+
+});
+</script>

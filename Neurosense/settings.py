@@ -9,8 +9,13 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
+import os
+from dotenv import load_dotenv
 
+load_dotenv()
+GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 from pathlib import Path
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,8 +30,7 @@ SECRET_KEY = 'django-insecure-mltg*7^sq8=f()&ozhmph+j1@0$50nmn#dh-%h96jvhlib)3%@
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ["127.0.0.1", "localhost", "testserver"]
 
 # Application definition
 
@@ -43,6 +47,7 @@ INSTALLED_APPS = [
     'gait_app',
     'questionnaire_app',
     'fusion_app',
+    'chatbot_app'
 ]
 
 MIDDLEWARE = [
