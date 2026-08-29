@@ -1,13 +1,102 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Final Report - NeuroSense AI{% endblock %}
+{% block title %}
+{% if lang == 'ur' %}
+حتمی رپورٹ - نیوروسینس اے آئی
+{% else %}
+Final Report - NeuroSense AI
+{% endif %}
+{% endblock %}
 
 {% block extra_css %}
 <style>
     /* ============================================
        PROFESSIONAL MEDICAL REPORT
        ============================================ */
+
+    /* ---------- Urdu RTL Support ---------- */
+    .lang-ur {
+        direction: rtl;
+        text-align: right;
+    }
+
+    .lang-ur .report-header-top {
+        direction: ltr;
+        text-align: right;
+    }
+
+    .lang-ur .report-header .report-meta {
+        text-align: left;
+        direction: ltr;
+    }
+
+    .lang-ur .module-table thead th,
+    .lang-ur .module-table tbody td {
+        text-align: right;
+    }
+
+    .lang-ur .module-table td:last-child {
+        text-align: left;
+    }
+
+    .lang-ur .risk-ranges {
+        direction: ltr;
+    }
+
+    .lang-ur .action-buttons {
+        direction: ltr;
+    }
+
+    .lang-ur .report-footer {
+        direction: ltr;
+    }
+
+    .lang-ur .card-title .title-line {
+        margin-left: 0;
+        margin-right: 8px;
+    }
+
+    .lang-ur .interpretation-box {
+        border-left: none;
+        border-right: 3px solid #4A6CF7;
+    }
+
+    /* Language Toggle Button */
+    .lang-toggle {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: #f1f5f9;
+        border: 1px solid #e2e8f0;
+        border-radius: 30px;
+        padding: 4px 8px;
+        font-size: 0.7rem;
+        font-weight: 600;
+        color: #64748b;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+    }
+
+    .lang-toggle:hover {
+        background: #eef2ff;
+        border-color: #4A6CF7;
+        color: #4A6CF7;
+    }
+
+    .lang-toggle .lang-active {
+        background: #4A6CF7;
+        color: white;
+        padding: 2px 12px;
+        border-radius: 20px;
+    }
+
+    .lang-toggle .lang-inactive {
+        padding: 2px 12px;
+        border-radius: 20px;
+        opacity: 0.6;
+    }
 
     .report-container {
         max-width: 1000px;
@@ -512,21 +601,42 @@
 
 {% block content %}
 
-<div class="report-container">
+{% with lang=request.GET.lang|default:'en' %}
 
+<div class="report-container {% if lang == 'ur' %}lang-ur{% endif %}">
+
+    <!-- Language Toggle -->
+    <div style="display:flex;justify-content:flex-end;margin-bottom:16px;">
+        <a href="?lang={% if lang == 'ur' %}en{% else %}ur{% endif %}" class="lang-toggle">
+            <i class="fa-solid fa-language"></i>
+            <span class="{% if lang == 'ur' %}lang-active{% else %}lang-inactive{% endif %}">اردو</span>
+            <span style="color:#cbd5e1;">|</span>
+            <span class="{% if lang == 'en' %}lang-active{% else %}lang-inactive{% endif %}">English</span>
+        </a>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- REPORT HEADER -->
+    <!-- ========================================== -->
     <header class="report-header">
         <div class="report-header-top">
             <div class="logo-section">
                 <div class="logo-icon">🧠</div>
                 <div class="logo-text">
                     <h1>NeuroSense AI</h1>
-                    <p>Neurological Risk Screening · AI-Powered Assessment</p>
+                    <p>
+                        {% if lang == 'ur' %}
+                        نیورو سائیکلوجیکل رسک اسکریننگ · اے آئی پاورڈ اسسمنٹ
+                        {% else %}
+                        Neurological Risk Screening · AI-Powered Assessment
+                        {% endif %}
+                    </p>
                 </div>
             </div>
             <div class="report-meta">
-                <div><strong>Report ID:</strong> {{ fusion.screening_id|default:"N/A"|truncatechars:12 }}</div>
-                <div><strong>Assessment Date:</strong> {% now "d M Y, h:i A" %}</div>
-                <div><strong>Status:</strong> <span class="status-complete">Complete</span></div>
+                <div><strong>{% if lang == 'ur' %}رپورٹ آئی ڈی{% else %}Report ID{% endif %}:</strong> {{ fusion.screening_id|default:"N/A"|truncatechars:12 }}</div>
+                <div><strong>{% if lang == 'ur' %}تشخیص کی تاریخ{% else %}Assessment Date{% endif %}:</strong> {% now "d M Y, h:i A" %}</div>
+                <div><strong>{% if lang == 'ur' %}حالت{% else %}Status{% endif %}:</strong> <span class="status-complete">{% if lang == 'ur' %}مکمل{% else %}Complete{% endif %}</span></div>
             </div>
         </div>
 
@@ -534,105 +644,140 @@
 
         <div class="report-patient-info">
             <div class="patient-field">
-                <div class="label">Patient ID</div>
+                <div class="label">{% if lang == 'ur' %}مریض آئی ڈی{% else %}Patient ID{% endif %}</div>
                 <div class="value">NS-{% now "Ymd" %}-001</div>
             </div>
             <div class="patient-field">
-                <div class="label">Name</div>
+                <div class="label">{% if lang == 'ur' %}نام{% else %}Name{% endif %}</div>
                 <div class="value">{{ user.get_full_name|default:"Guest User" }}</div>
             </div>
             <div class="patient-field">
-                <div class="label">Age / Gender</div>
+                <div class="label">{% if lang == 'ur' %}عمر / جنس{% else %}Age / Gender{% endif %}</div>
                 <div class="value">— / —</div>
             </div>
             <div class="patient-field">
-                <div class="label">Assessment Date</div>
+                <div class="label">{% if lang == 'ur' %}تشخیص کی تاریخ{% else %}Assessment Date{% endif %}</div>
                 <div class="value">{% now "d M Y, h:i A" %}</div>
             </div>
         </div>
     </header>
 
+    <!-- ========================================== -->
+    <!-- ERROR -->
+    <!-- ========================================== -->
     {% if error %}
     <div class="error-box">
         <h2>⚠️ {{ error }}</h2>
-        <p>Please complete all screening modules before viewing the report.</p>
+        <p>
+            {% if lang == 'ur' %}
+            براہ کرم رپورٹ دیکھنے سے پہلے تمام اسکریننگ ماڈیولز مکمل کریں۔
+            {% else %}
+            Please complete all screening modules before viewing the report.
+            {% endif %}
+        </p>
         <a href="/" class="btn btn-primary">
-            <i class="fa-solid fa-house"></i> Go to Home
+            <i class="fa-solid fa-house"></i> {% if lang == 'ur' %}ہوم پیج{% else %}Go to Home{% endif %}
         </a>
     </div>
     {% else %}
 
-
+    <!-- ========================================== -->
+    <!-- RISK ASSESSMENT -->
+    <!-- ========================================== -->
     <section class="report-card">
         <div class="card-title">
             <span class="title-icon"><i class="fa-solid fa-chart-simple"></i></span>
-            Risk Assessment
+            {% if lang == 'ur' %}خطرے کی تشخیص{% else %}Risk Assessment{% endif %}
             <span class="title-line"></span>
         </div>
 
         <div class="risk-box">
-            <div class="risk-label">Overall Risk Level</div>
+            <div class="risk-label">{% if lang == 'ur' %}مجموعی خطرے کی سطح{% else %}Overall Risk Level{% endif %}</div>
             <div class="risk-level {% if fusion.risk_level == 'Low' %}low{% elif fusion.risk_level == 'Medium' %}medium{% else %}high{% endif %}">
-                {{ fusion.risk_level|upper }} RISK
+                {% if lang == 'ur' %}
+                    {% if fusion.risk_level == 'Low' %}کم{% elif fusion.risk_level == 'Medium' %}درمیانہ{% else %}زیادہ{% endif %}
+                {% else %}
+                    {{ fusion.risk_level|upper }}
+                {% endif %}
+                {% if lang != 'ur' %}RISK{% endif %}
             </div>
             <div class="risk-score">
-                <strong>PD Risk Score:</strong> {{ fusion.final_pd_probability|floatformat:2 }} / 1.00
+                <strong>{% if lang == 'ur' %}پی ڈی رسک سکور{% else %}PD Risk Score{% endif %}:</strong> {{ fusion.final_pd_probability|floatformat:2 }} / 1.00
             </div>
             <div class="risk-interpretation">
-                Your assessment indicates a <strong>{{ fusion.risk_level|lower }}</strong> risk of Parkinsonian disorder.
-                {% if fusion.risk_level == 'High' %}
-                Multiple indicators associated with Parkinsonian symptoms were detected. It is strongly recommended to consult a neurologist.
-                {% elif fusion.risk_level == 'Medium' %}
-                Some early signs associated with motor and non-motor symptoms were detected. It is recommended to consult a neurologist for detailed clinical evaluation.
+                {% if lang == 'ur' %}
+                    آپ کی تشخیص <strong>
+                    {% if fusion.risk_level == 'Low' %}کم{% elif fusion.risk_level == 'Medium' %}درمیانہ{% else %}زیادہ{% endif %}
+                    </strong> پارکنسنین ڈس آرڈر کا خطرہ ظاہر کرتی ہے۔
+                    {% if fusion.risk_level == 'High' %}
+                    پارکنسنین علامات سے منسلک متعدد اشارے پائے گئے۔ نیورولوجسٹ سے مشورہ کرنے کی سختی سے سفارش کی جاتی ہے۔
+                    {% elif fusion.risk_level == 'Medium' %}
+                    موٹر اور غیر موٹر علامات سے منسلک کچھ ابتدائی علامات کا پتہ چلا۔ تفصیلی کلینیکل تشخیص کے لیے نیورولوجسٹ سے مشورہ کرنے کی سفارش کی جاتی ہے۔
+                    {% else %}
+                    پارکنسنین ڈس آرڈر کے کوئی اہم اشارے نہیں پائے گئے۔ باقاعدہ صحت کی نگرانی جاری رکھیں۔
+                    {% endif %}
                 {% else %}
-                No significant indicators of Parkinsonian disorder were detected. Continue regular health monitoring.
+                    Your assessment indicates a <strong>{{ fusion.risk_level|lower }}</strong> risk of Parkinsonian disorder.
+                    {% if fusion.risk_level == 'High' %}
+                    Multiple indicators associated with Parkinsonian symptoms were detected. It is strongly recommended to consult a neurologist.
+                    {% elif fusion.risk_level == 'Medium' %}
+                    Some early signs associated with motor and non-motor symptoms were detected. It is recommended to consult a neurologist for detailed clinical evaluation.
+                    {% else %}
+                    No significant indicators of Parkinsonian disorder were detected. Continue regular health monitoring.
+                    {% endif %}
                 {% endif %}
             </div>
             <div class="risk-ranges">
                 <span class="range-item">
                     <span class="range-dot low"></span>
-                    Low Risk (0.00 – 0.33)
+                    {% if lang == 'ur' %}کم خطرہ{% else %}Low Risk{% endif %} (0.00 – 0.33)
                 </span>
                 <span class="range-item">
                     <span class="range-dot medium"></span>
-                    Medium Risk (0.34 – 0.66)
+                    {% if lang == 'ur' %}درمیانہ خطرہ{% else %}Medium Risk{% endif %} (0.34 – 0.66)
                 </span>
                 <span class="range-item">
                     <span class="range-dot high"></span>
-                    High Risk (0.67 – 1.00)
+                    {% if lang == 'ur' %}زیادہ خطرہ{% else %}High Risk{% endif %} (0.67 – 1.00)
                 </span>
             </div>
         </div>
     </section>
 
-
+    <!-- ========================================== -->
+    <!-- MODULE RESULTS -->
+    <!-- ========================================== -->
     <section class="report-card">
         <div class="card-title">
             <span class="title-icon"><i class="fa-solid fa-layer-group"></i></span>
-            Module Results
+            {% if lang == 'ur' %}ماڈیول کے نتائج{% else %}Module Results{% endif %}
             <span class="title-line"></span>
         </div>
 
         <table class="module-table">
             <thead>
                 <tr>
-                    <th>Module</th>
-                    <th>Description</th>
-                    <th>Result</th>
-                    <th style="text-align:right;">Weight</th>
+                    <th>{% if lang == 'ur' %}ماڈیول{% else %}Module{% endif %}</th>
+                    <th>{% if lang == 'ur' %}وضاحت{% else %}Description{% endif %}</th>
+                    <th>{% if lang == 'ur' %}نتیجہ{% else %}Result{% endif %}</th>
+                    <th style="text-align:right;">{% if lang == 'ur' %}وزن{% else %}Weight{% endif %}</th>
                 </tr>
             </thead>
             <tbody>
                 <!-- Gait -->
                 <tr>
-                    <td><strong>Gait Analysis</strong></td>
-                    <td>Motor Function Assessment</td>
+                    <td><strong>{% if lang == 'ur' %}چال کا تجزیہ{% else %}Gait Analysis{% endif %}</strong></td>
+                    <td>{% if lang == 'ur' %}موٹر فنکشن اسسمنٹ{% else %}Motor Function Assessment{% endif %}</td>
                     <td>
                         <span class="status-badge {% if fusion.modules.gait.prediction == 'PD' %}pd{% elif fusion.modules.gait.prediction == 'Borderline' %}borderline{% else %}control{% endif %}">
-                            {{ fusion.modules.gait.prediction|default:"N/A"|upper }}
+                            {% if lang == 'ur' %}
+                                {% if fusion.modules.gait.prediction == 'PD' %}پی ڈی{% elif fusion.modules.gait.prediction == 'Borderline' %}سرحدی{% else %}کنٹرول{% endif %}
+                            {% else %}
+                                {{ fusion.modules.gait.prediction|default:"N/A"|upper }}
+                            {% endif %}
                         </span>
                         <br>
-                        <span class="risk-value">Risk: {{ fusion.modules.gait.pd_probability|floatformat:1 }}</span>
+                        <span class="risk-value">{% if lang == 'ur' %}خطرہ{% else %}Risk{% endif %}: {{ fusion.modules.gait.pd_probability|floatformat:1 }}</span>
                     </td>
                     <td style="text-align:right;">
                         <span class="weight-badge">{% widthratio fusion.modules.gait.weight 1 100 %}%</span>
@@ -641,14 +786,18 @@
 
                 <!-- Speech -->
                 <tr>
-                    <td><strong>Speech Analysis</strong></td>
-                    <td>Voice &amp; Speech Assessment</td>
+                    <td><strong>{% if lang == 'ur' %}آواز کا تجزیہ{% else %}Speech Analysis{% endif %}</strong></td>
+                    <td>{% if lang == 'ur' %}آواز اور تقریر کی تشخیص{% else %}Voice &amp; Speech Assessment{% endif %}</td>
                     <td>
                         <span class="status-badge {% if fusion.modules.speech.prediction == 'PD' %}pd{% elif fusion.modules.speech.prediction == 'Borderline' %}borderline{% else %}control{% endif %}">
-                            {{ fusion.modules.speech.prediction|default:"N/A"|upper }}
+                            {% if lang == 'ur' %}
+                                {% if fusion.modules.speech.prediction == 'PD' %}پی ڈی{% elif fusion.modules.speech.prediction == 'Borderline' %}سرحدی{% else %}کنٹرول{% endif %}
+                            {% else %}
+                                {{ fusion.modules.speech.prediction|default:"N/A"|upper }}
+                            {% endif %}
                         </span>
                         <br>
-                        <span class="risk-value">Risk: {{ fusion.modules.speech.pd_probability|floatformat:4 }}</span>
+                        <span class="risk-value">{% if lang == 'ur' %}خطرہ{% else %}Risk{% endif %}: {{ fusion.modules.speech.pd_probability|floatformat:4 }}</span>
                     </td>
                     <td style="text-align:right;">
                         <span class="weight-badge">{% widthratio fusion.modules.speech.weight 1 100 %}%</span>
@@ -657,14 +806,18 @@
 
                 <!-- Questionnaire -->
                 <tr>
-                    <td><strong>Questionnaire</strong></td>
-                    <td>Symptoms Assessment</td>
+                    <td><strong>{% if lang == 'ur' %}سوالنامہ{% else %}Questionnaire{% endif %}</strong></td>
+                    <td>{% if lang == 'ur' %}علامات کی تشخیص{% else %}Symptoms Assessment{% endif %}</td>
                     <td>
                         <span class="status-badge {% if fusion.modules.questionnaire.prediction == 'PD' %}pd{% elif fusion.modules.questionnaire.prediction == 'Borderline' %}borderline{% else %}control{% endif %}">
-                            {{ fusion.modules.questionnaire.prediction|default:"N/A"|upper }}
+                            {% if lang == 'ur' %}
+                                {% if fusion.modules.questionnaire.prediction == 'PD' %}پی ڈی{% elif fusion.modules.questionnaire.prediction == 'Borderline' %}سرحدی{% else %}کنٹرول{% endif %}
+                            {% else %}
+                                {{ fusion.modules.questionnaire.prediction|default:"N/A"|upper }}
+                            {% endif %}
                         </span>
                         <br>
-                        <span class="risk-value">Risk: {{ fusion.modules.questionnaire.pd_probability|floatformat:1 }}</span>
+                        <span class="risk-value">{% if lang == 'ur' %}خطرہ{% else %}Risk{% endif %}: {{ fusion.modules.questionnaire.pd_probability|floatformat:1 }}</span>
                     </td>
                     <td style="text-align:right;">
                         <span class="weight-badge">{% widthratio fusion.modules.questionnaire.weight 1 100 %}%</span>
@@ -674,74 +827,129 @@
         </table>
     </section>
 
+    <!-- ========================================== -->
+    <!-- CLINICAL INTERPRETATION -->
+    <!-- ========================================== -->
     <section class="report-card">
         <div class="card-title">
             <span class="title-icon"><i class="fa-solid fa-microscope"></i></span>
-            Clinical Interpretation
+            {% if lang == 'ur' %}کلینیکل تشریح{% else %}Clinical Interpretation{% endif %}
             <span class="title-line"></span>
         </div>
 
         <div class="interpretation-box">
-            {% if fusion.modules.gait.prediction == 'PD' %}
-            <strong>Gait analysis</strong> shows signs associated with Parkinsonian patterns.
-            {% elif fusion.modules.gait.prediction == 'Borderline' %}
-            <strong>Gait analysis</strong> shows some irregularities that may warrant monitoring.
-            {% else %}
-            <strong>Gait analysis</strong> is within normal range.
-            {% endif %}
+            {% if lang == 'ur' %}
+                <!-- Urdu Interpretation -->
+                {% if fusion.modules.gait.prediction == 'PD' %}
+                <strong>چال کا تجزیہ</strong> پارکنسنین پیٹرن سے منسلک علامات ظاہر کرتا ہے۔
+                {% elif fusion.modules.gait.prediction == 'Borderline' %}
+                <strong>چال کا تجزیہ</strong> کچھ بے قاعدگیاں ظاہر کرتا ہے جن کی نگرانی کی ضرورت ہو سکتی ہے۔
+                {% else %}
+                <strong>چال کا تجزیہ</strong> معمول کی حد میں ہے۔
+                {% endif %}
 
-            {% if fusion.modules.speech.prediction == 'PD' %}
-            <strong>Speech analysis</strong> shows indicators associated with Parkinsonian voice patterns.
-            {% elif fusion.modules.speech.prediction == 'Borderline' %}
-            <strong>Speech analysis</strong> shows some voice irregularities.
-            {% else %}
-            <strong>Speech analysis</strong> is within normal range.
-            {% endif %}
+                {% if fusion.modules.speech.prediction == 'PD' %}
+                <strong>آواز کا تجزیہ</strong> پارکنسنین آواز کے پیٹرن سے منسلک اشارے ظاہر کرتا ہے۔
+                {% elif fusion.modules.speech.prediction == 'Borderline' %}
+                <strong>آواز کا تجزیہ</strong> کچھ آواز کی بے قاعدگیاں ظاہر کرتا ہے۔
+                {% else %}
+                <strong>آواز کا تجزیہ</strong> معمول کی حد میں ہے۔
+                {% endif %}
 
-            {% if fusion.modules.questionnaire.prediction == 'PD' %}
-            <strong>Questionnaire responses</strong> indicate multiple motor and non-motor symptoms.
-            {% elif fusion.modules.questionnaire.prediction == 'Borderline' %}
-            <strong>Questionnaire responses</strong> indicate mild symptoms.
-            {% else %}
-            <strong>Questionnaire responses</strong> are within normal range.
-            {% endif %}
+                {% if fusion.modules.questionnaire.prediction == 'PD' %}
+                <strong>سوالنامہ کے جوابات</strong> متعدد موٹر اور غیر موٹر علامات کی نشاندہی کرتے ہیں۔
+                {% elif fusion.modules.questionnaire.prediction == 'Borderline' %}
+                <strong>سوالنامہ کے جوابات</strong> ہلکی علامات کی نشاندہی کرتے ہیں۔
+                {% else %}
+                <strong>سوالنامہ کے جوابات</strong> معمول کی حد میں ہیں۔
+                {% endif %}
 
-            <br><br>
-            <strong>Combined results</strong> suggest a <strong>{{ fusion.risk_level|lower }}</strong> overall risk.
-            {% if fusion.risk_level == 'High' %}
-            It is strongly recommended to consult a neurologist for clinical evaluation.
-            {% elif fusion.risk_level == 'Medium' %}
-            It is recommended to consult a neurologist for clinical evaluation.
+                <br><br>
+                <strong>مشترکہ نتائج</strong> <strong>
+                {% if fusion.risk_level == 'Low' %}کم{% elif fusion.risk_level == 'Medium' %}درمیانہ{% else %}زیادہ{% endif %}
+                </strong> مجموعی خطرہ ظاہر کرتے ہیں۔
+                {% if fusion.risk_level == 'High' %}
+                کلینیکل تشخیص کے لیے نیورولوجسٹ سے مشورہ کرنے کی سختی سے سفارش کی جاتی ہے۔
+                {% elif fusion.risk_level == 'Medium' %}
+                کلینیکل تشخیص کے لیے نیورولوجسٹ سے مشورہ کرنے کی سفارش کی جاتی ہے۔
+                {% else %}
+                باقاعدہ صحت کی نگرانی جاری رکھیں۔
+                {% endif %}
             {% else %}
-            Continue regular health monitoring.
+                <!-- English Interpretation -->
+                {% if fusion.modules.gait.prediction == 'PD' %}
+                <strong>Gait analysis</strong> shows signs associated with Parkinsonian patterns.
+                {% elif fusion.modules.gait.prediction == 'Borderline' %}
+                <strong>Gait analysis</strong> shows some irregularities that may warrant monitoring.
+                {% else %}
+                <strong>Gait analysis</strong> is within normal range.
+                {% endif %}
+
+                {% if fusion.modules.speech.prediction == 'PD' %}
+                <strong>Speech analysis</strong> shows indicators associated with Parkinsonian voice patterns.
+                {% elif fusion.modules.speech.prediction == 'Borderline' %}
+                <strong>Speech analysis</strong> shows some voice irregularities.
+                {% else %}
+                <strong>Speech analysis</strong> is within normal range.
+                {% endif %}
+
+                {% if fusion.modules.questionnaire.prediction == 'PD' %}
+                <strong>Questionnaire responses</strong> indicate multiple motor and non-motor symptoms.
+                {% elif fusion.modules.questionnaire.prediction == 'Borderline' %}
+                <strong>Questionnaire responses</strong> indicate mild symptoms.
+                {% else %}
+                <strong>Questionnaire responses</strong> are within normal range.
+                {% endif %}
+
+                <br><br>
+                <strong>Combined results</strong> suggest a <strong>{{ fusion.risk_level|lower }}</strong> overall risk.
+                {% if fusion.risk_level == 'High' %}
+                It is strongly recommended to consult a neurologist for clinical evaluation.
+                {% elif fusion.risk_level == 'Medium' %}
+                It is recommended to consult a neurologist for clinical evaluation.
+                {% else %}
+                Continue regular health monitoring.
+                {% endif %}
             {% endif %}
         </div>
     </section>
 
-
+    <!-- ========================================== -->
+    <!-- ACTION BUTTONS -->
+    <!-- ========================================== -->
     <div class="action-buttons">
         <button class="btn btn-pdf" onclick="window.print()">
-            <i class="fa-solid fa-file-pdf"></i> Download Report
+            <i class="fa-solid fa-file-pdf"></i> {% if lang == 'ur' %}رپورٹ ڈاؤن لوڈ کریں{% else %}Download Report{% endif %}
         </button>
         <a href="{% url 'recommendations_app:recommendations' %}" class="btn btn-primary">
-            <i class="fa-solid fa-lightbulb"></i> View Recommendations
+            <i class="fa-solid fa-lightbulb"></i> {% if lang == 'ur' %}سفارشات دیکھیں{% else %}View Recommendations{% endif %}
         </a>
         <a href="{% url 'speech_app:home' %}" class="btn btn-outline">
-            <i class="fa-solid fa-house"></i> Back to Home
+            <i class="fa-solid fa-house"></i> {% if lang == 'ur' %}ہوم پیج{% else %}Back to Home{% endif %}
         </a>
     </div>
 
+    <!-- ========================================== -->
+    <!-- REPORT FOOTER -->
+    <!-- ========================================== -->
     <div class="report-footer">
         <span>
             <i class="fa-solid fa-circle-info"></i>
-            This report is generated by an AI system and is intended for screening purposes only.
-            It is not a medical diagnosis.
+            {% if lang == 'ur' %}
+            یہ رپورٹ اے آئی سسٹم کے ذریعے تیار کی گئی ہے اور صرف اسکریننگ کے مقاصد کے لیے ہے۔ یہ طبی تشخیص نہیں ہے۔
+            {% else %}
+            This report is generated by an AI system and is intended for screening purposes only. It is not a medical diagnosis.
+            {% endif %}
         </span>
-        <span class="footer-status">Report Status: Complete</span>
+        <span class="footer-status">
+            {% if lang == 'ur' %}رپورٹ کی حالت: مکمل{% else %}Report Status: Complete{% endif %}
+        </span>
     </div>
 
     {% endif %}
 
 </div>
+
+{% endwith %}
 
 {% endblock %}
