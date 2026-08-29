@@ -1,4 +1,5 @@
 import json
+import re
 
 from django.conf import settings
 from groq import Groq
@@ -12,7 +13,7 @@ client = Groq(api_key=settings.GROQ_API_KEY)
 MEMORY_PROMPT = """
 You are a memory extraction component for NeuroSense Assistant.
 
-Your task is to decide whether the user's message contains useful long-term information
+Decide whether the user's message contains useful long-term information
 that may help personalize future conversations.
 
 Only save important, reasonably stable information such as:
@@ -31,7 +32,9 @@ Do NOT save:
 - assistant responses
 - information that is not useful for future personalization
 
-Return ONLY valid JSON in this format:
+Return exactly one JSON object.
+
+If information should be saved:
 
 {
   "should_save": true,
@@ -46,11 +49,40 @@ If nothing should be saved:
   "category": "",
   "memory_text": ""
 }
+
+Do not include markdown, explanations, or code fences.
 """
+
+
+def parse_json_response(content):
+    if not content:
+        return None
+
+    content = content.strip()
+
+    content = re.sub(r"^```json\s*", "", content, flags=re.IGNORECASE)
+    content = re.sub(r"^```\s*", "", content)
+    content = re.sub(r"\s*```$", "", content)
+
+    try:
+        return json.loads(content)
+    except json.JSONDecodeError:
+        match = re.search(r"\{.*\}", content, re.DOTALL)
+
+        if not match:
+            return None
+
+        try:
+            return json.loads(match.group())
+        except json.JSONDecodeError:
+            return None
 
 
 def extract_and_save_memory(user, message):
     if not user or not user.is_authenticated:
+        return None
+
+    if not message or not message.strip():
         return None
 
     try:
@@ -67,19 +99,22 @@ def extract_and_save_memory(user, message):
                 }
             ],
             temperature=0,
-            max_tokens=150,
-            response_format={"type": "json_object"},
+            max_tokens=150
         )
 
-        result = json.loads(
-            response.choices[0].message.content
-        )
+        content = response.choices[0].message.content
+
+        result = parse_json_response(content)
+
+        if not result:
+            print("Memory extraction skipped: invalid or empty response.")
+            return None
 
         if not result.get("should_save"):
             return None
 
-        category = result.get("category", "").strip()
-        memory_text = result.get("memory_text", "").strip()
+        category = str(result.get("category", "")).strip()
+        memory_text = str(result.get("memory_text", "")).strip()
 
         if not category or not memory_text:
             return None

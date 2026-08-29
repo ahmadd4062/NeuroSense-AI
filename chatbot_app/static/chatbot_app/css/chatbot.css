@@ -1306,3 +1306,6 @@ body.urdu-mode .message-bubble {
     font-size: 14px;
     line-height: 2;
 }
+.message-bubble strong {
+    font-weight: 700;
+}

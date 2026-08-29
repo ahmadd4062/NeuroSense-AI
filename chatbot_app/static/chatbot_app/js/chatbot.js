@@ -18,7 +18,9 @@ function getCSRFToken() {
         cookie = cookie.trim();
 
         if (cookie.startsWith("csrftoken=")) {
-            return decodeURIComponent(cookie.substring("csrftoken=".length));
+            return decodeURIComponent(
+                cookie.substring("csrftoken=".length)
+            );
         }
     }
 
@@ -31,11 +33,13 @@ function scrollToBottom() {
 
 function autoResizeTextarea() {
     messageInput.style.height = "auto";
-    messageInput.style.height = `${Math.min(messageInput.scrollHeight, 120)}px`;
+    messageInput.style.height =
+        `${Math.min(messageInput.scrollHeight, 120)}px`;
 }
 
 function hideWelcomeSection() {
-    const welcomeSection = document.querySelector(".welcome-section");
+    const welcomeSection =
+        document.querySelector(".welcome-section");
 
     if (welcomeSection) {
         welcomeSection.style.display = "none";
@@ -43,7 +47,8 @@ function hideWelcomeSection() {
 }
 
 function showWelcomeSection() {
-    const welcomeSection = document.querySelector(".welcome-section");
+    const welcomeSection =
+        document.querySelector(".welcome-section");
 
     if (welcomeSection) {
         welcomeSection.style.display = "";
@@ -66,53 +71,130 @@ function setSendingState(sending) {
     messageInput.disabled = sending;
 }
 
-function createMessageElement(role, text, emergency = false) {
+function formatMessage(text) {
+    if (!text) {
+        return "";
+    }
+
+    const escaped = text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+
+    return escaped
+        .replace(
+            /\*\*(.*?)\*\*/g,
+            "<strong>$1</strong>"
+        )
+        .replace(
+            /__(.*?)__/g,
+            "<strong>$1</strong>"
+        )
+        .replace(
+            /^\s*\*\s+(.+)$/gm,
+            "• $1"
+        )
+        .replace(
+            /^\s*-\s+(.+)$/gm,
+            "• $1"
+        )
+        .replace(
+            /^\s*\*\s*$/gm,
+            ""
+        )
+        .replace(
+            /\n/g,
+            "<br>"
+        );
+}
+
+function createMessageElement(
+    role,
+    text,
+    emergency = false
+) {
     const row = document.createElement("div");
 
-    row.classList.add("message-row", role);
+    row.classList.add(
+        "message-row",
+        role
+    );
 
     if (emergency) {
         row.classList.add("emergency");
     }
 
-    const content = document.createElement("div");
-    content.classList.add("message-content");
+    const content =
+        document.createElement("div");
 
-    const avatar = document.createElement("div");
-    avatar.classList.add("message-avatar");
+    content.classList.add(
+        "message-content"
+    );
 
-    const avatarIcon = document.createElement("i");
+    const avatar =
+        document.createElement("div");
+
+    avatar.classList.add(
+        "message-avatar"
+    );
+
+    const avatarIcon =
+        document.createElement("i");
 
     if (role === "user") {
-        avatarIcon.className = "fa-solid fa-user";
+        avatarIcon.className =
+            "fa-solid fa-user";
     } else {
-        avatarIcon.className = "fa-solid fa-robot";
+        avatarIcon.className =
+            "fa-solid fa-robot";
     }
 
-    avatar.appendChild(avatarIcon);
+    avatar.appendChild(
+        avatarIcon
+    );
 
-    const bubble = document.createElement("div");
-    bubble.classList.add("message-bubble");
-    bubble.textContent = text;
+    const bubble =
+        document.createElement("div");
 
-    content.appendChild(avatar);
-    content.appendChild(bubble);
+    bubble.classList.add(
+        "message-bubble"
+    );
 
-    row.appendChild(content);
+    bubble.innerHTML =
+        formatMessage(text);
+
+    content.appendChild(
+        avatar
+    );
+
+    content.appendChild(
+        bubble
+    );
+
+    row.appendChild(
+        content
+    );
 
     return row;
 }
 
-function addMessage(role, text, emergency = false) {
+function addMessage(
+    role,
+    text,
+    emergency = false
+) {
     hideWelcomeSection();
 
-    const messageElement = createMessageElement(
-        role,
-        text,
-        emergency
-    );
+    const messageElement =
+        createMessageElement(
+            role,
+            text,
+            emergency
+        );
 
-    chatMessages.appendChild(messageElement);
+    chatMessages.appendChild(
+        messageElement
+    );
 
     scrollToBottom();
 }
@@ -125,49 +207,68 @@ function getErrorMessage() {
     return "Sorry, I couldn't get a response just now. Please try again.";
 }
 
-async function sendMessage(customMessage = null) {
+async function sendMessage(
+    customMessage = null
+) {
     if (isSending) {
         return;
     }
 
-    const message = customMessage !== null
-        ? customMessage.trim()
-        : messageInput.value.trim();
+    const message =
+        customMessage !== null
+            ? customMessage.trim()
+            : messageInput.value.trim();
 
     if (!message) {
         return;
     }
 
-    addMessage("user", message);
+    addMessage(
+        "user",
+        message
+    );
 
     messageInput.value = "";
+
     autoResizeTextarea();
 
     setSendingState(true);
     setTypingState(true);
 
     try {
-        const response = await fetch(CHAT_API_URL, {
-            method: "POST",
+        const response =
+            await fetch(
+                CHAT_API_URL,
+                {
+                    method: "POST",
 
-            headers: {
-                "Content-Type": "application/json",
-                "X-CSRFToken": getCSRFToken()
-            },
+                    headers: {
+                        "Content-Type":
+                            "application/json",
 
-            body: JSON.stringify({
-                message: message
-            })
-        });
+                        "X-CSRFToken":
+                            getCSRFToken()
+                    },
 
-        const data = await response.json();
+                    body: JSON.stringify({
+                        message: message
+                    })
+                }
+            );
+
+        const data =
+            await response.json();
 
         setTypingState(false);
 
-        if (!response.ok || !data.success) {
+        if (
+            !response.ok ||
+            !data.success
+        ) {
             addMessage(
                 "assistant",
-                data.error || getErrorMessage()
+                data.error ||
+                    getErrorMessage()
             );
 
             return;
@@ -176,11 +277,16 @@ async function sendMessage(customMessage = null) {
         addMessage(
             "assistant",
             data.reply,
-            Boolean(data.emergency)
+            Boolean(
+                data.emergency
+            )
         );
 
     } catch (error) {
-        console.error("Chatbot request failed:", error);
+        console.error(
+            "Chatbot request failed:",
+            error
+        );
 
         setTypingState(false);
 
@@ -197,15 +303,21 @@ async function sendMessage(customMessage = null) {
 }
 
 function clearConversationUI() {
-    const existingMessages = chatMessages.querySelectorAll(".message-row");
+    const existingMessages =
+        chatMessages.querySelectorAll(
+            ".message-row"
+        );
 
-    existingMessages.forEach(message => {
-        message.remove();
-    });
+    existingMessages.forEach(
+        message => {
+            message.remove();
+        }
+    );
 
     showWelcomeSection();
 
     messageInput.value = "";
+
     autoResizeTextarea();
 
     setTypingState(false);
@@ -214,77 +326,141 @@ function clearConversationUI() {
 }
 
 function updateLanguage(language) {
-    currentLanguage = language;
+    currentLanguage =
+        language;
 
     document.body.classList.toggle(
         "urdu-mode",
         language === "ur"
     );
 
-    languageButtons.forEach(button => {
-        button.classList.toggle(
-            "active",
-            button.dataset.language === language
-        );
-    });
+    languageButtons.forEach(
+        button => {
+            button.classList.toggle(
+                "active",
+                button.dataset.language ===
+                    language
+            );
+        }
+    );
 
-    document.querySelectorAll("[data-en][data-ur]").forEach(element => {
-        element.textContent = element.dataset[language];
-    });
+    document
+        .querySelectorAll(
+            "[data-en][data-ur]"
+        )
+        .forEach(
+            element => {
+                element.textContent =
+                    element.dataset[
+                        language
+                    ];
+            }
+        );
 
     if (language === "ur") {
-        messageInput.placeholder = "NeuroSense سے کچھ بھی پوچھیں...";
-        messageInput.setAttribute("dir", "rtl");
+        messageInput.placeholder =
+            "NeuroSense سے کچھ بھی پوچھیں...";
+
+        messageInput.setAttribute(
+            "dir",
+            "rtl"
+        );
+
     } else {
-        messageInput.placeholder = "Ask NeuroSense anything...";
-        messageInput.setAttribute("dir", "ltr");
+        messageInput.placeholder =
+            "Ask NeuroSense anything...";
+
+        messageInput.setAttribute(
+            "dir",
+            "ltr"
+        );
     }
 }
-sendMessageBtn.addEventListener("click", () => {
-    sendMessage();
-});
 
-messageInput.addEventListener("input", () => {
-    autoResizeTextarea();
-});
-
-messageInput.addEventListener("keydown", event => {
-    if (
-        event.key === "Enter" &&
-        !event.shiftKey
-    ) {
-        event.preventDefault();
-
+sendMessageBtn.addEventListener(
+    "click",
+    () => {
         sendMessage();
     }
-});
+);
 
-suggestionCards.forEach(card => {
-    card.addEventListener("click", () => {
-        const message = currentLanguage === "ur"
-            ? card.dataset.messageUr
-            : card.dataset.messageEn;
+messageInput.addEventListener(
+    "input",
+    () => {
+        autoResizeTextarea();
+    }
+);
 
-        sendMessage(message);
-    });
-});
+messageInput.addEventListener(
+    "keydown",
+    event => {
+        if (
+            event.key === "Enter" &&
+            !event.shiftKey
+        ) {
+            event.preventDefault();
 
-languageButtons.forEach(button => {
-    button.addEventListener("click", () => {
-        updateLanguage(button.dataset.language);
-    });
-});
+            sendMessage();
+        }
+    }
+);
 
-clearChatBtn.addEventListener("click", () => {
-    clearConversationUI();
-});
+suggestionCards.forEach(
+    card => {
+        card.addEventListener(
+            "click",
+            () => {
+                const message =
+                    currentLanguage ===
+                    "ur"
+                        ? card.dataset
+                            .messageUr
+                        : card.dataset
+                            .messageEn;
 
-newChatBtn.addEventListener("click", () => {
-    clearConversationUI();
-});
+                sendMessage(
+                    message
+                );
+            }
+        );
+    }
+);
 
-window.addEventListener("load", () => {
-    updateLanguage("en");
-    autoResizeTextarea();
-    messageInput.focus();
-});
+languageButtons.forEach(
+    button => {
+        button.addEventListener(
+            "click",
+            () => {
+                updateLanguage(
+                    button.dataset
+                        .language
+                );
+            }
+        );
+    }
+);
+
+clearChatBtn.addEventListener(
+    "click",
+    () => {
+        clearConversationUI();
+    }
+);
+
+newChatBtn.addEventListener(
+    "click",
+    () => {
+        clearConversationUI();
+    }
+);
+
+window.addEventListener(
+    "load",
+    () => {
+        updateLanguage("en");
+
+        autoResizeTextarea();
+
+        messageInput.focus();
+    }
+);
