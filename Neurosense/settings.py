@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'fusion_app',
     'chatbot_app',
     'recommendations_app',
+    'accounts',
 ]
 
 MIDDLEWARE = [
@@ -184,3 +185,10 @@ CORS_ALLOW_ALL_ORIGINS = True
 # File upload settings
 FILE_UPLOAD_MAX_MEMORY_SIZE = 50 * 1024 * 1024  # 50MB for video
 DATA_UPLOAD_MAX_MEMORY_SIZE = 50 * 1024 * 1024  # 50MB for video
+
+# Where to redirect after successful login
+LOGIN_URL = '/accounts/login/'
+LOGIN_REDIRECT_URL = '/'
+
+# Where to redirect after logout
+LOGOUT_REDIRECT_URL = '/'

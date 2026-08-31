@@ -29,4 +29,5 @@ urlpatterns = [
     path('fusion/', include('fusion_app.urls')), 
     path('recommendations/', include('recommendations_app.urls')),
     path('set-language/', set_language, name='set_language'),
+    path('accounts/', include('accounts.urls')),
 ]

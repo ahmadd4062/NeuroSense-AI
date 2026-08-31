@@ -3,12 +3,13 @@ from django.http import JsonResponse
 from django.views.decorators.http import require_GET
 import json
 import logging
+from django.contrib.auth.decorators import login_required
 
 from .services import calculate_fusion, save_fusion_result
 
 logger = logging.getLogger(__name__)
 
-
+@login_required
 def report_page(request):
     """
     Render the final fusion report page with language support

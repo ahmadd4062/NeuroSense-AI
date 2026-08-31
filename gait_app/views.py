@@ -8,6 +8,7 @@ import tempfile
 import logging
 import uuid
 import numpy as np
+from django.contrib.auth.decorators import login_required
 
 from .gait_model import predictor
 from .feature_extractor import extract_pose_sequence_from_video, validate_video_quality
@@ -162,14 +163,14 @@ def gait_predict(request):
             status=status.HTTP_500_INTERNAL_SERVER_ERROR
         )
 
-
+@login_required
 def gait_screening_page(request):
     """Render the gait screening page with language support"""
     return render(request, 'gait_app/gait_screening.html', {
         'lang': request.LANG  # Pass language to template
     })
 
-
+@login_required
 def gait_results_page(request):
     """Render the gait results page with language support"""
     return render(request, 'gait_app/gait_results.html', {

@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 import json
 import logging
@@ -124,7 +125,7 @@ def clean_markdown(text):
     
     return text
 
-
+@login_required
 def recommendations_page(request):
     """
     Render personalized recommendations page

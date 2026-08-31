@@ -33,27 +33,36 @@
             <!-- LANGUAGE TOGGLE - DESKTOP                  -->
             <!-- ========================================== -->
             <div class="lang-toggle-wrapper">
-                <a href="{% url 'set_language' %}?lang=en&next={{ request.path }}" 
-                   class="lang-btn {% if request.LANG == 'en' %}active{% endif %}"
-                   title="Switch to English">
-                    <span class="lang-flag">🇬🇧</span>
+                <a href="{% url 'set_language' %}?lang=en&next={{ request.path }}"
+                    class="lang-btn {% if request.LANG == 'en' %}active{% endif %}" title="Switch to English">
                     <span class="lang-label">EN</span>
                 </a>
                 <span class="lang-divider">|</span>
-                <a href="{% url 'set_language' %}?lang=ur&next={{ request.path }}" 
-                   class="lang-btn {% if request.LANG == 'ur' %}active{% endif %}"
-                   title="اردو میں تبدیل کریں">
-                    <span class="lang-flag">🇵🇰</span>
+                <a href="{% url 'set_language' %}?lang=ur&next={{ request.path }}"
+                    class="lang-btn {% if request.LANG == 'ur' %}active{% endif %}" title="اردو میں تبدیل کریں">
                     <span class="lang-label">اردو</span>
                 </a>
             </div>
 
-            <a href="#" class="btn btn-login">
+            {% if user.is_authenticated %}
+            <!-- Show Profile & Logout when logged in -->
+            <a href="{% url 'accounts:profile' %}" class="btn btn-login">
+                <i class="fa-regular fa-user"></i>
+                {% if lang == 'ur' %}پروفائل{% else %}Profile{% endif %}
+            </a>
+            <a href="{% url 'accounts:logout' %}" class="btn btn-primary">
+                <i class="fa-solid fa-sign-out-alt"></i>
+                {% if lang == 'ur' %}لاگ آؤٹ{% else %}Logout{% endif %}
+            </a>
+            {% else %}
+            <!-- Show Login & Register when logged out -->
+            <a href="{% url 'accounts:login' %}" class="btn btn-login">
                 {% if lang == 'ur' %}لاگ ان{% else %}Log In{% endif %}
             </a>
-            <a href="{% url 'questionnaire_app:home'%}" class="btn btn-primary">
-                {% if lang == 'ur' %}شروع کریں{% else %}Get Started{% endif %}
+            <a href="{% url 'accounts:register' %}" class="btn btn-primary">
+                {% if lang == 'ur' %}اکاؤنٹ بنائیں{% else %}Sign Up{% endif %}
             </a>
+            {% endif %}
         </div>
 
         <button class="menu-toggle" type="button" aria-label="Open navigation">
@@ -93,24 +102,37 @@
             {% if lang == 'ur' %}🌐 زبان{% else %}🌐 Language{% endif %}
         </span>
         <div class="mobile-lang-buttons">
-            <a href="{% url 'set_language' %}?lang=en&next={{ request.path }}" 
-               class="lang-btn-mobile {% if request.LANG == 'en' %}active{% endif %}">
+            <a href="{% url 'set_language' %}?lang=en&next={{ request.path }}"
+                class="lang-btn-mobile {% if request.LANG == 'en' %}active{% endif %}">
                 🇬🇧 English
             </a>
-            <a href="{% url 'set_language' %}?lang=ur&next={{ request.path }}" 
-               class="lang-btn-mobile {% if request.LANG == 'ur' %}active{% endif %}">
+            <a href="{% url 'set_language' %}?lang=ur&next={{ request.path }}"
+                class="lang-btn-mobile {% if request.LANG == 'ur' %}active{% endif %}">
                 🇵🇰 اردو
             </a>
         </div>
     </div>
 
     <div class="mobile-nav-actions">
-        <a href="#" class="btn btn-login">
+        {% if user.is_authenticated %}
+        <!-- Show Profile & Logout when logged in -->
+        <a href="{% url 'accounts:profile' %}" class="btn btn-login">
+            <i class="fa-regular fa-user"></i>
+            {% if lang == 'ur' %}پروفائل{% else %}Profile{% endif %}
+        </a>
+        <a href="{% url 'accounts:logout' %}" class="btn btn-primary">
+            <i class="fa-solid fa-sign-out-alt"></i>
+            {% if lang == 'ur' %}لاگ آؤٹ{% else %}Logout{% endif %}
+        </a>
+        {% else %}
+        <!-- Show Login & Register when logged out -->
+        <a href="{% url 'accounts:login' %}" class="btn btn-login">
             {% if lang == 'ur' %}لاگ ان{% else %}Log In{% endif %}
         </a>
-        <a href="{% url 'questionnaire_app:home' %}" class="btn btn-primary">
-            {% if lang == 'ur' %}شروع کریں{% else %}Get Started{% endif %}
+        <a href="{% url 'accounts:register' %}" class="btn btn-primary">
+            {% if lang == 'ur' %}اکاؤنٹ بنائیں{% else %}Sign Up{% endif %}
         </a>
+        {% endif %}
     </div>
 </nav>
 
@@ -400,20 +422,20 @@
         .lang-toggle-wrapper {
             padding: 3px 6px;
         }
-        
+
         .lang-btn {
             padding: 3px 6px;
             font-size: 0.65rem;
         }
-        
+
         .lang-label {
             display: none;
         }
-        
+
         .lang-flag {
             font-size: 1rem;
         }
-        
+
         .lang-divider {
             display: none;
         }
@@ -455,7 +477,7 @@
         .mobile-nav {
             display: none !important;
         }
-        
+
         .mobile-nav.is-open {
             display: none !important;
         }
@@ -466,33 +488,33 @@
 <!-- SCRIPT                                    -->
 <!-- ========================================== -->
 <script>
-document.addEventListener("DOMContentLoaded", function () {
+    document.addEventListener("DOMContentLoaded", function () {
 
-    const menuToggle = document.querySelector(".menu-toggle");
-    const mobileNav = document.querySelector(".mobile-nav");
+        const menuToggle = document.querySelector(".menu-toggle");
+        const mobileNav = document.querySelector(".mobile-nav");
 
-    if (!menuToggle || !mobileNav) {
-        console.log("Navbar elements not found");
-        return;
-    }
+        if (!menuToggle || !mobileNav) {
+            console.log("Navbar elements not found");
+            return;
+        }
 
-    menuToggle.addEventListener("click", function () {
+        menuToggle.addEventListener("click", function () {
 
-        mobileNav.classList.toggle("is-open");
+            mobileNav.classList.toggle("is-open");
 
-        const isOpen = mobileNav.classList.contains("is-open");
+            const isOpen = mobileNav.classList.contains("is-open");
 
-        menuToggle.innerHTML = isOpen
-            ? '<i class="fa-solid fa-xmark"></i>'
-            : '<i class="fa-solid fa-bars"></i>';
+            menuToggle.innerHTML = isOpen
+                ? '<i class="fa-solid fa-xmark"></i>'
+                : '<i class="fa-solid fa-bars"></i>';
 
-        menuToggle.setAttribute(
-            "aria-expanded",
-            isOpen ? "true" : "false"
-        );
+            menuToggle.setAttribute(
+                "aria-expanded",
+                isOpen ? "true" : "false"
+            );
+        });
+
     });
-
-});
 </script>
 
 {% endwith %}

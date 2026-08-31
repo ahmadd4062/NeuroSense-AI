@@ -1,0 +1,488 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+{% if lang == 'ur' %}
+اکاؤنٹ بنائیں - نیوروسینس اے آئی
+{% else %}
+Create Account - NeuroSense AI
+{% endif %}
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .auth-page {
+        min-height: 80vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 40px 20px;
+        background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+    }
+
+    .auth-container {
+        background: white;
+        border-radius: 20px;
+        padding: 48px 40px;
+        max-width: 520px;
+        width: 100%;
+        box-shadow: 0 12px 48px rgba(0, 0, 0, 0.08);
+        border: 1px solid #e2e8f0;
+    }
+
+    .auth-logo {
+        text-align: center;
+        margin-bottom: 28px;
+    }
+
+    .auth-logo img {
+        height: 48px;
+        width: auto;
+       display: block;
+       margin: 0 auto; 
+    }
+
+    .auth-logo h1 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #1a1a2e;
+        margin: 12px 0 4px;
+    }
+
+    .auth-logo p {
+        color: #6b7280;
+        font-size: 0.9rem;
+        margin: 0;
+    }
+
+    .form-group {
+        margin-bottom: 16px;
+    }
+
+    .form-group label {
+        display: block;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: #1a1a2e;
+        margin-bottom: 4px;
+    }
+
+    .form-group label .required {
+        color: #ef4444;
+    }
+
+    .form-group .form-input {
+        width: 100%;
+        padding: 10px 14px;
+        border: 1.5px solid #e2e8f0;
+        border-radius: 10px;
+        font-size: 0.95rem;
+        transition: all 0.3s ease;
+        background: #f8fafc;
+        font-family: inherit;
+    }
+
+    .form-group .form-input:focus {
+        outline: none;
+        border-color: #4A6CF7;
+        background: white;
+        box-shadow: 0 0 0 4px rgba(74, 108, 247, 0.08);
+    }
+
+    .form-group .form-input.error {
+        border-color: #ef4444;
+        background: #fef2f2;
+    }
+
+    .form-group .form-input.is-valid {
+        border-color: #10b981;
+        background: #f0fdf4;
+    }
+
+    .form-group .form-help {
+        font-size: 0.75rem;
+        color: #94a3b8;
+        margin-top: 4px;
+    }
+
+    .form-error {
+        color: #dc2626;
+        font-size: 0.8rem;
+        margin-top: 4px;
+        display: block;
+    }
+
+    .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+    }
+
+    .form-checkbox-group {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        margin: 8px 0 4px;
+        padding: 12px 16px;
+        background: #f8fafc;
+        border-radius: 10px;
+        border: 1px solid #e2e8f0;
+        transition: all 0.3s ease;
+    }
+
+    .form-checkbox-group:hover {
+        border-color: #4A6CF7;
+        background: #eef2ff;
+    }
+
+    .form-checkbox-group input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        accent-color: #4A6CF7;
+        margin-top: 2px;
+        flex-shrink: 0;
+        cursor: pointer;
+    }
+
+    .form-checkbox-group .checkbox-label {
+        font-size: 0.85rem;
+        color: #475569;
+        cursor: pointer;
+    }
+
+    .form-checkbox-group .checkbox-label strong {
+        color: #1a1a2e;
+    }
+
+    .form-checkbox-group .checkbox-label a {
+        color: #4A6CF7;
+        text-decoration: none;
+    }
+
+    .form-checkbox-group .checkbox-label a:hover {
+        text-decoration: underline;
+    }
+
+    .btn-submit {
+        width: 100%;
+        padding: 14px;
+        background: #4A6CF7;
+        color: white;
+        border: none;
+        border-radius: 10px;
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-family: inherit;
+        margin-top: 4px;
+    }
+
+    .btn-submit:hover {
+        background: #3b5de7;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 16px rgba(74, 108, 247, 0.3);
+    }
+
+    .btn-submit:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+    }
+
+    .auth-footer {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 0.9rem;
+        color: #6b7280;
+    }
+
+    .auth-footer a {
+        color: #4A6CF7;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .auth-footer a:hover {
+        text-decoration: underline;
+    }
+
+    .messages {
+        margin-bottom: 16px;
+    }
+
+    .message {
+        padding: 10px 14px;
+        border-radius: 10px;
+        font-size: 0.9rem;
+        margin-bottom: 6px;
+    }
+
+    .message.error {
+        background: #fef2f2;
+        color: #991b1b;
+        border: 1px solid #fca5a5;
+    }
+
+    .message.success {
+        background: #f0fdf4;
+        color: #065f46;
+        border: 1px solid #86efac;
+    }
+
+    .message.info {
+        background: #eff6ff;
+        color: #1e40af;
+        border: 1px solid #93c5fd;
+    }
+
+    .password-requirements {
+        font-size: 0.75rem;
+        color: #94a3b8;
+        margin-top: 4px;
+        padding: 8px 12px;
+        background: #f8fafc;
+        border-radius: 8px;
+        border: 1px solid #e2e8f0;
+    }
+
+    .password-requirements ul {
+        margin: 4px 0 0;
+        padding-left: 20px;
+    }
+
+    .password-requirements ul li {
+        line-height: 1.6;
+    }
+
+    .password-requirements ul li.valid {
+        color: #10b981;
+    }
+
+    .password-requirements ul li.invalid {
+        color: #94a3b8;
+    }
+
+    @media (max-width: 480px) {
+        .auth-container {
+            padding: 28px 16px;
+        }
+
+        .auth-logo h1 {
+            font-size: 1.3rem;
+        }
+
+        .form-row {
+            grid-template-columns: 1fr;
+            gap: 0;
+        }
+
+        .form-checkbox-group {
+            padding: 10px 12px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+{% with lang=request.LANG|default:'en' %}
+
+<div class="auth-page">
+
+    <div class="auth-container">
+
+        <div class="auth-logo">
+            <img src="{% static 'speech_app/images/logo.png' %}" alt="NeuroSense AI">
+            <h1>
+                {% if lang == 'ur' %}اکاؤنٹ بنائیں{% else %}Create Account{% endif %}
+            </h1>
+            <p>
+                {% if lang == 'ur' %}
+                نیوروسینس اے آئی کے ساتھ اپنا سفر شروع کریں
+                {% else %}
+                Start your journey with NeuroSense AI
+                {% endif %}
+            </p>
+        </div>
+
+        {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+            <div class="message {{ message.tags }}">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <form method="POST" action="{% url 'accounts:register' %}">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label for="id_username">
+                    {% if lang == 'ur' %}صارف کا نام <span class="required">*</span>{% else %}Username <span class="required">*</span>{% endif %}
+                </label>
+                <input type="text" name="username" id="id_username" class="form-input" placeholder="{% if lang == 'ur' %}صارف کا نام منتخب کریں{% else %}Choose a username{% endif %}" required>
+                <div class="form-help">
+                    {% if lang == 'ur' %}صرف حروف، اعداد اور انڈر اسکور{% else %}Letters, numbers, and underscores only{% endif %}
+                </div>
+                {% if form.username.errors %}
+                <span class="form-error">{{ form.username.errors.0 }}</span>
+                {% endif %}
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="id_first_name">
+                        {% if lang == 'ur' %}پہلا نام <span class="required">*</span>{% else %}First Name <span class="required">*</span>{% endif %}
+                    </label>
+                    <input type="text" name="first_name" id="id_first_name" class="form-input" placeholder="{% if lang == 'ur' %}پہلا نام{% else %}First name{% endif %}" required>
+                    {% if form.first_name.errors %}
+                    <span class="form-error">{{ form.first_name.errors.0 }}</span>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="id_last_name">
+                        {% if lang == 'ur' %}آخری نام <span class="required">*</span>{% else %}Last Name <span class="required">*</span>{% endif %}
+                    </label>
+                    <input type="text" name="last_name" id="id_last_name" class="form-input" placeholder="{% if lang == 'ur' %}آخری نام{% else %}Last name{% endif %}" required>
+                    {% if form.last_name.errors %}
+                    <span class="form-error">{{ form.last_name.errors.0 }}</span>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="id_email">
+                    {% if lang == 'ur' %}ای میل ایڈریس <span class="required">*</span>{% else %}Email Address <span class="required">*</span>{% endif %}
+                </label>
+                <input type="email" name="email" id="id_email" class="form-input" placeholder="{% if lang == 'ur' %}اپنا ای میل درج کریں{% else %}Enter your email{% endif %}" required>
+                {% if form.email.errors %}
+                <span class="form-error">{{ form.email.errors.0 }}</span>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="id_password1">
+                    {% if lang == 'ur' %}پاس ورڈ <span class="required">*</span>{% else %}Password <span class="required">*</span>{% endif %}
+                </label>
+                <input type="password" name="password1" id="id_password1" class="form-input" placeholder="{% if lang == 'ur' %}پاس ورڈ بنائیں{% else %}Create a password{% endif %}" required>
+                <div class="password-requirements">
+                    {% if lang == 'ur' %}
+                    <strong>پاس ورڈ کی ضروریات:</strong>
+                    <ul>
+                        <li>کم از کم 8 حروف</li>
+                        <li>حروف اور اعداد کا مجموعہ</li>
+                    </ul>
+                    {% else %}
+                    <strong>Password requirements:</strong>
+                    <ul>
+                        <li>Minimum 8 characters</li>
+                        <li>Combination of letters and numbers</li>
+                    </ul>
+                    {% endif %}
+                </div>
+                {% if form.password1.errors %}
+                <span class="form-error">{{ form.password1.errors.0 }}</span>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="id_password2">
+                    {% if lang == 'ur' %}پاس ورڈ کی تصدیق <span class="required">*</span>{% else %}Confirm Password <span class="required">*</span>{% endif %}
+                </label>
+                <input type="password" name="password2" id="id_password2" class="form-input" placeholder="{% if lang == 'ur' %}پاس ورڈ دہرائیں{% else %}Confirm your password{% endif %}" required>
+                {% if form.password2.errors %}
+                <span class="form-error">{{ form.password2.errors.0 }}</span>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="id_phone_number">
+                    {% if lang == 'ur' %}فون نمبر{% else %}Phone Number{% endif %}
+                </label>
+                <input type="text" name="phone_number" id="id_phone_number" class="form-input" placeholder="{% if lang == 'ur' %}فون نمبر درج کریں (اختیاری){% else %}Enter phone number (optional){% endif %}">
+                {% if form.phone_number.errors %}
+                <span class="form-error">{{ form.phone_number.errors.0 }}</span>
+                {% endif %}
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="id_date_of_birth">
+                        {% if lang == 'ur' %}تاریخ پیدائش{% else %}Date of Birth{% endif %}
+                    </label>
+                    <input type="date" name="date_of_birth" id="id_date_of_birth" class="form-input">
+                    {% if form.date_of_birth.errors %}
+                    <span class="form-error">{{ form.date_of_birth.errors.0 }}</span>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="id_gender">
+                        {% if lang == 'ur' %}جنس{% else %}Gender{% endif %}
+                    </label>
+                    <select name="gender" id="id_gender" class="form-input">
+                        <option value="">{% if lang == 'ur' %}منتخب کریں{% else %}Select{% endif %}</option>
+                        <option value="M">{% if lang == 'ur' %}مرد{% else %}Male{% endif %}</option>
+                        <option value="F">{% if lang == 'ur' %}خاتون{% else %}Female{% endif %}</option>
+                        <option value="O">{% if lang == 'ur' %}دوسری{% else %}Other{% endif %}</option>
+                        <option value="P">{% if lang == 'ur' %}ترجیح نہیں{% else %}Prefer not to say{% endif %}</option>
+                    </select>
+                    {% if form.gender.errors %}
+                    <span class="form-error">{{ form.gender.errors.0 }}</span>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="id_preferred_language">
+                    {% if lang == 'ur' %}ترجیحی زبان <span class="required">*</span>{% else %}Preferred Language <span class="required">*</span>{% endif %}
+                </label>
+                <select name="preferred_language" id="id_preferred_language" class="form-input">
+                    <option value="en">English</option>
+                    <option value="ur">اردو</option>
+                </select>
+                {% if form.preferred_language.errors %}
+                <span class="form-error">{{ form.preferred_language.errors.0 }}</span>
+                {% endif %}
+            </div>
+
+            <div class="form-checkbox-group">
+                <input type="checkbox" name="data_consent" id="id_data_consent" required>
+                <label for="id_data_consent" class="checkbox-label">
+                    {% if lang == 'ur' %}
+                    میں <strong>ڈیٹا جمع کرنے</strong> اور اسکریننگ کے مقاصد کے لیے <strong>کارروائی</strong> کرنے کی رضایت دیتا ہوں۔
+                    میں <a href="#">پرائیویسی پالیسی</a> پڑھ چکا ہوں۔
+                    {% else %}
+                    I consent to the <strong>collection</strong> and <strong>processing</strong> of my data for screening purposes.
+                    I have read the <a href="#">Privacy Policy</a>.
+                    {% endif %}
+                </label>
+            </div>
+            {% if form.data_consent.errors %}
+            <span class="form-error">{{ form.data_consent.errors.0 }}</span>
+            {% endif %}
+
+            <button type="submit" class="btn-submit">
+                {% if lang == 'ur' %}اکاؤنٹ بنائیں{% else %}Create Account{% endif %}
+            </button>
+        </form>
+
+        <div class="auth-footer">
+            {% if lang == 'ur' %}
+            پہلے سے اکاؤنٹ ہے؟ <a href="{% url 'accounts:login' %}">لاگ ان کریں</a>
+            {% else %}
+            Already have an account? <a href="{% url 'accounts:login' %}">Log In</a>
+            {% endif %}
+        </div>
+
+    </div>
+
+</div>
+
+{% endwith %}
+
+{% endblock %}

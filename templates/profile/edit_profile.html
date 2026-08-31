@@ -1,0 +1,424 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+{% if lang == 'ur' %}
+پروفائل میں ترمیم - نیوروسینس اے آئی
+{% else %}
+Edit Profile - NeuroSense AI
+{% endif %}
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .edit-profile-page {
+        max-width: 700px;
+        margin: 0 auto;
+        padding: 40px 20px 60px;
+    }
+
+    .edit-profile-card {
+        background: white;
+        border-radius: 20px;
+        padding: 40px 44px;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+    }
+
+    .edit-profile-header {
+        text-align: center;
+        margin-bottom: 32px;
+    }
+
+    .edit-profile-header .icon {
+        width: 64px;
+        height: 64px;
+        background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.8rem;
+        color: #4A6CF7;
+        margin: 0 auto 12px;
+    }
+
+    .edit-profile-header h1 {
+        font-size: 1.6rem;
+        font-weight: 700;
+        color: #1a1a2e;
+        margin: 0 0 4px;
+    }
+
+    .edit-profile-header p {
+        color: #6b7280;
+        font-size: 0.95rem;
+        margin: 0;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        display: block;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: #1a1a2e;
+        margin-bottom: 4px;
+    }
+
+    .form-group label .required {
+        color: #ef4444;
+    }
+
+    .form-group .form-input {
+        width: 100%;
+        padding: 10px 14px;
+        border: 1.5px solid #e2e8f0;
+        border-radius: 10px;
+        font-size: 0.95rem;
+        transition: all 0.3s ease;
+        background: #f8fafc;
+        font-family: inherit;
+    }
+
+    .form-group .form-input:focus {
+        outline: none;
+        border-color: #4A6CF7;
+        background: white;
+        box-shadow: 0 0 0 4px rgba(74, 108, 247, 0.08);
+    }
+
+    .form-group .form-input.error {
+        border-color: #ef4444;
+        background: #fef2f2;
+    }
+
+    .form-group .form-input.is-valid {
+        border-color: #10b981;
+        background: #f0fdf4;
+    }
+
+    .form-error {
+        color: #dc2626;
+        font-size: 0.8rem;
+        margin-top: 4px;
+        display: block;
+    }
+
+    .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+    }
+
+    .form-checkbox-group {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 8px 0;
+    }
+
+    .form-checkbox-group input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        accent-color: #4A6CF7;
+        cursor: pointer;
+        flex-shrink: 0;
+    }
+
+    .form-checkbox-group label {
+        font-size: 0.9rem;
+        color: #475569;
+        cursor: pointer;
+        margin: 0;
+    }
+
+    .form-hint {
+        font-size: 0.75rem;
+        color: #94a3b8;
+        margin-top: 4px;
+    }
+
+    .form-actions {
+        display: flex;
+        gap: 12px;
+        margin-top: 28px;
+        padding-top: 20px;
+        border-top: 1px solid #e2e8f0;
+    }
+
+    .btn {
+        padding: 10px 24px;
+        border-radius: 10px;
+        font-weight: 600;
+        font-size: 0.85rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        text-decoration: none;
+        border: none;
+        font-family: inherit;
+        flex: 1;
+        justify-content: center;
+    }
+
+    .btn-primary {
+        background: #4A6CF7;
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background: #3b5de7;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 16px rgba(74,108,247,0.3);
+    }
+
+    .btn-outline {
+        background: transparent;
+        color: #475569;
+        border: 1.5px solid #e2e8f0;
+    }
+
+    .btn-outline:hover {
+        background: #f8fafc;
+        border-color: #4A6CF7;
+        color: #4A6CF7;
+    }
+
+    .btn-danger {
+        background: #ef4444;
+        color: white;
+    }
+
+    .btn-danger:hover {
+        background: #dc2626;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 16px rgba(239,68,68,0.3);
+    }
+
+    .messages {
+        margin-bottom: 20px;
+    }
+
+    .message {
+        padding: 10px 14px;
+        border-radius: 10px;
+        font-size: 0.9rem;
+        margin-bottom: 6px;
+    }
+
+    .message.error {
+        background: #fef2f2;
+        color: #991b1b;
+        border: 1px solid #fca5a5;
+    }
+
+    .message.success {
+        background: #f0fdf4;
+        color: #065f46;
+        border: 1px solid #86efac;
+    }
+
+    .message.info {
+        background: #eff6ff;
+        color: #1e40af;
+        border: 1px solid #93c5fd;
+    }
+
+    @media (max-width: 600px) {
+        .edit-profile-card {
+            padding: 24px 16px;
+        }
+
+        .form-row {
+            grid-template-columns: 1fr;
+            gap: 0;
+        }
+
+        .form-actions {
+            flex-direction: column;
+        }
+
+        .btn {
+            flex: none;
+            width: 100%;
+        }
+
+        .edit-profile-header h1 {
+            font-size: 1.3rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+{% with lang=request.LANG|default:'en' %}
+
+<div class="edit-profile-page">
+
+    <div class="edit-profile-card">
+
+        <div class="edit-profile-header">
+            <div class="icon">
+                <i class="fa-regular fa-pen-to-square"></i>
+            </div>
+            <h1>
+                {% if lang == 'ur' %}پروفائل میں ترمیم{% else %}Edit Profile{% endif %}
+            </h1>
+            <p>
+                {% if lang == 'ur' %}
+                اپنی ذاتی معلومات اور ترجیحات کو اپ ڈیٹ کریں
+                {% else %}
+                Update your personal information and preferences
+                {% endif %}
+            </p>
+        </div>
+
+        {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+            <div class="message {{ message.tags }}">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <form method="POST" action="{% url 'accounts:edit_profile' %}">
+            {% csrf_token %}
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="id_first_name">
+                        {% if lang == 'ur' %}پہلا نام <span class="required">*</span>{% else %}First Name <span class="required">*</span>{% endif %}
+                    </label>
+                    <input type="text" name="first_name" id="id_first_name" class="form-input" value="{{ form.first_name.value|default:'' }}" required>
+                    {% if form.first_name.errors %}
+                    <span class="form-error">{{ form.first_name.errors.0 }}</span>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="id_last_name">
+                        {% if lang == 'ur' %}آخری نام <span class="required">*</span>{% else %}Last Name <span class="required">*</span>{% endif %}
+                    </label>
+                    <input type="text" name="last_name" id="id_last_name" class="form-input" value="{{ form.last_name.value|default:'' }}" required>
+                    {% if form.last_name.errors %}
+                    <span class="form-error">{{ form.last_name.errors.0 }}</span>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="id_email">
+                    {% if lang == 'ur' %}ای میل ایڈریس <span class="required">*</span>{% else %}Email Address <span class="required">*</span>{% endif %}
+                </label>
+                <input type="email" name="email" id="id_email" class="form-input" value="{{ form.email.value|default:'' }}" required>
+                <div class="form-hint">
+                    {% if lang == 'ur' %}یہ ای میل آپ کی لاگ ان اور مواصلت کے لیے استعمال ہوگی۔{% else %}This email will be used for login and communication.{% endif %}
+                </div>
+                {% if form.email.errors %}
+                <span class="form-error">{{ form.email.errors.0 }}</span>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="id_phone_number">
+                    {% if lang == 'ur' %}فون نمبر{% else %}Phone Number{% endif %}
+                </label>
+                <input type="text" name="phone_number" id="id_phone_number" class="form-input" value="{{ form.phone_number.value|default:'' }}">
+                {% if form.phone_number.errors %}
+                <span class="form-error">{{ form.phone_number.errors.0 }}</span>
+                {% endif %}
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="id_date_of_birth">
+                        {% if lang == 'ur' %}تاریخ پیدائش{% else %}Date of Birth{% endif %}
+                    </label>
+                    <input type="date" name="date_of_birth" id="id_date_of_birth" class="form-input" value="{{ form.date_of_birth.value|date:'Y-m-d'|default:'' }}">
+                    {% if form.date_of_birth.errors %}
+                    <span class="form-error">{{ form.date_of_birth.errors.0 }}</span>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="id_gender">
+                        {% if lang == 'ur' %}جنس{% else %}Gender{% endif %}
+                    </label>
+                    <select name="gender" id="id_gender" class="form-input">
+                        <option value="P" {% if form.gender.value == 'P' %}selected{% endif %}>
+                            {% if lang == 'ur' %}ترجیح نہیں{% else %}Prefer not to say{% endif %}
+                        </option>
+                        <option value="M" {% if form.gender.value == 'M' %}selected{% endif %}>
+                            {% if lang == 'ur' %}مرد{% else %}Male{% endif %}
+                        </option>
+                        <option value="F" {% if form.gender.value == 'F' %}selected{% endif %}>
+                            {% if lang == 'ur' %}خاتون{% else %}Female{% endif %}
+                        </option>
+                        <option value="O" {% if form.gender.value == 'O' %}selected{% endif %}>
+                            {% if lang == 'ur' %}دوسری{% else %}Other{% endif %}
+                        </option>
+                    </select>
+                    {% if form.gender.errors %}
+                    <span class="form-error">{{ form.gender.errors.0 }}</span>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="id_preferred_language">
+                    {% if lang == 'ur' %}ترجیحی زبان{% else %}Preferred Language{% endif %}
+                </label>
+                <select name="preferred_language" id="id_preferred_language" class="form-input">
+                    <option value="en" {% if form.preferred_language.value == 'en' %}selected{% endif %}>English</option>
+                    <option value="ur" {% if form.preferred_language.value == 'ur' %}selected{% endif %}>اردو</option>
+                </select>
+                <div class="form-hint">
+                    {% if lang == 'ur' %}یہ آپ کی ڈیفالٹ ویب سائٹ کی زبان کا تعین کرے گا۔{% else %}This will determine your default website language.{% endif %}
+                </div>
+                {% if form.preferred_language.errors %}
+                <span class="form-error">{{ form.preferred_language.errors.0 }}</span>
+                {% endif %}
+            </div>
+
+            <div class="form-checkbox-group">
+                <input type="checkbox" name="email_notifications" id="id_email_notifications" {% if form.email_notifications.value %}checked{% endif %}>
+                <label for="id_email_notifications">
+                    {% if lang == 'ur' %}
+                    مجھے ای میل اطلاعات بھیجیں (اسکریننگ ریمائنڈرز اور اپ ڈیٹس)
+                    {% else %}
+                    Send me email notifications (screening reminders and updates)
+                    {% endif %}
+                </label>
+            </div>
+            {% if form.email_notifications.errors %}
+            <span class="form-error">{{ form.email_notifications.errors.0 }}</span>
+            {% endif %}
+
+            <div class="form-actions">
+                <a href="{% url 'accounts:profile' %}" class="btn btn-outline">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    {% if lang == 'ur' %}منسوخ کریں{% else %}Cancel{% endif %}
+                </a>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa-regular fa-floppy-disk"></i>
+                    {% if lang == 'ur' %}محفوظ کریں{% else %}Save Changes{% endif %}
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endwith %}
+
+{% endblock %}

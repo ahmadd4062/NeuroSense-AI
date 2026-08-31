@@ -1,10 +1,12 @@
 from django.shortcuts import render, redirect
 from django.db import transaction
+from django.contrib.auth.decorators import login_required
 
 from .models import QuestionnaireResult
 from .services.questionnaire_service import predict_questionnaire
 
 
+@login_required
 def questionnaire_home(request):
     """Render the questionnaire home page with language support"""
     return render(
@@ -16,6 +18,7 @@ def questionnaire_home(request):
     )
 
 
+@login_required
 def questionnaire_form(request):
     """Render the questionnaire form page with language support"""
 
