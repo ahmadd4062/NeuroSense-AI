@@ -1,9 +1,65 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}NeuroSense AI | Early Neurological Risk Detection{% endblock %}
+{% block title %}
+{% if request.LANG == 'ur' %}
+نیوروسینس اے آئی | ابتدائی نیورولوجیکل رسک کا پتہ لگانا
+{% else %}
+NeuroSense AI | Early Neurological Risk Detection
+{% endif %}
+{% endblock %}
 
 {% block content %}
+
+{% with lang=request.LANG|default:'en' %}
+
+<!-- ========================================== -->
+<!-- LANGUAGE WELCOME POPUP (First-time visitors) -->
+<!-- ========================================== -->
+<div id="language-popup" class="lang-popup-overlay" style="display:none;">
+    <div class="lang-popup">
+        <div class="lang-popup-header">
+            <div class="lang-popup-icon">🧠</div>
+            <h2>
+                {% if lang == 'ur' %}
+                نیوروسینس اے آئی میں خوش آمدید
+                {% else %}
+                Welcome to NeuroSense AI
+                {% endif %}
+            </h2>
+            <p>
+                {% if lang == 'ur' %}
+                براہ کرم اپنی پسندیدہ زبان منتخب کریں
+                {% else %}
+                Please select your preferred language
+                {% endif %}
+            </p>
+        </div>
+        <div class="lang-popup-options">
+            <a href="{% url 'set_language' %}?lang=en&next={{ request.path }}" class="lang-popup-btn" onclick="closeLanguagePopup()">
+                <span class="lang-popup-flag">🇬🇧</span>
+                <span class="lang-popup-name">English</span>
+                <span class="lang-popup-desc">
+                    {% if lang == 'ur' %}انگریزی میں جاری رکھیں{% else %}Continue in English{% endif %}
+                </span>
+            </a>
+            <a href="{% url 'set_language' %}?lang=ur&next={{ request.path }}" class="lang-popup-btn" onclick="closeLanguagePopup()">
+                <span class="lang-popup-flag">🇵🇰</span>
+                <span class="lang-popup-name">اردو</span>
+                <span class="lang-popup-desc">
+                    {% if lang == 'ur' %}اردو میں جاری رکھیں{% else %}Continue in Urdu{% endif %}
+                </span>
+            </a>
+        </div>
+        <button class="lang-popup-close" onclick="closeLanguagePopup()">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+    </div>
+</div>
+
+<!-- ========================================== -->
+<!-- HERO SECTION -->
+<!-- ========================================== -->
 <section class="hero">
     <div class="hero-background"></div>
 
@@ -11,32 +67,51 @@
         <div class="hero-copy">
             <div class="hero-badge">
                 <i class="fa-solid fa-shield-halved"></i>
+                {% if lang == 'ur' %}
+                <span>اے آئی سے چلنے والا</span>
+                <span class="badge-dot"></span>
+                <span>محفوظ</span>
+                <span class="badge-dot"></span>
+                <span>غیر حملہ آور</span>
+                {% else %}
                 <span>AI-Powered</span>
                 <span class="badge-dot"></span>
                 <span>Secure</span>
                 <span class="badge-dot"></span>
                 <span>Non-invasive</span>
+                {% endif %}
             </div>
 
             <h1>
+                {% if lang == 'ur' %}
+                اے آئی سے چلنے والی ابتدائی
+                <span>نیورولوجیکل</span>
+                رسک کا پتہ لگانا
+                {% else %}
                 AI-Powered Early
                 <span>Neurological</span>
                 Risk Detection
+                {% endif %}
             </h1>
 
             <p class="hero-description">
+                {% if lang == 'ur' %}
+                جدید اے آئی کا استعمال کرتے ہوئے حرکت، تقریر، اور رویے کے پیٹرن کا تجزیہ کریں
+                ابتدائی اسکریننگ اور بہتر دماغی صحت کی حمایت کے لیے۔
+                {% else %}
                 Analyze movement, speech, and behavioral patterns using advanced AI
                 to support early screening and better brain health.
+                {% endif %}
             </p>
 
             <div class="hero-buttons">
                 <a href="{% url 'questionnaire_app:home' %}" class="btn btn-primary btn-hero">
-                    Start Screening
+                    {% if lang == 'ur' %}اسکریننگ شروع کریں{% else %}Start Screening{% endif %}
                     <i class="fa-solid fa-arrow-right"></i>
                 </a>
 
                 <a href="#how-it-works" class="btn btn-outline btn-hero">
-                    Learn More
+                    {% if lang == 'ur' %}مزید جانیں{% else %}Learn More{% endif %}
                     <i class="fa-solid fa-play"></i>
                 </a>
             </div>
@@ -49,8 +124,12 @@
                     <span class="avatar avatar-four">S</span>
                 </div>
                 <p>
+                    {% if lang == 'ur' %}
+                    <strong>2,500+</strong> صارفین اور صحت کی دیکھ بھال کے پیشہ ور افراد کی طرف سے قابل اعتماد
+                    {% else %}
                     Trusted by <strong>2,500+</strong> users and<br>
                     healthcare professionals
+                    {% endif %}
                 </p>
             </div>
         </div>
@@ -66,8 +145,8 @@
                     <i class="fa-solid fa-person-walking"></i>
                 </div>
                 <div>
-                    <h3>Gait Analysis</h3>
-                    <p>Movement patterns<br>monitoring</p>
+                    <h3>{% if lang == 'ur' %}چال کا تجزیہ{% else %}Gait Analysis{% endif %}</h3>
+                    <p>{% if lang == 'ur' %}حرکت کے پیٹرن کی نگرانی{% else %}Movement patterns<br>monitoring{% endif %}</p>
                 </div>
             </article>
 
@@ -76,8 +155,8 @@
                     <i class="fa-solid fa-microphone"></i>
                 </div>
                 <div>
-                    <h3>Speech Analysis</h3>
-                    <p>Voice and audio<br>pattern recognition</p>
+                    <h3>{% if lang == 'ur' %}آواز کا تجزیہ{% else %}Speech Analysis{% endif %}</h3>
+                    <p>{% if lang == 'ur' %}آواز اور آڈیو پیٹرن کی شناخت{% else %}Voice and audio<br>pattern recognition{% endif %}</p>
                 </div>
             </article>
 
@@ -86,8 +165,8 @@
                     <i class="fa-regular fa-clipboard"></i>
                 </div>
                 <div>
-                    <h3>Behavioral Assessment</h3>
-                    <p>Questionnaire and<br>behavioral analysis</p>
+                    <h3>{% if lang == 'ur' %}رویاتی تشخیص{% else %}Behavioral Assessment{% endif %}</h3>
+                    <p>{% if lang == 'ur' %}سوالنامہ اور رویاتی تجزیہ{% else %}Questionnaire and<br>behavioral analysis{% endif %}</p>
                 </div>
             </article>
 
@@ -96,14 +175,17 @@
                     <i class="fa-solid fa-brain"></i>
                 </div>
                 <div>
-                    <h3>AI-Powered Insights</h3>
-                    <p>Advanced AI models<br>for accurate results</p>
+                    <h3>{% if lang == 'ur' %}اے آئی سے چلنے والی بصیرتیں{% else %}AI-Powered Insights{% endif %}</h3>
+                    <p>{% if lang == 'ur' %}درست نتائج کے لیے جدید اے آئی ماڈلز{% else %}Advanced AI models<br>for accurate results{% endif %}</p>
                 </div>
             </article>
         </div>
     </div>
 </section>
 
+<!-- ========================================== -->
+<!-- ABOUT SECTION -->
+<!-- ========================================== -->
 <section class="about-section" id="about">
     <div class="about-container">
 
@@ -116,42 +198,61 @@
 
             <div class="section-label">
                 <i class="fa-solid fa-star-of-life"></i>
+                {% if lang == 'ur' %}
+                <span>نیوروسینس اے آئی کے بارے میں</span>
+                {% else %}
                 <span>About NeuroSense AI</span>
+                {% endif %}
             </div>
 
             <h2>
+                {% if lang == 'ur' %}
+                سمارٹ اسکریننگ،
+                <span>پہلے سے آگاہی</span>
+                {% else %}
                 Smarter Screening,
                 <span>Earlier Awareness</span>
+                {% endif %}
             </h2>
 
             <p class="about-description">
+                {% if lang == 'ur' %}
+                نیوروسینس اے آئی ایک اے آئی سے چلنے والا نیورولوجیکل اسکریننگ پلیٹ فارم ہے
+                جو حرکت، تقریر، اور رویاتی تجزیہ کے ذریعے ممکنہ خطرے کے اشارے کی شناخت کے لیے ڈیزائن کیا گیا ہے۔
+                {% else %}
                 NeuroSense AI is an AI-powered neurological screening platform
                 designed to identify potential risk indicators through movement,
                 speech, and behavioral analysis.
+                {% endif %}
             </p>
 
             <p class="about-description">
+                {% if lang == 'ur' %}
+                متعدد غیر حملہ آور تشخیصی طریقوں کو یکجا کرکے، ہمارا مقصد
+                ابتدائی آگاہی کی حمایت کرنا اور صارفین کو بہتر نیورولوجیکل صحت کی طرف بروقت کارروائی کرنے میں مدد کرنا ہے۔
+                {% else %}
                 By combining multiple non-invasive assessment methods, our goal is
                 to support early awareness and help users take timely action toward
                 better neurological health.
+                {% endif %}
             </p>
 
             <div class="about-statistics">
 
                 <div class="about-stat">
                     <h3>3</h3>
-                    <p>Screening Modules</p>
+                    <p>{% if lang == 'ur' %}اسکریننگ ماڈیولز{% else %}Screening Modules{% endif %}</p>
                 </div>
 
                 <div class="about-stat">
                     <h3>AI</h3>
-                    <p>Powered Risk Analysis</p>
+                    <p>{% if lang == 'ur' %}طاقتور رسک تجزیہ{% else %}Powered Risk Analysis{% endif %}</p>
                 </div>
 
             </div>
 
             <a href="#" class="about-button">
-                About Us
+                {% if lang == 'ur' %}ہمارے بارے میں{% else %}About Us{% endif %}
                 <i class="fa-solid fa-arrow-right"></i>
             </a>
 
@@ -159,21 +260,40 @@
 
     </div>
 </section>
+
+<!-- ========================================== -->
+<!-- EARLY SIGNS SECTION -->
+<!-- ========================================== -->
 <section class="signs-section" id="early-signs">
     <div class="signs-container">
 
         <div class="signs-header">
             <div class="section-label signs-label">
                 <i class="fa-solid fa-star-of-life"></i>
-                <span>Parkinson’s Awareness</span>
+                {% if lang == 'ur' %}
+                <span>پارکنسنز آگاہی</span>
+                {% else %}
+                <span>Parkinson's Awareness</span>
+                {% endif %}
             </div>
 
-            <h2>Recognizing Possible Early Signs</h2>
+            <h2>
+                {% if lang == 'ur' %}
+                ممکنہ ابتدائی علامات کو پہچانیں
+                {% else %}
+                Recognizing Possible Early Signs
+                {% endif %}
+            </h2>
 
             <p>
-                Parkinson’s disease can affect movement, speech, balance, and daily
+                {% if lang == 'ur' %}
+                پارکنسنز کی بیماری حرکت، تقریر، توازن، اور روزمرہ کی سرگرمیوں کو متاثر کر سکتی ہے۔
+                کچھ تبدیلیاں آہستہ آہستہ نشوونما پا سکتی ہیں اور ابتدائی طور پر نظر انداز ہو سکتی ہیں۔
+                {% else %}
+                Parkinson's disease can affect movement, speech, balance, and daily
                 activities. Some changes may develop gradually and can initially
                 be overlooked.
+                {% endif %}
             </p>
         </div>
 
@@ -184,10 +304,14 @@
                     <i class="fa-solid fa-wave-square"></i>
                 </div>
 
-                <h3>Voice Changes</h3>
+                <h3>{% if lang == 'ur' %}آواز میں تبدیلی{% else %}Voice Changes{% endif %}</h3>
 
                 <p>
+                    {% if lang == 'ur' %}
+                    تقریر وقت کے ساتھ نرم، دھیمی، یا کم واضح ہو سکتی ہے۔
+                    {% else %}
                     Speech may become softer, lower, or less clear over time.
+                    {% endif %}
                 </p>
             </article>
 
@@ -196,10 +320,14 @@
                     <i class="fa-solid fa-hand"></i>
                 </div>
 
-                <h3>Hand Tremors</h3>
+                <h3>{% if lang == 'ur' %}ہاتھ کا کپکپاہٹ{% else %}Hand Tremors{% endif %}</h3>
 
                 <p>
+                    {% if lang == 'ur' %}
+                    آرام کے دوران ہاتھ، انگلیوں، یا اعضاء میں لرزش ظاہر ہو سکتی ہے۔
+                    {% else %}
                     Shaking may appear in the hand, fingers, or limbs while resting.
+                    {% endif %}
                 </p>
             </article>
 
@@ -208,10 +336,14 @@
                     <i class="fa-solid fa-person-walking"></i>
                 </div>
 
-                <h3>Slower Movement</h3>
+                <h3>{% if lang == 'ur' %}آہستہ حرکت{% else %}Slower Movement{% endif %}</h3>
 
                 <p>
+                    {% if lang == 'ur' %}
+                    روزمرہ کی حرکات آہستہ آہستہ سست یا زیادہ مشکل ہو سکتی ہیں۔
+                    {% else %}
                     Everyday movements may gradually become slower or more difficult.
+                    {% endif %}
                 </p>
             </article>
 
@@ -220,10 +352,14 @@
                     <i class="fa-solid fa-scale-balanced"></i>
                 </div>
 
-                <h3>Balance Changes</h3>
+                <h3>{% if lang == 'ur' %}توازن میں تبدیلی{% else %}Balance Changes{% endif %}</h3>
 
                 <p>
+                    {% if lang == 'ur' %}
+                    کرنسی، استحکام، اور ہم آہنگی متاثر ہو سکتی ہے۔
+                    {% else %}
                     Posture, stability, and coordination may become affected.
+                    {% endif %}
                 </p>
             </article>
 
@@ -232,10 +368,14 @@
                     <i class="fa-regular fa-face-meh"></i>
                 </div>
 
-                <h3>Facial Expression</h3>
+                <h3>{% if lang == 'ur' %}چہرے کے تاثرات{% else %}Facial Expression{% endif %}</h3>
 
                 <p>
+                    {% if lang == 'ur' %}
+                    چہرے کی حرکات کم نمایاں یا اظہاری ہو سکتی ہیں۔
+                    {% else %}
                     Facial movements may become less noticeable or expressive.
+                    {% endif %}
                 </p>
             </article>
 
@@ -244,10 +384,14 @@
                     <i class="fa-solid fa-list-check"></i>
                 </div>
 
-                <h3>Daily Activities</h3>
+                <h3>{% if lang == 'ur' %}روزمرہ کی سرگرمیاں{% else %}Daily Activities{% endif %}</h3>
 
                 <p>
+                    {% if lang == 'ur' %}
+                    لکھنا، چلنا، یا معمول کے کام زیادہ محنت طلب ہو سکتے ہیں۔
+                    {% else %}
                     Writing, walking, or routine tasks may require more effort.
+                    {% endif %}
                 </p>
             </article>
 
@@ -255,6 +399,10 @@
 
     </div>
 </section>
+
+<!-- ========================================== -->
+<!-- HOW IT WORKS SECTION -->
+<!-- ========================================== -->
 <div id="how-it-works"></div>
 <section class="features-section" id="features">
     <div class="features-container">
@@ -262,23 +410,37 @@
         <div class="features-intro">
             <div class="section-label">
                 <i class="fa-solid fa-star-of-life"></i>
+                {% if lang == 'ur' %}
+                <span>یہ کیسے کام کرتا ہے</span>
+                {% else %}
                 <span>How it Works</span>
+                {% endif %}
             </div>
 
             <h2>
+                {% if lang == 'ur' %}
+                ذہین اسکریننگ
+                <span>آپ کے ارد گرد ڈیزائن کیا گیا</span>
+                {% else %}
                 Intelligent Screening
                 <span>Designed Around You</span>
+                {% endif %}
             </h2>
 
             <p>
+                {% if lang == 'ur' %}
+                نیوروسینس اے آئی حرکت، تقریر، اور رویاتی پیٹرن کا جائزہ لینے کے لیے متعدد غیر حملہ آور تشخیصی طریقوں کو یکجا کرتا ہے۔
+                ہر ماڈیول ایک واضح نیورولوجیکل رسک جائزے کی طرف بامعنی بصیرت فراہم کرتا ہے۔
+                {% else %}
                 NeuroSense AI combines multiple non-invasive assessment methods
                 to examine movement, speech, and behavioral patterns. Each module
                 contributes meaningful insights toward a clearer neurological
                 risk overview.
+                {% endif %}
             </p>
 
             <a href="{% url 'questionnaire_app:home' %}" class="features-main-button">
-                Start Screening
+                {% if lang == 'ur' %}اسکریننگ شروع کریں{% else %}Start Screening{% endif %}
                 <i class="fa-solid fa-arrow-right"></i>
             </a>
         </div>
@@ -293,15 +455,19 @@
                 <div class="feature-card-content">
                     <div>
                         <span class="feature-number">01</span>
-                        <h3>Video Assessment</h3>
+                        <h3>{% if lang == 'ur' %}ویڈیو تشخیص{% else %}Video Assessment{% endif %}</h3>
                         <p>
+                            {% if lang == 'ur' %}
+                            چال، حرکت کے پیٹرن، توازن، کپکپاہٹ، اور دیگر نظر آنے والی موٹر علامات کا تجزیہ کریں۔
+                            {% else %}
                             Analyze gait, movement patterns, balance, tremor,
                             and other visible motor indicators.
+                            {% endif %}
                         </p>
                     </div>
 
                     <a href="{% url 'questionnaire_app:home' %}" class="feature-card-link">
-                        Start Screening
+                        {% if lang == 'ur' %}اسکریننگ شروع کریں{% else %}Start Screening{% endif %}
                         <i class="fa-solid fa-arrow-right"></i>
                     </a>
                 </div>
@@ -315,15 +481,19 @@
                 <div class="feature-card-content">
                     <div>
                         <span class="feature-number">02</span>
-                        <h3>Audio Assessment</h3>
+                        <h3>{% if lang == 'ur' %}آڈیو تشخیص{% else %}Audio Assessment{% endif %}</h3>
                         <p>
+                            {% if lang == 'ur' %}
+                            تقریر کی وضاحت، آواز کا استحکام، پچ، وقفے، اور دیگر متعلقہ آواز کے پیٹرن کا جائزہ لیں۔
+                            {% else %}
                             Examine speech clarity, voice stability, pitch,
                             pauses, and other relevant vocal patterns.
+                            {% endif %}
                         </p>
                     </div>
 
                     <a href="{% url 'questionnaire_app:home' %}" class="feature-card-link">
-                        Start Screening
+                        {% if lang == 'ur' %}اسکریننگ شروع کریں{% else %}Start Screening{% endif %}
                         <i class="fa-solid fa-arrow-right"></i>
                     </a>
                 </div>
@@ -336,15 +506,19 @@
                 <div class="feature-card-content">
                     <div>
                         <span class="feature-number">03</span>
-                        <h3>Behavioral Assessment</h3>
+                        <h3>{% if lang == 'ur' %}رویاتی تشخیص{% else %}Behavioral Assessment{% endif %}</h3>
                         <p>
+                            {% if lang == 'ur' %}
+                            علامات، روزمرہ کی سرگرمیوں، اور رویاتی اشارے پر محیط ایک رہنمائی شدہ سوالنامہ مکمل کریں۔
+                            {% else %}
                             Complete a guided questionnaire covering symptoms,
                             daily activities, and behavioral indicators.
+                            {% endif %}
                         </p>
                     </div>
 
                     <a href="{% url 'questionnaire_app:home' %}" class="feature-card-link">
-                        Start Screening
+                        {% if lang == 'ur' %}اسکریننگ شروع کریں{% else %}Start Screening{% endif %}
                         <i class="fa-solid fa-arrow-right"></i>
                     </a>
                 </div>
@@ -357,15 +531,19 @@
                 <div class="feature-card-content">
                     <div>
                         <span class="feature-number">04</span>
-                        <h3>Risk Report Generation</h3>
+                        <h3>{% if lang == 'ur' %}رسک رپورٹ کی تخلیق{% else %}Risk Report Generation{% endif %}</h3>
                         <p>
+                            {% if lang == 'ur' %}
+                            تشخیصی نتائج کو ایک منظم رپورٹ میں جمع کریں جس میں رسک اشارے اور قابل فہم بصیرتیں ہوں۔
+                            {% else %}
                             Combine assessment results into an organized report
                             with risk indicators and understandable insights.
+                            {% endif %}
                         </p>
                     </div>
 
                     <a href="{% url 'questionnaire_app:home' %}" class="feature-card-link">
-                        Start Screening
+                        {% if lang == 'ur' %}اسکریننگ شروع کریں{% else %}Start Screening{% endif %}
                         <i class="fa-solid fa-arrow-right"></i>
                     </a>
                 </div>
@@ -379,15 +557,19 @@
                 <div class="feature-card-content">
                     <div>
                         <span class="feature-number">05</span>
-                        <h3>Progress & Record Tracking</h3>
+                        <h3>{% if lang == 'ur' %}پیشرفت اور ریکارڈ ٹریکنگ{% else %}Progress & Record Tracking{% endif %}</h3>
                         <p>
+                            {% if lang == 'ur' %}
+                            پچھلی تشخیصات کا جائزہ لیں اور متعدد اسکریننگ سیشنز میں تبدیلیوں کی نگرانی کریں۔
+                            {% else %}
                             Review previous assessments and monitor changes
                             across multiple screening sessions.
+                            {% endif %}
                         </p>
                     </div>
 
                     <a href="{% url 'questionnaire_app:home' %}" class="feature-card-link">
-                        Start Screening
+                        {% if lang == 'ur' %}اسکریننگ شروع کریں{% else %}Start Screening{% endif %}
                         <i class="fa-solid fa-arrow-right"></i>
                     </a>
                 </div>
@@ -396,6 +578,10 @@
         </div>
     </div>
 </section>
+
+<!-- ========================================== -->
+<!-- CHATBOT SECTION -->
+<!-- ========================================== -->
 <section class="chatbot-section" id="chatbot">
     <div class="chatbot-container">
 
@@ -408,24 +594,43 @@
 
             <div class="section-label">
                 <i class="fa-solid fa-star-of-life"></i>
+                {% if lang == 'ur' %}
+                <span>اے آئی سے چلنے والی معاونت</span>
+                {% else %}
                 <span>AI-Powered Support</span>
+                {% endif %}
             </div>
 
             <h2>
+                {% if lang == 'ur' %}
+                رہنمائی جب
+                <span>آپ کو ضرورت ہو</span>
+                {% else %}
                 Guidance When
                 <span>You Need It</span>
+                {% endif %}
             </h2>
 
             <p class="chatbot-description">
+                {% if lang == 'ur' %}
+                نیوروسینس اے آئی چیٹ بوٹ آپ کے اسکریننگ سفر کے دوران سادہ اور قابل رسائی رہنمائی پیش کرتا ہے۔
+                یہ آپ کو تشخیص کے عمل کو سمجھنے، دستیاب ماڈیولز کی وضاحت کرنے، اور نیورولوجیکل اسکریننگ کے بارے میں عام سوالات کے جواب دینے میں مدد کر سکتا ہے۔
+                {% else %}
                 The NeuroSense AI chatbot offers simple and accessible guidance
                 throughout your screening journey. It can help you understand the
                 assessment process, explain available modules, and answer common
                 questions about neurological screening.
+                {% endif %}
             </p>
 
             <p class="chatbot-description">
+                {% if lang == 'ur' %}
+                چیٹ بوٹ صرف معلوماتی معاونت فراہم کرنے کے لیے ڈیزائن کیا گیا ہے اور
+                پیشہ ورانہ طبی مشاورت یا تشخیص کی جگہ نہیں لیتا۔
+                {% else %}
                 The chatbot is designed to provide informational support only and
                 does not replace professional medical consultation or diagnosis.
+                {% endif %}
             </p>
 
             <div class="chatbot-benefits">
@@ -436,8 +641,14 @@
                     </div>
 
                     <div>
-                        <h3>Instant Guidance</h3>
-                        <p>Get quick answers about assessments and screening steps.</p>
+                        <h3>{% if lang == 'ur' %}فوری رہنمائی{% else %}Instant Guidance{% endif %}</h3>
+                        <p>
+                            {% if lang == 'ur' %}
+                            تشخیصات اور اسکریننگ کے مراحل کے بارے میں فوری جوابات حاصل کریں۔
+                            {% else %}
+                            Get quick answers about assessments and screening steps.
+                            {% endif %}
+                        </p>
                     </div>
                 </div>
 
@@ -447,15 +658,21 @@
                     </div>
 
                     <div>
-                        <h3>Safe & Informative</h3>
-                        <p>Receive clear guidance without replacing medical advice.</p>
+                        <h3>{% if lang == 'ur' %}محفوظ اور معلوماتی{% else %}Safe & Informative{% endif %}</h3>
+                        <p>
+                            {% if lang == 'ur' %}
+                            طبی مشورے کی جگہ لیے بغیر واضح رہنمائی حاصل کریں۔
+                            {% else %}
+                            Receive clear guidance without replacing medical advice.
+                            {% endif %}
+                        </p>
                     </div>
                 </div>
 
             </div>
 
             <a href="{% url 'chatbot_app:chatbot' %}" class="chatbot-button">
-                <span>Start Chat</span>
+                <span>{% if lang == 'ur' %}چیٹ شروع کریں{% else %}Start Chat{% endif %}</span>
                 <i class="fa-solid fa-arrow-right"></i>
             </a>
 
@@ -463,6 +680,10 @@
 
     </div>
 </section>
+
+<!-- ========================================== -->
+<!-- FAQ SECTION -->
+<!-- ========================================== -->
 <section class="faq-section" id="faq">
     <div class="faq-container">
 
@@ -471,20 +692,33 @@
             <div class="faq-heading">
                 <div class="section-label">
                     <i class="fa-solid fa-star-of-life"></i>
+                    {% if lang == 'ur' %}
+                    <span>اکثر پوچھے جانے والے سوالات</span>
+                    {% else %}
                     <span>Frequently Asked Questions</span>
+                    {% endif %}
                 </div>
 
                 <h2>
+                    {% if lang == 'ur' %}
+                    وہ سب کچھ جو آپ کو
+                    <span>جاننا چاہیے</span>
+                    {% else %}
                     Everything You Need
                     <span>to Know</span>
+                    {% endif %}
                 </h2>
             </div>
 
             <div class="faq-intro">
                 <p>
+                    {% if lang == 'ur' %}
+                    نیوروسینس اے آئی، نیورولوجیکل اسکریننگ، پرائیویسی، رپورٹس، اور تشخیص کے عمل کے بارے میں عام سوالات کے جوابات تلاش کریں۔
+                    {% else %}
                     Find answers to common questions about NeuroSense AI,
                     neurological screening, privacy, reports, and the assessment
                     process.
+                    {% endif %}
                 </p>
             </div>
 
@@ -494,7 +728,9 @@
 
             <article class="faq-item">
                 <button class="faq-question" type="button" aria-expanded="false">
-                    <span>What is NeuroSense AI?</span>
+                    <span>
+                        {% if lang == 'ur' %}نیوروسینس اے آئی کیا ہے؟{% else %}What is NeuroSense AI?{% endif %}
+                    </span>
 
                     <span class="faq-arrow">
                         <i class="fa-solid fa-chevron-right"></i>
@@ -504,11 +740,17 @@
                 <div class="faq-answer">
                     <div class="faq-answer-inner">
                         <p>
+                            {% if lang == 'ur' %}
+                            نیوروسینس اے آئی ایک اے آئی سے چلنے والا نیورولوجیکل اسکریننگ پلیٹ فارم ہے
+                            جو حرکت، تقریر، اور رویاتی پیٹرن کا تجزیہ کرکے ابتدائی نیورولوجیکل رسک کا جائزہ فراہم کرتا ہے۔
+                            یہ اسکریننگ اور آگاہی کے مقاصد کے لیے ڈیزائن کیا گیا ہے اور پیشہ ورانہ طبی تشخیص کی جگہ نہیں لیتا۔
+                            {% else %}
                             NeuroSense AI is an AI-powered neurological screening
                             platform that analyzes movement, speech, and behavioral
                             patterns to provide an early neurological risk overview.
                             It is designed for screening and awareness purposes and
                             does not replace professional medical diagnosis.
+                            {% endif %}
                         </p>
                     </div>
                 </div>
@@ -516,7 +758,9 @@
 
             <article class="faq-item">
                 <button class="faq-question" type="button" aria-expanded="false">
-                    <span>How long does the screening process take?</span>
+                    <span>
+                        {% if lang == 'ur' %}اسکریننگ کے عمل میں کتنا وقت لگتا ہے؟{% else %}How long does the screening process take?{% endif %}
+                    </span>
 
                     <span class="faq-arrow">
                         <i class="fa-solid fa-chevron-right"></i>
@@ -526,10 +770,15 @@
                 <div class="faq-answer">
                     <div class="faq-answer-inner">
                         <p>
+                            {% if lang == 'ur' %}
+                            مکمل اسکریننگ کے عمل میں عام طور پر تقریباً 10-15 منٹ لگتے ہیں۔
+                            اس میں ویڈیو تشخیص، آڈیو تشخیص، رویاتی سوالنامہ، اور رپورٹ کی تخلیق شامل ہو سکتی ہے۔
+                            {% else %}
                             The complete screening process usually takes around
                             10–15 minutes. This may include the video assessment,
                             audio assessment, behavioral questionnaire, and report
                             generation.
+                            {% endif %}
                         </p>
                     </div>
                 </div>
@@ -537,7 +786,9 @@
 
             <article class="faq-item">
                 <button class="faq-question" type="button" aria-expanded="false">
-                    <span>Can NeuroSense AI diagnose Parkinson's disease?</span>
+                    <span>
+                        {% if lang == 'ur' %}کیا نیوروسینس اے آئی پارکنسنز کی بیماری کی تشخیص کر سکتا ہے؟{% else %}Can NeuroSense AI diagnose Parkinson's disease?{% endif %}
+                    </span>
 
                     <span class="faq-arrow">
                         <i class="fa-solid fa-chevron-right"></i>
@@ -547,10 +798,15 @@
                 <div class="faq-answer">
                     <div class="faq-answer-inner">
                         <p>
+                            {% if lang == 'ur' %}
+                            نہیں۔ نیوروسینس اے آئی صرف ابتدائی رسک کا جائزہ فراہم کرتا ہے۔
+                            تشخیص، کلینیکل معائنہ، اور کسی بھی ضروری طبی ٹیسٹ کے لیے ایک مستند طبی پیشہ ور کو انجام دینا چاہیے۔
+                            {% else %}
                             No. NeuroSense AI provides an early risk assessment
                             only. A qualified medical professional should perform
                             diagnosis, clinical examination, and any required
                             medical testing.
+                            {% endif %}
                         </p>
                     </div>
                 </div>
@@ -558,7 +814,9 @@
 
             <article class="faq-item">
                 <button class="faq-question" type="button" aria-expanded="false">
-                    <span>Is my personal and assessment data secure?</span>
+                    <span>
+                        {% if lang == 'ur' %}کیا میرا ذاتی اور تشخیصی ڈیٹا محفوظ ہے؟{% else %}Is my personal and assessment data secure?{% endif %}
+                    </span>
 
                     <span class="faq-arrow">
                         <i class="fa-solid fa-chevron-right"></i>
@@ -568,11 +826,16 @@
                 <div class="faq-answer">
                     <div class="faq-answer-inner">
                         <p>
+                            {% if lang == 'ur' %}
+                            نیوروسینس اے آئی تشخیصی معلومات کو محفوظ اور خفیہ طور پر سنبھالنے کے لیے ڈیزائن کیا گیا ہے۔
+                            اپ لوڈ کردہ ڈیٹا کو پروسیسنگ، ٹرانسمیشن، اور حتمی نظام میں لاگو کردہ سیکیورٹی کنٹرولز کے مطابق ذخیرہ کرنے کے دوران محفوظ کیا جانا چاہیے۔
+                            {% else %}
                             NeuroSense AI is designed to handle assessment
                             information securely and confidentially. Uploaded data
                             should be protected during processing, transmission,
                             and storage according to the security controls
                             implemented in the final system.
+                            {% endif %}
                         </p>
                     </div>
                 </div>
@@ -580,7 +843,9 @@
 
             <article class="faq-item">
                 <button class="faq-question" type="button" aria-expanded="false">
-                    <span>Do I need special equipment for the assessment?</span>
+                    <span>
+                        {% if lang == 'ur' %}کیا مجھے تشخیص کے لیے خصوصی آلات کی ضرورت ہے؟{% else %}Do I need special equipment for the assessment?{% endif %}
+                    </span>
 
                     <span class="faq-arrow">
                         <i class="fa-solid fa-chevron-right"></i>
@@ -590,9 +855,14 @@
                 <div class="faq-answer">
                     <div class="faq-answer-inner">
                         <p>
+                            {% if lang == 'ur' %}
+                            کسی خصوصی طبی آلات کی ضرورت نہیں ہے۔
+                            ایک کمپیوٹر یا اسمارٹ فون جس میں کام کرنے والا کیمرہ، مائیکروفون، اور مستحکم انٹرنیٹ کنیکشن ہو عام طور پر کافی ہے۔
+                            {% else %}
                             No special medical equipment is required. A computer
                             or smartphone with a working camera, microphone, and
                             stable internet connection is generally sufficient.
+                            {% endif %}
                         </p>
                     </div>
                 </div>
@@ -600,7 +870,9 @@
 
             <article class="faq-item">
                 <button class="faq-question" type="button" aria-expanded="false">
-                    <span>Can I view or download my screening report?</span>
+                    <span>
+                        {% if lang == 'ur' %}کیا میں اپنی اسکریننگ رپورٹ دیکھ یا ڈاؤن لوڈ کر سکتا ہوں؟{% else %}Can I view or download my screening report?{% endif %}
+                    </span>
 
                     <span class="faq-arrow">
                         <i class="fa-solid fa-chevron-right"></i>
@@ -610,10 +882,15 @@
                 <div class="faq-answer">
                     <div class="faq-answer-inner">
                         <p>
+                            {% if lang == 'ur' %}
+                            جی ہاں۔ مطلوبہ تشخیصات مکمل کرنے کے بعد، صارفین اپنا تیار کردہ رسک خلاصہ دیکھ سکتے ہیں اور
+                            اگر سسٹم میں رپورٹ ڈاؤن لوڈ کرنے کی سہولت فعال ہو تو اسکریننگ رپورٹ ڈاؤن لوڈ کر سکتے ہیں۔
+                            {% else %}
                             Yes. After completing the required assessments, users
                             can view their generated risk summary and download the
                             screening report if report downloading is enabled in
                             the system.
+                            {% endif %}
                         </p>
                     </div>
                 </div>
@@ -623,6 +900,221 @@
 
     </div>
 </section>
+
+<!-- ========================================== -->
+<!-- LANGUAGE POPUP STYLES                      -->
+<!-- ========================================== -->
+<style>
+    /* ----- Language Popup ----- */
+    .lang-popup-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(15, 23, 42, 0.7);
+        backdrop-filter: blur(8px);
+        z-index: 9999;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        animation: fadeIn 0.3s ease;
+    }
+
+    .lang-popup-overlay.show {
+        display: flex;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+        from { 
+            opacity: 0;
+            transform: translateY(30px) scale(0.95);
+        }
+        to { 
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    .lang-popup {
+        background: white;
+        border-radius: 24px;
+        padding: 48px 40px 40px;
+        max-width: 520px;
+        width: 90%;
+        text-align: center;
+        box-shadow: 0 24px 80px rgba(0,0,0,0.25);
+        position: relative;
+        animation: slideUp 0.4s ease;
+    }
+
+    .lang-popup-header {
+        margin-bottom: 32px;
+    }
+
+    .lang-popup-icon {
+        font-size: 3.5rem;
+        margin-bottom: 12px;
+        display: block;
+    }
+
+    .lang-popup-header h2 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #1a1a2e;
+        margin: 0 0 8px;
+    }
+
+    .lang-popup-header p {
+        color: #6b7280;
+        font-size: 0.95rem;
+        margin: 0;
+    }
+
+    .lang-popup-options {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-bottom: 8px;
+    }
+
+    .lang-popup-btn {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 16px 20px;
+        border-radius: 12px;
+        border: 2px solid #e2e8f0;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        background: white;
+    }
+
+    .lang-popup-btn:hover {
+        border-color: #4A6CF7;
+        background: #eef2ff;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 16px rgba(74, 108, 247, 0.15);
+    }
+
+    .lang-popup-btn:active {
+        transform: translateY(0);
+    }
+
+    .lang-popup-flag {
+        font-size: 2.2rem;
+        line-height: 1;
+    }
+
+    .lang-popup-name {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #1a1a2e;
+    }
+
+    .lang-popup-desc {
+        font-size: 0.75rem;
+        color: #94a3b8;
+        margin-left: auto;
+    }
+
+    .lang-popup-close {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        background: #f1f5f9;
+        border: none;
+        border-radius: 50%;
+        width: 36px;
+        height: 36px;
+        font-size: 1.2rem;
+        color: #94a3b8;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .lang-popup-close:hover {
+        background: #e2e8f0;
+        color: #1a1a2e;
+    }
+
+    @media (max-width: 480px) {
+        .lang-popup {
+            padding: 32px 20px 28px;
+        }
+
+        .lang-popup-header h2 {
+            font-size: 1.2rem;
+        }
+
+        .lang-popup-btn {
+            padding: 12px 16px;
+            gap: 12px;
+        }
+
+        .lang-popup-flag {
+            font-size: 1.8rem;
+        }
+
+        .lang-popup-name {
+            font-size: 0.95rem;
+        }
+
+        .lang-popup-desc {
+            display: none;
+        }
+    }
+</style>
+
+<!-- ========================================== -->
+<!-- LANGUAGE POPUP SCRIPT                      -->
+<!-- ========================================== -->
+<script>
+    function closeLanguagePopup() {
+        const popup = document.getElementById('language-popup');
+        popup.classList.remove('show');
+        popup.style.display = 'none';
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const popup = document.getElementById('language-popup');
+        
+        // Check if language was already set
+        const langSet = localStorage.getItem('language_set');
+        const langCookie = document.cookie.split('; ').find(row => row.startsWith('language='));
+        
+        // Show popup only if no language preference is set
+        if (!langSet && !langCookie) {
+            popup.style.display = 'flex';
+            setTimeout(() => {
+                popup.classList.add('show');
+            }, 500);
+        }
+        
+        // Close popup when clicking outside
+        popup.addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeLanguagePopup();
+            }
+        });
+        
+        // Handle escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeLanguagePopup();
+            }
+        });
+    });
+</script>
+
 {% block extra_js %}
 <script>
     const featureCards = document.querySelectorAll(".feature-card");
@@ -699,4 +1191,7 @@
     });
 </script>
 {% endblock %}
+
+{% endwith %}
+
 {% endblock %}

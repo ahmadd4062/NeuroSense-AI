@@ -16,6 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.views.generic import RedirectView
+from speech_app.views import set_language
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,5 +27,6 @@ urlpatterns = [
     path('questionnaire/', include('questionnaire_app.urls')), 
     path('chatbot/', include('chatbot_app.urls')),    
     path('fusion/', include('fusion_app.urls')), 
-    path('recommendations/', include('recommendations_app.urls')),  
+    path('recommendations/', include('recommendations_app.urls')),
+    path('set-language/', set_language, name='set_language'),
 ]

@@ -6,18 +6,26 @@ from .services.questionnaire_service import predict_questionnaire
 
 
 def questionnaire_home(request):
+    """Render the questionnaire home page with language support"""
     return render(
         request,
-        "questionnaire_app/questionnaire_home.html"
+        "questionnaire_app/questionnaire_home.html",
+        {
+            'lang': request.LANG  # Pass language to template
+        }
     )
 
 
 def questionnaire_form(request):
+    """Render the questionnaire form page with language support"""
 
     if request.method == "GET":
         return render(
             request,
-            "questionnaire_app/questionnaire_form.html"
+            "questionnaire_app/questionnaire_form.html",
+            {
+                'lang': request.LANG  # Pass language to template
+            }
         )
 
     try:
@@ -142,7 +150,8 @@ def questionnaire_form(request):
             request,
             "questionnaire_app/questionnaire_form.html",
             {
-                "error": str(error)
+                "error": str(error),
+                'lang': request.LANG  # Pass language to template on error
             }
         )
 
@@ -160,6 +169,7 @@ def questionnaire_form(request):
                 "error": (
                     "The questionnaire could not be processed. "
                     "Please try again."
-                )
+                ),
+                'lang': request.LANG  # Pass language to template on error
             }
         )

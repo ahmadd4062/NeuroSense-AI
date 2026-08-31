@@ -1,13 +1,21 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Questionnaire Assessment | NeuroSense AI{% endblock %}
+{% block title %}
+{% if request.LANG == 'ur' %}
+سوالنامہ تشخیص - نیوروسینس اے آئی
+{% else %}
+Questionnaire Assessment - NeuroSense AI
+{% endif %}
+{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'questionnaire_app/css/questionnaire_home.css' %}">
 {% endblock %}
 
 {% block content %}
+
+{% with lang=request.LANG|default:'en' %}
 
 <section class="questionnaire-hero">
 
@@ -17,19 +25,33 @@
 
             <div class="badge">
                 <i class="fa-solid fa-brain"></i>
+                {% if lang == 'ur' %}
+                اے آئی معاون تشخیص
+                {% else %}
                 AI Supported Assessment
+                {% endif %}
             </div>
 
             <h1>
+                {% if lang == 'ur' %}
+                پارکنسنز
+                <span>سوالنامہ تشخیص</span>
+                {% else %}
                 Parkinson's
                 <span>Questionnaire Assessment</span>
+                {% endif %}
             </h1>
 
             <p class="hero-description">
+                {% if lang == 'ur' %}
+                حرکت، تقریر، ادراک اور خاندانی تاریخ کا احاطہ کرنے والا ایک مختصر سوالنامہ مکمل کریں۔
+                آپ کے جوابات نیوروسینس اے آئی کے کثیر اجزائی اسکریننگ عمل کے پہلے مرحلے کے طور پر تجزیہ کیے جائیں گے۔
+                {% else %}
                 Complete a short questionnaire covering movement,
                 speech, cognition, and family history. Your responses
                 will be analyzed as the first stage of the NeuroSense AI
                 multimodal screening process.
+                {% endif %}
             </p>
 
             <div class="assessment-info">
@@ -39,9 +61,11 @@
                     <i class="fa-solid fa-list-check"></i>
 
                     <div>
-                        <h3>11 Questions</h3>
+                        <h3>
+                            {% if lang == 'ur' %}11 سوالات{% else %}11 Questions{% endif %}
+                        </h3>
                         <p>
-                            Structured symptom-based screening
+                            {% if lang == 'ur' %}ساختہ شدہ علامات پر مبنی اسکریننگ{% else %}Structured symptom-based screening{% endif %}
                         </p>
                     </div>
 
@@ -52,9 +76,11 @@
                     <i class="fa-solid fa-clock"></i>
 
                     <div>
-                        <h3>3 - 5 Minutes</h3>
+                        <h3>
+                            {% if lang == 'ur' %}3 - 5 منٹ{% else %}3 - 5 Minutes{% endif %}
+                        </h3>
                         <p>
-                            Quick and simple assessment
+                            {% if lang == 'ur' %}تیز اور آسان تشخیص{% else %}Quick and simple assessment{% endif %}
                         </p>
                     </div>
 
@@ -65,9 +91,11 @@
                     <i class="fa-solid fa-shield-heart"></i>
 
                     <div>
-                        <h3>Secure</h3>
+                        <h3>
+                            {% if lang == 'ur' %}محفوظ{% else %}Secure{% endif %}
+                        </h3>
                         <p>
-                            Your screening responses are handled securely
+                            {% if lang == 'ur' %}آپ کے اسکریننگ جوابات محفوظ طریقے سے سنبھالے جاتے ہیں{% else %}Your screening responses are handled securely{% endif %}
                         </p>
                     </div>
 
@@ -81,7 +109,9 @@
                     href="{% url 'questionnaire_app:form' %}"
                     class="start-btn"
                 >
-                    <span>Start Assessment</span>
+                    <span>
+                        {% if lang == 'ur' %}تشخیص شروع کریں{% else %}Start Assessment{% endif %}
+                    </span>
                     <i class="fa-solid fa-arrow-right"></i>
                 </a>
 
@@ -102,7 +132,7 @@
                 <i class="fa-solid fa-check"></i>
 
                 <p>
-                    Simple Questions
+                    {% if lang == 'ur' %}آسان سوالات{% else %}Simple Questions{% endif %}
                 </p>
 
             </div>
@@ -113,7 +143,7 @@
                 <i class="fa-solid fa-brain"></i>
 
                 <p>
-                    AI Supported
+                    {% if lang == 'ur' %}اے آئی معاون{% else %}AI Supported{% endif %}
                 </p>
 
             </div>
@@ -124,7 +154,7 @@
                 <i class="fa-solid fa-layer-group"></i>
 
                 <p>
-                    Multimodal Screening
+                    {% if lang == 'ur' %}کثیر اجزائی اسکریننگ{% else %}Multimodal Screening{% endif %}
                 </p>
 
             </div>
@@ -143,12 +173,16 @@
         <div class="section-heading">
 
             <h2>
-                How The Assessment Works
+                {% if lang == 'ur' %}تشخیص کیسے کام کرتی ہے{% else %}How The Assessment Works{% endif %}
             </h2>
 
             <p>
+                {% if lang == 'ur' %}
+                پہلے سوالنامہ مکمل کریں۔ پھر آپ کا نتیجہ وسیع تر نیوروسینس اے آئی اسکریننگ ورک فلو کا حصہ بن جائے گا۔
+                {% else %}
                 Complete the questionnaire first. Your result will then
                 become part of the wider NeuroSense AI screening workflow.
+                {% endif %}
             </p>
 
         </div>
@@ -165,12 +199,16 @@
                 <i class="fa-solid fa-user-pen"></i>
 
                 <h3>
-                    Answer Questions
+                    {% if lang == 'ur' %}سوالات کے جواب دیں{% else %}Answer Questions{% endif %}
                 </h3>
 
                 <p>
+                    {% if lang == 'ur' %}
+                    عمر، خاندانی تاریخ، حرکت، تقریر اور ادراک کا احاطہ کرنے والے 11 ساختہ سوالات مکمل کریں۔
+                    {% else %}
                     Complete 11 structured questions covering age,
                     family history, movement, speech, and cognition.
+                    {% endif %}
                 </p>
 
             </div>
@@ -185,13 +223,17 @@
                 <i class="fa-solid fa-microchip"></i>
 
                 <h3>
-                    Intelligent Analysis
+                    {% if lang == 'ur' %}ذہین تجزیہ{% else %}Intelligent Analysis{% endif %}
                 </h3>
 
                 <p>
+                    {% if lang == 'ur' %}
+                    آپ کے جوابات کا جائزہ علامات کے پیٹرن چیک، جوابات کی وشوسنییتا، اور ایک معاون مشین لرننگ ماڈل کے ذریعے لیا جاتا ہے۔
+                    {% else %}
                     Your responses are evaluated using symptom-pattern
                     checks, response reliability, and a supporting
                     machine-learning model.
+                    {% endif %}
                 </p>
 
             </div>
@@ -206,12 +248,16 @@
                 <i class="fa-solid fa-arrow-right"></i>
 
                 <h3>
-                    Continue Screening
+                    {% if lang == 'ur' %}اسکریننگ جاری رکھیں{% else %}Continue Screening{% endif %}
                 </h3>
 
                 <p>
+                    {% if lang == 'ur' %}
+                    سوالنامہ کا نتیجہ محفوظ ہونے کے بعد، آپ تقریر اور چال کی تشخیص کے ماڈیولز پر جا سکتے ہیں۔
+                    {% else %}
                     After the questionnaire result is saved, you can
                     continue to the speech and gait assessment modules.
+                    {% endif %}
                 </p>
 
             </div>
@@ -239,15 +285,20 @@
             <div class="notice-content">
 
                 <h2>
-                    Important Information
+                    {% if lang == 'ur' %}اہم معلومات{% else %}Important Information{% endif %}
                 </h2>
 
                 <p>
+                    {% if lang == 'ur' %}
+                    یہ سوالنامہ صرف ابتدائی اسکریننگ کے لیے ہے اور طبی تشخیص فراہم نہیں کرتا۔
+                    سوالنامہ کے نتائج کو دیگر نیوروسینس اے آئی اسکریننگ ماڈیولز کے ساتھ مل کر حتمی کثیر اجزائی نتیجہ پیدا کرنے سے پہلے سمجھا جاتا ہے۔
+                    {% else %}
                     This questionnaire is intended for preliminary
                     screening only and does not provide a medical
                     diagnosis. Questionnaire findings are considered
                     together with the other NeuroSense AI screening
                     modules before generating the final multimodal result.
+                    {% endif %}
                 </p>
 
             </div>
@@ -257,5 +308,7 @@
     </div>
 
 </section>
+
+{% endwith %}
 
 {% endblock %}

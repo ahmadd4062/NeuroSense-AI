@@ -164,10 +164,14 @@ def gait_predict(request):
 
 
 def gait_screening_page(request):
-    """Render the gait screening page"""
-    return render(request, 'gait_app/gait_screening.html')
+    """Render the gait screening page with language support"""
+    return render(request, 'gait_app/gait_screening.html', {
+        'lang': request.LANG  # Pass language to template
+    })
 
 
 def gait_results_page(request):
-    """Render the gait results page"""
-    return render(request, 'gait_app/gait_results.html')
+    """Render the gait results page with language support"""
+    return render(request, 'gait_app/gait_results.html', {
+        'lang': request.LANG  # Pass language to template
+    })

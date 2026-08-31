@@ -38,6 +38,7 @@ from .services.model_service import (
     inspect_model_artifact,
     predict_valid_recordings,
 )
+from django.http import HttpResponseRedirect
 
 logger = logging.getLogger(__name__)
 
@@ -674,3 +675,23 @@ def screening_health(request: HttpRequest) -> JsonResponse:
 
 def module_three_placeholder(request):
     return render(request, "gait_app/gait_screening.html")
+
+
+def set_language(request):
+
+    # Get the language from the URL parameter
+    lang = request.GET.get('lang', 'en')
+    
+    # Only allow valid languages
+    if lang not in ['en', 'ur']:
+        lang = 'en'
+    
+    # Store in session
+    request.session['language'] = lang
+    request.session.modified = True
+    
+    # Store in cookie for 365 days (for first-time visitors)
+    response = HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+    response.set_cookie('language', lang, max_age=365*24*60*60) 
+    
+    return response

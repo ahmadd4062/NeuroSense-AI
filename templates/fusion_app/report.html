@@ -601,19 +601,9 @@ Final Report - NeuroSense AI
 
 {% block content %}
 
-{% with lang=request.GET.lang|default:'en' %}
+{% with lang=request.LANG|default:'en' %}
 
 <div class="report-container {% if lang == 'ur' %}lang-ur{% endif %}">
-
-    <!-- Language Toggle -->
-    <div style="display:flex;justify-content:flex-end;margin-bottom:16px;">
-        <a href="?lang={% if lang == 'ur' %}en{% else %}ur{% endif %}" class="lang-toggle">
-            <i class="fa-solid fa-language"></i>
-            <span class="{% if lang == 'ur' %}lang-active{% else %}lang-inactive{% endif %}">اردو</span>
-            <span style="color:#cbd5e1;">|</span>
-            <span class="{% if lang == 'en' %}lang-active{% else %}lang-inactive{% endif %}">English</span>
-        </a>
-    </div>
 
     <!-- ========================================== -->
     <!-- REPORT HEADER -->

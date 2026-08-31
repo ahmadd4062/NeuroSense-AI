@@ -63,6 +63,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'Neurosense.middleware.LanguageMiddleware',
 ]
 
 ROOT_URLCONF = 'Neurosense.urls'

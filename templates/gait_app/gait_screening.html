@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %}
-{% if lang == 'ur' %}
+{% if request.LANG == 'ur' %}
 چال اسکریننگ - نیوروسینس اے آئی
 {% else %}
 Gait Screening - NeuroSense AI
@@ -90,42 +90,6 @@ Gait Screening - NeuroSense AI
     .lang-ur .privacy-banner .item i {
         margin-left: 8px;
         margin-right: 0;
-    }
-
-    /* Language Toggle Button */
-    .lang-toggle {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        background: var(--gray-100);
-        border: 1px solid var(--gray-200);
-        border-radius: 30px;
-        padding: 4px 8px;
-        font-size: 0.7rem;
-        font-weight: 600;
-        color: var(--gray-600);
-        cursor: pointer;
-        transition: var(--transition);
-        text-decoration: none;
-    }
-
-    .lang-toggle:hover {
-        background: var(--primary-light);
-        border-color: var(--primary);
-        color: var(--primary);
-    }
-
-    .lang-toggle .lang-active {
-        background: var(--primary);
-        color: white;
-        padding: 2px 12px;
-        border-radius: 20px;
-    }
-
-    .lang-toggle .lang-inactive {
-        padding: 2px 12px;
-        border-radius: 20px;
-        opacity: 0.6;
     }
 
     /* ---------- Page Container ---------- */
@@ -1523,21 +1487,9 @@ Gait Screening - NeuroSense AI
 
 {% block content %}
 
-{% with lang=request.GET.lang|default:'en' %}
+{% with lang=request.LANG|default:'en' %}
 
 <div class="gait-page {% if lang == 'ur' %}lang-ur{% endif %}">
-
-    <!-- ========================================== -->
-    <!-- LANGUAGE TOGGLE -->
-    <!-- ========================================== -->
-    <div style="display:flex;justify-content:flex-end;margin-bottom:16px;">
-        <a href="?lang={% if lang == 'ur' %}en{% else %}ur{% endif %}" class="lang-toggle">
-            <i class="fa-solid fa-language"></i>
-            <span class="{% if lang == 'ur' %}lang-active{% else %}lang-inactive{% endif %}">اردو</span>
-            <span style="color:var(--gray-300);">|</span>
-            <span class="{% if lang == 'en' %}lang-active{% else %}lang-inactive{% endif %}">English</span>
-        </a>
-    </div>
 
     <!-- ========================================== -->
     <!-- HERO SECTION -->
@@ -1999,9 +1951,8 @@ Gait Screening - NeuroSense AI
             armSwingDetected: false
         };
 
-        // Get current language
-        const urlParams = new URLSearchParams(window.location.search);
-        const currentLang = urlParams.get('lang') || 'en';
+        // Get language from Django (via HTML lang attribute or URL)
+        const currentLang = document.documentElement.lang || 'en';
 
         // Translations
         const translations = {

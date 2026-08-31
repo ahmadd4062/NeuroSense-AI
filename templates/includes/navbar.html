@@ -1,4 +1,6 @@
 {% load static %}
+{% with lang=request.LANG|default:'en' %}
+
 <header class="site-header">
     <div class="nav-container">
         <a href="{% url 'speech_app:home' %}" class="brand" aria-label="NeuroSense AI home">
@@ -6,17 +8,52 @@
         </a>
 
         <nav class="desktop-nav" aria-label="Main navigation">
-            <a class="active" href="{% url 'speech_app:home' %}">Home</a>
-            <a href="#features">Features</a>
-            <a href="#how-it-works">How It Works</a>
-            <a href="#about">About Us</a>
-            <a href="{% url 'chatbot_app:chatbot' %}">Chatbot</a>
-            <a href="{% url 'questionnaire_app:home'%}">Dashboard</a>
+            <a class="active" href="{% url 'speech_app:home' %}">
+                {% if lang == 'ur' %}ہوم{% else %}Home{% endif %}
+            </a>
+            <a href="#features">
+                {% if lang == 'ur' %}خصوصیات{% else %}Features{% endif %}
+            </a>
+            <a href="#how-it-works">
+                {% if lang == 'ur' %}یہ کیسے کام کرتا ہے{% else %}How It Works{% endif %}
+            </a>
+            <a href="#about">
+                {% if lang == 'ur' %}ہمارے بارے میں{% else %}About Us{% endif %}
+            </a>
+            <a href="{% url 'chatbot_app:chatbot' %}">
+                {% if lang == 'ur' %}چیٹ بوٹ{% else %}Chatbot{% endif %}
+            </a>
+            <a href="{% url 'questionnaire_app:home'%}">
+                {% if lang == 'ur' %}ڈیش بورڈ{% else %}Dashboard{% endif %}
+            </a>
         </nav>
 
         <div class="nav-actions">
-            <a href="#" class="btn btn-login">Log In</a>
-            <a href="{% url 'questionnaire_app:home'%}" class="btn btn-primary">Get Started</a>
+            <!-- ========================================== -->
+            <!-- LANGUAGE TOGGLE - DESKTOP                  -->
+            <!-- ========================================== -->
+            <div class="lang-toggle-wrapper">
+                <a href="{% url 'set_language' %}?lang=en&next={{ request.path }}" 
+                   class="lang-btn {% if request.LANG == 'en' %}active{% endif %}"
+                   title="Switch to English">
+                    <span class="lang-flag">🇬🇧</span>
+                    <span class="lang-label">EN</span>
+                </a>
+                <span class="lang-divider">|</span>
+                <a href="{% url 'set_language' %}?lang=ur&next={{ request.path }}" 
+                   class="lang-btn {% if request.LANG == 'ur' %}active{% endif %}"
+                   title="اردو میں تبدیل کریں">
+                    <span class="lang-flag">🇵🇰</span>
+                    <span class="lang-label">اردو</span>
+                </a>
+            </div>
+
+            <a href="#" class="btn btn-login">
+                {% if lang == 'ur' %}لاگ ان{% else %}Log In{% endif %}
+            </a>
+            <a href="{% url 'questionnaire_app:home'%}" class="btn btn-primary">
+                {% if lang == 'ur' %}شروع کریں{% else %}Get Started{% endif %}
+            </a>
         </div>
 
         <button class="menu-toggle" type="button" aria-label="Open navigation">
@@ -24,19 +61,410 @@
         </button>
     </div>
 </header>
+
+<!-- ========================================== -->
+<!-- MOBILE NAV                                -->
+<!-- ========================================== -->
 <nav class="mobile-nav" aria-label="Mobile navigation">
-    <a href="{% url 'speech_app:home' %}">Home</a>
-    <a href="#features">Features</a>
-    <a href="#how-it-works">How It Works</a>
-    <a href="#about">About Us</a>
-    <a href="{% url 'chatbot_app:chatbot' %}">Chatbot</a>
-    <a href="{% url 'questionnaire_app:home' %}">Dashboard</a>
+    <a href="{% url 'speech_app:home' %}">
+        {% if lang == 'ur' %}ہوم{% else %}Home{% endif %}
+    </a>
+    <a href="#features">
+        {% if lang == 'ur' %}خصوصیات{% else %}Features{% endif %}
+    </a>
+    <a href="#how-it-works">
+        {% if lang == 'ur' %}یہ کیسے کام کرتا ہے{% else %}How It Works{% endif %}
+    </a>
+    <a href="#about">
+        {% if lang == 'ur' %}ہمارے بارے میں{% else %}About Us{% endif %}
+    </a>
+    <a href="{% url 'chatbot_app:chatbot' %}">
+        {% if lang == 'ur' %}چیٹ بوٹ{% else %}Chatbot{% endif %}
+    </a>
+    <a href="{% url 'questionnaire_app:home' %}">
+        {% if lang == 'ur' %}ڈیش بورڈ{% else %}Dashboard{% endif %}
+    </a>
+
+    <!-- ========================================== -->
+    <!-- LANGUAGE TOGGLE - MOBILE                   -->
+    <!-- ========================================== -->
+    <div class="mobile-lang-toggle">
+        <span class="mobile-lang-label">
+            {% if lang == 'ur' %}🌐 زبان{% else %}🌐 Language{% endif %}
+        </span>
+        <div class="mobile-lang-buttons">
+            <a href="{% url 'set_language' %}?lang=en&next={{ request.path }}" 
+               class="lang-btn-mobile {% if request.LANG == 'en' %}active{% endif %}">
+                🇬🇧 English
+            </a>
+            <a href="{% url 'set_language' %}?lang=ur&next={{ request.path }}" 
+               class="lang-btn-mobile {% if request.LANG == 'ur' %}active{% endif %}">
+                🇵🇰 اردو
+            </a>
+        </div>
+    </div>
 
     <div class="mobile-nav-actions">
-        <a href="#" class="btn btn-login">Log In</a>
-        <a href="{% url 'questionnaire_app:home' %}" class="btn btn-primary">Get Started</a>
+        <a href="#" class="btn btn-login">
+            {% if lang == 'ur' %}لاگ ان{% else %}Log In{% endif %}
+        </a>
+        <a href="{% url 'questionnaire_app:home' %}" class="btn btn-primary">
+            {% if lang == 'ur' %}شروع کریں{% else %}Get Started{% endif %}
+        </a>
     </div>
 </nav>
+
+<!-- ========================================== -->
+<!-- STYLES FOR LANGUAGE TOGGLE & NAVBAR FIX   -->
+<!-- ========================================== -->
+<style>
+    /* ----- Fix Navbar Alignment ----- */
+    .site-header .nav-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 0 24px;
+        height: 72px;
+        gap: 20px;
+    }
+
+    .site-header .brand {
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+    }
+
+    .site-header .brand img {
+        height: 40px;
+        width: auto;
+    }
+
+    .site-header .desktop-nav {
+        display: flex;
+        align-items: center;
+        gap: 28px;
+        flex: 1;
+        justify-content: center;
+    }
+
+    .site-header .desktop-nav a {
+        font-size: 0.85rem;
+        font-weight: 500;
+        color: #475569;
+        text-decoration: none;
+        transition: color 0.2s ease;
+        white-space: nowrap;
+    }
+
+    .site-header .desktop-nav a:hover,
+    .site-header .desktop-nav a.active {
+        color: #4A6CF7;
+    }
+
+    .site-header .desktop-nav a.active {
+        font-weight: 600;
+    }
+
+    /* ----- Nav Actions (Right Side) ----- */
+    .site-header .nav-actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-shrink: 0;
+    }
+
+    .site-header .btn {
+        padding: 8px 18px;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 0.8rem;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        white-space: nowrap;
+    }
+
+    .site-header .btn-login {
+        background: transparent;
+        color: #475569;
+        border: 1.5px solid #e2e8f0;
+    }
+
+    .site-header .btn-login:hover {
+        background: #f8fafc;
+        border-color: #4A6CF7;
+        color: #4A6CF7;
+    }
+
+    .site-header .btn-primary {
+        background: #4A6CF7;
+        color: white;
+        border: 1.5px solid #4A6CF7;
+    }
+
+    .site-header .btn-primary:hover {
+        background: #3b5de7;
+        border-color: #3b5de7;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(74, 108, 247, 0.3);
+    }
+
+    /* ----- Language Toggle - Desktop ----- */
+    .lang-toggle-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        background: #f1f5f9;
+        padding: 4px 10px;
+        border-radius: 30px;
+        border: 1px solid #e2e8f0;
+        transition: all 0.3s ease;
+        flex-shrink: 0;
+    }
+
+    .lang-toggle-wrapper:hover {
+        border-color: #4A6CF7;
+        background: #eef2ff;
+    }
+
+    .lang-btn {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        padding: 4px 8px;
+        border-radius: 20px;
+        font-size: 0.7rem;
+        font-weight: 600;
+        color: #94a3b8;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+    .lang-btn:hover {
+        color: #4A6CF7;
+        background: rgba(74, 108, 247, 0.08);
+    }
+
+    .lang-btn.active {
+        background: #4A6CF7;
+        color: white;
+        box-shadow: 0 2px 8px rgba(74, 108, 247, 0.25);
+    }
+
+    .lang-btn.active:hover {
+        background: #3b5de7;
+        color: white;
+    }
+
+    .lang-flag {
+        font-size: 0.9rem;
+        line-height: 1;
+    }
+
+    .lang-label {
+        font-size: 0.65rem;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+    }
+
+    .lang-divider {
+        color: #cbd5e1;
+        font-size: 0.7rem;
+        font-weight: 300;
+    }
+
+    /* ----- Menu Toggle (Hamburger) ----- */
+    .menu-toggle {
+        display: none;
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        color: #1a1a2e;
+        cursor: pointer;
+        padding: 4px 8px;
+        flex-shrink: 0;
+    }
+
+    /* ----- Mobile Nav ----- */
+    .mobile-nav {
+        display: none;
+        flex-direction: column;
+        background: white;
+        padding: 16px 24px 24px;
+        border-top: 1px solid #e2e8f0;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    }
+
+    .mobile-nav.is-open {
+        display: flex;
+    }
+
+    .mobile-nav a {
+        padding: 10px 0;
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: #475569;
+        text-decoration: none;
+        border-bottom: 1px solid #f1f5f9;
+    }
+
+    .mobile-nav a:last-of-type {
+        border-bottom: none;
+    }
+
+    .mobile-nav a:hover {
+        color: #4A6CF7;
+    }
+
+    /* ----- Language Toggle - Mobile ----- */
+    .mobile-lang-toggle {
+        padding: 12px 0;
+        border-top: 1px solid #e2e8f0;
+        border-bottom: 1px solid #e2e8f0;
+        margin: 8px 0;
+    }
+
+    .mobile-lang-label {
+        display: block;
+        font-size: 0.7rem;
+        font-weight: 600;
+        color: #94a3b8;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        margin-bottom: 8px;
+    }
+
+    .mobile-lang-buttons {
+        display: flex;
+        gap: 10px;
+    }
+
+    .lang-btn-mobile {
+        flex: 1;
+        text-align: center;
+        padding: 8px 14px;
+        border-radius: 8px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        text-decoration: none;
+        color: #64748b;
+        background: #f1f5f9;
+        border: 2px solid transparent;
+        transition: all 0.3s ease;
+    }
+
+    .lang-btn-mobile:hover {
+        background: #e2e8f0;
+    }
+
+    .lang-btn-mobile.active {
+        background: #eef2ff;
+        border-color: #4A6CF7;
+        color: #4A6CF7;
+    }
+
+    .mobile-nav-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 12px;
+        padding-top: 12px;
+        border-top: 1px solid #e2e8f0;
+    }
+
+    .mobile-nav-actions .btn {
+        flex: 1;
+        text-align: center;
+        padding: 10px 16px;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 0.8rem;
+        text-decoration: none;
+    }
+
+    .mobile-nav-actions .btn-login {
+        background: transparent;
+        color: #475569;
+        border: 1.5px solid #e2e8f0;
+    }
+
+    .mobile-nav-actions .btn-primary {
+        background: #4A6CF7;
+        color: white;
+        border: 1.5px solid #4A6CF7;
+    }
+
+    /* ----- Responsive ----- */
+    @media (max-width: 1024px) {
+        .lang-toggle-wrapper {
+            padding: 3px 6px;
+        }
+        
+        .lang-btn {
+            padding: 3px 6px;
+            font-size: 0.65rem;
+        }
+        
+        .lang-label {
+            display: none;
+        }
+        
+        .lang-flag {
+            font-size: 1rem;
+        }
+        
+        .lang-divider {
+            display: none;
+        }
+    }
+
+    @media (max-width: 992px) {
+        .site-header .desktop-nav {
+            display: none;
+        }
+
+        .menu-toggle {
+            display: block;
+        }
+
+        .site-header .nav-container {
+            height: 64px;
+            padding: 0 16px;
+        }
+
+        .site-header .nav-actions .btn-login,
+        .site-header .nav-actions .btn-primary {
+            display: none;
+        }
+
+        .site-header .nav-actions .lang-toggle-wrapper {
+            display: none;
+        }
+
+        .mobile-nav {
+            display: none;
+        }
+
+        .mobile-nav.is-open {
+            display: flex;
+        }
+    }
+
+    @media (min-width: 993px) {
+        .mobile-nav {
+            display: none !important;
+        }
+        
+        .mobile-nav.is-open {
+            display: none !important;
+        }
+    }
+</style>
+
+<!-- ========================================== -->
+<!-- SCRIPT                                    -->
+<!-- ========================================== -->
 <script>
 document.addEventListener("DOMContentLoaded", function () {
 
@@ -66,3 +494,5 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 </script>
+
+{% endwith %}

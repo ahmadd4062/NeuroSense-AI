@@ -1,7 +1,13 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Behavioral Assessment | NeuroSense AI{% endblock %}
+{% block title %}
+{% if request.LANG == 'ur' %}
+رویاتی تشخیص - نیوروسینس اے آئی
+{% else %}
+Behavioral Assessment - NeuroSense AI
+{% endif %}
+{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'questionnaire_app/css/questionnaire_form.css' %}">
@@ -9,65 +15,97 @@
 
 {% block content %}
 
+{% with lang=request.LANG|default:'en' %}
+
 <section class="assessment-page">
 
     <div class="assessment-wrapper">
 
         <div class="assessment-left">
 
-    <div class="assessment-badge">
-        <i class="fa-solid fa-brain"></i>
-        Behavioral Assessment
-    </div>
-
-    <h1>
-        Parkinson's
-        <span>Behavioral Screening</span>
-    </h1>
-
-    <p class="assessment-description">
-        Complete 11 short questions covering movement, speech,
-        cognition, and family history. Your responses will be
-        analyzed as the first stage of the NeuroSense AI screening workflow.
-    </p>
-
-    <div class="assessment-info">
-
-        <div class="info-card">
-            <i class="fa-solid fa-list-check"></i>
-            <div>
-                <h4>11 Questions</h4>
-                <span>Focused symptom screening</span>
+            <div class="assessment-badge">
+                <i class="fa-solid fa-brain"></i>
+                {% if lang == 'ur' %}
+                رویاتی تشخیص
+                {% else %}
+                Behavioral Assessment
+                {% endif %}
             </div>
-        </div>
 
-        <div class="info-card">
-            <i class="fa-solid fa-clock"></i>
-            <div>
-                <h4>3-5 Minutes</h4>
-                <span>Quick to complete</span>
+            <h1>
+                {% if lang == 'ur' %}
+                پارکنسنز
+                <span>رویاتی اسکریننگ</span>
+                {% else %}
+                Parkinson's
+                <span>Behavioral Screening</span>
+                {% endif %}
+            </h1>
+
+            <p class="assessment-description">
+                {% if lang == 'ur' %}
+                حرکت، تقریر، ادراک اور خاندانی تاریخ کا احاطہ کرنے والے 11 مختصر سوالات مکمل کریں۔
+                آپ کے جوابات نیوروسینس اے آئی اسکریننگ ورک فلو کے پہلے مرحلے کے طور پر تجزیہ کیے جائیں گے۔
+                {% else %}
+                Complete 11 short questions covering movement, speech,
+                cognition, and family history. Your responses will be
+                analyzed as the first stage of the NeuroSense AI screening workflow.
+                {% endif %}
+            </p>
+
+            <div class="assessment-info">
+
+                <div class="info-card">
+                    <i class="fa-solid fa-list-check"></i>
+                    <div>
+                        <h4>
+                            {% if lang == 'ur' %}11 سوالات{% else %}11 Questions{% endif %}
+                        </h4>
+                        <span>
+                            {% if lang == 'ur' %}علامات پر مبنی اسکریننگ{% else %}Focused symptom screening{% endif %}
+                        </span>
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <i class="fa-solid fa-clock"></i>
+                    <div>
+                        <h4>
+                            {% if lang == 'ur' %}3-5 منٹ{% else %}3-5 Minutes{% endif %}
+                        </h4>
+                        <span>
+                            {% if lang == 'ur' %}جلد مکمل ہونے والا{% else %}Quick to complete{% endif %}
+                        </span>
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <div>
+                        <h4>
+                            {% if lang == 'ur' %}محفوظ{% else %}Secure{% endif %}
+                        </h4>
+                        <span>
+                            {% if lang == 'ur' %}آپ کے جوابات محفوظ طریقے سے سنبھالے جاتے ہیں{% else %}Your responses are handled securely{% endif %}
+                        </span>
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <i class="fa-solid fa-microchip"></i>
+                    <div>
+                        <h4>
+                            {% if lang == 'ur' %}اے آئی معاون{% else %}AI Supported{% endif %}
+                        </h4>
+                        <span>
+                            {% if lang == 'ur' %}کلینیکل منطق اور مشین لرننگ کے ساتھ{% else %}Clinical logic with ML support{% endif %}
+                        </span>
+                    </div>
+                </div>
+
             </div>
+
         </div>
-
-        <div class="info-card">
-            <i class="fa-solid fa-shield-halved"></i>
-            <div>
-                <h4>Secure</h4>
-                <span>Your responses are handled securely</span>
-            </div>
-        </div>
-
-        <div class="info-card">
-            <i class="fa-solid fa-microchip"></i>
-            <div>
-                <h4>AI Supported</h4>
-                <span>Clinical logic with ML support</span>
-            </div>
-        </div>
-
-    </div>
-
-</div>
 
         <div class="assessment-card">
 
@@ -76,19 +114,24 @@
                 <div>
 
                     <span class="assessment-step">
-                        Behavioral Assessment
+                        {% if lang == 'ur' %}رویاتی تشخیص{% else %}Behavioral Assessment{% endif %}
                     </span>
 
                     <p class="assessment-description">
+                        {% if lang == 'ur' %}
+                        براہ کرم ہر سوال کا جواب اپنے حالیہ تجربات کی بنیاد پر دیں۔
+                        وہ آپشن منتخب کریں جو آپ کی حالت کو بہترین طور پر ظاہر کرتا ہو۔
+                        {% else %}
                         Please answer each question based on your recent
                         experiences. Select the option that best reflects
                         your condition.
+                        {% endif %}
                     </p>
 
                     <h2>
-                        Question
+                        {% if lang == 'ur' %}سوال{% else %}Question{% endif %}
                         <span id="questionNumber">1</span>
-                        of
+                        {% if lang == 'ur' %}کا{% else %}of{% endif %}
                         <span id="totalQuestions">11</span>
                     </h2>
 
@@ -143,11 +186,11 @@
                     </div>
 
                     <h3 class="question-title">
-                        What is your age?
+                        {% if lang == 'ur' %}آپ کی عمر کیا ہے؟{% else %}What is your age?{% endif %}
                     </h3>
 
                     <p class="question-description">
-                        Enter your current age in years.
+                        {% if lang == 'ur' %}اپنی موجودہ عمر سالوں میں درج کریں۔{% else %}Enter your current age in years.{% endif %}
                     </p>
 
                     <input
@@ -156,7 +199,7 @@
                         min="18"
                         max="100"
                         class="question-input"
-                        placeholder="Enter your age"
+                        placeholder="{% if lang == 'ur' %}اپنی عمر درج کریں{% else %}Enter your age{% endif %}"
                         required
                     >
 
@@ -174,12 +217,16 @@
                     </div>
 
                     <h3 class="question-title">
+                        {% if lang == 'ur' %}
+                        کیا کسی والدین، بہن بھائی، یا قریبی خاندان کے رکن کو پارکنسنز کی بیماری کی تشخیص ہوئی ہے؟
+                        {% else %}
                         Has a parent, sibling, or close family member
                         been diagnosed with Parkinson's disease?
+                        {% endif %}
                     </h3>
 
                     <p class="question-description">
-                        Select the option that applies to you.
+                        {% if lang == 'ur' %}وہ آپشن منتخب کریں جو آپ پر لاگو ہو۔{% else %}Select the option that applies to you.{% endif %}
                     </p>
 
                     <div class="options">
@@ -191,7 +238,7 @@
                                 value="0"
                                 required
                             >
-                            <span>No</span>
+                            <span>{% if lang == 'ur' %}نہیں{% else %}No{% endif %}</span>
                         </label>
 
                         <label class="option-card">
@@ -200,7 +247,7 @@
                                 name="family_history"
                                 value="1"
                             >
-                            <span>Yes</span>
+                            <span>{% if lang == 'ur' %}ہاں{% else %}Yes{% endif %}</span>
                         </label>
 
                     </div>
@@ -219,13 +266,21 @@
                     </div>
 
                     <h3 class="question-title">
+                        {% if lang == 'ur' %}
+                        کیا آپ نے اپنے بازوؤں یا ٹانگوں میں کپکپاہٹ یا لرزش محسوس کی ہے، خاص طور پر آرام کے دوران؟
+                        {% else %}
                         Have you noticed shaking or trembling in your
                         arms or legs, particularly while relaxed or at rest?
+                        {% endif %}
                     </h3>
 
                     <p class="question-description">
+                        {% if lang == 'ur' %}
+                        بار بار یا قابل توجہ لرزش پر غور کریں جو بغیر ارادی حرکت کے ہوتی ہے۔
+                        {% else %}
                         Consider repeated or noticeable trembling that occurs
                         without intentional movement.
+                        {% endif %}
                     </p>
 
                     <div class="options-grid">
@@ -237,7 +292,7 @@
                                 value="0"
                                 required
                             >
-                            <span>No</span>
+                            <span>{% if lang == 'ur' %}نہیں{% else %}No{% endif %}</span>
                         </label>
 
                         <label class="option-card">
@@ -246,7 +301,7 @@
                                 name="arm_leg_shaking"
                                 value="1"
                             >
-                            <span>Yes</span>
+                            <span>{% if lang == 'ur' %}ہاں{% else %}Yes{% endif %}</span>
                         </label>
 
                         <label class="option-card">
@@ -255,7 +310,7 @@
                                 name="arm_leg_shaking"
                                 value="2"
                             >
-                            <span>Not sure</span>
+                            <span>{% if lang == 'ur' %}یقین نہیں{% else %}Not sure{% endif %}</span>
                         </label>
 
                     </div>
@@ -274,13 +329,21 @@
                     </div>
 
                     <h3 class="question-title">
+                        {% if lang == 'ur' %}
+                        کیا آپ کو لگتا ہے کہ آپ اپنی عمر کے دوسرے لوگوں کے مقابلے میں یا پہلے سے زیادہ سست حرکت کرتے ہیں؟
+                        {% else %}
                         Do you feel that you move noticeably more slowly
                         than other people your age or more slowly than before?
+                        {% endif %}
                     </h3>
 
                     <p class="question-description">
+                        {% if lang == 'ur' %}
+                        چلنے، کھڑے ہونے، مڑنے، کپڑے پہننے، یا دیگر معمول کی حرکات کے بارے میں سوچیں۔
+                        {% else %}
                         Think about walking, standing up, turning,
                         dressing, or other routine movements.
+                        {% endif %}
                     </p>
 
                     <div class="options-grid">
@@ -292,7 +355,7 @@
                                 value="0"
                                 required
                             >
-                            <span>No</span>
+                            <span>{% if lang == 'ur' %}نہیں{% else %}No{% endif %}</span>
                         </label>
 
                         <label class="option-card">
@@ -301,7 +364,7 @@
                                 name="movement_slowness"
                                 value="1"
                             >
-                            <span>Yes</span>
+                            <span>{% if lang == 'ur' %}ہاں{% else %}Yes{% endif %}</span>
                         </label>
 
                         <label class="option-card">
@@ -310,7 +373,7 @@
                                 name="movement_slowness"
                                 value="2"
                             >
-                            <span>Not sure</span>
+                            <span>{% if lang == 'ur' %}یقین نہیں{% else %}Not sure{% endif %}</span>
                         </label>
 
                     </div>
@@ -329,13 +392,21 @@
                     </div>
 
                     <h3 class="question-title">
+                        {% if lang == 'ur' %}
+                        جب آپ چلنا شروع کرتے ہیں تو کیا آپ کو کبھی ایسا محسوس ہوتا ہے جیسے آپ کے پاؤں فرش سے چپک گئے ہوں؟
+                        {% else %}
                         When you start walking, do you sometimes feel as
                         if your feet are briefly stuck to the floor?
+                        {% endif %}
                     </h3>
 
                     <p class="question-description">
+                        {% if lang == 'ur' %}
+                        پہلا قدم اٹھانے میں دشواری یا اچانک پاؤں ہلانے میں ناکامی کے بارے میں سوچیں۔
+                        {% else %}
                         Think about difficulty taking the first step
                         or suddenly feeling unable to move your feet.
+                        {% endif %}
                     </p>
 
                     <div class="options-grid">
@@ -347,7 +418,7 @@
                                 value="0"
                                 required
                             >
-                            <span>No</span>
+                            <span>{% if lang == 'ur' %}نہیں{% else %}No{% endif %}</span>
                         </label>
 
                         <label class="option-card">
@@ -356,7 +427,7 @@
                                 name="feet_stuck"
                                 value="1"
                             >
-                            <span>Yes</span>
+                            <span>{% if lang == 'ur' %}ہاں{% else %}Yes{% endif %}</span>
                         </label>
 
                         <label class="option-card">
@@ -365,7 +436,7 @@
                                 name="feet_stuck"
                                 value="2"
                             >
-                            <span>Not sure</span>
+                            <span>{% if lang == 'ur' %}یقین نہیں{% else %}Not sure{% endif %}</span>
                         </label>
 
                     </div>
@@ -384,13 +455,21 @@
                     </div>
 
                     <h3 class="question-title">
+                        {% if lang == 'ur' %}
+                        کیا آپ نے چلتے وقت پاؤں گھسیٹنا یا غیر معمولی چھوٹے قدم اٹھانا شروع کر دیے ہیں؟
+                        {% else %}
                         Have you started shuffling your feet or taking
                         unusually small steps while walking?
+                        {% endif %}
                     </h3>
 
                     <p class="question-description">
+                        {% if lang == 'ur' %}
+                        غور کریں کہ آیا آپ کا چلنے کا انداز پہلے کے مقابلے میں بدل گیا ہے۔
+                        {% else %}
                         Consider whether your walking pattern has changed
                         compared with before.
+                        {% endif %}
                     </p>
 
                     <div class="options-grid">
@@ -402,7 +481,7 @@
                                 value="0"
                                 required
                             >
-                            <span>No</span>
+                            <span>{% if lang == 'ur' %}نہیں{% else %}No{% endif %}</span>
                         </label>
 
                         <label class="option-card">
@@ -411,7 +490,7 @@
                                 name="shuffling_walk"
                                 value="1"
                             >
-                            <span>Yes</span>
+                            <span>{% if lang == 'ur' %}ہاں{% else %}Yes{% endif %}</span>
                         </label>
 
                         <label class="option-card">
@@ -420,7 +499,7 @@
                                 name="shuffling_walk"
                                 value="2"
                             >
-                            <span>Not sure</span>
+                            <span>{% if lang == 'ur' %}یقین نہیں{% else %}Not sure{% endif %}</span>
                         </label>
 
                     </div>
@@ -439,13 +518,21 @@
                     </div>
 
                     <h3 class="question-title">
+                        {% if lang == 'ur' %}
+                        کیا آپ کو کھڑے ہونے یا چلتے وقت اپنا توازن برقرار رکھنے میں نمایاں دشواری ہوئی ہے؟
+                        {% else %}
                         Have you developed noticeable difficulty maintaining
                         your balance while standing or walking?
+                        {% endif %}
                     </h3>
 
                     <p class="question-description">
+                        {% if lang == 'ur' %}
+                        ایک بار کے حادثاتی توازن کے بجائے بار بار عدم استحکام پر غور کریں۔
+                        {% else %}
                         Consider repeated unsteadiness rather than a
                         single accidental loss of balance.
+                        {% endif %}
                     </p>
 
                     <div class="options-grid">
@@ -457,7 +544,7 @@
                                 value="0"
                                 required
                             >
-                            <span>No</span>
+                            <span>{% if lang == 'ur' %}نہیں{% else %}No{% endif %}</span>
                         </label>
 
                         <label class="option-card">
@@ -466,7 +553,7 @@
                                 name="poor_balance"
                                 value="1"
                             >
-                            <span>Yes</span>
+                            <span>{% if lang == 'ur' %}ہاں{% else %}Yes{% endif %}</span>
                         </label>
 
                         <label class="option-card">
@@ -475,7 +562,7 @@
                                 name="poor_balance"
                                 value="2"
                             >
-                            <span>Not sure</span>
+                            <span>{% if lang == 'ur' %}یقین نہیں{% else %}Not sure{% endif %}</span>
                         </label>
 
                     </div>
@@ -494,13 +581,21 @@
                     </div>
 
                     <h3 class="question-title">
+                        {% if lang == 'ur' %}
+                        کیا آپ کی تحریر پہلے کے مقابلے میں نمایاں طور پر چھوٹی یا زیادہ تنگ ہو گئی ہے؟
+                        {% else %}
                         Has your handwriting become noticeably smaller
                         or more cramped than before?
+                        {% endif %}
                     </h3>
 
                     <p class="question-description">
+                        {% if lang == 'ur' %}
+                        اپنی موجودہ تحریر کا موازنہ اس سے کریں جو آپ معمول پر لکھتے تھے۔
+                        {% else %}
                         Compare your current handwriting with how you
                         normally used to write.
+                        {% endif %}
                     </p>
 
                     <div class="options-grid">
@@ -512,7 +607,7 @@
                                 value="0"
                                 required
                             >
-                            <span>No</span>
+                            <span>{% if lang == 'ur' %}نہیں{% else %}No{% endif %}</span>
                         </label>
 
                         <label class="option-card">
@@ -521,7 +616,7 @@
                                 name="small_handwriting"
                                 value="1"
                             >
-                            <span>Yes</span>
+                            <span>{% if lang == 'ur' %}ہاں{% else %}Yes{% endif %}</span>
                         </label>
 
                         <label class="option-card">
@@ -530,7 +625,7 @@
                                 name="small_handwriting"
                                 value="2"
                             >
-                            <span>Not sure</span>
+                            <span>{% if lang == 'ur' %}یقین نہیں{% else %}Not sure{% endif %}</span>
                         </label>
 
                     </div>
@@ -549,13 +644,21 @@
                     </div>
 
                     <h3 class="question-title">
+                        {% if lang == 'ur' %}
+                        کیا خاندان کے افراد یا دوستوں نے محسوس کیا ہے کہ آپ کا چہرہ پہلے کے مقابلے میں کم اظہاری ہو گیا ہے؟
+                        {% else %}
                         Have family members or friends noticed that your
                         face has become less expressive than before?
+                        {% endif %}
                     </h3>
 
                     <p class="question-description">
+                        {% if lang == 'ur' %}
+                        اس میں چہرے کی کم حرکت یا کم نظر آنے والے اظہار شامل ہو سکتے ہیں۔
+                        {% else %}
                         This may include reduced facial movement or
                         fewer visible expressions.
+                        {% endif %}
                     </p>
 
                     <div class="options-grid">
@@ -567,7 +670,7 @@
                                 value="0"
                                 required
                             >
-                            <span>No</span>
+                            <span>{% if lang == 'ur' %}نہیں{% else %}No{% endif %}</span>
                         </label>
 
                         <label class="option-card">
@@ -576,7 +679,7 @@
                                 name="reduced_facial_expression"
                                 value="1"
                             >
-                            <span>Yes</span>
+                            <span>{% if lang == 'ur' %}ہاں{% else %}Yes{% endif %}</span>
                         </label>
 
                         <label class="option-card">
@@ -585,7 +688,7 @@
                                 name="reduced_facial_expression"
                                 value="2"
                             >
-                            <span>Not sure</span>
+                            <span>{% if lang == 'ur' %}یقین نہیں{% else %}Not sure{% endif %}</span>
                         </label>
 
                     </div>
@@ -604,13 +707,21 @@
                     </div>
 
                     <h3 class="question-title">
+                        {% if lang == 'ur' %}
+                        کیا لوگوں نے محسوس کیا ہے کہ آپ کی آواز پہلے کے مقابلے میں نرم یا خاموش ہو گئی ہے؟
+                        {% else %}
                         Have people noticed that your voice has become
                         softer or quieter than before?
+                        {% endif %}
                     </h3>
 
                     <p class="question-description">
+                        {% if lang == 'ur' %}
+                        غور کریں کہ کیا دوسرے لوگ اکثر آپ سے اونچی آواز میں بولنے یا اپنے آپ کو دہرانے کے لیے کہتے ہیں۔
+                        {% else %}
                         Consider whether other people frequently ask
                         you to speak louder or repeat yourself.
+                        {% endif %}
                     </p>
 
                     <div class="options-grid">
@@ -622,7 +733,7 @@
                                 value="0"
                                 required
                             >
-                            <span>No</span>
+                            <span>{% if lang == 'ur' %}نہیں{% else %}No{% endif %}</span>
                         </label>
 
                         <label class="option-card">
@@ -631,7 +742,7 @@
                                 name="soft_voice"
                                 value="1"
                             >
-                            <span>Yes</span>
+                            <span>{% if lang == 'ur' %}ہاں{% else %}Yes{% endif %}</span>
                         </label>
 
                         <label class="option-card">
@@ -640,7 +751,7 @@
                                 name="soft_voice"
                                 value="2"
                             >
-                            <span>Not sure</span>
+                            <span>{% if lang == 'ur' %}یقین نہیں{% else %}Not sure{% endif %}</span>
                         </label>
 
                     </div>
@@ -659,14 +770,22 @@
                     </div>
 
                     <h3 class="question-title">
+                        {% if lang == 'ur' %}
+                        پہلے کے مقابلے میں، آپ کو خیالات کو منظم کرنے، معلومات کو یاد رکھنے، یا روزمرہ کی سرگرمیوں کے دوران مناسب جواب دینے میں کتنی دشواری ہوتی ہے؟
+                        {% else %}
                         Compared with before, how much difficulty do you
                         experience organizing thoughts, remembering information,
                         or responding appropriately during everyday activities?
+                        {% endif %}
                     </h3>
 
                     <p class="question-description">
+                        {% if lang == 'ur' %}
+                        وہ آپشن منتخب کریں جو آپ کے حالیہ روزمرہ کے علمی تجربے کو بہترین طور پر ظاہر کرتا ہو۔
+                        {% else %}
                         Select the option that best reflects your recent
                         everyday cognitive experience.
+                        {% endif %}
                     </p>
 
                     <div class="options-grid">
@@ -678,7 +797,7 @@
                                 value="0"
                                 required
                             >
-                            <span>No noticeable difficulty</span>
+                            <span>{% if lang == 'ur' %}کوئی قابل توجہ دشواری نہیں{% else %}No noticeable difficulty{% endif %}</span>
                         </label>
 
                         <label class="option-card">
@@ -687,7 +806,7 @@
                                 name="cognitive_difficulty"
                                 value="1"
                             >
-                            <span>Slight difficulty</span>
+                            <span>{% if lang == 'ur' %}بہت ہلکی دشواری{% else %}Slight difficulty{% endif %}</span>
                         </label>
 
                         <label class="option-card">
@@ -696,7 +815,7 @@
                                 name="cognitive_difficulty"
                                 value="2"
                             >
-                            <span>Mild difficulty</span>
+                            <span>{% if lang == 'ur' %}ہلکی دشواری{% else %}Mild difficulty{% endif %}</span>
                         </label>
 
                         <label class="option-card">
@@ -705,7 +824,7 @@
                                 name="cognitive_difficulty"
                                 value="3"
                             >
-                            <span>Moderate difficulty</span>
+                            <span>{% if lang == 'ur' %}درمیانی دشواری{% else %}Moderate difficulty{% endif %}</span>
                         </label>
 
                         <label class="option-card">
@@ -714,7 +833,7 @@
                                 name="cognitive_difficulty"
                                 value="4"
                             >
-                            <span>Severe difficulty</span>
+                            <span>{% if lang == 'ur' %}شدید دشواری{% else %}Severe difficulty{% endif %}</span>
                         </label>
 
                     </div>
@@ -735,7 +854,7 @@
                         disabled
                     >
                         <i class="fa-solid fa-arrow-left"></i>
-                        Previous
+                        {% if lang == 'ur' %}پچھلا{% else %}Previous{% endif %}
                     </button>
 
                     <button
@@ -743,7 +862,7 @@
                         class="nav-btn next-btn"
                         id="nextBtn"
                     >
-                        Next
+                        {% if lang == 'ur' %}اگلا{% else %}Next{% endif %}
                         <i class="fa-solid fa-arrow-right"></i>
                     </button>
 
@@ -753,7 +872,7 @@
                         id="submitBtn"
                         style="display:none;"
                     >
-                        Finish Assessment
+                        {% if lang == 'ur' %}تشخیص مکمل کریں{% else %}Finish Assessment{% endif %}
                         <i class="fa-solid fa-check"></i>
                     </button>
 
@@ -768,4 +887,6 @@
 </section>
 
 <script src="{% static 'questionnaire_app/js/questionnaire_form.js' %}"></script>
+{% endwith %}
+
 {% endblock %}
