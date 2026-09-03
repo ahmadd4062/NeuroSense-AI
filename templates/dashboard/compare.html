@@ -11,12 +11,17 @@ Compare Screenings - NeuroSense AI
 
 {% block extra_css %}
 <style>
+    /* ============================================
+       COMPARE PAGE - PROFESSIONAL MEDICAL THEME
+       ============================================ */
+
     .compare-page {
         max-width: 1100px;
         margin: 0 auto;
         padding: 40px 20px 60px;
     }
 
+    /* ---------- Back Link ---------- */
     .back-link {
         display: inline-flex;
         align-items: center;
@@ -27,15 +32,25 @@ Compare Screenings - NeuroSense AI
         font-size: 0.9rem;
         margin-bottom: 24px;
         transition: all 0.3s ease;
+        padding: 8px 16px;
+        border-radius: 10px;
+        background: #eef2ff;
     }
 
     .back-link:hover {
         gap: 12px;
+        background: #e0e7ff;
     }
 
+    /* ---------- Header ---------- */
     .compare-header {
         text-align: center;
         margin-bottom: 32px;
+        padding: 32px 40px;
+        background: white;
+        border-radius: 16px;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
     }
 
     .compare-header h1 {
@@ -45,11 +60,20 @@ Compare Screenings - NeuroSense AI
         margin: 0;
     }
 
+    .compare-header h1 span {
+        background: linear-gradient(135deg, #4A6CF7 0%, #7c3aed 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
     .compare-header p {
         color: #6b7280;
         margin: 4px 0 0;
+        font-size: 0.95rem;
     }
 
+    /* ---------- Compare Grid ---------- */
     .compare-grid {
         display: grid;
         grid-template-columns: 1fr auto 1fr;
@@ -70,12 +94,19 @@ Compare Screenings - NeuroSense AI
         }
     }
 
+    /* ---------- Compare Cards ---------- */
     .compare-card {
         background: white;
         border-radius: 16px;
         padding: 24px 28px;
         border: 1px solid #e2e8f0;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        transition: all 0.3s ease;
+    }
+
+    .compare-card:hover {
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        transform: translateY(-2px);
     }
 
     .compare-card .card-header {
@@ -83,74 +114,110 @@ Compare Screenings - NeuroSense AI
         justify-content: space-between;
         align-items: center;
         margin-bottom: 16px;
-        padding-bottom: 12px;
+        padding-bottom: 14px;
         border-bottom: 2px solid #f1f5f9;
     }
 
-    .compare-card .card-header .date {
+    .compare-card .card-header .card-info {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+    }
+
+    .compare-card .card-header .card-date {
         font-size: 0.85rem;
-        font-weight: 600;
+        font-weight: 700;
         color: #1a1a2e;
     }
 
-    .compare-card .card-header .id {
+    .compare-card .card-header .card-id {
         font-size: 0.7rem;
         color: #94a3b8;
         font-family: monospace;
     }
 
-    .compare-card .risk-badge {
+    .compare-card .card-header .risk-badge {
         display: inline-block;
         padding: 4px 16px;
         border-radius: 30px;
-        font-size: 0.8rem;
+        font-size: 0.75rem;
         font-weight: 700;
         text-transform: uppercase;
+        letter-spacing: 0.04em;
+        flex-shrink: 0;
     }
 
-    .compare-card .risk-badge.low {
+    .compare-card .card-header .risk-badge.low {
         background: #f0fdf4;
         color: #16a34a;
+        border: 1px solid #86efac;
     }
 
-    .compare-card .risk-badge.medium {
+    .compare-card .card-header .risk-badge.medium {
         background: #fffbeb;
         color: #f59e0b;
+        border: 1px solid #fcd34d;
     }
 
-    .compare-card .risk-badge.high {
+    .compare-card .card-header .risk-badge.high {
         background: #fef2f2;
         color: #dc2626;
+        border: 1px solid #fca5a5;
+    }
+
+    /* ---------- Compare Items ---------- */
+    .compare-items {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
     }
 
     .compare-item {
         display: flex;
         justify-content: space-between;
-        padding: 8px 0;
-        border-bottom: 1px solid #f8fafc;
-        font-size: 0.9rem;
+        align-items: center;
+        padding: 10px 12px;
+        border-radius: 8px;
+        background: #f8fafc;
+        border: 1px solid transparent;
+        transition: all 0.3s ease;
     }
 
-    .compare-item:last-child {
-        border-bottom: none;
+    .compare-item:hover {
+        background: #eef2ff;
+        border-color: #e2e8f0;
     }
 
     .compare-item .label {
         color: #94a3b8;
         font-weight: 500;
+        font-size: 0.85rem;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .compare-item .label i {
+        font-size: 0.75rem;
+        color: #4A6CF7;
     }
 
     .compare-item .value {
-        font-weight: 600;
+        font-weight: 700;
         color: #1a1a2e;
+        font-size: 0.9rem;
+        display: flex;
+        align-items: center;
+        gap: 8px;
     }
 
     .compare-item .value .status-badge {
         display: inline-block;
-        padding: 1px 10px;
+        padding: 2px 12px;
         border-radius: 20px;
-        font-size: 0.7rem;
-        font-weight: 600;
+        font-size: 0.65rem;
+        font-weight: 700;
+        text-transform: uppercase;
     }
 
     .compare-item .value .status-badge.pd {
@@ -168,54 +235,136 @@ Compare Screenings - NeuroSense AI
         color: #f59e0b;
     }
 
+    .compare-item .value .diff-indicator {
+        font-size: 0.7rem;
+        font-weight: 600;
+        padding: 2px 8px;
+        border-radius: 12px;
+    }
+
+    .compare-item .value .diff-indicator.up {
+        color: #dc2626;
+        background: #fef2f2;
+    }
+
+    .compare-item .value .diff-indicator.down {
+        color: #16a34a;
+        background: #f0fdf4;
+    }
+
+    .compare-item .value .diff-indicator.same {
+        color: #94a3b8;
+        background: #f1f5f9;
+    }
+
+    /* ---------- VS ---------- */
     .compare-vs {
         display: flex;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
-        font-size: 2rem;
-        font-weight: 800;
-        color: #4A6CF7;
-        padding: 0 12px;
+        padding: 20px 0;
+        min-width: 60px;
     }
 
-    .compare-vs .line {
+    .compare-vs .vs-line {
         flex: 1;
-        height: 2px;
-        background: #e2e8f0;
+        width: 2px;
+        background: linear-gradient(to bottom, #e2e8f0, #4A6CF7, #e2e8f0);
+        min-height: 40px;
     }
 
-    .compare-vs .text {
-        padding: 0 16px;
-        background: white;
-        font-size: 1.5rem;
-        font-weight: 800;
+    .compare-vs .vs-text {
+        font-size: 1.8rem;
+        font-weight: 900;
         color: #4A6CF7;
+        background: white;
+        padding: 0 4px;
+        letter-spacing: -0.02em;
+        text-shadow: 0 2px 8px rgba(74, 108, 247, 0.2);
     }
 
-    .diff-indicator {
-        font-size: 0.75rem;
-        font-weight: 600;
+    .compare-vs .vs-sub {
+        font-size: 0.6rem;
+        color: #94a3b8;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        margin-top: 2px;
     }
 
-    .diff-indicator.up {
+    @media (max-width: 768px) {
+        .compare-vs {
+            flex-direction: row;
+            padding: 8px 0;
+            min-width: auto;
+        }
+
+        .compare-vs .vs-line {
+            width: 60px;
+            height: 2px;
+            min-height: auto;
+            background: linear-gradient(to right, #e2e8f0, #4A6CF7, #e2e8f0);
+        }
+
+        .compare-vs .vs-text {
+            padding: 0 16px;
+        }
+
+        .compare-vs .vs-sub {
+            display: none;
+        }
+    }
+
+    /* ---------- Comparison Summary ---------- */
+    .compare-summary {
+        margin-top: 20px;
+        padding: 16px 20px;
+        background: #f8fafc;
+        border-radius: 12px;
+        border: 1px solid #e2e8f0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .compare-summary .summary-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.85rem;
+        color: #475569;
+    }
+
+    .compare-summary .summary-item strong {
+        color: #1a1a2e;
+    }
+
+    .compare-summary .summary-item .trend-icon {
+        font-size: 1rem;
+    }
+
+    .compare-summary .summary-item .trend-icon.up {
         color: #dc2626;
     }
 
-    .diff-indicator.down {
+    .compare-summary .summary-item .trend-icon.down {
         color: #16a34a;
     }
 
-    .diff-indicator.same {
+    .compare-summary .summary-item .trend-icon.same {
         color: #94a3b8;
     }
 
+    /* ---------- Action Buttons ---------- */
     .action-buttons {
         display: flex;
         gap: 12px;
         flex-wrap: wrap;
         justify-content: center;
-        margin-top: 24px;
-        padding-top: 20px;
+        margin-top: 28px;
+        padding-top: 24px;
         border-top: 2px solid #f1f5f9;
     }
 
@@ -232,17 +381,19 @@ Compare Screenings - NeuroSense AI
         text-decoration: none;
         border: none;
         font-family: inherit;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
     }
 
     .action-buttons .btn-primary {
         background: #4A6CF7;
         color: white;
+        box-shadow: 0 4px 12px rgba(74, 108, 247, 0.2);
     }
 
     .action-buttons .btn-primary:hover {
         background: #3b5de7;
         transform: translateY(-2px);
-        box-shadow: 0 4px 16px rgba(74,108,247,0.3);
+        box-shadow: 0 8px 24px rgba(74, 108, 247, 0.3);
     }
 
     .action-buttons .btn-outline {
@@ -255,17 +406,60 @@ Compare Screenings - NeuroSense AI
         background: #f8fafc;
         border-color: #4A6CF7;
         color: #4A6CF7;
+        transform: translateY(-2px);
     }
 
     .action-buttons .btn-success {
         background: #10b981;
         color: white;
+        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
     }
 
     .action-buttons .btn-success:hover {
         background: #059669;
         transform: translateY(-2px);
-        box-shadow: 0 4px 16px rgba(16,185,129,0.3);
+        box-shadow: 0 8px 24px rgba(16, 185, 129, 0.3);
+    }
+
+    /* ---------- Responsive ---------- */
+    @media (max-width: 480px) {
+        .compare-page {
+            padding: 16px 12px;
+        }
+
+        .compare-header {
+            padding: 20px 16px;
+        }
+
+        .compare-header h1 {
+            font-size: 1.4rem;
+        }
+
+        .compare-card {
+            padding: 16px;
+        }
+
+        .compare-item {
+            flex-wrap: wrap;
+            gap: 4px;
+            padding: 8px 10px;
+        }
+
+        .compare-item .value {
+            font-size: 0.8rem;
+        }
+
+        .compare-summary {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .action-buttons .btn {
+            flex: 1;
+            justify-content: center;
+            font-size: 0.8rem;
+            padding: 10px 16px;
+        }
     }
 </style>
 {% endblock %}
@@ -276,17 +470,19 @@ Compare Screenings - NeuroSense AI
 
 <div class="compare-page">
 
+    <!-- Back Link -->
     <a href="{% url 'dashboard:dashboard' %}" class="back-link">
         <i class="fa-solid fa-arrow-left"></i>
         {% if lang == 'ur' %}ڈیش بورڈ پر واپس جائیں{% else %}Back to Dashboard{% endif %}
     </a>
 
+    <!-- Header -->
     <div class="compare-header">
         <h1>
             {% if lang == 'ur' %}
-            اسکریننگ کا موازنہ
+            📊 اسکریننگ کا <span>موازنہ</span>
             {% else %}
-            Compare Screenings
+            📊 <span>Compare</span> Screenings
             {% endif %}
         </h1>
         <p>
@@ -298,124 +494,207 @@ Compare Screenings - NeuroSense AI
         </p>
     </div>
 
+    <!-- Compare Grid -->
     <div class="compare-grid">
 
         <!-- Screening 1 -->
         <div class="compare-card">
             <div class="card-header">
-                <div>
-                    <div class="date">{{ screening1.created_at|date:"d M Y, h:i A" }}</div>
-                    <div class="id">#{{ screening1.screening_id|truncatechars:12 }}</div>
+                <div class="card-info">
+                    <div class="card-date">{{ screening1.created_at|date:"d M Y, h:i A" }}</div>
+                    <div class="card-id">#{{ screening1.screening_id|truncatechars:12 }}</div>
                 </div>
                 <span class="risk-badge {{ screening1.risk_level|lower }}">
                     {% if lang == 'ur' %}
-                        {% if screening1.risk_level == 'Low' %}کم
-                        {% elif screening1.risk_level == 'Medium' %}درمیانہ
-                        {% else %}زیادہ{% endif %}
+                    {% if screening1.risk_level == 'Low' %}کم
+                    {% elif screening1.risk_level == 'Medium' %}درمیانہ
+                    {% else %}زیادہ{% endif %}
                     {% else %}
-                        {{ screening1.risk_level }}
+                    {{ screening1.risk_level }}
                     {% endif %}
                 </span>
             </div>
 
-            <div class="compare-item">
-                <span class="label">{% if lang == 'ur' %}رسک سکور{% else %}Risk Score{% endif %}</span>
-                <span class="value">{{ screening1.final_pd_probability|floatformat:1 }}%</span>
-            </div>
-            <div class="compare-item">
-                <span class="label">{% if lang == 'ur' %}اعتماد{% else %}Confidence{% endif %}</span>
-                <span class="value">{{ screening1.fusion_confidence|floatformat:1 }}%</span>
-            </div>
-            <div class="compare-item">
-                <span class="label">{% if lang == 'ur' %}چال{% else %}Gait{% endif %}</span>
-                <span class="value">
-                    <span class="status-badge {% if screening1.gait_prediction == 'PD' %}pd{% elif screening1.gait_prediction == 'Borderline' %}borderline{% else %}control{% endif %}">
-                        {{ screening1.gait_prediction|default:"N/A" }}
+            <div class="compare-items">
+                <div class="compare-item">
+                    <span class="label">
+                        <i class="fa-solid fa-chart-simple"></i>
+                        {% if lang == 'ur' %}رسک سکور{% else %}Risk Score{% endif %}
                     </span>
-                </span>
-            </div>
-            <div class="compare-item">
-                <span class="label">{% if lang == 'ur' %}آواز{% else %}Speech{% endif %}</span>
-                <span class="value">
-                    <span class="status-badge {% if screening1.speech_prediction == 'PD' %}pd{% elif screening1.speech_prediction == 'Borderline' %}borderline{% else %}control{% endif %}">
-                        {{ screening1.speech_prediction|default:"N/A" }}
+                    <span class="value">{{ screening1.final_pd_probability|floatformat:1 }}%</span>
+                </div>
+
+                <div class="compare-item">
+                    <span class="label">
+                        <i class="fa-solid fa-bullseye"></i>
+                        {% if lang == 'ur' %}اعتماد{% else %}Confidence{% endif %}
                     </span>
-                </span>
-            </div>
-            <div class="compare-item">
-                <span class="label">{% if lang == 'ur' %}سوالنامہ{% else %}Questionnaire{% endif %}</span>
-                <span class="value">
-                    <span class="status-badge {% if screening1.questionnaire_prediction == 'PD' %}pd{% elif screening1.questionnaire_prediction == 'Borderline' %}borderline{% else %}control{% endif %}">
-                        {{ screening1.questionnaire_prediction|default:"N/A" }}
+                    <span class="value">{{ screening1.fusion_confidence|floatformat:1 }}%</span>
+                </div>
+
+                <div class="compare-item">
+                    <span class="label">
+                        <i class="fa-solid fa-person-walking"></i>
+                        {% if lang == 'ur' %}چال{% else %}Gait{% endif %}
                     </span>
-                </span>
+                    <span class="value">
+                        <span
+                            class="status-badge {% if screening1.gait_prediction == 'PD' %}pd{% elif screening1.gait_prediction == 'Borderline' %}borderline{% else %}control{% endif %}">
+                            {{ screening1.gait_prediction|default:"N/A" }}
+                        </span>
+                    </span>
+                </div>
+
+                <div class="compare-item">
+                    <span class="label">
+                        <i class="fa-solid fa-microphone"></i>
+                        {% if lang == 'ur' %}آواز{% else %}Speech{% endif %}
+                    </span>
+                    <span class="value">
+                        <span
+                            class="status-badge {% if screening1.speech_prediction == 'PD' %}pd{% elif screening1.speech_prediction == 'Borderline' %}borderline{% else %}control{% endif %}">
+                            {{ screening1.speech_prediction|default:"N/A" }}
+                        </span>
+                    </span>
+                </div>
+
+                <div class="compare-item">
+                    <span class="label">
+                        <i class="fa-solid fa-clipboard"></i>
+                        {% if lang == 'ur' %}سوالنامہ{% else %}Questionnaire{% endif %}
+                    </span>
+                    <span class="value">
+                        <span
+                            class="status-badge {% if screening1.questionnaire_prediction == 'PD' %}pd{% elif screening1.questionnaire_prediction == 'Borderline' %}borderline{% else %}control{% endif %}">
+                            {{ screening1.questionnaire_prediction|default:"N/A" }}
+                        </span>
+                    </span>
+                </div>
             </div>
         </div>
 
         <!-- VS -->
         <div class="compare-vs">
-            <span class="text">VS</span>
+            <div class="vs-line"></div>
+            <span class="vs-text">VS</span>
+            <span class="vs-sub">موازنہ</span>
+            <div class="vs-line"></div>
         </div>
 
         <!-- Screening 2 -->
         <div class="compare-card">
             <div class="card-header">
-                <div>
-                    <div class="date">{{ screening2.created_at|date:"d M Y, h:i A" }}</div>
-                    <div class="id">#{{ screening2.screening_id|truncatechars:12 }}</div>
+                <div class="card-info">
+                    <div class="card-date">{{ screening2.created_at|date:"d M Y, h:i A" }}</div>
+                    <div class="card-id">#{{ screening2.screening_id|truncatechars:12 }}</div>
                 </div>
                 <span class="risk-badge {{ screening2.risk_level|lower }}">
                     {% if lang == 'ur' %}
-                        {% if screening2.risk_level == 'Low' %}کم
-                        {% elif screening2.risk_level == 'Medium' %}درمیانہ
-                        {% else %}زیادہ{% endif %}
+                    {% if screening2.risk_level == 'Low' %}کم
+                    {% elif screening2.risk_level == 'Medium' %}درمیانہ
+                    {% else %}زیادہ{% endif %}
                     {% else %}
-                        {{ screening2.risk_level }}
+                    {{ screening2.risk_level }}
                     {% endif %}
                 </span>
             </div>
 
-            <div class="compare-item">
-                <span class="label">{% if lang == 'ur' %}رسک سکور{% else %}Risk Score{% endif %}</span>
-                <span class="value">{{ screening2.final_pd_probability|floatformat:1 }}%</span>
-            </div>
-            <div class="compare-item">
-                <span class="label">{% if lang == 'ur' %}اعتماد{% else %}Confidence{% endif %}</span>
-                <span class="value">{{ screening2.fusion_confidence|floatformat:1 }}%</span>
-            </div>
-            <div class="compare-item">
-                <span class="label">{% if lang == 'ur' %}چال{% else %}Gait{% endif %}</span>
-                <span class="value">
-                    <span class="status-badge {% if screening2.gait_prediction == 'PD' %}pd{% elif screening2.gait_prediction == 'Borderline' %}borderline{% else %}control{% endif %}">
-                        {{ screening2.gait_prediction|default:"N/A" }}
+            <div class="compare-items">
+                <div class="compare-item">
+                    <span class="label">
+                        <i class="fa-solid fa-chart-simple"></i>
+                        {% if lang == 'ur' %}رسک سکور{% else %}Risk Score{% endif %}
                     </span>
-                </span>
-            </div>
-            <div class="compare-item">
-                <span class="label">{% if lang == 'ur' %}آواز{% else %}Speech{% endif %}</span>
-                <span class="value">
-                    <span class="status-badge {% if screening2.speech_prediction == 'PD' %}pd{% elif screening2.speech_prediction == 'Borderline' %}borderline{% else %}control{% endif %}">
-                        {{ screening2.speech_prediction|default:"N/A" }}
+                    <span class="value">{{ screening2.final_pd_probability|floatformat:1 }}%</span>
+                </div>
+
+                <div class="compare-item">
+                    <span class="label">
+                        <i class="fa-solid fa-bullseye"></i>
+                        {% if lang == 'ur' %}اعتماد{% else %}Confidence{% endif %}
                     </span>
-                </span>
-            </div>
-            <div class="compare-item">
-                <span class="label">{% if lang == 'ur' %}سوالنامہ{% else %}Questionnaire{% endif %}</span>
-                <span class="value">
-                    <span class="status-badge {% if screening2.questionnaire_prediction == 'PD' %}pd{% elif screening2.questionnaire_prediction == 'Borderline' %}borderline{% else %}control{% endif %}">
-                        {{ screening2.questionnaire_prediction|default:"N/A" }}
+                    <span class="value">{{ screening2.fusion_confidence|floatformat:1 }}%</span>
+                </div>
+
+                <div class="compare-item">
+                    <span class="label">
+                        <i class="fa-solid fa-person-walking"></i>
+                        {% if lang == 'ur' %}چال{% else %}Gait{% endif %}
                     </span>
-                </span>
+                    <span class="value">
+                        <span
+                            class="status-badge {% if screening2.gait_prediction == 'PD' %}pd{% elif screening2.gait_prediction == 'Borderline' %}borderline{% else %}control{% endif %}">
+                            {{ screening2.gait_prediction|default:"N/A" }}
+                        </span>
+                    </span>
+                </div>
+
+                <div class="compare-item">
+                    <span class="label">
+                        <i class="fa-solid fa-microphone"></i>
+                        {% if lang == 'ur' %}آواز{% else %}Speech{% endif %}
+                    </span>
+                    <span class="value">
+                        <span
+                            class="status-badge {% if screening2.speech_prediction == 'PD' %}pd{% elif screening2.speech_prediction == 'Borderline' %}borderline{% else %}control{% endif %}">
+                            {{ screening2.speech_prediction|default:"N/A" }}
+                        </span>
+                    </span>
+                </div>
+
+                <div class="compare-item">
+                    <span class="label">
+                        <i class="fa-solid fa-clipboard"></i>
+                        {% if lang == 'ur' %}سوالنامہ{% else %}Questionnaire{% endif %}
+                    </span>
+                    <span class="value">
+                        <span
+                            class="status-badge {% if screening2.questionnaire_prediction == 'PD' %}pd{% elif screening2.questionnaire_prediction == 'Borderline' %}borderline{% else %}control{% endif %}">
+                            {{ screening2.questionnaire_prediction|default:"N/A" }}
+                        </span>
+                    </span>
+                </div>
             </div>
         </div>
 
+    </div>
+
+    <!-- Comparison Summary -->
+    <div class="compare-summary">
+        <div class="summary-item">
+            <span>📊</span>
+            <span>
+                {% if lang == 'ur' %}
+                <strong>رسک میں تبدیلی:</strong>
+                {% else %}
+                <strong>Risk Change:</strong>
+                {% endif %}
+                {% if risk_trend == 'up' %}
+                <span class="trend-icon up">↑</span> {{ risk_change_display }}
+                {% elif risk_trend == 'down' %}
+                <span class="trend-icon down">↓</span> {{ risk_change_display }}
+                {% else %}
+                <span class="trend-icon same">—</span> {{ risk_change_display }}
+                {% endif %}
+            </span>
+        </div>
+        <div class="summary-item">
+            <span>📅</span>
+            <span>
+                {% if lang == 'ur' %}
+                <strong>وقت کا فرق:</strong> {{ screening2.created_at|timeuntil:screening1.created_at }}
+                {% else %}
+                <strong>Time Difference:</strong> {{ screening1.created_at|timesince:screening2.created_at }}
+                {% endif %}
+            </span>
+        </div>
     </div>
 
     <!-- Action Buttons -->
     <div class="action-buttons">
         <a href="{% url 'dashboard:compare_screenings' %}" class="btn btn-outline">
             <i class="fa-solid fa-rotate"></i>
-            {% if lang == 'ur' %}مختلف اسکریننگز منتخب کریں{% else %}Select Different Screenings{% endif %}
+            {% if lang == 'ur' %}مختلف اسکریننگز منتخب کریں{% else %}Select Different{% endif %}
         </a>
         <a href="{% url 'dashboard:dashboard' %}" class="btn btn-primary">
             <i class="fa-solid fa-arrow-left"></i>

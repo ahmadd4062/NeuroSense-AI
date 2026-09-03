@@ -11,12 +11,17 @@ Screening Details - NeuroSense AI
 
 {% block extra_css %}
 <style>
+    /* ============================================
+       SCREENING DETAIL - PROFESSIONAL MEDICAL THEME
+       ============================================ */
+
     .detail-page {
         max-width: 900px;
         margin: 0 auto;
         padding: 40px 20px 60px;
     }
 
+    /* ---------- Back Link ---------- */
     .back-link {
         display: inline-flex;
         align-items: center;
@@ -26,21 +31,32 @@ Screening Details - NeuroSense AI
         font-weight: 600;
         font-size: 0.9rem;
         margin-bottom: 24px;
+        padding: 8px 16px;
+        border-radius: 10px;
+        background: #eef2ff;
         transition: all 0.3s ease;
     }
 
     .back-link:hover {
         gap: 12px;
+        background: #e0e7ff;
     }
 
+    /* ---------- Detail Card ---------- */
     .detail-card {
         background: white;
         border-radius: 16px;
         padding: 32px 36px;
         border: 1px solid #e2e8f0;
         box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+        transition: all 0.3s ease;
     }
 
+    .detail-card:hover {
+        box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+    }
+
+    /* ---------- Header ---------- */
     .detail-header {
         display: flex;
         justify-content: space-between;
@@ -54,44 +70,63 @@ Screening Details - NeuroSense AI
 
     .detail-header .title h2 {
         font-size: 1.4rem;
-        font-weight: 700;
+        font-weight: 800;
         color: #1a1a2e;
         margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .detail-header .title h2 i {
+        color: #4A6CF7;
+        font-size: 1.2rem;
     }
 
     .detail-header .title .sub {
         font-size: 0.85rem;
         color: #94a3b8;
         margin: 4px 0 0;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        flex-wrap: wrap;
+    }
+
+    .detail-header .title .sub .separator {
+        color: #e2e8f0;
     }
 
     .detail-header .risk-badge {
         padding: 6px 20px;
         border-radius: 30px;
-        font-size: 0.85rem;
+        font-size: 0.8rem;
         font-weight: 700;
         text-transform: uppercase;
         align-self: center;
+        letter-spacing: 0.04em;
+        border: 2px solid transparent;
     }
 
     .detail-header .risk-badge.low {
         background: #f0fdf4;
         color: #16a34a;
-        border: 1px solid #86efac;
+        border-color: #86efac;
     }
 
     .detail-header .risk-badge.medium {
         background: #fffbeb;
         color: #f59e0b;
-        border: 1px solid #fcd34d;
+        border-color: #fcd34d;
     }
 
     .detail-header .risk-badge.high {
         background: #fef2f2;
         color: #dc2626;
-        border: 1px solid #fca5a5;
+        border-color: #fca5a5;
     }
 
+    /* ---------- Sections ---------- */
     .detail-section {
         margin-bottom: 24px;
     }
@@ -104,16 +139,30 @@ Screening Details - NeuroSense AI
         font-size: 0.95rem;
         font-weight: 700;
         color: #1a1a2e;
-        margin: 0 0 12px;
+        margin: 0 0 14px;
         display: flex;
         align-items: center;
         gap: 10px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid #f1f5f9;
     }
 
     .detail-section .section-title i {
         color: #4A6CF7;
+        font-size: 1rem;
     }
 
+    .detail-section .section-title .title-badge {
+        margin-left: auto;
+        font-size: 0.65rem;
+        font-weight: 600;
+        color: #6b7280;
+        background: #f1f5f9;
+        padding: 2px 12px;
+        border-radius: 20px;
+    }
+
+    /* ---------- Grid ---------- */
     .detail-grid {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -126,11 +175,18 @@ Screening Details - NeuroSense AI
         }
     }
 
+    /* ---------- Detail Items ---------- */
     .detail-item {
         background: #f8fafc;
         padding: 14px 18px;
         border-radius: 10px;
         border: 1px solid #e2e8f0;
+        transition: all 0.3s ease;
+    }
+
+    .detail-item:hover {
+        background: #eef2ff;
+        border-color: #4A6CF7;
     }
 
     .detail-item .label {
@@ -138,7 +194,15 @@ Screening Details - NeuroSense AI
         font-weight: 600;
         color: #94a3b8;
         text-transform: uppercase;
-        letter-spacing: 0.04em;
+        letter-spacing: 0.06em;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .detail-item .label i {
+        font-size: 0.65rem;
+        color: #4A6CF7;
     }
 
     .detail-item .value {
@@ -150,10 +214,11 @@ Screening Details - NeuroSense AI
 
     .detail-item .value .status-badge {
         display: inline-block;
-        padding: 2px 12px;
+        padding: 2px 14px;
         border-radius: 20px;
         font-size: 0.7rem;
-        font-weight: 600;
+        font-weight: 700;
+        text-transform: uppercase;
     }
 
     .detail-item .value .status-badge.pd {
@@ -171,39 +236,85 @@ Screening Details - NeuroSense AI
         color: #f59e0b;
     }
 
-    .module-score {
+    /* ---------- Module Results ---------- */
+    .module-result {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 16px;
+        border-radius: 10px;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        transition: all 0.3s ease;
+        margin-bottom: 10px;
+    }
+
+    .module-result:last-child {
+        margin-bottom: 0;
+    }
+
+    .module-result:hover {
+        background: #eef2ff;
+        border-color: #4A6CF7;
+        transform: translateX(4px);
+    }
+
+    .module-result .module-name {
         display: flex;
         align-items: center;
-        gap: 16px;
-    }
-
-    .module-score .bar {
-        flex: 1;
-        height: 8px;
-        background: #e2e8f0;
-        border-radius: 4px;
-        overflow: hidden;
-        min-width: 60px;
-    }
-
-    .module-score .bar .fill {
-        height: 100%;
-        border-radius: 4px;
-        transition: width 1s ease;
-    }
-
-    .module-score .bar .fill.gait { background: #4A6CF7; }
-    .module-score .bar .fill.speech { background: #7c3aed; }
-    .module-score .bar .fill.questionnaire { background: #10b981; }
-
-    .module-score .score-text {
-        font-size: 0.85rem;
+        gap: 10px;
         font-weight: 600;
         color: #1a1a2e;
-        min-width: 45px;
-        text-align: right;
+        font-size: 0.9rem;
     }
 
+    .module-result .module-name .module-icon {
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.8rem;
+        color: white;
+        flex-shrink: 0;
+    }
+
+    .module-result .module-name .module-icon.gait { background: #4A6CF7; }
+    .module-result .module-name .module-icon.speech { background: #7c3aed; }
+    .module-result .module-name .module-icon.questionnaire { background: #10b981; }
+
+    .module-result .module-status {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .module-result .module-status .status-badge {
+        display: inline-block;
+        padding: 2px 14px;
+        border-radius: 20px;
+        font-size: 0.7rem;
+        font-weight: 700;
+        text-transform: uppercase;
+    }
+
+    .module-result .module-status .status-badge.pd {
+        background: #fef2f2;
+        color: #dc2626;
+    }
+
+    .module-result .module-status .status-badge.control {
+        background: #f0fdf4;
+        color: #16a34a;
+    }
+
+    .module-result .module-status .status-badge.borderline {
+        background: #fffbeb;
+        color: #f59e0b;
+    }
+
+    /* ---------- Action Buttons ---------- */
     .action-buttons {
         display: flex;
         gap: 12px;
@@ -226,17 +337,19 @@ Screening Details - NeuroSense AI
         text-decoration: none;
         border: none;
         font-family: inherit;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
     }
 
     .action-buttons .btn-primary {
         background: #4A6CF7;
         color: white;
+        box-shadow: 0 4px 12px rgba(74, 108, 247, 0.2);
     }
 
     .action-buttons .btn-primary:hover {
         background: #3b5de7;
         transform: translateY(-2px);
-        box-shadow: 0 4px 16px rgba(74,108,247,0.3);
+        box-shadow: 0 8px 24px rgba(74, 108, 247, 0.3);
     }
 
     .action-buttons .btn-outline {
@@ -249,59 +362,68 @@ Screening Details - NeuroSense AI
         background: #f8fafc;
         border-color: #4A6CF7;
         color: #4A6CF7;
+        transform: translateY(-2px);
     }
 
     .action-buttons .btn-success {
         background: #10b981;
         color: white;
+        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
     }
 
     .action-buttons .btn-success:hover {
         background: #059669;
         transform: translateY(-2px);
-        box-shadow: 0 4px 16px rgba(16,185,129,0.3);
+        box-shadow: 0 8px 24px rgba(16, 185, 129, 0.3);
     }
 
-    .confidence-ring {
-        display: flex;
-        align-items: center;
-        gap: 16px;
-    }
+    /* ---------- Responsive ---------- */
+    @media (max-width: 600px) {
+        .detail-page {
+            padding: 16px 12px;
+        }
 
-    .confidence-ring .ring {
-        width: 60px;
-        height: 60px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: 700;
-        font-size: 0.9rem;
-        color: white;
-        flex-shrink: 0;
-    }
+        .detail-card {
+            padding: 20px 16px;
+        }
 
-    .confidence-ring .ring.high {
-        background: #16a34a;
-    }
+        .detail-header {
+            flex-direction: column;
+            align-items: stretch;
+        }
 
-    .confidence-ring .ring.medium {
-        background: #f59e0b;
-    }
+        .detail-header .risk-badge {
+            align-self: flex-start;
+        }
 
-    .confidence-ring .ring.low {
-        background: #dc2626;
-    }
+        .detail-header .title h2 {
+            font-size: 1.2rem;
+        }
 
-    .confidence-ring .ring-info .label {
-        font-size: 0.7rem;
-        color: #94a3b8;
-    }
+        .module-result {
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 10px 14px;
+        }
 
-    .confidence-ring .ring-info .value {
-        font-size: 1rem;
-        font-weight: 700;
-        color: #1a1a2e;
+        .module-result .module-status {
+            margin-left: auto;
+        }
+
+        .action-buttons .btn {
+            flex: 1;
+            justify-content: center;
+            font-size: 0.8rem;
+            padding: 10px 16px;
+        }
+
+        .detail-item {
+            padding: 12px 14px;
+        }
+
+        .detail-item .value {
+            font-size: 1rem;
+        }
     }
 </style>
 {% endblock %}
@@ -312,6 +434,7 @@ Screening Details - NeuroSense AI
 
 <div class="detail-page">
 
+    <!-- Back Link -->
     <a href="{% url 'dashboard:dashboard' %}" class="back-link">
         <i class="fa-solid fa-arrow-left"></i>
         {% if lang == 'ur' %}ڈیش بورڈ پر واپس جائیں{% else %}Back to Dashboard{% endif %}
@@ -319,10 +442,13 @@ Screening Details - NeuroSense AI
 
     <div class="detail-card">
 
-        <!-- Header -->
+        <!-- ========================================== -->
+        <!-- HEADER -->
+        <!-- ========================================== -->
         <div class="detail-header">
             <div class="title">
                 <h2>
+                    <i class="fa-regular fa-file-lines"></i>
                     {% if lang == 'ur' %}
                     اسکریننگ کی تفصیلات
                     {% else %}
@@ -331,10 +457,10 @@ Screening Details - NeuroSense AI
                 </h2>
                 <div class="sub">
                     <i class="fa-regular fa-hashtag"></i>
-                    {{ screening.screening_id }}
-                    <span style="margin:0 8px;">·</span>
+                    <span>{{ screening.screening_id|truncatechars:16 }}</span>
+                    <span class="separator">·</span>
                     <i class="fa-regular fa-calendar"></i>
-                    {{ screening.created_at|date:"d M Y, h:i A" }}
+                    <span>{{ screening.created_at|date:"d M Y, h:i A" }}</span>
                 </div>
             </div>
             <span class="risk-badge {{ screening.risk_level|lower }}">
@@ -349,21 +475,28 @@ Screening Details - NeuroSense AI
             </span>
         </div>
 
-        <!-- Risk Score -->
+        <!-- ========================================== -->
+        <!-- RISK OVERVIEW -->
+        <!-- ========================================== -->
         <div class="detail-section">
             <div class="section-title">
                 <i class="fa-solid fa-chart-simple"></i>
                 {% if lang == 'ur' %}رسک کا جائزہ{% else %}Risk Overview{% endif %}
+                <span class="title-badge">
+                    {% if lang == 'ur' %}خلاصہ{% else %}Summary{% endif %}
+                </span>
             </div>
             <div class="detail-grid">
                 <div class="detail-item">
                     <div class="label">
+                        <i class="fa-solid fa-arrow-trend-up"></i>
                         {% if lang == 'ur' %}پی ڈی رسک سکور{% else %}PD Risk Score{% endif %}
                     </div>
                     <div class="value">{{ screening.final_pd_probability|floatformat:1 }}%</div>
                 </div>
                 <div class="detail-item">
                     <div class="label">
+                        <i class="fa-solid fa-bullseye"></i>
                         {% if lang == 'ur' %}اعتماد{% else %}Confidence{% endif %}
                     </div>
                     <div class="value">{{ screening.fusion_confidence|floatformat:1 }}%</div>
@@ -371,65 +504,75 @@ Screening Details - NeuroSense AI
             </div>
         </div>
 
-        <!-- Module Results -->
+        <!-- ========================================== -->
+        <!-- MODULE RESULTS -->
+        <!-- ========================================== -->
         <div class="detail-section">
             <div class="section-title">
                 <i class="fa-solid fa-layer-group"></i>
                 {% if lang == 'ur' %}ماڈیول کے نتائج{% else %}Module Results{% endif %}
+                <span class="title-badge">
+                    {% if lang == 'ur' %}تمام ماڈیولز{% else %}All Modules{% endif %}
+                </span>
             </div>
 
             <!-- Gait -->
-            <div style="margin-bottom:12px;">
-                <div style="display:flex;justify-content:space-between;align-items:center;font-size:0.85rem;">
-                    <span style="font-weight:600;color:#1a1a2e;">
-                        {% if lang == 'ur' %}چال کا تجزیہ{% else %}Gait Analysis{% endif %}
+            <div class="module-result">
+                <div class="module-name">
+                    <span class="module-icon gait">
+                        <i class="fa-solid fa-person-walking"></i>
                     </span>
-                    <span>
-                        <span class="status-badge {% if screening.gait_prediction == 'PD' %}pd{% elif screening.gait_prediction == 'Borderline' %}borderline{% else %}control{% endif %}">
-                            {{ screening.gait_prediction|default:"N/A" }}
-                        </span>
+                    {% if lang == 'ur' %}چال کا تجزیہ{% else %}Gait Analysis{% endif %}
+                </div>
+                <div class="module-status">
+                    <span class="status-badge {% if screening.gait_prediction == 'PD' %}pd{% elif screening.gait_prediction == 'Borderline' %}borderline{% else %}control{% endif %}">
+                        {{ screening.gait_prediction|default:"N/A" }}
                     </span>
                 </div>
             </div>
 
             <!-- Speech -->
-            <div style="margin-bottom:12px;">
-                <div style="display:flex;justify-content:space-between;align-items:center;font-size:0.85rem;">
-                    <span style="font-weight:600;color:#1a1a2e;">
-                        {% if lang == 'ur' %}آواز کا تجزیہ{% else %}Speech Analysis{% endif %}
+            <div class="module-result">
+                <div class="module-name">
+                    <span class="module-icon speech">
+                        <i class="fa-solid fa-microphone"></i>
                     </span>
-                    <span>
-                        <span class="status-badge {% if screening.speech_prediction == 'PD' %}pd{% elif screening.speech_prediction == 'Borderline' %}borderline{% else %}control{% endif %}">
-                            {{ screening.speech_prediction|default:"N/A" }}
-                        </span>
+                    {% if lang == 'ur' %}آواز کا تجزیہ{% else %}Speech Analysis{% endif %}
+                </div>
+                <div class="module-status">
+                    <span class="status-badge {% if screening.speech_prediction == 'PD' %}pd{% elif screening.speech_prediction == 'Borderline' %}borderline{% else %}control{% endif %}">
+                        {{ screening.speech_prediction|default:"N/A" }}
                     </span>
                 </div>
             </div>
 
             <!-- Questionnaire -->
-            <div>
-                <div style="display:flex;justify-content:space-between;align-items:center;font-size:0.85rem;">
-                    <span style="font-weight:600;color:#1a1a2e;">
-                        {% if lang == 'ur' %}سوالنامہ{% else %}Questionnaire{% endif %}
+            <div class="module-result">
+                <div class="module-name">
+                    <span class="module-icon questionnaire">
+                        <i class="fa-solid fa-clipboard"></i>
                     </span>
-                    <span>
-                        <span class="status-badge {% if screening.questionnaire_prediction == 'PD' %}pd{% elif screening.questionnaire_prediction == 'Borderline' %}borderline{% else %}control{% endif %}">
-                            {{ screening.questionnaire_prediction|default:"N/A" }}
-                        </span>
+                    {% if lang == 'ur' %}سوالنامہ{% else %}Questionnaire{% endif %}
+                </div>
+                <div class="module-status">
+                    <span class="status-badge {% if screening.questionnaire_prediction == 'PD' %}pd{% elif screening.questionnaire_prediction == 'Borderline' %}borderline{% else %}control{% endif %}">
+                        {{ screening.questionnaire_prediction|default:"N/A" }}
                     </span>
                 </div>
             </div>
         </div>
 
-        <!-- Action Buttons -->
+        <!-- ========================================== -->
+        <!-- ACTION BUTTONS -->
+        <!-- ========================================== -->
         <div class="action-buttons">
             <a href="{% url 'fusion_app:report' %}" class="btn btn-primary">
                 <i class="fa-regular fa-file-lines"></i>
-                {% if lang == 'ur' %}مکمل رپورٹ دیکھیں{% else %}View Full Report{% endif %}
+                {% if lang == 'ur' %}مکمل رپورٹ{% else %}Full Report{% endif %}
             </a>
             <a href="{% url 'dashboard:compare_screenings' %}?ids={{ screening.screening_id }}" class="btn btn-outline">
                 <i class="fa-solid fa-arrows-left-right"></i>
-                {% if lang == 'ur' %}موازنہ کریں{% else %}Compare{% endif %}
+                {% if lang == 'ur' %}موازنہ{% else %}Compare{% endif %}
             </a>
             <a href="{% url 'questionnaire_app:home' %}" class="btn btn-success">
                 <i class="fa-solid fa-play"></i>

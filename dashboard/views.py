@@ -130,10 +130,27 @@ def compare_screenings(request):
         user=request.user
     )
     
+    # Calculate the difference
+    risk_change = screening2.final_pd_probability - screening1.final_pd_probability
+    
+    # Determine if risk went up, down, or stayed the same
+    if risk_change > 0.01:
+        risk_trend = 'up'
+        risk_change_display = f'+{risk_change:.1f}%'
+    elif risk_change < -0.01:
+        risk_trend = 'down'
+        risk_change_display = f'{risk_change:.1f}%'
+    else:
+        risk_trend = 'same'
+        risk_change_display = '0.0%'
+    
     context = {
         'lang': lang,
         'screening1': screening1,
         'screening2': screening2,
+        'risk_change': risk_change,
+        'risk_change_display': risk_change_display,
+        'risk_trend': risk_trend,
     }
     
     return render(request, 'dashboard/compare.html', context)
