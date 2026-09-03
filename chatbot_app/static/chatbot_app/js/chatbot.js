@@ -5,10 +5,16 @@ const typingIndicator = document.getElementById("typingIndicator");
 const clearChatBtn = document.getElementById("clearChatBtn");
 const newChatBtn = document.getElementById("newChatBtn");
 
-const languageButtons = document.querySelectorAll(".language-btn");
+// ==========================================
+// LANGUAGE - Now uses centralized toggle from Django
+// ==========================================
+// Get language from Django template variable
+// This is set in the HTML via CURRENT_LANG
+const CURRENT_LANG = typeof CURRENT_LANG !== 'undefined' ? CURRENT_LANG : 'en';
+
 const suggestionCards = document.querySelectorAll(".suggestion-card");
 
-let currentLanguage = "en";
+let currentLanguage = CURRENT_LANG;
 let isSending = false;
 
 function getCSRFToken() {
@@ -251,7 +257,8 @@ async function sendMessage(
                     },
 
                     body: JSON.stringify({
-                        message: message
+                        message: message,
+                        language: currentLanguage  // Pass language to backend
                     })
                 }
             );
@@ -325,25 +332,18 @@ function clearConversationUI() {
     messageInput.focus();
 }
 
+// ==========================================
+// LANGUAGE UPDATE - Now uses Django's centralized toggle
+// ==========================================
 function updateLanguage(language) {
-    currentLanguage =
-        language;
+    currentLanguage = language;
 
     document.body.classList.toggle(
         "urdu-mode",
         language === "ur"
     );
 
-    languageButtons.forEach(
-        button => {
-            button.classList.toggle(
-                "active",
-                button.dataset.language ===
-                    language
-            );
-        }
-    );
-
+    // Update all data-en/data-ur elements
     document
         .querySelectorAll(
             "[data-en][data-ur]"
@@ -357,6 +357,7 @@ function updateLanguage(language) {
             }
         );
 
+    // Update placeholder
     if (language === "ur") {
         messageInput.placeholder =
             "NeuroSense سے کچھ بھی پوچھیں...";
@@ -375,7 +376,19 @@ function updateLanguage(language) {
             "ltr"
         );
     }
+
+    // Update suggestion card messages (they use data attributes)
+    suggestionCards.forEach(
+        card => {
+            // The message data is already set in HTML
+            // No need to change anything here
+        }
+    );
 }
+
+// ==========================================
+// EVENT LISTENERS
+// ==========================================
 
 sendMessageBtn.addEventListener(
     "click",
@@ -426,20 +439,12 @@ suggestionCards.forEach(
     }
 );
 
-languageButtons.forEach(
-    button => {
-        button.addEventListener(
-            "click",
-            () => {
-                updateLanguage(
-                    button.dataset
-                        .language
-                );
-            }
-        );
-    }
-);
+// ==========================================
+// LANGUAGE BUTTONS - REMOVED
+// Language is now controlled by navbar toggle
+// ==========================================
 
+// clearChatBtn and newChatBtn
 clearChatBtn.addEventListener(
     "click",
     () => {
@@ -454,10 +459,15 @@ newChatBtn.addEventListener(
     }
 );
 
+// ==========================================
+// INITIALIZATION
+// ==========================================
+
 window.addEventListener(
     "load",
     () => {
-        updateLanguage("en");
+        // Use the language from Django
+        updateLanguage(currentLanguage);
 
         autoResizeTextarea();
 

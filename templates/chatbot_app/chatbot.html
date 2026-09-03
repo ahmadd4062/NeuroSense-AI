@@ -2,7 +2,11 @@
 {% load static %}
 
 {% block title %}
+{% if request.LANG == 'ur' %}
+نیوروسینس اے آئی اسسٹنٹ
+{% else %}
 NeuroSense AI Assistant
+{% endif %}
 {% endblock %}
 
 {% block extra_css %}
@@ -12,6 +16,8 @@ NeuroSense AI Assistant
 {% endblock %}
 
 {% block content %}
+
+{% with lang=request.LANG|default:'en' %}
 
 <main class="chatbot-page">
 
@@ -26,207 +32,160 @@ NeuroSense AI Assistant
 
                 <div>
                     <h2>NeuroSense AI</h2>
-                    <p>Health Guidance Assistant</p>
+                    <p>
+                        {% if lang == 'ur' %}
+                        ہیلتھ گائیڈنس اسسٹنٹ
+                        {% else %}
+                        Health Guidance Assistant
+                        {% endif %}
+                    </p>
                 </div>
             </div>
 
-
-            <div class="language-switcher">
-                <button class="language-btn active" data-language="en">
-                    English
-                </button>
-
-                <button class="language-btn" data-language="ur">
-                    اردو
-                </button>
-            </div>
-
+            <!-- ========================================== -->
+            <!-- LANGUAGE SWITCHER REMOVED                   -->
+            <!-- Using centralized navbar toggle instead    -->
+            <!-- ========================================== -->
 
             <div class="new-chat-wrapper">
                 <button class="new-chat-btn" id="newChatBtn">
-
                     <i class="fa-solid fa-plus"></i>
-
-                    <span data-en="New Conversation"
-                          data-ur="نئی گفتگو">
+                    <span>
+                        {% if lang == 'ur' %}
+                        نئی گفتگو
+                        {% else %}
                         New Conversation
+                        {% endif %}
                     </span>
-
                 </button>
             </div>
 
-
             <div class="sidebar-section">
-
-                <span class="sidebar-label"
-                      data-en="Assistant"
-                      data-ur="اسسٹنٹ">
+                <span class="sidebar-label">
+                    {% if lang == 'ur' %}
+                    اسسٹنٹ
+                    {% else %}
                     Assistant
+                    {% endif %}
                 </span>
 
-
                 <div class="sidebar-card active">
-
                     <div class="sidebar-card-icon">
                         <i class="fa-regular fa-message"></i>
                     </div>
-
                     <div>
-
-                        <strong
-                            data-en="Health Assistant"
-                            data-ur="ہیلتھ اسسٹنٹ">
+                        <strong>
+                            {% if lang == 'ur' %}
+                            ہیلتھ اسسٹنٹ
+                            {% else %}
                             Health Assistant
+                            {% endif %}
                         </strong>
-
-                        <span
-                            data-en="Ask about symptoms and screening"
-                            data-ur="علامات اور اسکریننگ کے بارے میں پوچھیں">
+                        <span>
+                            {% if lang == 'ur' %}
+                            علامات اور اسکریننگ کے بارے میں پوچھیں
+                            {% else %}
                             Ask about symptoms and screening
+                            {% endif %}
                         </span>
-
                     </div>
-
                 </div>
-
             </div>
 
-
             <div class="sidebar-info-card">
-
                 <div class="info-icon">
                     <i class="fa-solid fa-shield-heart"></i>
                 </div>
-
                 <div>
-
-                    <strong
-                        data-en="Safe & Informative"
-                        data-ur="محفوظ اور معلوماتی">
+                    <strong>
+                        {% if lang == 'ur' %}
+                        محفوظ اور معلوماتی
+                        {% else %}
                         Safe & Informative
+                        {% endif %}
                     </strong>
-
-                    <p
-                        data-en="NeuroSense provides educational guidance and does not replace professional medical advice."
-                        data-ur="NeuroSense معلوماتی رہنمائی فراہم کرتا ہے اور پیشہ ورانہ طبی مشورے کا متبادل نہیں ہے۔">
-
-                        NeuroSense provides educational guidance
-                        and does not replace professional medical advice.
-
+                    <p>
+                        {% if lang == 'ur' %}
+                        NeuroSense معلوماتی رہنمائی فراہم کرتا ہے اور پیشہ ورانہ طبی مشورے کا متبادل نہیں ہے۔
+                        {% else %}
+                        NeuroSense provides educational guidance and does not replace professional medical advice.
+                        {% endif %}
                     </p>
-
                 </div>
-
             </div>
 
         </aside>
 
-
-
         <section class="chat-panel">
 
-
             <header class="chat-header">
-
                 <div class="assistant-profile">
-
                     <div class="assistant-avatar">
-
                         <i class="fa-solid fa-robot"></i>
-
                         <span class="online-indicator"></span>
-
                     </div>
-
-
                     <div>
-
-                        <h1
-                            data-en="NeuroSense Assistant"
-                            data-ur="NeuroSense اسسٹنٹ">
+                        <h1>
+                            {% if lang == 'ur' %}
+                            NeuroSense اسسٹنٹ
+                            {% else %}
                             NeuroSense Assistant
+                            {% endif %}
                         </h1>
-
                         <div class="assistant-status">
-                            <span
-                                data-en="AI-powered support"
-                                data-ur="AI سے چلنے والی معاونت">
+                            <span>
+                                {% if lang == 'ur' %}
+                                AI سے چلنے والی معاونت
+                                {% else %}
                                 AI-powered support
+                                {% endif %}
                             </span>
-
                         </div>
-
                     </div>
-
                 </div>
 
-
                 <div class="header-actions">
-
                     <button
                         class="header-action-btn"
                         type="button"
                         title="Clear conversation"
                         id="clearChatBtn">
-
                         <i class="fa-solid fa-rotate-right"></i>
-
                     </button>
-
                 </div>
-
             </header>
 
-
-
-            <div class="chat-messages"
-                 id="chatMessages">
-
+            <div class="chat-messages" id="chatMessages">
 
                 <div class="welcome-section">
-
-
                     <div class="welcome-robot">
-                    <div class="robot-glow"></div>
-
-                    <img
-                        src="{% static 'chatbot_app/images/robot.png' %}"
-                        alt="NeuroSense AI Assistant">
-                </div>
-
+                        <div class="robot-glow"></div>
+                        <img
+                            src="{% static 'chatbot_app/images/robot.png' %}"
+                            alt="NeuroSense AI Assistant">
+                    </div>
 
                     <h2>
-
-                        <span
-                            data-en="Hello"
-                            data-ur="السلام علیکم">
-                            Hello
-                        </span>
-
+                        {% if lang == 'ur' %}
+                        السلام علیکم
+                        {% else %}
+                        Hello
+                        {% endif %}
                         {% if request.user.is_authenticated and request.user.first_name %}
                             , {{ request.user.first_name }}
                         {% endif %}
-
                         !
-
                     </h2>
 
-
-                    <p
-                        data-en="I'm your NeuroSense AI assistant. I can provide clear and supportive information about neurological screening, Parkinson's-related concerns and your NeuroSense journey."
-                        data-ur="میں آپ کا NeuroSense AI اسسٹنٹ ہوں۔ میں نیورولوجیکل اسکریننگ، پارکنسن سے متعلق سوالات اور NeuroSense کے استعمال کے بارے میں آسان اور مددگار معلومات فراہم کر سکتا ہوں۔">
-
-                        I'm your NeuroSense AI assistant. I can provide
-                        clear and supportive information about neurological
-                        screening, Parkinson's-related concerns and your
-                        NeuroSense journey.
-
+                    <p>
+                        {% if lang == 'ur' %}
+                        میں آپ کا NeuroSense AI اسسٹنٹ ہوں۔ میں نیورولوجیکل اسکریننگ، پارکنسن سے متعلق سوالات اور NeuroSense کے استعمال کے بارے میں آسان اور مددگار معلومات فراہم کر سکتا ہوں۔
+                        {% else %}
+                        I'm your NeuroSense AI assistant. I can provide clear and supportive information about neurological screening, Parkinson's-related concerns and your NeuroSense journey.
+                        {% endif %}
                     </p>
 
-
-
                     <div class="suggestion-grid">
-
 
                         <button
                             class="suggestion-card"
@@ -238,26 +197,25 @@ NeuroSense AI Assistant
                             </div>
 
                             <div>
-
-                                <strong
-                                    data-en="Understand Parkinson's"
-                                    data-ur="پارکنسن کو سمجھیں">
+                                <strong>
+                                    {% if lang == 'ur' %}
+                                    پارکنسن کو سمجھیں
+                                    {% else %}
                                     Understand Parkinson's
+                                    {% endif %}
                                 </strong>
-
-                                <span
-                                    data-en="Learn about common signs and symptoms"
-                                    data-ur="عام علامات کے بارے میں جانیں">
+                                <span>
+                                    {% if lang == 'ur' %}
+                                    عام علامات کے بارے میں جانیں
+                                    {% else %}
                                     Learn about common signs and symptoms
+                                    {% endif %}
                                 </span>
-
                             </div>
 
                             <i class="fa-solid fa-arrow-right suggestion-arrow"></i>
 
                         </button>
-
-
 
                         <button
                             class="suggestion-card"
@@ -269,26 +227,25 @@ NeuroSense AI Assistant
                             </div>
 
                             <div>
-
-                                <strong
-                                    data-en="Discuss a Symptom"
-                                    data-ur="علامت کے بارے میں بات کریں">
+                                <strong>
+                                    {% if lang == 'ur' %}
+                                    علامت کے بارے میں بات کریں
+                                    {% else %}
                                     Discuss a Symptom
+                                    {% endif %}
                                 </strong>
-
-                                <span
-                                    data-en="Ask about a concern you're experiencing"
-                                    data-ur="اپنی علامات کے بارے میں سوال کریں">
+                                <span>
+                                    {% if lang == 'ur' %}
+                                    اپنی علامات کے بارے میں سوال کریں
+                                    {% else %}
                                     Ask about a concern you're experiencing
+                                    {% endif %}
                                 </span>
-
                             </div>
 
                             <i class="fa-solid fa-arrow-right suggestion-arrow"></i>
 
                         </button>
-
-
 
                         <button
                             class="suggestion-card"
@@ -300,26 +257,25 @@ NeuroSense AI Assistant
                             </div>
 
                             <div>
-
-                                <strong
-                                    data-en="Screening Guidance"
-                                    data-ur="اسکریننگ رہنمائی">
+                                <strong>
+                                    {% if lang == 'ur' %}
+                                    اسکریننگ رہنمائی
+                                    {% else %}
                                     Screening Guidance
+                                    {% endif %}
                                 </strong>
-
-                                <span
-                                    data-en="Understand the NeuroSense assessment process"
-                                    data-ur="NeuroSense اسیسمنٹ کے طریقہ کار کو سمجھیں">
+                                <span>
+                                    {% if lang == 'ur' %}
+                                    NeuroSense اسیسمنٹ کے طریقہ کار کو سمجھیں
+                                    {% else %}
                                     Understand the NeuroSense assessment process
+                                    {% endif %}
                                 </span>
-
                             </div>
 
                             <i class="fa-solid fa-arrow-right suggestion-arrow"></i>
 
                         </button>
-
-
 
                         <button
                             class="suggestion-card"
@@ -331,95 +287,70 @@ NeuroSense AI Assistant
                             </div>
 
                             <div>
-
-                                <strong
-                                    data-en="Daily Wellbeing"
-                                    data-ur="روزمرہ فلاح و بہبود">
+                                <strong>
+                                    {% if lang == 'ur' %}
+                                    روزمرہ فلاح و بہبود
+                                    {% else %}
                                     Daily Wellbeing
+                                    {% endif %}
                                 </strong>
-
-                                <span
-                                    data-en="Explore supportive everyday guidance"
-                                    data-ur="روزمرہ زندگی کے لیے مددگار رہنمائی">
+                                <span>
+                                    {% if lang == 'ur' %}
+                                    روزمرہ زندگی کے لیے مددگار رہنمائی
+                                    {% else %}
                                     Explore supportive everyday guidance
+                                    {% endif %}
                                 </span>
-
                             </div>
 
                             <i class="fa-solid fa-arrow-right suggestion-arrow"></i>
 
                         </button>
 
-
                     </div>
-
                 </div>
 
             </div>
 
-
-
-            <div class="typing-indicator"
-                 id="typingIndicator">
-
+            <div class="typing-indicator" id="typingIndicator">
                 <div class="typing-avatar">
                     <i class="fa-solid fa-robot"></i>
                 </div>
-
                 <div class="typing-bubble">
-
                     <span></span>
                     <span></span>
                     <span></span>
-
                 </div>
-
             </div>
 
-
-
             <div class="chat-input-area">
-
-
                 <div class="chat-input-wrapper">
-
                     <textarea
                         id="messageInput"
                         rows="1"
                         maxlength="1000"
-                        placeholder="Ask NeuroSense anything...">
+                        placeholder="{% if lang == 'ur' %}NeuroSense سے کچھ پوچھیں...{% else %}Ask NeuroSense anything...{% endif %}">
                     </textarea>
-
 
                     <button
                         id="sendMessageBtn"
                         class="send-btn"
                         type="button"
                         aria-label="Send message">
-
                         <i class="fa-solid fa-arrow-up"></i>
-
                     </button>
-
                 </div>
 
-
                 <p class="chat-disclaimer">
-
                     <i class="fa-solid fa-shield-halved"></i>
-
-                    <span
-                        data-en="NeuroSense AI provides informational guidance only and does not replace professional medical consultation."
-                        data-ur="NeuroSense AI صرف معلوماتی رہنمائی فراہم کرتا ہے اور پیشہ ورانہ طبی مشورے کا متبادل نہیں ہے۔">
-
-                        NeuroSense AI provides informational guidance only and
-                        does not replace professional medical consultation.
-
+                    <span>
+                        {% if lang == 'ur' %}
+                        NeuroSense AI صرف معلوماتی رہنمائی فراہم کرتا ہے اور پیشہ ورانہ طبی مشورے کا متبادل نہیں ہے۔
+                        {% else %}
+                        NeuroSense AI provides informational guidance only and does not replace professional medical consultation.
+                        {% endif %}
                     </span>
-
                 </p>
-
-
             </div>
 
         </section>
@@ -428,11 +359,13 @@ NeuroSense AI Assistant
 
 </main>
 
-
 <script>
     const CHAT_API_URL = "/chatbot/api/chat/";
+    const CURRENT_LANG = "{{ lang }}";
 </script>
 
 <script src="{% static 'chatbot_app/js/chatbot.js' %}"></script>
+
+{% endwith %}
 
 {% endblock %}
