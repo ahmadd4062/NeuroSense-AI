@@ -23,7 +23,7 @@
             <a href="{% url 'chatbot_app:chatbot' %}">
                 {% if lang == 'ur' %}چیٹ بوٹ{% else %}Chatbot{% endif %}
             </a>
-            <a href="{% url 'questionnaire_app:home'%}">
+            <a href="{% url 'dashboard:dashboard' %}">
                 {% if lang == 'ur' %}ڈیش بورڈ{% else %}Dashboard{% endif %}
             </a>
         </nav>
@@ -90,7 +90,7 @@
     <a href="{% url 'chatbot_app:chatbot' %}">
         {% if lang == 'ur' %}چیٹ بوٹ{% else %}Chatbot{% endif %}
     </a>
-    <a href="{% url 'questionnaire_app:home' %}">
+    <a href="{% url 'dashboard:dashboard' %}">
         {% if lang == 'ur' %}ڈیش بورڈ{% else %}Dashboard{% endif %}
     </a>
 

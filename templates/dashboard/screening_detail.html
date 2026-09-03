@@ -1,0 +1,446 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+{% if lang == 'ur' %}
+اسکریننگ کی تفصیلات - نیوروسینس اے آئی
+{% else %}
+Screening Details - NeuroSense AI
+{% endif %}
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .detail-page {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 40px 20px 60px;
+    }
+
+    .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: #4A6CF7;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.9rem;
+        margin-bottom: 24px;
+        transition: all 0.3s ease;
+    }
+
+    .back-link:hover {
+        gap: 12px;
+    }
+
+    .detail-card {
+        background: white;
+        border-radius: 16px;
+        padding: 32px 36px;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+    }
+
+    .detail-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        gap: 16px;
+        margin-bottom: 24px;
+        padding-bottom: 20px;
+        border-bottom: 2px solid #f1f5f9;
+    }
+
+    .detail-header .title h2 {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: #1a1a2e;
+        margin: 0;
+    }
+
+    .detail-header .title .sub {
+        font-size: 0.85rem;
+        color: #94a3b8;
+        margin: 4px 0 0;
+    }
+
+    .detail-header .risk-badge {
+        padding: 6px 20px;
+        border-radius: 30px;
+        font-size: 0.85rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        align-self: center;
+    }
+
+    .detail-header .risk-badge.low {
+        background: #f0fdf4;
+        color: #16a34a;
+        border: 1px solid #86efac;
+    }
+
+    .detail-header .risk-badge.medium {
+        background: #fffbeb;
+        color: #f59e0b;
+        border: 1px solid #fcd34d;
+    }
+
+    .detail-header .risk-badge.high {
+        background: #fef2f2;
+        color: #dc2626;
+        border: 1px solid #fca5a5;
+    }
+
+    .detail-section {
+        margin-bottom: 24px;
+    }
+
+    .detail-section:last-child {
+        margin-bottom: 0;
+    }
+
+    .detail-section .section-title {
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: #1a1a2e;
+        margin: 0 0 12px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .detail-section .section-title i {
+        color: #4A6CF7;
+    }
+
+    .detail-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+    }
+
+    @media (max-width: 600px) {
+        .detail-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .detail-item {
+        background: #f8fafc;
+        padding: 14px 18px;
+        border-radius: 10px;
+        border: 1px solid #e2e8f0;
+    }
+
+    .detail-item .label {
+        font-size: 0.7rem;
+        font-weight: 600;
+        color: #94a3b8;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+    }
+
+    .detail-item .value {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #1a1a2e;
+        margin-top: 2px;
+    }
+
+    .detail-item .value .status-badge {
+        display: inline-block;
+        padding: 2px 12px;
+        border-radius: 20px;
+        font-size: 0.7rem;
+        font-weight: 600;
+    }
+
+    .detail-item .value .status-badge.pd {
+        background: #fef2f2;
+        color: #dc2626;
+    }
+
+    .detail-item .value .status-badge.control {
+        background: #f0fdf4;
+        color: #16a34a;
+    }
+
+    .detail-item .value .status-badge.borderline {
+        background: #fffbeb;
+        color: #f59e0b;
+    }
+
+    .module-score {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+    }
+
+    .module-score .bar {
+        flex: 1;
+        height: 8px;
+        background: #e2e8f0;
+        border-radius: 4px;
+        overflow: hidden;
+        min-width: 60px;
+    }
+
+    .module-score .bar .fill {
+        height: 100%;
+        border-radius: 4px;
+        transition: width 1s ease;
+    }
+
+    .module-score .bar .fill.gait { background: #4A6CF7; }
+    .module-score .bar .fill.speech { background: #7c3aed; }
+    .module-score .bar .fill.questionnaire { background: #10b981; }
+
+    .module-score .score-text {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: #1a1a2e;
+        min-width: 45px;
+        text-align: right;
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-top: 24px;
+        padding-top: 20px;
+        border-top: 2px solid #f1f5f9;
+    }
+
+    .action-buttons .btn {
+        padding: 10px 24px;
+        border-radius: 10px;
+        font-weight: 600;
+        font-size: 0.85rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        text-decoration: none;
+        border: none;
+        font-family: inherit;
+    }
+
+    .action-buttons .btn-primary {
+        background: #4A6CF7;
+        color: white;
+    }
+
+    .action-buttons .btn-primary:hover {
+        background: #3b5de7;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 16px rgba(74,108,247,0.3);
+    }
+
+    .action-buttons .btn-outline {
+        background: transparent;
+        color: #475569;
+        border: 1.5px solid #e2e8f0;
+    }
+
+    .action-buttons .btn-outline:hover {
+        background: #f8fafc;
+        border-color: #4A6CF7;
+        color: #4A6CF7;
+    }
+
+    .action-buttons .btn-success {
+        background: #10b981;
+        color: white;
+    }
+
+    .action-buttons .btn-success:hover {
+        background: #059669;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 16px rgba(16,185,129,0.3);
+    }
+
+    .confidence-ring {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+    }
+
+    .confidence-ring .ring {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 0.9rem;
+        color: white;
+        flex-shrink: 0;
+    }
+
+    .confidence-ring .ring.high {
+        background: #16a34a;
+    }
+
+    .confidence-ring .ring.medium {
+        background: #f59e0b;
+    }
+
+    .confidence-ring .ring.low {
+        background: #dc2626;
+    }
+
+    .confidence-ring .ring-info .label {
+        font-size: 0.7rem;
+        color: #94a3b8;
+    }
+
+    .confidence-ring .ring-info .value {
+        font-size: 1rem;
+        font-weight: 700;
+        color: #1a1a2e;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+{% with lang=request.LANG|default:'en' %}
+
+<div class="detail-page">
+
+    <a href="{% url 'dashboard:dashboard' %}" class="back-link">
+        <i class="fa-solid fa-arrow-left"></i>
+        {% if lang == 'ur' %}ڈیش بورڈ پر واپس جائیں{% else %}Back to Dashboard{% endif %}
+    </a>
+
+    <div class="detail-card">
+
+        <!-- Header -->
+        <div class="detail-header">
+            <div class="title">
+                <h2>
+                    {% if lang == 'ur' %}
+                    اسکریننگ کی تفصیلات
+                    {% else %}
+                    Screening Details
+                    {% endif %}
+                </h2>
+                <div class="sub">
+                    <i class="fa-regular fa-hashtag"></i>
+                    {{ screening.screening_id }}
+                    <span style="margin:0 8px;">·</span>
+                    <i class="fa-regular fa-calendar"></i>
+                    {{ screening.created_at|date:"d M Y, h:i A" }}
+                </div>
+            </div>
+            <span class="risk-badge {{ screening.risk_level|lower }}">
+                {% if lang == 'ur' %}
+                    {% if screening.risk_level == 'Low' %}کم
+                    {% elif screening.risk_level == 'Medium' %}درمیانہ
+                    {% else %}زیادہ{% endif %}
+                {% else %}
+                    {{ screening.risk_level }}
+                {% endif %}
+                {% if lang == 'ur' %}خطرہ{% else %}Risk{% endif %}
+            </span>
+        </div>
+
+        <!-- Risk Score -->
+        <div class="detail-section">
+            <div class="section-title">
+                <i class="fa-solid fa-chart-simple"></i>
+                {% if lang == 'ur' %}رسک کا جائزہ{% else %}Risk Overview{% endif %}
+            </div>
+            <div class="detail-grid">
+                <div class="detail-item">
+                    <div class="label">
+                        {% if lang == 'ur' %}پی ڈی رسک سکور{% else %}PD Risk Score{% endif %}
+                    </div>
+                    <div class="value">{{ screening.final_pd_probability|floatformat:1 }}%</div>
+                </div>
+                <div class="detail-item">
+                    <div class="label">
+                        {% if lang == 'ur' %}اعتماد{% else %}Confidence{% endif %}
+                    </div>
+                    <div class="value">{{ screening.fusion_confidence|floatformat:1 }}%</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Module Results -->
+        <div class="detail-section">
+            <div class="section-title">
+                <i class="fa-solid fa-layer-group"></i>
+                {% if lang == 'ur' %}ماڈیول کے نتائج{% else %}Module Results{% endif %}
+            </div>
+
+            <!-- Gait -->
+            <div style="margin-bottom:12px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;font-size:0.85rem;">
+                    <span style="font-weight:600;color:#1a1a2e;">
+                        {% if lang == 'ur' %}چال کا تجزیہ{% else %}Gait Analysis{% endif %}
+                    </span>
+                    <span>
+                        <span class="status-badge {% if screening.gait_prediction == 'PD' %}pd{% elif screening.gait_prediction == 'Borderline' %}borderline{% else %}control{% endif %}">
+                            {{ screening.gait_prediction|default:"N/A" }}
+                        </span>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Speech -->
+            <div style="margin-bottom:12px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;font-size:0.85rem;">
+                    <span style="font-weight:600;color:#1a1a2e;">
+                        {% if lang == 'ur' %}آواز کا تجزیہ{% else %}Speech Analysis{% endif %}
+                    </span>
+                    <span>
+                        <span class="status-badge {% if screening.speech_prediction == 'PD' %}pd{% elif screening.speech_prediction == 'Borderline' %}borderline{% else %}control{% endif %}">
+                            {{ screening.speech_prediction|default:"N/A" }}
+                        </span>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Questionnaire -->
+            <div>
+                <div style="display:flex;justify-content:space-between;align-items:center;font-size:0.85rem;">
+                    <span style="font-weight:600;color:#1a1a2e;">
+                        {% if lang == 'ur' %}سوالنامہ{% else %}Questionnaire{% endif %}
+                    </span>
+                    <span>
+                        <span class="status-badge {% if screening.questionnaire_prediction == 'PD' %}pd{% elif screening.questionnaire_prediction == 'Borderline' %}borderline{% else %}control{% endif %}">
+                            {{ screening.questionnaire_prediction|default:"N/A" }}
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+            <a href="{% url 'fusion_app:report' %}" class="btn btn-primary">
+                <i class="fa-regular fa-file-lines"></i>
+                {% if lang == 'ur' %}مکمل رپورٹ دیکھیں{% else %}View Full Report{% endif %}
+            </a>
+            <a href="{% url 'dashboard:compare_screenings' %}?ids={{ screening.screening_id }}" class="btn btn-outline">
+                <i class="fa-solid fa-arrows-left-right"></i>
+                {% if lang == 'ur' %}موازنہ کریں{% else %}Compare{% endif %}
+            </a>
+            <a href="{% url 'questionnaire_app:home' %}" class="btn btn-success">
+                <i class="fa-solid fa-play"></i>
+                {% if lang == 'ur' %}نئی اسکریننگ{% else %}New Screening{% endif %}
+            </a>
+        </div>
+
+    </div>
+
+</div>
+
+{% endwith %}
+
+{% endblock %}

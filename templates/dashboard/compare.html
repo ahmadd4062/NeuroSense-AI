@@ -1,0 +1,434 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+{% if lang == 'ur' %}
+اسکریننگ کا موازنہ - نیوروسینس اے آئی
+{% else %}
+Compare Screenings - NeuroSense AI
+{% endif %}
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .compare-page {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 40px 20px 60px;
+    }
+
+    .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: #4A6CF7;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.9rem;
+        margin-bottom: 24px;
+        transition: all 0.3s ease;
+    }
+
+    .back-link:hover {
+        gap: 12px;
+    }
+
+    .compare-header {
+        text-align: center;
+        margin-bottom: 32px;
+    }
+
+    .compare-header h1 {
+        font-size: 1.8rem;
+        font-weight: 800;
+        color: #1a1a2e;
+        margin: 0;
+    }
+
+    .compare-header p {
+        color: #6b7280;
+        margin: 4px 0 0;
+    }
+
+    .compare-grid {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        gap: 20px;
+        align-items: start;
+    }
+
+    @media (max-width: 768px) {
+        .compare-grid {
+            grid-template-columns: 1fr;
+            gap: 16px;
+        }
+
+        .compare-vs {
+            display: flex;
+            justify-content: center;
+            padding: 8px 0;
+        }
+    }
+
+    .compare-card {
+        background: white;
+        border-radius: 16px;
+        padding: 24px 28px;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+
+    .compare-card .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 16px;
+        padding-bottom: 12px;
+        border-bottom: 2px solid #f1f5f9;
+    }
+
+    .compare-card .card-header .date {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: #1a1a2e;
+    }
+
+    .compare-card .card-header .id {
+        font-size: 0.7rem;
+        color: #94a3b8;
+        font-family: monospace;
+    }
+
+    .compare-card .risk-badge {
+        display: inline-block;
+        padding: 4px 16px;
+        border-radius: 30px;
+        font-size: 0.8rem;
+        font-weight: 700;
+        text-transform: uppercase;
+    }
+
+    .compare-card .risk-badge.low {
+        background: #f0fdf4;
+        color: #16a34a;
+    }
+
+    .compare-card .risk-badge.medium {
+        background: #fffbeb;
+        color: #f59e0b;
+    }
+
+    .compare-card .risk-badge.high {
+        background: #fef2f2;
+        color: #dc2626;
+    }
+
+    .compare-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 0;
+        border-bottom: 1px solid #f8fafc;
+        font-size: 0.9rem;
+    }
+
+    .compare-item:last-child {
+        border-bottom: none;
+    }
+
+    .compare-item .label {
+        color: #94a3b8;
+        font-weight: 500;
+    }
+
+    .compare-item .value {
+        font-weight: 600;
+        color: #1a1a2e;
+    }
+
+    .compare-item .value .status-badge {
+        display: inline-block;
+        padding: 1px 10px;
+        border-radius: 20px;
+        font-size: 0.7rem;
+        font-weight: 600;
+    }
+
+    .compare-item .value .status-badge.pd {
+        background: #fef2f2;
+        color: #dc2626;
+    }
+
+    .compare-item .value .status-badge.control {
+        background: #f0fdf4;
+        color: #16a34a;
+    }
+
+    .compare-item .value .status-badge.borderline {
+        background: #fffbeb;
+        color: #f59e0b;
+    }
+
+    .compare-vs {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        font-weight: 800;
+        color: #4A6CF7;
+        padding: 0 12px;
+    }
+
+    .compare-vs .line {
+        flex: 1;
+        height: 2px;
+        background: #e2e8f0;
+    }
+
+    .compare-vs .text {
+        padding: 0 16px;
+        background: white;
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: #4A6CF7;
+    }
+
+    .diff-indicator {
+        font-size: 0.75rem;
+        font-weight: 600;
+    }
+
+    .diff-indicator.up {
+        color: #dc2626;
+    }
+
+    .diff-indicator.down {
+        color: #16a34a;
+    }
+
+    .diff-indicator.same {
+        color: #94a3b8;
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 24px;
+        padding-top: 20px;
+        border-top: 2px solid #f1f5f9;
+    }
+
+    .action-buttons .btn {
+        padding: 10px 24px;
+        border-radius: 10px;
+        font-weight: 600;
+        font-size: 0.85rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        text-decoration: none;
+        border: none;
+        font-family: inherit;
+    }
+
+    .action-buttons .btn-primary {
+        background: #4A6CF7;
+        color: white;
+    }
+
+    .action-buttons .btn-primary:hover {
+        background: #3b5de7;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 16px rgba(74,108,247,0.3);
+    }
+
+    .action-buttons .btn-outline {
+        background: transparent;
+        color: #475569;
+        border: 1.5px solid #e2e8f0;
+    }
+
+    .action-buttons .btn-outline:hover {
+        background: #f8fafc;
+        border-color: #4A6CF7;
+        color: #4A6CF7;
+    }
+
+    .action-buttons .btn-success {
+        background: #10b981;
+        color: white;
+    }
+
+    .action-buttons .btn-success:hover {
+        background: #059669;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 16px rgba(16,185,129,0.3);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+{% with lang=request.LANG|default:'en' %}
+
+<div class="compare-page">
+
+    <a href="{% url 'dashboard:dashboard' %}" class="back-link">
+        <i class="fa-solid fa-arrow-left"></i>
+        {% if lang == 'ur' %}ڈیش بورڈ پر واپس جائیں{% else %}Back to Dashboard{% endif %}
+    </a>
+
+    <div class="compare-header">
+        <h1>
+            {% if lang == 'ur' %}
+            اسکریننگ کا موازنہ
+            {% else %}
+            Compare Screenings
+            {% endif %}
+        </h1>
+        <p>
+            {% if lang == 'ur' %}
+            دو اسکریننگز کا ساتھ ساتھ موازنہ کریں
+            {% else %}
+            Compare two screenings side by side
+            {% endif %}
+        </p>
+    </div>
+
+    <div class="compare-grid">
+
+        <!-- Screening 1 -->
+        <div class="compare-card">
+            <div class="card-header">
+                <div>
+                    <div class="date">{{ screening1.created_at|date:"d M Y, h:i A" }}</div>
+                    <div class="id">#{{ screening1.screening_id|truncatechars:12 }}</div>
+                </div>
+                <span class="risk-badge {{ screening1.risk_level|lower }}">
+                    {% if lang == 'ur' %}
+                        {% if screening1.risk_level == 'Low' %}کم
+                        {% elif screening1.risk_level == 'Medium' %}درمیانہ
+                        {% else %}زیادہ{% endif %}
+                    {% else %}
+                        {{ screening1.risk_level }}
+                    {% endif %}
+                </span>
+            </div>
+
+            <div class="compare-item">
+                <span class="label">{% if lang == 'ur' %}رسک سکور{% else %}Risk Score{% endif %}</span>
+                <span class="value">{{ screening1.final_pd_probability|floatformat:1 }}%</span>
+            </div>
+            <div class="compare-item">
+                <span class="label">{% if lang == 'ur' %}اعتماد{% else %}Confidence{% endif %}</span>
+                <span class="value">{{ screening1.fusion_confidence|floatformat:1 }}%</span>
+            </div>
+            <div class="compare-item">
+                <span class="label">{% if lang == 'ur' %}چال{% else %}Gait{% endif %}</span>
+                <span class="value">
+                    <span class="status-badge {% if screening1.gait_prediction == 'PD' %}pd{% elif screening1.gait_prediction == 'Borderline' %}borderline{% else %}control{% endif %}">
+                        {{ screening1.gait_prediction|default:"N/A" }}
+                    </span>
+                </span>
+            </div>
+            <div class="compare-item">
+                <span class="label">{% if lang == 'ur' %}آواز{% else %}Speech{% endif %}</span>
+                <span class="value">
+                    <span class="status-badge {% if screening1.speech_prediction == 'PD' %}pd{% elif screening1.speech_prediction == 'Borderline' %}borderline{% else %}control{% endif %}">
+                        {{ screening1.speech_prediction|default:"N/A" }}
+                    </span>
+                </span>
+            </div>
+            <div class="compare-item">
+                <span class="label">{% if lang == 'ur' %}سوالنامہ{% else %}Questionnaire{% endif %}</span>
+                <span class="value">
+                    <span class="status-badge {% if screening1.questionnaire_prediction == 'PD' %}pd{% elif screening1.questionnaire_prediction == 'Borderline' %}borderline{% else %}control{% endif %}">
+                        {{ screening1.questionnaire_prediction|default:"N/A" }}
+                    </span>
+                </span>
+            </div>
+        </div>
+
+        <!-- VS -->
+        <div class="compare-vs">
+            <span class="text">VS</span>
+        </div>
+
+        <!-- Screening 2 -->
+        <div class="compare-card">
+            <div class="card-header">
+                <div>
+                    <div class="date">{{ screening2.created_at|date:"d M Y, h:i A" }}</div>
+                    <div class="id">#{{ screening2.screening_id|truncatechars:12 }}</div>
+                </div>
+                <span class="risk-badge {{ screening2.risk_level|lower }}">
+                    {% if lang == 'ur' %}
+                        {% if screening2.risk_level == 'Low' %}کم
+                        {% elif screening2.risk_level == 'Medium' %}درمیانہ
+                        {% else %}زیادہ{% endif %}
+                    {% else %}
+                        {{ screening2.risk_level }}
+                    {% endif %}
+                </span>
+            </div>
+
+            <div class="compare-item">
+                <span class="label">{% if lang == 'ur' %}رسک سکور{% else %}Risk Score{% endif %}</span>
+                <span class="value">{{ screening2.final_pd_probability|floatformat:1 }}%</span>
+            </div>
+            <div class="compare-item">
+                <span class="label">{% if lang == 'ur' %}اعتماد{% else %}Confidence{% endif %}</span>
+                <span class="value">{{ screening2.fusion_confidence|floatformat:1 }}%</span>
+            </div>
+            <div class="compare-item">
+                <span class="label">{% if lang == 'ur' %}چال{% else %}Gait{% endif %}</span>
+                <span class="value">
+                    <span class="status-badge {% if screening2.gait_prediction == 'PD' %}pd{% elif screening2.gait_prediction == 'Borderline' %}borderline{% else %}control{% endif %}">
+                        {{ screening2.gait_prediction|default:"N/A" }}
+                    </span>
+                </span>
+            </div>
+            <div class="compare-item">
+                <span class="label">{% if lang == 'ur' %}آواز{% else %}Speech{% endif %}</span>
+                <span class="value">
+                    <span class="status-badge {% if screening2.speech_prediction == 'PD' %}pd{% elif screening2.speech_prediction == 'Borderline' %}borderline{% else %}control{% endif %}">
+                        {{ screening2.speech_prediction|default:"N/A" }}
+                    </span>
+                </span>
+            </div>
+            <div class="compare-item">
+                <span class="label">{% if lang == 'ur' %}سوالنامہ{% else %}Questionnaire{% endif %}</span>
+                <span class="value">
+                    <span class="status-badge {% if screening2.questionnaire_prediction == 'PD' %}pd{% elif screening2.questionnaire_prediction == 'Borderline' %}borderline{% else %}control{% endif %}">
+                        {{ screening2.questionnaire_prediction|default:"N/A" }}
+                    </span>
+                </span>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="action-buttons">
+        <a href="{% url 'dashboard:compare_screenings' %}" class="btn btn-outline">
+            <i class="fa-solid fa-rotate"></i>
+            {% if lang == 'ur' %}مختلف اسکریننگز منتخب کریں{% else %}Select Different Screenings{% endif %}
+        </a>
+        <a href="{% url 'dashboard:dashboard' %}" class="btn btn-primary">
+            <i class="fa-solid fa-arrow-left"></i>
+            {% if lang == 'ur' %}ڈیش بورڈ{% else %}Dashboard{% endif %}
+        </a>
+        <a href="{% url 'questionnaire_app:home' %}" class="btn btn-success">
+            <i class="fa-solid fa-play"></i>
+            {% if lang == 'ur' %}نئی اسکریننگ{% else %}New Screening{% endif %}
+        </a>
+    </div>
+
+</div>
+
+{% endwith %}
+
+{% endblock %}

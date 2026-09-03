@@ -30,4 +30,5 @@ urlpatterns = [
     path('recommendations/', include('recommendations_app.urls')),
     path('set-language/', set_language, name='set_language'),
     path('accounts/', include('accounts.urls')),
+    path('dashboard/', include('dashboard.urls')),
 ]

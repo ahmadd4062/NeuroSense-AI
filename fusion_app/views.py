@@ -78,6 +78,43 @@ def report_page(request):
         # Save to database
         saved_fusion = save_fusion_result(fusion_result, user)
         
+        # ==========================================
+        # SAVE TO SCREENING HISTORY (PROGRESS TRACKING)
+        # ==========================================
+        try:
+            from dashboard.models import ScreeningHistory
+            
+            # Check if this screening already exists
+            screening_id = fusion_result.get('screening_id')
+            if not ScreeningHistory.objects.filter(screening_id=screening_id).exists():
+                ScreeningHistory.objects.create(
+                    user=user,
+                    screening_id=screening_id,
+                    risk_level=fusion_result.get('risk_level', 'Low'),
+                    final_pd_probability=fusion_result.get('final_pd_probability', 0),
+                    fusion_confidence=fusion_result.get('fusion_confidence', 0),
+                    gait_prediction=fusion_result.get('modules', {}).get('gait', {}).get('prediction', 'N/A'),
+                    speech_prediction=fusion_result.get('modules', {}).get('speech', {}).get('prediction', 'N/A'),
+                    questionnaire_prediction=fusion_result.get('modules', {}).get('questionnaire', {}).get('prediction', 'N/A'),
+                )
+                logger.info(f"✅ Screening history saved for user {user.username}, screening: {screening_id}")
+                
+                # Update user profile stats
+                try:
+                    profile = user.profile
+                    profile.total_screenings += 1
+                    from django.utils import timezone
+                    profile.last_screening_date = timezone.now()
+                    profile.save()
+                    logger.info(f"✅ User profile updated: total_screenings={profile.total_screenings}")
+                except Exception as profile_error:
+                    logger.warning(f"Failed to update user profile: {str(profile_error)}")
+                    
+        except ImportError:
+            logger.warning("Dashboard app not installed. Skipping screening history save.")
+        except Exception as history_error:
+            logger.error(f"Failed to save screening history: {str(history_error)}")
+        
         # Store in session
         request.session['fusion_result'] = fusion_result
         request.session.modified = True
