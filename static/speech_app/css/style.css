@@ -3025,3 +3025,18 @@ html::-webkit-scrollbar-thumb {
 html::-webkit-scrollbar-thumb:hover {
     background: #74869d;
 }
+/* Navbar button hover fix */
+.nav-actions .btn-login:hover {
+    color: var(--primary);
+    background: #f4f8ff;
+    border-color: var(--primary);
+    box-shadow: 0 6px 16px rgba(11, 114, 239, 0.10);
+}
+
+.nav-actions .btn-login:hover::before {
+    transform: translateX(-102%);
+}
+
+.nav-actions .btn-login:hover i {
+    transform: none;
+}

@@ -3,137 +3,300 @@
 
 <header class="site-header">
     <div class="nav-container">
-        <a href="{% url 'speech_app:home' %}" class="brand" aria-label="NeuroSense AI home">
-            <img src="{% static 'speech_app/images/logo.png' %}" alt="NeuroSense AI">
+
+        <!-- LOGO -->
+        <a href="{% url 'speech_app:home' %}"
+           class="brand"
+           aria-label="NeuroSense AI home">
+            <img src="{% static 'speech_app/images/logo.png' %}"
+                 alt="NeuroSense AI">
         </a>
 
+
+        <!-- ========================= -->
+        <!-- DESKTOP NAVIGATION         -->
+        <!-- ========================= -->
+
         <nav class="desktop-nav" aria-label="Main navigation">
-            <a class="active" href="{% url 'speech_app:home' %}">
+
+            <!-- HOME -->
+            <a href="{% url 'speech_app:home' %}"
+               class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}"
+               data-nav="home">
                 {% if lang == 'ur' %}ہوم{% else %}Home{% endif %}
             </a>
-            <a href="#features">
+
+
+            <!-- FEATURES -->
+            <a href="{% url 'speech_app:home' %}#features"
+               data-section="features">
                 {% if lang == 'ur' %}خصوصیات{% else %}Features{% endif %}
             </a>
-            <a href="#how-it-works">
-                {% if lang == 'ur' %}یہ کیسے کام کرتا ہے{% else %}How It Works{% endif %}
+
+
+            <!-- HOW IT WORKS -->
+            <a href="{% url 'speech_app:home' %}#how-it-works"
+               data-section="how-it-works">
+                {% if lang == 'ur' %}
+                    یہ کیسے کام کرتا ہے
+                {% else %}
+                    How It Works
+                {% endif %}
             </a>
-            <a href="#about">
+
+
+            <!-- ABOUT US -->
+            <a href="{% url 'speech_app:home' %}#about"
+               data-section="about">
                 {% if lang == 'ur' %}ہمارے بارے میں{% else %}About Us{% endif %}
             </a>
-            <a href="{% url 'chatbot_app:chatbot' %}">
+
+
+            <!-- CHATBOT -->
+            <a href="{% url 'chatbot_app:chatbot' %}"
+               class="{% if request.resolver_match.url_name == 'chatbot' %}active{% endif %}"
+               data-nav="chatbot">
                 {% if lang == 'ur' %}چیٹ بوٹ{% else %}Chatbot{% endif %}
             </a>
-            <a href="{% url 'dashboard:dashboard' %}">
+
+
+            <!-- DASHBOARD -->
+            <a href="{% url 'dashboard:dashboard' %}"
+               class="{% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}"
+               data-nav="dashboard">
                 {% if lang == 'ur' %}ڈیش بورڈ{% else %}Dashboard{% endif %}
             </a>
+
         </nav>
 
+
+        <!-- ========================= -->
+        <!-- RIGHT SIDE ACTIONS         -->
+        <!-- ========================= -->
+
         <div class="nav-actions">
-            <!-- ========================================== -->
-            <!-- LANGUAGE TOGGLE - DESKTOP                  -->
-            <!-- ========================================== -->
+
+            <!-- LANGUAGE TOGGLE -->
             <div class="lang-toggle-wrapper">
+
                 <a href="{% url 'set_language' %}?lang=en&next={{ request.path }}"
-                    class="lang-btn {% if request.LANG == 'en' %}active{% endif %}" title="Switch to English">
+                   class="lang-btn {% if request.LANG == 'en' %}active{% endif %}"
+                   title="Switch to English">
                     <span class="lang-label">EN</span>
                 </a>
+
                 <span class="lang-divider">|</span>
+
                 <a href="{% url 'set_language' %}?lang=ur&next={{ request.path }}"
-                    class="lang-btn {% if request.LANG == 'ur' %}active{% endif %}" title="اردو میں تبدیل کریں">
+                   class="lang-btn {% if request.LANG == 'ur' %}active{% endif %}"
+                   title="اردو میں تبدیل کریں">
                     <span class="lang-label">اردو</span>
                 </a>
+
             </div>
 
+
             {% if user.is_authenticated %}
-            <!-- Show Profile & Logout when logged in -->
-            <a href="{% url 'accounts:profile' %}" class="btn btn-login">
-                <i class="fa-regular fa-user"></i>
-                {% if lang == 'ur' %}پروفائل{% else %}Profile{% endif %}
-            </a>
-            <a href="{% url 'accounts:logout' %}" class="btn btn-primary">
-                <i class="fa-solid fa-sign-out-alt"></i>
-                {% if lang == 'ur' %}لاگ آؤٹ{% else %}Logout{% endif %}
-            </a>
+
+                <!-- PROFILE -->
+                <a href="{% url 'accounts:profile' %}"
+                   class="btn btn-login">
+
+                    <i class="fa-regular fa-user"></i>
+
+                    {% if lang == 'ur' %}
+                        پروفائل
+                    {% else %}
+                        Profile
+                    {% endif %}
+
+                </a>
+
+
+                <!-- LOGOUT -->
+                <a href="{% url 'accounts:logout' %}"
+                   class="btn btn-primary">
+
+                    <i class="fa-solid fa-sign-out-alt"></i>
+
+                    {% if lang == 'ur' %}
+                        لاگ آؤٹ
+                    {% else %}
+                        Logout
+                    {% endif %}
+
+                </a>
+
             {% else %}
-            <!-- Show Login & Register when logged out -->
-            <a href="{% url 'accounts:login' %}" class="btn btn-login">
-                {% if lang == 'ur' %}لاگ ان{% else %}Log In{% endif %}
-            </a>
-            <a href="{% url 'accounts:register' %}" class="btn btn-primary">
-                {% if lang == 'ur' %}اکاؤنٹ بنائیں{% else %}Sign Up{% endif %}
-            </a>
+
+                <!-- LOGIN -->
+                <a href="{% url 'accounts:login' %}"
+                   class="btn btn-login">
+
+                    {% if lang == 'ur' %}
+                        لاگ ان
+                    {% else %}
+                        Log In
+                    {% endif %}
+
+                </a>
+
+
+                <!-- REGISTER -->
+                <a href="{% url 'accounts:register' %}"
+                   class="btn btn-primary">
+
+                    {% if lang == 'ur' %}
+                        اکاؤنٹ بنائیں
+                    {% else %}
+                        Sign Up
+                    {% endif %}
+
+                </a>
+
             {% endif %}
+
         </div>
 
-        <button class="menu-toggle" type="button" aria-label="Open navigation">
+
+        <!-- MOBILE MENU BUTTON -->
+        <button class="menu-toggle"
+                type="button"
+                aria-label="Open navigation"
+                aria-expanded="false">
+
             <i class="fa-solid fa-bars"></i>
+
         </button>
+
     </div>
 </header>
 
+
 <!-- ========================================== -->
-<!-- MOBILE NAV                                -->
+<!-- MOBILE NAV                                  -->
 <!-- ========================================== -->
+
 <nav class="mobile-nav" aria-label="Mobile navigation">
+
     <a href="{% url 'speech_app:home' %}">
         {% if lang == 'ur' %}ہوم{% else %}Home{% endif %}
     </a>
-    <a href="#features">
+
+    <a href="{% url 'speech_app:home' %}#features">
         {% if lang == 'ur' %}خصوصیات{% else %}Features{% endif %}
     </a>
-    <a href="#how-it-works">
-        {% if lang == 'ur' %}یہ کیسے کام کرتا ہے{% else %}How It Works{% endif %}
+
+    <a href="{% url 'speech_app:home' %}#how-it-works">
+        {% if lang == 'ur' %}
+            یہ کیسے کام کرتا ہے
+        {% else %}
+            How It Works
+        {% endif %}
     </a>
-    <a href="#about">
+
+    <a href="{% url 'speech_app:home' %}#about">
         {% if lang == 'ur' %}ہمارے بارے میں{% else %}About Us{% endif %}
     </a>
+
     <a href="{% url 'chatbot_app:chatbot' %}">
         {% if lang == 'ur' %}چیٹ بوٹ{% else %}Chatbot{% endif %}
     </a>
+
     <a href="{% url 'dashboard:dashboard' %}">
         {% if lang == 'ur' %}ڈیش بورڈ{% else %}Dashboard{% endif %}
     </a>
 
-    <!-- ========================================== -->
-    <!-- LANGUAGE TOGGLE - MOBILE                   -->
-    <!-- ========================================== -->
+
+    <!-- MOBILE LANGUAGE -->
+
     <div class="mobile-lang-toggle">
+
         <span class="mobile-lang-label">
-            {% if lang == 'ur' %}🌐 زبان{% else %}🌐 Language{% endif %}
+            {% if lang == 'ur' %}
+                🌐 زبان
+            {% else %}
+                🌐 Language
+            {% endif %}
         </span>
+
         <div class="mobile-lang-buttons">
+
             <a href="{% url 'set_language' %}?lang=en&next={{ request.path }}"
-                class="lang-btn-mobile {% if request.LANG == 'en' %}active{% endif %}">
+               class="lang-btn-mobile {% if request.LANG == 'en' %}active{% endif %}">
                 🇬🇧 English
             </a>
+
             <a href="{% url 'set_language' %}?lang=ur&next={{ request.path }}"
-                class="lang-btn-mobile {% if request.LANG == 'ur' %}active{% endif %}">
+               class="lang-btn-mobile {% if request.LANG == 'ur' %}active{% endif %}">
                 🇵🇰 اردو
             </a>
+
         </div>
+
     </div>
 
+
+    <!-- MOBILE ACTIONS -->
+
     <div class="mobile-nav-actions">
+
         {% if user.is_authenticated %}
-        <!-- Show Profile & Logout when logged in -->
-        <a href="{% url 'accounts:profile' %}" class="btn btn-login">
-            <i class="fa-regular fa-user"></i>
-            {% if lang == 'ur' %}پروفائل{% else %}Profile{% endif %}
-        </a>
-        <a href="{% url 'accounts:logout' %}" class="btn btn-primary">
-            <i class="fa-solid fa-sign-out-alt"></i>
-            {% if lang == 'ur' %}لاگ آؤٹ{% else %}Logout{% endif %}
-        </a>
+
+            <a href="{% url 'accounts:profile' %}"
+               class="btn btn-login">
+
+                <i class="fa-regular fa-user"></i>
+
+                {% if lang == 'ur' %}
+                    پروفائل
+                {% else %}
+                    Profile
+                {% endif %}
+
+            </a>
+
+            <a href="{% url 'accounts:logout' %}"
+               class="btn btn-primary">
+
+                <i class="fa-solid fa-sign-out-alt"></i>
+
+                {% if lang == 'ur' %}
+                    لاگ آؤٹ
+                {% else %}
+                    Logout
+                {% endif %}
+
+            </a>
+
         {% else %}
-        <!-- Show Login & Register when logged out -->
-        <a href="{% url 'accounts:login' %}" class="btn btn-login">
-            {% if lang == 'ur' %}لاگ ان{% else %}Log In{% endif %}
-        </a>
-        <a href="{% url 'accounts:register' %}" class="btn btn-primary">
-            {% if lang == 'ur' %}اکاؤنٹ بنائیں{% else %}Sign Up{% endif %}
-        </a>
+
+            <a href="{% url 'accounts:login' %}"
+               class="btn btn-login">
+
+                {% if lang == 'ur' %}
+                    لاگ ان
+                {% else %}
+                    Log In
+                {% endif %}
+
+            </a>
+
+            <a href="{% url 'accounts:register' %}"
+               class="btn btn-primary">
+
+                {% if lang == 'ur' %}
+                    اکاؤنٹ بنائیں
+                {% else %}
+                    Sign Up
+                {% endif %}
+
+            </a>
+
         {% endif %}
+
     </div>
+
 </nav>
 
 <!-- ========================================== -->
@@ -488,15 +651,16 @@
 <!-- SCRIPT                                    -->
 <!-- ========================================== -->
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function () {
 
-        const menuToggle = document.querySelector(".menu-toggle");
-        const mobileNav = document.querySelector(".mobile-nav");
+    const menuToggle = document.querySelector(".menu-toggle");
+    const mobileNav = document.querySelector(".mobile-nav");
 
-        if (!menuToggle || !mobileNav) {
-            console.log("Navbar elements not found");
-            return;
-        }
+    /* ==========================================
+       MOBILE MENU
+       ========================================== */
+
+    if (menuToggle && mobileNav) {
 
         menuToggle.addEventListener("click", function () {
 
@@ -512,9 +676,141 @@
                 "aria-expanded",
                 isOpen ? "true" : "false"
             );
+
         });
 
-    });
-</script>
+    }
 
+
+    /* ==========================================
+       SCROLLSPY
+       ========================================== */
+
+    const sectionLinks = document.querySelectorAll(
+        ".desktop-nav a[data-section]"
+    );
+
+    const sections = document.querySelectorAll(
+        "#features, #how-it-works, #about"
+    );
+
+    /*
+       Only run ScrollSpy on the HOME page.
+       On Chatbot/Dashboard/etc., their own
+       navigation item remains active.
+    */
+
+    const isHomePage =
+        window.location.pathname === "{% url 'speech_app:home' %}";
+
+
+    if (isHomePage && sections.length > 0) {
+
+        const observerOptions = {
+            root: null,
+            rootMargin: "-25% 0px -55% 0px",
+            threshold: 0
+        };
+
+
+        const observer = new IntersectionObserver(
+            function (entries) {
+
+                entries.forEach(function (entry) {
+
+                    if (entry.isIntersecting) {
+
+                        /* Remove active from everything */
+                        document
+                            .querySelectorAll(".desktop-nav a")
+                            .forEach(function (link) {
+                                link.classList.remove("active");
+                            });
+
+
+                        /* Activate matching section */
+                        const activeLink =
+                            document.querySelector(
+                                '.desktop-nav a[data-section="' +
+                                entry.target.id +
+                                '"]'
+                            );
+
+
+                        if (activeLink) {
+                            activeLink.classList.add("active");
+                        }
+
+                    }
+
+                });
+
+            },
+            observerOptions
+        );
+
+
+        sections.forEach(function (section) {
+            observer.observe(section);
+        });
+
+
+        /* ======================================
+           HOME TOP = HOME ACTIVE
+           ====================================== */
+
+        window.addEventListener("scroll", function () {
+
+            if (window.scrollY < 150) {
+
+                document
+                    .querySelectorAll(".desktop-nav a")
+                    .forEach(function (link) {
+                        link.classList.remove("active");
+                    });
+
+
+                const homeLink =
+                    document.querySelector(
+                        '.desktop-nav a[data-nav="home"]'
+                    );
+
+
+                if (homeLink) {
+                    homeLink.classList.add("active");
+                }
+
+            }
+
+        });
+
+
+        /* ======================================
+           CLICKED SECTION
+           ====================================== */
+
+        sectionLinks.forEach(function (link) {
+
+            link.addEventListener("click", function () {
+
+                sectionLinks.forEach(function (item) {
+                    item.classList.remove("active");
+                });
+
+                document
+                    .querySelector(
+                        '.desktop-nav a[data-nav="home"]'
+                    )
+                    ?.classList.remove("active");
+
+                this.classList.add("active");
+
+            });
+
+        });
+
+    }
+
+});
+</script>
 {% endwith %}

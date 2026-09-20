@@ -194,68 +194,77 @@ Manage Consent - NeuroSense AI
         padding-top: 20px;
         border-top: 1px solid #e2e8f0;
     }
+/* ==========================================
+   CONSENT PAGE BUTTONS
+   ========================================== */
 
-    .btn {
-        padding: 10px 24px;
-        border-radius: 10px;
-        font-weight: 600;
-        font-size: 0.85rem;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        text-decoration: none;
-        border: none;
-        font-family: inherit;
-        flex: 1;
-        justify-content: center;
-    }
+.consent-page .consent-btn {
+    padding: 10px 24px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-decoration: none;
+    font-family: inherit;
+    flex: 1;
+    border: 1.5px solid transparent;
+}
 
-    .btn-primary {
-        background: #4A6CF7;
-        color: white;
-    }
 
-    .btn-primary:hover {
-        background: #3b5de7;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 16px rgba(74,108,247,0.3);
-    }
+/* SAVE CONSENT */
 
-    .btn-outline {
-        background: transparent;
-        color: #475569;
-        border: 1.5px solid #e2e8f0;
-    }
+.consent-page .consent-btn-primary {
+    background: #4A6CF7;
+    color: #ffffff;
+    border-color: #4A6CF7;
+}
 
-    .btn-outline:hover {
-        background: #f8fafc;
-        border-color: #4A6CF7;
-        color: #4A6CF7;
-    }
+.consent-page .consent-btn-primary:hover {
+    background: #3b5de7;
+    border-color: #3b5de7;
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 14px rgba(74, 108, 247, 0.25);
+}
 
-    .btn-success {
-        background: #10b981;
-        color: white;
-    }
 
-    .btn-success:hover {
-        background: #059669;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 16px rgba(16,185,129,0.3);
-    }
+/* CANCEL */
 
-    .btn-danger {
-        background: #ef4444;
-        color: white;
-    }
+.consent-page .consent-btn-outline {
+    background: #ffffff;
+    color: #475569;
+    border-color: #e2e8f0;
+}
 
-    .btn-danger:hover {
-        background: #dc2626;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 16px rgba(239,68,68,0.3);
+.consent-page .consent-btn-outline:hover {
+    background: #f8fafc;
+    color: #4A6CF7;
+    border-color: #4A6CF7;
+    transform: translateY(-1px);
+    box-shadow: 0 3px 10px rgba(74, 108, 247, 0.10);
+}
+
+
+/* ICONS */
+
+.consent-page .consent-btn i {
+    font-size: 0.9rem;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+    .consent-page .consent-btn {
+        width: 100%;
+        flex: none;
     }
+}
 
     .messages {
         margin-bottom: 20px;
@@ -311,7 +320,7 @@ Manage Consent - NeuroSense AI
             flex-direction: column;
         }
 
-        .btn {
+      .consent-btn {
             flex: none;
             width: 100%;
         }
@@ -340,7 +349,7 @@ Manage Consent - NeuroSense AI
 
         <div class="consent-header">
             <div class="icon">
-                <i class="fa-regular fa-shield-halved"></i>
+                <i class="fa-solid fa-shield-halved"></i>
             </div>
             <h1>
                 {% if lang == 'ur' %}ڈیٹا کی رضایت کا انتظام{% else %}Manage Data Consent{% endif %}
@@ -368,9 +377,9 @@ Manage Consent - NeuroSense AI
         <div class="consent-status-box {% if profile.data_consent %}granted{% else %}not-granted{% endif %}">
             <div class="status-icon">
                 {% if profile.data_consent %}
-                <i class="fa-regular fa-circle-check" style="color:#10b981;"></i>
+                <i class="fa-solid fa-circle-check" style="color:#10b981;"></i>
                 {% else %}
-                <i class="fa-regular fa-circle-xmark" style="color:#d97706;"></i>
+                <i class="fa-solid fa-circle-xmark" style="color:#d97706;"></i>
                 {% endif %}
             </div>
             <div class="status-text">
@@ -396,7 +405,7 @@ Manage Consent - NeuroSense AI
         <!-- What Consent Means -->
         <div class="consent-details">
             <h3>
-                <i class="fa-regular fa-circle-info"></i>
+                <i class="fa-solid fa-circle-info"></i>
                 {% if lang == 'ur' %}رضایت کا کیا مطلب ہے؟{% else %}What Does Consent Mean?{% endif %}
             </h3>
             <p style="color:#475569;font-size:0.9rem;margin-bottom:12px;">
@@ -437,7 +446,7 @@ Manage Consent - NeuroSense AI
                 </li>
             </ul>
             <p style="color:#94a3b8;font-size:0.8rem;margin-top:12px;">
-                <i class="fa-regular fa-lock"></i>
+                <i class="fa-solid fa-lock"></i>
                 {% if lang == 'ur' %}
                 آپ کا ڈیٹا محفوظ طریقے سے ذخیرہ کیا جاتا ہے اور اس تک صرف آپ ہی رسائی حاصل کر سکتے ہیں۔
                 {% else %}
@@ -468,7 +477,7 @@ Manage Consent - NeuroSense AI
             </div>
 
             <p style="font-size:0.8rem;color:#94a3b8;margin-bottom:16px;">
-                <i class="fa-regular fa-circle-info"></i>
+                <i class="fa-solid fa-circle-info"></i>
                 {% if lang == 'ur' %}
                 رضایت واپس لینے سے آپ کا موجودہ ڈیٹا نہیں مٹے گا، لیکن نیا ڈیٹا جمع نہیں کیا جائے گا۔
                 مزید معلومات کے لیے ہماری <a href="#" class="privacy-link">پرائیویسی پالیسی</a> دیکھیں۔
@@ -479,13 +488,15 @@ Manage Consent - NeuroSense AI
             </p>
 
             <div class="form-actions">
-                <a href="{% url 'accounts:profile' %}" class="btn btn-outline">
-                    <i class="fa-solid fa-arrow-left"></i>
-                    {% if lang == 'ur' %}منسوخ کریں{% else %}Cancel{% endif %}
-                </a>
-                <button type="submit" class="btn btn-primary">
-                    <i class="fa-regular fa-floppy-disk"></i>
-                    {% if lang == 'ur' %}رضایت محفوظ کریں{% else %}Save Consent{% endif %}
+                <a href="{% url 'accounts:profile' %}" class="consent-btn consent-btn-outline">
+    <i class="fa-solid fa-arrow-left"></i>
+    {% if lang == 'ur' %}منسوخ کریں{% else %}Cancel{% endif %}
+</a>
+
+<button type="submit" class="consent-btn consent-btn-primary">
+    <i class="fa-solid fa-floppy-disk"></i>
+    {% if lang == 'ur' %}رضایت محفوظ کریں{% else %}Save Consent{% endif %}
+</button>
                 </button>
             </div>
 
