@@ -23,6 +23,7 @@
     box-sizing: border-box;
 }
 
+
 /* =====================================
    MAIN CHATBOT PAGE
 ===================================== */
@@ -912,13 +913,14 @@
     resize: none;
 
     background: transparent;
-
     color: var(--navy);
 
     font: inherit;
     font-size: 13px;
-
     line-height: 1.45;
+
+    text-align: left;
+    text-indent: 0;
 }
 
 #messageInput::placeholder {
@@ -995,6 +997,7 @@
 }
 
 [dir="rtl"] #messageInput {
+    direction: rtl;
     text-align: right;
 }
 
@@ -1221,91 +1224,114 @@
    URDU TYPOGRAPHY
 ========================================= */
 
+/* =========================================
+   URDU TYPOGRAPHY
+========================================= */
+
 body.urdu-mode .welcome-section > p {
-    font-size: 15px;
-    line-height: 2.1;
+    font-size: 13.5px;
+    line-height: 1.6;
 }
 
 body.urdu-mode .welcome-section h2 {
-    font-size: 28px;
-    line-height: 1.8;
+    font-size: 26px;
+    line-height: 1.4;
 }
-
 
 /* Suggestion cards */
 
 body.urdu-mode .suggestion-card strong {
-    font-size: 13px;
-    line-height: 1.8;
+    font-size: 11.5px;
+    line-height: 1.6;
 }
 
 body.urdu-mode .suggestion-card span {
-    font-size: 11.5px;
-    line-height: 1.9;
+    font-size: 9.5px;
+    line-height: 1.5;
 }
-
 
 /* Sidebar */
 
 body.urdu-mode .sidebar-card strong {
-    font-size: 12.5px;
-    line-height: 1.7;
+    font-size: 11.5px;
+    line-height: 1.6;
 }
 
 body.urdu-mode .sidebar-card span {
-    font-size: 11px;
-    line-height: 1.8;
+    font-size: 9.5px;
+    line-height: 1.5;
 }
 
 body.urdu-mode .sidebar-info-card strong {
-    font-size: 12px;
-    line-height: 1.7;
+    font-size: 10.5px;
+    line-height: 1.6;
 }
 
 body.urdu-mode .sidebar-info-card p {
-    font-size: 10.5px;
-    line-height: 1.9;
+    font-size: 9px;
+    line-height: 1.6;
 }
 
 body.urdu-mode .sidebar-label {
-    font-size: 10px;
+    font-size: 9px;
 }
-
 
 /* Header */
 
 body.urdu-mode .assistant-profile h1 {
-    font-size: 16px;
-    line-height: 1.7;
+    font-size: 15px;
+    line-height: 1.5;
 }
 
 body.urdu-mode .assistant-status {
-    font-size: 11px;
-    line-height: 1.7;
+    font-size: 10px;
+    line-height: 1.5;
 }
-
 
 /* Buttons */
 
 body.urdu-mode .new-chat-btn {
-    font-size: 13px;
+    font-size: 12.5px;
 }
-
 
 /* Bottom disclaimer */
 
 body.urdu-mode .chat-disclaimer {
-    font-size: 10.5px;
-    line-height: 1.8;
+    font-size: 9px;
+    line-height: 1.5;
 }
-
 
 /* Actual conversation */
 
 body.urdu-mode .message-bubble {
-    font-size: 14px;
-    line-height: 2;
+    font-size: 12px;
+    line-height: 1.7;
 }
-.message-bubble strong {
-    font-weight: 700;
+/* ===== CENTERED COMPACT SUGGESTION CARDS ===== */
+
+/* =========================================
+   FINAL WELCOME LAYOUT
+   ========================================= */
+.welcome-section {
+    width: 880px;
+    max-width: 100%;
+    margin: -15px auto 0;
+}
+
+.suggestion-grid {
+    width: 880px;
+    max-width: 100%;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.suggestion-card {
+    min-height: 82px;
+    padding: 11px 14px;
+}
+.welcome-section > p {
+    max-width: 690px;
+    margin: 0 auto 18px;
 }

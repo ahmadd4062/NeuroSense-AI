@@ -129,6 +129,47 @@ My Profile - NeuroSense AI
         transform: translateY(-2px);
         box-shadow: 0 4px 16px rgba(239,68,68,0.3);
     }
+ /* ==========================================
+   PROFILE LOGOUT - FORCE CORRECT STYLING
+   ========================================== */
+
+/* Logout button */
+.profile-actions .profile-logout {
+    padding: 10px 22px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-decoration: none;
+
+    background: #ffffff;
+    color: #475569;
+    border: 1.5px solid #e2e8f0;
+
+    transition: all 0.25s ease;
+}
+
+/* Logout hover */
+.profile-actions .profile-logout:hover {
+    background: #f8fafc;
+    color: #4A6CF7;
+    border-color: #4A6CF7;
+    transform: translateY(-1px);
+    box-shadow: 0 3px 10px rgba(74, 108, 247, 0.12);
+}
+
+/* Logout icon */
+.profile-actions .profile-logout i {
+    color: #475569;
+}
+
+.profile-actions .profile-logout:hover i {
+    color: #4A6CF7;
+}
 
     .profile-grid {
         display: grid;
@@ -323,6 +364,42 @@ My Profile - NeuroSense AI
     .consent-status i {
         font-size: 1rem;
     }
+
+    .profile-consent-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    width: 100%;
+    margin-top: 12px;
+    padding: 10px 16px;
+
+    background: transparent;
+    color: #475569;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 10px;
+
+    font-size: 0.85rem;
+    font-weight: 600;
+    font-family: inherit;
+    text-decoration: none;
+
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.profile-consent-btn:hover {
+    background: #f8fafc;
+    border-color: #4A6CF7;
+    color: #4A6CF7;
+    transform: translateY(-1px);
+    box-shadow: 0 3px 10px rgba(74, 108, 247, 0.12);
+}
+
+.profile-consent-btn i {
+    font-size: 0.9rem;
+}
 </style>
 {% endblock %}
 
@@ -353,10 +430,10 @@ My Profile - NeuroSense AI
                 <i class="fa-regular fa-pen-to-square"></i>
                 {% if lang == 'ur' %}پروفائل میں ترمیم کریں{% else %}Edit Profile{% endif %}
             </a>
-            <a href="{% url 'accounts:logout' %}" class="btn btn-outline">
-                <i class="fa-solid fa-sign-out-alt"></i>
-                {% if lang == 'ur' %}لاگ آؤٹ{% else %}Log Out{% endif %}
-            </a>
+            <a href="{% url 'accounts:logout' %}" class="profile-logout">
+            <i class="fa-solid fa-sign-out-alt"></i>
+            {% if lang == 'ur' %}لاگ آؤٹ{% else %}Log Out{% endif %}
+        </a>
         </div>
     </div>
 
@@ -452,10 +529,10 @@ My Profile - NeuroSense AI
                 </div>
             </div>
 
-            <a href="{% url 'accounts:manage_consent' %}" class="btn btn-outline" style="margin-top:12px; width:100%; justify-content:center;">
-                <i class="fa-regular fa-shield-halved"></i>
-                {% if lang == 'ur' %}رضایت کا انتظام کریں{% else %}Manage Consent{% endif %}
-            </a>
+            <a href="{% url 'accounts:manage_consent' %}" class="profile-consent-btn">
+    <i class="fa-solid fa-shield-halved"></i>
+    {% if lang == 'ur' %}رضایت کا انتظام کریں{% else %}Manage Consent{% endif %}
+</a>
         </div>
 
         <!-- ===== RIGHT COLUMN - SCREENING HISTORY ===== -->

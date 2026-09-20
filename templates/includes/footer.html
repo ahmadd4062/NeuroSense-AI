@@ -32,23 +32,30 @@
             </div>
 
             <div class="footer-column">
-                <h3>
-                    {% if lang == 'ur' %}فوری روابط{% else %}Quick Links{% endif %}
-                </h3>
+    <h3>
+        {% if lang == 'ur' %}فوری روابط{% else %}Quick Links{% endif %}
+    </h3>
 
-                <a href="{% url 'speech_app:home' %}">
-                    {% if lang == 'ur' %}ہوم{% else %}Home{% endif %}
-                </a>
-                <a href="#about">
-                    {% if lang == 'ur' %}ہمارے بارے میں{% else %}About Us{% endif %}
-                </a>
-                <a href="#early-signs">
-                    {% if lang == 'ur' %}ابتدائی علامات{% else %}Early Signs{% endif %}
-                </a>
-                <a href="#features">
-                    {% if lang == 'ur' %}تشخیصات{% else %}Assessments{% endif %}
-                </a>
-            </div>
+    <!-- Home -->
+    <a href="{% url 'speech_app:home' %}">
+        {% if lang == 'ur' %}ہوم{% else %}Home{% endif %}
+    </a>
+
+    <!-- About Us -->
+    <a href="{% url 'speech_app:home' %}#about">
+        {% if lang == 'ur' %}ہمارے بارے میں{% else %}About Us{% endif %}
+    </a>
+
+    <!-- Early Signs / How It Works -->
+    <a href="{% url 'speech_app:home' %}#early-signs">
+        {% if lang == 'ur' %}ابتدائی علامات{% else %}Early Signs{% endif %}
+    </a>
+
+    <!-- Features -->
+    <a href="{% url 'speech_app:home' %}#features">
+        {% if lang == 'ur' %}تشخیصات{% else %}Assessments{% endif %}
+    </a>
+</div>
 
             <div class="footer-column">
                 <h3>

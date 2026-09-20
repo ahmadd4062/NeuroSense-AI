@@ -9,12 +9,18 @@ const newChatBtn = document.getElementById("newChatBtn");
 // LANGUAGE - Now uses centralized toggle from Django
 // ==========================================
 // Get language from Django template variable
-// This is set in the HTML via CURRENT_LANG
-const CURRENT_LANG = typeof CURRENT_LANG !== 'undefined' ? CURRENT_LANG : 'en';
+// ==========================================
+// LANGUAGE - Controlled by Django / Navbar
+// ==========================================
 
-const suggestionCards = document.querySelectorAll(".suggestion-card");
+const suggestionCards =
+    document.querySelectorAll(".suggestion-card");
 
-let currentLanguage = CURRENT_LANG;
+let currentLanguage =
+    typeof CURRENT_LANG !== "undefined"
+        ? CURRENT_LANG
+        : "en";
+
 let isSending = false;
 
 function getCSRFToken() {
