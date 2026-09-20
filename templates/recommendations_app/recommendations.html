@@ -5,37 +5,85 @@
 
 {% block extra_css %}
 <style>
+    /* ============================================
+       NEUROSENSE AI — CLINICAL RECOMMENDATIONS
+       Aligned with the gait / landing page system:
+       navy headings, #4A6CF7 accent, cool tints.
+       ============================================ */
 
-    /* --- Hero Section --- */
+    .rec-page {
+        --primary: #4A6CF7;
+        --primary-dark: #3B5DE7;
+        --primary-soft: #EEF2FF;
+        --primary-tint: #E0E7FF;
+        --primary-gradient: linear-gradient(135deg, #4A6CF7 0%, #7c3aed 100%);
+        --ink: #0B1B3A;
+        --success: #10B981;
+        --success-light: #ECFDF5;
+        --success-ink: #065F46;
+        --danger: #EF4444;
+        --danger-light: #FEF2F2;
+        --danger-ink: #991B1B;
+        --warning: #F59E0B;
+        --warning-light: #FFFBEB;
+        --warning-ink: #92400E;
+        --gray-50: #F8FAFC;
+        --gray-100: #F1F5F9;
+        --gray-200: #E7EDF5;
+        --gray-300: #CBD5E1;
+        --gray-400: #94A3B8;
+        --gray-500: #64748B;
+        --gray-600: #475569;
+        --gray-700: #334155;
+        --gray-900: #0F172A;
+        --shadow-sm: 0 1px 2px rgba(11, 27, 58, 0.05);
+        --shadow-md: 0 10px 30px rgba(11, 27, 58, 0.07);
+        --radius-sm: 10px;
+        --radius-md: 14px;
+        --radius-lg: 18px;
+        --radius-xl: 24px;
+        --transition: all 0.2s ease;
+    }
+
+    .rec-page :focus-visible {
+        outline: 3px solid rgba(74, 108, 247, 0.45);
+        outline-offset: 2px;
+        border-radius: 6px;
+    }
+
+    /* ==========================================
+       HERO
+       ========================================== */
     .rec-hero {
         background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
-        padding: 60px 20px 50px;
+        padding: 64px 20px 76px;
         text-align: center;
         position: relative;
         overflow: hidden;
-        margin-bottom: 40px;
     }
 
     .rec-hero::before {
         content: '';
         position: absolute;
         top: -50%;
-        right: -20%;
-        width: 400px;
-        height: 400px;
-        background: radial-gradient(circle, rgba(74,108,247,0.08) 0%, transparent 70%);
+        right: -15%;
+        width: 440px;
+        height: 440px;
+        background: radial-gradient(circle, rgba(74, 108, 247, 0.12) 0%, transparent 70%);
         border-radius: 50%;
+        pointer-events: none;
     }
 
     .rec-hero::after {
         content: '';
         position: absolute;
-        bottom: -40%;
-        left: -10%;
-        width: 300px;
-        height: 300px;
-        background: radial-gradient(circle, rgba(74,108,247,0.06) 0%, transparent 70%);
+        bottom: -45%;
+        left: -8%;
+        width: 340px;
+        height: 340px;
+        background: radial-gradient(circle, rgba(124, 58, 237, 0.08) 0%, transparent 70%);
         border-radius: 50%;
+        pointer-events: none;
     }
 
     .rec-hero-content {
@@ -49,41 +97,39 @@
         display: inline-flex;
         align-items: center;
         gap: 8px;
-        background: rgba(74,108,247,0.12);
+        background: rgba(255, 255, 255, 0.75);
         color: #4A6CF7;
         padding: 6px 18px;
-        border-radius: 20px;
+        border-radius: 99px;
         font-size: 0.7rem;
-        font-weight: 600;
+        font-weight: 700;
         letter-spacing: 0.06em;
         text-transform: uppercase;
-        margin-bottom: 16px;
-        border: 1px solid rgba(74,108,247,0.15);
-    }
-
-    .rec-hero-badge i {
-        font-size: 0.75rem;
+        margin-bottom: 18px;
+        border: 1px solid rgba(74, 108, 247, 0.2);
+        backdrop-filter: blur(4px);
     }
 
     .rec-hero h1 {
         font-size: 2.8rem;
         font-weight: 800;
-        color: #1a1a2e;
-        margin: 0 0 12px;
-        line-height: 1.2;
+        color: #0F172A;
+        margin: 0 0 14px;
+        line-height: 1.15;
+        letter-spacing: -0.025em;
     }
 
     .rec-hero h1 span {
-        background: linear-gradient(135deg, #4A6CF7 0%, #3b5de7 100%);
+        background: linear-gradient(135deg, #4A6CF7 0%, #7c3aed 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
     }
 
     .rec-hero p {
-        font-size: 1.1rem;
+        font-size: 1.08rem;
         color: #475569;
-        max-width: 600px;
+        max-width: 620px;
         margin: 0 auto;
         line-height: 1.7;
     }
@@ -91,106 +137,195 @@
     .rec-hero-stats {
         display: flex;
         justify-content: center;
-        gap: 40px;
+        gap: 10px;
         margin-top: 28px;
         flex-wrap: wrap;
     }
 
     .rec-hero-stat {
-        display: flex;
+        display: inline-flex;
         align-items: center;
-        gap: 10px;
+        gap: 9px;
         color: #475569;
-        font-size: 0.85rem;
+        font-size: 0.82rem;
+        background: rgba(255, 255, 255, 0.7);
+        border: 1px solid rgba(74, 108, 247, 0.14);
+        padding: 8px 16px;
+        border-radius: 99px;
     }
 
     .rec-hero-stat i {
         color: #4A6CF7;
-        font-size: 1rem;
-        width: 20px;
-        text-align: center;
     }
 
     .rec-hero-stat strong {
-        color: #1a1a2e;
+        color: #0F172A;
         font-weight: 700;
     }
 
-    /* --- Risk Summary Card --- */
+    /* ==========================================
+       CONTAINER (overlaps hero)
+       ========================================== */
+    .rec-container {
+        max-width: 1000px;
+        margin: -40px auto 0;
+        padding: 0 20px 72px;
+        position: relative;
+        z-index: 2;
+    }
+
+    /* ==========================================
+       RISK SUMMARY
+       ========================================== */
     .risk-summary-card {
-        background: white;
-        border-radius: 16px;
-        padding: 24px 32px;
-        border: 1px solid #e2e8f0;
-        box-shadow: 0 2px 12px rgba(0,0,0,0.04);
-        margin-bottom: 28px;
-        display: flex;
-        justify-content: space-between;
+        background: #FFFFFF;
+        border-radius: var(--radius-lg);
+        padding: 24px 30px;
+        border: 1px solid var(--gray-200);
+        box-shadow: var(--shadow-md);
+        margin-bottom: 22px;
+        display: grid;
+        grid-template-columns: auto minmax(200px, 1fr) auto;
         align-items: center;
-        flex-wrap: wrap;
-        gap: 16px;
+        gap: 32px;
+        border-top: 4px solid var(--gray-300);
+    }
+
+    .risk-summary-card.low {
+        border-top-color: var(--success);
+    }
+
+    .risk-summary-card.medium {
+        border-top-color: var(--warning);
+    }
+
+    .risk-summary-card.high {
+        border-top-color: var(--danger);
     }
 
     .risk-summary-left {
         display: flex;
         align-items: center;
-        gap: 16px;
+        gap: 14px;
     }
 
     .risk-summary-left .risk-dot {
-        width: 14px;
-        height: 14px;
-        border-radius: 50%;
+        width: 46px;
+        height: 46px;
+        border-radius: 14px;
         flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.1rem;
+        color: #FFFFFF;
     }
 
-    .risk-summary-left .risk-dot.low { background: #16a34a; }
-    .risk-summary-left .risk-dot.medium { background: #d97706; }
-    .risk-summary-left .risk-dot.high { background: #dc2626; }
+    .risk-dot.low {
+        background: var(--success);
+        box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+    }
+
+    .risk-dot.medium {
+        background: var(--warning);
+        box-shadow: 0 8px 20px rgba(245, 158, 11, 0.3);
+    }
+
+    .risk-dot.high {
+        background: var(--danger);
+        box-shadow: 0 8px 20px rgba(239, 68, 68, 0.3);
+    }
 
     .risk-summary-left .risk-label {
-        font-size: 0.8rem;
-        color: #94a3b8;
-        font-weight: 500;
+        display: block;
+        font-size: 0.72rem;
+        color: var(--gray-400);
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        margin-bottom: 2px;
     }
 
     .risk-summary-left .risk-value {
-        font-size: 1.1rem;
-        font-weight: 700;
-        color: #1a1a2e;
+        display: block;
+        font-size: 1.25rem;
+        font-weight: 800;
+        color: var(--ink);
+        letter-spacing: -0.01em;
     }
 
     .risk-summary-left .risk-score {
-        font-size: 0.85rem;
-        color: #6b7280;
+        font-size: 0.82rem;
+        font-weight: 500;
+        color: var(--gray-500);
         margin-left: 4px;
+    }
+
+    /* Probability meter */
+    .risk-meter {
+        min-width: 0;
+    }
+
+    .risk-meter-track {
+        position: relative;
+        height: 10px;
+        border-radius: 99px;
+        background: linear-gradient(90deg, #10B981 0%, #F59E0B 55%, #EF4444 100%);
+        opacity: 0.9;
+    }
+
+    .risk-meter-marker {
+        position: absolute;
+        top: 50%;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: #FFFFFF;
+        border: 4px solid var(--ink);
+        transform: translate(-50%, -50%);
+        box-shadow: 0 2px 8px rgba(11, 27, 58, 0.25);
+    }
+
+    .risk-meter-scale {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 8px;
+        font-size: 0.7rem;
+        color: var(--gray-400);
+        font-weight: 600;
     }
 
     .risk-summary-right {
         display: flex;
-        gap: 20px;
+        flex-direction: column;
+        gap: 8px;
         font-size: 0.8rem;
-        color: #6b7280;
+        color: var(--gray-500);
     }
 
     .risk-summary-right span {
         display: flex;
         align-items: center;
-        gap: 6px;
+        gap: 8px;
+        white-space: nowrap;
     }
 
     .risk-summary-right i {
-        color: #4A6CF7;
+        color: var(--primary);
+        width: 16px;
+        text-align: center;
     }
 
-    /* --- Main Recommendations Card --- */
+    /* ==========================================
+       MAIN CARD
+       ========================================== */
     .rec-main-card {
-        background: white;
-        border-radius: 16px;
-        padding: 40px 44px;
-        border: 1px solid #e2e8f0;
-        box-shadow: 0 4px 24px rgba(0,0,0,0.04);
-        margin-bottom: 28px;
+        background: #FFFFFF;
+        border-radius: var(--radius-xl);
+        border: 1px solid var(--gray-200);
+        box-shadow: var(--shadow-md);
+        margin-bottom: 24px;
+        overflow: hidden;
     }
 
     .rec-main-header {
@@ -199,9 +334,9 @@
         align-items: center;
         flex-wrap: wrap;
         gap: 16px;
-        margin-bottom: 28px;
-        padding-bottom: 20px;
-        border-bottom: 2px solid #f1f5f9;
+        padding: 24px 44px;
+        border-bottom: 1px solid var(--gray-100);
+        background: linear-gradient(180deg, #FBFCFF 0%, #FFFFFF 100%);
     }
 
     .rec-main-header .header-left {
@@ -213,25 +348,27 @@
     .rec-main-header .header-icon {
         width: 48px;
         height: 48px;
-        background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
-        border-radius: 12px;
+        background: var(--primary-gradient);
+        border-radius: 14px;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 1.4rem;
-        color: #4A6CF7;
+        font-size: 1.25rem;
+        color: #FFFFFF;
+        box-shadow: 0 8px 20px rgba(74, 108, 247, 0.28);
     }
 
     .rec-main-header .header-title h2 {
         font-size: 1.2rem;
-        font-weight: 700;
-        color: #1a1a2e;
-        margin: 0;
+        font-weight: 800;
+        color: var(--ink);
+        margin: 0 0 2px;
+        letter-spacing: -0.02em;
     }
 
     .rec-main-header .header-title p {
-        font-size: 0.8rem;
-        color: #94a3b8;
+        font-size: 0.82rem;
+        color: var(--gray-500);
         margin: 0;
     }
 
@@ -239,434 +376,636 @@
         display: flex;
         align-items: center;
         gap: 8px;
-        background: #f1f5f9;
-        padding: 6px 16px;
-        border-radius: 20px;
-        font-size: 0.7rem;
-        color: #6b7280;
-        font-weight: 500;
+        background: var(--success-light);
+        border: 1px solid #A7F3D0;
+        padding: 6px 14px;
+        border-radius: 99px;
+        font-size: 0.72rem;
+        color: var(--success-ink);
+        font-weight: 600;
     }
 
     .rec-main-header .header-badge .dot {
-        width: 6px;
-        height: 6px;
-        background: #10b981;
+        width: 7px;
+        height: 7px;
+        background: var(--success);
         border-radius: 50%;
         animation: pulse-dot 2s infinite;
     }
 
     @keyframes pulse-dot {
-        0%, 100% { opacity: 1; }
-        50% { opacity: 0.3; }
+
+        0%,
+        100% {
+            opacity: 1;
+        }
+
+        50% {
+            opacity: 0.3;
+        }
     }
 
+    .rec-main-body {
+        padding: 32px 44px 36px;
+    }
+
+    /* ---------- In-page navigation (built by JS) ---------- */
+    .rec-toc {
+        display: none;
+        margin: 0 0 30px;
+        padding: 16px 18px;
+        background: var(--gray-50);
+        border: 1px solid var(--gray-200);
+        border-radius: var(--radius-md);
+    }
+
+    .rec-toc.show {
+        display: block;
+    }
+
+    .rec-toc-title {
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--gray-500);
+        margin: 0 0 10px;
+    }
+
+    .rec-toc-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .rec-toc-list a {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 7px 14px;
+        background: #FFFFFF;
+        border: 1px solid var(--gray-200);
+        border-radius: 99px;
+        font-size: 0.79rem;
+        font-weight: 600;
+        color: var(--gray-700);
+        text-decoration: none;
+        transition: var(--transition);
+    }
+
+    .rec-toc-list a:hover {
+        border-color: var(--primary);
+        color: var(--primary);
+        background: var(--primary-soft);
+    }
+
+    .rec-toc-list a .n {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: var(--primary-soft);
+        color: var(--primary);
+        font-size: 0.68rem;
+        font-weight: 800;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* ==========================================
+       GENERATED CONTENT
+       (class names come from clean_markdown)
+       ========================================== */
     .rec-content {
         font-size: 0.95rem;
         line-height: 1.8;
-        color: #1a1a2e;
+        color: var(--gray-700);
+        counter-reset: sec;
     }
 
-    /* --- H1 - Main Title --- */
     .rec-content .rec-h1 {
-        font-size: 1.4rem;
+        font-size: 1.5rem;
         font-weight: 800;
-        color: #1a1a2e;
-        margin: 28px 0 16px 0;
-        padding-bottom: 12px;
-        border-bottom: 2px solid #e2e8f0;
+        color: var(--ink);
+        letter-spacing: -0.02em;
+        margin: 8px 0 18px;
+        padding-bottom: 14px;
+        border-bottom: 2px solid var(--gray-100);
     }
 
-    /* --- H2 - Main Section Headings --- */
     .rec-content .rec-h2 {
-        font-size: 1.15rem;
+        counter-increment: sec;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        font-size: 1.12rem;
         font-weight: 700;
-        color: #1a1a2e;
-        margin: 32px 0 16px 0;
-        padding: 12px 16px;
-        background: #f8fafc;
-        border-radius: 8px;
-        border-left: 4px solid #4A6CF7;
+        color: var(--ink);
+        margin: 40px 0 16px;
+        padding: 14px 18px;
+        background: linear-gradient(90deg, var(--primary-soft) 0%, #FFFFFF 100%);
+        border: 1px solid var(--primary-tint);
+        border-radius: var(--radius-md);
         letter-spacing: -0.01em;
+        scroll-margin-top: 90px;
     }
 
-    /* --- H3 - Sub-section Headings --- */
+    .rec-content .rec-h2::before {
+        content: counter(sec);
+        flex-shrink: 0;
+        width: 30px;
+        height: 30px;
+        border-radius: 9px;
+        background: var(--primary);
+        color: #FFFFFF;
+        font-size: 0.85rem;
+        font-weight: 800;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 12px rgba(74, 108, 247, 0.3);
+    }
+
     .rec-content .rec-h3 {
         font-size: 1rem;
-        font-weight: 600;
-        color: #4A6CF7;
-        margin: 20px 0 10px 0;
-        padding-left: 4px;
+        font-weight: 700;
+        color: var(--primary);
+        margin: 24px 0 8px;
+        padding-inline-start: 12px;
+        border-inline-start: 3px solid var(--primary-tint);
     }
 
-    /* --- H4 - Sub-sub-section Headings --- */
     .rec-content .rec-h4 {
         font-size: 0.92rem;
-        font-weight: 600;
-        color: #1a1a2e;
-        margin: 16px 0 8px 0;
-        padding-left: 4px;
+        font-weight: 700;
+        color: var(--ink);
+        margin: 16px 0 6px;
     }
 
-    /* --- Paragraphs --- */
     .rec-content .rec-p {
         margin: 8px 0;
-        color: #334155;
+        color: var(--gray-700);
         line-height: 1.8;
     }
 
-    /* --- Unordered Lists --- */
+    /* ---------- Lists ---------- */
     .rec-content .rec-list {
-        margin: 10px 0 14px 0;
-        padding-left: 0;
+        margin: 12px 0 16px;
+        padding: 0;
         list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
     }
 
     .rec-content .rec-list li {
-        margin-bottom: 8px;
-        color: #334155;
-        padding-left: 28px;
         position: relative;
+        padding: 11px 16px 11px 44px;
+        background: var(--gray-50);
+        border: 1px solid var(--gray-100);
+        border-radius: var(--radius-sm);
+        color: var(--gray-700);
         line-height: 1.7;
+        transition: var(--transition);
     }
 
-    .rec-content .rec-list li::before {
+    .rec-content .rec-list li:hover {
+        border-color: var(--primary-tint);
+        background: #FFFFFF;
+        box-shadow: var(--shadow-sm);
+    }
+
+    .rec-content ul.rec-list li::before {
         content: '';
         position: absolute;
-        left: 4px;
-        top: 10px;
-        width: 8px;
-        height: 8px;
-        background: #4A6CF7;
+        left: 17px;
+        top: 20px;
+        width: 9px;
+        height: 9px;
+        background: var(--primary);
         border-radius: 50%;
-        opacity: 0.5;
-        flex-shrink: 0;
+        box-shadow: 0 0 0 4px var(--primary-soft);
     }
 
-    .rec-content .rec-list li strong {
-        color: #1a1a2e;
-    }
-
-    /* --- Ordered Lists --- */
-    .rec-content .rec-ol {
-        margin: 10px 0 14px 0;
-        padding-left: 0;
-        list-style: none;
+    .rec-content ol.rec-list {
         counter-reset: item;
     }
 
-    .rec-content .rec-ol li {
-        margin-bottom: 8px;
-        color: #334155;
-        padding-left: 32px;
-        position: relative;
-        line-height: 1.7;
+    .rec-content ol.rec-list li {
         counter-increment: item;
     }
 
-    .rec-content .rec-ol li::before {
-        content: counter(item) ".";
+    .rec-content ol.rec-list li::before {
+        content: counter(item);
         position: absolute;
-        left: 0;
-        top: 0;
-        color: #4A6CF7;
+        left: 11px;
+        top: 11px;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: var(--primary);
+        color: #FFFFFF;
         font-weight: 700;
-        font-size: 0.85rem;
+        font-size: 0.75rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
-    .rec-content .rec-ol li strong {
-        color: #1a1a2e;
-    }
-
-    /* --- Bold / Strong --- */
     .rec-content strong {
-        color: #1a1a2e;
+        color: var(--ink);
         font-weight: 700;
     }
 
-    /* --- Italic --- */
     .rec-content em {
-        color: #4A6CF7;
+        color: var(--primary);
         font-style: italic;
     }
 
-    /* --- Disclaimer Block --- */
+    /* ---------- Callout blocks ---------- */
     .rec-content .disclaimer-block {
-        background: #fef3c7;
-        border: 1px solid #f59e0b;
-        border-radius: 12px;
-        padding: 18px 22px;
-        margin-bottom: 28px;
+        background: var(--warning-light);
+        border: 1px solid #FDE68A;
+        border-inline-start: 4px solid var(--warning);
+        border-radius: var(--radius-md);
+        padding: 16px 20px;
+        margin: 20px 0;
         display: flex;
         align-items: flex-start;
         gap: 14px;
-        font-size: 0.85rem;
-        color: #78350f;
+        font-size: 0.87rem;
+        color: #78350F;
         line-height: 1.7;
     }
 
     .rec-content .disclaimer-block i {
-        color: #f59e0b;
-        font-size: 1.2rem;
+        color: var(--warning);
+        font-size: 1.15rem;
         margin-top: 2px;
         flex-shrink: 0;
+        font-weight: 900;
+        /* the generated icon uses fa-regular; force the solid glyph */
     }
 
     .rec-content .disclaimer-block strong {
-        color: #78350f;
+        color: #78350F;
     }
 
-    /* --- Greeting Block --- */
     .rec-content .greeting-block {
-        background: #f8fafc;
-        border-radius: 12px;
+        background: linear-gradient(135deg, var(--primary-soft) 0%, #FFFFFF 100%);
+        border: 1px solid var(--primary-tint);
+        border-inline-start: 4px solid var(--primary);
+        border-radius: var(--radius-md);
         padding: 18px 24px;
-        margin-bottom: 28px;
-        border-left: 4px solid #4A6CF7;
-        font-size: 0.95rem;
-        color: #475569;
+        margin: 0 0 24px;
+        font-size: 0.97rem;
+        color: var(--gray-600);
         line-height: 1.8;
     }
 
     .rec-content .greeting-block strong {
-        color: #1a1a2e;
+        color: var(--ink);
     }
 
-    /* --- Risk Tags --- */
+    /* ---------- Tags ---------- */
     .rec-content .risk-tag {
         display: inline-block;
-        padding: 2px 16px;
-        border-radius: 20px;
+        padding: 1px 12px;
+        border-radius: 99px;
         font-weight: 700;
-        font-size: 0.85rem;
+        font-size: 0.82rem;
+        white-space: nowrap;
     }
 
     .rec-content .risk-tag.risk-medium {
-        background: #fffbeb;
-        color: #d97706;
-        border: 1px solid #fcd34d;
+        background: var(--warning-light);
+        color: #B45309;
+        border: 1px solid #FCD34D;
     }
 
     .rec-content .risk-tag.risk-high {
-        background: #fef2f2;
-        color: #dc2626;
-        border: 1px solid #fca5a5;
+        background: var(--danger-light);
+        color: #DC2626;
+        border: 1px solid #FCA5A5;
     }
 
     .rec-content .risk-tag.risk-low {
-        background: #f0fdf4;
-        color: #16a34a;
-        border: 1px solid #86efac;
+        background: var(--success-light);
+        color: #15803D;
+        border: 1px solid #86EFAC;
     }
 
-    /* --- Urgency Tags --- */
     .rec-content .urgency-tag {
         display: inline-block;
-        padding: 2px 14px;
-        border-radius: 12px;
-        font-weight: 600;
-        font-size: 0.7rem;
+        padding: 1px 12px;
+        border-radius: 99px;
+        font-weight: 700;
+        font-size: 0.68rem;
         text-transform: uppercase;
-        letter-spacing: 0.04em;
+        letter-spacing: 0.05em;
+        white-space: nowrap;
+        vertical-align: 1px;
     }
 
     .rec-content .urgency-tag.urgency-urgent {
-        background: #fef2f2;
-        color: #dc2626;
-        border: 1px solid #fca5a5;
+        background: var(--danger-light);
+        color: #DC2626;
+        border: 1px solid #FCA5A5;
     }
 
     .rec-content .urgency-tag.urgency-soon {
-        background: #fffbeb;
-        color: #d97706;
-        border: 1px solid #fcd34d;
+        background: var(--warning-light);
+        color: #B45309;
+        border: 1px solid #FCD34D;
     }
 
     .rec-content .urgency-tag.urgency-routine {
-        background: #f0fdf4;
-        color: #16a34a;
-        border: 1px solid #86efac;
+        background: var(--success-light);
+        color: #15803D;
+        border: 1px solid #86EFAC;
     }
 
-    /* --- Bottom Disclaimer --- */
+    /* ---------- Bottom disclaimer ---------- */
     .rec-disclaimer {
-        background: #f8fafc;
-        border: 1px solid #e2e8f0;
-        border-radius: 12px;
-        padding: 18px 24px;
-        margin-top: 28px;
+        background: var(--gray-50);
+        border: 1px solid var(--gray-200);
+        border-radius: var(--radius-md);
+        padding: 16px 22px;
+        margin-top: 34px;
         display: flex;
         align-items: flex-start;
         gap: 14px;
         font-size: 0.8rem;
-        color: #6b7280;
+        color: var(--gray-500);
         line-height: 1.7;
     }
 
     .rec-disclaimer i {
-        color: #4A6CF7;
-        font-size: 1.1rem;
+        color: var(--primary);
+        font-size: 1.05rem;
         margin-top: 2px;
         flex-shrink: 0;
     }
 
     .rec-disclaimer strong {
-        color: #1a1a2e;
+        color: var(--ink);
     }
 
-    /* --- Action Buttons --- */
+    /* ==========================================
+       ACTION BAR
+       ========================================== */
     .rec-actions {
         display: flex;
-        gap: 14px;
+        gap: 12px;
         flex-wrap: wrap;
         justify-content: center;
-        margin-top: 8px;
+        background: #FFFFFF;
+        border: 1px solid var(--gray-200);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-sm);
+        padding: 18px 22px;
+    }
+
+    .rec-actions form {
+        margin: 0;
+        display: contents;
     }
 
     .rec-actions .btn {
-        padding: 12px 28px;
-        border-radius: 10px;
+        padding: 12px 24px;
+        border-radius: var(--radius-sm);
         font-weight: 600;
-        font-size: 0.85rem;
+        font-size: 0.86rem;
         cursor: pointer;
-        transition: all 0.25s ease;
+        transition: var(--transition);
         display: inline-flex;
         align-items: center;
-        gap: 10px;
+        gap: 9px;
         text-decoration: none;
-        border: none;
+        border: 1px solid transparent;
         font-family: inherit;
+        line-height: 1.2;
     }
 
     .btn-pdf {
-        background: #dc2626;
-        color: white;
+        background: var(--primary);
+        color: #FFFFFF;
+        box-shadow: 0 6px 18px rgba(74, 108, 247, 0.28);
     }
 
     .btn-pdf:hover {
-        background: #b91c1c;
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(220,38,38,0.3);
+        background: var(--primary-dark);
+        transform: translateY(-1px);
     }
 
     .btn-primary-rec {
-        background: #4A6CF7;
-        color: white;
+        background: var(--ink);
+        color: #FFFFFF;
     }
 
     .btn-primary-rec:hover {
-        background: #3b5de7;
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(74,108,247,0.3);
+        background: #16294f;
+        transform: translateY(-1px);
     }
 
     .btn-outline-rec {
-        background: transparent;
-        color: #475569;
-        border: 2px solid #e2e8f0;
+        background: #FFFFFF;
+        color: var(--primary);
+        border-color: var(--primary);
     }
 
     .btn-outline-rec:hover {
-        background: #f8fafc;
-        border-color: #4A6CF7;
-        color: #4A6CF7;
-        transform: translateY(-2px);
+        background: var(--primary-soft);
+        transform: translateY(-1px);
     }
 
     .btn-secondary-rec {
-        background: #f1f5f9;
-        color: #475569;
+        background: var(--gray-100);
+        color: var(--gray-600);
+        border-color: var(--gray-200);
     }
 
     .btn-secondary-rec:hover {
-        background: #e2e8f0;
-        transform: translateY(-2px);
+        background: var(--gray-200);
+        transform: translateY(-1px);
     }
 
-    /* --- Loading State --- */
+    /* ==========================================
+       STATES
+       ========================================== */
     .rec-loading {
-        background: white;
-        border-radius: 16px;
-        padding: 60px 40px;
+        background: #FFFFFF;
+        border-radius: var(--radius-xl);
+        padding: 56px 40px 48px;
         text-align: center;
-        border: 1px solid #e2e8f0;
+        border: 1px solid var(--gray-200);
+        box-shadow: var(--shadow-md);
     }
 
     .rec-loading .spinner {
         width: 48px;
         height: 48px;
-        border: 4px solid #e2e8f0;
-        border-top: 4px solid #4A6CF7;
+        border: 4px solid var(--gray-200);
+        border-top-color: var(--primary);
         border-radius: 50%;
         animation: spin 0.8s linear infinite;
         margin: 0 auto 20px;
     }
 
     @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
+        to {
+            transform: rotate(360deg);
+        }
     }
 
     .rec-loading h3 {
-        color: #1a1a2e;
+        color: var(--ink);
         margin: 0 0 8px;
         font-size: 1.2rem;
+        font-weight: 800;
     }
 
     .rec-loading p {
-        color: #94a3b8;
-        margin: 0;
+        color: var(--gray-500);
+        margin: 0 auto;
         font-size: 0.95rem;
+        max-width: 44ch;
     }
 
-    /* --- Error State --- */
+    .rec-skeleton {
+        max-width: 520px;
+        margin: 28px auto 0;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .rec-skeleton span {
+        display: block;
+        height: 12px;
+        border-radius: 99px;
+        background: linear-gradient(90deg, var(--gray-100) 25%, var(--gray-200) 50%, var(--gray-100) 75%);
+        background-size: 200% 100%;
+        animation: shimmer 1.4s linear infinite;
+    }
+
+    .rec-skeleton span:nth-child(2) {
+        width: 88%;
+    }
+
+    .rec-skeleton span:nth-child(3) {
+        width: 64%;
+    }
+
+    @keyframes shimmer {
+        to {
+            background-position: -200% 0;
+        }
+    }
+
     .rec-error {
-        background: #fef2f2;
-        border: 1px solid #fca5a5;
-        border-radius: 16px;
-        padding: 40px;
+        background: var(--danger-light);
+        border: 1px solid #FCA5A5;
+        border-radius: var(--radius-xl);
+        padding: 44px 32px;
         text-align: center;
-        color: #991b1b;
+        color: var(--danger-ink);
     }
 
     .rec-error h2 {
         margin: 0 0 8px;
         font-size: 1.3rem;
+        font-weight: 800;
     }
 
     .rec-error p {
-        margin: 0 0 16px;
-        color: #7f1d1d;
+        margin: 0 0 20px;
+        color: #7F1D1D;
     }
 
-    /* --- Empty State --- */
+    .rec-error .btn,
+    .rec-empty .btn {
+        padding: 12px 26px;
+        border-radius: var(--radius-sm);
+        font-weight: 600;
+        font-size: 0.88rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        text-decoration: none;
+        background: var(--primary);
+        color: #FFFFFF;
+        box-shadow: 0 6px 18px rgba(74, 108, 247, 0.28);
+        transition: var(--transition);
+    }
+
+    .rec-error .btn:hover,
+    .rec-empty .btn:hover {
+        background: var(--primary-dark);
+    }
+
     .rec-empty {
-        background: white;
-        border-radius: 16px;
+        background: #FFFFFF;
+        border-radius: var(--radius-xl);
         padding: 60px 40px;
         text-align: center;
-        border: 1px solid #e2e8f0;
+        border: 1px solid var(--gray-200);
+        box-shadow: var(--shadow-md);
     }
 
-    .rec-empty i {
-        font-size: 3rem;
-        color: #cbd5e1;
-        margin-bottom: 16px;
+    .rec-empty .empty-icon {
+        width: 72px;
+        height: 72px;
+        border-radius: 50%;
+        background: var(--primary-soft);
+        color: var(--primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.7rem;
+        margin: 0 auto 18px;
     }
 
     .rec-empty h3 {
-        color: #1a1a2e;
+        color: var(--ink);
         margin: 0 0 8px;
+        font-weight: 800;
     }
 
     .rec-empty p {
-        color: #94a3b8;
-        margin: 0 0 20px;
+        color: var(--gray-500);
+        margin: 0 0 22px;
     }
 
-    /* --- Responsive --- */
+    /* ==========================================
+       RESPONSIVE
+       ========================================== */
+    @media (max-width: 860px) {
+        .risk-summary-card {
+            grid-template-columns: 1fr;
+            gap: 20px;
+            padding: 22px;
+        }
+
+        .risk-summary-right {
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .rec-main-header,
+        .rec-main-body {
+            padding-left: 24px;
+            padding-right: 24px;
+        }
+    }
+
     @media (max-width: 768px) {
         .rec-hero {
-            padding: 40px 16px 36px;
+            padding: 44px 16px 64px;
         }
 
         .rec-hero h1 {
@@ -678,29 +1017,8 @@
         }
 
         .rec-hero-stats {
-            gap: 20px;
             flex-direction: column;
             align-items: center;
-        }
-
-        .risk-summary-card {
-            flex-direction: column;
-            align-items: stretch;
-            text-align: center;
-            padding: 20px;
-        }
-
-        .risk-summary-left {
-            justify-content: center;
-        }
-
-        .risk-summary-right {
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .rec-main-card {
-            padding: 24px 18px;
         }
 
         .rec-main-header {
@@ -713,37 +1031,21 @@
         }
 
         .rec-actions .btn {
-            flex: 1;
+            flex: 1 1 40%;
             justify-content: center;
             font-size: 0.8rem;
-            padding: 10px 16px;
+            padding: 11px 14px;
         }
 
-        .rec-content .disclaimer-block {
-            flex-direction: column;
-            text-align: center;
-        }
-
+        .rec-content .disclaimer-block,
         .rec-disclaimer {
             flex-direction: column;
-            text-align: center;
         }
 
         .rec-content .rec-h2 {
-            padding: 10px 12px;
             font-size: 1rem;
-        }
-
-        .rec-content .rec-h3 {
-            font-size: 0.92rem;
-        }
-
-        .rec-content .rec-list li {
-            padding-left: 22px;
-        }
-
-        .rec-content .rec-ol li {
-            padding-left: 26px;
+            padding: 12px 14px;
+            margin-top: 32px;
         }
     }
 
@@ -752,78 +1054,79 @@
             font-size: 1.6rem;
         }
 
-        .rec-main-card {
-            padding: 18px 14px;
+        .rec-container {
+            padding: 0 14px 56px;
         }
 
-        .rec-content .rec-h2 {
-            padding: 8px 10px;
-            font-size: 0.95rem;
-        }
-
-        .rec-content .rec-h3 {
-            font-size: 0.85rem;
+        .rec-main-header,
+        .rec-main-body {
+            padding-left: 16px;
+            padding-right: 16px;
         }
 
         .rec-content .rec-list li {
-            padding-left: 20px;
             font-size: 0.9rem;
-        }
-
-        .rec-content .rec-ol li {
-            padding-left: 22px;
-            font-size: 0.9rem;
+            padding-left: 42px;
         }
     }
 
-    /* --- Print Styles --- */
+    @media (prefers-reduced-motion: reduce) {
+
+        .rec-page *,
+        .rec-page *::before,
+        .rec-page *::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+        }
+    }
+
+    /* ==========================================
+       PRINT
+       ========================================== */
     @media print {
         .rec-hero {
             background: none;
-            padding: 20px 0;
+            padding: 16px 0 8px;
         }
 
         .rec-hero::before,
-        .rec-hero::after {
-            display: none;
+        .rec-hero::after,
+        .rec-hero-stats,
+        .rec-actions,
+        .rec-toc,
+        .header-badge {
+            display: none !important;
+        }
+
+        .rec-container {
+            margin-top: 0;
+            padding: 0;
+        }
+
+        .risk-summary-card,
+        .rec-main-card {
+            box-shadow: none;
+            border: 1px solid #E7EDF5;
         }
 
         .rec-main-card {
-            border: 1px solid #e2e8f0;
-            box-shadow: none;
-            padding: 20px;
+            overflow: visible;
         }
 
-        .rec-actions {
-            display: none;
+        .rec-content .rec-h2,
+        .rec-content .rec-list li {
+            break-inside: avoid;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
         }
 
-        .risk-summary-card {
-            border: 1px solid #e2e8f0;
-        }
-
-        .rec-content .rec-h2 {
-            background: none;
-            border-left: 3px solid #4A6CF7;
-            padding: 4px 0 4px 12px;
-        }
-
-        .rec-content .rec-h3 {
-            color: #4A6CF7;
-        }
-
-        .rec-content .disclaimer-block {
-            border: 1px solid #f59e0b;
-            background: #fef3c7;
-        }
-
+        .risk-dot,
+        .risk-meter-track,
+        .rec-content .rec-h2::before,
         .rec-content .rec-list li::before {
-            background: #4A6CF7;
-            opacity: 0.5;
-        }
-
-        .rec-content .rec-ol li::before {
-            color: #4A6CF7;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
         }
     }
 </style>
@@ -831,150 +1134,218 @@
 
 {% block content %}
 
-<section class="rec-hero">
-    <div class="rec-hero-content">
-        <div class="rec-hero-badge">
-            <i class="fa-solid fa-star-of-life"></i>
-            Clinical Recommendations
-        </div>
+<div class="rec-page">
 
-        <h1>
-            Your Personalized
-            <span>Wellness Plan</span>
-        </h1>
+    <!-- ========================================== -->
+    <!-- HERO -->
+    <!-- ========================================== -->
+    <section class="rec-hero">
+        <div class="rec-hero-content">
+            <div class="rec-hero-badge">
+                <i class="fa-solid fa-star-of-life"></i>
+                Clinical Recommendations
+            </div>
 
-        <p>
-            AI-generated clinical recommendations tailored to your screening results.
-            These insights are designed to guide your next steps toward better neurological health.
-        </p>
+            <h1>
+                Your Personalized
+                <span>Wellness Plan</span>
+            </h1>
 
-        <div class="rec-hero-stats">
-            <span class="rec-hero-stat">
-                <i class="fa-regular fa-clock"></i>
-                Generated in <strong>real-time</strong>
-            </span>
-            <span class="rec-hero-stat">
-                <i class="fa-regular fa-circle-check"></i>
-                Based on <strong>3 screening modules</strong>
-            </span>
-            <span class="rec-hero-stat">
-                <i class="fa-regular fa-message"></i>
-                Powered by <strong>Gemini AI</strong>
-            </span>
-        </div>
-    </div>
-</section>
+            <p>
+                AI-generated clinical recommendations tailored to your screening results.
+                These insights are designed to guide your next steps toward better neurological health.
+            </p>
 
-
-<div class="rec-container" style="max-width: 1000px; margin: 0 auto; padding: 0 20px 60px;">
-
-    {% if error %}
-    <!-- ========== ERROR STATE ========== -->
-    <div class="rec-error">
-        <h2>⚠️ {{ error }}</h2>
-        <p>Please complete all screening modules first or try again.</p>
-        <a href="{% url 'speech_app:home' %}" class="btn btn-primary-rec">
-            <i class="fa-solid fa-house"></i> Go to Home
-        </a>
-    </div>
-
-    {% elif is_generating %}
-    <!-- ========== LOADING STATE ========== -->
-    <div class="rec-loading">
-        <div class="spinner"></div>
-        <h3>Generating Your Recommendations</h3>
-        <p>Our AI is analyzing your screening results to create personalized insights.</p>
-    </div>
-
-    {% elif recommendations %}
-    <!-- ========== RECOMMENDATIONS DISPLAY ========== -->
-
-    <!-- Risk Summary Bar -->
-    <div class="risk-summary-card">
-        <div class="risk-summary-left">
-            <span class="risk-dot 
-                {% if fusion.risk_level == 'Low' %}low
-                {% elif fusion.risk_level == 'Medium' %}medium
-                {% else %}high{% endif %}">
-            </span>
-            <div>
-                <span class="risk-label">Overall Risk Level</span>
-                <span class="risk-value">
-                    {{ fusion.risk_level|upper }}
-                    <span class="risk-score">· {{ fusion.final_pd_probability|floatformat:2 }} / 1.00</span>
+            <div class="rec-hero-stats">
+                <span class="rec-hero-stat">
+                    <i class="fa-regular fa-clock"></i>
+                    Generated in <strong>real-time</strong>
+                </span>
+                <span class="rec-hero-stat">
+                    <i class="fa-regular fa-circle-check"></i>
+                    Based on <strong>3 screening modules</strong>
+                </span>
+                <span class="rec-hero-stat">
+                    <i class="fa-regular fa-message"></i>
+                    Powered by <strong>Gemini AI</strong>
                 </span>
             </div>
         </div>
-        <div class="risk-summary-right">
-            <span><i class="fa-regular fa-file-lines"></i> {{ fusion.screening_id|default:"Report"|truncatechars:10 }}</span>
-            <span><i class="fa-regular fa-calendar"></i> {% now "d M Y" %}</span>
-        </div>
-    </div>
+    </section>
 
-    <!-- Main Recommendations Card -->
-    <div class="rec-main-card">
-        <!-- Header -->
-        <div class="rec-main-header">
-            <div class="header-left">
-                <div class="header-icon">
-                    <i class="fa-regular fa-lightbulb"></i>
+
+    <div class="rec-container">
+
+        {% if error %}
+        <!-- ========== ERROR STATE ========== -->
+        <div class="rec-error">
+            <h2>⚠️ {{ error }}</h2>
+            <p>Please complete all screening modules first or try again.</p>
+            <a href="{% url 'speech_app:home' %}" class="btn">
+                <i class="fa-solid fa-house"></i> Go to Home
+            </a>
+        </div>
+
+        {% elif is_generating %}
+        <!-- ========== LOADING STATE ========== -->
+        <div class="rec-loading">
+            <div class="spinner"></div>
+            <h3>Generating Your Recommendations</h3>
+            <p>Our AI is analyzing your screening results to create personalized insights.</p>
+            <div class="rec-skeleton" aria-hidden="true">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+
+        {% elif recommendations %}
+        <!-- ========== RECOMMENDATIONS DISPLAY ========== -->
+
+        <!-- Risk Summary -->
+        <div class="risk-summary-card {% if fusion.risk_level == 'Low' %}low{% elif fusion.risk_level == 'Medium' %}medium{% else %}high{% endif %}">
+            <div class="risk-summary-left">
+                <span class="risk-dot {% if fusion.risk_level == 'Low' %}low{% elif fusion.risk_level == 'Medium' %}medium{% else %}high{% endif %}">
+                    <i class="fa-solid fa-gauge-high"></i>
+                </span>
+                <div>
+                    <span class="risk-label">Overall Risk Level</span>
+                    <span class="risk-value">
+                        {{ fusion.risk_level|upper }}
+                        <span class="risk-score">· {{ fusion.final_pd_probability|floatformat:2 }} / 1.00</span>
+                    </span>
                 </div>
-                <div class="header-title">
-                    <h2>Clinical Recommendations</h2>
-                    <p>Personalized guidance based on your screening results</p>
+            </div>
+
+            <div class="risk-meter" aria-hidden="true">
+                <div class="risk-meter-track">
+                    <span class="risk-meter-marker" style="left: {% widthratio fusion.final_pd_probability 1 100 %}%;"></span>
+                </div>
+                <div class="risk-meter-scale">
+                    <span>Low</span>
+                    <span>Medium</span>
+                    <span>High</span>
                 </div>
             </div>
-            <div class="header-badge">
-                <span class="dot"></span>
-                Gemini AI
+
+            <div class="risk-summary-right">
+                <span><i class="fa-regular fa-file-lines"></i> {{ fusion.screening_id|default:"Report"|truncatechars:10 }}</span>
+                <span><i class="fa-regular fa-calendar"></i> {% now "d M Y" %}</span>
             </div>
         </div>
 
-        <div class="rec-content">
-            {% if recommendations %}
-                {{ recommendations|safe }}
-            {% else %}
-                <p class="rec-p">No recommendations available.</p>
-            {% endif %}
-        </div>
+        <!-- Main Recommendations Card -->
+        <div class="rec-main-card">
+            <div class="rec-main-header">
+                <div class="header-left">
+                    <div class="header-icon">
+                        <i class="fa-regular fa-lightbulb"></i>
+                    </div>
+                    <div class="header-title">
+                        <h2>Clinical Recommendations</h2>
+                        <p>Personalized guidance based on your screening results</p>
+                    </div>
+                </div>
+                <div class="header-badge">
+                    <span class="dot"></span>
+                    Gemini AI
+                </div>
+            </div>
 
-        <!-- Bottom Disclaimer -->
-        <div class="rec-disclaimer">
-            <i class="fa-regular fa-circle-info"></i>
-            <div>
-                <strong>Important:</strong> These recommendations are generated by AI based on your screening results and are for informational purposes only. They are not a substitute for professional medical advice, diagnosis, or treatment. Always consult a qualified healthcare provider for clinical decisions.
+            <div class="rec-main-body">
+                <nav class="rec-toc" id="rec-toc" aria-label="Sections">
+                    <p class="rec-toc-title">On this page</p>
+                    <ol class="rec-toc-list" id="rec-toc-list"></ol>
+                </nav>
+
+                <div class="rec-content" id="rec-content">
+                    {% if recommendations %}
+                        {{ recommendations|safe }}
+                    {% else %}
+                        <p class="rec-p">No recommendations available.</p>
+                    {% endif %}
+                </div>
+
+                <!-- Bottom Disclaimer -->
+                <div class="rec-disclaimer">
+                    <i class="fa-regular fa-circle-info"></i>
+                    <div>
+                        <strong>Important:</strong> These recommendations are generated by AI based on your screening results and are for informational purposes only. They are not a substitute for professional medical advice, diagnosis, or treatment. Always consult a qualified healthcare provider for clinical decisions.
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
 
-    <!-- Action Buttons -->
-    <div class="rec-actions">
-        <button class="btn btn-pdf" onclick="window.print()">
-            <i class="fa-regular fa-file-pdf"></i> Download PDF
-        </button>
-        <a href="{% url 'fusion_app:report' %}" class="btn btn-outline-rec">
-            <i class="fa-regular fa-file-lines"></i> Back to Report
-        </a>
-        <a href="{% url 'recommendations_app:regenerate' %}" class="btn btn-secondary-rec" onclick="return confirm('Regenerate recommendations? This will use your Gemini API credits.');">
-            <i class="fa-solid fa-rotate"></i> Regenerate
-        </a>
-        <a href="{% url 'speech_app:home' %}" class="btn btn-primary-rec">
-            <i class="fa-solid fa-house"></i> Home
-        </a>
-    </div>
+        <!-- Action Buttons -->
+        <div class="rec-actions">
+            <button type="button" class="btn btn-pdf" onclick="window.print()">
+                <i class="fa-regular fa-file-pdf"></i> Download PDF
+            </button>
+            <a href="{% url 'fusion_app:report' %}" class="btn btn-outline-rec">
+                <i class="fa-regular fa-file-lines"></i> Back to Report
+            </a>
+            <!-- The view only accepts POST for regenerate, so this is a form, not a link -->
+            <form method="post" action="{% url 'recommendations_app:regenerate' %}" onsubmit="return confirm('Regenerate recommendations? This will use your Gemini API credits.');">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-secondary-rec">
+                    <i class="fa-solid fa-rotate"></i> Regenerate
+                </button>
+            </form>
+            <a href="{% url 'speech_app:home' %}" class="btn btn-primary-rec">
+                <i class="fa-solid fa-house"></i> Home
+            </a>
+        </div>
 
-    {% else %}
-    <!-- ========== EMPTY STATE ========== -->
-    <div class="rec-empty">
-        <i class="fa-regular fa-clipboard"></i>
-        <h3>No Recommendations Available</h3>
-        <p>Please complete the full screening process first.</p>
-        <a href="{% url 'questionnaire_app:home' %}" class="btn btn-primary-rec">
-            <i class="fa-solid fa-arrow-right"></i> Start Screening
-        </a>
-    </div>
-    {% endif %}
+        {% else %}
+        <!-- ========== EMPTY STATE ========== -->
+        <div class="rec-empty">
+            <div class="empty-icon"><i class="fa-regular fa-clipboard"></i></div>
+            <h3>No Recommendations Available</h3>
+            <p>Please complete the full screening process first.</p>
+            <a href="{% url 'questionnaire_app:home' %}" class="btn">
+                <i class="fa-solid fa-arrow-right"></i> Start Screening
+            </a>
+        </div>
+        {% endif %}
 
+    </div>
 </div>
 
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    (function () {
+        'use strict';
+        // Build a small "On this page" nav from the generated H2 headings.
+        var content = document.getElementById('rec-content');
+        var toc = document.getElementById('rec-toc');
+        var list = document.getElementById('rec-toc-list');
+        if (!content || !toc || !list) return;
+
+        var headings = content.querySelectorAll('.rec-h2');
+        if (headings.length < 2) return;
+
+        headings.forEach(function (h, i) {
+            var id = 'rec-sec-' + (i + 1);
+            h.id = id;
+
+            var li = document.createElement('li');
+            var a = document.createElement('a');
+            a.href = '#' + id;
+
+            var n = document.createElement('span');
+            n.className = 'n';
+            n.textContent = i + 1;
+
+            var label = document.createElement('span');
+            label.textContent = h.textContent.trim();
+
+            a.appendChild(n);
+            a.appendChild(label);
+            li.appendChild(a);
+            list.appendChild(li);
+        });
+
+        toc.classList.add('show');
+    })();
+</script>
 {% endblock %}
