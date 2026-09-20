@@ -1,0 +1,511 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+{% if lang == 'ur' %}
+رضایت کا انتظام - نیوروسینس اے آئی
+{% else %}
+Manage Consent - NeuroSense AI
+{% endif %}
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .consent-page {
+        max-width: 700px;
+        margin: 0 auto;
+        padding: 40px 20px 60px;
+    }
+
+    .consent-card {
+        background: white;
+        border-radius: 20px;
+        padding: 40px 44px;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+    }
+
+    .consent-header {
+        text-align: center;
+        margin-bottom: 32px;
+    }
+
+    .consent-header .icon {
+        width: 64px;
+        height: 64px;
+        background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.8rem;
+        color: #4A6CF7;
+        margin: 0 auto 12px;
+    }
+
+    .consent-header h1 {
+        font-size: 1.6rem;
+        font-weight: 700;
+        color: #1a1a2e;
+        margin: 0 0 4px;
+    }
+
+    .consent-header p {
+        color: #6b7280;
+        font-size: 0.95rem;
+        margin: 0;
+    }
+
+    .consent-status-box {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 16px 20px;
+        border-radius: 12px;
+        margin-bottom: 24px;
+        border: 1px solid #e2e8f0;
+    }
+
+    .consent-status-box.granted {
+        background: #f0fdf4;
+        border-color: #86efac;
+    }
+
+    .consent-status-box.not-granted {
+        background: #fef3c7;
+        border-color: #fcd34d;
+    }
+
+    .consent-status-box .status-icon {
+        font-size: 1.8rem;
+        flex-shrink: 0;
+    }
+
+    .consent-status-box .status-text {
+        font-size: 0.95rem;
+        font-weight: 500;
+    }
+
+    .consent-status-box .status-text strong {
+        display: block;
+        font-size: 1rem;
+    }
+
+    .consent-status-box.granted .status-text {
+        color: #065f46;
+    }
+
+    .consent-status-box.not-granted .status-text {
+        color: #78350f;
+    }
+
+    .consent-details {
+        background: #f8fafc;
+        border-radius: 12px;
+        padding: 20px 24px;
+        margin-bottom: 24px;
+        border: 1px solid #e2e8f0;
+    }
+
+    .consent-details h3 {
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: #1a1a2e;
+        margin: 0 0 12px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .consent-details h3 i {
+        color: #4A6CF7;
+    }
+
+    .consent-details ul {
+        margin: 0;
+        padding-left: 20px;
+        color: #475569;
+        font-size: 0.9rem;
+        line-height: 1.8;
+    }
+
+    .consent-details ul li {
+        margin-bottom: 4px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-checkbox-group {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 16px 20px;
+        background: #f8fafc;
+        border-radius: 12px;
+        border: 2px solid #e2e8f0;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+    .form-checkbox-group:hover {
+        border-color: #4A6CF7;
+        background: #eef2ff;
+    }
+
+    .form-checkbox-group.checked {
+        border-color: #10b981;
+        background: #f0fdf4;
+    }
+
+    .form-checkbox-group input[type="checkbox"] {
+        width: 20px;
+        height: 20px;
+        accent-color: #4A6CF7;
+        margin-top: 2px;
+        flex-shrink: 0;
+        cursor: pointer;
+    }
+
+    .form-checkbox-group .checkbox-label {
+        font-size: 0.95rem;
+        color: #1a1a2e;
+        cursor: pointer;
+        line-height: 1.6;
+    }
+
+    .form-checkbox-group .checkbox-label strong {
+        color: #1a1a2e;
+    }
+
+    .form-checkbox-group .checkbox-label .hint {
+        display: block;
+        font-size: 0.8rem;
+        color: #94a3b8;
+        font-weight: 400;
+        margin-top: 4px;
+    }
+
+    .form-actions {
+        display: flex;
+        gap: 12px;
+        margin-top: 24px;
+        padding-top: 20px;
+        border-top: 1px solid #e2e8f0;
+    }
+/* ==========================================
+   CONSENT PAGE BUTTONS
+   ========================================== */
+
+.consent-page .consent-btn {
+    padding: 10px 24px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-decoration: none;
+    font-family: inherit;
+    flex: 1;
+    border: 1.5px solid transparent;
+}
+
+
+/* SAVE CONSENT */
+
+.consent-page .consent-btn-primary {
+    background: #4A6CF7;
+    color: #ffffff;
+    border-color: #4A6CF7;
+}
+
+.consent-page .consent-btn-primary:hover {
+    background: #3b5de7;
+    border-color: #3b5de7;
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 14px rgba(74, 108, 247, 0.25);
+}
+
+
+/* CANCEL */
+
+.consent-page .consent-btn-outline {
+    background: #ffffff;
+    color: #475569;
+    border-color: #e2e8f0;
+}
+
+.consent-page .consent-btn-outline:hover {
+    background: #f8fafc;
+    color: #4A6CF7;
+    border-color: #4A6CF7;
+    transform: translateY(-1px);
+    box-shadow: 0 3px 10px rgba(74, 108, 247, 0.10);
+}
+
+
+/* ICONS */
+
+.consent-page .consent-btn i {
+    font-size: 0.9rem;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+    .consent-page .consent-btn {
+        width: 100%;
+        flex: none;
+    }
+}
+
+    .messages {
+        margin-bottom: 20px;
+    }
+
+    .message {
+        padding: 10px 14px;
+        border-radius: 10px;
+        font-size: 0.9rem;
+        margin-bottom: 6px;
+    }
+
+    .message.error {
+        background: #fef2f2;
+        color: #991b1b;
+        border: 1px solid #fca5a5;
+    }
+
+    .message.success {
+        background: #f0fdf4;
+        color: #065f46;
+        border: 1px solid #86efac;
+    }
+
+    .message.info {
+        background: #eff6ff;
+        color: #1e40af;
+        border: 1px solid #93c5fd;
+    }
+
+    .privacy-link {
+        color: #4A6CF7;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .privacy-link:hover {
+        text-decoration: underline;
+    }
+
+    @media (max-width: 600px) {
+        .consent-card {
+            padding: 24px 16px;
+        }
+
+        .consent-status-box {
+            flex-direction: column;
+            text-align: center;
+            gap: 8px;
+        }
+
+        .form-actions {
+            flex-direction: column;
+        }
+
+      .consent-btn {
+            flex: none;
+            width: 100%;
+        }
+
+        .consent-header h1 {
+            font-size: 1.3rem;
+        }
+
+        .form-checkbox-group {
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 16px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+{% with lang=request.LANG|default:'en' %}
+
+<div class="consent-page">
+
+    <div class="consent-card">
+
+        <div class="consent-header">
+            <div class="icon">
+                <i class="fa-solid fa-shield-halved"></i>
+            </div>
+            <h1>
+                {% if lang == 'ur' %}ڈیٹا کی رضایت کا انتظام{% else %}Manage Data Consent{% endif %}
+            </h1>
+            <p>
+                {% if lang == 'ur' %}
+                اپنے ڈیٹا کی جمع اور پروسیسنگ کی ترجیحات کا نظم کریں
+                {% else %}
+                Manage your data collection and processing preferences
+                {% endif %}
+            </p>
+        </div>
+
+        {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+            <div class="message {{ message.tags }}">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- Current Status -->
+        <div class="consent-status-box {% if profile.data_consent %}granted{% else %}not-granted{% endif %}">
+            <div class="status-icon">
+                {% if profile.data_consent %}
+                <i class="fa-solid fa-circle-check" style="color:#10b981;"></i>
+                {% else %}
+                <i class="fa-solid fa-circle-xmark" style="color:#d97706;"></i>
+                {% endif %}
+            </div>
+            <div class="status-text">
+                <strong>
+                    {% if profile.data_consent %}
+                    ✅ {% if lang == 'ur' %}رضایت دی گئی{% else %}Consent Granted{% endif %}
+                    {% else %}
+                    ⚠️ {% if lang == 'ur' %}رضایت نہیں دی گئی{% else %}Consent Not Granted{% endif %}
+                    {% endif %}
+                </strong>
+                {% if profile.data_consent and profile.consent_date %}
+                <span>
+                    {% if lang == 'ur' %}
+                    {{ profile.consent_date|date:"d M Y" }} کو دی گئی
+                    {% else %}
+                    Granted on {{ profile.consent_date|date:"d M Y" }}
+                    {% endif %}
+                </span>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- What Consent Means -->
+        <div class="consent-details">
+            <h3>
+                <i class="fa-solid fa-circle-info"></i>
+                {% if lang == 'ur' %}رضایت کا کیا مطلب ہے؟{% else %}What Does Consent Mean?{% endif %}
+            </h3>
+            <p style="color:#475569;font-size:0.9rem;margin-bottom:12px;">
+                {% if lang == 'ur' %}
+                اپنی رضایت دینے سے آپ نیوروسینس اے آئی کو اجازت دیتے ہیں:
+                {% else %}
+                By granting consent, you allow NeuroSense AI to:
+                {% endif %}
+            </p>
+            <ul>
+                <li>
+                    {% if lang == 'ur' %}
+                    اسکریننگ کے مقاصد کے لیے آپ کی ذاتی اور صحت سے متعلق ڈیٹا جمع کریں
+                    {% else %}
+                    Collect your personal and health-related data for screening purposes
+                    {% endif %}
+                </li>
+                <li>
+                    {% if lang == 'ur' %}
+                    تشخیصی نتائج پیدا کرنے کے لیے آپ کے ڈیٹا کا تجزیہ کریں
+                    {% else %}
+                    Analyze your data to generate assessment results
+                    {% endif %}
+                </li>
+                <li>
+                    {% if lang == 'ur' %}
+                    مستقبل کی اسکریننگ اور رپورٹس کے لیے آپ کا ڈیٹا محفوظ کریں
+                    {% else %}
+                    Store your data for future screenings and reports
+                    {% endif %}
+                </li>
+                <li>
+                    {% if lang == 'ur' %}
+                    بہتر تشخیص کے لیے آپ کے ڈیٹا کو بہتر بنانے کے لیے استعمال کریں
+                    {% else %}
+                    Use your data to improve the assessment accuracy
+                    {% endif %}
+                </li>
+            </ul>
+            <p style="color:#94a3b8;font-size:0.8rem;margin-top:12px;">
+                <i class="fa-solid fa-lock"></i>
+                {% if lang == 'ur' %}
+                آپ کا ڈیٹا محفوظ طریقے سے ذخیرہ کیا جاتا ہے اور اس تک صرف آپ ہی رسائی حاصل کر سکتے ہیں۔
+                {% else %}
+                Your data is stored securely and only you can access it.
+                {% endif %}
+            </p>
+        </div>
+
+        <form method="POST" action="{% url 'accounts:manage_consent' %}">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <div class="form-checkbox-group {% if form.data_consent.value %}checked{% endif %}">
+                    <input type="checkbox" name="data_consent" id="id_data_consent" {% if form.data_consent.value %}checked{% endif %}>
+                    <label for="id_data_consent" class="checkbox-label">
+                        {% if lang == 'ur' %}
+                        <strong>میں اسکریننگ کے مقاصد کے لیے اپنے ڈیٹا کی جمع اور پروسیسنگ کی رضایت دیتا ہوں۔</strong>
+                        <span class="hint">آپ کسی بھی وقت اپنی رضایت واپس لے سکتے ہیں۔</span>
+                        {% else %}
+                        <strong>I consent to the collection and processing of my data for screening purposes.</strong>
+                        <span class="hint">You can withdraw your consent at any time.</span>
+                        {% endif %}
+                    </label>
+                </div>
+                {% if form.data_consent.errors %}
+                <span class="form-error">{{ form.data_consent.errors.0 }}</span>
+                {% endif %}
+            </div>
+
+            <p style="font-size:0.8rem;color:#94a3b8;margin-bottom:16px;">
+                <i class="fa-solid fa-circle-info"></i>
+                {% if lang == 'ur' %}
+                رضایت واپس لینے سے آپ کا موجودہ ڈیٹا نہیں مٹے گا، لیکن نیا ڈیٹا جمع نہیں کیا جائے گا۔
+                مزید معلومات کے لیے ہماری <a href="#" class="privacy-link">پرائیویسی پالیسی</a> دیکھیں۔
+                {% else %}
+                Withdrawing consent will not delete your existing data, but no new data will be collected.
+                See our <a href="#" class="privacy-link">Privacy Policy</a> for more information.
+                {% endif %}
+            </p>
+
+            <div class="form-actions">
+                <a href="{% url 'accounts:profile' %}" class="consent-btn consent-btn-outline">
+    <i class="fa-solid fa-arrow-left"></i>
+    {% if lang == 'ur' %}منسوخ کریں{% else %}Cancel{% endif %}
+</a>
+
+<button type="submit" class="consent-btn consent-btn-primary">
+    <i class="fa-solid fa-floppy-disk"></i>
+    {% if lang == 'ur' %}رضایت محفوظ کریں{% else %}Save Consent{% endif %}
+</button>
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endwith %}
+
+{% endblock %}
