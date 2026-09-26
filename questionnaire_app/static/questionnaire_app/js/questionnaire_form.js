@@ -40,10 +40,7 @@ document.addEventListener("DOMContentLoaded", function () {
             submitBtn.style.display = "none";
         }
 
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        });
+        
     }
 
     function validateCurrentSlide() {

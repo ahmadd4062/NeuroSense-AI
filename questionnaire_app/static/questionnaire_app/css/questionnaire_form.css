@@ -1,42 +1,56 @@
+/* =========================================================
+   NEUROSENSE AI - QUESTIONNAIRE ASSESSMENT FORM
+   ========================================================= */
+
+
+/* =========================================================
+   MAIN PAGE
+   ========================================================= */
+
 .assessment-page {
     min-height: calc(100vh - 78px);
-    padding: 55px 0 70px;
 
-    background:
-        radial-gradient(
-            circle at 12% 15%,
-            rgba(57, 114, 255, 0.07),
-            transparent 32%
-        ),
-        linear-gradient(
-            135deg,
-            #f8fbff 0%,
-            #eef5ff 50%,
-            #f8fbff 100%
-        );
+    padding: 70px 0 80px;
+
+    background: #ffffff;
 }
 
 .assessment-wrapper {
-    width: min(1160px, calc(100% - 48px));
+    width: calc(100% - 220px);
+    max-width: 1400px;
+
     margin: 0 auto;
 
     display: grid;
-    grid-template-columns: 0.85fr 1.15fr;
-    gap: 64px;
+
+    grid-template-columns:
+        minmax(0, 0.9fr)
+        minmax(500px, 1.1fr);
+
+    gap: 70px;
 
     align-items: center;
 }
 
-
-/* LEFT */
+/* =========================================================
+   LEFT CONTENT
+   ========================================================= */
 
 .assessment-left {
-    max-width: 470px;
+    max-width: 560px;
+
+    padding-top: 0;
 }
+
+
+/* =========================================================
+   BADGE
+   ========================================================= */
 
 .assessment-badge {
     display: inline-flex;
     align-items: center;
+
     gap: 9px;
 
     margin-bottom: 18px;
@@ -61,68 +75,106 @@
     color: #0b72ef;
 }
 
+
+/* =========================================================
+   MAIN HEADING
+   ========================================================= */
+
 .assessment-left h1 {
     margin: 0;
 
     color: #071747;
 
-    font-size: clamp(42px, 4vw, 52px);
-    line-height: 1.07;
+    font-size: clamp(38px, 3.2vw, 46px);
+    line-height: 1.08;
 
     font-weight: 800;
-    letter-spacing: -1.5px;
+
+    letter-spacing: -1.3px;
 }
 
 .assessment-left h1 span {
     display: block;
+
     margin-top: 4px;
 
     color: #3972ff;
 }
 
+
+/* =========================================================
+   DESCRIPTION
+   ========================================================= */
+
 .assessment-left > .assessment-description {
-    margin: 22px 0 0;
+    max-width: 530px;
+
+    margin: 18px 0 0;
 
     color: #667892;
 
-    font-size: 15px;
-    line-height: 1.8;
+    font-size: 13.5px;
+    line-height: 1.7;
 }
 
 
-/* INFO CARDS */
+/* =========================================================
+   INFORMATION CARDS
+   ========================================================= */
 
 .assessment-info {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
 
-    gap: 13px;
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
 
-    margin-top: 30px;
+    gap: 11px;
+
+    margin-top: 25px;
 }
 
+
+/* =========================================================
+   INFORMATION CARD
+   ========================================================= */
+
 .info-card {
-    min-height: 78px;
+    min-height: 70px;
 
     display: flex;
     align-items: center;
 
-    gap: 13px;
+    gap: 10px;
 
-    padding: 15px 16px;
+    padding: 12px 13px;
 
-    background: rgba(255, 255, 255, 0.92);
+    background: #ffffff;
 
-    border: 1px solid #dfe9f5;
-    border-radius: 14px;
+    border: 1px solid #e1e9f3;
+
+    border-radius: 12px;
 
     box-shadow:
-        0 6px 18px rgba(15, 45, 90, 0.04);
+        0 5px 16px rgba(15, 45, 90, 0.035);
+
+    transition:
+        transform 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.info-card:hover {
+    transform: translateY(-2px);
+
+    border-color: #cbdcf1;
+
+    box-shadow:
+        0 9px 22px rgba(15, 45, 90, 0.06);
 }
 
 .info-card i {
-    width: 38px;
-    height: 38px;
+    width: 36px;
+    height: 36px;
 
     display: flex;
     align-items: center;
@@ -130,12 +182,13 @@
 
     flex-shrink: 0;
 
-    border-radius: 10px;
+    border-radius: 9px;
 
     background: #edf5ff;
+
     color: #3972ff;
 
-    font-size: 15px;
+    font-size: 14px;
 }
 
 .info-card h4 {
@@ -143,7 +196,7 @@
 
     color: #071747;
 
-    font-size: 13px;
+    font-size: 12.5px;
     font-weight: 700;
 }
 
@@ -152,34 +205,40 @@
 
     color: #8190a3;
 
-    font-size: 11px;
-    line-height: 1.45;
+    font-size: 10.5px;
+    line-height: 1.4;
 }
 
 
-/* RIGHT CARD */
+/* =========================================================
+   QUESTIONNAIRE CARD
+   ========================================================= */
 
 .assessment-card {
     width: 100%;
 
-    min-height: 570px;
+    min-height: 510px;
 
-    padding: 38px 42px 32px;
+    padding: 30px 36px 26px;
 
-    background: rgba(255, 255, 255, 0.98);
+    background: #ffffff;
 
     border: 1px solid #dfe7f1;
-    border-radius: 24px;
+
+    border-radius: 22px;
 
     box-shadow:
-        0 22px 55px rgba(18, 55, 105, 0.09);
+        0 16px 40px rgba(18, 55, 105, 0.065);
 }
 
 
-/* HEADER */
+/* =========================================================
+   CARD HEADER
+   ========================================================= */
 
 .card-header {
     display: grid;
+
     grid-template-columns: 1fr auto;
 
     gap: 20px;
@@ -194,7 +253,7 @@
 
     color: #17233c;
 
-    font-size: 13px;
+    font-size: 12.5px;
     font-weight: 700;
 }
 
@@ -205,12 +264,12 @@
 
     color: #718096;
 
-    font-size: 13.5px;
+    font-size: 13px;
     line-height: 1.55;
 }
 
 .card-header h2 {
-    margin: 20px 0 10px;
+    margin: 18px 0 9px;
 
     color: #071747;
 
@@ -221,22 +280,24 @@
 .progress-percent {
     align-self: end;
 
-    margin-bottom: 11px;
+    margin-bottom: 10px;
 
     color: #3972ff;
 
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 750;
 }
 
 
-/* PROGRESS */
+/* =========================================================
+   PROGRESS BAR
+   ========================================================= */
 
 .progress-bar {
     width: 100%;
-    height: 8px;
+    height: 7px;
 
-    margin-bottom: 32px;
+    margin-bottom: 27px;
 
     overflow: hidden;
 
@@ -260,17 +321,21 @@
 }
 
 
-/* FORM */
+/* =========================================================
+   FORM
+   ========================================================= */
 
 #questionnaireForm {
-    min-height: 405px;
+    min-height: 365px;
 
     display: flex;
     flex-direction: column;
 }
 
 
-/* QUESTION SLIDES */
+/* =========================================================
+   QUESTION SLIDES
+   ========================================================= */
 
 .question-slide {
     display: none;
@@ -295,25 +360,32 @@
 }
 
 
-/* QUESTION */
+/* =========================================================
+   QUESTION ICON
+   ========================================================= */
 
 .question-icon {
-    width: 46px;
-    height: 46px;
+    width: 44px;
+    height: 44px;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    margin-bottom: 18px;
+    margin-bottom: 16px;
 
-    border-radius: 13px;
+    border-radius: 12px;
 
     background: #edf4ff;
     color: #3972ff;
 
-    font-size: 17px;
+    font-size: 16px;
 }
+
+
+/* =========================================================
+   QUESTION TITLE
+   ========================================================= */
 
 .question-title {
     max-width: 590px;
@@ -322,34 +394,41 @@
 
     color: #071747;
 
-    font-size: 24px;
+    font-size: 23px;
     line-height: 1.35;
 
     font-weight: 760;
 }
 
+
+/* =========================================================
+   QUESTION DESCRIPTION
+   ========================================================= */
+
 .question-description {
     max-width: 580px;
 
-    margin: 0 0 24px;
+    margin: 0 0 22px;
 
     color: #79889d;
 
-    font-size: 14px;
+    font-size: 13.5px;
     line-height: 1.65;
 }
 
 
-/* AGE INPUT */
+/* =========================================================
+   AGE INPUT
+   ========================================================= */
 
 .question-input {
     width: 100%;
-    height: 56px;
+    height: 54px;
 
-    padding: 0 18px;
+    padding: 0 17px;
 
     border: 1.5px solid #dbe5f1;
-    border-radius: 12px;
+    border-radius: 11px;
 
     outline: none;
 
@@ -358,7 +437,7 @@
     color: #071747;
 
     font-family: inherit;
-    font-size: 15px;
+    font-size: 14px;
 
     transition:
         border-color 0.2s ease,
@@ -377,36 +456,45 @@
 }
 
 
-/* OPTIONS */
+/* =========================================================
+   OPTIONS
+   ========================================================= */
 
 .options,
 .options-grid {
     display: grid;
 
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
 
-    gap: 13px;
+    gap: 12px;
 
-    margin-top: 18px;
+    margin-top: 17px;
 }
 
 .options {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
 }
+
+
+/* =========================================================
+   OPTION CARD
+   ========================================================= */
 
 .option-card {
     position: relative;
 
-    min-height: 58px;
+    min-height: 56px;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    padding: 13px 16px;
+    padding: 12px 15px;
 
     border: 1.5px solid #dce5f0;
-    border-radius: 12px;
+    border-radius: 11px;
 
     background: #ffffff;
 
@@ -414,11 +502,10 @@
 
     text-align: center;
 
-    font-size: 14px;
+    font-size: 13.5px;
     font-weight: 600;
 
     cursor: pointer;
-
     user-select: none;
 
     transition: 0.2s ease;
@@ -463,10 +550,13 @@
 }
 
 
-/* COGNITION */
+/* =========================================================
+   COGNITION OPTIONS
+   ========================================================= */
 
 .question-slide:last-of-type .options-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
 }
 
 .question-slide:last-of-type .option-card:last-child {
@@ -474,7 +564,9 @@
 }
 
 
-/* NAVIGATION */
+/* =========================================================
+   NAVIGATION BUTTONS
+   ========================================================= */
 
 .navigation-buttons {
     display: flex;
@@ -483,12 +575,13 @@
     gap: 14px;
 
     margin-top: auto;
-    padding-top: 28px;
+
+    padding-top: 26px;
 }
 
 .nav-btn {
-    min-width: 125px;
-    height: 47px;
+    min-width: 120px;
+    height: 45px;
 
     display: inline-flex;
     align-items: center;
@@ -496,13 +589,13 @@
 
     gap: 8px;
 
-    padding: 0 20px;
+    padding: 0 19px;
 
     border: none;
-    border-radius: 11px;
+    border-radius: 10px;
 
     font-family: inherit;
-    font-size: 14px;
+    font-size: 13.5px;
     font-weight: 650;
 
     cursor: pointer;
@@ -544,7 +637,9 @@
 }
 
 
-/* VALIDATION */
+/* =========================================================
+   VALIDATION
+   ========================================================= */
 
 .question-validation-message {
     color: #dc2626 !important;
@@ -556,20 +651,68 @@
 }
 
 
-/* TABLET */
+/* =========================================================
+   TABLET / SMALL LAPTOP
+   ========================================================= */
+
+@media (max-width: 1100px) {
+
+    .assessment-wrapper {
+        width: calc(100% - 60px);
+
+        grid-template-columns:
+            minmax(0, 0.9fr)
+            minmax(450px, 1.1fr);
+
+        gap: 45px;
+    }
+
+    .assessment-left {
+        padding-top: 75px;
+    }
+
+    .assessment-left h1 {
+        font-size: 42px;
+    }
+
+    .assessment-card {
+        padding: 30px 31px 27px;
+    }
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
 
 @media (max-width: 950px) {
+
+    .assessment-page {
+        padding: 60px 0 70px;
+    }
 
     .assessment-wrapper {
         width: min(720px, calc(100% - 36px));
 
         grid-template-columns: 1fr;
 
-        gap: 38px;
+        gap: 40px;
+
+        align-items: start;
     }
 
     .assessment-left {
         max-width: 100%;
+
+        padding-top: 0;
+    }
+
+    .assessment-left > .assessment-description {
+        max-width: 650px;
+    }
+
+    .assessment-info {
+        max-width: 650px;
     }
 
     .assessment-card {
@@ -578,26 +721,57 @@
 }
 
 
-/* MOBILE */
+/* =========================================================
+   MOBILE
+   ========================================================= */
 
 @media (max-width: 620px) {
 
     .assessment-page {
-        padding: 30px 0 45px;
+        min-height: auto;
+
+        padding: 40px 0 50px;
     }
 
     .assessment-wrapper {
         width: calc(100% - 28px);
 
-        gap: 28px;
+        gap: 30px;
+    }
+
+    .assessment-left {
+        text-align: center;
+    }
+
+    .assessment-badge {
+        justify-content: center;
     }
 
     .assessment-left h1 {
         font-size: 35px;
+
+        letter-spacing: -1px;
+    }
+
+    .assessment-left > .assessment-description {
+        margin-top: 17px;
+
+        font-size: 13.5px;
+        line-height: 1.65;
     }
 
     .assessment-info {
         grid-template-columns: 1fr;
+
+        gap: 10px;
+
+        margin-top: 24px;
+    }
+
+    .info-card {
+        min-height: 70px;
+
+        text-align: left;
     }
 
     .assessment-card {
@@ -615,8 +789,8 @@
     .progress-percent {
         align-self: start;
 
-        margin-top: 10px;
-        margin-bottom: 8px;
+        margin-top: 8px;
+        margin-bottom: 7px;
     }
 
     #questionnaireForm {
@@ -625,6 +799,10 @@
 
     .question-title {
         font-size: 21px;
+    }
+
+    .question-description {
+        font-size: 13px;
     }
 
     .options,
@@ -638,10 +816,36 @@
     }
 
     .navigation-buttons {
-        padding-top: 24px;
+        padding-top: 23px;
     }
 
     .nav-btn {
-        min-width: 110px;
+        min-width: 105px;
+    }
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 420px) {
+
+    .assessment-left h1 {
+        font-size: 32px;
+    }
+
+    .assessment-card {
+        padding: 24px 17px 20px;
+    }
+
+    .question-title {
+        font-size: 20px;
+    }
+
+    .nav-btn {
+        min-width: 95px;
+
+        padding: 0 14px;
     }
 }
