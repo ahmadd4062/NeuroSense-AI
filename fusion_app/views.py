@@ -12,7 +12,8 @@ logger = logging.getLogger(__name__)
 @login_required
 def report_page(request):
     """
-    Render the final fusion report page with language support
+    Render the final fusion report page with language support.
+    Also clears stale recommendations when a new screening is detected.
     """
     # Get language from request
     lang = request.GET.get('lang', 'en')
@@ -21,15 +22,6 @@ def report_page(request):
     gait_data = request.session.get('gait_result')
     speech_data = request.session.get('audio_module_result')
     questionnaire_data = request.session.get('questionnaire_result')
-    
-    # DEBUG: Print actual data
-    print("=== GAIT DATA ===")
-    print(gait_data)
-    print("=== SPEECH DATA ===")
-    print(speech_data)
-    print("=== QUESTIONNAIRE DATA ===")
-    print(questionnaire_data)
-    print(f"=== LANGUAGE: {lang} ===")
     
     # Error messages based on language
     error_messages = {
@@ -77,14 +69,9 @@ def report_page(request):
         
         # Save to database
         saved_fusion = save_fusion_result(fusion_result, user)
-        
-        # ==========================================
-        # SAVE TO SCREENING HISTORY (PROGRESS TRACKING)
-        # ==========================================
         try:
             from dashboard.models import ScreeningHistory
             
-            # Check if this screening already exists
             screening_id = fusion_result.get('screening_id')
             if not ScreeningHistory.objects.filter(screening_id=screening_id).exists():
                 ScreeningHistory.objects.create(
@@ -96,6 +83,10 @@ def report_page(request):
                     gait_prediction=fusion_result.get('modules', {}).get('gait', {}).get('prediction', 'N/A'),
                     speech_prediction=fusion_result.get('modules', {}).get('speech', {}).get('prediction', 'N/A'),
                     questionnaire_prediction=fusion_result.get('modules', {}).get('questionnaire', {}).get('prediction', 'N/A'),
+                    gait_pd_probability=fusion_result.get('modules', {}).get('gait', {}).get('pd_probability', None),
+                    speech_pd_probability=fusion_result.get('modules', {}).get('speech', {}).get('pd_probability', None),
+                    questionnaire_pd_probability=fusion_result.get('modules', {}).get('questionnaire', {}).get('pd_probability', None),
+                    motor_score=fusion_result.get('modules', {}).get('questionnaire', {}).get('motor_score', None),
                 )
                 logger.info(f"✅ Screening history saved for user {user.username}, screening: {screening_id}")
                 
@@ -106,7 +97,6 @@ def report_page(request):
                     from django.utils import timezone
                     profile.last_screening_date = timezone.now()
                     profile.save()
-                    logger.info(f"✅ User profile updated: total_screenings={profile.total_screenings}")
                 except Exception as profile_error:
                     logger.warning(f"Failed to update user profile: {str(profile_error)}")
                     
@@ -114,10 +104,24 @@ def report_page(request):
             logger.warning("Dashboard app not installed. Skipping screening history save.")
         except Exception as history_error:
             logger.error(f"Failed to save screening history: {str(history_error)}")
-        
-        # Store in session
+
         request.session['fusion_result'] = fusion_result
+        request.session['screening_id'] = fusion_result.get('screening_id')
         request.session.modified = True
+        
+        current_screening_id = fusion_result.get('screening_id')
+        last_cached_screening_id = request.session.get('recommendations_screening_id')
+        
+        if last_cached_screening_id and last_cached_screening_id != current_screening_id:
+            logger.info(
+                f"🔄 New screening detected ({last_cached_screening_id} → {current_screening_id}). "
+                f"Clearing stale recommendations cache."
+            )
+            request.session.pop('recommendations', None)
+            request.session.pop('recommendations_lang', None)
+            request.session.pop('recommendations_screening_id', None)
+            request.session.pop('generating_recommendations', None)
+            request.session.modified = True
         
         # Render report with language
         return render(request, 'fusion_app/report.html', {

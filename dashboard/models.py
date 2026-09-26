@@ -17,6 +17,10 @@ class ScreeningHistory(models.Model):
     gait_prediction = models.CharField(max_length=20, null=True)
     speech_prediction = models.CharField(max_length=20, null=True)
     questionnaire_prediction = models.CharField(max_length=20, null=True)
+    gait_pd_probability = models.FloatField(null=True)
+    speech_pd_probability = models.FloatField(null=True)
+    questionnaire_pd_probability = models.FloatField(null=True)
+    motor_score = models.FloatField(null=True)
     
     # Timestamps
     created_at = models.DateTimeField(auto_now_add=True)

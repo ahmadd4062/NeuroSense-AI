@@ -1,14 +1,18 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Clinical Recommendations - NeuroSense AI{% endblock %}
+{% block title %}
+{% if lang == 'ur' %}
+طبی سفارشات - نیوروسینس اے آئی
+{% else %}
+Clinical Recommendations - NeuroSense AI
+{% endif %}
+{% endblock %}
 
 {% block extra_css %}
 <style>
     /* ============================================
        NEUROSENSE AI — CLINICAL RECOMMENDATIONS
-       Aligned with the gait / landing page system:
-       navy headings, #4A6CF7 accent, cool tints.
        ============================================ */
 
     .rec-page {
@@ -26,7 +30,6 @@
         --danger-ink: #991B1B;
         --warning: #F59E0B;
         --warning-light: #FFFBEB;
-        --warning-ink: #92400E;
         --gray-50: #F8FAFC;
         --gray-100: #F1F5F9;
         --gray-200: #E7EDF5;
@@ -35,7 +38,6 @@
         --gray-500: #64748B;
         --gray-600: #475569;
         --gray-700: #334155;
-        --gray-900: #0F172A;
         --shadow-sm: 0 1px 2px rgba(11, 27, 58, 0.05);
         --shadow-md: 0 10px 30px rgba(11, 27, 58, 0.07);
         --radius-sm: 10px;
@@ -43,12 +45,6 @@
         --radius-lg: 18px;
         --radius-xl: 24px;
         --transition: all 0.2s ease;
-    }
-
-    .rec-page :focus-visible {
-        outline: 3px solid rgba(74, 108, 247, 0.45);
-        outline-offset: 2px;
-        border-radius: 6px;
     }
 
     /* ==========================================
@@ -164,7 +160,7 @@
     }
 
     /* ==========================================
-       CONTAINER (overlaps hero)
+       CONTAINER
        ========================================== */
     .rec-container {
         max-width: 1000px;
@@ -191,17 +187,9 @@
         border-top: 4px solid var(--gray-300);
     }
 
-    .risk-summary-card.low {
-        border-top-color: var(--success);
-    }
-
-    .risk-summary-card.medium {
-        border-top-color: var(--warning);
-    }
-
-    .risk-summary-card.high {
-        border-top-color: var(--danger);
-    }
+    .risk-summary-card.low { border-top-color: var(--success); }
+    .risk-summary-card.medium { border-top-color: var(--warning); }
+    .risk-summary-card.high { border-top-color: var(--danger); }
 
     .risk-summary-left {
         display: flex;
@@ -261,10 +249,7 @@
         margin-left: 4px;
     }
 
-    /* Probability meter */
-    .risk-meter {
-        min-width: 0;
-    }
+    .risk-meter { min-width: 0; }
 
     .risk-meter-track {
         position: relative;
@@ -310,11 +295,7 @@
         white-space: nowrap;
     }
 
-    .risk-summary-right i {
-        color: var(--primary);
-        width: 16px;
-        text-align: center;
-    }
+    .risk-summary-right i { color: var(--primary); width: 16px; text-align: center; }
 
     /* ==========================================
        MAIN CARD
@@ -394,22 +375,17 @@
     }
 
     @keyframes pulse-dot {
-
-        0%,
-        100% {
-            opacity: 1;
-        }
-
-        50% {
-            opacity: 0.3;
-        }
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.3; }
     }
 
     .rec-main-body {
         padding: 32px 44px 36px;
     }
 
-    /* ---------- In-page navigation (built by JS) ---------- */
+    /* ==========================================
+       IN-PAGE NAVIGATION
+       ========================================== */
     .rec-toc {
         display: none;
         margin: 0 0 30px;
@@ -419,9 +395,7 @@
         border-radius: var(--radius-md);
     }
 
-    .rec-toc.show {
-        display: block;
-    }
+    .rec-toc.show { display: block; }
 
     .rec-toc-title {
         font-size: 0.72rem;
@@ -477,7 +451,6 @@
 
     /* ==========================================
        GENERATED CONTENT
-       (class names come from clean_markdown)
        ========================================== */
     .rec-content {
         font-size: 0.95rem;
@@ -551,7 +524,6 @@
         line-height: 1.8;
     }
 
-    /* ---------- Lists ---------- */
     .rec-content .rec-list {
         margin: 12px 0 16px;
         padding: 0;
@@ -590,13 +562,9 @@
         box-shadow: 0 0 0 4px var(--primary-soft);
     }
 
-    .rec-content ol.rec-list {
-        counter-reset: item;
-    }
+    .rec-content ol.rec-list { counter-reset: item; }
 
-    .rec-content ol.rec-list li {
-        counter-increment: item;
-    }
+    .rec-content ol.rec-list li { counter-increment: item; }
 
     .rec-content ol.rec-list li::before {
         content: counter(item);
@@ -615,17 +583,10 @@
         justify-content: center;
     }
 
-    .rec-content strong {
-        color: var(--ink);
-        font-weight: 700;
-    }
+    .rec-content strong { color: var(--ink); font-weight: 700; }
+    .rec-content em { color: var(--primary); font-style: italic; }
 
-    .rec-content em {
-        color: var(--primary);
-        font-style: italic;
-    }
-
-    /* ---------- Callout blocks ---------- */
+    /* ---------- Callouts ---------- */
     .rec-content .disclaimer-block {
         background: var(--warning-light);
         border: 1px solid #FDE68A;
@@ -646,13 +607,9 @@
         font-size: 1.15rem;
         margin-top: 2px;
         flex-shrink: 0;
-        font-weight: 900;
-        /* the generated icon uses fa-regular; force the solid glyph */
     }
 
-    .rec-content .disclaimer-block strong {
-        color: #78350F;
-    }
+    .rec-content .disclaimer-block strong { color: #78350F; }
 
     .rec-content .greeting-block {
         background: linear-gradient(135deg, var(--primary-soft) 0%, #FFFFFF 100%);
@@ -666,9 +623,7 @@
         line-height: 1.8;
     }
 
-    .rec-content .greeting-block strong {
-        color: var(--ink);
-    }
+    .rec-content .greeting-block strong { color: var(--ink); }
 
     /* ---------- Tags ---------- */
     .rec-content .risk-tag {
@@ -750,9 +705,7 @@
         flex-shrink: 0;
     }
 
-    .rec-disclaimer strong {
-        color: var(--ink);
-    }
+    .rec-disclaimer strong { color: var(--ink); }
 
     /* ==========================================
        ACTION BAR
@@ -801,37 +754,22 @@
         transform: translateY(-1px);
     }
 
-    .btn-primary-rec {
-        background: var(--ink);
-        color: #FFFFFF;
-    }
-
-    .btn-primary-rec:hover {
-        background: #16294f;
-        transform: translateY(-1px);
-    }
+    .btn-primary-rec { background: var(--ink); color: #FFFFFF; }
+    .btn-primary-rec:hover { background: #16294f; transform: translateY(-1px); }
 
     .btn-outline-rec {
         background: #FFFFFF;
         color: var(--primary);
         border-color: var(--primary);
     }
-
-    .btn-outline-rec:hover {
-        background: var(--primary-soft);
-        transform: translateY(-1px);
-    }
+    .btn-outline-rec:hover { background: var(--primary-soft); transform: translateY(-1px); }
 
     .btn-secondary-rec {
         background: var(--gray-100);
         color: var(--gray-600);
         border-color: var(--gray-200);
     }
-
-    .btn-secondary-rec:hover {
-        background: var(--gray-200);
-        transform: translateY(-1px);
-    }
+    .btn-secondary-rec:hover { background: var(--gray-200); transform: translateY(-1px); }
 
     /* ==========================================
        STATES
@@ -855,11 +793,7 @@
         margin: 0 auto 20px;
     }
 
-    @keyframes spin {
-        to {
-            transform: rotate(360deg);
-        }
-    }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
     .rec-loading h3 {
         color: var(--ink);
@@ -892,19 +826,10 @@
         animation: shimmer 1.4s linear infinite;
     }
 
-    .rec-skeleton span:nth-child(2) {
-        width: 88%;
-    }
+    .rec-skeleton span:nth-child(2) { width: 88%; }
+    .rec-skeleton span:nth-child(3) { width: 64%; }
 
-    .rec-skeleton span:nth-child(3) {
-        width: 64%;
-    }
-
-    @keyframes shimmer {
-        to {
-            background-position: -200% 0;
-        }
-    }
+    @keyframes shimmer { to { background-position: -200% 0; } }
 
     .rec-error {
         background: var(--danger-light);
@@ -921,10 +846,7 @@
         font-weight: 800;
     }
 
-    .rec-error p {
-        margin: 0 0 20px;
-        color: #7F1D1D;
-    }
+    .rec-error p { margin: 0 0 20px; color: #7F1D1D; }
 
     .rec-error .btn,
     .rec-empty .btn {
@@ -943,9 +865,7 @@
     }
 
     .rec-error .btn:hover,
-    .rec-empty .btn:hover {
-        background: var(--primary-dark);
-    }
+    .rec-empty .btn:hover { background: var(--primary-dark); }
 
     .rec-empty {
         background: #FFFFFF;
@@ -969,16 +889,8 @@
         margin: 0 auto 18px;
     }
 
-    .rec-empty h3 {
-        color: var(--ink);
-        margin: 0 0 8px;
-        font-weight: 800;
-    }
-
-    .rec-empty p {
-        color: var(--gray-500);
-        margin: 0 0 22px;
-    }
+    .rec-empty h3 { color: var(--ink); margin: 0 0 8px; font-weight: 800; }
+    .rec-empty p { color: var(--gray-500); margin: 0 0 22px; }
 
     /* ==========================================
        RESPONSIVE
@@ -1004,31 +916,14 @@
     }
 
     @media (max-width: 768px) {
-        .rec-hero {
-            padding: 44px 16px 64px;
-        }
+        .rec-hero { padding: 44px 16px 64px; }
+        .rec-hero h1 { font-size: 2rem; }
+        .rec-hero p { font-size: 0.95rem; }
 
-        .rec-hero h1 {
-            font-size: 2rem;
-        }
+        .rec-hero-stats { flex-direction: column; align-items: center; }
 
-        .rec-hero p {
-            font-size: 0.95rem;
-        }
-
-        .rec-hero-stats {
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .rec-main-header {
-            flex-direction: column;
-            text-align: center;
-        }
-
-        .rec-main-header .header-left {
-            flex-direction: column;
-        }
+        .rec-main-header { flex-direction: column; text-align: center; }
+        .rec-main-header .header-left { flex-direction: column; }
 
         .rec-actions .btn {
             flex: 1 1 40%;
@@ -1038,9 +933,7 @@
         }
 
         .rec-content .disclaimer-block,
-        .rec-disclaimer {
-            flex-direction: column;
-        }
+        .rec-disclaimer { flex-direction: column; }
 
         .rec-content .rec-h2 {
             font-size: 1rem;
@@ -1050,19 +943,10 @@
     }
 
     @media (max-width: 480px) {
-        .rec-hero h1 {
-            font-size: 1.6rem;
-        }
-
-        .rec-container {
-            padding: 0 14px 56px;
-        }
-
+        .rec-hero h1 { font-size: 1.6rem; }
+        .rec-container { padding: 0 14px 56px; }
         .rec-main-header,
-        .rec-main-body {
-            padding-left: 16px;
-            padding-right: 16px;
-        }
+        .rec-main-body { padding-left: 16px; padding-right: 16px; }
 
         .rec-content .rec-list li {
             font-size: 0.9rem;
@@ -1071,7 +955,6 @@
     }
 
     @media (prefers-reduced-motion: reduce) {
-
         .rec-page *,
         .rec-page *::before,
         .rec-page *::after {
@@ -1081,38 +964,20 @@
         }
     }
 
-    /* ==========================================
-       PRINT
-       ========================================== */
     @media print {
-        .rec-hero {
-            background: none;
-            padding: 16px 0 8px;
-        }
-
+        .rec-hero { background: none; padding: 16px 0 8px; }
         .rec-hero::before,
         .rec-hero::after,
         .rec-hero-stats,
         .rec-actions,
         .rec-toc,
-        .header-badge {
-            display: none !important;
-        }
+        .header-badge { display: none !important; }
 
-        .rec-container {
-            margin-top: 0;
-            padding: 0;
-        }
+        .rec-container { margin-top: 0; padding: 0; }
 
         .risk-summary-card,
-        .rec-main-card {
-            box-shadow: none;
-            border: 1px solid #E7EDF5;
-        }
-
-        .rec-main-card {
-            overflow: visible;
-        }
+        .rec-main-card { box-shadow: none; border: 1px solid #E7EDF5; }
+        .rec-main-card { overflow: visible; }
 
         .rec-content .rec-h2,
         .rec-content .rec-list li {
@@ -1134,6 +999,8 @@
 
 {% block content %}
 
+{% with lang=request.LANG|default:'en' %}
+
 <div class="rec-page">
 
     <!-- ========================================== -->
@@ -1143,62 +1010,89 @@
         <div class="rec-hero-content">
             <div class="rec-hero-badge">
                 <i class="fa-solid fa-star-of-life"></i>
-                Clinical Recommendations
+                {% if lang == 'ur' %}طبی سفارشات{% else %}Clinical Recommendations{% endif %}
             </div>
 
             <h1>
+                {% if lang == 'ur' %}
+                آپ کا ذاتی نوعیت کا
+                <span>ویلنس پلان</span>
+                {% else %}
                 Your Personalized
                 <span>Wellness Plan</span>
+                {% endif %}
             </h1>
 
             <p>
-                AI-generated clinical recommendations tailored to your screening results.
+                {% if lang == 'ur' %}
+                آپ کے اسکریننگ نتائج کی بنیاد پر تیار کردہ ذاتی نوعیت کی طبی سفارشات۔
+                یہ بصیرتیں بہتر نیورولوجیکل صحت کی طرف آپ کے اگلے اقدامات کی رہنمائی کے لیے بنائی گئی ہیں۔
+                {% else %}
+                Clinical recommendations tailored to your screening results.
                 These insights are designed to guide your next steps toward better neurological health.
+                {% endif %}
             </p>
 
             <div class="rec-hero-stats">
                 <span class="rec-hero-stat">
                     <i class="fa-regular fa-clock"></i>
-                    Generated in <strong>real-time</strong>
+                    {% if lang == 'ur' %}<strong>ریئل ٹائم</strong> میں تیار{% else %}Generated in <strong>real-time</strong>{% endif %}
                 </span>
                 <span class="rec-hero-stat">
                     <i class="fa-regular fa-circle-check"></i>
-                    Based on <strong>3 screening modules</strong>
+                    {% if lang == 'ur' %}<strong>3 اسکریننگ ماڈیولز</strong> کی بنیاد پر{% else %}Based on <strong>3 screening modules</strong>{% endif %}
                 </span>
                 <span class="rec-hero-stat">
                     <i class="fa-regular fa-message"></i>
-                    Powered by <strong>Gemini AI</strong>
+                    {% if lang == 'ur' %}<strong>نیوروسینس انٹیلیجنس</strong> سے تقویت یافتہ{% else %}Powered by <strong>NeuroSense Intelligence</strong>{% endif %}
                 </span>
             </div>
         </div>
     </section>
 
-
+    <!-- ========================================== -->
+    <!-- MAIN CONTENT -->
+    <!-- ========================================== -->
     <div class="rec-container">
 
         {% if error %}
-        <!-- ========== ERROR STATE ========== -->
         <div class="rec-error">
             <h2>⚠️ {{ error }}</h2>
-            <p>Please complete all screening modules first or try again.</p>
+            <p>
+                {% if lang == 'ur' %}
+                براہ کرم پہلے تمام اسکریننگ ماڈیولز مکمل کریں یا دوبارہ کوشش کریں۔
+                {% else %}
+                Please complete all screening modules first or try again.
+                {% endif %}
+            </p>
             <a href="{% url 'speech_app:home' %}" class="btn">
-                <i class="fa-solid fa-house"></i> Go to Home
+                <i class="fa-solid fa-house"></i>
+                {% if lang == 'ur' %}ہوم پیج{% else %}Go to Home{% endif %}
             </a>
         </div>
 
         {% elif is_generating %}
-        <!-- ========== LOADING STATE ========== -->
         <div class="rec-loading">
             <div class="spinner"></div>
-            <h3>Generating Your Recommendations</h3>
-            <p>Our AI is analyzing your screening results to create personalized insights.</p>
+            <h3>
+                {% if lang == 'ur' %}آپ کی سفارشات تیار ہو رہی ہیں{% else %}Generating Your Recommendations{% endif %}
+            </h3>
+            <p>
+                {% if lang == 'ur' %}
+                ہمارا سسٹم آپ کے اسکریننگ نتائج کا تجزیہ کر کے ذاتی نوعیت کی بصیرتیں تیار کر رہا ہے۔
+                {% else %}
+                Our system is analyzing your screening results to build personalized insights.
+                {% endif %}
+            </p>
             <div class="rec-skeleton" aria-hidden="true">
                 <span></span><span></span><span></span>
             </div>
         </div>
 
         {% elif recommendations %}
-        <!-- ========== RECOMMENDATIONS DISPLAY ========== -->
+        <!-- ========================================== -->
+        <!-- RECOMMENDATIONS DISPLAY                    -->
+        <!-- ========================================== -->
 
         <!-- Risk Summary -->
         <div class="risk-summary-card {% if fusion.risk_level == 'Low' %}low{% elif fusion.risk_level == 'Medium' %}medium{% else %}high{% endif %}">
@@ -1207,9 +1101,17 @@
                     <i class="fa-solid fa-gauge-high"></i>
                 </span>
                 <div>
-                    <span class="risk-label">Overall Risk Level</span>
+                    <span class="risk-label">
+                        {% if lang == 'ur' %}مجموعی خطرے کی سطح{% else %}Overall Risk Level{% endif %}
+                    </span>
                     <span class="risk-value">
-                        {{ fusion.risk_level|upper }}
+                        {% if lang == 'ur' %}
+                            {% if fusion.risk_level == 'Low' %}کم
+                            {% elif fusion.risk_level == 'Medium' %}درمیانہ
+                            {% else %}زیادہ{% endif %}
+                        {% else %}
+                            {{ fusion.risk_level|upper }}
+                        {% endif %}
                         <span class="risk-score">· {{ fusion.final_pd_probability|floatformat:2 }} / 1.00</span>
                     </span>
                 </div>
@@ -1220,9 +1122,9 @@
                     <span class="risk-meter-marker" style="left: {% widthratio fusion.final_pd_probability 1 100 %}%;"></span>
                 </div>
                 <div class="risk-meter-scale">
-                    <span>Low</span>
-                    <span>Medium</span>
-                    <span>High</span>
+                    <span>{% if lang == 'ur' %}کم{% else %}Low{% endif %}</span>
+                    <span>{% if lang == 'ur' %}درمیانہ{% else %}Medium{% endif %}</span>
+                    <span>{% if lang == 'ur' %}زیادہ{% else %}High{% endif %}</span>
                 </div>
             </div>
 
@@ -1232,7 +1134,7 @@
             </div>
         </div>
 
-        <!-- Main Recommendations Card -->
+        <!-- Main Card -->
         <div class="rec-main-card">
             <div class="rec-main-header">
                 <div class="header-left">
@@ -1240,27 +1142,41 @@
                         <i class="fa-regular fa-lightbulb"></i>
                     </div>
                     <div class="header-title">
-                        <h2>Clinical Recommendations</h2>
-                        <p>Personalized guidance based on your screening results</p>
+                        <h2>
+                            {% if lang == 'ur' %}طبی سفارشات{% else %}Clinical Recommendations{% endif %}
+                        </h2>
+                        <p>
+                            {% if lang == 'ur' %}
+                            آپ کے اسکریننگ نتائج کی بنیاد پر ذاتی نوعیت کی رہنمائی
+                            {% else %}
+                            Personalized guidance based on your screening results
+                            {% endif %}
+                        </p>
                     </div>
                 </div>
                 <div class="header-badge">
                     <span class="dot"></span>
-                    Gemini AI
+                    {% if lang == 'ur' %}نیوروسینس انٹیلیجنس{% else %}NeuroSense Intelligence{% endif %}
                 </div>
             </div>
 
             <div class="rec-main-body">
+                <!-- In-page navigation (built by JS) -->
                 <nav class="rec-toc" id="rec-toc" aria-label="Sections">
-                    <p class="rec-toc-title">On this page</p>
+                    <p class="rec-toc-title">
+                        {% if lang == 'ur' %}اس صفحے پر{% else %}On this page{% endif %}
+                    </p>
                     <ol class="rec-toc-list" id="rec-toc-list"></ol>
                 </nav>
 
+                <!-- Structured content -->
                 <div class="rec-content" id="rec-content">
                     {% if recommendations %}
                         {{ recommendations|safe }}
                     {% else %}
-                        <p class="rec-p">No recommendations available.</p>
+                        <p class="rec-p">
+                            {% if lang == 'ur' %}کوئی سفارشات دستیاب نہیں ہیں۔{% else %}No recommendations available.{% endif %}
+                        </p>
                     {% endif %}
                 </div>
 
@@ -1268,40 +1184,66 @@
                 <div class="rec-disclaimer">
                     <i class="fa-regular fa-circle-info"></i>
                     <div>
-                        <strong>Important:</strong> These recommendations are generated by AI based on your screening results and are for informational purposes only. They are not a substitute for professional medical advice, diagnosis, or treatment. Always consult a qualified healthcare provider for clinical decisions.
+                        <strong>{% if lang == 'ur' %}اہم:{% else %}Important:{% endif %}</strong>
+                        {% if lang == 'ur' %}
+                        یہ سفارشات آپ کے اسکریننگ نتائج کی بنیاد پر نیوروسینس انٹیلیجنس کے ذریعے تیار کی گئی ہیں اور صرف معلوماتی مقاصد کے لیے ہیں۔
+                        یہ پیشہ ورانہ طبی مشورے، تشخیص، یا علاج کا متبادل نہیں ہیں۔
+                        طبی فیصلوں کے لیے ہمیشہ کسی مستند ہیلتھ کیئر فراہم کنندہ سے مشورہ کریں۔
+                        {% else %}
+                        These recommendations are generated by NeuroSense Intelligence based on your screening results
+                        and are for informational purposes only. They are not a substitute for professional medical advice,
+                        diagnosis, or treatment. Always consult a qualified healthcare provider for clinical decisions.
+                        {% endif %}
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Action Buttons -->
+        <!-- Action Bar -->
         <div class="rec-actions">
             <button type="button" class="btn btn-pdf" onclick="window.print()">
-                <i class="fa-regular fa-file-pdf"></i> Download PDF
+                <i class="fa-regular fa-file-pdf"></i>
+                {% if lang == 'ur' %}پی ڈی ایف ڈاؤن لوڈ کریں{% else %}Download PDF{% endif %}
             </button>
+
             <a href="{% url 'fusion_app:report' %}" class="btn btn-outline-rec">
-                <i class="fa-regular fa-file-lines"></i> Back to Report
+                <i class="fa-regular fa-file-lines"></i>
+                {% if lang == 'ur' %}رپورٹ پر واپس جائیں{% else %}Back to Report{% endif %}
             </a>
-            <!-- The view only accepts POST for regenerate, so this is a form, not a link -->
-            <form method="post" action="{% url 'recommendations_app:regenerate' %}" onsubmit="return confirm('Regenerate recommendations? This will use your Gemini API credits.');">
+
+            <form method="post"
+                  action="{% url 'recommendations_app:regenerate' %}"
+                  onsubmit="return confirm('{% if lang == 'ur' %}کیا آپ واقعی سفارشات دوبارہ تیار کرنا چاہتے ہیں؟ اس سے آپ کے جیمنی اے آئی کریڈٹ استعمال ہوں گے۔{% else %}Regenerate recommendations? This will use your Gemini API credits.{% endif %}');">
                 {% csrf_token %}
                 <button type="submit" class="btn btn-secondary-rec">
-                    <i class="fa-solid fa-rotate"></i> Regenerate
+                    <i class="fa-solid fa-rotate"></i>
+                    {% if lang == 'ur' %}دوبارہ تیار کریں{% else %}Regenerate{% endif %}
                 </button>
             </form>
+
             <a href="{% url 'speech_app:home' %}" class="btn btn-primary-rec">
-                <i class="fa-solid fa-house"></i> Home
+                <i class="fa-solid fa-house"></i>
+                {% if lang == 'ur' %}ہوم پیج{% else %}Home{% endif %}
             </a>
         </div>
 
         {% else %}
-        <!-- ========== EMPTY STATE ========== -->
+        <!-- Empty State -->
         <div class="rec-empty">
             <div class="empty-icon"><i class="fa-regular fa-clipboard"></i></div>
-            <h3>No Recommendations Available</h3>
-            <p>Please complete the full screening process first.</p>
+            <h3>
+                {% if lang == 'ur' %}کوئی سفارشات دستیاب نہیں{% else %}No Recommendations Available{% endif %}
+            </h3>
+            <p>
+                {% if lang == 'ur' %}
+                براہ کرم پہلے مکمل اسکریننگ کا عمل مکمل کریں۔
+                {% else %}
+                Please complete the full screening process first.
+                {% endif %}
+            </p>
             <a href="{% url 'questionnaire_app:home' %}" class="btn">
-                <i class="fa-solid fa-arrow-right"></i> Start Screening
+                <i class="fa-solid fa-arrow-right"></i>
+                {% if lang == 'ur' %}اسکریننگ شروع کریں{% else %}Start Screening{% endif %}
             </a>
         </div>
         {% endif %}
@@ -1309,13 +1251,15 @@
     </div>
 </div>
 
+{% endwith %}
+
 {% endblock %}
 
 {% block extra_js %}
 <script>
     (function () {
         'use strict';
-        // Build a small "On this page" nav from the generated H2 headings.
+        // Build the "On this page" nav from the generated H2 headings.
         var content = document.getElementById('rec-content');
         var toc = document.getElementById('rec-toc');
         var list = document.getElementById('rec-toc-list');
