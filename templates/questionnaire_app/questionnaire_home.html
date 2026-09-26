@@ -107,8 +107,7 @@ Questionnaire Assessment - NeuroSense AI
 
                 <a
                     href="{% url 'questionnaire_app:form' %}"
-                    class="start-btn"
-                >
+                    class="start-btn">
                     <span>
                         {% if lang == 'ur' %}تشخیص شروع کریں{% else %}Start Assessment{% endif %}
                     </span>
@@ -123,41 +122,11 @@ Questionnaire Assessment - NeuroSense AI
         <div class="hero-image">
 
             <img
-                src="{% static 'questionnaire_app/images/q2.jpeg' %}"
+                src="{% static 'questionnaire_app/images/q1.png' %}"
                 alt="Questionnaire Assessment"
             >
 
-            <div class="floating-card card-one">
-
-                <i class="fa-solid fa-check"></i>
-
-                <p>
-                    {% if lang == 'ur' %}آسان سوالات{% else %}Simple Questions{% endif %}
-                </p>
-
-            </div>
-
-
-            <div class="floating-card card-two">
-
-                <i class="fa-solid fa-brain"></i>
-
-                <p>
-                    {% if lang == 'ur' %}اے آئی معاون{% else %}AI Supported{% endif %}
-                </p>
-
-            </div>
-
-
-            <div class="floating-card card-three">
-
-                <i class="fa-solid fa-layer-group"></i>
-
-                <p>
-                    {% if lang == 'ur' %}کثیر اجزائی اسکریننگ{% else %}Multimodal Screening{% endif %}
-                </p>
-
-            </div>
+            
 
         </div>
 
