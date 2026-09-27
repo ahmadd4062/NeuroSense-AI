@@ -9,7 +9,8 @@ db.sqlite3
 *.webm
 *.ogg
 media/
-
+mobile/node_modules/
+mobile/android/app/build/
 # Ahmad's gitignore
 
 

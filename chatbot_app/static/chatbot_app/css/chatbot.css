@@ -1335,3 +1335,437 @@ body.urdu-mode .message-bubble {
     max-width: 690px;
     margin: 0 auto 18px;
 }
+
+/* =========================================================
+   NEUROSENSE CHATBOT — FINAL COMPACT DESKTOP LAYOUT
+   Added as final overrides so the existing design/theme
+   remains unchanged.
+========================================================= */
+
+@media (min-width: 901px) {
+
+    /* ---------- PAGE / MAIN LAYOUT ---------- */
+
+    .chatbot-page {
+        height: calc(100dvh - 82px);
+        overflow: hidden;
+    }
+
+    .chatbot-wrapper {
+        grid-template-columns: 257px minmax(0, 1fr);
+        height: 100%;
+    }
+
+    /* ---------- SIDEBAR ---------- */
+
+    .chat-sidebar {
+        padding: 20px 16px;
+    }
+
+    .sidebar-brand {
+        gap: 9px;
+        margin-bottom: 18px;
+    }
+
+    .brand-icon {
+        width: 42px;
+        height: 42px;
+        min-width: 42px;
+        border-radius: 12px;
+        font-size: 17px;
+    }
+
+    .sidebar-brand h2 {
+        font-size: 15px;
+    }
+
+    .sidebar-brand p {
+        margin-top: 2px;
+        font-size: 9.5px;
+    }
+
+    .new-chat-wrapper {
+        margin-bottom: 20px;
+    }
+
+    .new-chat-btn {
+        min-height: 43px;
+        border-radius: 11px;
+        gap: 7px;
+        font-size: 11.5px;
+    }
+
+    .sidebar-label {
+        font-size: 8.5px;
+    }
+
+    .sidebar-section {
+        margin-bottom: 18px;
+    }
+
+    .assistant-item {
+        padding: 9px;
+        gap: 8px;
+        border-radius: 12px;
+    }
+
+    .assistant-item-icon {
+        width: 34px;
+        height: 34px;
+        min-width: 34px;
+        border-radius: 10px;
+    }
+
+    .assistant-item strong {
+        font-size: 10.5px;
+    }
+
+    .assistant-item span {
+        font-size: 8.5px;
+    }
+
+    .sidebar-info-card {
+        padding: 10px;
+        gap: 8px;
+        border-radius: 12px;
+    }
+
+    .sidebar-info-card strong {
+        font-size: 9.5px;
+    }
+
+    .sidebar-info-card p {
+        font-size: 8.5px;
+        line-height: 1.35;
+    }
+
+    /* ---------- CHAT HEADER ---------- */
+
+    .chat-header {
+        min-height: 64px;
+        height: 64px;
+        padding: 9px 22px;
+    }
+
+    .assistant-profile {
+        gap: 10px;
+    }
+
+    .assistant-avatar {
+        width: 42px;
+        height: 42px;
+        min-width: 42px;
+        border-radius: 13px;
+        font-size: 16px;
+    }
+
+    .assistant-profile h1 {
+        font-size: 15px;
+    }
+
+    .assistant-status {
+        font-size: 9px;
+    }
+
+    .header-action-btn {
+        width: 38px;
+        height: 38px;
+    }
+
+    /* ---------- CHAT CONTENT ---------- */
+
+    .chat-messages {
+        min-height: 0;
+        padding: 10px 20px 8px;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    /* ---------- COMPACT WELCOME BLOCK ---------- */
+
+    .welcome-section {
+        width: min(792px, 100%);
+        max-width: 100%;
+        margin: 10px auto 28px;
+        text-align: center;
+    }
+
+    .welcome-robot {
+        width: 72px;
+        height: 72px;
+        margin: 0 auto 2px;
+    }
+
+    .welcome-robot img {
+        width: 64px;
+        height: 64px;
+    }
+
+    .robot-glow {
+        width: 68px;
+        height: 68px;
+    }
+
+    .welcome-section h2 {
+        margin: 0 0 6px;
+        font-size: 24px;
+        line-height: 1.2;
+        letter-spacing: -0.4px;
+    }
+
+    .welcome-section > p {
+        max-width: 600px;
+        margin: 0 auto 16px;
+        font-size: 11px;
+        line-height: 1.45;
+    }
+
+    /* ---------- COMPACT 2 x 2 CARDS ---------- */
+
+    .suggestion-grid {
+        width: 100%;
+        max-width: 792px;
+        margin: 0 auto;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 9px;
+    }
+
+    .suggestion-card {
+        min-height: 58px;
+        height: 58px;
+        padding: 8px 13px;
+        grid-template-columns: 34px minmax(0, 1fr) auto;
+        gap: 9px;
+        border-radius: 13px;
+    }
+
+    .suggestion-icon {
+        width: 34px;
+        height: 34px;
+        border-radius: 10px;
+        font-size: 13px;
+    }
+
+    .suggestion-card strong {
+        margin-bottom: 0;
+        font-size: 10.5px;
+        line-height: 1.2;
+    }
+
+    /* Descriptions were removed from the cards */
+    .suggestion-card span {
+        display: none;
+    }
+
+    .suggestion-arrow {
+        font-size: 10px;
+    }
+
+    /* ---------- INPUT AREA ---------- */
+
+    .chat-input-area {
+        flex-shrink: 0;
+        padding: 8px 20px 7px;
+    }
+
+    .chat-input-wrapper {
+        width: min(845px, 100%);
+        min-height: 50px;
+        padding: 5px 7px 5px 14px;
+        border-radius: 15px;
+        align-items: center;
+    }
+
+    #messageInput {
+        min-height: 36px;
+        max-height: 120px;
+        padding: 8px 0;
+        font-size: 12px;
+        line-height: 1.45;
+        text-indent: 0;
+    }
+
+    .send-btn {
+        width: 38px;
+        height: 38px;
+        min-width: 38px;
+        border-radius: 11px;
+    }
+
+    .chat-disclaimer {
+        margin: 4px 0 0;
+        font-size: 8.5px;
+        line-height: 1.2;
+    }
+}
+
+
+/* =========================================================
+   MOBILE — COMPACT VERSION
+========================================================= */
+
+@media (max-width: 900px) {
+
+    .chatbot-page {
+        height: calc(100dvh - 68px);
+        overflow: hidden;
+    }
+
+    .chatbot-wrapper {
+        height: 100%;
+        display: block;
+    }
+
+    .chat-sidebar {
+        display: none;
+    }
+
+    .chat-panel {
+        height: 100%;
+        min-height: 0;
+    }
+
+    .chat-header {
+        min-height: 60px;
+        height: 60px;
+        padding: 8px 12px;
+    }
+
+    .assistant-profile {
+        gap: 9px;
+    }
+
+    .assistant-avatar {
+        width: 38px;
+        height: 38px;
+        min-width: 38px;
+        border-radius: 11px;
+        font-size: 15px;
+    }
+
+    .assistant-profile h1 {
+        font-size: 14px;
+    }
+
+    .assistant-status {
+        font-size: 8.5px;
+    }
+
+    .header-action-btn {
+        width: 36px;
+        height: 36px;
+    }
+
+    .chat-messages {
+        min-height: 0;
+        padding: 10px 12px 8px;
+        overflow-y: auto;
+    }
+
+    .welcome-section {
+        width: 100%;
+        margin: 8px auto 24px;
+    }
+
+    .welcome-robot {
+        width: 68px;
+        height: 68px;
+        margin-bottom: 2px;
+    }
+
+    .welcome-robot img {
+        width: 60px;
+        height: 60px;
+    }
+
+    .robot-glow {
+        width: 64px;
+        height: 64px;
+    }
+
+    .welcome-section h2 {
+        font-size: 22px;
+        margin-bottom: 5px;
+    }
+
+    .welcome-section > p {
+        max-width: 340px;
+        margin-bottom: 13px;
+        font-size: 10.5px;
+        line-height: 1.4;
+    }
+
+    .suggestion-grid {
+        width: 100%;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 7px;
+    }
+
+    .suggestion-card {
+        min-height: 54px;
+        height: 54px;
+        padding: 8px;
+        grid-template-columns: 30px minmax(0, 1fr) auto;
+        gap: 6px;
+        border-radius: 11px;
+    }
+
+    .suggestion-icon {
+        width: 30px;
+        height: 30px;
+        min-width: 30px;
+        border-radius: 9px;
+        font-size: 12px;
+    }
+
+    .suggestion-card strong {
+        font-size: 9.5px;
+        line-height: 1.2;
+    }
+
+    .suggestion-card span {
+        display: none;
+    }
+
+    .suggestion-arrow {
+        font-size: 9px;
+    }
+
+    .message-content {
+        max-width: 90%;
+    }
+
+    .chat-input-area {
+        padding: 7px 9px 7px;
+    }
+
+    .chat-input-wrapper {
+        width: 100%;
+        min-height: 48px;
+        padding: 5px 6px 5px 12px;
+        border-radius: 14px;
+        align-items: center;
+    }
+
+    #messageInput {
+        min-height: 36px;
+        max-height: 90px;
+        padding: 8px 0;
+        font-size: 12px;
+        line-height: 1.4;
+        text-indent: 0;
+    }
+
+    .send-btn {
+        width: 36px;
+        height: 36px;
+        min-width: 36px;
+        border-radius: 10px;
+    }
+
+    .chat-disclaimer {
+        margin-top: 4px;
+        font-size: 8px;
+        line-height: 1.2;
+    }
+}

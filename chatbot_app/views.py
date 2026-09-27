@@ -1,5 +1,5 @@
 import json
-
+from django.views.decorators.csrf import ensure_csrf_cookie
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.decorators.http import require_POST
@@ -17,10 +17,9 @@ from .services.memory_service import (
     get_recent_messages,
 )
 
-
+@ensure_csrf_cookie
 def chatbot_page(request):
     return render(request, "chatbot_app/chatbot.html")
-
 
 @require_POST
 def chat_api(request):
