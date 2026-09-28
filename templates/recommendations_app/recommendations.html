@@ -13,6 +13,8 @@ Clinical Recommendations - NeuroSense AI
 <style>
     /* ============================================
        NEUROSENSE AI — CLINICAL RECOMMENDATIONS
+       Refined visual pass: tighter type scale,
+       calmer surfaces, clearer hierarchy.
        ============================================ */
 
     .rec-page {
@@ -20,8 +22,9 @@ Clinical Recommendations - NeuroSense AI
         --primary-dark: #3B5DE7;
         --primary-soft: #EEF2FF;
         --primary-tint: #E0E7FF;
-        --primary-gradient: linear-gradient(135deg, #4A6CF7 0%, #7c3aed 100%);
+        --primary-gradient: linear-gradient(135deg, #4A6CF7 0%, #7C3AED 100%);
         --ink: #0B1B3A;
+        --ink-soft: #1E293B;
         --success: #10B981;
         --success-light: #ECFDF5;
         --success-ink: #065F46;
@@ -38,52 +41,40 @@ Clinical Recommendations - NeuroSense AI
         --gray-500: #64748B;
         --gray-600: #475569;
         --gray-700: #334155;
-        --shadow-sm: 0 1px 2px rgba(11, 27, 58, 0.05);
-        --shadow-md: 0 10px 30px rgba(11, 27, 58, 0.07);
+        --shadow-xs: 0 1px 2px rgba(11, 27, 58, 0.04);
+        --shadow-sm: 0 2px 8px rgba(11, 27, 58, 0.05);
+        --shadow-md: 0 12px 32px rgba(11, 27, 58, 0.08);
+        --shadow-lg: 0 24px 60px rgba(11, 27, 58, 0.12);
         --radius-sm: 10px;
         --radius-md: 14px;
-        --radius-lg: 18px;
-        --radius-xl: 24px;
-        --transition: all 0.2s ease;
+        --radius-lg: 20px;
+        --radius-xl: 26px;
+        --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        background: var(--gray-50);
+        color: var(--gray-700);
+    }
+
+    .rec-page :focus-visible {
+        outline: 3px solid rgba(74, 108, 247, 0.4);
+        outline-offset: 2px;
+        border-radius: 6px;
     }
 
     /* ==========================================
        HERO
        ========================================== */
     .rec-hero {
-        background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
-        padding: 64px 20px 76px;
+        background:
+            radial-gradient(circle at 82% -10%, rgba(74, 108, 247, 0.14) 0%, transparent 55%),
+            radial-gradient(circle at 5% 115%, rgba(124, 58, 237, 0.10) 0%, transparent 50%),
+            linear-gradient(180deg, #F3F6FF 0%, #FFFFFF 100%);
+        padding: 60px 20px 96px;
         text-align: center;
         position: relative;
-        overflow: hidden;
-    }
-
-    .rec-hero::before {
-        content: '';
-        position: absolute;
-        top: -50%;
-        right: -15%;
-        width: 440px;
-        height: 440px;
-        background: radial-gradient(circle, rgba(74, 108, 247, 0.12) 0%, transparent 70%);
-        border-radius: 50%;
-        pointer-events: none;
-    }
-
-    .rec-hero::after {
-        content: '';
-        position: absolute;
-        bottom: -45%;
-        left: -8%;
-        width: 340px;
-        height: 340px;
-        background: radial-gradient(circle, rgba(124, 58, 237, 0.08) 0%, transparent 70%);
-        border-radius: 50%;
-        pointer-events: none;
     }
 
     .rec-hero-content {
-        max-width: 800px;
+        max-width: 760px;
         margin: 0 auto;
         position: relative;
         z-index: 1;
@@ -93,39 +84,39 @@ Clinical Recommendations - NeuroSense AI
         display: inline-flex;
         align-items: center;
         gap: 8px;
-        background: rgba(255, 255, 255, 0.75);
-        color: #4A6CF7;
-        padding: 6px 18px;
+        background: #FFFFFF;
+        color: var(--primary);
+        padding: 7px 18px;
         border-radius: 99px;
-        font-size: 0.7rem;
+        font-size: 0.72rem;
         font-weight: 700;
         letter-spacing: 0.06em;
         text-transform: uppercase;
-        margin-bottom: 18px;
-        border: 1px solid rgba(74, 108, 247, 0.2);
-        backdrop-filter: blur(4px);
+        margin-bottom: 20px;
+        border: 1px solid var(--primary-tint);
+        box-shadow: var(--shadow-xs);
     }
 
     .rec-hero h1 {
-        font-size: 2.8rem;
+        font-size: 2.6rem;
         font-weight: 800;
-        color: #0F172A;
+        color: var(--ink);
         margin: 0 0 14px;
         line-height: 1.15;
-        letter-spacing: -0.025em;
+        letter-spacing: -0.03em;
     }
 
     .rec-hero h1 span {
-        background: linear-gradient(135deg, #4A6CF7 0%, #7c3aed 100%);
+        background: var(--primary-gradient);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
     }
 
     .rec-hero p {
-        font-size: 1.08rem;
-        color: #475569;
-        max-width: 620px;
+        font-size: 1.04rem;
+        color: var(--gray-500);
+        max-width: 58ch;
         margin: 0 auto;
         line-height: 1.7;
     }
@@ -134,7 +125,7 @@ Clinical Recommendations - NeuroSense AI
         display: flex;
         justify-content: center;
         gap: 10px;
-        margin-top: 28px;
+        margin-top: 26px;
         flex-wrap: wrap;
     }
 
@@ -142,20 +133,22 @@ Clinical Recommendations - NeuroSense AI
         display: inline-flex;
         align-items: center;
         gap: 9px;
-        color: #475569;
+        color: var(--gray-600);
         font-size: 0.82rem;
-        background: rgba(255, 255, 255, 0.7);
-        border: 1px solid rgba(74, 108, 247, 0.14);
-        padding: 8px 16px;
+        background: #FFFFFF;
+        border: 1px solid var(--gray-200);
+        padding: 9px 17px;
         border-radius: 99px;
+        box-shadow: var(--shadow-xs);
     }
 
     .rec-hero-stat i {
-        color: #4A6CF7;
+        color: var(--primary);
+        font-size: 0.85rem;
     }
 
     .rec-hero-stat strong {
-        color: #0F172A;
+        color: var(--ink);
         font-weight: 700;
     }
 
@@ -163,11 +156,14 @@ Clinical Recommendations - NeuroSense AI
        CONTAINER
        ========================================== */
     .rec-container {
-        max-width: 1000px;
-        margin: -40px auto 0;
-        padding: 0 20px 72px;
+        max-width: 900px;
+        margin: -56px auto 0;
+        padding: 0 20px 80px;
         position: relative;
         z-index: 2;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
     }
 
     /* ==========================================
@@ -176,87 +172,109 @@ Clinical Recommendations - NeuroSense AI
     .risk-summary-card {
         background: #FFFFFF;
         border-radius: var(--radius-lg);
-        padding: 24px 30px;
+        padding: 26px 32px;
         border: 1px solid var(--gray-200);
-        box-shadow: var(--shadow-md);
-        margin-bottom: 22px;
+        box-shadow: var(--shadow-lg);
         display: grid;
-        grid-template-columns: auto minmax(200px, 1fr) auto;
+        grid-template-columns: minmax(180px, auto) minmax(220px, 1fr) auto;
         align-items: center;
-        gap: 32px;
-        border-top: 4px solid var(--gray-300);
+        gap: 36px;
+        position: relative;
+        overflow: hidden;
     }
 
-    .risk-summary-card.low { border-top-color: var(--success); }
-    .risk-summary-card.medium { border-top-color: var(--warning); }
-    .risk-summary-card.high { border-top-color: var(--danger); }
+    .risk-summary-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 5px;
+        background: var(--gray-300);
+    }
+
+    .risk-summary-card.low::before {
+        background: var(--success);
+    }
+
+    .risk-summary-card.medium::before {
+        background: var(--warning);
+    }
+
+    .risk-summary-card.high::before {
+        background: var(--danger);
+    }
 
     .risk-summary-left {
         display: flex;
         align-items: center;
-        gap: 14px;
+        gap: 16px;
+        min-width: 0;
     }
 
     .risk-summary-left .risk-dot {
-        width: 46px;
-        height: 46px;
-        border-radius: 14px;
+        width: 52px;
+        height: 52px;
+        border-radius: 15px;
         flex-shrink: 0;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 1.1rem;
+        font-size: 1.2rem;
         color: #FFFFFF;
     }
 
     .risk-dot.low {
-        background: var(--success);
-        box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+        background: linear-gradient(135deg, #10B981 0%, #34D399 100%);
+        box-shadow: 0 10px 22px rgba(16, 185, 129, 0.3);
     }
 
     .risk-dot.medium {
-        background: var(--warning);
-        box-shadow: 0 8px 20px rgba(245, 158, 11, 0.3);
+        background: linear-gradient(135deg, #F59E0B 0%, #FBBF24 100%);
+        box-shadow: 0 10px 22px rgba(245, 158, 11, 0.3);
     }
 
     .risk-dot.high {
-        background: var(--danger);
-        box-shadow: 0 8px 20px rgba(239, 68, 68, 0.3);
+        background: linear-gradient(135deg, #EF4444 0%, #F87171 100%);
+        box-shadow: 0 10px 22px rgba(239, 68, 68, 0.3);
     }
 
     .risk-summary-left .risk-label {
         display: block;
-        font-size: 0.72rem;
+        font-size: 0.7rem;
         color: var(--gray-400);
-        font-weight: 600;
-        letter-spacing: 0.05em;
+        font-weight: 700;
+        letter-spacing: 0.06em;
         text-transform: uppercase;
-        margin-bottom: 2px;
+        margin-bottom: 4px;
     }
 
     .risk-summary-left .risk-value {
-        display: block;
-        font-size: 1.25rem;
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+        font-size: 1.4rem;
         font-weight: 800;
         color: var(--ink);
-        letter-spacing: -0.01em;
+        letter-spacing: -0.02em;
+        white-space: nowrap;
     }
 
     .risk-summary-left .risk-score {
         font-size: 0.82rem;
         font-weight: 500;
         color: var(--gray-500);
-        margin-left: 4px;
     }
 
-    .risk-meter { min-width: 0; }
+    .risk-meter {
+        min-width: 0;
+    }
 
     .risk-meter-track {
         position: relative;
         height: 10px;
         border-radius: 99px;
         background: linear-gradient(90deg, #10B981 0%, #F59E0B 55%, #EF4444 100%);
-        opacity: 0.9;
     }
 
     .risk-meter-marker {
@@ -268,13 +286,13 @@ Clinical Recommendations - NeuroSense AI
         background: #FFFFFF;
         border: 4px solid var(--ink);
         transform: translate(-50%, -50%);
-        box-shadow: 0 2px 8px rgba(11, 27, 58, 0.25);
+        box-shadow: 0 2px 10px rgba(11, 27, 58, 0.3);
     }
 
     .risk-meter-scale {
         display: flex;
         justify-content: space-between;
-        margin-top: 8px;
+        margin-top: 9px;
         font-size: 0.7rem;
         color: var(--gray-400);
         font-weight: 600;
@@ -283,19 +301,25 @@ Clinical Recommendations - NeuroSense AI
     .risk-summary-right {
         display: flex;
         flex-direction: column;
-        gap: 8px;
+        gap: 9px;
         font-size: 0.8rem;
         color: var(--gray-500);
+        padding-inline-start: 20px;
+        border-inline-start: 1px solid var(--gray-100);
     }
 
     .risk-summary-right span {
         display: flex;
         align-items: center;
-        gap: 8px;
+        gap: 9px;
         white-space: nowrap;
     }
 
-    .risk-summary-right i { color: var(--primary); width: 16px; text-align: center; }
+    .risk-summary-right i {
+        color: var(--primary);
+        width: 16px;
+        text-align: center;
+    }
 
     /* ==========================================
        MAIN CARD
@@ -305,7 +329,6 @@ Clinical Recommendations - NeuroSense AI
         border-radius: var(--radius-xl);
         border: 1px solid var(--gray-200);
         box-shadow: var(--shadow-md);
-        margin-bottom: 24px;
         overflow: hidden;
     }
 
@@ -315,7 +338,7 @@ Clinical Recommendations - NeuroSense AI
         align-items: center;
         flex-wrap: wrap;
         gap: 16px;
-        padding: 24px 44px;
+        padding: 26px 40px;
         border-bottom: 1px solid var(--gray-100);
         background: linear-gradient(180deg, #FBFCFF 0%, #FFFFFF 100%);
     }
@@ -323,34 +346,37 @@ Clinical Recommendations - NeuroSense AI
     .rec-main-header .header-left {
         display: flex;
         align-items: center;
-        gap: 14px;
+        gap: 16px;
+        min-width: 0;
     }
 
     .rec-main-header .header-icon {
-        width: 48px;
-        height: 48px;
+        width: 50px;
+        height: 50px;
         background: var(--primary-gradient);
-        border-radius: 14px;
+        border-radius: 15px;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 1.25rem;
+        font-size: 1.3rem;
         color: #FFFFFF;
-        box-shadow: 0 8px 20px rgba(74, 108, 247, 0.28);
+        flex-shrink: 0;
+        box-shadow: 0 10px 24px rgba(74, 108, 247, 0.3);
     }
 
     .rec-main-header .header-title h2 {
-        font-size: 1.2rem;
+        font-size: 1.22rem;
         font-weight: 800;
         color: var(--ink);
-        margin: 0 0 2px;
+        margin: 0 0 3px;
         letter-spacing: -0.02em;
     }
 
     .rec-main-header .header-title p {
-        font-size: 0.82rem;
+        font-size: 0.83rem;
         color: var(--gray-500);
         margin: 0;
+        line-height: 1.5;
     }
 
     .rec-main-header .header-badge {
@@ -359,11 +385,12 @@ Clinical Recommendations - NeuroSense AI
         gap: 8px;
         background: var(--success-light);
         border: 1px solid #A7F3D0;
-        padding: 6px 14px;
+        padding: 7px 15px;
         border-radius: 99px;
-        font-size: 0.72rem;
+        font-size: 0.74rem;
         color: var(--success-ink);
-        font-weight: 600;
+        font-weight: 700;
+        flex-shrink: 0;
     }
 
     .rec-main-header .header-badge .dot {
@@ -375,12 +402,19 @@ Clinical Recommendations - NeuroSense AI
     }
 
     @keyframes pulse-dot {
-        0%, 100% { opacity: 1; }
-        50% { opacity: 0.3; }
+
+        0%,
+        100% {
+            opacity: 1;
+        }
+
+        50% {
+            opacity: 0.3;
+        }
     }
 
     .rec-main-body {
-        padding: 32px 44px 36px;
+        padding: 36px 40px 40px;
     }
 
     /* ==========================================
@@ -388,14 +422,16 @@ Clinical Recommendations - NeuroSense AI
        ========================================== */
     .rec-toc {
         display: none;
-        margin: 0 0 30px;
-        padding: 16px 18px;
+        margin: 0 0 32px;
+        padding: 18px 20px;
         background: var(--gray-50);
         border: 1px solid var(--gray-200);
         border-radius: var(--radius-md);
     }
 
-    .rec-toc.show { display: block; }
+    .rec-toc.show {
+        display: block;
+    }
 
     .rec-toc-title {
         font-size: 0.72rem;
@@ -403,7 +439,7 @@ Clinical Recommendations - NeuroSense AI
         letter-spacing: 0.06em;
         text-transform: uppercase;
         color: var(--gray-500);
-        margin: 0 0 10px;
+        margin: 0 0 12px;
     }
 
     .rec-toc-list {
@@ -419,7 +455,7 @@ Clinical Recommendations - NeuroSense AI
         display: inline-flex;
         align-items: center;
         gap: 8px;
-        padding: 7px 14px;
+        padding: 7px 15px 7px 7px;
         background: #FFFFFF;
         border: 1px solid var(--gray-200);
         border-radius: 99px;
@@ -434,6 +470,7 @@ Clinical Recommendations - NeuroSense AI
         border-color: var(--primary);
         color: var(--primary);
         background: var(--primary-soft);
+        transform: translateY(-1px);
     }
 
     .rec-toc-list a .n {
@@ -447,25 +484,26 @@ Clinical Recommendations - NeuroSense AI
         display: inline-flex;
         align-items: center;
         justify-content: center;
+        flex-shrink: 0;
     }
 
     /* ==========================================
        GENERATED CONTENT
        ========================================== */
     .rec-content {
-        font-size: 0.95rem;
+        font-size: 0.96rem;
         line-height: 1.8;
         color: var(--gray-700);
         counter-reset: sec;
     }
 
     .rec-content .rec-h1 {
-        font-size: 1.5rem;
+        font-size: 1.55rem;
         font-weight: 800;
         color: var(--ink);
         letter-spacing: -0.02em;
-        margin: 8px 0 18px;
-        padding-bottom: 14px;
+        margin: 4px 0 20px;
+        padding-bottom: 16px;
         border-bottom: 2px solid var(--gray-100);
     }
 
@@ -474,16 +512,20 @@ Clinical Recommendations - NeuroSense AI
         display: flex;
         align-items: center;
         gap: 14px;
-        font-size: 1.12rem;
+        font-size: 1.08rem;
         font-weight: 700;
         color: var(--ink);
-        margin: 40px 0 16px;
-        padding: 14px 18px;
+        margin: 40px 0 18px;
+        padding: 15px 20px;
         background: linear-gradient(90deg, var(--primary-soft) 0%, #FFFFFF 100%);
         border: 1px solid var(--primary-tint);
         border-radius: var(--radius-md);
         letter-spacing: -0.01em;
         scroll-margin-top: 90px;
+    }
+
+    .rec-content .rec-h2:first-child {
+        margin-top: 0;
     }
 
     .rec-content .rec-h2::before {
@@ -503,11 +545,11 @@ Clinical Recommendations - NeuroSense AI
     }
 
     .rec-content .rec-h3 {
-        font-size: 1rem;
+        font-size: 1.01rem;
         font-weight: 700;
-        color: var(--primary);
-        margin: 24px 0 8px;
-        padding-inline-start: 12px;
+        color: var(--primary-dark);
+        margin: 26px 0 10px;
+        padding-inline-start: 13px;
         border-inline-start: 3px solid var(--primary-tint);
     }
 
@@ -515,27 +557,27 @@ Clinical Recommendations - NeuroSense AI
         font-size: 0.92rem;
         font-weight: 700;
         color: var(--ink);
-        margin: 16px 0 6px;
+        margin: 18px 0 7px;
     }
 
     .rec-content .rec-p {
-        margin: 8px 0;
+        margin: 10px 0;
         color: var(--gray-700);
         line-height: 1.8;
     }
 
     .rec-content .rec-list {
-        margin: 12px 0 16px;
+        margin: 14px 0 18px;
         padding: 0;
         list-style: none;
         display: flex;
         flex-direction: column;
-        gap: 8px;
+        gap: 9px;
     }
 
     .rec-content .rec-list li {
         position: relative;
-        padding: 11px 16px 11px 44px;
+        padding: 12px 16px 12px 46px;
         background: var(--gray-50);
         border: 1px solid var(--gray-100);
         border-radius: var(--radius-sm);
@@ -548,31 +590,36 @@ Clinical Recommendations - NeuroSense AI
         border-color: var(--primary-tint);
         background: #FFFFFF;
         box-shadow: var(--shadow-sm);
+        transform: translateX(2px);
     }
 
     .rec-content ul.rec-list li::before {
         content: '';
         position: absolute;
-        left: 17px;
-        top: 20px;
-        width: 9px;
-        height: 9px;
+        left: 18px;
+        top: 21px;
+        width: 8px;
+        height: 8px;
         background: var(--primary);
         border-radius: 50%;
         box-shadow: 0 0 0 4px var(--primary-soft);
     }
 
-    .rec-content ol.rec-list { counter-reset: item; }
+    .rec-content ol.rec-list {
+        counter-reset: item;
+    }
 
-    .rec-content ol.rec-list li { counter-increment: item; }
+    .rec-content ol.rec-list li {
+        counter-increment: item;
+    }
 
     .rec-content ol.rec-list li::before {
         content: counter(item);
         position: absolute;
         left: 11px;
         top: 11px;
-        width: 24px;
-        height: 24px;
+        width: 25px;
+        height: 25px;
         border-radius: 50%;
         background: var(--primary);
         color: #FFFFFF;
@@ -583,8 +630,15 @@ Clinical Recommendations - NeuroSense AI
         justify-content: center;
     }
 
-    .rec-content strong { color: var(--ink); font-weight: 700; }
-    .rec-content em { color: var(--primary); font-style: italic; }
+    .rec-content strong {
+        color: var(--ink);
+        font-weight: 700;
+    }
+
+    .rec-content em {
+        color: var(--primary-dark);
+        font-style: italic;
+    }
 
     /* ---------- Callouts ---------- */
     .rec-content .disclaimer-block {
@@ -592,8 +646,8 @@ Clinical Recommendations - NeuroSense AI
         border: 1px solid #FDE68A;
         border-inline-start: 4px solid var(--warning);
         border-radius: var(--radius-md);
-        padding: 16px 20px;
-        margin: 20px 0;
+        padding: 17px 22px;
+        margin: 22px 0;
         display: flex;
         align-items: flex-start;
         gap: 14px;
@@ -604,31 +658,35 @@ Clinical Recommendations - NeuroSense AI
 
     .rec-content .disclaimer-block i {
         color: var(--warning);
-        font-size: 1.15rem;
+        font-size: 1.2rem;
         margin-top: 2px;
         flex-shrink: 0;
     }
 
-    .rec-content .disclaimer-block strong { color: #78350F; }
+    .rec-content .disclaimer-block strong {
+        color: #78350F;
+    }
 
     .rec-content .greeting-block {
         background: linear-gradient(135deg, var(--primary-soft) 0%, #FFFFFF 100%);
         border: 1px solid var(--primary-tint);
         border-inline-start: 4px solid var(--primary);
         border-radius: var(--radius-md);
-        padding: 18px 24px;
-        margin: 0 0 24px;
-        font-size: 0.97rem;
+        padding: 20px 26px;
+        margin: 0 0 26px;
+        font-size: 0.98rem;
         color: var(--gray-600);
         line-height: 1.8;
     }
 
-    .rec-content .greeting-block strong { color: var(--ink); }
+    .rec-content .greeting-block strong {
+        color: var(--ink);
+    }
 
     /* ---------- Tags ---------- */
     .rec-content .risk-tag {
         display: inline-block;
-        padding: 1px 12px;
+        padding: 2px 13px;
         border-radius: 99px;
         font-weight: 700;
         font-size: 0.82rem;
@@ -655,12 +713,12 @@ Clinical Recommendations - NeuroSense AI
 
     .rec-content .urgency-tag {
         display: inline-block;
-        padding: 1px 12px;
+        padding: 2px 13px;
         border-radius: 99px;
         font-weight: 700;
         font-size: 0.68rem;
         text-transform: uppercase;
-        letter-spacing: 0.05em;
+        letter-spacing: 0.06em;
         white-space: nowrap;
         vertical-align: 1px;
     }
@@ -688,12 +746,12 @@ Clinical Recommendations - NeuroSense AI
         background: var(--gray-50);
         border: 1px solid var(--gray-200);
         border-radius: var(--radius-md);
-        padding: 16px 22px;
-        margin-top: 34px;
+        padding: 18px 24px;
+        margin-top: 36px;
         display: flex;
         align-items: flex-start;
         gap: 14px;
-        font-size: 0.8rem;
+        font-size: 0.81rem;
         color: var(--gray-500);
         line-height: 1.7;
     }
@@ -705,21 +763,23 @@ Clinical Recommendations - NeuroSense AI
         flex-shrink: 0;
     }
 
-    .rec-disclaimer strong { color: var(--ink); }
+    .rec-disclaimer strong {
+        color: var(--ink);
+    }
 
     /* ==========================================
        ACTION BAR
        ========================================== */
     .rec-actions {
         display: flex;
-        gap: 12px;
+        gap: 10px;
         flex-wrap: wrap;
         justify-content: center;
         background: #FFFFFF;
         border: 1px solid var(--gray-200);
         border-radius: var(--radius-lg);
         box-shadow: var(--shadow-sm);
-        padding: 18px 22px;
+        padding: 16px 18px;
     }
 
     .rec-actions form {
@@ -728,7 +788,7 @@ Clinical Recommendations - NeuroSense AI
     }
 
     .rec-actions .btn {
-        padding: 12px 24px;
+        padding: 12px 22px;
         border-radius: var(--radius-sm);
         font-weight: 600;
         font-size: 0.86rem;
@@ -746,30 +806,47 @@ Clinical Recommendations - NeuroSense AI
     .btn-pdf {
         background: var(--primary);
         color: #FFFFFF;
-        box-shadow: 0 6px 18px rgba(74, 108, 247, 0.28);
+        box-shadow: 0 8px 20px rgba(74, 108, 247, 0.3);
     }
 
     .btn-pdf:hover {
         background: var(--primary-dark);
         transform: translateY(-1px);
+        box-shadow: 0 10px 24px rgba(74, 108, 247, 0.36);
     }
 
-    .btn-primary-rec { background: var(--ink); color: #FFFFFF; }
-    .btn-primary-rec:hover { background: #16294f; transform: translateY(-1px); }
+    .btn-primary-rec {
+        background: var(--ink);
+        color: #FFFFFF;
+    }
+
+    .btn-primary-rec:hover {
+        background: #16294F;
+        transform: translateY(-1px);
+    }
 
     .btn-outline-rec {
         background: #FFFFFF;
         color: var(--primary);
-        border-color: var(--primary);
+        border-color: var(--primary-tint);
     }
-    .btn-outline-rec:hover { background: var(--primary-soft); transform: translateY(-1px); }
+
+    .btn-outline-rec:hover {
+        background: var(--primary-soft);
+        border-color: var(--primary);
+        transform: translateY(-1px);
+    }
 
     .btn-secondary-rec {
         background: var(--gray-100);
         color: var(--gray-600);
         border-color: var(--gray-200);
     }
-    .btn-secondary-rec:hover { background: var(--gray-200); transform: translateY(-1px); }
+
+    .btn-secondary-rec:hover {
+        background: var(--gray-200);
+        transform: translateY(-1px);
+    }
 
     /* ==========================================
        STATES
@@ -777,28 +854,32 @@ Clinical Recommendations - NeuroSense AI
     .rec-loading {
         background: #FFFFFF;
         border-radius: var(--radius-xl);
-        padding: 56px 40px 48px;
+        padding: 60px 40px 52px;
         text-align: center;
         border: 1px solid var(--gray-200);
         box-shadow: var(--shadow-md);
     }
 
     .rec-loading .spinner {
-        width: 48px;
-        height: 48px;
+        width: 46px;
+        height: 46px;
         border: 4px solid var(--gray-200);
         border-top-color: var(--primary);
         border-radius: 50%;
         animation: spin 0.8s linear infinite;
-        margin: 0 auto 20px;
+        margin: 0 auto 22px;
     }
 
-    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes spin {
+        to {
+            transform: rotate(360deg);
+        }
+    }
 
     .rec-loading h3 {
         color: var(--ink);
         margin: 0 0 8px;
-        font-size: 1.2rem;
+        font-size: 1.22rem;
         font-weight: 800;
     }
 
@@ -811,10 +892,10 @@ Clinical Recommendations - NeuroSense AI
 
     .rec-skeleton {
         max-width: 520px;
-        margin: 28px auto 0;
+        margin: 30px auto 0;
         display: flex;
         flex-direction: column;
-        gap: 10px;
+        gap: 11px;
     }
 
     .rec-skeleton span {
@@ -826,31 +907,43 @@ Clinical Recommendations - NeuroSense AI
         animation: shimmer 1.4s linear infinite;
     }
 
-    .rec-skeleton span:nth-child(2) { width: 88%; }
-    .rec-skeleton span:nth-child(3) { width: 64%; }
+    .rec-skeleton span:nth-child(2) {
+        width: 88%;
+    }
 
-    @keyframes shimmer { to { background-position: -200% 0; } }
+    .rec-skeleton span:nth-child(3) {
+        width: 64%;
+    }
+
+    @keyframes shimmer {
+        to {
+            background-position: -200% 0;
+        }
+    }
 
     .rec-error {
         background: var(--danger-light);
         border: 1px solid #FCA5A5;
         border-radius: var(--radius-xl);
-        padding: 44px 32px;
+        padding: 48px 32px;
         text-align: center;
         color: var(--danger-ink);
     }
 
     .rec-error h2 {
         margin: 0 0 8px;
-        font-size: 1.3rem;
+        font-size: 1.32rem;
         font-weight: 800;
     }
 
-    .rec-error p { margin: 0 0 20px; color: #7F1D1D; }
+    .rec-error p {
+        margin: 0 0 22px;
+        color: #7F1D1D;
+    }
 
     .rec-error .btn,
     .rec-empty .btn {
-        padding: 12px 26px;
+        padding: 12px 28px;
         border-radius: var(--radius-sm);
         font-weight: 600;
         font-size: 0.88rem;
@@ -860,37 +953,48 @@ Clinical Recommendations - NeuroSense AI
         text-decoration: none;
         background: var(--primary);
         color: #FFFFFF;
-        box-shadow: 0 6px 18px rgba(74, 108, 247, 0.28);
+        box-shadow: 0 8px 20px rgba(74, 108, 247, 0.3);
         transition: var(--transition);
     }
 
     .rec-error .btn:hover,
-    .rec-empty .btn:hover { background: var(--primary-dark); }
+    .rec-empty .btn:hover {
+        background: var(--primary-dark);
+        transform: translateY(-1px);
+    }
 
     .rec-empty {
         background: #FFFFFF;
         border-radius: var(--radius-xl);
-        padding: 60px 40px;
+        padding: 64px 40px;
         text-align: center;
         border: 1px solid var(--gray-200);
         box-shadow: var(--shadow-md);
     }
 
     .rec-empty .empty-icon {
-        width: 72px;
-        height: 72px;
+        width: 74px;
+        height: 74px;
         border-radius: 50%;
         background: var(--primary-soft);
         color: var(--primary);
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 1.7rem;
-        margin: 0 auto 18px;
+        font-size: 1.75rem;
+        margin: 0 auto 20px;
     }
 
-    .rec-empty h3 { color: var(--ink); margin: 0 0 8px; font-weight: 800; }
-    .rec-empty p { color: var(--gray-500); margin: 0 0 22px; }
+    .rec-empty h3 {
+        color: var(--ink);
+        margin: 0 0 8px;
+        font-weight: 800;
+    }
+
+    .rec-empty p {
+        color: var(--gray-500);
+        margin: 0 0 24px;
+    }
 
     /* ==========================================
        RESPONSIVE
@@ -898,32 +1002,53 @@ Clinical Recommendations - NeuroSense AI
     @media (max-width: 860px) {
         .risk-summary-card {
             grid-template-columns: 1fr;
-            gap: 20px;
-            padding: 22px;
+            gap: 22px;
+            padding: 24px;
         }
 
         .risk-summary-right {
             flex-direction: row;
             flex-wrap: wrap;
             gap: 16px;
+            padding-inline-start: 0;
+            border-inline-start: none;
+            padding-top: 18px;
+            border-top: 1px solid var(--gray-100);
         }
 
         .rec-main-header,
         .rec-main-body {
-            padding-left: 24px;
-            padding-right: 24px;
+            padding-left: 26px;
+            padding-right: 26px;
         }
     }
 
     @media (max-width: 768px) {
-        .rec-hero { padding: 44px 16px 64px; }
-        .rec-hero h1 { font-size: 2rem; }
-        .rec-hero p { font-size: 0.95rem; }
+        .rec-hero {
+            padding: 46px 16px 72px;
+        }
 
-        .rec-hero-stats { flex-direction: column; align-items: center; }
+        .rec-hero h1 {
+            font-size: 2rem;
+        }
 
-        .rec-main-header { flex-direction: column; text-align: center; }
-        .rec-main-header .header-left { flex-direction: column; }
+        .rec-hero p {
+            font-size: 0.95rem;
+        }
+
+        .rec-hero-stats {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .rec-main-header {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .rec-main-header .header-left {
+            flex-direction: column;
+        }
 
         .rec-actions .btn {
             flex: 1 1 40%;
@@ -933,28 +1058,40 @@ Clinical Recommendations - NeuroSense AI
         }
 
         .rec-content .disclaimer-block,
-        .rec-disclaimer { flex-direction: column; }
+        .rec-disclaimer {
+            flex-direction: column;
+        }
 
         .rec-content .rec-h2 {
             font-size: 1rem;
-            padding: 12px 14px;
-            margin-top: 32px;
+            padding: 13px 15px;
+            margin-top: 34px;
         }
     }
 
     @media (max-width: 480px) {
-        .rec-hero h1 { font-size: 1.6rem; }
-        .rec-container { padding: 0 14px 56px; }
+        .rec-hero h1 {
+            font-size: 1.6rem;
+        }
+
+        .rec-container {
+            padding: 0 14px 60px;
+        }
+
         .rec-main-header,
-        .rec-main-body { padding-left: 16px; padding-right: 16px; }
+        .rec-main-body {
+            padding-left: 18px;
+            padding-right: 18px;
+        }
 
         .rec-content .rec-list li {
             font-size: 0.9rem;
-            padding-left: 42px;
+            padding-left: 44px;
         }
     }
 
     @media (prefers-reduced-motion: reduce) {
+
         .rec-page *,
         .rec-page *::before,
         .rec-page *::after {
@@ -965,19 +1102,32 @@ Clinical Recommendations - NeuroSense AI
     }
 
     @media print {
-        .rec-hero { background: none; padding: 16px 0 8px; }
-        .rec-hero::before,
-        .rec-hero::after,
+        .rec-hero {
+            background: none;
+            padding: 16px 0 8px;
+        }
+
         .rec-hero-stats,
         .rec-actions,
         .rec-toc,
-        .header-badge { display: none !important; }
+        .header-badge {
+            display: none !important;
+        }
 
-        .rec-container { margin-top: 0; padding: 0; }
+        .rec-container {
+            margin-top: 0;
+            padding: 0;
+        }
 
         .risk-summary-card,
-        .rec-main-card { box-shadow: none; border: 1px solid #E7EDF5; }
-        .rec-main-card { overflow: visible; }
+        .rec-main-card {
+            box-shadow: none;
+            border: 1px solid #E7EDF5;
+        }
+
+        .rec-main-card {
+            overflow: visible;
+        }
 
         .rec-content .rec-h2,
         .rec-content .rec-list li {

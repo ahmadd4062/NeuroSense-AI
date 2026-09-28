@@ -13,10 +13,6 @@ Gait Screening - NeuroSense AI
 <style>
     /* ============================================
        NEUROSENSE AI — GAIT & MOVEMENT SCREENING
-       Architecture matches the audio / questionnaire
-       screening pages: hero -> overall progress ->
-       module overview grid -> recording section ->
-       status sections -> security banner.
        ============================================ */
 
     .gait-screening-page {
@@ -50,6 +46,11 @@ Gait Screening - NeuroSense AI
         --radius-lg: 18px;
         --radius-xl: 24px;
         --transition: all 0.2s ease;
+
+        /* Professional neutral "screen" surface for video/camera panels,
+           replacing the previous pure navy-black (#0B1220) */
+        --surface-dark: #24303F;
+        --surface-dark-2: #1A2432;
 
         color: var(--gray-700);
         background: var(--gray-50);
@@ -121,10 +122,16 @@ Gait Screening - NeuroSense AI
     }
 
     .gait-hero-copy h1 {
-        font-size: 2.5rem;
+        font-size: 3.4rem;
         font-weight: 800;
-        margin: 0 0 12px;
-        line-height: 1.15;
+        margin: 0 0 18px;
+        line-height: 1.1;
+        letter-spacing: -0.03em;
+        color: var(--ink);
+    }
+
+    .gait-hero-copy h1 .accent {
+        color: var(--primary);
     }
 
     .gait-hero-copy p {
@@ -157,18 +164,66 @@ Gait Screening - NeuroSense AI
         font-size: 1.1rem;
     }
 
+    /* ------------------------------------------
+       HERO VISUAL — transparent, image is the focus
+       ------------------------------------------ */
     .gait-hero-visual {
         flex-shrink: 0;
-        width: 170px;
-        height: 170px;
-        border-radius: 50%;
-        background: var(--primary-gradient);
+        position: relative;
+        width: 660px;
+        max-width: 100%;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 4.2rem;
-        color: #FFFFFF;
-        box-shadow: 0 16px 40px rgba(74, 108, 247, 0.28);
+        background: transparent;
+        padding: 0;
+        box-shadow: none;
+        border: none;
+    }
+
+    .gait-hero-visual::before {
+        content: '';
+        position: absolute;
+        inset: -10%;
+        background: radial-gradient(ellipse at 50% 55%,
+                rgba(74, 108, 247, 0.18) 0%,
+                rgba(124, 58, 237, 0.10) 40%,
+                rgba(74, 108, 247, 0) 70%);
+        border-radius: 50%;
+        z-index: 0;
+        pointer-events: none;
+        filter: blur(6px);
+    }
+
+    .gait-hero-visual img {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        height: auto;
+        display: block;
+        object-fit: contain;
+        transform: scale(1.15);
+        transform-origin: center;
+        filter: drop-shadow(0 18px 30px rgba(11, 27, 58, 0.15));
+        animation: gait-float 6s ease-in-out infinite;
+    }
+
+    @keyframes gait-float {
+
+        0%,
+        100% {
+            transform: scale(1.15) translateY(0);
+        }
+
+        50% {
+            transform: scale(1.15) translateY(-8px);
+        }
+    }
+
+    @media (max-width: 1100px) {
+        .gait-hero-visual {
+            width: 520px;
+        }
     }
 
     @media (max-width: 760px) {
@@ -177,14 +232,40 @@ Gait Screening - NeuroSense AI
             text-align: center;
         }
 
+        .gait-hero-copy h1 {
+            font-size: 2.2rem;
+        }
+
         .gait-hero-stats {
             justify-content: center;
         }
 
         .gait-hero-visual {
-            width: 120px;
-            height: 120px;
-            font-size: 2.8rem;
+            width: 100%;
+            max-width: 480px;
+        }
+
+        .gait-hero-visual img {
+            transform: scale(1.05);
+        }
+
+        @keyframes gait-float {
+
+            0%,
+            100% {
+                transform: scale(1.05) translateY(0);
+            }
+
+            50% {
+                transform: scale(1.05) translateY(-6px);
+            }
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .gait-hero-visual img {
+            animation: none;
+            transform: scale(1.15);
         }
     }
 
@@ -198,7 +279,6 @@ Gait Screening - NeuroSense AI
         gap: 24px;
     }
 
-    /* ---------- Overall progress ---------- */
     .overall-progress-card {
         background: #FFFFFF;
         border: 1px solid var(--gray-200);
@@ -252,11 +332,11 @@ Gait Screening - NeuroSense AI
         margin: 0;
     }
 
-    /* ---------- Module overview grid ---------- */
     .module-overview-grid {
         display: grid;
         grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 18px;
+        align-items: start;
     }
 
     @media (max-width: 980px) {
@@ -279,6 +359,7 @@ Gait Screening - NeuroSense AI
         box-shadow: var(--shadow-sm);
         display: flex;
         flex-direction: column;
+        height: 100%;
     }
 
     .module-overview-card h2 {
@@ -303,7 +384,6 @@ Gait Screening - NeuroSense AI
         flex-shrink: 0;
     }
 
-    /* checklist card */
     .guidance-list {
         list-style: none;
         margin: 0;
@@ -331,19 +411,26 @@ Gait Screening - NeuroSense AI
         flex-shrink: 0;
     }
 
-    /* reference clips card */
+    .reference-clips-card {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+    }
+
     .ref-videos {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 10px;
-        margin-bottom: 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-bottom: 14px;
     }
 
     .ref-video-item {
-        background: #0B1220;
-        border-radius: var(--radius-sm);
+        position: relative;
+        background: linear-gradient(160deg, var(--surface-dark) 0%, var(--surface-dark-2) 100%);
+        border-radius: var(--radius-md);
         overflow: hidden;
         border: 1px solid var(--gray-200);
+        box-shadow: var(--shadow-sm);
     }
 
     .ref-video-item.normal {
@@ -356,17 +443,32 @@ Gait Screening - NeuroSense AI
 
     .ref-video-item video {
         width: 100%;
-        max-height: 96px;
+        aspect-ratio: 16 / 9;
         object-fit: cover;
         display: block;
-        background: #0B1220;
+        background: linear-gradient(160deg, var(--surface-dark) 0%, var(--surface-dark-2) 100%);
     }
 
     .ref-video-item .label {
-        padding: 7px 8px;
-        font-size: 0.68rem;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 14px;
+        font-size: 0.78rem;
         font-weight: 700;
-        text-align: center;
+        text-align: left;
+    }
+
+    .ref-video-item .label .label-icon {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.68rem;
+        flex-shrink: 0;
+        color: #FFFFFF;
     }
 
     .ref-video-item.normal .label {
@@ -374,19 +476,46 @@ Gait Screening - NeuroSense AI
         color: var(--success-ink);
     }
 
+    .ref-video-item.normal .label .label-icon {
+        background: var(--success);
+    }
+
     .ref-video-item.abnormal .label {
         background: var(--danger-light);
         color: var(--danger-ink);
     }
 
+    .ref-video-item.abnormal .label .label-icon {
+        background: var(--danger);
+    }
+
+    .ref-video-item .label .label-sub {
+        margin-inline-start: auto;
+        font-size: 0.68rem;
+        font-weight: 600;
+        opacity: 0.75;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+    }
+
     .ref-note {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
         font-size: 0.78rem;
         color: var(--gray-500);
         line-height: 1.5;
-        margin: 0;
+        margin: auto 0 0;
+        padding-top: 12px;
+        border-top: 1px solid var(--gray-100);
     }
 
-    /* screening steps card */
+    .ref-note i {
+        color: var(--primary);
+        margin-top: 2px;
+        flex-shrink: 0;
+    }
+
     .gait-step {
         display: flex;
         align-items: flex-start;
@@ -471,7 +600,6 @@ Gait Screening - NeuroSense AI
         color: var(--primary);
     }
 
-    /* ---------- Recording section ---------- */
     .gait-recording-section {
         background: #FFFFFF;
         border: 1px solid var(--gray-200);
@@ -532,7 +660,6 @@ Gait Screening - NeuroSense AI
         white-space: nowrap;
     }
 
-    /* method tabs */
     .capture-body {
         padding: 22px 26px 26px;
     }
@@ -561,8 +688,10 @@ Gait Screening - NeuroSense AI
         gap: 8px;
     }
 
+    /* FIX: Inactive buttons now turn blue with white text on hover */
     .recording-methods .btn:hover {
-        color: var(--ink);
+        background: var(--primary);
+        color: #FFFFFF;
     }
 
     .recording-methods .btn.active {
@@ -571,11 +700,17 @@ Gait Screening - NeuroSense AI
         box-shadow: var(--shadow-sm);
     }
 
+    /* FIX: Active buttons now turn darker blue with white text on hover */
+    .recording-methods .btn.active:hover {
+        background: var(--primary-dark);
+        color: #FFFFFF;
+    }
+
     .capture-stage {
         display: grid;
-        grid-template-columns: minmax(0, 1fr) 220px;
+        grid-template-columns: minmax(0, 1fr) 260px;
         gap: 16px;
-        align-items: start;
+        align-items: stretch;
     }
 
     @media (max-width: 760px) {
@@ -585,7 +720,7 @@ Gait Screening - NeuroSense AI
     }
 
     .camera-container {
-        background: #0B1220;
+        background: linear-gradient(160deg, var(--surface-dark) 0%, var(--surface-dark-2) 100%);
         border-radius: var(--radius-md);
         overflow: hidden;
         position: relative;
@@ -786,26 +921,46 @@ Gait Screening - NeuroSense AI
         background: rgba(245, 158, 11, 0.88);
     }
 
-    /* live checks side column */
+    /* ------------------------------------------
+       LIVE QUALITY CHECKS — made prominent since
+       screening quality depends on it
+       ------------------------------------------ */
     .quality-panel {
-        background: var(--gray-50);
+        background: #FFFFFF;
         border: 1px solid var(--gray-200);
+        border-top: 3px solid var(--primary);
         border-radius: var(--radius-md);
-        padding: 14px;
+        padding: 16px;
         height: 100%;
+        box-shadow: var(--shadow-md);
+        display: flex;
+        flex-direction: column;
     }
 
     .quality-panel .panel-title {
-        font-size: 0.76rem;
-        font-weight: 700;
-        color: var(--gray-600);
-        margin: 0 0 11px;
+        font-size: 0.8rem;
+        font-weight: 800;
+        color: var(--ink);
+        margin: 0 0 12px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .quality-panel .panel-title::before {
+        content: '';
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--primary);
+        flex-shrink: 0;
+        box-shadow: 0 0 0 3px var(--primary-light);
     }
 
     .quality-indicators {
         display: flex;
         flex-direction: column;
-        gap: 7px;
+        gap: 8px;
     }
 
     @media (max-width: 760px) {
@@ -819,19 +974,19 @@ Gait Screening - NeuroSense AI
         display: flex;
         align-items: center;
         gap: 9px;
-        font-size: 0.78rem;
-        font-weight: 600;
+        font-size: 0.8rem;
+        font-weight: 700;
         color: var(--gray-500);
-        padding: 8px 12px;
+        padding: 10px 12px;
         border-radius: 9px;
-        background: #FFFFFF;
+        background: var(--gray-50);
         border: 1px solid var(--gray-200);
         transition: var(--transition);
     }
 
     .quality-indicator .dot {
-        width: 8px;
-        height: 8px;
+        width: 9px;
+        height: 9px;
         border-radius: 50%;
         display: inline-block;
         flex-shrink: 0;
@@ -843,14 +998,17 @@ Gait Screening - NeuroSense AI
 
     .quality-indicator .dot.good {
         background: var(--success);
+        box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.18);
     }
 
     .quality-indicator .dot.warning {
         background: var(--warning);
+        box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.18);
     }
 
     .quality-indicator .dot.bad {
         background: var(--danger);
+        box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.18);
     }
 
     .quality-indicator.active {
@@ -902,6 +1060,7 @@ Gait Screening - NeuroSense AI
 
     .btn-group .btn-success:hover:not(:disabled) {
         background: #059669;
+        color: #FFFFFF;
     }
 
     .btn-group .btn-danger {
@@ -911,6 +1070,7 @@ Gait Screening - NeuroSense AI
 
     .btn-group .btn-danger:hover:not(:disabled) {
         background: #DC2626;
+        color: #FFFFFF;
     }
 
     .btn-group .btn-secondary {
@@ -921,6 +1081,7 @@ Gait Screening - NeuroSense AI
 
     .btn-group .btn-secondary:hover:not(:disabled) {
         background: var(--gray-100);
+        color: var(--ink);
     }
 
     .btn-group .btn:disabled {
@@ -955,7 +1116,7 @@ Gait Screening - NeuroSense AI
         margin-top: 14px;
         display: none;
         border-radius: var(--radius-md);
-        background: #0B1220;
+        background: linear-gradient(160deg, var(--surface-dark) 0%, var(--surface-dark-2) 100%);
         border: 1px solid var(--gray-200);
     }
 
@@ -963,7 +1124,6 @@ Gait Screening - NeuroSense AI
         display: none !important;
     }
 
-    /* upload */
     .upload-area {
         display: block;
         padding: 56px 24px;
@@ -998,7 +1158,6 @@ Gait Screening - NeuroSense AI
         font-size: 0.78rem;
     }
 
-    /* ---------- Submission panel ---------- */
     .submission-panel {
         display: flex;
         justify-content: space-between;
@@ -1069,11 +1228,9 @@ Gait Screening - NeuroSense AI
 
     .button-submit:not(:disabled):hover {
         background: var(--primary-dark);
+        color: #FFFFFF;
     }
 
-    /* ==========================================
-       PROCESSING / RESULTS / ERROR
-       ========================================== */
     .processing-card {
         text-align: center;
         padding: 48px 24px;
@@ -1263,6 +1420,7 @@ Gait Screening - NeuroSense AI
 
     .results-actions .primary:hover {
         background: var(--primary-dark);
+        color: #FFFFFF;
     }
 
     .results-actions .outline {
@@ -1273,6 +1431,7 @@ Gait Screening - NeuroSense AI
 
     .results-actions .outline:hover {
         background: var(--primary-light);
+        color: var(--primary-dark);
     }
 
     .results-actions .ghost {
@@ -1283,6 +1442,7 @@ Gait Screening - NeuroSense AI
 
     .results-actions .ghost:hover {
         background: var(--gray-200);
+        color: var(--ink);
     }
 
     .results-footnote {
@@ -1334,9 +1494,9 @@ Gait Screening - NeuroSense AI
 
     .error-card .button-primary:hover {
         background: #DC2626;
+        color: #FFFFFF;
     }
 
-    /* ---------- Security banner ---------- */
     .screening-security-banner {
         display: flex;
         align-items: center;
@@ -1374,7 +1534,6 @@ Gait Screening - NeuroSense AI
         text-decoration: underline;
     }
 
-    /* ---------- Responsive ---------- */
     @media (max-width: 600px) {
         .gait-page-container {
             padding-inline: 16px;
@@ -1434,38 +1593,22 @@ Gait Screening - NeuroSense AI
 
 <main class="gait-screening-page" lang="{% if lang == 'ur' %}ur{% else %}en{% endif %}" dir="{% if lang == 'ur' %}rtl{% else %}ltr{% endif %}">
 
-    <!-- ========================================== -->
     <!-- HERO -->
-    <!-- ========================================== -->
     <section class="gait-hero">
         <div class="gait-page-container gait-hero-layout">
 
             <div class="gait-hero-copy">
                 <span class="gait-hero-badge">
                     <i class="fa-solid fa-video"></i>
-                    {% if lang == 'ur' %}
-                    ویڈیو اسکریننگ · مرحلہ 3 از 4
-                    {% else %}
-                    Video Screening · Step 3 of 4
-                    {% endif %}
+                    {% if lang == 'ur' %}ویڈیو اسکریننگ · مرحلہ 3 از 4{% else %}Video Screening · Step 3 of 4{% endif %}
                 </span>
 
                 <h1>
-                    {% if lang == 'ur' %}
-                    چال اور حرکت کا تجزیہ
-                    {% else %}
-                    Gait &amp; Movement Analysis
-                    {% endif %}
+                    {% if lang == 'ur' %}چال اور <span class="accent">حرکت کا تجزیہ</span>{% else %}Gait &amp; <span class="accent">Movement Analysis</span>{% endif %}
                 </h1>
 
                 <p>
-                    {% if lang == 'ur' %}
-                    پارکنسنز کے خطرے کی تشخیص کے لیے چلنے کی ویڈیو ریکارڈ کریں یا اپ لوڈ کریں۔
-                    چال کے پیٹرن، توازن اور حرکت کے اشارے کا تجزیہ کریں۔
-                    {% else %}
-                    Record or upload a walking video for AI-powered Parkinson's risk assessment.
-                    Analyze gait patterns, balance, and movement indicators.
-                    {% endif %}
+                    {% if lang == 'ur' %}پارکنسنز کے خطرے کی تشخیص کے لیے چلنے کی ویڈیو ریکارڈ کریں یا اپ لوڈ کریں۔ چال کے پیٹرن، توازن اور حرکت کے اشارے کا تجزیہ کریں۔{% else %}Record or upload a walking video for AI-powered Parkinson's risk assessment. Analyze gait patterns, balance, and movement indicators.{% endif %}
                 </p>
 
                 <div class="gait-hero-stats">
@@ -1476,7 +1619,7 @@ Gait Screening - NeuroSense AI
             </div>
 
             <div class="gait-hero-visual" aria-hidden="true">
-                <i class="fa-solid fa-person-walking"></i>
+                <img src="{% static 'gait_app/images/gait image.png' %}" alt="Gait Analysis">
             </div>
 
         </div>
@@ -1484,9 +1627,7 @@ Gait Screening - NeuroSense AI
 
     <div class="gait-page-container gait-page-content">
 
-        <!-- ========================================== -->
         <!-- OVERALL PROGRESS -->
-        <!-- ========================================== -->
         <section class="overall-progress-card">
             <div class="overall-progress-header">
                 <strong>{% if lang == 'ur' %}مجموعی پیشرفت{% else %}Overall Progress{% endif %}</strong>
@@ -1501,9 +1642,7 @@ Gait Screening - NeuroSense AI
             </div>
         </section>
 
-        <!-- ========================================== -->
         <!-- MODULE OVERVIEW -->
-        <!-- ========================================== -->
         <section class="module-overview-grid">
 
             <article class="module-overview-card">
@@ -1518,23 +1657,31 @@ Gait Screening - NeuroSense AI
                 </ul>
             </article>
 
-            <article class="module-overview-card">
+            <article class="module-overview-card reference-clips-card">
                 <h2><i class="fa-solid fa-video"></i> {% if lang == 'ur' %}حوالہ جاتی ویڈیوز{% else %}Reference Clips{% endif %}</h2>
                 <div class="ref-videos">
                     <div class="ref-video-item normal">
                         <video controls muted preload="metadata" poster="{% static 'speech_app/images/video-placeholder.png' %}">
                             <source src="{% static 'gait_app/videos/normal_gait.mp4' %}" type="video/mp4">
                         </video>
-                        <div class="label">✅ {% if lang == 'ur' %}عام چال{% else %}Normal gait{% endif %}</div>
+                        <div class="label">
+                            <span class="label-icon"><i class="fa-solid fa-check"></i></span>
+                            {% if lang == 'ur' %}عام چال{% else %}Normal gait{% endif %}
+                            <span class="label-sub">{% if lang == 'ur' %}حوالہ{% else %}Reference{% endif %}</span>
+                        </div>
                     </div>
                     <div class="ref-video-item abnormal">
                         <video controls muted preload="metadata" poster="{% static 'speech_app/images/video-placeholder.png' %}">
                             <source src="{% static 'gait_app/videos/abnormal_gait.mp4' %}" type="video/mp4">
                         </video>
-                        <div class="label">⚠️ {% if lang == 'ur' %}غیر معمولی چال{% else %}Abnormal gait{% endif %}</div>
+                        <div class="label">
+                            <span class="label-icon"><i class="fa-solid fa-triangle-exclamation"></i></span>
+                            {% if lang == 'ur' %}غیر معمولی چال{% else %}Abnormal gait{% endif %}
+                            <span class="label-sub">{% if lang == 'ur' %}حوالہ{% else %}Reference{% endif %}</span>
+                        </div>
                     </div>
                 </div>
-                <p class="ref-note"><i class="fa-regular fa-circle-info"></i> {% if lang == 'ur' %}سائیڈ ویو سے 10-15 سیکنڈ چلنے کی ویڈیو ریکارڈ کریں{% else %}Record 10-15 seconds of walking from the side.{% endif %}</p>
+                <p class="ref-note"><i class="fa-solid fa-circle-info"></i> {% if lang == 'ur' %}سائیڈ ویو سے 10-15 سیکنڈ چلنے کی ویڈیو ریکارڈ کریں{% else %}Record 10-15 seconds of walking from the side.{% endif %}</p>
             </article>
 
             <article class="module-overview-card">
@@ -1575,9 +1722,7 @@ Gait Screening - NeuroSense AI
 
         </section>
 
-        <!-- ========================================== -->
         <!-- RECORDING SECTION -->
-        <!-- ========================================== -->
         <section class="gait-recording-section" aria-labelledby="gait-recording-heading">
 
             <div class="gait-recording-heading">
@@ -1618,14 +1763,12 @@ Gait Screening - NeuroSense AI
                                 <span id="feedback-text">{% if lang == 'ur' %}شروع کرنے کے لیے "کیمرہ شروع کریں" پر کلک کریں{% else %}Click "Start camera" to begin{% endif %}</span>
                             </div>
 
-                            <!-- === REAL-TIME GUIDANCE OVERLAY === -->
                             <div class="guidance-overlay" id="guidance-overlay">
                                 <div class="guide-line side-view" id="guide-side-view"></div>
                                 <div class="guide-label" id="guide-label">📐 {% if lang == 'ur' %}سائیڈ میں کھڑے ہوں{% else %}Stand sideways{% endif %}</div>
                             </div>
                         </div>
 
-                        <!-- Quality Indicators -->
                         <div class="quality-panel">
                             <p class="panel-title">{% if lang == 'ur' %}لائیو کوالٹی چیک{% else %}Live quality checks{% endif %}</p>
                             <div class="quality-indicators" id="quality-indicators">
@@ -1683,7 +1826,6 @@ Gait Screening - NeuroSense AI
 
             </div>
 
-            <!-- Submission -->
             <div class="submission-panel">
                 <div class="submission-copy">
                     <div class="submission-icon"><i class="fa-solid fa-shield-halved"></i></div>
@@ -1700,9 +1842,7 @@ Gait Screening - NeuroSense AI
 
         </section>
 
-        <!-- ========================================== -->
         <!-- PROCESSING -->
-        <!-- ========================================== -->
         <section class="status-section" id="processing-section" hidden aria-labelledby="processing-title">
             <div class="processing-card">
                 <div class="processing-spinner" aria-hidden="true"></div>
@@ -1715,9 +1855,7 @@ Gait Screening - NeuroSense AI
             </div>
         </section>
 
-        <!-- ========================================== -->
         <!-- COMPLETION CONFIRMATION -->
-        <!-- ========================================== -->
         <section class="status-section" id="results-section" hidden aria-labelledby="results-title">
             <div class="results-card">
                 <div class="results-body">
@@ -1726,12 +1864,7 @@ Gait Screening - NeuroSense AI
                         {% if lang == 'ur' %}چال کا تجزیہ مکمل!{% else %}Gait analysis complete{% endif %}
                     </h2>
                     <p>
-                        {% if lang == 'ur' %}
-                        آپ کی چلنے کی ویڈیو کا کامیابی سے تجزیہ ہو گیا ہے۔ نتائج کو آپ کی حتمی رپورٹ میں شامل کیا جائے گا۔
-                        {% else %}
-                        Your walking video has been analyzed. These results are combined with your
-                        other modules in the final report.
-                        {% endif %}
+                        {% if lang == 'ur' %}آپ کی چلنے کی ویڈیو کا کامیابی سے تجزیہ ہو گیا ہے۔ نتائج کو آپ کی حتمی رپورٹ میں شامل کیا جائے گا۔{% else %}Your walking video has been analyzed. These results are combined with your other modules in the final report.{% endif %}
                     </p>
 
                     <div class="module-chips">
@@ -1772,9 +1905,7 @@ Gait Screening - NeuroSense AI
             </div>
         </section>
 
-        <!-- ========================================== -->
         <!-- ERROR -->
-        <!-- ========================================== -->
         <section class="status-section" id="error-section" hidden aria-labelledby="error-title">
             <div class="error-card" role="alert">
                 <h2 id="error-title">⚠️ {% if lang == 'ur' %}تجزیہ مکمل نہیں ہو سکا{% else %}Analysis could not be completed{% endif %}</h2>
@@ -1785,9 +1916,7 @@ Gait Screening - NeuroSense AI
             </div>
         </section>
 
-        <!-- ========================================== -->
         <!-- SECURITY BANNER -->
-        <!-- ========================================== -->
         <section class="screening-security-banner">
             <i class="fa-solid fa-shield-halved"></i>
             <span>
@@ -1873,7 +2002,6 @@ Gait Screening - NeuroSense AI
         let timerInterval = null;
         let poseDetector = null;
 
-        // Quality tracking
         let qualityState = {
             personDetected: false,
             fullBodyVisible: false,
@@ -1882,10 +2010,8 @@ Gait Screening - NeuroSense AI
             armSwingDetected: false
         };
 
-        // Get language from Django (via HTML lang attribute or URL)
         const currentLang = document.documentElement.lang || 'en';
 
-        // Translations
         const translations = {
             'en': {
                 startCamera: 'Click "Start camera" to begin',
@@ -1907,7 +2033,9 @@ Gait Screening - NeuroSense AI
                 analyzing: 'Analyzing gait patterns...',
                 perfectRecording: '✅ Perfect! Recording will be high quality.',
                 swingArmsNaturally: '💪 Swing your arms naturally while walking.',
-                getReady: '⏳ Get ready...'
+                getReady: '⏳ Get ready...',
+                cameraObscured: '⚠️ Camera obscured. Please remove any objects from the lens.',
+                videoTooLong: '⚠️ Video is too long. Please upload a video under 30 seconds.'
             },
             'ur': {
                 startCamera: 'شروع کرنے کے لیے "کیمرہ شروع کریں" پر کلک کریں',
@@ -1929,15 +2057,13 @@ Gait Screening - NeuroSense AI
                 analyzing: 'چال کے پیٹرن کا تجزیہ...',
                 perfectRecording: '✅ بہترین! ریکارڈنگ اعلیٰ معیار کی ہوگی۔',
                 swingArmsNaturally: '💪 چلتے ہوئے اپنے بازو قدرتی طور پر ہلائیں۔',
-                getReady: '⏳ تیار ہو جائیں...'
+                getReady: '⏳ تیار ہو جائیں...',
+                cameraObscured: '⚠️ کیمرہ ڈھکا ہوا ہے۔ براہ کرم لینز سے کوئی بھی چیز ہٹائیں۔',
+                videoTooLong: '⚠️ ویڈیو بہت لمبی ہے۔ براہ کرم 30 سیکنڈ سے کم ویڈیو اپ لوڈ کریں۔'
             }
         };
 
         const t = translations[currentLang] || translations['en'];
-
-        // ============================================================
-        // CSRF TOKEN HELPER
-        // ============================================================
 
         function getCookie(name) {
             let cookieValue = null;
@@ -1953,10 +2079,6 @@ Gait Screening - NeuroSense AI
             }
             return cookieValue;
         }
-
-        // ============================================================
-        // QUALITY INDICATOR HELPERS
-        // ============================================================
 
         function updateQualityIndicator(indicator, status, text) {
             const dot = indicator.querySelector('.dot');
@@ -2042,10 +2164,6 @@ Gait Screening - NeuroSense AI
             }
         }
 
-        // ============================================================
-        // UI Helpers
-        // ============================================================
-
         function updateFeedback(text, type) {
             feedbackText.textContent = text;
             feedbackOverlay.className = 'feedback-overlay ' + (type || 'info');
@@ -2056,10 +2174,6 @@ Gait Screening - NeuroSense AI
             btn.disabled = disabled;
             if (text) btn.innerHTML = text;
         }
-
-        // ============================================================
-        // SWITCH METHODS
-        // ============================================================
 
         btnLive.addEventListener('click', function () {
             liveSection.classList.remove('hidden');
@@ -2078,10 +2192,6 @@ Gait Screening - NeuroSense AI
             document.getElementById('camera-container').classList.remove('live-active');
             if (stream) stopCamera();
         });
-
-        // ============================================================
-        // CAMERA
-        // ============================================================
 
         btnStartCamera.addEventListener('click', startCamera);
 
@@ -2187,7 +2297,6 @@ Gait Screening - NeuroSense AI
             }
         }
 
-        // === ENHANCED POSE ANALYSIS ===
         function analyzePoseResultsEnhanced(results) {
             if (!results.poseLandmarks || results.poseLandmarks.length === 0) {
                 updateFeedback(t.noPerson, 'error');
@@ -2197,6 +2306,17 @@ Gait Screening - NeuroSense AI
             }
 
             const lm = results.poseLandmarks;
+
+            // FIX: Camera Obscured Check
+            // Check if the average visibility of landmarks is too low (e.g., hand covering lens)
+            const avgVisibility = lm.reduce((acc, curr) => acc + curr.visibility, 0) / lm.length;
+            if (avgVisibility < 0.3) {
+                updateFeedback(t.cameraObscured, 'error');
+                qualityState.personDetected = false;
+                updateQualityIndicators(qualityState);
+                return;
+            }
+
             const head = lm[0];
             const lShoulder = lm[11], rShoulder = lm[12];
             const lHip = lm[23], rHip = lm[24];
@@ -2211,7 +2331,6 @@ Gait Screening - NeuroSense AI
                 armSwingDetected: false
             };
 
-            // 1. Check full body visibility
             if (head && lAnkle && rAnkle && lShoulder && rShoulder) {
                 const bodyHeight = Math.abs(head.y - lAnkle.y);
                 if (bodyHeight > 0.5) {
@@ -2222,7 +2341,6 @@ Gait Screening - NeuroSense AI
                 }
             }
 
-            // 2. Check side view
             if (lShoulder && rShoulder && lHip && rHip) {
                 const shoulderWidth = Math.abs(lShoulder.x - rShoulder.x);
                 const hipWidth = Math.abs(lHip.x - rHip.x);
@@ -2236,7 +2354,6 @@ Gait Screening - NeuroSense AI
                 }
             }
 
-            // 3. Check movement
             if (lHip && rHip) {
                 const hipCenterX = (lHip.x + rHip.x) / 2;
                 if (!window._prevHipX) window._prevHipX = hipCenterX;
@@ -2248,7 +2365,6 @@ Gait Screening - NeuroSense AI
                 }
             }
 
-            // 4. Check arm swing
             if (lWrist && lShoulder && rWrist && rShoulder) {
                 const lArmSwing = Math.abs(lWrist.x - lShoulder.x);
                 const rArmSwing = Math.abs(rWrist.x - rShoulder.x);
@@ -2270,10 +2386,6 @@ Gait Screening - NeuroSense AI
                 updateFeedback(t.swingArmsNaturally, 'info');
             }
         }
-
-        // ============================================================
-        // RECORDING
-        // ============================================================
 
         btnStartRecording.addEventListener('click', startCountdown);
 
@@ -2354,27 +2466,39 @@ Gait Screening - NeuroSense AI
             }
         }
 
-        // ============================================================
-        // FILE UPLOAD
-        // ============================================================
-
+        // FIX: Video Duration Check
         fileInput.addEventListener('change', function () {
             if (this.files && this.files[0]) {
                 const file = this.files[0];
-                fileName.textContent = file.name;
-                const url = URL.createObjectURL(file);
-                uploadedVideoPreview.src = url;
-                uploadedVideoPreview.style.display = 'block';
-                videoBlob = file;
-                isVideoReady = true;
-                completedCount.textContent = '1';
-                submitBtn.disabled = false;
+                
+                // Check video duration
+                const tempVideo = document.createElement('video');
+                tempVideo.preload = 'metadata';
+                tempVideo.onloadedmetadata = function() {
+                    window.URL.revokeObjectURL(tempVideo.src);
+                    if (tempVideo.duration > 30) { // Limit to 30 seconds
+                        alert(t.videoTooLong);
+                        fileInput.value = ''; // Clear the input
+                        fileName.textContent = '';
+                        uploadedVideoPreview.style.display = 'none';
+                        submitBtn.disabled = true;
+                        isVideoReady = false;
+                        return;
+                    }
+                    
+                    // If duration is okay, proceed
+                    fileName.textContent = file.name;
+                    const url = URL.createObjectURL(file);
+                    uploadedVideoPreview.src = url;
+                    uploadedVideoPreview.style.display = 'block';
+                    videoBlob = file;
+                    isVideoReady = true;
+                    completedCount.textContent = '1';
+                    submitBtn.disabled = false;
+                };
+                tempVideo.src = URL.createObjectURL(file);
             }
         });
-
-        // ============================================================
-        // SUBMIT (WITH CSRF TOKEN FIX)
-        // ============================================================
 
         submitBtn.addEventListener('click', submitVideo);
 
@@ -2387,7 +2511,6 @@ Gait Screening - NeuroSense AI
             let formData = new FormData();
             formData.append('video', videoBlob, videoBlob instanceof File ? videoBlob.name : 'recording.mp4');
 
-            // Get CSRF token from cookie
             const csrftoken = getCookie('csrftoken');
 
             resultSection.hidden = true;
@@ -2431,19 +2554,11 @@ Gait Screening - NeuroSense AI
             submitBtn.disabled = false;
         }
 
-        // ============================================================
-        // DISPLAY RESULTS (Confirmation Only - No Results Shown)
-        // ============================================================
-
         function displayResults(data) {
-            // Just show the confirmation - no prediction/risk/confidence displayed
             resultSection.hidden = false;
-
-            // Scroll to the confirmation
             resultSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
-        // ---- Update Action Guide ----
         function updateActionGuide(isPD, isBorderline, isControl) {
             if (!actionList) return;
             actionList.innerHTML = '';
@@ -2480,16 +2595,11 @@ Gait Screening - NeuroSense AI
             });
         }
 
-        // ---- Error display ----
         function showError(message) {
             errorSection.hidden = false;
             document.getElementById('error-message').textContent = message;
             errorSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
-
-        // ============================================================
-        // RESET
-        // ============================================================
 
         if (restartBtn) restartBtn.addEventListener('click', resetAll);
         if (dismissError) dismissError.addEventListener('click', function () { errorSection.hidden = true; });
@@ -2521,17 +2631,12 @@ Gait Screening - NeuroSense AI
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // ============================================================
-        // INITIAL
-        // ============================================================
-
         liveSection.classList.remove('hidden');
         fileSection.classList.add('hidden');
         btnLive.classList.add('active');
         btnFile.classList.remove('active');
         updateFeedback(t.startCamera, 'info');
 
-        // Hide guidance overlay initially
         document.getElementById('guidance-overlay').style.display = 'none';
 
     })();

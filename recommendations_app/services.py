@@ -128,10 +128,13 @@ def build_doctor_prompt(intelligence, lang='en'):
 
 ⚠️ اہم قواعد:
 1. صرف وہی نمبر استعمال کریں جو نیچے دیے گئے ہیں۔ کوئی نیا نمبر ایجاد نہ کریں۔
-2. صرف دی گئی بصیرتوں کا استعمال کریں — کوئی عمومی طبی مشورہ نہ دیں۔
-3. ہر سیکشن (1-6) میں 2-4 جملے لکھیں — چھوٹا جواب قبول نہیں۔
+2. صرف دی گئی بصیرتوں کا استعمال کریں۔ کوئی عمومی طبی مشورہ نہ دیں۔
+3. ہر سیکشن (1-6) میں 2-4 جملے لکھیں۔ چھوٹا جواب قبول نہیں۔
 4. "کوئی مخصوص سفارش نہیں" جیسی کوئی بات نہ لکھیں۔
-5. ایسے لکھیں جیسے کلینک میں مریض سے بات کر رہے ہیں — گرمجوش، ہمدرد۔
+5. ایسے لکھیں جیسے کلینک میں مریض سے بات کر رہے ہیں۔ گرمجوش، ہمدرد۔
+6. ایک ہی پیراگراف یا "Quick Note" کو مختلف سیکشنز میں دہرائیں نہیں۔ ہر سیکشن میں منفرد مواد ہونا چاہیے۔
+7. ڈیش کریکٹر (—) یا (--) استعمال نہ کریں۔ اس کی جگہ کوما، پوائنٹ، یا عام ہائفن (-) استعمال کریں۔
+8. "آپ کی آخری 10 اسکریننگز" والا نمبر کہیں ذکر نہ کریں۔ صرف پچھلی اسکریننگ سے موازنہ کریں۔
 
 📊 مریض کا ڈیٹا:
 
@@ -192,10 +195,13 @@ def build_doctor_prompt(intelligence, lang='en'):
 
 ⚠️ CRITICAL RULES:
 1. Use ONLY the exact numbers provided below. Do NOT invent any numbers.
-2. Use ONLY the insights listed — do not add generic medical advice.
+2. Use ONLY the insights listed. Do not add generic medical advice.
 3. EVERY section (1-6) MUST have at least 3-5 sentences. Short answers are NOT acceptable.
-4. NEVER write "no specific recommendations" or "not applicable" — always provide substance.
-5. Write like you're sitting with the patient in a clinic — warm, empathetic, conversational.
+4. NEVER write "no specific recommendations" or "not applicable". Always provide substance.
+5. Write like you're sitting with the patient in a clinic. Be warm, empathetic, conversational.
+6. NEVER repeat the same paragraph or "Quick Note" across multiple sections. Each section must contain unique content.
+7. NEVER use the em dash character (—) or en dash character (–). Use commas, periods, or regular hyphens (-) instead.
+8. Do NOT mention the "across your last 10 screenings" number anywhere. Only mention the comparison with the immediately previous screening.
 
 📊 PATIENT DATA:
 

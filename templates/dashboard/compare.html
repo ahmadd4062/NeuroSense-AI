@@ -521,7 +521,7 @@ Compare Screenings - NeuroSense AI
                         <i class="fa-solid fa-chart-simple"></i>
                         {% if lang == 'ur' %}رسک سکور{% else %}Risk Score{% endif %}
                     </span>
-                    <span class="value">{{ screening1.final_pd_probability|floatformat:1 }}%</span>
+                    <span class="value">{{ screening1.final_pd_probability|floatformat:2 }}%</span>
                 </div>
 
                 <div class="compare-item">
@@ -529,7 +529,7 @@ Compare Screenings - NeuroSense AI
                         <i class="fa-solid fa-bullseye"></i>
                         {% if lang == 'ur' %}اعتماد{% else %}Confidence{% endif %}
                     </span>
-                    <span class="value">{{ screening1.fusion_confidence|floatformat:1 }}%</span>
+                    <span class="value">{{ screening1.fusion_confidence|floatformat:2 }}%</span>
                 </div>
 
                 <div class="compare-item">
@@ -605,7 +605,7 @@ Compare Screenings - NeuroSense AI
                         <i class="fa-solid fa-chart-simple"></i>
                         {% if lang == 'ur' %}رسک سکور{% else %}Risk Score{% endif %}
                     </span>
-                    <span class="value">{{ screening2.final_pd_probability|floatformat:1 }}%</span>
+                    <span class="value">{{ screening2.final_pd_probability|floatformat:2 }}%</span>
                 </div>
 
                 <div class="compare-item">
@@ -613,7 +613,7 @@ Compare Screenings - NeuroSense AI
                         <i class="fa-solid fa-bullseye"></i>
                         {% if lang == 'ur' %}اعتماد{% else %}Confidence{% endif %}
                     </span>
-                    <span class="value">{{ screening2.fusion_confidence|floatformat:1 }}%</span>
+                    <span class="value">{{ screening2.fusion_confidence|floatformat:2 }}%</span>
                 </div>
 
                 <div class="compare-item">

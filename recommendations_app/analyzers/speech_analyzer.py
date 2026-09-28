@@ -57,10 +57,7 @@ def analyze_speech(screening_id: str) -> Dict[str, Any]:
             prediction = ScreeningPrediction.objects.get(screening_id=screening_id)
         except ScreeningPrediction.DoesNotExist:
             return empty_result
-        
-        # ============================================================
-        # BASIC SCREENING DATA
-        # ============================================================
+
         final_score = prediction.final_score
         final_label = prediction.final_label
         successful = prediction.successful_recordings
@@ -68,9 +65,7 @@ def analyze_speech(screening_id: str) -> Dict[str, Any]:
         parkinson_threshold = prediction.parkinson_threshold
         healthy_threshold = prediction.healthy_threshold
         
-        # ============================================================
-        # PER-RECORDING ANALYSIS
-        # ============================================================
+
         recordings_qs = prediction.recording_predictions.all().order_by('slot_number')
         recordings = []
         probabilities = []
@@ -91,9 +86,7 @@ def analyze_speech(screening_id: str) -> Dict[str, Any]:
             if rec.probability is not None:
                 probabilities.append(rec.probability)
         
-        # ============================================================
-        # CONSISTENCY ANALYSIS
-        # ============================================================
+
         if len(probabilities) >= 2:
             avg_prob = sum(probabilities) / len(probabilities)
             spread = max(probabilities) - min(probabilities)
@@ -113,10 +106,7 @@ def analyze_speech(screening_id: str) -> Dict[str, Any]:
             spread = 0.0
             consistency = 'unknown'
             consistency_score = 0.0
-        
-        # ============================================================
-        # THRESHOLD PROXIMITY
-        # ============================================================
+
         # How close is the score to the PD threshold?
         distance_to_pd = parkinson_threshold - final_score
         distance_to_healthy = final_score - healthy_threshold
@@ -130,9 +120,7 @@ def analyze_speech(screening_id: str) -> Dict[str, Any]:
         else:
             threshold_proximity = 'healthy_zone'
         
-        # ============================================================
-        # GENERATE INSIGHTS
-        # ============================================================
+
         insights = []
         
         # Consistency insight
@@ -191,9 +179,7 @@ def analyze_speech(screening_id: str) -> Dict[str, Any]:
                 'ur': f"{successful + failed} میں سے {failed} ریکارڈنگز میں تکنیکی مسائل تھے اور انہیں تجزیے سے خارج کر دیا گیا۔"
             })
         
-        # ============================================================
-        # BUILD OUTPUT
-        # ============================================================
+
         result = {
             'has_data': True,
             'screening_id': screening_id,

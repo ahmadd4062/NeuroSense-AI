@@ -49,7 +49,11 @@ def gait_predict(request):
         video_file = request.FILES['video']
         
         # Get screening_id from request or generate new
-        screening_id = request.data.get('screening_id') or request.POST.get('screening_id')
+        screening_id = (
+            request.data.get('screening_id')
+            or request.POST.get('screening_id')
+            or request.session.get('screening_id')
+        )
         if not screening_id:
             screening_id = uuid.uuid4().hex
         

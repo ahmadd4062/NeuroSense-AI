@@ -23,10 +23,6 @@ Data Sources:
 
 from typing import Dict, Any, List, Optional
 
-
-# ================================================================
-# PATTERN DEFINITIONS
-# ================================================================
 # Each pattern has:
 #   - id: internal identifier
 #   - label: human-readable label (en/ur)
@@ -192,9 +188,7 @@ def detect_patterns(
     speech_pd = speech.get('pd_probability', 0.0)
     questionnaire_pd = questionnaire.get('pd_probability', 0.0)
     
-    # ============================================================
-    # DETECT PATTERNS
-    # ============================================================
+
     detected = []
     
     # Pattern: All PD
@@ -249,9 +243,7 @@ def detect_patterns(
         if trend in ['worsening', 'significantly_worsening']:
             detected.append('worsening_trend')
     
-    # ============================================================
-    # DETERMINE PRIMARY PATTERN
-    # ============================================================
+
     # Sort by priority (lower = more urgent)
     if detected:
         sorted_patterns = sorted(
@@ -264,9 +256,7 @@ def detect_patterns(
         primary_pattern = None
         priority_score = 5
     
-    # ============================================================
-    # BUILD OUTPUT
-    # ============================================================
+
     result = {
         'detected_patterns': detected,
         'primary_pattern': primary_pattern,

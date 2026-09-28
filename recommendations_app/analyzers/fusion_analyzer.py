@@ -27,9 +27,7 @@ def analyze_fusion(fusion_result: Dict[str, Any]) -> Dict[str, Any]:
         Dict with unique fusion insights
     """
     
-    # ============================================================
-    # 1. EXTRACT MODULE DATA
-    # ============================================================
+
     modules = fusion_result.get('modules', {})
     
     gait = modules.get('gait', {})
@@ -48,9 +46,7 @@ def analyze_fusion(fusion_result: Dict[str, Any]) -> Dict[str, Any]:
     confidence = fusion_result.get('fusion_confidence', 0.0)
     risk_level = fusion_result.get('risk_level', 'Low')
     
-    # ============================================================
-    # 2. WEIGHTED CONTRIBUTION ANALYSIS
-    # ============================================================
+
     # How much does each module contribute to the final risk?
     gait_contribution = gait_pd * gait_weight
     speech_contribution = speech_pd * speech_weight
@@ -66,9 +62,7 @@ def analyze_fusion(fusion_result: Dict[str, Any]) -> Dict[str, Any]:
     else:
         gait_share = speech_share = questionnaire_share = 0.0
     
-    # ============================================================
-    # 3. DOMINANT MODULE DETECTION
-    # ============================================================
+
     contributions = {
         'gait': gait_contribution,
         'speech': speech_contribution,
@@ -85,9 +79,7 @@ def analyze_fusion(fusion_result: Dict[str, Any]) -> Dict[str, Any]:
     else:
         dominance_ratio = float('inf') if sorted_contributions[0] > 0 else 0
     
-    # ============================================================
-    # 4. DISCORDANCE ANALYSIS
-    # ============================================================
+
     # How much do the modules disagree with each other?
     probabilities = [gait_pd, speech_pd, questionnaire_pd]
     max_prob = max(probabilities)
@@ -101,10 +93,7 @@ def analyze_fusion(fusion_result: Dict[str, Any]) -> Dict[str, Any]:
         discordance_level = 'moderate'
     else:
         discordance_level = 'low'
-    
-    # ============================================================
-    # 5. MODULE ALIGNMENT PATTERNS
-    # ============================================================
+ 
     # Are modules in agreement or disagreement?
     is_gait_elevated = gait_pd > 0.5
     is_speech_elevated = speech_pd > 0.5
@@ -117,9 +106,7 @@ def analyze_fusion(fusion_result: Dict[str, Any]) -> Dict[str, Any]:
     gait_vs_questionnaire_gap = abs(gait_pd - questionnaire_pd)
     speech_vs_questionnaire_gap = abs(speech_pd - questionnaire_pd)
     
-    # ============================================================
-    # 6. CONFIDENCE-WEIGHTED CERTAINTY
-    # ============================================================
+
     # Given the confidence level, how much should we trust the result?
     if confidence >= 0.85:
         certainty_level = 'high'
@@ -128,9 +115,7 @@ def analyze_fusion(fusion_result: Dict[str, Any]) -> Dict[str, Any]:
     else:
         certainty_level = 'low'
     
-    # ============================================================
-    # 7. RISK PATTERN CLASSIFICATION
-    # ============================================================
+
     # Classify the overall pattern (for use by pattern_detector)
     if elevated_count == 3:
         risk_pattern = 'all_modules_elevated'
@@ -145,10 +130,7 @@ def analyze_fusion(fusion_result: Dict[str, Any]) -> Dict[str, Any]:
             risk_pattern = 'questionnaire_dominant'
     else:
         risk_pattern = 'no_module_elevated'
-    
-    # ============================================================
-    # 8. BUILD OUTPUT
-    # ============================================================
+  
     result = {
         # Raw values
         'module_probabilities': {

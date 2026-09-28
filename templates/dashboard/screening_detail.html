@@ -492,14 +492,14 @@ Screening Details - NeuroSense AI
                         <i class="fa-solid fa-arrow-trend-up"></i>
                         {% if lang == 'ur' %}پی ڈی رسک سکور{% else %}PD Risk Score{% endif %}
                     </div>
-                    <div class="value">{{ screening.final_pd_probability|floatformat:1 }}%</div>
+                    <div class="value">{{ screening.final_pd_probability|floatformat:2 }}%</div>
                 </div>
                 <div class="detail-item">
                     <div class="label">
                         <i class="fa-solid fa-bullseye"></i>
                         {% if lang == 'ur' %}اعتماد{% else %}Confidence{% endif %}
                     </div>
-                    <div class="value">{{ screening.fusion_confidence|floatformat:1 }}%</div>
+                    <div class="value">{{ screening.fusion_confidence|floatformat:2 }}%</div>
                 </div>
             </div>
         </div>

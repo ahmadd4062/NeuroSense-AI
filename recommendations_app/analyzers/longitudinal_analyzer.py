@@ -56,29 +56,27 @@ def analyze_longitudinal(
     try:
         from dashboard.models import ScreeningHistory
 
-        # Fetch user's past screenings (excluding current one)
+        # Step 1: Fetch newest screenings first
         history = ScreeningHistory.objects.filter(
             user=current_user
         ).exclude(
             screening_id=current_screening_id
-        ).order_by('created_at')[:max_history]
+        ).order_by('-created_at')[:max_history]
 
+        # Step 2: Convert to list and reverse to get chronological order (oldest → newest)
         history_list = list(history)
+        history_list.reverse()
 
         if len(history_list) == 0:
             return empty_result
 
-        # ============================================================
-        # BASIC STATS
-        # ============================================================
+
         total = len(history_list)
         first = history_list[0]
         last = history_list[-1]
         time_span = (last.created_at - first.created_at).days
 
-        # ============================================================
-        # TREND ANALYSIS FUNCTION
-        # ============================================================
+
         def compute_trend(values: List[float], threshold: float = 0.03) -> str:
             if len(values) < 2:
                 return 'stable'
@@ -100,9 +98,6 @@ def analyze_longitudinal(
             else:
                 return 'stable'
 
-        # ============================================================
-        # EXTRACT TREND DATA
-        # ============================================================
         risk_values = [h.final_pd_probability for h in history_list]
         gait_values = [h.gait_pd_probability for h in history_list if h.gait_pd_probability is not None]
         speech_values = [h.speech_pd_probability for h in history_list if h.speech_pd_probability is not None]
@@ -110,9 +105,7 @@ def analyze_longitudinal(
         motor_values = [h.motor_score for h in history_list if h.motor_score is not None]
         confidence_values = [h.fusion_confidence for h in history_list]
 
-        # ============================================================
-        # COMPUTE TRENDS
-        # ============================================================
+
         overall_trend = compute_trend(risk_values)
         gait_trend = compute_trend(gait_values)
         speech_trend = compute_trend(speech_values)
@@ -120,17 +113,13 @@ def analyze_longitudinal(
         motor_score_trend = compute_trend(motor_values)
         confidence_trend = compute_trend(confidence_values)
 
-        # ============================================================
-        # PREVIOUS SCREENING
-        # ============================================================
+
         previous = history_list[-1]
         previous_pd = previous.final_pd_probability
         previous_risk_level = previous.risk_level
         previous_date = previous.created_at.strftime('%d %b %Y, %H:%M')
 
-        # ============================================================
-        # EXACT DELTA — CURRENT vs PREVIOUS
-        # ============================================================
+
         delta_from_previous = None
         delta_percentage = None
         delta_direction = 'none'
@@ -159,17 +148,13 @@ def analyze_longitudinal(
                     f"since your last screening on {previous_date}."
                 )
 
-        # ============================================================
-        # WORSENING RATE PER MONTH
-        # ============================================================
+
         worsening_rate = 0.0
         if time_span > 0 and len(risk_values) >= 2:
             total_change = risk_values[-1] - risk_values[0]
             worsening_rate = (total_change / time_span) * 30
 
-        # ============================================================
-        # PREVIOUS SCREENING SUMMARY
-        # ============================================================
+
         previous_screenings = []
         for h in history_list[-3:]:
             previous_screenings.append({
@@ -182,12 +167,10 @@ def analyze_longitudinal(
                 'questionnaire': h.questionnaire_prediction,
             })
 
-        # ============================================================
-        # GENERATE INSIGHTS (with EXACT numbers)
-        # ============================================================
+
         insights = []
 
-        # Delta insight (most important — the DIRECT comparison)
+        # Delta insight (most important)
         if delta_percentage is not None:
             if delta_direction == 'worsening':
                 insights.append({
@@ -211,7 +194,7 @@ def analyze_longitudinal(
                     'ur': f"آپ کی پچھلی اسکریننگ کے بعد سے آپ کا مجموعی رسک مستحکم رہا ہے۔"
                 })
 
-        # Long-term trend (across ALL screenings)
+        # Long-term trend
         if overall_trend in ['worsening', 'significantly_worsening']:
             long_change = (risk_values[-1] - risk_values[0]) * 100
             insights.append({
@@ -254,9 +237,6 @@ def analyze_longitudinal(
                 'ur': "آپ کے موٹر علامات کے اسکور میں اسکریننگز کے دوران اضافہ ہوا ہے۔"
             })
 
-        # ============================================================
-        # BUILD OUTPUT
-        # ============================================================
         result = {
             'has_history': True,
             'total_screenings': total,
@@ -279,7 +259,7 @@ def analyze_longitudinal(
             'previous_pd_probability': round(previous_pd, 4),
             'previous_screening_date': previous_date,
 
-            # EXACT DELTA (NEW — critical for Gemini)
+            # EXACT DELTA
             'current_pd_probability': round(current_pd_probability, 4) if current_pd_probability is not None else None,
             'delta_from_previous': round(delta_from_previous, 4) if delta_from_previous is not None else None,
             'delta_percentage': round(delta_percentage, 2) if delta_percentage is not None else None,

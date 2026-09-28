@@ -696,7 +696,7 @@ Dashboard - NeuroSense AI
 
         <div class="stat-card">
             <span class="stat-icon">📈</span>
-            <div class="stat-number">{{ stats.average_risk|floatformat:1 }}%</div>
+            <div class="stat-number">{{ stats.average_risk|floatformat:2 }}%</div>
             <div class="stat-label">
                 {% if lang == 'ur' %}اوسط رسک{% else %}Average Risk{% endif %}
             </div>
@@ -710,7 +710,7 @@ Dashboard - NeuroSense AI
 
         <div class="stat-card">
             <span class="stat-icon">🔺</span>
-            <div class="stat-number">{{ stats.highest_risk|floatformat:1 }}%</div>
+            <div class="stat-number">{{ stats.highest_risk|floatformat:2 }}%</div>
             <div class="stat-label">
                 {% if lang == 'ur' %}سب سے زیادہ رسک{% else %}Highest Risk{% endif %}
             </div>
@@ -724,7 +724,7 @@ Dashboard - NeuroSense AI
 
         <div class="stat-card">
             <span class="stat-icon">🔻</span>
-            <div class="stat-number">{{ stats.lowest_risk|floatformat:1 }}%</div>
+            <div class="stat-number">{{ stats.lowest_risk|floatformat:2 }}%</div>
             <div class="stat-label">
                 {% if lang == 'ur' %}سب سے کم رسک{% else %}Lowest Risk{% endif %}
             </div>
@@ -803,7 +803,7 @@ Dashboard - NeuroSense AI
                                     {{ screening.risk_level }}
                                 {% endif %}
                             </span>
-                            <span class="history-value">{{ screening.final_pd_probability|floatformat:1 }}%</span>
+                            <span class="history-value">{{ screening.final_pd_probability|floatformat:2 }}%</span>
                             <span class="history-arrow"><i class="fa-solid fa-chevron-right"></i></span>
                         </div>
                     </a>

@@ -26,9 +26,6 @@ def synthesize_intelligence(
     Run all analyzers and synthesize their outputs into unified intelligence.
     """
 
-    # ============================================================
-    # 1. RUN ALL ANALYZERS
-    # ============================================================
 
     # Fusion Analyzer
     fusion_analysis = analyze_fusion(fusion_result)
@@ -44,9 +41,6 @@ def synthesize_intelligence(
     questionnaire_analysis = analyze_questionnaire(questionnaire_result_id)
     questionnaire_summary = get_questionnaire_summary(questionnaire_analysis, lang)
 
-    # ============================================================
-    # LONGITUDINAL ANALYZER — PASS CURRENT PD PROBABILITY
-    # ============================================================
     current_pd = fusion_result.get('final_pd_probability')
 
     longitudinal_analysis = analyze_longitudinal(
@@ -65,9 +59,7 @@ def synthesize_intelligence(
     )
     pattern_description = get_pattern_description(pattern_detection, lang)
 
-    # ============================================================
-    # 2. AGGREGATE ALL INSIGHTS
-    # ============================================================
+
     all_insights = []
 
     if fusion_analysis.get('discordance_level') == 'high':
@@ -91,9 +83,7 @@ def synthesize_intelligence(
         insight['source'] = 'longitudinal'
         all_insights.append(insight)
 
-    # ============================================================
-    # 3. PRIORITY LEVELS
-    # ============================================================
+
     priority_score = pattern_detection.get('priority_score', 5)
 
     high_severity_count = sum(
@@ -112,9 +102,7 @@ def synthesize_intelligence(
     else:
         intelligence_priority = 'routine'
 
-    # ============================================================
-    # 4. BUILD UNIFIED INTELLIGENCE
-    # ============================================================
+
     intelligence = {
         'screening_id': screening_id,
         'lang': lang,
@@ -197,9 +185,7 @@ def build_gemini_prompt(intelligence: Dict[str, Any], lang: str = 'en') -> str:
     insights = intelligence.get('insights', [])
     risk = intelligence.get('risk_summary', {})
 
-    # ============================================================
-    # FORMAT INSIGHTS
-    # ============================================================
+
     insights_text = ""
     for ins in insights:
         text = ins.get(lang, ins.get('en', ''))
@@ -209,9 +195,7 @@ def build_gemini_prompt(intelligence: Dict[str, Any], lang: str = 'en') -> str:
     if not insights_text:
         insights_text = "- No specific insights detected."
 
-    # ============================================================
-    # FORMAT LONGITUDINAL DELTA (EXACT NUMBERS)
-    # ============================================================
+
     if longitudinal:
         delta_text = longitudinal.get('delta_text', 'No comparison available.')
         previous_pd = longitudinal.get('previous_pd_probability')
@@ -230,9 +214,6 @@ def build_gemini_prompt(intelligence: Dict[str, Any], lang: str = 'en') -> str:
     else:
         longitudinal_line = "- This is the patient's first screening."
 
-    # ============================================================
-    # BUILD PROMPT
-    # ============================================================
     if lang == 'ur':
         prompt = f"""آپ ایک تجربہ کار نیورولوجسٹ ہیں جو اپنے مریض سے اس کے اسکریننگ نتائج پر بات کر رہے ہیں۔
 

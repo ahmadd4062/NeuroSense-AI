@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.db import transaction
 from django.contrib.auth.decorators import login_required
+import uuid
 
 from .models import QuestionnaireResult
 from .services.questionnaire_service import predict_questionnaire
@@ -13,7 +14,7 @@ def questionnaire_home(request):
         request,
         "questionnaire_app/questionnaire_home.html",
         {
-            'lang': request.LANG  # Pass language to template
+            'lang': request.LANG
         }
     )
 
@@ -27,7 +28,7 @@ def questionnaire_form(request):
             request,
             "questionnaire_app/questionnaire_form.html",
             {
-                'lang': request.LANG  # Pass language to template
+                'lang': request.LANG
             }
         )
 
@@ -46,9 +47,25 @@ def questionnaire_form(request):
             "NP1COG": request.POST.get("cognitive_difficulty"),
         }
 
-        result = predict_questionnaire(
-            raw_values
-        )
+        result = predict_questionnaire(raw_values)
+
+        # ============================================
+        # SCREENING_ID — Create once per screening session
+        # ============================================
+        # Start of a new screening: clear previous screening data
+        # so speech/gait use a fresh screening_id
+        screening_id = uuid.uuid4().hex
+        request.session['screening_id'] = screening_id
+        request.session.modified = True
+
+        # Clear stale data from any previous screening
+        request.session.pop('audio_module_result', None)
+        request.session.pop('gait_result', None)
+        request.session.pop('fusion_result', None)
+        request.session.pop('recommendations', None)
+        request.session.pop('recommendations_lang', None)
+        request.session.pop('recommendations_screening_id', None)
+        request.session.modified = True
 
         with transaction.atomic():
 
@@ -139,8 +156,9 @@ def questionnaire_form(request):
                 'uncertain_answers': result['uncertain_answers'],
                 'age_in_model_range': result['age_in_model_range'],
                 'internal_model_zone': result['internal_model_zone'],
-                'final_prediction_rule_based': result['final_prediction']
-                }
+                'final_prediction_rule_based': result['final_prediction'],
+            }
+
             request.session.modified = True
 
         return redirect(
@@ -154,7 +172,7 @@ def questionnaire_form(request):
             "questionnaire_app/questionnaire_form.html",
             {
                 "error": str(error),
-                'lang': request.LANG  # Pass language to template on error
+                'lang': request.LANG
             }
         )
 
@@ -173,6 +191,6 @@ def questionnaire_form(request):
                     "The questionnaire could not be processed. "
                     "Please try again."
                 ),
-                'lang': request.LANG  # Pass language to template on error
+                'lang': request.LANG
             }
         )
