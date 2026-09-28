@@ -30,10 +30,12 @@ SECRET_KEY = 'django-insecure-mltg*7^sq8=f()&ozhmph+j1@0$50nmn#dh-%h96jvhlib)3%@
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["127.0.0.1", "localhost", "testserver"]
-
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "10.201.106.130"]
 GEMINI_API_KEY = "AQ.Ab8RN6ICcOfTD-3C6BYoP3FLulVyVA3zMZfAyYRkEkbDqW_ItA"
 
+CSRF_TRUSTED_ORIGINS = [
+    "http://10.201.106.130:8000",
+]
 
 # Application definition
 

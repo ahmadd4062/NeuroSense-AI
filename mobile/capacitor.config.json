@@ -1,0 +1,9 @@
+{
+  "appId": "com.neurosense.ai",
+  "appName": "NeuroSenseAI",
+  "webDir": "www",
+  "server": {
+    "url": "http://10.201.106.130:8000",
+    "cleartext": true
+  }
+}

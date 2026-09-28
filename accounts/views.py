@@ -26,7 +26,7 @@ def register(request):
             user = form.save()
             
             # Log the user in immediately after registration
-            login(request, user)
+            login(request, user, backend='django.contrib.auth.backends.ModelBackend')
             
             # Set language preference in session
             preferred_lang = form.cleaned_data.get('preferred_language', 'en')
@@ -76,7 +76,7 @@ def login_view(request):
             user = authenticate(username=username, password=password)
             
             if user is not None:
-                login(request, user)
+                login(request, user, backend='django.contrib.auth.backends.ModelBackend')
                 
                 # Set language from profile if available
                 try:

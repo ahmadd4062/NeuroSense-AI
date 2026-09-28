@@ -81,13 +81,7 @@ NeuroSense AI Assistant
                             Health Assistant
                             {% endif %}
                         </strong>
-                        <span>
-                            {% if lang == 'ur' %}
-                            علامات اور اسکریننگ کے بارے میں پوچھیں
-                            {% else %}
-                            Ask about symptoms and screening
-                            {% endif %}
-                        </span>
+                        
                     </div>
                 </div>
             </div>
@@ -208,13 +202,7 @@ NeuroSense AI Assistant
                                     Understand Parkinson's
                                     {% endif %}
                                 </strong>
-                                <span>
-                                    {% if lang == 'ur' %}
-                                    عام علامات کے بارے میں جانیں
-                                    {% else %}
-                                    Learn about common signs and symptoms
-                                    {% endif %}
-                                </span>
+                                
                             </div>
 
                             <i class="fa-solid fa-arrow-right suggestion-arrow"></i>
@@ -238,13 +226,7 @@ NeuroSense AI Assistant
                                     Discuss a Symptom
                                     {% endif %}
                                 </strong>
-                                <span>
-                                    {% if lang == 'ur' %}
-                                    اپنی علامات کے بارے میں سوال کریں
-                                    {% else %}
-                                    Ask about a concern you're experiencing
-                                    {% endif %}
-                                </span>
+                                
                             </div>
 
                             <i class="fa-solid fa-arrow-right suggestion-arrow"></i>
@@ -268,13 +250,7 @@ NeuroSense AI Assistant
                                     Screening Guidance
                                     {% endif %}
                                 </strong>
-                                <span>
-                                    {% if lang == 'ur' %}
-                                    NeuroSense اسیسمنٹ کے طریقہ کار کو سمجھیں
-                                    {% else %}
-                                    Understand the NeuroSense assessment process
-                                    {% endif %}
-                                </span>
+                                
                             </div>
 
                             <i class="fa-solid fa-arrow-right suggestion-arrow"></i>
@@ -298,13 +274,7 @@ NeuroSense AI Assistant
                                     Daily Wellbeing
                                     {% endif %}
                                 </strong>
-                                <span>
-                                    {% if lang == 'ur' %}
-                                    روزمرہ زندگی کے لیے مددگار رہنمائی
-                                    {% else %}
-                                    Explore supportive everyday guidance
-                                    {% endif %}
-                                </span>
+                                
                             </div>
 
                             <i class="fa-solid fa-arrow-right suggestion-arrow"></i>
@@ -329,12 +299,7 @@ NeuroSense AI Assistant
 
             <div class="chat-input-area">
                 <div class="chat-input-wrapper">
-                    <textarea
-                        id="messageInput"
-                        rows="1"
-                        maxlength="1000"
-                        placeholder="{% if lang == 'ur' %}NeuroSense سے کچھ پوچھیں...{% else %}Ask NeuroSense anything...{% endif %}">
-                    </textarea>
+                    <textarea id="messageInput" rows="1" maxlength="1000" placeholder="{% if lang == 'ur' %}NeuroSense سے کچھ پوچھیں...{% else %}Ask NeuroSense anything...{% endif %}"></textarea>
 
                     <button
                         id="sendMessageBtn"
@@ -349,9 +314,9 @@ NeuroSense AI Assistant
                     <i class="fa-solid fa-shield-halved"></i>
                     <span>
                         {% if lang == 'ur' %}
-                     صرف معلوماتی رہنمائی فراہم کرتا ہے اور پیشہ ورانہ طبی مشورے کا متبادل نہیں ہے۔   NeuroSense AI 
+                     NeuroSense AI صرف معلوماتی رہنمائی فراہم کرتا ہے اور پیشہ ورانہ طبی مشورے کا متبادل نہیں ہے۔ 
                         {% else %}
-                        NeuroSense AI provides informational guidance only and does not replace professional medical consultation.
+                        NeuroSense AI provides informational guidance only and does not replace professional medical advice.
                         {% endif %}
                     </span>
                 </p>
