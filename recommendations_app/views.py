@@ -135,8 +135,8 @@ def recommendations_page(request):
 
     # Current screening ID (source of truth)
     current_screening_id = (
-        request.session.get('screening_id')
-        or (fusion_result.get('screening_id') if fusion_result else None)
+        request.session.get('screening_id') or
+        (fusion_result.get('screening_id') if fusion_result else None)
     )
 
     if not fusion_result:

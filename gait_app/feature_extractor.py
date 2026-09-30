@@ -88,87 +88,159 @@ def extract_pose_sequence_from_video(video_path, sequence_length=50):
 def validate_video_quality(pose_sequence):
     """
     Validate the quality of extracted pose sequence.
-    Returns: (is_valid, quality_score, feedback_list)
-    
-    This is called from views.py before prediction.
+
+    Returns:
+        (is_valid, quality_score, feedback_list, reason_code)
+
+    reason_code is one of:
+        "ok", "no_pose", "wrong_angle", "not_side_view",
+        "no_person", "no_full_body", "no_movement", "low_quality"
     """
     feedback = []
     quality_score = 0.0
-    
+
     if pose_sequence is None:
-        return False, 0.0, ["❌ No pose data extracted"]
-    
-    # Reshape to (frames, 17, 2)
+        return False, 0.0, ["❌ No pose data extracted"], "no_pose"
+
     try:
-        poses = pose_sequence[0].reshape(50, 17, 2)
-    except:
-        return False, 0.0, ["❌ Invalid pose data format"]
-    
-    # 1. Check if any poses were detected (not all zeros)
-    zero_frames = np.sum(np.all(poses.reshape(50, 34) == 0, axis=1))
-    
-    if zero_frames > 20:  # More than 40% frames are empty
+        poses = pose_sequence[0].reshape(50, 17, 2).astype(np.float32)
+    except Exception:
+        return False, 0.0, ["❌ Invalid pose data format"], "no_pose"
+
+    # ------------------------------------------------------------------
+    # NORMALIZE: pose_sequence is in PIXEL coordinates (x = 0..width,
+    # y = 0..height). Convert to 0..1 ranges so all thresholds below
+    # are resolution-independent.
+    # ------------------------------------------------------------------
+    # Ignore zero-padding frames when computing reference box
+    nonzero_mask = ~np.all(poses.reshape(50, 34) == 0, axis=1)
+    if nonzero_mask.sum() == 0:
+        return False, 0.0, ["❌ No pose data extracted"], "no_pose"
+
+    valid_poses = poses[nonzero_mask]
+    x_min = valid_poses[:, :, 0].min()
+    x_max = valid_poses[:, :, 0].max()
+    y_min = valid_poses[:, :, 1].min()
+    y_max = valid_poses[:, :, 1].max()
+
+    x_range = max(x_max - x_min, 1e-6)
+    y_range = max(y_max - y_min, 1e-6)
+
+    normalized = poses.copy()
+    normalized[:, :, 0] = (poses[:, :, 0] - x_min) / x_range
+    normalized[:, :, 1] = (poses[:, :, 1] - y_min) / y_range
+
+    # Zero-padding frames should stay zero after normalization
+    normalized[~nonzero_mask] = 0.0
+
+    poses = normalized
+
+    # ---- 1. Person presence ---------------------------------------------
+    zero_frames = np.sum(~nonzero_mask)
+
+    if zero_frames > 20:
         feedback.append("❌ No person detected in most frames. Please ensure full body is visible.")
         quality_score += 0.05
+        if zero_frames > 35:
+            return False, 0.05, feedback, "no_person"
     elif zero_frames > 10:
         feedback.append("⚠️ Person not visible in some frames. Try to stay in frame.")
         quality_score += 0.15
     else:
         feedback.append("✅ Person detected throughout the video.")
-        quality_score += 0.30
-    
-    # 2. Check body height (full body visibility)
-    shoulder_hip_dist = np.mean(np.abs(poses[:, 5, 1] - poses[:, 11, 1]))  # Shoulder - Hip
-    hip_ankle_dist = np.mean(np.abs(poses[:, 11, 1] - poses[:, 15, 1]))    # Hip - Ankle
-    
+        quality_score += 0.25
+
+    # ---- 2. Full body visibility ----------------------------------------
+    shoulder_hip_dist = np.mean(np.abs(poses[:, 5, 1] - poses[:, 11, 1]))
+    hip_ankle_dist    = np.mean(np.abs(poses[:, 11, 1] - poses[:, 15, 1]))
+
     if shoulder_hip_dist < 0.05 or hip_ankle_dist < 0.05:
         feedback.append("⚠️ Full body not visible. Please step back for side view.")
         quality_score += 0.05
     else:
         feedback.append("✅ Full body visible.")
-        quality_score += 0.25
-    
-    # 3. Check movement (walking)
+        quality_score += 0.20
+
+    # ---- 3. Walking movement --------------------------------------------
     hip_center = np.mean(poses[:, 11:13, 0], axis=1)
     movement_range = np.max(hip_center) - np.min(hip_center)
-    
+
     if movement_range < 0.05:
         feedback.append("⚠️ Limited movement detected. Please walk in a straight line.")
         quality_score += 0.05
     else:
         feedback.append("✅ Walking movement detected.")
-        quality_score += 0.25
-    
-    # 4. Check posture (side view)
-    shoulder_diff = np.mean(np.abs(poses[:, 5, 0] - poses[:, 6, 0]))
-    hip_diff = np.mean(np.abs(poses[:, 11, 0] - poses[:, 12, 0]))
-    
-    if shoulder_diff < 0.05 or hip_diff < 0.05:
-        feedback.append("⚠️ Side view not detected. Please turn sideways.")
-        quality_score += 0.05
+        quality_score += 0.20
+
+    # ---- 4. SIDE-VIEW CHECK ---------------------------------------------
+    # In a true side profile, left & right shoulders/hips overlap in X
+    # (small horizontal spread). Front/back views spread them apart.
+    # Uses MEDIAN to ignore outlier frames (e.g. one arm swinging wide).
+    shoulder_x_spread = np.median(np.abs(poses[:, 5, 0] - poses[:, 6, 0]))
+    hip_x_spread      = np.median(np.abs(poses[:, 11, 0] - poses[:, 12, 0]))
+
+    # Debug logging (optional — remove after tuning)
+    print(f"[GAIT-DEBUG] shoulder_x_spread={shoulder_x_spread:.3f}, "
+          f"hip_x_spread={hip_x_spread:.3f}, "
+          f"movement_range={movement_range:.3f}")
+
+    # Thresholds tuned from real test data:
+    #   side view  → shoulder_x_spread ~ 0.003–0.05, hip_x_spread ~ 0.02–0.05
+    #   front/back → shoulder_x_spread > 0.25, hip_x_spread > 0.25
+    is_side_view = (
+        shoulder_x_spread < 0.15
+        and hip_x_spread < 0.18
+    )
+
+    is_front_or_back_view = (
+        shoulder_x_spread > 0.25
+        or hip_x_spread > 0.25
+    )
+
+    if is_front_or_back_view:
+        feedback.append(
+            "❌ Front or back angle detected. Please record from a SIDE view "
+            "(camera at waist height, pointed at your profile)."
+        )
+        return False, round(min(quality_score, 0.39), 2), feedback, "wrong_angle"
+
+    if not is_side_view:
+        feedback.append(
+            "⚠️ Side view not clearly detected. Turn 90° so the camera sees "
+            "your profile (one shoulder facing the camera)."
+        )
     else:
         feedback.append("✅ Side view detected.")
-        quality_score += 0.25
-    
-    # 5. Check arm swing
-    arm_swing = np.mean(np.abs(poses[:, 9, 0] - poses[:, 5, 0]))  # Wrist - Shoulder
+        quality_score += 0.30
+
+    # ---- 5. Arm swing ----------------------------------------------------
+    arm_swing = np.median(np.abs(poses[:, 9, 0] - poses[:, 5, 0]))
     if arm_swing < 0.02:
         feedback.append("⚠️ Limited arm swing detected. Walk naturally with arms swinging.")
         quality_score += 0.05
     else:
         feedback.append("✅ Arm swing detected.")
-        quality_score += 0.20
-    
-    # Calculate final quality score (0-1)
+        quality_score += 0.05
+
+    # ---- Final score & validity ------------------------------------------
     quality_score = min(max(quality_score, 0), 1)
-    
-    # Determine if video is usable
-    is_valid = quality_score >= 0.40
-    
-    # Add overall status
+    is_valid = quality_score >= 0.40 and is_side_view
+
     if is_valid:
         feedback.insert(0, "✅ Video quality is acceptable for analysis.")
+        reason_code = "ok"
     else:
         feedback.insert(0, "❌ Video quality is poor. Please re-record following the guidelines.")
-    
-    return is_valid, round(quality_score, 2), feedback
+
+        if not is_side_view and not is_front_or_back_view:
+            reason_code = "not_side_view"
+        elif zero_frames > 10:
+            reason_code = "no_person"
+        elif shoulder_hip_dist < 0.05 or hip_ankle_dist < 0.05:
+            reason_code = "no_full_body"
+        elif movement_range < 0.05:
+            reason_code = "no_movement"
+        else:
+            reason_code = "low_quality"
+
+    return is_valid, round(quality_score, 2), feedback, reason_code

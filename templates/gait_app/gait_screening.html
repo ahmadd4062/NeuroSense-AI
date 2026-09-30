@@ -47,8 +47,7 @@ Gait Screening - NeuroSense AI
         --radius-xl: 24px;
         --transition: all 0.2s ease;
 
-        /* Professional neutral "screen" surface for video/camera panels,
-           replacing the previous pure navy-black (#0B1220) */
+        /* Professional neutral "screen" surface for video/camera panels */
         --surface-dark: #24303F;
         --surface-dark-2: #1A2432;
 
@@ -688,7 +687,6 @@ Gait Screening - NeuroSense AI
         gap: 8px;
     }
 
-    /* FIX: Inactive buttons now turn blue with white text on hover */
     .recording-methods .btn:hover {
         background: var(--primary);
         color: #FFFFFF;
@@ -700,7 +698,6 @@ Gait Screening - NeuroSense AI
         box-shadow: var(--shadow-sm);
     }
 
-    /* FIX: Active buttons now turn darker blue with white text on hover */
     .recording-methods .btn.active:hover {
         background: var(--primary-dark);
         color: #FFFFFF;
@@ -922,8 +919,7 @@ Gait Screening - NeuroSense AI
     }
 
     /* ------------------------------------------
-       LIVE QUALITY CHECKS — made prominent since
-       screening quality depends on it
+       LIVE QUALITY CHECKS — prominent
        ------------------------------------------ */
     .quality-panel {
         background: #FFFFFF;
@@ -1497,6 +1493,23 @@ Gait Screening - NeuroSense AI
         color: #FFFFFF;
     }
 
+    /* Reason-specific error styling — wrong angle gets a warmer warning tone */
+    .error-card[data-reason="wrong_angle"],
+    .error-card[data-reason="not_side_view"] {
+        border-color: #FCD34D;
+        background: #FFFBEB;
+    }
+
+    .error-card[data-reason="wrong_angle"] h2,
+    .error-card[data-reason="not_side_view"] h2 {
+        color: #92400E;
+    }
+
+    .error-card[data-reason="wrong_angle"] p,
+    .error-card[data-reason="not_side_view"] p {
+        color: #78350F;
+    }
+
     .screening-security-banner {
         display: flex;
         align-items: center;
@@ -1969,12 +1982,6 @@ Gait Screening - NeuroSense AI
         const errorSection = document.getElementById('error-section');
         const progressBar = document.getElementById('analysis-progress-bar');
         const processingMessage = document.getElementById('processing-message');
-        const resultCategory = document.getElementById('result-category');
-        const resultMessage = document.getElementById('result-message');
-        const resultScore = document.getElementById('result-score');
-        const resultConfidence = document.getElementById('result-confidence');
-        const resultSymmetry = document.getElementById('result-symmetry');
-        const resultCadence = document.getElementById('result-cadence');
         const restartBtn = document.getElementById('restart-screening');
         const dismissError = document.getElementById('dismiss-error');
         const actionList = document.getElementById('action-list');
@@ -2007,8 +2014,7 @@ Gait Screening - NeuroSense AI
             fullBodyVisible: false,
             sideViewDetected: false,
             movementDetected: false,
-            armSwingDetected: false
-        };
+            armSwingDetected: false        };
 
         const currentLang = document.documentElement.lang || 'en';
 
@@ -2035,7 +2041,16 @@ Gait Screening - NeuroSense AI
                 swingArmsNaturally: '💪 Swing your arms naturally while walking.',
                 getReady: '⏳ Get ready...',
                 cameraObscured: '⚠️ Camera obscured. Please remove any objects from the lens.',
-                videoTooLong: '⚠️ Video is too long. Please upload a video under 30 seconds.'
+                videoTooLong: '⚠️ Video is too long. Please upload a video under 30 seconds.',
+                reasons: {
+                    no_pose:       "We couldn't detect a person in your video. Please make sure you are fully visible and well-lit.",
+                    wrong_angle:   "Please record from the SIDE view. Your video was recorded from the front or back, which cannot be analyzed. Stand sideways with your profile facing the camera.",
+                    not_side_view: "Side view not clearly detected. Turn 90° so the camera sees your profile (one shoulder facing the camera).",
+                    no_person:     "You were not visible in most of the video. Please stay fully in frame for the entire recording.",
+                    no_full_body:  "Full body not visible. Please step back so your head and feet are both in the frame.",
+                    no_movement:   "We didn't detect clear walking movement. Please walk in a straight line during the recording.",
+                    low_quality:   "Video quality was not sufficient. Please re-record following the on-screen guidelines."
+                }
             },
             'ur': {
                 startCamera: 'شروع کرنے کے لیے "کیمرہ شروع کریں" پر کلک کریں',
@@ -2059,7 +2074,16 @@ Gait Screening - NeuroSense AI
                 swingArmsNaturally: '💪 چلتے ہوئے اپنے بازو قدرتی طور پر ہلائیں۔',
                 getReady: '⏳ تیار ہو جائیں...',
                 cameraObscured: '⚠️ کیمرہ ڈھکا ہوا ہے۔ براہ کرم لینز سے کوئی بھی چیز ہٹائیں۔',
-                videoTooLong: '⚠️ ویڈیو بہت لمبی ہے۔ براہ کرم 30 سیکنڈ سے کم ویڈیو اپ لوڈ کریں۔'
+                videoTooLong: '⚠️ ویڈیو بہت لمبی ہے۔ براہ کرم 30 سیکنڈ سے کم ویڈیو اپ لوڈ کریں۔',
+                reasons: {
+                    no_pose:       "ہم آپ کی ویڈیو میں کوئی شخص نہیں ڈھونڈ سکے۔ براہ کرم یقینی بنائیں کہ آپ پوری طرح نظر آ رہے ہیں اور روشنی مناسب ہے۔",
+                    wrong_angle:   "براہ کرم سائیڈ ویو سے ویڈیو ریکارڈ کریں۔ آپ کی ویڈیو سامنے یا پیچھے سے بنی تھی، جس کا تجزیہ نہیں ہو سکتا۔ سائیڈ میں کھڑے ہوں اور کیمرے کی طرف اپنا پروفائل رکھیں۔",
+                    not_side_view: "سائیڈ ویو واضح طور پر نظر نہیں آئی۔ 90 ڈگری مڑیں تاکہ کیمرہ آپ کا پروفائل دیکھ سکے (ایک کندھا کیمرے کی طرف)۔",
+                    no_person:     "ویڈیو کے زیادہ تر حصے میں آپ نظر نہیں آ رہے تھے۔ براہ کرم پوری ریکارڈنگ کے دوران فریم میں رہیں۔",
+                    no_full_body:  "پورا جسم نظر نہیں آ رہا۔ براہ کرم پیچھے ہٹیں تاکہ آپ کا سر اور پاؤں دونوں فریم میں آ جائیں۔",
+                    no_movement:   "ہمیں واضح چلنے کی حرکت نظر نہیں آئی۔ براہ کرم ریکارڈنگ کے دوران سیدھی لائن میں چلیں۔",
+                    low_quality:   "ویڈیو کا معیار کافی نہیں تھا۔ براہ کرم اسکرین پر دی گئی ہدایات کے مطابق دوبارہ ریکارڈ کریں۔"
+                }
             }
         };
 
@@ -2307,8 +2331,8 @@ Gait Screening - NeuroSense AI
 
             const lm = results.poseLandmarks;
 
-            // FIX: Camera Obscured Check
-            // Check if the average visibility of landmarks is too low (e.g., hand covering lens)
+            // Camera obscured check — if average visibility is too low,
+            // treat it as no person (hand covering lens, etc.)
             const avgVisibility = lm.reduce((acc, curr) => acc + curr.visibility, 0) / lm.length;
             if (avgVisibility < 0.3) {
                 updateFeedback(t.cameraObscured, 'error');
@@ -2331,6 +2355,7 @@ Gait Screening - NeuroSense AI
                 armSwingDetected: false
             };
 
+            // --- Full body visibility ---
             if (head && lAnkle && rAnkle && lShoulder && rShoulder) {
                 const bodyHeight = Math.abs(head.y - lAnkle.y);
                 if (bodyHeight > 0.5) {
@@ -2341,19 +2366,25 @@ Gait Screening - NeuroSense AI
                 }
             }
 
-            if (lShoulder && rShoulder && lHip && rHip) {
+            // --- STRICT side-view check (mirrors server-side logic) ---
+            if (lShoulder && rShoulder && lHip && rHip && head && lAnkle) {
                 const shoulderWidth = Math.abs(lShoulder.x - rShoulder.x);
-                const hipWidth = Math.abs(lHip.x - rHip.x);
+                const hipWidth      = Math.abs(lHip.x - rHip.x);
+                const bodyHeight    = Math.abs(head.y - lAnkle.y);
+                const bodyWidth     = shoulderWidth + hipWidth;
+                const ratio         = bodyHeight > 0.01 ? (bodyWidth / bodyHeight) : 1;
 
-                if (shoulderWidth > 0.15 || hipWidth > 0.15) {
+                // Front/back views: shoulders/hips spread horizontally, wide silhouette
+                if (shoulderWidth > 0.15 || hipWidth > 0.15 || ratio > 0.55) {
                     newQuality.sideViewDetected = false;
-                    updateFeedback(t.turnSideways, 'info');
-                } else {
+                    updateFeedback(t.turnSideways, 'error');
+                } else if (shoulderWidth < 0.05 && hipWidth < 0.05) {
                     newQuality.sideViewDetected = true;
                     updateFeedback(t.sideView, 'success');
                 }
             }
 
+            // --- Movement check ---
             if (lHip && rHip) {
                 const hipCenterX = (lHip.x + rHip.x) / 2;
                 if (!window._prevHipX) window._prevHipX = hipCenterX;
@@ -2365,6 +2396,7 @@ Gait Screening - NeuroSense AI
                 }
             }
 
+            // --- Arm swing check ---
             if (lWrist && lShoulder && rWrist && rShoulder) {
                 const lArmSwing = Math.abs(lWrist.x - lShoulder.x);
                 const rArmSwing = Math.abs(rWrist.x - rShoulder.x);
@@ -2466,27 +2498,25 @@ Gait Screening - NeuroSense AI
             }
         }
 
-        // FIX: Video Duration Check
+        // File upload with duration check
         fileInput.addEventListener('change', function () {
             if (this.files && this.files[0]) {
                 const file = this.files[0];
-                
-                // Check video duration
+
                 const tempVideo = document.createElement('video');
                 tempVideo.preload = 'metadata';
                 tempVideo.onloadedmetadata = function() {
                     window.URL.revokeObjectURL(tempVideo.src);
-                    if (tempVideo.duration > 30) { // Limit to 30 seconds
+                    if (tempVideo.duration > 30) {
                         alert(t.videoTooLong);
-                        fileInput.value = ''; // Clear the input
+                        fileInput.value = '';
                         fileName.textContent = '';
                         uploadedVideoPreview.style.display = 'none';
                         submitBtn.disabled = true;
                         isVideoReady = false;
                         return;
                     }
-                    
-                    // If duration is okay, proceed
+
                     fileName.textContent = file.name;
                     const url = URL.createObjectURL(file);
                     uploadedVideoPreview.src = url;
@@ -2543,12 +2573,23 @@ Gait Screening - NeuroSense AI
                 if (response.ok) {
                     displayResults(data);
                 } else {
-                    showError(data.error || 'Analysis failed.');
+                    // Prefer the structured reason if present, fall back to
+                    // the server message, then to a generic error.
+                    const reasonKey = data.reason || (data.quality && data.quality.reason);
+                    let userMessage;
+
+                    if (reasonKey && t.reasons && t.reasons[reasonKey]) {
+                        userMessage = t.reasons[reasonKey];
+                    } else {
+                        userMessage = data.error || 'Analysis failed.';
+                    }
+
+                    showError(userMessage, reasonKey);
                 }
             } catch (err) {
                 clearInterval(interval);
                 processingSection.hidden = true;
-                showError('Network error. Please check your connection.');
+                showError('Network error. Please check your connection.', null);
             }
 
             submitBtn.disabled = false;
@@ -2559,45 +2600,20 @@ Gait Screening - NeuroSense AI
             resultSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
-        function updateActionGuide(isPD, isBorderline, isControl) {
-            if (!actionList) return;
-            actionList.innerHTML = '';
-
-            let actions = [];
-
-            if (isPD) {
-                actions = [
-                    '📞 <strong>Schedule consultation</strong> with a neurologist within 2 weeks',
-                    '📝 <strong>Keep a symptom diary</strong> to track changes',
-                    '💪 <strong>Consider physical therapy</strong> for gait improvement',
-                    '📊 <strong>Repeat screening</strong> in 3 months to monitor progression'
-                ];
-            } else if (isBorderline) {
-                actions = [
-                    '📊 <strong>Monitor symptoms</strong> for any changes',
-                    '🔄 <strong>Repeat screening</strong> in 3 months',
-                    '📝 <strong>Consult a doctor</strong> if symptoms worsen',
-                    '💪 <strong>Stay physically active</strong> for brain health'
-                ];
-            } else {
-                actions = [
-                    '✅ <strong>Continue regular health checkups</strong>',
-                    '💪 <strong>Maintain physical activity</strong> for brain health',
-                    '📊 <strong>Repeat screening</strong> annually or as recommended',
-                    '📝 <strong>Stay aware</strong> of any new symptoms'
-                ];
-            }
-
-            actions.forEach(action => {
-                const li = document.createElement('li');
-                li.innerHTML = action;
-                actionList.appendChild(li);
-            });
-        }
-
-        function showError(message) {
+        function showError(message, reasonKey) {
             errorSection.hidden = false;
             document.getElementById('error-message').textContent = message;
+
+            // Attach reason as data attribute for potential styling
+            const errorCard = errorSection.querySelector('.error-card');
+            if (errorCard) {
+                if (reasonKey) {
+                    errorCard.setAttribute('data-reason', reasonKey);
+                } else {
+                    errorCard.removeAttribute('data-reason');
+                }
+            }
+
             errorSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
