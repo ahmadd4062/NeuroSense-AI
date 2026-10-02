@@ -62,12 +62,9 @@ Dashboard - NeuroSense AI
         flex-wrap: wrap;
     }
 
-    .btn-new-screening {
+    .btn-new-screening, .btn-refresh {
         padding: 10px 24px;
         border-radius: 10px;
-        background: #4A6CF7;
-        color: white;
-        border: none;
         font-weight: 700;
         font-size: 0.85rem;
         cursor: pointer;
@@ -77,6 +74,12 @@ Dashboard - NeuroSense AI
         gap: 8px;
         text-decoration: none;
         font-family: inherit;
+        border: none;
+    }
+
+    .btn-new-screening {
+        background: #4A6CF7;
+        color: white;
         box-shadow: 0 4px 12px rgba(74, 108, 247, 0.2);
     }
 
@@ -87,20 +90,10 @@ Dashboard - NeuroSense AI
     }
 
     .btn-refresh {
-        padding: 10px 18px;
-        border-radius: 10px;
         background: #f1f5f9;
         color: #475569;
         border: 1px solid #e2e8f0;
         font-weight: 600;
-        font-size: 0.85rem;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        text-decoration: none;
-        font-family: inherit;
     }
 
     .btn-refresh:hover {
@@ -108,12 +101,91 @@ Dashboard - NeuroSense AI
         transform: translateY(-2px);
     }
 
-    /* ---------- Stats Grid ---------- */
+    /* ---------- Health Score + Stats ---------- */
+    .overview-grid {
+        display: grid;
+        grid-template-columns: 240px 1fr;
+        gap: 20px;
+        margin-bottom: 32px;
+    }
+
+    @media (max-width: 900px) {
+        .overview-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    /* Health Score Card */
+    .health-score-card {
+        background: linear-gradient(135deg, #4A6CF7 0%, #7c3aed 100%);
+        border-radius: 16px;
+        padding: 24px;
+        color: white;
+        box-shadow: 0 8px 24px rgba(74, 108, 247, 0.25);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .health-score-card::before {
+        content: '';
+        position: absolute;
+        top: -40%;
+        right: -20%;
+        width: 200px;
+        height: 200px;
+        background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
+        border-radius: 50%;
+        pointer-events: none;
+    }
+
+    .health-score-card .hs-label {
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        opacity: 0.85;
+    }
+
+    .health-score-card .hs-value {
+        font-size: 3.5rem;
+        font-weight: 800;
+        line-height: 1;
+        margin: 8px 0;
+        letter-spacing: -0.03em;
+    }
+
+    .health-score-card .hs-value small {
+        font-size: 1.2rem;
+        opacity: 0.7;
+        font-weight: 500;
+    }
+
+    .health-score-card .hs-trend {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: rgba(255,255,255,0.2);
+        backdrop-filter: blur(6px);
+        padding: 4px 14px;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        margin-top: 8px;
+        width: fit-content;
+    }
+
+    .health-score-card .hs-trend.up { background: rgba(220, 38, 38, 0.3); }
+    .health-score-card .hs-trend.down { background: rgba(16, 185, 129, 0.4); }
+    .health-score-card .hs-trend.stable { background: rgba(255,255,255,0.2); }
+
+    /* Stats Grid */
     .stats-grid {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
         gap: 16px;
-        margin-bottom: 32px;
     }
 
     @media (max-width: 768px) {
@@ -137,22 +209,6 @@ Dashboard - NeuroSense AI
         transition: all 0.3s ease;
         position: relative;
         overflow: hidden;
-    }
-
-    .stat-card::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 3px;
-        background: linear-gradient(135deg, #4A6CF7 0%, #7c3aed 100%);
-        opacity: 0;
-        transition: opacity 0.3s ease;
-    }
-
-    .stat-card:hover::before {
-        opacity: 1;
     }
 
     .stat-card:hover {
@@ -202,8 +258,71 @@ Dashboard - NeuroSense AI
     }
 
     .stat-card .stat-trend.stable {
-        color: #f59e0b;
-        background: #fffbeb;
+        color: #6b7280;
+        background: #f1f5f9;
+    }
+
+    /* ---------- Insights Panel ---------- */
+    .insights-panel {
+        background: white;
+        border-radius: 16px;
+        padding: 24px 28px;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        margin-bottom: 32px;
+    }
+
+    .insights-panel .insights-title {
+        font-size: 1rem;
+        font-weight: 700;
+        color: #1a1a2e;
+        margin: 0 0 16px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .insights-panel .insights-title i {
+        color: #4A6CF7;
+    }
+
+    .insights-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 12px;
+    }
+
+    .insight-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 14px 16px;
+        background: #f8fafc;
+        border-radius: 10px;
+        border: 1px solid #e2e8f0;
+        border-left: 3px solid #4A6CF7;
+        transition: all 0.3s ease;
+    }
+
+    .insight-item.good { border-left-color: #16a34a; }
+    .insight-item.warning { border-left-color: #f59e0b; }
+    .insight-item.info { border-left-color: #4A6CF7; }
+
+    .insight-item:hover {
+        background: #eef2ff;
+        transform: translateX(2px);
+    }
+
+    .insight-item .insight-icon {
+        font-size: 1.2rem;
+        flex-shrink: 0;
+        line-height: 1;
+    }
+
+    .insight-item .insight-text {
+        font-size: 0.85rem;
+        color: #475569;
+        line-height: 1.5;
     }
 
     /* ---------- Main Grid ---------- */
@@ -238,6 +357,8 @@ Dashboard - NeuroSense AI
         justify-content: space-between;
         align-items: center;
         margin-bottom: 16px;
+        flex-wrap: wrap;
+        gap: 10px;
     }
 
     .card .card-title {
@@ -265,20 +386,37 @@ Dashboard - NeuroSense AI
         white-space: nowrap;
     }
 
-    .card .card-action {
-        font-size: 0.8rem;
+    /* Tabs for charts */
+    .chart-tabs {
+        display: flex;
+        gap: 4px;
+        background: #f1f5f9;
+        padding: 4px;
+        border-radius: 10px;
+        margin-bottom: 16px;
+    }
+
+    .chart-tab {
+        flex: 1;
+        padding: 8px 12px;
+        border: none;
+        background: transparent;
+        border-radius: 8px;
+        font-size: 0.75rem;
         font-weight: 600;
+        color: #6b7280;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        font-family: inherit;
+    }
+
+    .chart-tab.active {
+        background: white;
         color: #4A6CF7;
-        text-decoration: none;
-        transition: all 0.3s ease;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
     }
 
-    .card .card-action:hover {
-        color: #3b5de7;
-        text-decoration: underline;
-    }
-
-    /* ---------- Chart ---------- */
+    /* Chart container */
     .chart-container {
         width: 100%;
         height: 260px;
@@ -306,9 +444,147 @@ Dashboard - NeuroSense AI
         opacity: 0.4;
     }
 
-    .chart-empty p {
+    /* ---------- Search/Filter Bar ---------- */
+    .filter-bar {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 16px;
+        flex-wrap: wrap;
+    }
+
+    .filter-bar .search-input {
+        flex: 1;
+        min-width: 160px;
+        padding: 10px 14px;
+        border: 1px solid #e2e8f0;
+        border-radius: 10px;
+        font-size: 0.85rem;
+        font-family: inherit;
+        transition: all 0.2s ease;
+    }
+
+    .filter-bar .search-input:focus {
+        outline: none;
+        border-color: #4A6CF7;
+        box-shadow: 0 0 0 3px rgba(74, 108, 247, 0.1);
+    }
+
+    .filter-bar .filter-select {
+        padding: 10px 14px;
+        border: 1px solid #e2e8f0;
+        border-radius: 10px;
+        font-size: 0.85rem;
+        font-family: inherit;
+        background: white;
+        cursor: pointer;
+        color: #475569;
+    }
+
+    .filter-bar .filter-select:focus {
+        outline: none;
+        border-color: #4A6CF7;
+    }
+
+    .filter-bar .btn-filter {
+        padding: 10px 18px;
+        background: #4A6CF7;
+        color: white;
+        border: none;
+        border-radius: 10px;
+        font-weight: 600;
+        font-size: 0.8rem;
+        cursor: pointer;
+        font-family: inherit;
+        transition: all 0.2s ease;
+    }
+
+    .filter-bar .btn-filter:hover {
+        background: #3b5de7;
+    }
+
+    /* ---------- History List ---------- */
+    .history-list {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .history-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 16px;
+        background: #f8fafc;
+        border-radius: 10px;
+        border: 1px solid #e2e8f0;
+        transition: all 0.3s ease;
+        text-decoration: none;
+    }
+
+    .history-item:hover {
+        border-color: #4A6CF7;
+        background: #eef2ff;
+        transform: translateX(4px);
+    }
+
+    .history-item .history-info {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+    }
+
+    .history-item .history-date {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: #1a1a2e;
+    }
+
+    .history-item .history-id {
+        font-size: 0.7rem;
+        color: #94a3b8;
+        font-family: monospace;
+    }
+
+    .history-item .history-score {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .history-item .risk-badge {
+        padding: 2px 14px;
+        border-radius: 20px;
+        font-size: 0.65rem;
+        font-weight: 700;
+        text-transform: uppercase;
+    }
+
+    .history-item .risk-badge.low {
+        background: #f0fdf4;
+        color: #16a34a;
+    }
+
+    .history-item .risk-badge.medium {
+        background: #fffbeb;
+        color: #f59e0b;
+    }
+
+    .history-item .risk-badge.high {
+        background: #fef2f2;
+        color: #dc2626;
+    }
+
+    .history-item .history-value {
         font-size: 0.9rem;
-        margin: 0;
+        font-weight: 700;
+        color: #1a1a2e;
+        min-width: 45px;
+        text-align: right;
+    }
+
+    .history-item .history-arrow {
+        color: #94a3b8;
+        font-size: 0.8rem;
     }
 
     /* ---------- Risk Distribution ---------- */
@@ -316,7 +592,6 @@ Dashboard - NeuroSense AI
         display: flex;
         flex-direction: column;
         gap: 10px;
-        margin-top: 4px;
     }
 
     .risk-bar {
@@ -341,15 +616,15 @@ Dashboard - NeuroSense AI
         overflow: hidden;
     }
 
-    .risk-bar .risk-track .risk-fill {
+    .risk-bar .risk-fill {
         height: 100%;
         border-radius: 6px;
         transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    .risk-bar .risk-track .risk-fill.low { background: #16a34a; }
-    .risk-bar .risk-track .risk-fill.medium { background: #f59e0b; }
-    .risk-bar .risk-track .risk-fill.high { background: #dc2626; }
+    .risk-bar .risk-fill.low { background: #16a34a; }
+    .risk-bar .risk-fill.medium { background: #f59e0b; }
+    .risk-bar .risk-fill.high { background: #dc2626; }
 
     .risk-bar .risk-count {
         font-size: 0.8rem;
@@ -358,99 +633,6 @@ Dashboard - NeuroSense AI
         min-width: 30px;
         text-align: right;
         flex-shrink: 0;
-    }
-
-    /* ---------- History List ---------- */
-    .history-list {
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-    }
-
-    .history-item {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 12px 16px;
-        background: #f8fafc;
-        border-radius: 10px;
-        border: 1px solid #e2e8f0;
-        transition: all 0.3s ease;
-        text-decoration: none;
-        cursor: pointer;
-    }
-
-    .history-item:hover {
-        border-color: #4A6CF7;
-        background: #eef2ff;
-        transform: translateX(4px);
-        box-shadow: 0 2px 8px rgba(74, 108, 247, 0.08);
-    }
-
-    .history-item .history-info {
-        display: flex;
-        flex-direction: column;
-        gap: 2px;
-    }
-
-    .history-item .history-info .history-date {
-        font-size: 0.85rem;
-        font-weight: 600;
-        color: #1a1a2e;
-    }
-
-    .history-item .history-info .history-id {
-        font-size: 0.7rem;
-        color: #94a3b8;
-        font-family: monospace;
-    }
-
-    .history-item .history-score {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-    }
-
-    .history-item .history-score .risk-badge {
-        padding: 2px 14px;
-        border-radius: 20px;
-        font-size: 0.65rem;
-        font-weight: 700;
-        text-transform: uppercase;
-    }
-
-    .history-item .history-score .risk-badge.low {
-        background: #f0fdf4;
-        color: #16a34a;
-    }
-
-    .history-item .history-score .risk-badge.medium {
-        background: #fffbeb;
-        color: #f59e0b;
-    }
-
-    .history-item .history-score .risk-badge.high {
-        background: #fef2f2;
-        color: #dc2626;
-    }
-
-    .history-item .history-score .history-value {
-        font-size: 0.9rem;
-        font-weight: 700;
-        color: #1a1a2e;
-        min-width: 45px;
-        text-align: right;
-    }
-
-    .history-item .history-arrow {
-        color: #94a3b8;
-        font-size: 0.8rem;
-        transition: all 0.3s ease;
-    }
-
-    .history-item:hover .history-arrow {
-        color: #4A6CF7;
-        transform: translateX(2px);
     }
 
     /* ---------- Empty State ---------- */
@@ -473,18 +655,10 @@ Dashboard - NeuroSense AI
         margin: 0 0 8px;
     }
 
-    .empty-state p {
-        margin: 0;
-    }
-
     .empty-state a {
         color: #4A6CF7;
         text-decoration: none;
         font-weight: 600;
-    }
-
-    .empty-state a:hover {
-        text-decoration: underline;
     }
 
     /* ---------- Last Screening ---------- */
@@ -556,19 +730,6 @@ Dashboard - NeuroSense AI
         border-color: #4A6CF7;
         color: white;
         transform: translateY(-2px);
-        box-shadow: 0 4px 16px rgba(74, 108, 247, 0.3);
-    }
-
-    .quick-actions .btn-success {
-        background: #10b981;
-        color: white;
-        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
-    }
-
-    .quick-actions .btn-success:hover {
-        background: #059669;
-        transform: translateY(-2px);
-        box-shadow: 0 8px 24px rgba(16, 185, 129, 0.3);
     }
 
     /* ---------- Responsive ---------- */
@@ -584,27 +745,13 @@ Dashboard - NeuroSense AI
             justify-content: center;
         }
 
-        .btn-new-screening,
-        .btn-refresh {
-            flex: 1;
-            justify-content: center;
-        }
-
-        .card {
-            padding: 18px 16px;
+        .stat-card .stat-number {
+            font-size: 1.6rem;
         }
 
         .history-item {
             flex-wrap: wrap;
             gap: 8px;
-        }
-
-        .history-item .history-score {
-            margin-left: auto;
-        }
-
-        .stat-card .stat-number {
-            font-size: 1.6rem;
         }
     }
 
@@ -617,28 +764,8 @@ Dashboard - NeuroSense AI
             font-size: 1.4rem;
         }
 
-        .history-item {
-            flex-direction: column;
-            align-items: stretch;
-            text-align: center;
-        }
-
-        .history-item .history-score {
-            justify-content: center;
-            margin-left: 0;
-        }
-
-        .history-item .history-arrow {
-            display: none;
-        }
-
-        .risk-bar {
-            gap: 8px;
-        }
-
-        .risk-bar .risk-label {
-            width: 45px;
-            font-size: 0.7rem;
+        .chart-tabs {
+            flex-wrap: wrap;
         }
     }
 </style>
@@ -683,59 +810,98 @@ Dashboard - NeuroSense AI
     </div>
 
     <!-- ========================================== -->
-    <!-- STATS -->
+    <!-- OVERVIEW: HEALTH SCORE + STATS -->
     <!-- ========================================== -->
-    <div class="stats-grid">
-        <div class="stat-card">
-            <span class="stat-icon">📊</span>
-            <div class="stat-number">{{ total_screenings }}</div>
-            <div class="stat-label">
-                {% if lang == 'ur' %}کل اسکریننگز{% else %}Total Screenings{% endif %}
+    <div class="overview-grid">
+
+        <!-- Health Score Card -->
+        <div class="health-score-card">
+            <div>
+                <div class="hs-label">
+                    {% if lang == 'ur' %}ہیلتھ اسکور{% else %}Health Score{% endif %}
+                </div>
+                <div class="hs-value">
+                    {{ health_score }}<small>/100</small>
+                </div>
+            </div>
+            <div class="hs-trend {{ health_direction }}">
+                {% if health_direction == 'improving' %}
+                    <i class="fa-solid fa-arrow-up"></i>
+                    {% if lang == 'ur' %}بہتر ہو رہا ہے{% else %}Improving{% endif %}
+                {% elif health_direction == 'worsening' %}
+                    <i class="fa-solid fa-arrow-down"></i>
+                    {% if lang == 'ur' %}بگڑ رہا ہے{% else %}Needs attention{% endif %}
+                {% else %}
+                    <i class="fa-solid fa-minus"></i>
+                    {% if lang == 'ur' %}مستحکم{% else %}Stable{% endif %}
+                {% endif %}
             </div>
         </div>
 
-        <div class="stat-card">
-            <span class="stat-icon">📈</span>
-            <div class="stat-number">{{ stats.average_risk|floatformat:2 }}%</div>
-            <div class="stat-label">
-                {% if lang == 'ur' %}اوسط رسک{% else %}Average Risk{% endif %}
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <span class="stat-icon">📊</span>
+                <div class="stat-number">{{ total_screenings }}</div>
+                <div class="stat-label">
+                    {% if lang == 'ur' %}کل اسکریننگز{% else %}Total Screenings{% endif %}
+                </div>
             </div>
-            {% if total_screenings > 0 %}
-            <span class="stat-trend down">
-                <i class="fa-solid fa-arrow-down"></i> 
-                {% if lang == 'ur' %}پچھلے مقابلے میں{% else %}vs previous{% endif %}
-            </span>
-            {% endif %}
+
+            <div class="stat-card">
+                <span class="stat-icon">📈</span>
+                <div class="stat-number">{{ stats.average_risk|floatformat:2 }}%</div>
+                <div class="stat-label">
+                    {% if lang == 'ur' %}اوسط رسک{% else %}Average Risk{% endif %}
+                </div>
+                {% if stat_trends.average != 'stable' %}
+                <span class="stat-trend {{ stat_trends.average }}">
+                    <i class="fa-solid {% if stat_trends.average == 'up' %}fa-arrow-up{% else %}fa-arrow-down{% endif %}"></i>
+                    {{ stat_trends.average_change|floatformat:1 }}%
+                </span>
+                {% endif %}
+            </div>
+
+            <div class="stat-card">
+                <span class="stat-icon">🔺</span>
+                <div class="stat-number">{{ stats.highest_risk|floatformat:2 }}%</div>
+                <div class="stat-label">
+                    {% if lang == 'ur' %}سب سے زیادہ رسک{% else %}Highest Risk{% endif %}
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <span class="stat-icon">🔻</span>
+                <div class="stat-number">{{ stats.lowest_risk|floatformat:2 }}%</div>
+                <div class="stat-label">
+                    {% if lang == 'ur' %}سب سے کم رسک{% else %}Lowest Risk{% endif %}
+                </div>
+            </div>
         </div>
 
-        <div class="stat-card">
-            <span class="stat-icon">🔺</span>
-            <div class="stat-number">{{ stats.highest_risk|floatformat:2 }}%</div>
-            <div class="stat-label">
-                {% if lang == 'ur' %}سب سے زیادہ رسک{% else %}Highest Risk{% endif %}
-            </div>
-            {% if total_screenings > 0 %}
-            <span class="stat-trend up">
-                <i class="fa-solid fa-arrow-up"></i> 
-                {% if lang == 'ur' %}زیادہ سے زیادہ{% else %}Maximum{% endif %}
-            </span>
-            {% endif %}
-        </div>
+    </div>
 
-        <div class="stat-card">
-            <span class="stat-icon">🔻</span>
-            <div class="stat-number">{{ stats.lowest_risk|floatformat:2 }}%</div>
-            <div class="stat-label">
-                {% if lang == 'ur' %}سب سے کم رسک{% else %}Lowest Risk{% endif %}
+    <!-- ========================================== -->
+    <!-- INSIGHTS PANEL -->
+    <!-- ========================================== -->
+    {% if insights %}
+    <div class="insights-panel">
+        <div class="insights-title">
+            <i class="fa-solid fa-lightbulb"></i>
+            {% if lang == 'ur' %}آپ کی بصیرتیں{% else %}Your Insights{% endif %}
+        </div>
+        <div class="insights-list">
+            {% for insight in insights %}
+            <div class="insight-item {{ insight.type }}">
+                <span class="insight-icon">{{ insight.icon }}</span>
+                <span class="insight-text">
+                    {% if lang == 'ur' %}{{ insight.ur }}{% else %}{{ insight.en }}{% endif %}
+                </span>
             </div>
-            {% if total_screenings > 0 %}
-            <span class="stat-trend down">
-                <i class="fa-solid fa-arrow-down"></i> 
-                {% if lang == 'ur' %}کم سے کم{% else %}Minimum{% endif %}
-            </span>
-            {% endif %}
+            {% endfor %}
         </div>
     </div>
+    {% endif %}
 
     <!-- ========================================== -->
     <!-- MAIN GRID -->
@@ -745,12 +911,12 @@ Dashboard - NeuroSense AI
         <!-- ===== LEFT COLUMN ===== -->
         <div>
 
-            <!-- Chart -->
+            <!-- Chart with Tabs -->
             <div class="card" style="margin-bottom:24px;">
                 <div class="card-header">
                     <div class="card-title">
                         <i class="fa-solid fa-chart-line"></i>
-                        {% if lang == 'ur' %}رسک کا رجحان{% else %}Risk Trend{% endif %}
+                        {% if lang == 'ur' %}رجحان{% else %}Trends{% endif %}
                     </div>
                     <span class="card-badge">
                         {% if lang == 'ur' %}آخری 10{% else %}Last 10{% endif %}
@@ -758,8 +924,21 @@ Dashboard - NeuroSense AI
                 </div>
 
                 {% if has_screenings and trend_data|length > 1 %}
-                <div class="chart-container">
+                <div class="chart-tabs">
+                    <button class="chart-tab active" data-chart="risk">
+                        {% if lang == 'ur' %}رسک{% else %}Overall Risk{% endif %}
+                    </button>
+                    <button class="chart-tab" data-chart="modules">
+                        {% if lang == 'ur' %}ماڈیولز{% else %}By Module{% endif %}
+                    </button>
+                </div>
+
+                <div class="chart-container" id="riskChartContainer">
                     <canvas id="trendChart"></canvas>
+                </div>
+
+                <div class="chart-container" id="moduleChartContainer" style="display:none;">
+                    <canvas id="moduleChart"></canvas>
                 </div>
                 {% else %}
                 <div class="chart-empty">
@@ -775,17 +954,33 @@ Dashboard - NeuroSense AI
                 {% endif %}
             </div>
 
-            <!-- History -->
+            <!-- History with Search/Filter -->
             <div class="card">
                 <div class="card-header">
                     <div class="card-title">
                         <i class="fa-regular fa-clock"></i>
-                        {% if lang == 'ur' %}حالیہ اسکریننگز{% else %}Recent Screenings{% endif %}
+                        {% if lang == 'ur' %}اسکریننگ کی تاریخ{% else %}Screening History{% endif %}
                     </div>
                     <span class="card-badge">{{ recent_screenings|length }}</span>
                 </div>
 
-                {% if has_screenings %}
+                <!-- Search/Filter Bar -->
+                <form method="get" class="filter-bar">
+                    <input type="text" name="q" class="search-input"
+                           placeholder="{% if lang == 'ur' %}آئی ڈی سے تلاش کریں{% else %}Search by ID{% endif %}"
+                           value="{{ search_query }}">
+                    <select name="risk" class="filter-select">
+                        <option value="">{% if lang == 'ur' %}تمام{% else %}All Risk{% endif %}</option>
+                        <option value="Low" {% if risk_filter == 'Low' %}selected{% endif %}>Low</option>
+                        <option value="Medium" {% if risk_filter == 'Medium' %}selected{% endif %}>Medium</option>
+                        <option value="High" {% if risk_filter == 'High' %}selected{% endif %}>High</option>
+                    </select>
+                    <button type="submit" class="btn-filter">
+                        <i class="fa-solid fa-search"></i>
+                    </button>
+                </form>
+
+                {% if recent_screenings %}
                 <div class="history-list">
                     {% for screening in recent_screenings %}
                     <a href="{% url 'dashboard:screening_detail' screening.screening_id %}" class="history-item">
@@ -813,8 +1008,9 @@ Dashboard - NeuroSense AI
                 <div class="empty-state">
                     <i class="fa-regular fa-clipboard"></i>
                     <h3>
-                        {% if lang == 'ur' %}کوئی اسکریننگ نہیں{% else %}No Screenings Yet{% endif %}
+                        {% if lang == 'ur' %}کوئی اسکریننگ نہیں{% else %}No Screenings Found{% endif %}
                     </h3>
+                    {% if not search_query and not risk_filter %}
                     <p>
                         {% if lang == 'ur' %}
                         <a href="{% url 'questionnaire_app:home' %}">اپنی پہلی اسکریننگ شروع کریں</a>
@@ -822,6 +1018,7 @@ Dashboard - NeuroSense AI
                         <a href="{% url 'questionnaire_app:home' %}">Start your first screening</a>
                         {% endif %}
                     </p>
+                    {% endif %}
                 </div>
                 {% endif %}
             </div>
@@ -842,42 +1039,26 @@ Dashboard - NeuroSense AI
                 {% if has_screenings %}
                 <div class="risk-distribution">
                     <div class="risk-bar">
-                        <span class="risk-label">
-                            {% if lang == 'ur' %}کم{% else %}Low{% endif %}
-                        </span>
+                        <span class="risk-label">{% if lang == 'ur' %}کم{% else %}Low{% endif %}</span>
                         <div class="risk-track">
                             <div class="risk-fill low" style="width:{% if total_screenings > 0 %}{% widthratio risk_distribution.Low total_screenings 100 %}{% else %}0{% endif %}%;"></div>
                         </div>
                         <span class="risk-count">{{ risk_distribution.Low }}</span>
                     </div>
                     <div class="risk-bar">
-                        <span class="risk-label">
-                            {% if lang == 'ur' %}درمیانہ{% else %}Medium{% endif %}
-                        </span>
+                        <span class="risk-label">{% if lang == 'ur' %}درمیانہ{% else %}Medium{% endif %}</span>
                         <div class="risk-track">
                             <div class="risk-fill medium" style="width:{% if total_screenings > 0 %}{% widthratio risk_distribution.Medium total_screenings 100 %}{% else %}0{% endif %}%;"></div>
                         </div>
                         <span class="risk-count">{{ risk_distribution.Medium }}</span>
                     </div>
                     <div class="risk-bar">
-                        <span class="risk-label">
-                            {% if lang == 'ur' %}زیادہ{% else %}High{% endif %}
-                        </span>
+                        <span class="risk-label">{% if lang == 'ur' %}زیادہ{% else %}High{% endif %}</span>
                         <div class="risk-track">
                             <div class="risk-fill high" style="width:{% if total_screenings > 0 %}{% widthratio risk_distribution.High total_screenings 100 %}{% else %}0{% endif %}%;"></div>
                         </div>
                         <span class="risk-count">{{ risk_distribution.High }}</span>
                     </div>
-                </div>
-                {% else %}
-                <div class="empty-state" style="padding:16px;">
-                    <p style="margin:0;font-size:0.85rem;color:#94a3b8;">
-                        {% if lang == 'ur' %}
-                        کوئی ڈیٹا دستیاب نہیں
-                        {% else %}
-                        No data available
-                        {% endif %}
-                    </p>
                 </div>
                 {% endif %}
             </div>
@@ -895,9 +1076,7 @@ Dashboard - NeuroSense AI
                 <div class="last-screening-info">
                     <i class="fa-regular fa-calendar"></i>
                     <div>
-                        <strong>
-                            {% if lang == 'ur' %}تاریخ:{% else %}Date:{% endif %}
-                        </strong>
+                        <strong>{% if lang == 'ur' %}تاریخ:{% else %}Date:{% endif %}</strong>
                         {{ last_screening_date|date:"d M Y, h:i A" }}
                     </div>
                 </div>
@@ -949,30 +1128,39 @@ Dashboard - NeuroSense AI
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const trendData = {{ trend_data|safe }};
-    
-    if (trendData && trendData.length > 1) {
+    const moduleData = {{ module_trend_data|safe }};
+
+    let riskChartInstance = null;
+    let moduleChartInstance = null;
+
+    // ============================================
+    // RISK CHART
+    // ============================================
+    function renderRiskChart() {
+        if (riskChartInstance) return;
+        if (!trendData || trendData.length < 2) return;
+
         const ctx = document.getElementById('trendChart').getContext('2d');
-        
         const gradient = ctx.createLinearGradient(0, 0, 0, 200);
         gradient.addColorStop(0, 'rgba(74, 108, 247, 0.3)');
         gradient.addColorStop(0.5, 'rgba(74, 108, 247, 0.1)');
         gradient.addColorStop(1, 'rgba(74, 108, 247, 0)');
-        
-        new Chart(ctx, {
+
+        riskChartInstance = new Chart(ctx, {
             type: 'line',
             data: {
-                labels: trendData.map(item => item.date),
+                labels: trendData.map(i => i.date),
                 datasets: [{
                     label: 'Risk Score (%)',
-                    data: trendData.map(item => item.risk),
+                    data: trendData.map(i => i.risk),
                     borderColor: '#4A6CF7',
                     borderWidth: 3,
                     backgroundColor: gradient,
                     fill: true,
                     tension: 0.4,
-                    pointBackgroundColor: trendData.map(item => {
-                        if (item.level === 'Low') return '#16a34a';
-                        if (item.level === 'Medium') return '#f59e0b';
+                    pointBackgroundColor: trendData.map(i => {
+                        if (i.level === 'Low') return '#16a34a';
+                        if (i.level === 'Medium') return '#f59e0b';
                         return '#dc2626';
                     }),
                     pointBorderColor: '#ffffff',
@@ -985,9 +1173,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: {
-                    legend: {
-                        display: false,
-                    },
+                    legend: { display: false },
                     tooltip: {
                         backgroundColor: 'rgba(15, 23, 42, 0.9)',
                         titleColor: '#ffffff',
@@ -995,9 +1181,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         cornerRadius: 8,
                         padding: 12,
                         callbacks: {
-                            label: function(context) {
-                                return 'Risk: ' + context.parsed.y + '%';
-                            }
+                            label: ctx => 'Risk: ' + ctx.parsed.y + '%'
                         }
                     }
                 },
@@ -1005,37 +1189,122 @@ document.addEventListener('DOMContentLoaded', function() {
                     y: {
                         min: 0,
                         max: 100,
-                        grid: {
-                            color: 'rgba(0, 0, 0, 0.05)',
-                        },
+                        grid: { color: 'rgba(0, 0, 0, 0.05)' },
                         ticks: {
-                            callback: function(value) {
-                                return value + '%';
-                            },
-                            font: {
-                                size: 11,
-                            }
+                            callback: v => v + '%',
+                            font: { size: 11 }
                         }
                     },
-                    x: {
-                        grid: {
-                            display: false,
-                        },
-                        ticks: {
-                            font: {
-                                size: 10,
-                            },
-                            maxTicksLimit: 8,
-                        }
-                    }
+                    x: { grid: { display: false }, ticks: { font: { size: 10 }, maxTicksLimit: 8 } }
                 },
-                interaction: {
-                    intersect: false,
-                    mode: 'index',
-                }
+                interaction: { intersect: false, mode: 'index' }
             }
         });
     }
+
+    // ============================================
+    // MODULE CHART
+    // ============================================
+    function renderModuleChart() {
+        if (moduleChartInstance) return;
+        if (!moduleData || !moduleData.gait || moduleData.gait.length < 2) return;
+
+        const ctx = document.getElementById('moduleChart').getContext('2d');
+        const labels = moduleData.gait.map(i => i.date);
+
+        moduleChartInstance = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'Gait',
+                        data: moduleData.gait.map(i => i.value),
+                        borderColor: '#4A6CF7',
+                        backgroundColor: 'rgba(74, 108, 247, 0.1)',
+                        borderWidth: 2,
+                        tension: 0.4,
+                        pointRadius: 4,
+                    },
+                    {
+                        label: 'Speech',
+                        data: moduleData.speech.map(i => i.value),
+                        borderColor: '#7c3aed',
+                        backgroundColor: 'rgba(124, 58, 237, 0.1)',
+                        borderWidth: 2,
+                        tension: 0.4,
+                        pointRadius: 4,
+                    },
+                    {
+                        label: 'Questionnaire',
+                        data: moduleData.questionnaire.map(i => i.value),
+                        borderColor: '#10b981',
+                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                        borderWidth: 2,
+                        tension: 0.4,
+                        pointRadius: 4,
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'bottom',
+                        labels: {
+                            font: { size: 11 },
+                            padding: 12,
+                            boxWidth: 12,
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(15, 23, 42, 0.9)',
+                        titleColor: '#ffffff',
+                        bodyColor: '#e2e8f0',
+                        cornerRadius: 8,
+                        padding: 12,
+                    }
+                },
+                scales: {
+                    y: {
+                        min: 0,
+                        max: 100,
+                        grid: { color: 'rgba(0, 0, 0, 0.05)' },
+                        ticks: { callback: v => v + '%', font: { size: 11 } }
+                    },
+                    x: { grid: { display: false }, ticks: { font: { size: 10 }, maxTicksLimit: 8 } }
+                },
+                interaction: { intersect: false, mode: 'index' }
+            }
+        });
+    }
+
+    // Initialize risk chart on load
+    renderRiskChart();
+
+    // ============================================
+    // CHART TAB SWITCHING
+    // ============================================
+    document.querySelectorAll('.chart-tab').forEach(tab => {
+        tab.addEventListener('click', function() {
+            document.querySelectorAll('.chart-tab').forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+
+            const target = this.dataset.chart;
+
+            if (target === 'risk') {
+                document.getElementById('riskChartContainer').style.display = 'block';
+                document.getElementById('moduleChartContainer').style.display = 'none';
+                renderRiskChart();
+            } else {
+                document.getElementById('riskChartContainer').style.display = 'none';
+                document.getElementById('moduleChartContainer').style.display = 'block';
+                renderModuleChart();
+            }
+        });
+    });
 });
 </script>
 {% endblock %}
