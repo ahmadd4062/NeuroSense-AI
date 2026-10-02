@@ -11,274 +11,553 @@ Edit Profile - NeuroSense AI
 
 {% block extra_css %}
 <style>
+/* =========================================================
+   NEUROSENSE AI — EDIT PROFILE
+   Clean, minimal, theme-aligned
+   ========================================================= */
+
+.edit-profile-page {
+    --ns-primary: #1478f2;
+    --ns-primary-dark: #0f68dc;
+
+    --ns-navy: #071d55;
+    --ns-text: #344866;
+    --ns-muted: #7d90ac;
+
+    --ns-blue-50: #f5f9ff;
+    --ns-blue-100: #eaf4ff;
+
+    --ns-border: #dce8f5;
+    --ns-white: #ffffff;
+
+    --ns-green: #16a765;
+    --ns-green-bg: #ecfbf3;
+
+    --ns-red: #dc3f3f;
+    --ns-red-bg: #fff2f2;
+
+    --ns-radius: 18px;
+
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 34px 24px 70px;
+}
+
+
+/* =========================================================
+   RTL
+   ========================================================= */
+
+.edit-profile-page.lang-ur {
+    direction: rtl;
+    text-align: right;
+}
+
+
+/* =========================================================
+   BACK LINK
+   ========================================================= */
+
+.edit-profile-page .back-link {
+    width: fit-content;
+
+    margin-bottom: 20px;
+    padding: 9px 14px;
+
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    color: #405575;
+    background: #f7fafe;
+
+    border: 1px solid var(--ns-border);
+    border-radius: 10px;
+
+    font-size: 0.84rem;
+    font-weight: 650;
+
+    text-decoration: none;
+
+    transition:
+        color 0.2s ease,
+        background 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.edit-profile-page .back-link:hover,
+.edit-profile-page .back-link:focus {
+    color: var(--ns-primary);
+    background: var(--ns-blue-50);
+    border-color: #c8ddf3;
+}
+
+
+/* =========================================================
+   MAIN CARD
+   ========================================================= */
+
+.edit-profile-page .edit-profile-card {
+    padding: 30px 32px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #ffffff 0%,
+            #ffffff 90%,
+            #fbfdff 100%
+        );
+
+    border: 1px solid var(--ns-border);
+    border-radius: var(--ns-radius);
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.edit-profile-page .edit-profile-header {
+    margin-bottom: 28px;
+    padding-bottom: 22px;
+
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
+    border-bottom: 1px solid #edf2f7;
+}
+
+.edit-profile-page .edit-profile-header .icon {
+    width: 52px;
+    height: 52px;
+
+    flex-shrink: 0;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    color: var(--ns-primary);
+    background: var(--ns-blue-100);
+
+    border-radius: 14px;
+
+    font-size: 1.1rem;
+}
+
+.edit-profile-page .edit-profile-header h1 {
+    margin: 0;
+
+    color: var(--ns-navy);
+
+    font-size: 1.55rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+}
+
+.edit-profile-page .edit-profile-header p {
+    margin: 4px 0 0;
+
+    color: var(--ns-muted);
+
+    font-size: 0.88rem;
+}
+
+
+/* =========================================================
+   MESSAGES
+   ========================================================= */
+
+.edit-profile-page .messages {
+    margin-bottom: 20px;
+}
+
+.edit-profile-page .message {
+    margin-bottom: 8px;
+    padding: 11px 14px;
+
+    border: 1px solid transparent;
+    border-radius: 10px;
+
+    font-size: 0.82rem;
+}
+
+.edit-profile-page .message.error {
+    color: #a53434;
+    background: var(--ns-red-bg);
+    border-color: #f2cece;
+}
+
+.edit-profile-page .message.success {
+    color: #0f7c49;
+    background: var(--ns-green-bg);
+    border-color: #caead9;
+}
+
+.edit-profile-page .message.info {
+    color: #315f98;
+    background: var(--ns-blue-50);
+    border-color: #d6e7f8;
+}
+
+
+/* =========================================================
+   FORM LAYOUT
+   ========================================================= */
+
+.edit-profile-page .form-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.edit-profile-page .form-group {
+    margin-bottom: 19px;
+}
+
+.edit-profile-page .form-group label {
+    margin-bottom: 7px;
+
+    display: block;
+
+    color: var(--ns-navy);
+
+    font-size: 0.79rem;
+    font-weight: 680;
+}
+
+.edit-profile-page .required {
+    color: var(--ns-red);
+}
+
+
+/* =========================================================
+   INPUTS
+   ========================================================= */
+
+.edit-profile-page .form-input {
+    width: 100%;
+    min-height: 46px;
+
+    padding: 10px 13px;
+
+    color: var(--ns-text);
+    background: #fbfdff;
+
+    border: 1px solid #dfe9f3;
+    border-radius: 10px;
+
+    font-family: inherit;
+    font-size: 0.88rem;
+
+    outline: none;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.edit-profile-page .form-input:hover {
+    border-color: #cfdeed;
+}
+
+.edit-profile-page .form-input:focus {
+    background: #ffffff;
+    border-color: #9cc5f3;
+
+    box-shadow: 0 0 0 3px rgba(20, 120, 242, 0.07);
+}
+
+.edit-profile-page .form-input.error {
+    background: #fff9f9;
+    border-color: #e6a9a9;
+}
+
+.edit-profile-page .form-input.is-valid {
+    background: #fbfffd;
+    border-color: #9fd6ba;
+}
+
+
+/* =========================================================
+   FORM HINTS / ERRORS
+   ========================================================= */
+
+.edit-profile-page .form-hint {
+    margin-top: 6px;
+
+    color: #91a2b8;
+
+    font-size: 0.7rem;
+    line-height: 1.45;
+}
+
+.edit-profile-page .form-error {
+    margin-top: 5px;
+
+    display: block;
+
+    color: var(--ns-red);
+
+    font-size: 0.72rem;
+}
+
+
+/* =========================================================
+   EMAIL NOTIFICATION OPTION
+   ========================================================= */
+
+.edit-profile-page .form-checkbox-group {
+    margin-top: 2px;
+    padding: 13px 14px;
+
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+
+    background: #f8fbff;
+
+    border: 1px solid #e2edf7;
+    border-radius: 11px;
+}
+
+.edit-profile-page .form-checkbox-group input[type="checkbox"] {
+    width: 17px;
+    height: 17px;
+
+    margin-top: 1px;
+
+    flex-shrink: 0;
+
+    accent-color: var(--ns-primary);
+    cursor: pointer;
+}
+
+.edit-profile-page .form-checkbox-group label {
+    margin: 0;
+
+    color: #4e6382;
+
+    font-size: 0.8rem;
+    font-weight: 550;
+    line-height: 1.5;
+
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   ACTIONS
+   ========================================================= */
+
+.edit-profile-page .form-actions {
+    margin-top: 28px;
+    padding-top: 22px;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+
+    border-top: 1px solid #e8eff6;
+}
+
+.edit-profile-page .form-actions .btn {
+    min-width: 150px;
+    min-height: 44px;
+
+    padding: 10px 18px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    position: relative;
+
+    border-radius: 10px;
+
+    font-family: inherit;
+    font-size: 0.82rem;
+    font-weight: 680;
+
+    text-decoration: none !important;
+    cursor: pointer;
+
+    transition:
+        color 0.2s ease,
+        background-color 0.2s ease,
+        border-color 0.2s ease;
+}
+
+/* Prevent global hover overlays */
+.edit-profile-page .form-actions .btn::before,
+.edit-profile-page .form-actions .btn::after {
+    display: none !important;
+    content: none !important;
+}
+
+
+/* ---------- Save ---------- */
+
+.edit-profile-page .form-actions .btn-primary,
+.edit-profile-page .form-actions .btn-primary:link,
+.edit-profile-page .form-actions .btn-primary:visited {
+    color: #ffffff !important;
+
+    background: var(--ns-primary) !important;
+    background-image: none !important;
+
+    border: 1px solid var(--ns-primary) !important;
+}
+
+.edit-profile-page .form-actions .btn-primary:hover,
+.edit-profile-page .form-actions .btn-primary:focus,
+.edit-profile-page .form-actions .btn-primary:active {
+    color: #ffffff !important;
+
+    background: var(--ns-primary-dark) !important;
+    background-image: none !important;
+
+    border-color: var(--ns-primary-dark) !important;
+
+    box-shadow: none !important;
+    transform: none !important;
+}
+
+
+/* ---------- Cancel ---------- */
+
+.edit-profile-page .form-actions .btn-outline,
+.edit-profile-page .form-actions .btn-outline:link,
+.edit-profile-page .form-actions .btn-outline:visited {
+    color: #405575 !important;
+
+    background: #ffffff !important;
+    background-image: none !important;
+
+    border: 1px solid var(--ns-border) !important;
+}
+
+.edit-profile-page .form-actions .btn-outline:hover,
+.edit-profile-page .form-actions .btn-outline:focus,
+.edit-profile-page .form-actions .btn-outline:active {
+    color: #405575 !important;
+
+    background: var(--ns-blue-50) !important;
+    background-image: none !important;
+
+    border-color: #c8ddf3 !important;
+
+    box-shadow: none !important;
+    transform: none !important;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 680px) {
+
     .edit-profile-page {
-        max-width: 700px;
-        margin: 0 auto;
-        padding: 40px 20px 60px;
+        padding: 24px 16px 50px;
     }
 
-    .edit-profile-card {
-        background: white;
-        border-radius: 20px;
-        padding: 40px 44px;
-        border: 1px solid #e2e8f0;
-        box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+    .edit-profile-page .edit-profile-card {
+        padding: 24px 20px;
     }
 
-    .edit-profile-header {
-        text-align: center;
-        margin-bottom: 32px;
+    .edit-profile-page .form-row {
+        grid-template-columns: 1fr;
+        gap: 0;
     }
 
-    .edit-profile-header .icon {
-        width: 64px;
-        height: 64px;
-        background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.8rem;
-        color: #4A6CF7;
-        margin: 0 auto 12px;
+    .edit-profile-page .edit-profile-header {
+        align-items: flex-start;
     }
 
-    .edit-profile-header h1 {
-        font-size: 1.6rem;
-        font-weight: 700;
-        color: #1a1a2e;
-        margin: 0 0 4px;
+    .edit-profile-page .edit-profile-header h1 {
+        font-size: 1.35rem;
     }
 
-    .edit-profile-header p {
-        color: #6b7280;
-        font-size: 0.95rem;
-        margin: 0;
+    .edit-profile-page .form-actions {
+        align-items: stretch;
     }
 
-    .form-group {
-        margin-bottom: 20px;
-    }
-
-    .form-group label {
-        display: block;
-        font-size: 0.85rem;
-        font-weight: 600;
-        color: #1a1a2e;
-        margin-bottom: 4px;
-    }
-
-    .form-group label .required {
-        color: #ef4444;
-    }
-
-    .form-group .form-input {
-        width: 100%;
-        padding: 10px 14px;
-        border: 1.5px solid #e2e8f0;
-        border-radius: 10px;
-        font-size: 0.95rem;
-        transition: all 0.3s ease;
-        background: #f8fafc;
-        font-family: inherit;
-    }
-
-    .form-group .form-input:focus {
-        outline: none;
-        border-color: #4A6CF7;
-        background: white;
-        box-shadow: 0 0 0 4px rgba(74, 108, 247, 0.08);
-    }
-
-    .form-group .form-input.error {
-        border-color: #ef4444;
-        background: #fef2f2;
-    }
-
-    .form-group .form-input.is-valid {
-        border-color: #10b981;
-        background: #f0fdf4;
-    }
-
-    .form-error {
-        color: #dc2626;
-        font-size: 0.8rem;
-        margin-top: 4px;
-        display: block;
-    }
-
-    .form-row {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 16px;
-    }
-
-    .form-checkbox-group {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        padding: 8px 0;
-    }
-
-    .form-checkbox-group input[type="checkbox"] {
-        width: 18px;
-        height: 18px;
-        accent-color: #4A6CF7;
-        cursor: pointer;
-        flex-shrink: 0;
-    }
-
-    .form-checkbox-group label {
-        font-size: 0.9rem;
-        color: #475569;
-        cursor: pointer;
-        margin: 0;
-    }
-
-    .form-hint {
-        font-size: 0.75rem;
-        color: #94a3b8;
-        margin-top: 4px;
-    }
-
-    .form-actions {
-        display: flex;
-        gap: 12px;
-        margin-top: 28px;
-        padding-top: 20px;
-        border-top: 1px solid #e2e8f0;
-    }
-
-    .btn {
-        padding: 10px 24px;
-        border-radius: 10px;
-        font-weight: 600;
-        font-size: 0.85rem;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        text-decoration: none;
-        border: none;
-        font-family: inherit;
+    .edit-profile-page .form-actions .btn {
         flex: 1;
-        justify-content: center;
+    }
+}
+
+
+@media (max-width: 460px) {
+
+    .edit-profile-page {
+        padding: 18px 11px 40px;
     }
 
-    .btn-primary {
-        background: #4A6CF7;
-        color: white;
+    .edit-profile-page .edit-profile-card {
+        padding: 20px 15px;
     }
 
-    .btn-primary:hover {
-        background: #3b5de7;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 16px rgba(74,108,247,0.3);
+    .edit-profile-page .edit-profile-header {
+        gap: 12px;
     }
 
-    .btn-outline {
-        background: transparent;
-        color: #475569;
-        border: 1.5px solid #e2e8f0;
+    .edit-profile-page .edit-profile-header .icon {
+        width: 46px;
+        height: 46px;
     }
 
-    .btn-outline:hover {
-        background: #f8fafc;
-        border-color: #4A6CF7;
-        color: #4A6CF7;
+    .edit-profile-page .form-actions {
+        flex-direction: column-reverse;
     }
 
-    .btn-danger {
-        background: #ef4444;
-        color: white;
+    .edit-profile-page .form-actions .btn {
+        width: 100%;
     }
-
-    .btn-danger:hover {
-        background: #dc2626;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 16px rgba(239,68,68,0.3);
-    }
-
-    .messages {
-        margin-bottom: 20px;
-    }
-
-    .message {
-        padding: 10px 14px;
-        border-radius: 10px;
-        font-size: 0.9rem;
-        margin-bottom: 6px;
-    }
-
-    .message.error {
-        background: #fef2f2;
-        color: #991b1b;
-        border: 1px solid #fca5a5;
-    }
-
-    .message.success {
-        background: #f0fdf4;
-        color: #065f46;
-        border: 1px solid #86efac;
-    }
-
-    .message.info {
-        background: #eff6ff;
-        color: #1e40af;
-        border: 1px solid #93c5fd;
-    }
-
-    @media (max-width: 600px) {
-        .edit-profile-card {
-            padding: 24px 16px;
-        }
-
-        .form-row {
-            grid-template-columns: 1fr;
-            gap: 0;
-        }
-
-        .form-actions {
-            flex-direction: column;
-        }
-
-        .btn {
-            flex: none;
-            width: 100%;
-        }
-
-        .edit-profile-header h1 {
-            font-size: 1.3rem;
-        }
-    }
+}
 </style>
 {% endblock %}
 
 {% block content %}
-
 {% with lang=request.LANG|default:'en' %}
 
-<div class="edit-profile-page">
+<div class="edit-profile-page {% if lang == 'ur' %}lang-ur{% endif %}">
+
+    <!-- Back -->
+    <a href="{% url 'accounts:profile' %}" class="back-link">
+        <i class="fa-solid fa-arrow-left"></i>
+        {% if lang == 'ur' %}پروفائل پر واپس جائیں{% else %}Back to Profile{% endif %}
+    </a>
 
     <div class="edit-profile-card">
 
+        <!-- Header -->
         <div class="edit-profile-header">
             <div class="icon">
                 <i class="fa-regular fa-pen-to-square"></i>
             </div>
-            <h1>
-                {% if lang == 'ur' %}پروفائل میں ترمیم{% else %}Edit Profile{% endif %}
-            </h1>
-            <p>
-                {% if lang == 'ur' %}
-                اپنی ذاتی معلومات اور ترجیحات کو اپ ڈیٹ کریں
-                {% else %}
-                Update your personal information and preferences
-                {% endif %}
-            </p>
+
+            <div>
+                <h1>
+                    {% if lang == 'ur' %}پروفائل میں ترمیم{% else %}Edit Profile{% endif %}
+                </h1>
+
+                <p>
+                    {% if lang == 'ur' %}
+                    اپنی ذاتی معلومات اور ترجیحات کو اپ ڈیٹ کریں
+                    {% else %}
+                    Update your personal information and preferences.
+                    {% endif %}
+                </p>
+            </div>
         </div>
 
+        <!-- Messages -->
         {% if messages %}
         <div class="messages">
             {% for message in messages %}
@@ -289,128 +568,251 @@ Edit Profile - NeuroSense AI
         </div>
         {% endif %}
 
+        <!-- Form -->
         <form method="POST" action="{% url 'accounts:edit_profile' %}">
             {% csrf_token %}
 
             <div class="form-row">
+
                 <div class="form-group">
                     <label for="id_first_name">
-                        {% if lang == 'ur' %}پہلا نام <span class="required">*</span>{% else %}First Name <span class="required">*</span>{% endif %}
+                        {% if lang == 'ur' %}
+                        پہلا نام <span class="required">*</span>
+                        {% else %}
+                        First Name <span class="required">*</span>
+                        {% endif %}
                     </label>
-                    <input type="text" name="first_name" id="id_first_name" class="form-input" value="{{ form.first_name.value|default:'' }}" required>
+
+                    <input type="text"
+                           name="first_name"
+                           id="id_first_name"
+                           class="form-input"
+                           value="{{ form.first_name.value|default:'' }}"
+                           required>
+
                     {% if form.first_name.errors %}
-                    <span class="form-error">{{ form.first_name.errors.0 }}</span>
+                    <span class="form-error">
+                        {{ form.first_name.errors.0 }}
+                    </span>
                     {% endif %}
                 </div>
+
 
                 <div class="form-group">
                     <label for="id_last_name">
-                        {% if lang == 'ur' %}آخری نام <span class="required">*</span>{% else %}Last Name <span class="required">*</span>{% endif %}
+                        {% if lang == 'ur' %}
+                        آخری نام <span class="required">*</span>
+                        {% else %}
+                        Last Name <span class="required">*</span>
+                        {% endif %}
                     </label>
-                    <input type="text" name="last_name" id="id_last_name" class="form-input" value="{{ form.last_name.value|default:'' }}" required>
+
+                    <input type="text"
+                           name="last_name"
+                           id="id_last_name"
+                           class="form-input"
+                           value="{{ form.last_name.value|default:'' }}"
+                           required>
+
                     {% if form.last_name.errors %}
-                    <span class="form-error">{{ form.last_name.errors.0 }}</span>
+                    <span class="form-error">
+                        {{ form.last_name.errors.0 }}
+                    </span>
                     {% endif %}
                 </div>
+
             </div>
+
 
             <div class="form-group">
                 <label for="id_email">
-                    {% if lang == 'ur' %}ای میل ایڈریس <span class="required">*</span>{% else %}Email Address <span class="required">*</span>{% endif %}
+                    {% if lang == 'ur' %}
+                    ای میل ایڈریس <span class="required">*</span>
+                    {% else %}
+                    Email Address <span class="required">*</span>
+                    {% endif %}
                 </label>
-                <input type="email" name="email" id="id_email" class="form-input" value="{{ form.email.value|default:'' }}" required>
+
+                <input type="email"
+                       name="email"
+                       id="id_email"
+                       class="form-input"
+                       value="{{ form.email.value|default:'' }}"
+                       required>
+
                 <div class="form-hint">
-                    {% if lang == 'ur' %}یہ ای میل آپ کی لاگ ان اور مواصلت کے لیے استعمال ہوگی۔{% else %}This email will be used for login and communication.{% endif %}
+                    {% if lang == 'ur' %}
+                    یہ ای میل آپ کی لاگ ان اور مواصلت کے لیے استعمال ہوگی۔
+                    {% else %}
+                    This email is used for your account and communication.
+                    {% endif %}
                 </div>
+
                 {% if form.email.errors %}
-                <span class="form-error">{{ form.email.errors.0 }}</span>
+                <span class="form-error">
+                    {{ form.email.errors.0 }}
+                </span>
                 {% endif %}
             </div>
+
 
             <div class="form-group">
                 <label for="id_phone_number">
                     {% if lang == 'ur' %}فون نمبر{% else %}Phone Number{% endif %}
                 </label>
-                <input type="text" name="phone_number" id="id_phone_number" class="form-input" value="{{ form.phone_number.value|default:'' }}">
+
+                <input type="text"
+                       name="phone_number"
+                       id="id_phone_number"
+                       class="form-input"
+                       value="{{ form.phone_number.value|default:'' }}">
+
                 {% if form.phone_number.errors %}
-                <span class="form-error">{{ form.phone_number.errors.0 }}</span>
+                <span class="form-error">
+                    {{ form.phone_number.errors.0 }}
+                </span>
                 {% endif %}
             </div>
 
+
             <div class="form-row">
+
                 <div class="form-group">
                     <label for="id_date_of_birth">
                         {% if lang == 'ur' %}تاریخ پیدائش{% else %}Date of Birth{% endif %}
                     </label>
-                    <input type="date" name="date_of_birth" id="id_date_of_birth" class="form-input" value="{{ form.date_of_birth.value|date:'Y-m-d'|default:'' }}">
+
+                    <input type="date"
+                           name="date_of_birth"
+                           id="id_date_of_birth"
+                           class="form-input"
+                           value="{{ form.date_of_birth.value|date:'Y-m-d'|default:'' }}">
+
                     {% if form.date_of_birth.errors %}
-                    <span class="form-error">{{ form.date_of_birth.errors.0 }}</span>
+                    <span class="form-error">
+                        {{ form.date_of_birth.errors.0 }}
+                    </span>
                     {% endif %}
                 </div>
+
 
                 <div class="form-group">
                     <label for="id_gender">
                         {% if lang == 'ur' %}جنس{% else %}Gender{% endif %}
                     </label>
-                    <select name="gender" id="id_gender" class="form-input">
-                        <option value="P" {% if form.gender.value == 'P' %}selected{% endif %}>
+
+                    <select name="gender"
+                            id="id_gender"
+                            class="form-input">
+
+                        <option value="P"
+                                {% if form.gender.value == 'P' %}selected{% endif %}>
                             {% if lang == 'ur' %}ترجیح نہیں{% else %}Prefer not to say{% endif %}
                         </option>
-                        <option value="M" {% if form.gender.value == 'M' %}selected{% endif %}>
+
+                        <option value="M"
+                                {% if form.gender.value == 'M' %}selected{% endif %}>
                             {% if lang == 'ur' %}مرد{% else %}Male{% endif %}
                         </option>
-                        <option value="F" {% if form.gender.value == 'F' %}selected{% endif %}>
+
+                        <option value="F"
+                                {% if form.gender.value == 'F' %}selected{% endif %}>
                             {% if lang == 'ur' %}خاتون{% else %}Female{% endif %}
                         </option>
-                        <option value="O" {% if form.gender.value == 'O' %}selected{% endif %}>
+
+                        <option value="O"
+                                {% if form.gender.value == 'O' %}selected{% endif %}>
                             {% if lang == 'ur' %}دوسری{% else %}Other{% endif %}
                         </option>
+
                     </select>
+
                     {% if form.gender.errors %}
-                    <span class="form-error">{{ form.gender.errors.0 }}</span>
+                    <span class="form-error">
+                        {{ form.gender.errors.0 }}
+                    </span>
                     {% endif %}
                 </div>
+
             </div>
+
 
             <div class="form-group">
                 <label for="id_preferred_language">
                     {% if lang == 'ur' %}ترجیحی زبان{% else %}Preferred Language{% endif %}
                 </label>
-                <select name="preferred_language" id="id_preferred_language" class="form-input">
-                    <option value="en" {% if form.preferred_language.value == 'en' %}selected{% endif %}>English</option>
-                    <option value="ur" {% if form.preferred_language.value == 'ur' %}selected{% endif %}>اردو</option>
+
+                <select name="preferred_language"
+                        id="id_preferred_language"
+                        class="form-input">
+
+                    <option value="en"
+                            {% if form.preferred_language.value == 'en' %}selected{% endif %}>
+                        English
+                    </option>
+
+                    <option value="ur"
+                            {% if form.preferred_language.value == 'ur' %}selected{% endif %}>
+                        اردو
+                    </option>
+
                 </select>
+
                 <div class="form-hint">
-                    {% if lang == 'ur' %}یہ آپ کی ڈیفالٹ ویب سائٹ کی زبان کا تعین کرے گا۔{% else %}This will determine your default website language.{% endif %}
+                    {% if lang == 'ur' %}
+                    یہ آپ کی ڈیفالٹ ویب سائٹ کی زبان کا تعین کرے گا۔
+                    {% else %}
+                    This determines your default website language.
+                    {% endif %}
                 </div>
+
                 {% if form.preferred_language.errors %}
-                <span class="form-error">{{ form.preferred_language.errors.0 }}</span>
+                <span class="form-error">
+                    {{ form.preferred_language.errors.0 }}
+                </span>
                 {% endif %}
             </div>
 
+
             <div class="form-checkbox-group">
-                <input type="checkbox" name="email_notifications" id="id_email_notifications" {% if form.email_notifications.value %}checked{% endif %}>
+
+                <input type="checkbox"
+                       name="email_notifications"
+                       id="id_email_notifications"
+                       {% if form.email_notifications.value %}checked{% endif %}>
+
                 <label for="id_email_notifications">
                     {% if lang == 'ur' %}
                     مجھے ای میل اطلاعات بھیجیں (اسکریننگ ریمائنڈرز اور اپ ڈیٹس)
                     {% else %}
-                    Send me email notifications (screening reminders and updates)
+                    Send me email notifications for screening reminders and updates.
                     {% endif %}
                 </label>
+
             </div>
+
             {% if form.email_notifications.errors %}
-            <span class="form-error">{{ form.email_notifications.errors.0 }}</span>
+            <span class="form-error">
+                {{ form.email_notifications.errors.0 }}
+            </span>
             {% endif %}
 
+
+            <!-- Actions -->
             <div class="form-actions">
-                <a href="{% url 'accounts:profile' %}" class="btn btn-outline">
+
+                <a href="{% url 'accounts:profile' %}"
+                   class="btn btn-outline">
                     <i class="fa-solid fa-arrow-left"></i>
                     {% if lang == 'ur' %}منسوخ کریں{% else %}Cancel{% endif %}
                 </a>
-                <button type="submit" class="btn btn-primary">
+
+                <button type="submit"
+                        class="btn btn-primary">
                     <i class="fa-regular fa-floppy-disk"></i>
                     {% if lang == 'ur' %}محفوظ کریں{% else %}Save Changes{% endif %}
                 </button>
+
             </div>
 
         </form>
@@ -420,5 +822,4 @@ Edit Profile - NeuroSense AI
 </div>
 
 {% endwith %}
-
 {% endblock %}

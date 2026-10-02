@@ -11,394 +11,675 @@ My Profile - NeuroSense AI
 
 {% block extra_css %}
 <style>
-    .profile-page {
-        max-width: 1000px;
-        margin: 0 auto;
-        padding: 40px 20px 60px;
-    }
+/* =========================================================
+   NEUROSENSE AI — PROFILE PAGE
+   Clean, concise, project-aligned profile interface
+   ========================================================= */
 
-    .profile-header {
-        background: white;
-        border-radius: 20px;
-        padding: 40px 44px;
-        border: 1px solid #e2e8f0;
-        box-shadow: 0 2px 12px rgba(0,0,0,0.04);
-        margin-bottom: 32px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 20px;
-    }
+.profile-page {
+    --ns-primary: #1478f2;
+    --ns-primary-dark: #0f68dc;
+    --ns-navy: #071d55;
+    --ns-text: #243858;
+    --ns-muted: #6b7d98;
+    --ns-blue-50: #f5f9ff;
+    --ns-blue-100: #eaf4ff;
+    --ns-border: #dce8f5;
+    --ns-white: #ffffff;
+    --ns-green: #16a765;
+    --ns-green-bg: #ecfbf3;
+    --ns-orange: #d98200;
+    --ns-orange-bg: #fff7e4;
+    --ns-red: #dc3f45;
+    --ns-red-bg: #fff1f2;
+    --ns-radius: 18px;
+    --ns-radius-sm: 11px;
+    --ns-shadow: 0 2px 12px rgba(35, 80, 130, 0.04);
 
-    .profile-user {
-        display: flex;
-        align-items: center;
-        gap: 20px;
-    }
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 38px 24px 70px;
+    color: var(--ns-text);
+}
 
-    .profile-avatar {
-        width: 80px;
-        height: 80px;
-        border-radius: 50%;
-        background: linear-gradient(135deg, #4A6CF7 0%, #7c3aed 100%);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        font-size: 2rem;
-        font-weight: 700;
-        flex-shrink: 0;
-    }
+/* =========================================================
+   PROFILE HERO
+   ========================================================= */
 
-    .profile-name h1 {
-        font-size: 1.6rem;
-        font-weight: 700;
-        color: #1a1a2e;
-        margin: 0 0 4px;
-    }
+.profile-page .profile-hero {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 24px;
+    padding: 28px 30px;
+    background: linear-gradient(110deg, #ffffff 0%, #ffffff 64%, #f1f7ff 100%);
+    border: 1px solid var(--ns-border);
+    border-radius: var(--ns-radius);
+    box-shadow: var(--ns-shadow);
+}
 
-    .profile-name p {
-        color: #6b7280;
-        font-size: 0.95rem;
-        margin: 0;
-    }
+.profile-page .profile-hero::after {
+    content: '';
+    position: absolute;
+    right: -80px;
+    bottom: -105px;
+    width: 360px;
+    height: 180px;
+    border-radius: 50%;
+    background: rgba(20, 120, 242, 0.045);
+    transform: rotate(-8deg);
+    pointer-events: none;
+}
 
-    .profile-name .badge {
-        display: inline-block;
-        background: #eef2ff;
-        color: #4A6CF7;
-        padding: 2px 12px;
-        border-radius: 20px;
-        font-size: 0.7rem;
-        font-weight: 600;
-        margin-top: 4px;
-    }
+.profile-page .profile-identity {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    min-width: 0;
+    gap: 20px;
+}
 
-    .profile-actions {
-        display: flex;
-        gap: 10px;
-        flex-wrap: wrap;
-    }
+.profile-page .profile-avatar {
+    width: 88px;
+    height: 88px;
+    flex: 0 0 88px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ns-primary);
+    background: linear-gradient(145deg, #edf6ff, #dfeeff);
+    border: 1px solid #cfe2f6;
+    border-radius: 50%;
+    font-size: 2.1rem;
+}
 
-    .btn {
-        padding: 10px 22px;
-        border-radius: 10px;
-        font-weight: 600;
-        font-size: 0.85rem;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        text-decoration: none;
-        border: none;
-        font-family: inherit;
-    }
+.profile-page .profile-copy {
+    min-width: 0;
+}
 
-    .btn-primary {
-        background: #4A6CF7;
-        color: white;
-    }
+.profile-page .profile-kicker {
+    width: fit-content;
+    margin-bottom: 7px;
+    padding: 5px 11px;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    color: var(--ns-primary);
+    background: var(--ns-blue-100);
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 700;
+}
 
-    .btn-primary:hover {
-        background: #3b5de7;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 16px rgba(74,108,247,0.3);
-    }
+.profile-page .profile-copy h1 {
+    margin: 0;
+    color: var(--ns-navy);
+    font-size: 2rem;
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    line-height: 1.08;
+}
 
-    .btn-outline {
-        background: transparent;
-        color: #475569;
-        border: 1.5px solid #e2e8f0;
-    }
+.profile-page .profile-copy p {
+    margin: 7px 0 0;
+    color: var(--ns-muted);
+    font-size: 0.94rem;
+}
 
-    .btn-outline:hover {
-        background: #f8fafc;
-        border-color: #4A6CF7;
-        color: #4A6CF7;
-    }
+.profile-page .profile-actions {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 190px;
+    gap: 10px;
+}
 
-    .btn-danger {
-        background: #ef4444;
-        color: white;
-    }
-
-    .btn-danger:hover {
-        background: #dc2626;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 16px rgba(239,68,68,0.3);
-    }
- /* ==========================================
-   PROFILE LOGOUT - FORCE CORRECT STYLING
-   ========================================== */
-
-/* Logout button */
-.profile-actions .profile-logout {
-    padding: 10px 22px;
+.profile-page .profile-btn {
+    min-height: 44px;
+    padding: 10px 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    position: relative;
     border-radius: 10px;
-    font-weight: 600;
-    font-size: 0.85rem;
+    font-family: inherit;
+    font-size: 0.84rem;
+    font-weight: 700;
+    text-decoration: none !important;
     cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+/* Protect buttons from global hover overlays */
+.profile-page .profile-btn::before,
+.profile-page .profile-btn::after,
+.profile-page .delete-account-btn::before,
+.profile-page .delete-account-btn::after {
+    display: none !important;
+    content: none !important;
+}
+
+.profile-page .profile-btn.primary,
+.profile-page .profile-btn.primary:link,
+.profile-page .profile-btn.primary:visited {
+    color: #ffffff !important;
+    background: var(--ns-primary) !important;
+    background-image: none !important;
+    border: 1px solid var(--ns-primary) !important;
+    box-shadow: 0 4px 12px rgba(20, 120, 242, 0.16);
+}
+
+.profile-page .profile-btn.primary:hover,
+.profile-page .profile-btn.primary:focus,
+.profile-page .profile-btn.primary:active {
+    color: #ffffff !important;
+    background: var(--ns-primary-dark) !important;
+    background-image: none !important;
+    border-color: var(--ns-primary-dark) !important;
+    transform: none !important;
+}
+
+.profile-page .profile-btn.primary i {
+    color: #ffffff !important;
+}
+
+.profile-page .profile-btn.outline,
+.profile-page .profile-btn.outline:link,
+.profile-page .profile-btn.outline:visited {
+    color: var(--ns-primary) !important;
+    background: #ffffff !important;
+    background-image: none !important;
+    border: 1px solid #bdd8f3 !important;
+    box-shadow: none !important;
+}
+
+.profile-page .profile-btn.outline:hover,
+.profile-page .profile-btn.outline:focus,
+.profile-page .profile-btn.outline:active {
+    color: var(--ns-primary) !important;
+    background: var(--ns-blue-50) !important;
+    background-image: none !important;
+    border-color: #a9ccee !important;
+    box-shadow: none !important;
+    transform: none !important;
+}
+
+.profile-page .profile-btn.outline i {
+    color: var(--ns-primary) !important;
+}
+
+/* =========================================================
+   MAIN PROFILE GRID
+   ========================================================= */
+
+.profile-page .profile-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.12fr) minmax(340px, 0.88fr);
+    gap: 20px;
+    align-items: start;
+}
+
+.profile-page .right-column {
+    display: grid;
+    gap: 20px;
+}
+
+.profile-page .profile-card {
+    background: var(--ns-white);
+    border: 1px solid var(--ns-border);
+    border-radius: var(--ns-radius);
+    box-shadow: var(--ns-shadow);
+    overflow: hidden;
+}
+
+.profile-page .card-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 20px 22px 16px;
+    border-bottom: 1px solid #edf2f7;
+}
+
+.profile-page .card-icon {
+    width: 40px;
+    height: 40px;
+    flex: 0 0 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ns-primary);
+    background: var(--ns-blue-100);
+    border-radius: 11px;
+    font-size: 1rem;
+}
+
+.profile-page .card-heading h2 {
+    margin: 0;
+    color: var(--ns-navy);
+    font-size: 1rem;
+    font-weight: 800;
+}
+
+.profile-page .card-heading p {
+    margin: 3px 0 0;
+    color: var(--ns-muted);
+    font-size: 0.78rem;
+}
+
+/* =========================================================
+   PERSONAL INFORMATION
+   ========================================================= */
+
+.profile-page .info-list {
+    padding: 4px 22px 16px;
+}
+
+.profile-page .info-row {
+    display: grid;
+    grid-template-columns: 42px minmax(120px, 0.7fr) minmax(0, 1.3fr);
+    align-items: center;
+    gap: 12px;
+    min-height: 68px;
+    border-bottom: 1px solid #edf2f7;
+}
+
+.profile-page .info-row:last-child {
+    border-bottom: 0;
+}
+
+.profile-page .info-icon {
+    width: 36px;
+    height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ns-primary);
+    background: var(--ns-blue-100);
+    border-radius: 10px;
+    font-size: 0.88rem;
+}
+
+.profile-page .info-label {
+    color: #6f819d;
+    font-size: 0.84rem;
+    font-weight: 600;
+}
+
+.profile-page .info-value {
+    min-width: 0;
+    color: var(--ns-navy);
+    font-size: 0.88rem;
+    font-weight: 650;
+    overflow-wrap: anywhere;
+}
+
+/* =========================================================
+   ACCOUNT INFORMATION
+   ========================================================= */
+
+.profile-page .account-list {
+    padding: 4px 20px 14px;
+}
+
+.profile-page .account-row {
+    display: grid;
+    grid-template-columns: 38px minmax(120px, 0.82fr) minmax(0, 1.18fr);
+    align-items: center;
+    gap: 10px;
+    min-height: 58px;
+    border-bottom: 1px solid #edf2f7;
+}
+
+.profile-page .account-row:last-child {
+    border-bottom: 0;
+}
+
+.profile-page .account-row i {
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ns-primary);
+    background: var(--ns-blue-100);
+    border-radius: 9px;
+    font-size: 0.8rem;
+}
+
+.profile-page .account-label {
+    color: #6f819d;
+    font-size: 0.82rem;
+    font-weight: 600;
+}
+
+.profile-page .account-value {
+    color: var(--ns-navy);
+    font-size: 0.84rem;
+    font-weight: 700;
+}
+
+.profile-page .status-pill {
+    width: fit-content;
+    padding: 5px 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 750;
+}
+
+.profile-page .status-pill::before {
+    content: '';
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: currentColor;
+}
+
+.profile-page .status-pill.active,
+.profile-page .status-pill.granted {
+    color: var(--ns-green);
+    background: var(--ns-green-bg);
+}
+
+.profile-page .status-pill.not-granted {
+    color: var(--ns-orange);
+    background: var(--ns-orange-bg);
+}
+
+/* =========================================================
+   NEUROSENSE ACCESS LINKS
+   ========================================================= */
+
+.profile-page .access-list {
+    padding: 4px 14px 14px;
+}
+
+.profile-page .access-link {
+    min-height: 58px;
+    padding: 8px 10px;
+    display: grid;
+    grid-template-columns: 36px minmax(0, 1fr) 22px;
+    align-items: center;
+    gap: 11px;
+    color: inherit !important;
+    text-decoration: none !important;
+    border-bottom: 1px solid #edf2f7;
+    transition: background-color 0.2s ease;
+}
+
+.profile-page .access-link:last-child {
+    border-bottom: 0;
+}
+
+.profile-page .access-link:hover {
+    background: var(--ns-blue-50);
+}
+
+.profile-page .access-link::before,
+.profile-page .access-link::after {
+    display: none !important;
+    content: none !important;
+}
+
+.profile-page .access-link .access-icon {
+    width: 34px;
+    height: 34px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ns-primary);
+    background: var(--ns-blue-100);
+    border-radius: 9px;
+    font-size: 0.82rem;
+}
+
+.profile-page .access-copy {
+    min-width: 0;
+}
+
+.profile-page .access-title {
+    color: var(--ns-navy);
+    font-size: 0.84rem;
+    font-weight: 700;
+}
+
+.profile-page .access-subtitle {
+    margin-top: 2px;
+    color: var(--ns-muted);
+    font-size: 0.72rem;
+}
+
+.profile-page .access-arrow {
+    color: #8fa7c2;
+    font-size: 0.72rem;
+    transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.profile-page .access-link:hover .access-arrow {
+    color: var(--ns-primary);
+    transform: translateX(2px);
+}
+
+/* =========================================================
+   DELETE ACCOUNT
+   ========================================================= */
+
+.profile-page .danger-zone {
+    margin-top: 20px;
+    padding: 18px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    background: #fffafa;
+    border: 1px solid #f2d8db;
+    border-radius: var(--ns-radius);
+}
+
+.profile-page .danger-copy {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    min-width: 0;
+}
+
+.profile-page .danger-icon {
+    width: 38px;
+    height: 38px;
+    flex: 0 0 38px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ns-red);
+    background: var(--ns-red-bg);
+    border-radius: 10px;
+}
+
+.profile-page .danger-text h3 {
+    margin: 0;
+    color: #7b2630;
+    font-size: 0.9rem;
+    font-weight: 800;
+}
+
+.profile-page .danger-text p {
+    margin: 4px 0 0;
+    color: #96636a;
+    font-size: 0.76rem;
+    line-height: 1.5;
+}
+
+.profile-page .delete-account-btn,
+.profile-page .delete-account-btn:link,
+.profile-page .delete-account-btn:visited {
+    min-height: 42px;
+    padding: 9px 15px;
+    flex: 0 0 auto;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
-    text-decoration: none;
-
-    background: #ffffff;
-    color: #475569;
-    border: 1.5px solid #e2e8f0;
-
-    transition: all 0.25s ease;
-}
-
-/* Logout hover */
-.profile-actions .profile-logout:hover {
-    background: #f8fafc;
-    color: #4A6CF7;
-    border-color: #4A6CF7;
-    transform: translateY(-1px);
-    box-shadow: 0 3px 10px rgba(74, 108, 247, 0.12);
-}
-
-/* Logout icon */
-.profile-actions .profile-logout i {
-    color: #475569;
-}
-
-.profile-actions .profile-logout:hover i {
-    color: #4A6CF7;
-}
-
-    .profile-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 24px;
-    }
-
-    @media (max-width: 768px) {
-        .profile-grid {
-            grid-template-columns: 1fr;
-        }
-
-        .profile-header {
-            flex-direction: column;
-            text-align: center;
-            padding: 28px 20px;
-        }
-
-        .profile-user {
-            flex-direction: column;
-        }
-
-        .profile-actions {
-            justify-content: center;
-            width: 100%;
-        }
-
-        .profile-actions .btn {
-            flex: 1;
-            justify-content: center;
-        }
-    }
-
-    .profile-card {
-        background: white;
-        border-radius: 16px;
-        padding: 28px 32px;
-        border: 1px solid #e2e8f0;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-    }
-
-    .profile-card .card-title {
-        font-size: 1rem;
-        font-weight: 700;
-        color: #1a1a2e;
-        margin: 0 0 16px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        padding-bottom: 12px;
-        border-bottom: 2px solid #f1f5f9;
-    }
-
-    .profile-card .card-title i {
-        color: #4A6CF7;
-    }
-
-    .info-row {
-        display: flex;
-        justify-content: space-between;
-        padding: 10px 0;
-        border-bottom: 1px solid #f8fafc;
-        font-size: 0.9rem;
-    }
-
-    .info-row:last-child {
-        border-bottom: none;
-    }
-
-    .info-row .label {
-        color: #94a3b8;
-        font-weight: 500;
-    }
-
-    .info-row .value {
-        color: #1a1a2e;
-        font-weight: 500;
-    }
-
-    .info-row .value .status-badge {
-        display: inline-block;
-        padding: 2px 12px;
-        border-radius: 20px;
-        font-size: 0.7rem;
-        font-weight: 600;
-    }
-
-    .info-row .value .status-badge.active {
-        background: #f0fdf4;
-        color: #16a34a;
-    }
-
-    .info-row .value .status-badge.inactive {
-        background: #fef2f2;
-        color: #dc2626;
-    }
-
-    .info-row .value .status-badge.consent {
-        background: #eef2ff;
-        color: #4A6CF7;
-    }
-
-    .info-row .value .status-badge.no-consent {
-        background: #fef3c7;
-        color: #d97706;
-    }
-
-    .screening-history {
-        margin-top: 12px;
-    }
-
-    .history-item {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 12px 16px;
-        background: #f8fafc;
-        border-radius: 10px;
-        border: 1px solid #e2e8f0;
-        margin-bottom: 8px;
-        transition: all 0.3s ease;
-    }
-
-    .history-item:hover {
-        border-color: #4A6CF7;
-        background: #eef2ff;
-    }
-
-    .history-item .date {
-        font-size: 0.85rem;
-        color: #475569;
-    }
-
-    .history-item .id {
-        font-size: 0.8rem;
-        color: #94a3b8;
-        font-family: monospace;
-    }
-
-    .history-item .status-badge {
-        padding: 2px 12px;
-        border-radius: 20px;
-        font-size: 0.7rem;
-        font-weight: 600;
-    }
-
-    .history-item .status-badge.completed {
-        background: #f0fdf4;
-        color: #16a34a;
-    }
-
-    .history-item .status-badge.pending {
-        background: #fffbeb;
-        color: #d97706;
-    }
-
-    .empty-state {
-        text-align: center;
-        padding: 24px 0;
-        color: #94a3b8;
-    }
-
-    .empty-state i {
-        font-size: 2.5rem;
-        margin-bottom: 12px;
-        display: block;
-        opacity: 0.5;
-    }
-
-    .consent-status {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        padding: 10px 16px;
-        border-radius: 10px;
-        margin-top: 8px;
-        font-size: 0.85rem;
-    }
-
-    .consent-status.granted {
-        background: #f0fdf4;
-        color: #065f46;
-        border: 1px solid #86efac;
-    }
-
-    .consent-status.not-granted {
-        background: #fef3c7;
-        color: #78350f;
-        border: 1px solid #fcd34d;
-    }
-
-    .consent-status i {
-        font-size: 1rem;
-    }
-
-    .profile-consent-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-
-    width: 100%;
-    margin-top: 12px;
-    padding: 10px 16px;
-
-    background: transparent;
-    color: #475569;
-    border: 1.5px solid #e2e8f0;
+    position: relative;
+    color: #b93843 !important;
+    background: #ffffff !important;
+    background-image: none !important;
+    border: 1px solid #efc9cd !important;
     border-radius: 10px;
-
-    font-size: 0.85rem;
-    font-weight: 600;
+    box-shadow: none !important;
     font-family: inherit;
-    text-decoration: none;
-
-    cursor: pointer;
-    transition: all 0.25s ease;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-decoration: none !important;
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
 }
 
-.profile-consent-btn:hover {
-    background: #f8fafc;
-    border-color: #4A6CF7;
-    color: #4A6CF7;
-    transform: translateY(-1px);
-    box-shadow: 0 3px 10px rgba(74, 108, 247, 0.12);
+.profile-page .delete-account-btn:hover,
+.profile-page .delete-account-btn:focus,
+.profile-page .delete-account-btn:active {
+    color: #a52f39 !important;
+    background: #fff1f2 !important;
+    background-image: none !important;
+    border-color: #e8b4ba !important;
+    box-shadow: none !important;
+    transform: none !important;
 }
 
-.profile-consent-btn i {
-    font-size: 0.9rem;
+.profile-page .delete-account-btn i {
+    color: inherit !important;
+}
+
+/* =========================================================
+   RTL SUPPORT
+   ========================================================= */
+
+.profile-page[dir="rtl"] .access-arrow {
+    transform: rotate(180deg);
+}
+
+.profile-page[dir="rtl"] .access-link:hover .access-arrow {
+    transform: rotate(180deg) translateX(2px);
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 900px) {
+    .profile-page .profile-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .profile-page .right-column {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 720px) {
+    .profile-page {
+        padding: 24px 16px 50px;
+    }
+
+    .profile-page .profile-hero {
+        align-items: flex-start;
+        padding: 24px 22px;
+        flex-direction: column;
+    }
+
+    .profile-page .profile-actions {
+        width: 100%;
+        min-width: 0;
+        flex-direction: row;
+    }
+
+    .profile-page .profile-btn {
+        flex: 1;
+    }
+
+    .profile-page .right-column {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 560px) {
+    .profile-page {
+        padding: 18px 12px 40px;
+    }
+
+    .profile-page .profile-identity {
+        align-items: flex-start;
+        gap: 14px;
+    }
+
+    .profile-page .profile-avatar {
+        width: 66px;
+        height: 66px;
+        flex-basis: 66px;
+        font-size: 1.55rem;
+    }
+
+    .profile-page .profile-copy h1 {
+        font-size: 1.45rem;
+    }
+
+    .profile-page .profile-actions {
+        flex-direction: column;
+    }
+
+    .profile-page .profile-btn {
+        width: 100%;
+    }
+
+    .profile-page .card-head {
+        padding: 18px 16px 14px;
+    }
+
+    .profile-page .info-list {
+        padding: 4px 16px 12px;
+    }
+
+    .profile-page .info-row {
+        grid-template-columns: 38px 1fr;
+        gap: 10px;
+        padding: 12px 0;
+    }
+
+    .profile-page .info-value {
+        grid-column: 2;
+        color: #3f5473;
+        font-size: 0.83rem;
+    }
+
+    .profile-page .account-list {
+        padding: 4px 16px 12px;
+    }
+
+    .profile-page .account-row {
+        grid-template-columns: 34px 1fr;
+        gap: 9px;
+        padding: 10px 0;
+    }
+
+    .profile-page .account-value {
+        grid-column: 2;
+        color: #3f5473;
+    }
+
+    .profile-page .danger-zone {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .profile-page .delete-account-btn {
+        width: 100%;
+    }
 }
 </style>
 {% endblock %}
@@ -407,186 +688,234 @@ My Profile - NeuroSense AI
 
 {% with lang=request.LANG|default:'en' %}
 
-<div class="profile-page">
+<div class="profile-page" dir="{% if lang == 'ur' %}rtl{% else %}ltr{% endif %}">
 
-    <!-- ========================================== -->
-    <!-- PROFILE HEADER -->
-    <!-- ========================================== -->
-    <div class="profile-header">
-        <div class="profile-user">
-            <div class="profile-avatar">
-                {{ user.get_full_name|first|default:user.username|first|upper }}
+    <!-- ===================================================== -->
+    <!-- PROFILE HERO -->
+    <!-- ===================================================== -->
+    <section class="profile-hero">
+        <div class="profile-identity">
+            <div class="profile-avatar" aria-hidden="true">
+                <i class="fa-solid fa-user"></i>
             </div>
-            <div class="profile-name">
+
+            <div class="profile-copy">
+                <div class="profile-kicker">
+                    <i class="fa-regular fa-user"></i>
+                    {% if lang == 'ur' %}پروفائل اور اکاؤنٹ{% else %}Profile & Account{% endif %}
+                </div>
+
                 <h1>{{ user.get_full_name|default:user.username }}</h1>
-                <p>@{{ user.username }} · {{ user.email }}</p>
-                <span class="badge">
-                    {% if lang == 'ur' %}تصدیق شدہ{% else %}Verified{% endif %}
-                </span>
-            </div>
-        </div>
-        <div class="profile-actions">
-            <a href="{% url 'accounts:edit_profile' %}" class="btn btn-primary">
-                <i class="fa-regular fa-pen-to-square"></i>
-                {% if lang == 'ur' %}پروفائل میں ترمیم کریں{% else %}Edit Profile{% endif %}
-            </a>
-            <a href="{% url 'accounts:logout' %}" class="profile-logout">
-            <i class="fa-solid fa-sign-out-alt"></i>
-            {% if lang == 'ur' %}لاگ آؤٹ{% else %}Log Out{% endif %}
-        </a>
-        </div>
-    </div>
-
-    <!-- ========================================== -->
-    <!-- PROFILE GRID -->
-    <!-- ========================================== -->
-    <div class="profile-grid">
-
-        <!-- ===== LEFT COLUMN - PERSONAL INFO ===== -->
-        <div class="profile-card">
-            <div class="card-title">
-                <i class="fa-regular fa-user"></i>
-                {% if lang == 'ur' %}ذاتی معلومات{% else %}Personal Information{% endif %}
-            </div>
-
-            <div class="info-row">
-                <span class="label">{% if lang == 'ur' %}پورا نام{% else %}Full Name{% endif %}</span>
-                <span class="value">{{ user.get_full_name|default:user.username }}</span>
-            </div>
-
-            <div class="info-row">
-                <span class="label">{% if lang == 'ur' %}صارف کا نام{% else %}Username{% endif %}</span>
-                <span class="value">@{{ user.username }}</span>
-            </div>
-
-            <div class="info-row">
-                <span class="label">{% if lang == 'ur' %}ای میل{% else %}Email{% endif %}</span>
-                <span class="value">{{ user.email }}</span>
-            </div>
-
-            <div class="info-row">
-                <span class="label">{% if lang == 'ur' %}فون نمبر{% else %}Phone Number{% endif %}</span>
-                <span class="value">{{ profile.phone_number|default:"—" }}</span>
-            </div>
-
-            <div class="info-row">
-                <span class="label">{% if lang == 'ur' %}تاریخ پیدائش{% else %}Date of Birth{% endif %}</span>
-                <span class="value">{{ profile.date_of_birth|date:"d M Y"|default:"—" }}</span>
-            </div>
-
-            <div class="info-row">
-                <span class="label">{% if lang == 'ur' %}جنس{% else %}Gender{% endif %}</span>
-                <span class="value">
-                    {% if profile.gender == 'M' %}{% if lang == 'ur' %}مرد{% else %}Male{% endif %}
-                    {% elif profile.gender == 'F' %}{% if lang == 'ur' %}خاتون{% else %}Female{% endif %}
-                    {% elif profile.gender == 'O' %}{% if lang == 'ur' %}دوسری{% else %}Other{% endif %}
-                    {% else %}{% if lang == 'ur' %}ترجیح نہیں{% else %}Prefer not to say{% endif %}
-                    {% endif %}
-                </span>
-            </div>
-
-            <div class="info-row">
-                <span class="label">{% if lang == 'ur' %}ترجیحی زبان{% else %}Preferred Language{% endif %}</span>
-                <span class="value">
-                    {% if profile.preferred_language == 'ur' %}اردو{% else %}English{% endif %}
-                </span>
-            </div>
-
-            <div class="info-row">
-                <span class="label">{% if lang == 'ur' %}اکاؤنٹ کی حیثیت{% else %}Account Status{% endif %}</span>
-                <span class="value">
-                    <span class="status-badge active">
-                        {% if lang == 'ur' %}فعال{% else %}Active{% endif %}
-                    </span>
-                </span>
-            </div>
-
-            <div class="info-row">
-                <span class="label">{% if lang == 'ur' %}کُل اسکریننگ{% else %}Total Screenings{% endif %}</span>
-                <span class="value">{{ profile.total_screenings|default:"0" }}</span>
-            </div>
-
-            <div class="info-row">
-                <span class="label">{% if lang == 'ur' %}آخری اسکریننگ{% else %}Last Screening{% endif %}</span>
-                <span class="value">{{ profile.last_screening_date|date:"d M Y"|default:"—" }}</span>
-            </div>
-
-            <div class="info-row">
-                <span class="label">{% if lang == 'ur' %}ممبر از{% else %}Member Since{% endif %}</span>
-                <span class="value">{{ user.date_joined|date:"d M Y" }}</span>
-            </div>
-
-            <!-- Consent Status -->
-            <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid #e2e8f0;">
-                <div class="consent-status {% if profile.data_consent %}granted{% else %}not-granted{% endif %}">
-                    <i class="fa-solid {% if profile.data_consent %}fa-check-circle{% else %}fa-exclamation-triangle{% endif %}"></i>
-                    {% if profile.data_consent %}
-                        {% if lang == 'ur' %}✅ ڈیٹا کی رضایت دی گئی{% else %}✅ Data consent granted{% endif %}
-                        {% if profile.consent_date %}<small>({{ profile.consent_date|date:"d M Y" }})</small>{% endif %}
-                    {% else %}
-                        {% if lang == 'ur' %}⚠️ ڈیٹا کی رضایت نہیں دی گئی{% else %}⚠️ Data consent not granted{% endif %}
-                    {% endif %}
-                </div>
-            </div>
-
-            <a href="{% url 'accounts:manage_consent' %}" class="profile-consent-btn">
-    <i class="fa-solid fa-shield-halved"></i>
-    {% if lang == 'ur' %}رضایت کا انتظام کریں{% else %}Manage Consent{% endif %}
-</a>
-        </div>
-
-        <!-- ===== RIGHT COLUMN - SCREENING HISTORY ===== -->
-        <div class="profile-card">
-            <div class="card-title">
-                <i class="fa-regular fa-clock"></i>
-                {% if lang == 'ur' %}اسکریننگ کی تاریخ{% else %}Screening History{% endif %}
-            </div>
-
-            {% if screening_history %}
-            <div class="screening-history">
-                {% for screening in screening_history %}
-                <div class="history-item">
-                    <div>
-                        <div class="date">{{ screening.date|default:"—" }}</div>
-                        <div class="id">#{{ screening.screening_id|truncatechars:12 }}</div>
-                    </div>
-                    <span class="status-badge completed">
-                        {% if lang == 'ur' %}مکمل{% else %}Completed{% endif %}
-                    </span>
-                </div>
-                {% endfor %}
-            </div>
-            {% else %}
-            <div class="empty-state">
-                <i class="fa-regular fa-clipboard"></i>
                 <p>
                     {% if lang == 'ur' %}
-                    آپ نے ابھی تک کوئی اسکریننگ مکمل نہیں کی ہے۔
-                    <br>
-                    <a href="{% url 'questionnaire_app:home' %}" style="color:#4A6CF7;text-decoration:none;font-weight:600;">
-                        اسکریننگ شروع کریں
-                    </a>
+                    اپنی اکاؤنٹ کی معلومات اور رضامندی کی ترجیحات کا انتظام کریں۔
                     {% else %}
-                    You haven't completed any screenings yet.
-                    <br>
-                    <a href="{% url 'questionnaire_app:home' %}" style="color:#4A6CF7;text-decoration:none;font-weight:600;">
-                        Start a screening
-                    </a>
+                    Manage your account information and consent preferences.
                     {% endif %}
                 </p>
             </div>
-            {% endif %}
+        </div>
 
-            <!-- Account Actions -->
-            <div style="margin-top: 20px; padding-top: 16px; border-top: 1px solid #e2e8f0;">
-                <a href="{% url 'accounts:delete_account' %}" class="btn btn-danger" style="width:100%; justify-content:center;" onclick="return confirm('{% if lang == 'ur' %}کیا آپ واقعی اپنا اکاؤنٹ حذف کرنا چاہتے ہیں؟ یہ عمل واپس نہیں کیا جا سکتا۔{% else %}Are you sure you want to delete your account? This action cannot be undone.{% endif %}');">
-                    <i class="fa-solid fa-trash-can"></i>
-                    {% if lang == 'ur' %}اکاؤنٹ حذف کریں{% else %}Delete Account{% endif %}
-                </a>
+        <div class="profile-actions">
+            <a href="{% url 'accounts:edit_profile' %}" class="profile-btn primary">
+                <i class="fa-regular fa-pen-to-square"></i>
+                {% if lang == 'ur' %}پروفائل میں ترمیم کریں{% else %}Edit Profile{% endif %}
+            </a>
+
+            <a href="{% url 'accounts:manage_consent' %}" class="profile-btn outline">
+                <i class="fa-solid fa-shield-halved"></i>
+                {% if lang == 'ur' %}رضامندی کا انتظام کریں{% else %}Manage Consent{% endif %}
+            </a>
+        </div>
+    </section>
+
+    <!-- ===================================================== -->
+    <!-- PROFILE CONTENT -->
+    <!-- ===================================================== -->
+    <div class="profile-layout">
+
+        <!-- Personal Information -->
+        <section class="profile-card">
+            <div class="card-head">
+                <span class="card-icon"><i class="fa-solid fa-user"></i></span>
+                <div class="card-heading">
+                    <h2>{% if lang == 'ur' %}ذاتی معلومات{% else %}Personal Information{% endif %}</h2>
+                    <p>{% if lang == 'ur' %}آپ کے اکاؤنٹ کی بنیادی معلومات{% else %}Your basic account information{% endif %}</p>
+                </div>
+            </div>
+
+            <div class="info-list">
+                <div class="info-row">
+                    <span class="info-icon"><i class="fa-regular fa-user"></i></span>
+                    <span class="info-label">{% if lang == 'ur' %}پورا نام{% else %}Full Name{% endif %}</span>
+                    <span class="info-value">{{ user.get_full_name|default:user.username }}</span>
+                </div>
+
+                <div class="info-row">
+                    <span class="info-icon"><i class="fa-solid fa-at"></i></span>
+                    <span class="info-label">{% if lang == 'ur' %}صارف کا نام{% else %}Username{% endif %}</span>
+                    <span class="info-value">@{{ user.username }}</span>
+                </div>
+
+                <div class="info-row">
+                    <span class="info-icon"><i class="fa-regular fa-envelope"></i></span>
+                    <span class="info-label">{% if lang == 'ur' %}ای میل{% else %}Email Address{% endif %}</span>
+                    <span class="info-value">{{ user.email|default:"—" }}</span>
+                </div>
+
+                <div class="info-row">
+                    <span class="info-icon"><i class="fa-solid fa-phone"></i></span>
+                    <span class="info-label">{% if lang == 'ur' %}فون نمبر{% else %}Phone Number{% endif %}</span>
+                    <span class="info-value">{{ profile.phone_number|default:"—" }}</span>
+                </div>
+
+                <div class="info-row">
+                    <span class="info-icon"><i class="fa-regular fa-calendar"></i></span>
+                    <span class="info-label">{% if lang == 'ur' %}تاریخ پیدائش{% else %}Date of Birth{% endif %}</span>
+                    <span class="info-value">{{ profile.date_of_birth|date:"d M Y"|default:"—" }}</span>
+                </div>
+
+                <div class="info-row">
+                    <span class="info-icon"><i class="fa-solid fa-venus-mars"></i></span>
+                    <span class="info-label">{% if lang == 'ur' %}جنس{% else %}Gender{% endif %}</span>
+                    <span class="info-value">
+                        {% if profile.gender == 'M' %}
+                            {% if lang == 'ur' %}مرد{% else %}Male{% endif %}
+                        {% elif profile.gender == 'F' %}
+                            {% if lang == 'ur' %}خاتون{% else %}Female{% endif %}
+                        {% elif profile.gender == 'O' %}
+                            {% if lang == 'ur' %}دوسری{% else %}Other{% endif %}
+                        {% else %}
+                            {% if lang == 'ur' %}ترجیح نہیں{% else %}Prefer not to say{% endif %}
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Right Column -->
+        <div class="right-column">
+
+            <!-- Account Information -->
+            <section class="profile-card">
+                <div class="card-head">
+                    <span class="card-icon"><i class="fa-solid fa-chart-simple"></i></span>
+                    <div class="card-heading">
+                        <h2>{% if lang == 'ur' %}اکاؤنٹ کی معلومات{% else %}Account Information{% endif %}</h2>
+                        <p>{% if lang == 'ur' %}آپ کے اکاؤنٹ کا مختصر جائزہ{% else %}A simple overview of your account{% endif %}</p>
+                    </div>
+                </div>
+
+                <div class="account-list">
+                    <div class="account-row">
+                        <i class="fa-regular fa-calendar"></i>
+                        <span class="account-label">{% if lang == 'ur' %}ممبر از{% else %}Member Since{% endif %}</span>
+                        <span class="account-value">{{ user.date_joined|date:"M Y" }}</span>
+                    </div>
+
+                    <div class="account-row">
+                        <i class="fa-solid fa-language"></i>
+                        <span class="account-label">{% if lang == 'ur' %}ترجیحی زبان{% else %}Preferred Language{% endif %}</span>
+                        <span class="account-value">
+                            {% if profile.preferred_language == 'ur' %}اردو{% else %}English{% endif %}
+                        </span>
+                    </div>
+
+                    <div class="account-row">
+                        <i class="fa-solid fa-circle-check"></i>
+                        <span class="account-label">{% if lang == 'ur' %}اکاؤنٹ کی حیثیت{% else %}Account Status{% endif %}</span>
+                        <span class="account-value">
+                            <span class="status-pill active">
+                                {% if lang == 'ur' %}فعال{% else %}Active{% endif %}
+                            </span>
+                        </span>
+                    </div>
+
+                    <div class="account-row">
+                        <i class="fa-solid fa-shield-halved"></i>
+                        <span class="account-label">{% if lang == 'ur' %}رضامندی کی حیثیت{% else %}Consent Status{% endif %}</span>
+                        <span class="account-value">
+                            {% if profile.data_consent %}
+                                <span class="status-pill granted">
+                                    {% if lang == 'ur' %}منظور شدہ{% else %}Granted{% endif %}
+                                </span>
+                            {% else %}
+                                <span class="status-pill not-granted">
+                                    {% if lang == 'ur' %}منظور نہیں{% else %}Not Granted{% endif %}
+                                </span>
+                            {% endif %}
+                        </span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Project Navigation -->
+            <section class="profile-card">
+                <div class="card-head">
+                    <span class="card-icon"><i class="fa-solid fa-brain"></i></span>
+                    <div class="card-heading">
+                        <h2>{% if lang == 'ur' %}نیوروسینس رسائی{% else %}NeuroSense Access{% endif %}</h2>
+                        <p>{% if lang == 'ur' %}متعلقہ اسکریننگ اور ڈیٹا صفحات کھولیں{% else %}Open related screening and data pages{% endif %}</p>
+                    </div>
+                </div>
+
+                <div class="access-list">
+                    <a href="{% url 'dashboard:dashboard' %}" class="access-link">
+                        <span class="access-icon"><i class="fa-regular fa-clock"></i></span>
+                        <span class="access-copy">
+                            <span class="access-title">{% if lang == 'ur' %}اسکریننگ کی تاریخ{% else %}Screening History{% endif %}</span>
+                            <span class="access-subtitle">{% if lang == 'ur' %}پچھلی اسکریننگ دیکھیں{% else %}View previous screenings{% endif %}</span>
+                        </span>
+                        <i class="fa-solid fa-chevron-right access-arrow"></i>
+                    </a>
+
+                    <a href="{% url 'fusion_app:report' %}" class="access-link">
+                        <span class="access-icon"><i class="fa-regular fa-file-lines"></i></span>
+                        <span class="access-copy">
+                            <span class="access-title">{% if lang == 'ur' %}رپورٹس اور نتائج{% else %}Reports & Results{% endif %}</span>
+                            <span class="access-subtitle">{% if lang == 'ur' %}تیار شدہ رپورٹ کھولیں{% else %}Open your generated report{% endif %}</span>
+                        </span>
+                        <i class="fa-solid fa-chevron-right access-arrow"></i>
+                    </a>
+
+                    <a href="{% url 'accounts:manage_consent' %}" class="access-link">
+                        <span class="access-icon"><i class="fa-solid fa-shield-halved"></i></span>
+                        <span class="access-copy">
+                            <span class="access-title">{% if lang == 'ur' %}رضامندی کا انتظام{% else %}Consent Management{% endif %}</span>
+                            <span class="access-subtitle">{% if lang == 'ur' %}ڈیٹا کے استعمال کی اجازتوں کا جائزہ لیں{% else %}Review data usage permissions{% endif %}</span>
+                        </span>
+                        <i class="fa-solid fa-chevron-right access-arrow"></i>
+                    </a>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- ===================================================== -->
+    <!-- DELETE ACCOUNT -->
+    <!-- ===================================================== -->
+    <section class="danger-zone">
+        <div class="danger-copy">
+            <span class="danger-icon"><i class="fa-solid fa-trash-can"></i></span>
+            <div class="danger-text">
+                <h3>{% if lang == 'ur' %}اکاؤنٹ حذف کریں{% else %}Delete Account{% endif %}</h3>
+                <p>
+                    {% if lang == 'ur' %}
+                    آپ کا اکاؤنٹ حذف کرنے سے آپ کی محفوظ شدہ اکاؤنٹ معلومات مستقل طور پر ختم ہو جائیں گی۔
+                    {% else %}
+                    Deleting your account permanently removes your saved account information. This action cannot be undone.
+                    {% endif %}
+                </p>
             </div>
         </div>
 
-    </div>
+        <a href="{% url 'accounts:delete_account' %}"
+           class="delete-account-btn"
+           onclick="return confirm('{% if lang == 'ur' %}کیا آپ واقعی اپنا اکاؤنٹ حذف کرنا چاہتے ہیں؟ یہ عمل واپس نہیں کیا جا سکتا۔{% else %}Are you sure you want to delete your account? This action cannot be undone.{% endif %}');">
+            <i class="fa-solid fa-trash-can"></i>
+            {% if lang == 'ur' %}اکاؤنٹ حذف کریں{% else %}Delete Account{% endif %}
+        </a>
+    </section>
 
 </div>
 

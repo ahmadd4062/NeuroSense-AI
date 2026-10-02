@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
-{% load static %}
-
+{% load static tz %}
 {% block title %}
 {% if lang == 'ur' %}
 حتمی رپورٹ - نیوروسینس اے آئی
@@ -11,929 +10,1504 @@ Final Report - NeuroSense AI
 
 {% block extra_css %}
 <style>
-    /* ============================================
-       PROFESSIONAL MEDICAL REPORT
-       ============================================ */
+/* =========================================================
+   NEUROSENSE AI — MINIMAL FINAL REPORT
+   ========================================================= */
 
-    /* ---------- Urdu RTL Support ---------- */
-    .lang-ur {
-        direction: rtl;
-        text-align: right;
-    }
+.report-page {
+    --ns-primary: #1478f2;
+    --ns-primary-dark: #0f68dc;
+    --ns-navy: #071d55;
+    --ns-text: #314766;
+    --ns-muted: #7a8ca8;
 
-    .lang-ur .report-header-top {
-        direction: ltr;
-        text-align: right;
-    }
+    --ns-bg: #fbfdff;
+    --ns-white: #ffffff;
+    --ns-blue-50: #f5f9ff;
+    --ns-blue-100: #eaf4ff;
+    --ns-border: #dce8f5;
 
-    .lang-ur .report-header .report-meta {
-        text-align: left;
-        direction: ltr;
-    }
+    --ns-green: #19ae68;
+    --ns-green-bg: #edf9f3;
 
-    .lang-ur .module-table thead th,
-    .lang-ur .module-table tbody td {
-        text-align: right;
-    }
+    --ns-orange: #f4a10b;
+    --ns-orange-bg: #fff7e6;
 
-    .lang-ur .module-table td:last-child {
-        text-align: left;
-    }
+    --ns-red: #ef4747;
+    --ns-red-bg: #fff2f2;
 
-    .lang-ur .risk-ranges {
-        direction: ltr;
-    }
+    --ns-radius: 18px;
+    --ns-radius-sm: 11px;
 
-    .lang-ur .action-buttons {
-        direction: ltr;
-    }
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 30px 24px 70px;
+    color: var(--ns-text);
+}
 
-    .lang-ur .report-footer {
-        direction: ltr;
-    }
+/* ---------- RTL ---------- */
 
-    .lang-ur .card-title .title-line {
-        margin-left: 0;
-        margin-right: 8px;
-    }
+.report-page.lang-ur {
+    direction: rtl;
+    text-align: right;
+}
 
-    .lang-ur .interpretation-box {
-        border-left: none;
-        border-right: 3px solid #4A6CF7;
-    }
+.report-page.lang-ur .report-toolbar,
+.report-page.lang-ur .report-actions {
+    direction: rtl;
+}
 
-    /* Language Toggle Button */
-    .lang-toggle {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        background: #f1f5f9;
-        border: 1px solid #e2e8f0;
-        border-radius: 30px;
-        padding: 4px 8px;
-        font-size: 0.7rem;
-        font-weight: 600;
-        color: #64748b;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        text-decoration: none;
-    }
+.report-page.lang-ur .report-meta {
+    border-left: 0;
+    border-right: 1px solid var(--ns-border);
+    padding-left: 0;
+    padding-right: 28px;
+}
 
-    .lang-toggle:hover {
-        background: #eef2ff;
-        border-color: #4A6CF7;
-        color: #4A6CF7;
-    }
+.report-page.lang-ur .module-head,
+.report-page.lang-ur .module-row {
+    grid-template-columns: minmax(170px, 1.6fr) minmax(170px, 1.6fr) 110px 90px;
+}
 
-    .lang-toggle .lang-active {
-        background: #4A6CF7;
-        color: white;
-        padding: 2px 12px;
-        border-radius: 20px;
-    }
+/* =========================================================
+   TOP TOOLBAR
+   ========================================================= */
 
-    .lang-toggle .lang-inactive {
-        padding: 2px 12px;
-        border-radius: 20px;
-        opacity: 0.6;
-    }
+.report-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    margin-bottom: 18px;
+}
 
-    .report-container {
-        max-width: 1000px;
-        margin: 0 auto;
-        padding: 40px 20px;
-    }
+.report-toolbar .toolbar-btn {
+    min-height: 42px;
+    padding: 9px 15px;
 
-    /* ---------- Report Header ---------- */
-    .report-header {
-        background: white;
-        padding: 32px 40px;
-        margin-bottom: 28px;
-        border: 1px solid #e2e8f0;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-        position: relative;
-    }
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
 
-    .report-header-top {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        flex-wrap: wrap;
-        gap: 16px;
-    }
+    border: 1px solid var(--ns-border);
+    border-radius: 11px;
 
-    .report-header .logo-section {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-    }
+    color: #405575 !important;
+    background: #ffffff !important;
+    background-image: none !important;
 
-    .report-header .logo-icon {
-        width: 48px;
-        height: 48px;
-        background: linear-gradient(135deg, #1a1a2e 0%, #4A6CF7 100%);
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        font-size: 1.2rem;
-        font-weight: 700;
-    }
+    font-family: inherit;
+    font-size: 0.82rem;
+    font-weight: 650;
+    text-decoration: none !important;
 
-    .report-header .logo-text h1 {
-        font-size: 1.3rem;
-        font-weight: 700;
-        margin: 0;
-        color: #1a1a2e;
-        letter-spacing: -0.02em;
-    }
+    cursor: pointer;
 
-    .report-header .logo-text p {
-        font-size: 0.7rem;
-        color: #6b7280;
-        margin: 0;
-        letter-spacing: 0.04em;
-    }
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease;
+}
 
-    .report-header .report-meta {
-        font-size: 0.75rem;
-        color: #6b7280;
-        line-height: 1.8;
-        text-align: right;
-    }
+.report-toolbar .toolbar-btn:hover,
+.report-toolbar .toolbar-btn:focus,
+.report-toolbar .toolbar-btn:active {
+    color: var(--ns-primary) !important;
+    background: var(--ns-blue-50) !important;
+    background-image: none !important;
+    border-color: #c6dcf3 !important;
+    box-shadow: none !important;
+    transform: none !important;
+}
 
-    .report-header .report-meta strong {
-        color: #1a1a2e;
-    }
+.report-toolbar .toolbar-btn::before,
+.report-toolbar .toolbar-btn::after {
+    display: none !important;
+    content: none !important;
+}
 
-    .report-header .report-meta .status-complete {
-        color: #10b981;
-        font-weight: 600;
-    }
+/* =========================================================
+   REPORT HERO
+   ========================================================= */
 
-    .report-divider {
-        border: none;
-        border-top: 2px solid #eef2ff;
-        margin: 16px 0;
-    }
+.report-hero {
+    position: relative;
+    overflow: hidden;
 
-    .report-patient-info {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 16px;
-        margin-top: 8px;
-    }
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(310px, 0.85fr);
+    gap: 34px;
+    align-items: center;
 
-    @media (max-width: 768px) {
-        .report-patient-info {
-            grid-template-columns: 1fr 1fr;
-        }
-        .report-header .report-meta {
-            text-align: left;
-        }
-    }
+    padding: 28px 30px;
+    margin-bottom: 28px;
 
-    .patient-field .label {
-        color: #94a3b8;
-        font-size: 0.6rem;
-        text-transform: uppercase;
-        letter-spacing: 0.06em;
-        font-weight: 600;
-    }
+    background:
+        linear-gradient(110deg, #ffffff 0%, #ffffff 66%, #f5f9ff 100%);
 
-    .patient-field .value {
-        color: #1a1a2e;
-        font-weight: 600;
-        font-size: 0.9rem;
-        margin-top: 2px;
-    }
+    border: 1px solid var(--ns-border);
+    border-radius: var(--ns-radius);
+}
 
-    /* ---------- Report Cards ---------- */
-    .report-card {
-        background: white;
-        border: 1px solid #e2e8f0;
-        border-radius: 8px;
-        padding: 24px 32px;
-        margin-bottom: 24px;
-        box-shadow: 0 1px 4px rgba(0,0,0,0.04);
-    }
+.report-hero::after {
+    content: "";
+    position: absolute;
+    right: 18%;
+    bottom: -70px;
 
-    .report-card .card-title {
-        font-size: 0.85rem;
-        font-weight: 700;
-        color: #1a1a2e;
-        margin: 0 0 16px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        letter-spacing: 0.02em;
-    }
+    width: 330px;
+    height: 135px;
 
-    .report-card .card-title .title-icon {
-        color: #4A6CF7;
-        font-size: 1rem;
-    }
+    background:
+        radial-gradient(ellipse at center,
+            rgba(20,120,242,0.12) 0%,
+            rgba(20,120,242,0.05) 40%,
+            transparent 72%);
+    pointer-events: none;
+}
 
-    .report-card .card-title .title-line {
-        flex: 1;
-        height: 1px;
-        background: #e2e8f0;
-        margin-left: 8px;
-    }
+.hero-title-wrap {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    min-width: 0;
+    position: relative;
+    z-index: 1;
+}
 
-    /* ---------- Risk Assessment ---------- */
-    .risk-box {
-        background: #f8fafc;
-        border: 2px solid #e2e8f0;
-        border-radius: 8px;
-        padding: 28px 32px;
-        text-align: center;
-    }
+.hero-icon {
+    width: 70px;
+    height: 70px;
+    flex-shrink: 0;
 
-    .risk-box .risk-label {
-        font-size: 0.65rem;
-        color: #94a3b8;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-    }
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 
-    .risk-box .risk-level {
-        font-size: 2.8rem;
-        font-weight: 800;
-        margin: 4px 0;
-    }
+    color: var(--ns-primary);
+    background: var(--ns-blue-100);
 
-    .risk-box .risk-level.low { color: #16a34a; }
-    .risk-box .risk-level.medium { color: #d97706; }
-    .risk-box .risk-level.high { color: #dc2626; }
+    border-radius: 18px;
+    font-size: 1.75rem;
+}
 
-    .risk-box .risk-score {
-        font-size: 1rem;
-        color: #475569;
-        margin-top: 4px;
-    }
+.hero-copy .eyebrow {
+    margin-bottom: 5px;
 
-    .risk-box .risk-score strong {
-        color: #1a1a2e;
-    }
+    color: var(--ns-primary);
+    font-size: 0.68rem;
+    font-weight: 750;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+}
 
-    .risk-box .risk-interpretation {
-        font-size: 0.85rem;
-        color: #6b7280;
-        margin-top: 12px;
-        line-height: 1.7;
-        max-width: 600px;
-        margin-left: auto;
-        margin-right: auto;
-    }
+.hero-copy h1 {
+    margin: 0;
 
-    .risk-ranges {
-        display: flex;
-        justify-content: center;
+    color: var(--ns-navy);
+    font-size: 2rem;
+    font-weight: 800;
+    letter-spacing: -0.035em;
+}
+
+.hero-copy p {
+    margin: 5px 0 0;
+
+    color: var(--ns-muted);
+    font-size: 0.92rem;
+}
+
+.report-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+
+    padding-left: 28px;
+    border-left: 1px solid var(--ns-border);
+
+    position: relative;
+    z-index: 1;
+}
+
+.meta-row {
+    min-height: 42px;
+
+    display: grid;
+    grid-template-columns: 30px 105px 1fr;
+    align-items: center;
+    gap: 10px;
+
+    border-bottom: 1px solid #edf3f8;
+}
+
+.meta-row:last-child {
+    border-bottom: 0;
+}
+
+.meta-icon {
+    width: 30px;
+    height: 30px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    color: var(--ns-primary);
+    background: var(--ns-blue-100);
+
+    border-radius: 9px;
+    font-size: 0.75rem;
+}
+
+.meta-label {
+    color: var(--ns-muted);
+    font-size: 0.76rem;
+    font-weight: 550;
+}
+
+.meta-value {
+    min-width: 0;
+
+    color: var(--ns-navy);
+    font-size: 0.82rem;
+    font-weight: 700;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.status-complete {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+
+    color: var(--ns-green);
+}
+
+.status-complete::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--ns-green);
+}
+
+/* =========================================================
+   COMMON CARD
+   ========================================================= */
+
+.report-section {
+    margin-bottom: 28px;
+    padding: 26px 28px;
+
+    background: var(--ns-white);
+
+    border: 1px solid var(--ns-border);
+    border-radius: var(--ns-radius);
+}
+
+.section-heading {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+
+    margin-bottom: 18px;
+}
+
+.section-icon {
+    width: 38px;
+    height: 38px;
+    flex-shrink: 0;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    color: var(--ns-primary);
+    background: var(--ns-blue-100);
+
+    border-radius: 11px;
+    font-size: 0.9rem;
+}
+
+.section-copy h2 {
+    margin: 0;
+
+    color: var(--ns-navy);
+    font-size: 1.08rem;
+    font-weight: 760;
+}
+
+.section-copy p {
+    margin: 2px 0 0;
+
+    color: #8a9bb5;
+    font-size: 0.76rem;
+}
+
+/* =========================================================
+   OVERALL RESULT
+   ========================================================= */
+
+.overall-grid {
+    display: grid;
+    grid-template-columns: 220px minmax(0, 1fr);
+    gap: 34px;
+    align-items: center;
+}
+
+.risk-ring-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.risk-ring {
+    --ring-color: var(--ns-primary);
+    --risk-pct: 0;
+
+    width: 155px;
+    height: 155px;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 50%;
+
+    background:
+        conic-gradient(
+            var(--ring-color) calc(var(--risk-pct) * 1%),
+            #edf3f8 0
+        );
+
+    position: relative;
+}
+
+.risk-ring::before {
+    content: "";
+    position: absolute;
+    inset: 15px;
+
+    background: #ffffff;
+    border-radius: 50%;
+}
+
+.risk-ring.low { --ring-color: var(--ns-green); }
+.risk-ring.medium { --ring-color: var(--ns-orange); }
+.risk-ring.high { --ring-color: var(--ns-red); }
+
+.risk-ring-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+}
+
+.risk-percent {
+    color: var(--ns-navy);
+    font-size: 2rem;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.risk-percent-label {
+    margin-top: 6px;
+
+    color: #5f7394;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.result-copy {
+    min-width: 0;
+}
+
+.result-badge-box {
+    padding: 15px 18px;
+    margin-bottom: 15px;
+
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    border-radius: 13px;
+    border: 1px solid transparent;
+}
+
+.result-badge-box.low {
+    color: #0f7e4a;
+    background: var(--ns-green-bg);
+    border-color: #d3f0e1;
+}
+
+.result-badge-box.medium {
+    color: #b66f00;
+    background: var(--ns-orange-bg);
+    border-color: #f5dfaf;
+}
+
+.result-badge-box.high {
+    color: #cf3030;
+    background: var(--ns-red-bg);
+    border-color: #f4cccc;
+}
+
+.result-badge-icon {
+    width: 38px;
+    height: 38px;
+    flex-shrink: 0;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+    background: rgba(255,255,255,0.72);
+}
+
+.result-badge-title {
+    margin: 0 0 2px;
+    font-size: 1.05rem;
+    font-weight: 800;
+}
+
+.result-badge-subtitle {
+    margin: 0;
+    font-size: 0.8rem;
+}
+
+.result-description {
+    margin: 0;
+
+    color: #536987;
+    font-size: 0.88rem;
+    line-height: 1.7;
+}
+
+.risk-scale {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+
+    margin-top: 20px;
+    padding-top: 17px;
+
+    border-top: 1px solid #edf2f7;
+}
+
+.scale-item {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 8px;
+
+    padding: 0 12px;
+    border-right: 1px solid #edf2f7;
+}
+
+.scale-item:last-child {
+    border-right: 0;
+}
+
+.scale-dot {
+    width: 9px;
+    height: 9px;
+    margin-top: 4px;
+    flex-shrink: 0;
+    border-radius: 50%;
+}
+
+.scale-dot.low { background: var(--ns-green); }
+.scale-dot.medium { background: var(--ns-orange); }
+.scale-dot.high { background: var(--ns-red); }
+
+.scale-text strong {
+    display: block;
+
+    color: var(--ns-navy);
+    font-size: 0.75rem;
+}
+
+.scale-text span {
+    display: block;
+    margin-top: 2px;
+
+    color: #8a9bb5;
+    font-size: 0.68rem;
+}
+
+/* =========================================================
+   MODULE RESULTS
+   ========================================================= */
+
+.module-head,
+.module-row {
+    display: grid;
+    grid-template-columns: minmax(170px, 1.6fr) minmax(170px, 1.6fr) 110px 90px;
+    gap: 18px;
+    align-items: center;
+}
+
+.module-head {
+    padding: 0 14px 10px;
+
+    color: #8395b0;
+    font-size: 0.68rem;
+    font-weight: 700;
+}
+
+.module-row {
+    padding: 13px 14px;
+
+    border-top: 1px solid #edf2f7;
+}
+
+.module-name {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+
+    color: var(--ns-navy);
+    font-size: 0.84rem;
+    font-weight: 700;
+}
+
+.module-icon {
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    color: var(--ns-primary);
+    background: var(--ns-blue-100);
+
+    border-radius: 10px;
+    font-size: 0.8rem;
+}
+
+.module-score {
+    display: grid;
+    grid-template-columns: 46px 1fr;
+    align-items: center;
+    gap: 11px;
+}
+
+.module-percent {
+    color: var(--ns-navy);
+    font-size: 0.82rem;
+    font-weight: 750;
+}
+
+.module-track {
+    height: 7px;
+
+    overflow: hidden;
+
+    background: #edf2f7;
+    border-radius: 999px;
+}
+
+.module-fill {
+    height: 100%;
+
+    background: var(--ns-primary);
+    border-radius: inherit;
+}
+
+.module-prediction {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: fit-content;
+    min-width: 82px;
+    padding: 5px 10px;
+
+    border-radius: 999px;
+
+    font-size: 0.64rem;
+    font-weight: 760;
+    text-transform: uppercase;
+}
+
+.module-prediction.pd {
+    color: var(--ns-red);
+    background: var(--ns-red-bg);
+}
+
+.module-prediction.borderline {
+    color: #d18100;
+    background: var(--ns-orange-bg);
+}
+
+.module-prediction.control {
+    color: var(--ns-green);
+    background: var(--ns-green-bg);
+}
+
+.module-weight {
+    color: #70839f;
+    font-size: 0.76rem;
+    font-weight: 650;
+}
+
+/* =========================================================
+   INTERPRETATION
+   ========================================================= */
+
+.interpretation-box {
+    padding: 20px 22px;
+
+    color: #536987;
+    background: #f7fbff;
+
+    border: 1px solid #e6f0fa;
+    border-radius: 13px;
+
+    font-size: 0.9rem;
+    line-height: 1.75;
+}
+
+.interpretation-box strong {
+    color: var(--ns-navy);
+}
+
+/* =========================================================
+   IMPORTANT NOTE
+   ========================================================= */
+
+.report-note {
+    margin-bottom: 22px;
+    padding: 15px 17px;
+
+    display: flex;
+    align-items: flex-start;
+    gap: 11px;
+
+    color: #5e7393;
+    background: #f7fbff;
+
+    border: 1px solid #dceaf8;
+    border-radius: 13px;
+
+    font-size: 0.75rem;
+    line-height: 1.55;
+}
+
+.report-note i {
+    margin-top: 1px;
+    color: var(--ns-primary);
+}
+
+.report-note strong {
+    color: var(--ns-navy);
+}
+
+/* =========================================================
+   ACTIONS
+   ========================================================= */
+
+.report-actions-wrap {
+    padding: 18px 20px;
+
+    border: 1px solid var(--ns-border);
+    border-radius: 15px;
+
+    background: #ffffff;
+}
+
+.report-actions {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.report-actions .report-btn {
+    min-width: 180px;
+    min-height: 44px;
+
+    padding: 10px 18px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    position: relative;
+
+    border-radius: 10px;
+
+    font-family: inherit;
+    font-size: 0.82rem;
+    font-weight: 700;
+
+    text-decoration: none !important;
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease;
+}
+
+.report-actions .report-btn::before,
+.report-actions .report-btn::after {
+    display: none !important;
+    content: none !important;
+}
+
+.report-actions .btn-primary-report,
+.report-actions .btn-primary-report:link,
+.report-actions .btn-primary-report:visited {
+    color: #ffffff !important;
+
+    background: var(--ns-primary) !important;
+    background-image: none !important;
+
+    border: 1px solid var(--ns-primary) !important;
+}
+
+.report-actions .btn-primary-report:hover,
+.report-actions .btn-primary-report:focus,
+.report-actions .btn-primary-report:active {
+    color: #ffffff !important;
+
+    background: var(--ns-primary-dark) !important;
+    background-image: none !important;
+
+    border-color: var(--ns-primary-dark) !important;
+
+    box-shadow: none !important;
+    transform: none !important;
+}
+
+.report-actions .btn-outline-report,
+.report-actions .btn-outline-report:link,
+.report-actions .btn-outline-report:visited {
+    color: #405575 !important;
+
+    background: #ffffff !important;
+    background-image: none !important;
+
+    border: 1px solid var(--ns-border) !important;
+}
+
+.report-actions .btn-outline-report:hover,
+.report-actions .btn-outline-report:focus,
+.report-actions .btn-outline-report:active {
+    color: var(--ns-primary) !important;
+
+    background: var(--ns-blue-50) !important;
+    background-image: none !important;
+
+    border-color: #c8ddf3 !important;
+
+    box-shadow: none !important;
+    transform: none !important;
+}
+
+/* =========================================================
+   ERROR
+   ========================================================= */
+
+.report-error {
+    padding: 34px 24px;
+
+    text-align: center;
+
+    background: #fff6f6;
+    border: 1px solid #f4d1d1;
+    border-radius: var(--ns-radius);
+
+    color: #9e3030;
+}
+
+.report-error i {
+    margin-bottom: 10px;
+    font-size: 1.8rem;
+}
+
+.report-error h2 {
+    margin: 0 0 7px;
+    font-size: 1.05rem;
+}
+
+.report-error p {
+    margin: 0 0 16px;
+    font-size: 0.85rem;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+    .report-hero {
+        grid-template-columns: 1fr;
         gap: 24px;
-        margin-top: 14px;
-        flex-wrap: wrap;
-        font-size: 0.7rem;
     }
 
-    .risk-ranges .range-item {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        color: #6b7280;
+    .report-meta,
+    .report-page.lang-ur .report-meta {
+        padding-left: 0;
+        padding-right: 0;
+        padding-top: 18px;
+
+        border-left: 0;
+        border-right: 0;
+        border-top: 1px solid var(--ns-border);
     }
 
-    .risk-ranges .range-dot {
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-        display: inline-block;
+    .overall-grid {
+        grid-template-columns: 190px 1fr;
+        gap: 24px;
     }
 
-    .risk-ranges .range-dot.low { background: #16a34a; }
-    .risk-ranges .range-dot.medium { background: #d97706; }
-    .risk-ranges .range-dot.high { background: #dc2626; }
-
-    /* ---------- Module Table ---------- */
-    .module-table {
-        width: 100%;
-        border-collapse: collapse;
-        font-size: 0.85rem;
-    }
-
-    .module-table thead th {
-        text-align: left;
-        padding: 10px 14px;
-        background: #f8fafc;
-        color: #6b7280;
-        font-weight: 600;
-        font-size: 0.65rem;
-        text-transform: uppercase;
-        letter-spacing: 0.06em;
-        border-bottom: 2px solid #e2e8f0;
-    }
-
-    .module-table tbody td {
-        padding: 12px 14px;
-        border-bottom: 1px solid #f1f5f9;
-        color: #1a1a2e;
-    }
-
-    .module-table tbody tr:last-child td {
-        border-bottom: none;
-    }
-
-    .module-table tbody tr:hover {
-        background: #fafcff;
-    }
-
-    .module-table .status-badge {
-        display: inline-block;
-        padding: 2px 14px;
-        border-radius: 20px;
-        font-size: 0.7rem;
-        font-weight: 600;
-    }
-
-    .module-table .status-badge.pd {
-        background: #fef2f2;
-        color: #dc2626;
-    }
-
-    .module-table .status-badge.control {
-        background: #f0fdf4;
-        color: #16a34a;
-    }
-
-    .module-table .status-badge.borderline {
-        background: #fffbeb;
-        color: #d97706;
-    }
-
-    .module-table .weight-badge {
-        display: inline-block;
-        background: #f1f5f9;
-        padding: 2px 10px;
-        border-radius: 20px;
-        font-size: 0.7rem;
-        font-weight: 600;
-        color: #6b7280;
-    }
-
-    .module-table .risk-value {
-        font-size: 0.75rem;
-        color: #94a3b8;
-    }
-
-    /* ---------- Clinical Interpretation ---------- */
-    .interpretation-box {
-        background: #f8fafc;
-        border-radius: 6px;
-        padding: 18px 22px;
-        border-left: 3px solid #4A6CF7;
-        font-size: 0.85rem;
-        color: #475569;
-        line-height: 1.8;
-    }
-
-    .interpretation-box strong {
-        color: #1a1a2e;
-    }
-
-    /* ---------- Action Buttons ---------- */
-    .action-buttons {
-        display: flex;
+    .module-head,
+    .module-row,
+    .report-page.lang-ur .module-head,
+    .report-page.lang-ur .module-row {
+        grid-template-columns: minmax(150px, 1.3fr) minmax(150px, 1.5fr) 100px 75px;
         gap: 12px;
+    }
+}
+
+@media (max-width: 700px) {
+
+    .report-page {
+        padding: 22px 15px 50px;
+    }
+
+    .report-toolbar {
         flex-wrap: wrap;
-        justify-content: center;
-        margin-top: 8px;
     }
 
-    .btn {
-        padding: 10px 24px;
-        border-radius: 6px;
-        font-weight: 600;
-        font-size: 0.85rem;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        text-decoration: none;
-        border: none;
-        letter-spacing: 0.02em;
+    .report-hero,
+    .report-section {
+        padding: 22px 20px;
     }
 
-    .btn-pdf {
-        background: #1a1a2e;
-        color: white;
+    .hero-title-wrap {
+        align-items: flex-start;
     }
 
-    .btn-pdf:hover {
-        background: #0f0f1a;
-        transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(26,26,46,0.3);
+    .hero-icon {
+        width: 58px;
+        height: 58px;
+        border-radius: 15px;
+        font-size: 1.35rem;
     }
 
-    .btn-primary {
-        background: #4A6CF7;
-        color: white;
+    .hero-copy h1 {
+        font-size: 1.65rem;
     }
 
-    .btn-primary:hover {
-        background: #3b5de7;
-        transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(74,108,247,0.3);
+    .overall-grid {
+        grid-template-columns: 1fr;
+        gap: 22px;
     }
 
-    .btn-outline {
-        background: transparent;
-        color: #475569;
-        border: 1.5px solid #e2e8f0;
+    .risk-ring {
+        width: 145px;
+        height: 145px;
     }
 
-    .btn-outline:hover {
-        background: #f8fafc;
-        border-color: #4A6CF7;
-        color: #4A6CF7;
+    .module-head {
+        display: none;
     }
 
-    /* ---------- Report Footer ---------- */
-    .report-footer {
-        text-align: center;
-        padding: 16px 24px;
-        background: #f8fafc;
-        border-radius: 6px;
-        font-size: 0.65rem;
-        color: #94a3b8;
-        margin-top: 24px;
-        border: 1px solid #e2e8f0;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 8px;
+    .module-row,
+    .report-page.lang-ur .module-row {
+        grid-template-columns: 1fr;
+        gap: 11px;
+
+        margin-bottom: 10px;
+        padding: 15px;
+
+        background: #fbfdff;
+        border: 1px solid #e7eff7;
+        border-radius: 12px;
     }
 
-    .report-footer .footer-status {
-        color: #10b981;
-        font-weight: 600;
+    .module-row:first-of-type {
+        border-top: 1px solid #e7eff7;
     }
 
-    .report-footer i {
-        color: #4A6CF7;
+    .module-score {
+        grid-template-columns: 46px 1fr;
     }
 
-    /* ---------- Error Box ---------- */
-    .error-box {
-        background: #fef2f2;
-        border: 1px solid #fca5a5;
-        border-radius: 8px;
-        padding: 32px;
-        text-align: center;
-        color: #991b1b;
+    .module-weight::before {
+        content: "Weight: ";
+        color: #91a1b8;
+        font-weight: 500;
     }
 
-    .error-box h2 {
-        margin: 0 0 8px;
-        font-size: 1.2rem;
+    .report-actions .report-btn {
+        flex: 1 1 100%;
     }
 
-    .error-box p {
-        margin: 0 0 16px;
+    .risk-scale {
+        grid-template-columns: 1fr;
+        gap: 12px;
     }
 
-    /* ---------- Responsive ---------- */
-    @media (max-width: 600px) {
-        .report-header {
-            padding: 20px;
-        }
+    .scale-item {
+        justify-content: flex-start;
+        border-right: 0;
+        padding: 0;
+    }
+}
 
-        .report-header-top {
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-        }
+@media (max-width: 480px) {
 
-        .report-header .report-meta {
-            text-align: center;
-        }
-
-        .report-card {
-            padding: 16px 18px;
-        }
-
-        .risk-box {
-            padding: 20px;
-        }
-
-        .risk-box .risk-level {
-            font-size: 2rem;
-        }
-
-        .risk-ranges {
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .module-table {
-            font-size: 0.7rem;
-        }
-
-        .module-table thead th,
-        .module-table tbody td {
-            padding: 6px 8px;
-        }
-
-        .action-buttons .btn {
-            flex: 1;
-            justify-content: center;
-            font-size: 0.75rem;
-            padding: 8px 16px;
-        }
-
-        .report-footer {
-            flex-direction: column;
-            text-align: center;
-        }
+    .report-page {
+        padding: 18px 11px 40px;
     }
 
-    /* ---------- Print Styles ---------- */
-    @media print {
-        .report-container {
-            padding: 20px;
-        }
-
-        .report-header {
-            border: none;
-            box-shadow: none;
-            padding: 20px 0;
-        }
-
-        .report-card {
-            border: 1px solid #e2e8f0;
-            box-shadow: none;
-            break-inside: avoid;
-        }
-
-        .action-buttons {
-            display: none;
-        }
-
-        .btn {
-            display: none;
-        }
-
-        .report-footer {
-            border: none;
-            background: none;
-        }
-
-        body {
-            background: white;
-        }
+    .report-toolbar .toolbar-btn {
+        flex: 1;
     }
+
+    .report-hero,
+    .report-section {
+        padding: 19px 16px;
+    }
+
+    .hero-title-wrap {
+        gap: 13px;
+    }
+
+    .hero-copy h1 {
+        font-size: 1.45rem;
+    }
+
+    .meta-row {
+        grid-template-columns: 30px 90px 1fr;
+    }
+
+    .result-badge-box {
+        align-items: flex-start;
+    }
+}
+
+/* =========================================================
+   PRINT
+   ========================================================= */
+
+@media print {
+
+    nav,
+    .navbar,
+    footer,
+    .report-toolbar,
+    .report-actions-wrap {
+        display: none !important;
+    }
+
+    body {
+        background: #ffffff !important;
+    }
+
+    .report-page {
+        max-width: none;
+        padding: 0;
+    }
+
+    .report-hero,
+    .report-section,
+    .report-note {
+        box-shadow: none !important;
+        break-inside: avoid;
+    }
+
+    .report-hero {
+        margin-top: 0;
+    }
+}
 </style>
 {% endblock %}
 
 {% block content %}
-
 {% with lang=request.LANG|default:'en' %}
 
-<div class="report-container {% if lang == 'ur' %}lang-ur{% endif %}">
+<div class="report-page {% if lang == 'ur' %}lang-ur{% endif %}">
 
-    <!-- ========================================== -->
-    <!-- REPORT HEADER -->
-    <!-- ========================================== -->
-    <header class="report-header">
-        <div class="report-header-top">
-            <div class="logo-section">
-                <div class="logo-icon">🧠</div>
-                <div class="logo-text">
-                    <h1>NeuroSense AI</h1>
-                    <p>
-                        {% if lang == 'ur' %}
-                        نیورو سائیکلوجیکل رسک اسکریننگ · اے آئی پاورڈ اسسمنٹ
-                        {% else %}
-                        Neurological Risk Screening · AI-Powered Assessment
-                        {% endif %}
-                    </p>
+    <!-- Toolbar -->
+    <div class="report-toolbar">
+        <a href="{% url 'dashboard:dashboard' %}" class="toolbar-btn">
+            <i class="fa-solid fa-arrow-left"></i>
+            {% if lang == 'ur' %}ڈیش بورڈ پر واپس جائیں{% else %}Back to Dashboard{% endif %}
+        </a>
+
+        <button type="button" class="toolbar-btn" onclick="window.print()">
+            <i class="fa-solid fa-download"></i>
+            {% if lang == 'ur' %}پی ڈی ایف ڈاؤن لوڈ کریں{% else %}Download PDF{% endif %}
+        </button>
+    </div>
+
+    <!-- Report Hero -->
+    <section class="report-hero">
+        <div class="hero-title-wrap">
+            <div class="hero-icon">
+                <i class="fa-regular fa-file-lines"></i>
+            </div>
+
+            <div class="hero-copy">
+                <div class="eyebrow">
+                    {% if lang == 'ur' %}اسکریننگ رپورٹ{% else %}Screening Report{% endif %}
                 </div>
-            </div>
-            <div class="report-meta">
-                <div><strong>{% if lang == 'ur' %}رپورٹ آئی ڈی{% else %}Report ID{% endif %}:</strong> {{ fusion.screening_id|default:"N/A"|truncatechars:12 }}</div>
-                <div><strong>{% if lang == 'ur' %}تشخیص کی تاریخ{% else %}Assessment Date{% endif %}:</strong> {% now "d M Y, h:i A" %}</div>
-                <div><strong>{% if lang == 'ur' %}حالت{% else %}Status{% endif %}:</strong> <span class="status-complete">{% if lang == 'ur' %}مکمل{% else %}Complete{% endif %}</span></div>
+
+                <h1>
+                    {% if lang == 'ur' %}حتمی رپورٹ{% else %}Final Report{% endif %}
+                </h1>
+
+                <p>
+                    {% if lang == 'ur' %}
+                    آپ کے نیوروسینس اسکریننگ نتائج کا خلاصہ۔
+                    {% else %}
+                    Summary of your NeuroSense screening results.
+                    {% endif %}
+                </p>
             </div>
         </div>
 
-        <hr class="report-divider">
+        <div class="report-meta">
+            <div class="meta-row">
+                <span class="meta-icon"><i class="fa-regular fa-file-lines"></i></span>
+                <span class="meta-label">
+                    {% if lang == 'ur' %}اسکریننگ آئی ڈی{% else %}Screening ID{% endif %}
+                </span>
+                <span class="meta-value">
+                    {{ fusion.screening_id|default:"N/A"|truncatechars:18 }}
+                </span>
+            </div>
 
-        <div class="report-patient-info">
-            <div class="patient-field">
-                <div class="label">{% if lang == 'ur' %}مریض آئی ڈی{% else %}Patient ID{% endif %}</div>
-                <div class="value">NS-{% now "Ymd" %}-001</div>
+            <div class="meta-row">
+                <span class="meta-icon"><i class="fa-regular fa-calendar"></i></span>
+                <span class="meta-label">
+                    {% if lang == 'ur' %}تاریخ{% else %}Date{% endif %}
+                </span>
+                <span class="meta-value">
+                {{ report_created_at|localtime|date:"d M Y, h:i A"|default:"—" }}
+            </span>
             </div>
-            <div class="patient-field">
-                <div class="label">{% if lang == 'ur' %}نام{% else %}Name{% endif %}</div>
-                <div class="value">{{ user.get_full_name|default:"Guest User" }}</div>
-            </div>
-            <div class="patient-field">
-                <div class="label">{% if lang == 'ur' %}عمر / جنس{% else %}Age / Gender{% endif %}</div>
-                <div class="value">— / —</div>
-            </div>
-            <div class="patient-field">
-                <div class="label">{% if lang == 'ur' %}تشخیص کی تاریخ{% else %}Assessment Date{% endif %}</div>
-                <div class="value">{% now "d M Y, h:i A" %}</div>
+
+            <div class="meta-row">
+                <span class="meta-icon"><i class="fa-regular fa-circle-check"></i></span>
+                <span class="meta-label">
+                    {% if lang == 'ur' %}حالت{% else %}Status{% endif %}
+                </span>
+                <span class="meta-value status-complete">
+                    {% if lang == 'ur' %}مکمل{% else %}Completed{% endif %}
+                </span>
             </div>
         </div>
-    </header>
+    </section>
 
-    <!-- ========================================== -->
-    <!-- ERROR -->
-    <!-- ========================================== -->
     {% if error %}
-    <div class="error-box">
-        <h2>⚠️ {{ error }}</h2>
+
+    <div class="report-error">
+        <i class="fa-solid fa-circle-exclamation"></i>
+        <h2>{{ error }}</h2>
+
         <p>
             {% if lang == 'ur' %}
-            براہ کرم رپورٹ دیکھنے سے پہلے تمام اسکریننگ ماڈیولز مکمل کریں۔
+            رپورٹ دیکھنے سے پہلے تمام اسکریننگ ماڈیول مکمل کریں۔
             {% else %}
             Please complete all screening modules before viewing the report.
             {% endif %}
         </p>
-        <a href="/" class="btn btn-primary">
-            <i class="fa-solid fa-house"></i> {% if lang == 'ur' %}ہوم پیج{% else %}Go to Home{% endif %}
+
+        <a href="{% url 'dashboard:dashboard' %}" class="toolbar-btn">
+            <i class="fa-solid fa-arrow-left"></i>
+            {% if lang == 'ur' %}ڈیش بورڈ{% else %}Back to Dashboard{% endif %}
         </a>
     </div>
+
     {% else %}
 
-    <!-- ========================================== -->
-    <!-- RISK ASSESSMENT -->
-    <!-- ========================================== -->
-    <section class="report-card">
-        <div class="card-title">
-            <span class="title-icon"><i class="fa-solid fa-chart-simple"></i></span>
-            {% if lang == 'ur' %}خطرے کی تشخیص{% else %}Risk Assessment{% endif %}
-            <span class="title-line"></span>
+    <!-- Overall Result -->
+    <section class="report-section">
+
+        <div class="section-heading">
+            <span class="section-icon">
+                <i class="fa-solid fa-chart-simple"></i>
+            </span>
+
+            <div class="section-copy">
+                <h2>
+                    {% if lang == 'ur' %}مجموعی نتیجہ{% else %}Overall Result{% endif %}
+                </h2>
+                <p>
+                    {% if lang == 'ur' %}
+                    تمام ماڈیولز سے آپ کا مشترکہ اسکریننگ نتیجہ
+                    {% else %}
+                    Your combined screening result from all modules.
+                    {% endif %}
+                </p>
+            </div>
         </div>
 
-        <div class="risk-box">
-            <div class="risk-label">{% if lang == 'ur' %}مجموعی خطرے کی سطح{% else %}Overall Risk Level{% endif %}</div>
-            <div class="risk-level {% if fusion.risk_level == 'Low' %}low{% elif fusion.risk_level == 'Medium' %}medium{% else %}high{% endif %}">
-                {% if lang == 'ur' %}
-                    {% if fusion.risk_level == 'Low' %}کم{% elif fusion.risk_level == 'Medium' %}درمیانہ{% else %}زیادہ{% endif %}
-                {% else %}
-                    {{ fusion.risk_level|upper }}
-                {% endif %}
-                {% if lang != 'ur' %}RISK{% endif %}
+        <div class="overall-grid">
+
+            <div class="risk-ring-wrap">
+                <div
+                    class="risk-ring {% if fusion.risk_level == 'Low' %}low{% elif fusion.risk_level == 'Medium' %}medium{% else %}high{% endif %}"
+                    style="--risk-pct:{% widthratio fusion.final_pd_probability 1 100 %};"
+                >
+                    <div class="risk-ring-content">
+                        <div class="risk-percent">
+                            {% widthratio fusion.final_pd_probability 1 100 %}%
+                        </div>
+                        <div class="risk-percent-label">
+                            {% if lang == 'ur' %}پی ڈی رسک{% else %}PD Risk{% endif %}
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="risk-score">
-                <strong>{% if lang == 'ur' %}پی ڈی رسک سکور{% else %}PD Risk Score{% endif %}:</strong> {{ fusion.final_pd_probability|floatformat:2 }} / 1.00
-            </div>
-            <div class="risk-interpretation">
-                {% if lang == 'ur' %}
-                    آپ کی تشخیص <strong>
-                    {% if fusion.risk_level == 'Low' %}کم{% elif fusion.risk_level == 'Medium' %}درمیانہ{% else %}زیادہ{% endif %}
-                    </strong> پارکنسنین ڈس آرڈر کا خطرہ ظاہر کرتی ہے۔
-                    {% if fusion.risk_level == 'High' %}
-                    پارکنسنین علامات سے منسلک متعدد اشارے پائے گئے۔ نیورولوجسٹ سے مشورہ کرنے کی سختی سے سفارش کی جاتی ہے۔
-                    {% elif fusion.risk_level == 'Medium' %}
-                    موٹر اور غیر موٹر علامات سے منسلک کچھ ابتدائی علامات کا پتہ چلا۔ تفصیلی کلینیکل تشخیص کے لیے نیورولوجسٹ سے مشورہ کرنے کی سفارش کی جاتی ہے۔
+
+            <div class="result-copy">
+
+                <div class="result-badge-box {% if fusion.risk_level == 'Low' %}low{% elif fusion.risk_level == 'Medium' %}medium{% else %}high{% endif %}">
+                    <span class="result-badge-icon">
+                        {% if fusion.risk_level == 'Low' %}
+                        <i class="fa-solid fa-check"></i>
+                        {% elif fusion.risk_level == 'Medium' %}
+                        <i class="fa-solid fa-exclamation"></i>
+                        {% else %}
+                        <i class="fa-solid fa-exclamation"></i>
+                        {% endif %}
+                    </span>
+
+                    <div>
+                        <div class="result-badge-title">
+                            {% if lang == 'ur' %}
+                                {% if fusion.risk_level == 'Low' %}کم خطرہ
+                                {% elif fusion.risk_level == 'Medium' %}درمیانہ خطرہ
+                                {% else %}زیادہ خطرہ{% endif %}
+                            {% else %}
+                                {{ fusion.risk_level }} Risk
+                            {% endif %}
+                        </div>
+
+                        <p class="result-badge-subtitle">
+                            {% if lang == 'ur' %}
+                            پارکنسنین اشاروں کے لیے اسکریننگ نتیجہ
+                            {% else %}
+                            Screening result for Parkinsonian indicators
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+
+                <p class="result-description">
+                    {% if lang == 'ur' %}
+                    آپ کی چال، آواز اور سوالنامہ کے نتائج کو ملا کر یہ مجموعی رسک اسکور تیار کیا گیا ہے۔
+                    یہ اسکریننگ نتیجہ ہے، طبی تشخیص نہیں۔
                     {% else %}
-                    پارکنسنین ڈس آرڈر کے کوئی اہم اشارے نہیں پائے گئے۔ باقاعدہ صحت کی نگرانی جاری رکھیں۔
+                    Your gait, speech and questionnaire results were combined to generate this overall risk score.
+                    This is a screening result, not a medical diagnosis.
                     {% endif %}
-                {% else %}
-                    Your assessment indicates a <strong>{{ fusion.risk_level|lower }}</strong> risk of Parkinsonian disorder.
-                    {% if fusion.risk_level == 'High' %}
-                    Multiple indicators associated with Parkinsonian symptoms were detected. It is strongly recommended to consult a neurologist.
-                    {% elif fusion.risk_level == 'Medium' %}
-                    Some early signs associated with motor and non-motor symptoms were detected. It is recommended to consult a neurologist for detailed clinical evaluation.
-                    {% else %}
-                    No significant indicators of Parkinsonian disorder were detected. Continue regular health monitoring.
-                    {% endif %}
-                {% endif %}
-            </div>
-            <div class="risk-ranges">
-                <span class="range-item">
-                    <span class="range-dot low"></span>
-                    {% if lang == 'ur' %}کم خطرہ{% else %}Low Risk{% endif %} (0.00 – 0.33)
-                </span>
-                <span class="range-item">
-                    <span class="range-dot medium"></span>
-                    {% if lang == 'ur' %}درمیانہ خطرہ{% else %}Medium Risk{% endif %} (0.34 – 0.66)
-                </span>
-                <span class="range-item">
-                    <span class="range-dot high"></span>
-                    {% if lang == 'ur' %}زیادہ خطرہ{% else %}High Risk{% endif %} (0.67 – 1.00)
-                </span>
+                </p>
+
+                <div class="risk-scale">
+
+                    <div class="scale-item">
+                        <span class="scale-dot low"></span>
+                        <div class="scale-text">
+                            <strong>0–33%</strong>
+                            <span>{% if lang == 'ur' %}کم خطرہ{% else %}Low Risk{% endif %}</span>
+                        </div>
+                    </div>
+
+                    <div class="scale-item">
+                        <span class="scale-dot medium"></span>
+                        <div class="scale-text">
+                            <strong>34–66%</strong>
+                            <span>{% if lang == 'ur' %}درمیانہ خطرہ{% else %}Moderate Risk{% endif %}</span>
+                        </div>
+                    </div>
+
+                    <div class="scale-item">
+                        <span class="scale-dot high"></span>
+                        <div class="scale-text">
+                            <strong>67–100%</strong>
+                            <span>{% if lang == 'ur' %}زیادہ خطرہ{% else %}High Risk{% endif %}</span>
+                        </div>
+                    </div>
+
+                </div>
+
             </div>
         </div>
     </section>
 
-    <!-- ========================================== -->
-    <!-- MODULE RESULTS -->
-    <!-- ========================================== -->
-    <section class="report-card">
-        <div class="card-title">
-            <span class="title-icon"><i class="fa-solid fa-layer-group"></i></span>
-            {% if lang == 'ur' %}ماڈیول کے نتائج{% else %}Module Results{% endif %}
-            <span class="title-line"></span>
+    <!-- Module Results -->
+    <section class="report-section">
+
+        <div class="section-heading">
+            <span class="section-icon">
+                <i class="fa-solid fa-layer-group"></i>
+            </span>
+
+            <div class="section-copy">
+                <h2>
+                    {% if lang == 'ur' %}ماڈیول کے نتائج{% else %}Module Results{% endif %}
+                </h2>
+                <p>
+                    {% if lang == 'ur' %}
+                    انفرادی اسکریننگ ماڈیولز کے نتائج
+                    {% else %}
+                    Results from individual screening components.
+                    {% endif %}
+                </p>
+            </div>
         </div>
 
-        <table class="module-table">
-            <thead>
-                <tr>
-                    <th>{% if lang == 'ur' %}ماڈیول{% else %}Module{% endif %}</th>
-                    <th>{% if lang == 'ur' %}وضاحت{% else %}Description{% endif %}</th>
-                    <th>{% if lang == 'ur' %}نتیجہ{% else %}Result{% endif %}</th>
-                    <th style="text-align:right;">{% if lang == 'ur' %}وزن{% else %}Weight{% endif %}</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Gait -->
-                <tr>
-                    <td><strong>{% if lang == 'ur' %}چال کا تجزیہ{% else %}Gait Analysis{% endif %}</strong></td>
-                    <td>{% if lang == 'ur' %}موٹر فنکشن اسسمنٹ{% else %}Motor Function Assessment{% endif %}</td>
-                    <td>
-                        <span class="status-badge {% if fusion.modules.gait.prediction == 'PD' %}pd{% elif fusion.modules.gait.prediction == 'Borderline' %}borderline{% else %}control{% endif %}">
-                            {% if lang == 'ur' %}
-                                {% if fusion.modules.gait.prediction == 'PD' %}پی ڈی{% elif fusion.modules.gait.prediction == 'Borderline' %}سرحدی{% else %}کنٹرول{% endif %}
-                            {% else %}
-                                {{ fusion.modules.gait.prediction|default:"N/A"|upper }}
-                            {% endif %}
-                        </span>
-                        <br>
-                        <span class="risk-value">{% if lang == 'ur' %}خطرہ{% else %}Risk{% endif %}: {{ fusion.modules.gait.pd_probability|floatformat:1 }}</span>
-                    </td>
-                    <td style="text-align:right;">
-                        <span class="weight-badge">{% widthratio fusion.modules.gait.weight 1 100 %}%</span>
-                    </td>
-                </tr>
+        <div class="module-head">
+            <span>{% if lang == 'ur' %}ماڈیول{% else %}Module{% endif %}</span>
+            <span>{% if lang == 'ur' %}نتیجہ{% else %}Result{% endif %}</span>
+            <span>{% if lang == 'ur' %}پیشگوئی{% else %}Prediction{% endif %}</span>
+            <span>{% if lang == 'ur' %}وزن{% else %}Weight{% endif %}</span>
+        </div>
 
-                <!-- Speech -->
-                <tr>
-                    <td><strong>{% if lang == 'ur' %}آواز کا تجزیہ{% else %}Speech Analysis{% endif %}</strong></td>
-                    <td>{% if lang == 'ur' %}آواز اور تقریر کی تشخیص{% else %}Voice &amp; Speech Assessment{% endif %}</td>
-                    <td>
-                        <span class="status-badge {% if fusion.modules.speech.prediction == 'PD' %}pd{% elif fusion.modules.speech.prediction == 'Borderline' %}borderline{% else %}control{% endif %}">
-                            {% if lang == 'ur' %}
-                                {% if fusion.modules.speech.prediction == 'PD' %}پی ڈی{% elif fusion.modules.speech.prediction == 'Borderline' %}سرحدی{% else %}کنٹرول{% endif %}
-                            {% else %}
-                                {{ fusion.modules.speech.prediction|default:"N/A"|upper }}
-                            {% endif %}
-                        </span>
-                        <br>
-                        <span class="risk-value">{% if lang == 'ur' %}خطرہ{% else %}Risk{% endif %}: {{ fusion.modules.speech.pd_probability|floatformat:4 }}</span>
-                    </td>
-                    <td style="text-align:right;">
-                        <span class="weight-badge">{% widthratio fusion.modules.speech.weight 1 100 %}%</span>
-                    </td>
-                </tr>
+        <!-- Gait -->
+        <div class="module-row">
 
-                <!-- Questionnaire -->
-                <tr>
-                    <td><strong>{% if lang == 'ur' %}سوالنامہ{% else %}Questionnaire{% endif %}</strong></td>
-                    <td>{% if lang == 'ur' %}علامات کی تشخیص{% else %}Symptoms Assessment{% endif %}</td>
-                    <td>
-                        <span class="status-badge {% if fusion.modules.questionnaire.prediction == 'PD' %}pd{% elif fusion.modules.questionnaire.prediction == 'Borderline' %}borderline{% else %}control{% endif %}">
-                            {% if lang == 'ur' %}
-                                {% if fusion.modules.questionnaire.prediction == 'PD' %}پی ڈی{% elif fusion.modules.questionnaire.prediction == 'Borderline' %}سرحدی{% else %}کنٹرول{% endif %}
-                            {% else %}
-                                {{ fusion.modules.questionnaire.prediction|default:"N/A"|upper }}
-                            {% endif %}
-                        </span>
-                        <br>
-                        <span class="risk-value">{% if lang == 'ur' %}خطرہ{% else %}Risk{% endif %}: {{ fusion.modules.questionnaire.pd_probability|floatformat:1 }}</span>
-                    </td>
-                    <td style="text-align:right;">
-                        <span class="weight-badge">{% widthratio fusion.modules.questionnaire.weight 1 100 %}%</span>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+            <div class="module-name">
+                <span class="module-icon">
+                    <i class="fa-solid fa-person-walking"></i>
+                </span>
+                {% if lang == 'ur' %}چال کا تجزیہ{% else %}Gait Analysis{% endif %}
+            </div>
+
+            <div class="module-score">
+                <span class="module-percent">
+                    {% widthratio fusion.modules.gait.pd_probability 1 100 %}%
+                </span>
+
+                <div class="module-track">
+                    <div
+                        class="module-fill"
+                        style="width:{% widthratio fusion.modules.gait.pd_probability 1 100 %}%;">
+                    </div>
+                </div>
+            </div>
+
+            <span class="module-prediction {% if fusion.modules.gait.prediction == 'PD' %}pd{% elif fusion.modules.gait.prediction == 'Borderline' %}borderline{% else %}control{% endif %}">
+                {% if lang == 'ur' %}
+                    {% if fusion.modules.gait.prediction == 'PD' %}پی ڈی
+                    {% elif fusion.modules.gait.prediction == 'Borderline' %}سرحدی
+                    {% else %}کنٹرول{% endif %}
+                {% else %}
+                    {{ fusion.modules.gait.prediction|default:"N/A" }}
+                {% endif %}
+            </span>
+
+            <span class="module-weight">
+                {% widthratio fusion.modules.gait.weight 1 100 %}%
+            </span>
+
+        </div>
+
+        <!-- Speech -->
+        <div class="module-row">
+
+            <div class="module-name">
+                <span class="module-icon">
+                    <i class="fa-solid fa-microphone"></i>
+                </span>
+                {% if lang == 'ur' %}آواز کا تجزیہ{% else %}Speech Analysis{% endif %}
+            </div>
+
+            <div class="module-score">
+                <span class="module-percent">
+                    {% widthratio fusion.modules.speech.pd_probability 1 100 %}%
+                </span>
+
+                <div class="module-track">
+                    <div
+                        class="module-fill"
+                        style="width:{% widthratio fusion.modules.speech.pd_probability 1 100 %}%;">
+                    </div>
+                </div>
+            </div>
+
+            <span class="module-prediction {% if fusion.modules.speech.prediction == 'PD' %}pd{% elif fusion.modules.speech.prediction == 'Borderline' %}borderline{% else %}control{% endif %}">
+                {% if lang == 'ur' %}
+                    {% if fusion.modules.speech.prediction == 'PD' %}پی ڈی
+                    {% elif fusion.modules.speech.prediction == 'Borderline' %}سرحدی
+                    {% else %}کنٹرول{% endif %}
+                {% else %}
+                    {{ fusion.modules.speech.prediction|default:"N/A" }}
+                {% endif %}
+            </span>
+
+            <span class="module-weight">
+                {% widthratio fusion.modules.speech.weight 1 100 %}%
+            </span>
+
+        </div>
+
+        <!-- Questionnaire -->
+        <div class="module-row">
+
+            <div class="module-name">
+                <span class="module-icon">
+                    <i class="fa-solid fa-clipboard-list"></i>
+                </span>
+                {% if lang == 'ur' %}سوالنامہ{% else %}Questionnaire{% endif %}
+            </div>
+
+            <div class="module-score">
+                <span class="module-percent">
+                    {% widthratio fusion.modules.questionnaire.pd_probability 1 100 %}%
+                </span>
+
+                <div class="module-track">
+                    <div
+                        class="module-fill"
+                        style="width:{% widthratio fusion.modules.questionnaire.pd_probability 1 100 %}%;">
+                    </div>
+                </div>
+            </div>
+
+            <span class="module-prediction {% if fusion.modules.questionnaire.prediction == 'PD' %}pd{% elif fusion.modules.questionnaire.prediction == 'Borderline' %}borderline{% else %}control{% endif %}">
+                {% if lang == 'ur' %}
+                    {% if fusion.modules.questionnaire.prediction == 'PD' %}پی ڈی
+                    {% elif fusion.modules.questionnaire.prediction == 'Borderline' %}سرحدی
+                    {% else %}کنٹرول{% endif %}
+                {% else %}
+                    {{ fusion.modules.questionnaire.prediction|default:"N/A" }}
+                {% endif %}
+            </span>
+
+            <span class="module-weight">
+                {% widthratio fusion.modules.questionnaire.weight 1 100 %}%
+            </span>
+
+        </div>
+
     </section>
 
-    <!-- ========================================== -->
-    <!-- CLINICAL INTERPRETATION -->
-    <!-- ========================================== -->
-    <section class="report-card">
-        <div class="card-title">
-            <span class="title-icon"><i class="fa-solid fa-microscope"></i></span>
-            {% if lang == 'ur' %}کلینیکل تشریح{% else %}Clinical Interpretation{% endif %}
-            <span class="title-line"></span>
+    <!-- Interpretation -->
+    <section class="report-section">
+
+        <div class="section-heading">
+            <span class="section-icon">
+                <i class="fa-regular fa-lightbulb"></i>
+            </span>
+
+            <div class="section-copy">
+                <h2>
+                    {% if lang == 'ur' %}تشریح{% else %}Interpretation{% endif %}
+                </h2>
+                <p>
+                    {% if lang == 'ur' %}
+                    آپ کے نتائج کا سادہ خلاصہ
+                    {% else %}
+                    What your results mean
+                    {% endif %}
+                </p>
+            </div>
         </div>
 
         <div class="interpretation-box">
+
             {% if lang == 'ur' %}
-                <!-- Urdu Interpretation -->
-                {% if fusion.modules.gait.prediction == 'PD' %}
-                <strong>چال کا تجزیہ</strong> پارکنسنین پیٹرن سے منسلک علامات ظاہر کرتا ہے۔
-                {% elif fusion.modules.gait.prediction == 'Borderline' %}
-                <strong>چال کا تجزیہ</strong> کچھ بے قاعدگیاں ظاہر کرتا ہے جن کی نگرانی کی ضرورت ہو سکتی ہے۔
-                {% else %}
-                <strong>چال کا تجزیہ</strong> معمول کی حد میں ہے۔
-                {% endif %}
 
-                {% if fusion.modules.speech.prediction == 'PD' %}
-                <strong>آواز کا تجزیہ</strong> پارکنسنین آواز کے پیٹرن سے منسلک اشارے ظاہر کرتا ہے۔
-                {% elif fusion.modules.speech.prediction == 'Borderline' %}
-                <strong>آواز کا تجزیہ</strong> کچھ آواز کی بے قاعدگیاں ظاہر کرتا ہے۔
-                {% else %}
-                <strong>آواز کا تجزیہ</strong> معمول کی حد میں ہے۔
-                {% endif %}
-
-                {% if fusion.modules.questionnaire.prediction == 'PD' %}
-                <strong>سوالنامہ کے جوابات</strong> متعدد موٹر اور غیر موٹر علامات کی نشاندہی کرتے ہیں۔
-                {% elif fusion.modules.questionnaire.prediction == 'Borderline' %}
-                <strong>سوالنامہ کے جوابات</strong> ہلکی علامات کی نشاندہی کرتے ہیں۔
-                {% else %}
-                <strong>سوالنامہ کے جوابات</strong> معمول کی حد میں ہیں۔
-                {% endif %}
-
-                <br><br>
-                <strong>مشترکہ نتائج</strong> <strong>
-                {% if fusion.risk_level == 'Low' %}کم{% elif fusion.risk_level == 'Medium' %}درمیانہ{% else %}زیادہ{% endif %}
-                </strong> مجموعی خطرہ ظاہر کرتے ہیں۔
                 {% if fusion.risk_level == 'High' %}
-                کلینیکل تشخیص کے لیے نیورولوجسٹ سے مشورہ کرنے کی سختی سے سفارش کی جاتی ہے۔
+                مشترکہ اسکریننگ نتائج پارکنسنین علامات کے بڑھتے ہوئے امکان کی نشاندہی کرتے ہیں۔
+                مزید کلینیکل تشخیص کے لیے مستند نیورولوجسٹ سے مشورہ کریں۔
+
                 {% elif fusion.risk_level == 'Medium' %}
-                کلینیکل تشخیص کے لیے نیورولوجسٹ سے مشورہ کرنے کی سفارش کی جاتی ہے۔
+                مشترکہ اسکریننگ نتائج کچھ ایسے اشارے ظاہر کرتے ہیں جن کی مزید نگرانی یا کلینیکل تشخیص مفید ہو سکتی ہے۔
+                مستند ہیلتھ کیئر پروفیشنل سے مشورہ کریں۔
+
                 {% else %}
-                باقاعدہ صحت کی نگرانی جاری رکھیں۔
+                مشترکہ اسکریننگ نتائج میں پارکنسنین علامات کے اہم اشارے نہیں پائے گئے۔
+                معمول کی صحت کی نگرانی جاری رکھیں۔
                 {% endif %}
+
             {% else %}
-                <!-- English Interpretation -->
-                {% if fusion.modules.gait.prediction == 'PD' %}
-                <strong>Gait analysis</strong> shows signs associated with Parkinsonian patterns.
-                {% elif fusion.modules.gait.prediction == 'Borderline' %}
-                <strong>Gait analysis</strong> shows some irregularities that may warrant monitoring.
-                {% else %}
-                <strong>Gait analysis</strong> is within normal range.
-                {% endif %}
 
-                {% if fusion.modules.speech.prediction == 'PD' %}
-                <strong>Speech analysis</strong> shows indicators associated with Parkinsonian voice patterns.
-                {% elif fusion.modules.speech.prediction == 'Borderline' %}
-                <strong>Speech analysis</strong> shows some voice irregularities.
-                {% else %}
-                <strong>Speech analysis</strong> is within normal range.
-                {% endif %}
-
-                {% if fusion.modules.questionnaire.prediction == 'PD' %}
-                <strong>Questionnaire responses</strong> indicate multiple motor and non-motor symptoms.
-                {% elif fusion.modules.questionnaire.prediction == 'Borderline' %}
-                <strong>Questionnaire responses</strong> indicate mild symptoms.
-                {% else %}
-                <strong>Questionnaire responses</strong> are within normal range.
-                {% endif %}
-
-                <br><br>
-                <strong>Combined results</strong> suggest a <strong>{{ fusion.risk_level|lower }}</strong> overall risk.
                 {% if fusion.risk_level == 'High' %}
-                It is strongly recommended to consult a neurologist for clinical evaluation.
+                Combined screening results indicate an increased likelihood of Parkinsonian indicators.
+                Please consult a qualified neurologist for further clinical evaluation.
+
                 {% elif fusion.risk_level == 'Medium' %}
-                It is recommended to consult a neurologist for clinical evaluation.
+                Combined screening results show some indicators that may benefit from continued monitoring or clinical evaluation.
+                Consider discussing the results with a qualified healthcare professional.
+
                 {% else %}
-                Continue regular health monitoring.
+                Combined screening results do not show significant Parkinsonian indicators.
+                Continue routine health monitoring.
                 {% endif %}
+
             {% endif %}
+
         </div>
+
     </section>
 
-    <!-- ========================================== -->
-    <!-- ACTION BUTTONS -->
-    <!-- ========================================== -->
-    <div class="action-buttons">
-        <button class="btn btn-pdf" onclick="window.print()">
-            <i class="fa-solid fa-file-pdf"></i> {% if lang == 'ur' %}رپورٹ ڈاؤن لوڈ کریں{% else %}Download Report{% endif %}
-        </button>
-        <a href="{% url 'recommendations_app:recommendations' %}" class="btn btn-primary">
-            <i class="fa-solid fa-lightbulb"></i> {% if lang == 'ur' %}سفارشات دیکھیں{% else %}View Recommendations{% endif %}
-        </a>
-        <a href="{% url 'speech_app:home' %}" class="btn btn-outline">
-            <i class="fa-solid fa-house"></i> {% if lang == 'ur' %}ہوم پیج{% else %}Back to Home{% endif %}
-        </a>
+    <!-- Important Note -->
+    <div class="report-note">
+        <i class="fa-solid fa-circle-info"></i>
+
+        <div>
+            <strong>
+                {% if lang == 'ur' %}اہم نوٹ{% else %}Important Note{% endif %}
+            </strong>
+            <br>
+
+            {% if lang == 'ur' %}
+            نیوروسینس اے آئی پارکنسنز بیماری سے وابستہ ممکنہ اشاروں کی اسکریننگ کے لیے بنایا گیا ہے۔
+            یہ رپورٹ طبی تشخیص فراہم نہیں کرتی۔ مناسب تشخیص اور رہنمائی کے لیے مستند ہیلتھ کیئر پروفیشنل سے مشورہ کریں۔
+            {% else %}
+            NeuroSense AI is a screening tool designed to assess potential indicators associated with Parkinson's disease.
+            This report does not provide a medical diagnosis. Always consult a qualified healthcare professional for proper evaluation and guidance.
+            {% endif %}
+        </div>
     </div>
 
-    <!-- ========================================== -->
-    <!-- REPORT FOOTER -->
-    <!-- ========================================== -->
-    <div class="report-footer">
-        <span>
-            <i class="fa-solid fa-circle-info"></i>
-            {% if lang == 'ur' %}
-            یہ رپورٹ اے آئی سسٹم کے ذریعے تیار کی گئی ہے اور صرف اسکریننگ کے مقاصد کے لیے ہے۔ یہ طبی تشخیص نہیں ہے۔
-            {% else %}
-            This report is generated by an AI system and is intended for screening purposes only. It is not a medical diagnosis.
-            {% endif %}
-        </span>
-        <span class="footer-status">
-            {% if lang == 'ur' %}رپورٹ کی حالت: مکمل{% else %}Report Status: Complete{% endif %}
-        </span>
+    <!-- Actions -->
+    <div class="report-actions-wrap">
+        <div class="report-actions">
+
+            <button
+                type="button"
+                class="report-btn btn-outline-report"
+                onclick="window.print()"
+            >
+                <i class="fa-regular fa-file-lines"></i>
+                {% if lang == 'ur' %}رپورٹ ڈاؤن لوڈ کریں{% else %}Download Report{% endif %}
+            </button>
+
+            <a
+                href="{% url 'recommendations_app:recommendations' %}"
+                class="report-btn btn-primary-report"
+            >
+                <i class="fa-regular fa-lightbulb"></i>
+                {% if lang == 'ur' %}سفارشات دیکھیں{% else %}View Recommendations{% endif %}
+            </a>
+
+            <a
+                href="{% url 'dashboard:dashboard' %}"
+                class="report-btn btn-outline-report"
+            >
+                <i class="fa-solid fa-arrow-left"></i>
+                {% if lang == 'ur' %}ڈیش بورڈ پر واپس جائیں{% else %}Back to Dashboard{% endif %}
+            </a>
+
+        </div>
     </div>
 
     {% endif %}
@@ -941,5 +1515,4 @@ Final Report - NeuroSense AI
 </div>
 
 {% endwith %}
-
 {% endblock %}
