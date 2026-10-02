@@ -25,11 +25,15 @@ logger = logging.getLogger(__name__)
 
 
 DEFAULT_MODEL_FILENAME = "final_linear_svm_matched.joblib"
+DEFAULT_POSTPROCESSOR_FILENAME = "speech_postprocessor.joblib"
 DEFAULT_HEALTHY_THRESHOLD = 0.23
 DEFAULT_PARKINSON_THRESHOLD = 0.27
 
 _MODEL_LOCK = threading.Lock()
 _MODEL_CACHE: "LoadedModelArtifact | None" = None
+
+_POSTPROCESSOR_LOCK = threading.Lock()
+_POSTPROCESSOR_CACHE: dict[str, Any] | None = None
 
 
 class ModelServiceError(Exception):
@@ -339,6 +343,7 @@ def _extract_thresholds(
                 "thresholds",
                 "prediction_thresholds",
                 "deployment_thresholds",
+                "deployment_configuration",
                 "classification_thresholds",
             ),
         )
@@ -603,6 +608,288 @@ def get_expected_feature_names() -> list[str]:
 
 def get_prediction_thresholds() -> PredictionThresholds:
     return load_model_artifact().thresholds
+
+
+def get_postprocessor_path() -> Path:
+    """Return the configured speech postprocessor artifact path."""
+    configured_path = getattr(
+        settings,
+        "PARKINSON_POSTPROCESSOR_PATH",
+        None,
+    )
+
+    if configured_path:
+        postprocessor_path = Path(configured_path)
+    else:
+        postprocessor_path = (
+            get_model_path().parent
+            / DEFAULT_POSTPROCESSOR_FILENAME
+        )
+
+    return postprocessor_path.expanduser().resolve()
+
+
+def load_postprocessor_artifact(
+    *,
+    force_reload: bool = False,
+) -> dict[str, Any]:
+    """
+    Load the speech postprocessor used to map a fused SVM decision score
+    to the threshold-aligned PD risk value used by the recommendation layer.
+
+    This artifact never replaces, refits, or changes the Linear SVM model.
+    """
+    global _POSTPROCESSOR_CACHE
+
+    if _POSTPROCESSOR_CACHE is not None and not force_reload:
+        return _POSTPROCESSOR_CACHE
+
+    with _POSTPROCESSOR_LOCK:
+        if _POSTPROCESSOR_CACHE is not None and not force_reload:
+            return _POSTPROCESSOR_CACHE
+
+        postprocessor_path = get_postprocessor_path()
+
+        if not postprocessor_path.exists():
+            raise ModelArtifactNotFoundError(
+                "Speech postprocessor was not found: "
+                f"{postprocessor_path}"
+            )
+
+        if not postprocessor_path.is_file():
+            raise ModelArtifactNotFoundError(
+                "Speech postprocessor path is not a file: "
+                f"{postprocessor_path}"
+            )
+
+        try:
+            artifact = joblib.load(postprocessor_path)
+        except Exception as error:
+            raise ModelArtifactLoadError(
+                "Unable to load speech postprocessor: "
+                f"{error}"
+            ) from error
+
+        if not isinstance(artifact, Mapping):
+            raise ModelConfigurationError(
+                "Speech postprocessor must contain a mapping artifact."
+            )
+
+        threshold_config = artifact.get("category_thresholds")
+        risk_config = artifact.get("risk_mapping")
+
+        if not isinstance(threshold_config, Mapping):
+            raise ModelConfigurationError(
+                "Speech postprocessor does not contain valid "
+                "'category_thresholds'."
+            )
+
+        if not isinstance(risk_config, Mapping):
+            raise ModelConfigurationError(
+                "Speech postprocessor does not contain valid "
+                "'risk_mapping'."
+            )
+
+        required_threshold_keys = {
+            "healthy_maximum",
+            "parkinson_minimum",
+        }
+        missing_threshold_keys = (
+            required_threshold_keys - set(threshold_config)
+        )
+        if missing_threshold_keys:
+            raise ModelConfigurationError(
+                "Speech postprocessor is missing threshold values: "
+                f"{sorted(missing_threshold_keys)}"
+            )
+
+        required_risk_keys = {
+            "observed_min",
+            "observed_max",
+            "healthy_risk_max",
+            "borderline_risk_min",
+            "borderline_risk_max",
+            "parkinson_risk_min",
+            "parkinson_risk_max",
+        }
+        missing_risk_keys = required_risk_keys - set(risk_config)
+        if missing_risk_keys:
+            raise ModelConfigurationError(
+                "Speech postprocessor is missing risk-mapping values: "
+                f"{sorted(missing_risk_keys)}"
+            )
+
+        _POSTPROCESSOR_CACHE = dict(artifact)
+
+        logger.info(
+            "Loaded speech postprocessor from %s.",
+            postprocessor_path,
+        )
+
+        return _POSTPROCESSOR_CACHE
+
+
+def clear_postprocessor_cache() -> None:
+    global _POSTPROCESSOR_CACHE
+
+    with _POSTPROCESSOR_LOCK:
+        _POSTPROCESSOR_CACHE = None
+
+
+def decision_score_to_pd_risk(
+    decision_score: float,
+    *,
+    postprocessor: Mapping[str, Any] | None = None,
+) -> float:
+    """
+    Convert an SVM decision score to the threshold-aligned PD risk value.
+
+    The original SVM decision score is not changed. This is a separate
+    post-processing value intended for the recommendation/fusion layer.
+    The returned value is clipped to the range 0.0-1.0.
+    """
+    score = float(decision_score)
+
+    if not math.isfinite(score):
+        raise ModelPredictionError(
+            "Decision score must be finite."
+        )
+
+    active_postprocessor = (
+        dict(postprocessor)
+        if postprocessor is not None
+        else load_postprocessor_artifact()
+    )
+
+    threshold_config = active_postprocessor.get(
+        "category_thresholds"
+    )
+    risk_config = active_postprocessor.get(
+        "risk_mapping"
+    )
+
+    if not isinstance(threshold_config, Mapping):
+        raise ModelConfigurationError(
+            "Speech postprocessor does not contain valid "
+            "'category_thresholds'."
+        )
+
+    if not isinstance(risk_config, Mapping):
+        raise ModelConfigurationError(
+            "Speech postprocessor does not contain valid "
+            "'risk_mapping'."
+        )
+
+    try:
+        healthy_threshold = float(
+            threshold_config["healthy_maximum"]
+        )
+        parkinson_threshold = float(
+            threshold_config["parkinson_minimum"]
+        )
+
+        observed_min = float(risk_config["observed_min"])
+        observed_max = float(risk_config["observed_max"])
+
+        healthy_risk_max = float(
+            risk_config["healthy_risk_max"]
+        )
+        borderline_risk_min = float(
+            risk_config["borderline_risk_min"]
+        )
+        borderline_risk_max = float(
+            risk_config["borderline_risk_max"]
+        )
+        parkinson_risk_min = float(
+            risk_config["parkinson_risk_min"]
+        )
+        parkinson_risk_max = float(
+            risk_config["parkinson_risk_max"]
+        )
+    except (KeyError, TypeError, ValueError) as error:
+        raise ModelConfigurationError(
+            "Speech postprocessor contains invalid numeric values."
+        ) from error
+
+    numeric_values = (
+        healthy_threshold,
+        parkinson_threshold,
+        observed_min,
+        observed_max,
+        healthy_risk_max,
+        borderline_risk_min,
+        borderline_risk_max,
+        parkinson_risk_min,
+        parkinson_risk_max,
+    )
+
+    if not all(math.isfinite(value) for value in numeric_values):
+        raise ModelConfigurationError(
+            "Speech postprocessor contains non-finite values."
+        )
+
+    if healthy_threshold >= parkinson_threshold:
+        raise ModelConfigurationError(
+            "Healthy threshold must be lower than Parkinson threshold."
+        )
+
+    if observed_min >= healthy_threshold:
+        raise ModelConfigurationError(
+            "Observed minimum must be below the healthy threshold."
+        )
+
+    if observed_max <= parkinson_threshold:
+        raise ModelConfigurationError(
+            "Observed maximum must be above the Parkinson threshold."
+        )
+
+    if not (
+        0.0 <= healthy_risk_max <= 1.0
+        and 0.0 <= borderline_risk_min <= 1.0
+        and 0.0 <= borderline_risk_max <= 1.0
+        and 0.0 <= parkinson_risk_min <= 1.0
+        and 0.0 <= parkinson_risk_max <= 1.0
+    ):
+        raise ModelConfigurationError(
+            "Risk mapping values must be between 0 and 1."
+        )
+
+    if score <= healthy_threshold:
+        ratio = (
+            (score - observed_min)
+            / (healthy_threshold - observed_min)
+        )
+        risk = healthy_risk_max * ratio
+
+    elif score < parkinson_threshold:
+        ratio = (
+            (score - healthy_threshold)
+            / (parkinson_threshold - healthy_threshold)
+        )
+        risk = (
+            borderline_risk_min
+            + (
+                borderline_risk_max
+                - borderline_risk_min
+            )
+            * ratio
+        )
+
+    else:
+        ratio = (
+            (score - parkinson_threshold)
+            / (observed_max - parkinson_threshold)
+        )
+        risk = (
+            parkinson_risk_min
+            + (
+                parkinson_risk_max
+                - parkinson_risk_min
+            )
+            * ratio
+        )
+
+    return float(np.clip(risk, 0.0, 1.0))
 
 
 def _build_feature_config(

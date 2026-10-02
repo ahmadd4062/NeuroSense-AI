@@ -16,6 +16,16 @@ class ScreeningPrediction(models.Model):
     )
 
     final_score = models.FloatField()
+
+    # Threshold-aligned PD risk score (0.0 to 1.0) used by the
+    # recommendation/final multimodal fusion system.
+    # This is separate from final_score, which remains the original
+    # fused Linear-SVM decision score.
+    pd_risk_score = models.FloatField(
+        null=True,
+        blank=True,
+    )
+
     final_label = models.CharField(
         max_length=20,
         choices=ResultLabel.choices,

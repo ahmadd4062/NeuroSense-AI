@@ -35,6 +35,7 @@ from .services.fusion_service import (
 from .services.model_service import (
     ModelServiceError,
     build_prediction_summary,
+    get_prediction_thresholds,
     inspect_model_artifact,
     predict_valid_recordings,
 )
@@ -449,14 +450,27 @@ def analyze_screening(request: HttpRequest) -> JsonResponse:
         )
 
         try:
+            prediction_thresholds = get_prediction_thresholds()
+
             saved_prediction = save_screening_prediction(
                 screening_id=screening_id,
                 prediction_collection=prediction_collection,
                 fusion_result=fusion_result,
-                healthy_threshold=0.23,
-                parkinson_threshold=0.27,
+                healthy_threshold=(
+                    prediction_thresholds.healthy_maximum
+                ),
+                parkinson_threshold=(
+                    prediction_thresholds.parkinson_minimum
+                ),
                 metadata={
-                    "request_directory": str(request_directory) if request_directory else "",
+                    "request_directory": (
+                        str(request_directory)
+                        if request_directory
+                        else ""
+                    ),
+                    "speech_risk_mapping": (
+                        "piecewise_threshold_aligned"
+                    ),
                 },
             )
 
@@ -504,13 +518,28 @@ def analyze_screening(request: HttpRequest) -> JsonResponse:
             screening_id,
         )
 
+        pd_risk_score = float(fusion_result.pd_risk_score)
+
         request.session["audio_module_result"] = {
-            'prediction': fusion_result.final_label,  
-            'pd_probability': fusion_result.fused_score,
-            'control_probability': 1 - fusion_result.fused_score,
-            'screening_id': screening_id,
-            'model_used': 'Linear SVM'
-            }
+            # Existing screening category from the original fused
+            # Linear-SVM decision score.
+            "prediction": fusion_result.final_label,
+
+            # Preserve the actual fused SVM decision score separately.
+            "decision_score": fusion_result.fused_score,
+
+            # The recommendation system already expects the key
+            # 'pd_probability'. For compatibility, it now receives the
+            # threshold-aligned PD risk score rather than the raw SVM
+            # decision score.
+            "pd_probability": pd_risk_score,
+            "pd_risk_score": pd_risk_score,
+            "control_probability": 1.0 - pd_risk_score,
+
+            "screening_id": screening_id,
+            "model_used": "Linear SVM",
+            "risk_mapping": "piecewise_threshold_aligned",
+        }
         request.session.modified = True
         request.session["screening_id"] = screening_id
         request.session.modified = True

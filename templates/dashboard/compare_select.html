@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static tz %}
 
 {% block title %}
 {% if lang == 'ur' %}
@@ -11,213 +11,567 @@ Select to Compare - NeuroSense AI
 
 {% block extra_css %}
 <style>
+/* =========================================================
+   NEUROSENSE AI — SELECT SCREENINGS TO COMPARE
+   Minimal, clean, theme-aligned
+   ========================================================= */
+
+.compare-select-page {
+    --ns-primary: #1478f2;
+    --ns-primary-dark: #0f68dc;
+
+    --ns-navy: #071d55;
+    --ns-text: #344866;
+    --ns-muted: #7d90ac;
+
+    --ns-blue-50: #f5f9ff;
+    --ns-blue-100: #eaf4ff;
+
+    --ns-border: #dce8f5;
+    --ns-white: #ffffff;
+
+    --ns-green: #16a765;
+    --ns-green-bg: #ecfbf3;
+    --ns-green-border: #bcebd3;
+
+    --ns-orange: #ed9500;
+    --ns-orange-bg: #fff7e4;
+    --ns-orange-border: #f7dc9d;
+
+    --ns-red: #ea4444;
+    --ns-red-bg: #fff0f0;
+    --ns-red-border: #f6c7c7;
+
+    --ns-radius: 18px;
+    --ns-radius-sm: 11px;
+
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 34px 24px 70px;
+}
+
+
+/* =========================================================
+   RTL
+   ========================================================= */
+
+.compare-select-page.lang-ur {
+    direction: rtl;
+    text-align: right;
+}
+
+
+/* =========================================================
+   BACK LINK
+   ========================================================= */
+
+.compare-select-page .back-link {
+    width: fit-content;
+
+    margin-bottom: 20px;
+    padding: 9px 14px;
+
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    color: #405575;
+    background: #f7fafe;
+
+    border: 1px solid var(--ns-border);
+    border-radius: 10px;
+
+    font-size: 0.84rem;
+    font-weight: 650;
+
+    text-decoration: none;
+
+    transition:
+        color 0.2s ease,
+        background 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.compare-select-page .back-link:hover,
+.compare-select-page .back-link:focus {
+    color: var(--ns-primary);
+    background: var(--ns-blue-50);
+    border-color: #c8ddf3;
+}
+
+
+/* =========================================================
+   MAIN CARD
+   ========================================================= */
+
+.compare-select-page .compare-select-card {
+    padding: 28px 30px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #ffffff 0%,
+            #ffffff 86%,
+            #fbfdff 100%
+        );
+
+    border: 1px solid var(--ns-border);
+    border-radius: var(--ns-radius);
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.compare-select-page .compare-select-header {
+    margin-bottom: 24px;
+    padding-bottom: 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+
+    border-bottom: 1px solid #edf2f7;
+}
+
+.compare-select-page .header-copy {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.compare-select-page .header-icon {
+    width: 50px;
+    height: 50px;
+
+    flex-shrink: 0;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    color: var(--ns-primary);
+    background: var(--ns-blue-100);
+
+    border-radius: 14px;
+
+    font-size: 1.05rem;
+}
+
+.compare-select-page .compare-select-header h1 {
+    margin: 0;
+
+    color: var(--ns-navy);
+
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+}
+
+.compare-select-page .compare-select-header p {
+    margin: 4px 0 0;
+
+    color: var(--ns-muted);
+
+    font-size: 0.87rem;
+}
+
+
+/* =========================================================
+   SELECTION INFO
+   ========================================================= */
+
+.compare-select-page .selection-info {
+    margin-bottom: 16px;
+    padding: 10px 13px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+
+    color: #607491;
+    background: #f8fbff;
+
+    border: 1px solid #e2edf7;
+    border-radius: 10px;
+
+    font-size: 0.79rem;
+}
+
+.compare-select-page .selection-info strong,
+.compare-select-page .selection-info #selectedCount {
+    color: var(--ns-primary);
+    font-weight: 750;
+}
+
+
+/* =========================================================
+   SCREENING LIST
+   ========================================================= */
+
+.compare-select-page .screening-list {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+
+    margin-bottom: 20px;
+}
+
+.compare-select-page .screening-option {
+    min-height: 70px;
+
+    padding: 12px 14px;
+
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto auto;
+    align-items: center;
+    gap: 14px;
+
+    background: #fbfdff;
+
+    border: 1px solid #e2ebf5;
+    border-radius: 12px;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.compare-select-page .screening-option:hover {
+    background: #f6faff;
+    border-color: #c9def4;
+}
+
+.compare-select-page .screening-option.selected {
+    background: #f3f8ff;
+    border-color: #9fc8f6;
+}
+
+
+/* ---------- Checkbox ---------- */
+
+.compare-select-page .screening-option input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+
+    margin: 0;
+
+    accent-color: var(--ns-primary);
+
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+
+/* ---------- Screening info ---------- */
+
+.compare-select-page .screening-option .info {
+    min-width: 0;
+}
+
+.compare-select-page .screening-option .date {
+    color: var(--ns-navy);
+
+    font-size: 0.86rem;
+    font-weight: 700;
+}
+
+.compare-select-page .screening-option .id {
+    margin-top: 3px;
+
+    color: #93a4ba;
+
+    font-family: monospace;
+    font-size: 0.66rem;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+/* ---------- Risk Badge ---------- */
+
+.compare-select-page .risk-badge {
+    min-width: 82px;
+
+    padding: 5px 10px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid transparent;
+    border-radius: 999px;
+
+    font-size: 0.62rem;
+    font-weight: 760;
+
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.compare-select-page .risk-badge.low {
+    color: var(--ns-green);
+    background: var(--ns-green-bg);
+    border-color: var(--ns-green-border);
+}
+
+.compare-select-page .risk-badge.medium {
+    color: var(--ns-orange);
+    background: var(--ns-orange-bg);
+    border-color: var(--ns-orange-border);
+}
+
+.compare-select-page .risk-badge.high {
+    color: var(--ns-red);
+    background: var(--ns-red-bg);
+    border-color: var(--ns-red-border);
+}
+
+
+/* ---------- Probability ---------- */
+
+.compare-select-page .score {
+    min-width: 58px;
+
+    color: var(--ns-navy);
+
+    font-size: 0.9rem;
+    font-weight: 760;
+
+    text-align: right;
+    white-space: nowrap;
+}
+
+.compare-select-page.lang-ur .score {
+    text-align: left;
+}
+
+
+/* =========================================================
+   COMPARE BUTTON
+   ========================================================= */
+
+.compare-select-page .btn-compare {
+    width: 100%;
+    min-height: 46px;
+
+    padding: 11px 18px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+
+    position: relative;
+
+    color: #ffffff !important;
+    background: var(--ns-primary) !important;
+    background-image: none !important;
+
+    border: 1px solid var(--ns-primary) !important;
+    border-radius: 11px;
+
+    font-family: inherit;
+    font-size: 0.88rem;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        opacity 0.2s ease;
+}
+
+/* Prevent global button overlay */
+.compare-select-page .btn-compare::before,
+.compare-select-page .btn-compare::after {
+    display: none !important;
+    content: none !important;
+}
+
+.compare-select-page .btn-compare:hover:not(:disabled),
+.compare-select-page .btn-compare:focus:not(:disabled),
+.compare-select-page .btn-compare:active:not(:disabled) {
+    color: #ffffff !important;
+
+    background: var(--ns-primary-dark) !important;
+    background-image: none !important;
+
+    border-color: var(--ns-primary-dark) !important;
+
+    box-shadow: none !important;
+    transform: none !important;
+}
+
+.compare-select-page .btn-compare:disabled {
+    color: #8ea1bb !important;
+    background: #edf3f8 !important;
+    background-image: none !important;
+
+    border-color: #e1eaf3 !important;
+
+    opacity: 1;
+    cursor: not-allowed;
+
+    box-shadow: none !important;
+    transform: none !important;
+}
+
+
+/* =========================================================
+   EMPTY STATE
+   ========================================================= */
+
+.compare-select-page .empty-state {
+    padding: 36px 20px;
+
+    text-align: center;
+
+    color: #8fa1b8;
+}
+
+.compare-select-page .empty-state .empty-icon {
+    width: 54px;
+    height: 54px;
+
+    margin: 0 auto 14px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    color: var(--ns-primary);
+    background: var(--ns-blue-100);
+
+    border-radius: 15px;
+
+    font-size: 1.2rem;
+}
+
+.compare-select-page .empty-state h3 {
+    margin: 0 0 6px;
+
+    color: var(--ns-navy);
+
+    font-size: 1rem;
+    font-weight: 750;
+}
+
+.compare-select-page .empty-state p {
+    margin: 0;
+
+    font-size: 0.83rem;
+}
+
+.compare-select-page .empty-state a {
+    color: var(--ns-primary);
+    font-weight: 650;
+    text-decoration: none;
+}
+
+.compare-select-page .empty-state a:hover {
+    text-decoration: underline;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 650px) {
+
     .compare-select-page {
-        max-width: 700px;
-        margin: 0 auto;
-        padding: 40px 20px 60px;
+        padding: 24px 16px 50px;
     }
 
-    .back-link {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        color: #4A6CF7;
-        text-decoration: none;
-        font-weight: 600;
-        font-size: 0.9rem;
-        margin-bottom: 24px;
-        transition: all 0.3s ease;
+    .compare-select-page .compare-select-card {
+        padding: 22px 18px;
     }
 
-    .back-link:hover {
+    .compare-select-page .compare-select-header {
+        align-items: flex-start;
+    }
+
+    .compare-select-page .header-icon {
+        width: 46px;
+        height: 46px;
+    }
+
+    .compare-select-page .compare-select-header h1 {
+        font-size: 1.3rem;
+    }
+
+    .compare-select-page .screening-option {
+        grid-template-columns: auto minmax(0, 1fr) auto;
+        gap: 11px;
+    }
+
+    .compare-select-page .score {
+        grid-column: 2 / 4;
+        justify-self: start;
+
+        min-width: 0;
+
+        color: #607491;
+        font-size: 0.78rem;
+        font-weight: 650;
+    }
+
+    .compare-select-page.lang-ur .score {
+        justify-self: end;
+    }
+}
+
+
+@media (max-width: 460px) {
+
+    .compare-select-page {
+        padding: 18px 11px 40px;
+    }
+
+    .compare-select-page .compare-select-card {
+        padding: 19px 15px;
+    }
+
+    .compare-select-page .header-copy {
+        align-items: flex-start;
         gap: 12px;
     }
 
-    .compare-select-card {
-        background: white;
-        border-radius: 16px;
-        padding: 32px 36px;
-        border: 1px solid #e2e8f0;
-        box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+    .compare-select-page .compare-select-header p {
+        line-height: 1.5;
     }
 
-    .compare-select-header {
+    .compare-select-page .selection-info {
+        flex-wrap: wrap;
         text-align: center;
-        margin-bottom: 28px;
     }
 
-    .compare-select-header h1 {
-        font-size: 1.6rem;
-        font-weight: 800;
-        color: #1a1a2e;
-        margin: 0;
+    .compare-select-page .screening-option {
+        padding: 11px 12px;
     }
 
-    .compare-select-header p {
-        color: #6b7280;
-        margin: 4px 0 0;
+    .compare-select-page .risk-badge {
+        min-width: 74px;
     }
-
-    .screening-list {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        margin-bottom: 24px;
-    }
-
-    .screening-option {
-        display: flex;
-        align-items: center;
-        gap: 16px;
-        padding: 14px 18px;
-        background: #f8fafc;
-        border-radius: 10px;
-        border: 2px solid #e2e8f0;
-        cursor: pointer;
-        transition: all 0.3s ease;
-    }
-
-    .screening-option:hover {
-        border-color: #4A6CF7;
-        background: #eef2ff;
-    }
-
-    .screening-option.selected {
-        border-color: #4A6CF7;
-        background: #eef2ff;
-    }
-
-    .screening-option input[type="checkbox"] {
-        width: 18px;
-        height: 18px;
-        accent-color: #4A6CF7;
-        cursor: pointer;
-        flex-shrink: 0;
-    }
-
-    .screening-option .info {
-        flex: 1;
-    }
-
-    .screening-option .info .date {
-        font-size: 0.9rem;
-        font-weight: 600;
-        color: #1a1a2e;
-    }
-
-    .screening-option .info .id {
-        font-size: 0.7rem;
-        color: #94a3b8;
-        font-family: monospace;
-    }
-
-    .screening-option .risk-badge {
-        padding: 2px 14px;
-        border-radius: 20px;
-        font-size: 0.65rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        flex-shrink: 0;
-    }
-
-    .screening-option .risk-badge.low {
-        background: #f0fdf4;
-        color: #16a34a;
-    }
-
-    .screening-option .risk-badge.medium {
-        background: #fffbeb;
-        color: #f59e0b;
-    }
-
-    .screening-option .risk-badge.high {
-        background: #fef2f2;
-        color: #dc2626;
-    }
-
-    .screening-option .score {
-        font-size: 0.85rem;
-        font-weight: 700;
-        color: #1a1a2e;
-        min-width: 45px;
-        text-align: right;
-        flex-shrink: 0;
-    }
-
-    .btn-compare {
-        width: 100%;
-        padding: 14px;
-        background: #4A6CF7;
-        color: white;
-        border: none;
-        border-radius: 10px;
-        font-size: 1rem;
-        font-weight: 700;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        font-family: inherit;
-    }
-
-    .btn-compare:hover {
-        background: #3b5de7;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 16px rgba(74,108,247,0.3);
-    }
-
-    .btn-compare:disabled {
-        opacity: 0.4;
-        cursor: not-allowed;
-        transform: none;
-    }
-
-    .empty-state {
-        text-align: center;
-        padding: 40px 20px;
-        color: #94a3b8;
-    }
-
-    .empty-state i {
-        font-size: 3rem;
-        display: block;
-        margin-bottom: 16px;
-        opacity: 0.5;
-    }
-
-    .empty-state h3 {
-        font-size: 1.1rem;
-        color: #1a1a2e;
-        margin: 0 0 8px;
-    }
-
-    .empty-state a {
-        color: #4A6CF7;
-        text-decoration: none;
-        font-weight: 600;
-    }
-
-    .selection-info {
-        font-size: 0.85rem;
-        color: #6b7280;
-        text-align: center;
-        margin-bottom: 16px;
-        padding: 10px;
-        background: #f8fafc;
-        border-radius: 8px;
-        border: 1px solid #e2e8f0;
-    }
-
-    .selection-info strong {
-        color: #1a1a2e;
-    }
+}
 </style>
 {% endblock %}
 
 {% block content %}
-
 {% with lang=request.LANG|default:'en' %}
 
-<div class="compare-select-page">
+<div class="compare-select-page {% if lang == 'ur' %}lang-ur{% endif %}">
 
+    <!-- Back -->
     <a href="{% url 'dashboard:dashboard' %}" class="back-link">
         <i class="fa-solid fa-arrow-left"></i>
         {% if lang == 'ur' %}ڈیش بورڈ پر واپس جائیں{% else %}Back to Dashboard{% endif %}
@@ -225,40 +579,77 @@ Select to Compare - NeuroSense AI
 
     <div class="compare-select-card">
 
+        <!-- Header -->
         <div class="compare-select-header">
-            <h1>
-                {% if lang == 'ur' %}
-                موازنہ کے لیے دو اسکریننگز منتخب کریں
-                {% else %}
-                Select Two Screenings to Compare
-                {% endif %}
-            </h1>
-            <p>
-                {% if lang == 'ur' %}
-                موازنہ کرنے کے لیے دو اسکریننگز کو چیک کریں
-                {% else %}
-                Check two screenings to compare side by side
-                {% endif %}
-            </p>
+            <div class="header-copy">
+                <span class="header-icon">
+                    <i class="fa-solid fa-code-compare"></i>
+                </span>
+
+                <div>
+                    <h1>
+                        {% if lang == 'ur' %}
+                        موازنہ کے لیے دو اسکریننگز منتخب کریں
+                        {% else %}
+                        Select Two Screenings
+                        {% endif %}
+                    </h1>
+
+                    <p>
+                        {% if lang == 'ur' %}
+                        ساتھ ساتھ موازنہ کرنے کے لیے دو نتائج منتخب کریں۔
+                        {% else %}
+                        Choose two results to compare side by side.
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
         </div>
 
         {% if screenings %}
+
+        <!-- Selection counter -->
         <div class="selection-info" id="selectionInfo">
             <span id="selectedCount">0</span>
-            {% if lang == 'ur' %}منتخب{% else %}selected{% endif %}
-            <span style="margin:0 6px;">·</span>
-            {% if lang == 'ur' %}براہ کرم دو اسکریننگز منتخب کریں۔{% else %}Please select two screenings.{% endif %}
+            <span>
+                {% if lang == 'ur' %}منتخب{% else %}selected{% endif %}
+            </span>
+
+            <span>·</span>
+
+            <span>
+                {% if lang == 'ur' %}
+                براہ کرم دو اسکریننگز منتخب کریں۔
+                {% else %}
+                Please select exactly two screenings.
+                {% endif %}
+            </span>
         </div>
 
-        <form id="compareForm" method="GET" action="{% url 'dashboard:compare_screenings' %}">
+        <form id="compareForm"
+              method="GET"
+              action="{% url 'dashboard:compare_screenings' %}">
+
             <div class="screening-list">
+
                 {% for screening in screenings %}
-                <label class="screening-option" data-id="{{ screening.screening_id }}">
-                    <input type="checkbox" name="ids" value="{{ screening.screening_id }}">
+                <label class="screening-option"
+                       data-id="{{ screening.screening_id }}">
+
+                    <input type="checkbox"
+                           name="ids"
+                           value="{{ screening.screening_id }}">
+
                     <div class="info">
-                        <div class="date">{{ screening.created_at|date:"d M Y, h:i A" }}</div>
-                        <div class="id">#{{ screening.screening_id|truncatechars:12 }}</div>
+                        <div class="date">
+                            {{ screening.created_at|localtime|date:"d M Y, h:i A" }}
+                        </div>
+
+                        <div class="id">
+                            #{{ screening.screening_id|truncatechars:16 }}
+                        </div>
                     </div>
+
                     <span class="risk-badge {{ screening.risk_level|lower }}">
                         {% if lang == 'ur' %}
                             {% if screening.risk_level == 'Low' %}کم
@@ -268,30 +659,48 @@ Select to Compare - NeuroSense AI
                             {{ screening.risk_level }}
                         {% endif %}
                     </span>
-                    <span class="score">{{ screening.final_pd_probability|floatformat:1 }}%</span>
+
+                    <span class="score">
+                        {% widthratio screening.final_pd_probability 1 100 %}%
+                    </span>
+
                 </label>
                 {% endfor %}
+
             </div>
 
-            <button type="submit" class="btn-compare" id="compareBtn" disabled>
+            <button type="submit"
+                    class="btn-compare"
+                    id="compareBtn"
+                    disabled>
                 <i class="fa-solid fa-arrows-left-right"></i>
-                {% if lang == 'ur' %}موازنہ کریں{% else %}Compare{% endif %}
+                {% if lang == 'ur' %}موازنہ کریں{% else %}Compare Screenings{% endif %}
             </button>
+
         </form>
+
         {% else %}
+
         <div class="empty-state">
-            <i class="fa-regular fa-clipboard"></i>
+            <span class="empty-icon">
+                <i class="fa-regular fa-clipboard"></i>
+            </span>
+
             <h3>
-                {% if lang == 'ur' %}کوئی اسکریننگ نہیں{% else %}No Screenings{% endif %}
+                {% if lang == 'ur' %}کوئی اسکریننگ نہیں{% else %}No Screenings Yet{% endif %}
             </h3>
+
             <p>
                 {% if lang == 'ur' %}
-                موازنہ کرنے کے لیے <a href="{% url 'questionnaire_app:home' %}">اسکریننگ شروع کریں</a>
+                موازنہ کرنے کے لیے
+                <a href="{% url 'questionnaire_app:home' %}">اسکریننگ شروع کریں</a>
                 {% else %}
-                <a href="{% url 'questionnaire_app:home' %}">Start a screening</a> to compare results.
+                <a href="{% url 'questionnaire_app:home' %}">Start a screening</a>
+                to compare results.
                 {% endif %}
             </p>
         </div>
+
         {% endif %}
 
     </div>
@@ -299,38 +708,44 @@ Select to Compare - NeuroSense AI
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const checkboxes = document.querySelectorAll('input[name="ids"]');
     const compareBtn = document.getElementById('compareBtn');
     const selectedCount = document.getElementById('selectedCount');
 
+    if (!checkboxes.length || !compareBtn || !selectedCount) {
+        return;
+    }
+
+    function updateSelectionUI() {
+        const checked = document.querySelectorAll('input[name="ids"]:checked');
+        const count = checked.length;
+
+        selectedCount.textContent = count;
+
+        document.querySelectorAll('.screening-option').forEach(label => {
+            const checkbox = label.querySelector('input[name="ids"]');
+            label.classList.toggle('selected', checkbox && checkbox.checked);
+        });
+
+        compareBtn.disabled = count !== 2;
+    }
+
     checkboxes.forEach(checkbox => {
-        checkbox.addEventListener('change', function() {
+        checkbox.addEventListener('change', function () {
             const checked = document.querySelectorAll('input[name="ids"]:checked');
-            const count = checked.length;
 
-            // Update selection count
-            selectedCount.textContent = count;
-
-            // Limit to 2 selections
-            if (count > 2) {
+            if (checked.length > 2) {
                 this.checked = false;
-                selectedCount.textContent = document.querySelectorAll('input[name="ids"]:checked').length;
-                return;
             }
 
-            // Update UI
-            document.querySelectorAll('.screening-option').forEach(label => {
-                label.classList.toggle('selected', label.querySelector('input').checked);
-            });
-
-            // Enable/disable compare button
-            compareBtn.disabled = count !== 2;
+            updateSelectionUI();
         });
     });
+
+    updateSelectionUI();
 });
 </script>
 
 {% endwith %}
-
 {% endblock %}

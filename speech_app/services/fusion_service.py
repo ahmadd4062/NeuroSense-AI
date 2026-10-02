@@ -12,6 +12,8 @@ from .model_service import (
     PredictionCollectionResult,
     PredictionThresholds,
     RecordingPredictionResult,
+    decision_score_to_pd_risk,
+    get_prediction_thresholds,
 )
 
 
@@ -83,6 +85,20 @@ class FusionConfig:
         )
 
 
+def _default_fusion_config() -> FusionConfig:
+    """Build fusion thresholds from the deployed model artifact.
+
+    This keeps category interpretation in sync with the exact model
+    configuration instead of duplicating threshold values in views.
+    """
+    thresholds = get_prediction_thresholds()
+
+    return FusionConfig(
+        healthy_maximum=thresholds.healthy_maximum,
+        parkinson_minimum=thresholds.parkinson_minimum,
+    )
+
+
 @dataclass
 class FusionRecording:
     slot_number: int
@@ -97,6 +113,7 @@ class FusionRecording:
 class FusionResult:
     final_label: str | None
     fused_score: float | None
+    pd_risk_score: float | None
 
     score_mean: float | None
     score_std: float | None
@@ -129,6 +146,7 @@ class FusionResult:
         return {
             "final_label": self.final_label,
             "fused_score": self.fused_score,
+            "pd_risk_score": self.pd_risk_score,
             "score_mean": self.score_mean,
             "score_std": self.score_std,
             "score_min": self.score_min,
@@ -325,6 +343,7 @@ def _build_failed_result(
     return FusionResult(
         final_label=None,
         fused_score=None,
+        pd_risk_score=None,
         score_mean=None,
         score_std=None,
         score_min=None,
@@ -363,7 +382,7 @@ def fuse_recordings(
     *,
     config: FusionConfig | None = None,
 ) -> FusionResult:
-    active_config = config or FusionConfig()
+    active_config = config or _default_fusion_config()
 
     normalized_recordings: list[FusionRecording] = []
     seen_slots: set[int] = set()
@@ -448,6 +467,13 @@ def fuse_recordings(
         active_config,
     )
 
+    # Keep the original fused decision score unchanged.
+    # The postprocessor converts that score into the threshold-aligned
+    # PD risk value used by the recommendation/final fusion system.
+    pd_risk_score = decision_score_to_pd_risk(
+        score_mean
+    )
+
     individual_labels = [
         recording.predicted_label
         for recording in normalized_recordings
@@ -495,6 +521,7 @@ def fuse_recordings(
     return FusionResult(
         final_label=final_label,
         fused_score=score_mean,
+        pd_risk_score=pd_risk_score,
         score_mean=score_mean,
         score_std=score_std,
         score_min=score_min,
@@ -584,7 +611,7 @@ def fuse_scores(
     slot_numbers: Sequence[int] | None = None,
     config: FusionConfig | None = None,
 ) -> FusionResult:
-    active_config = config or FusionConfig()
+    active_config = config or _default_fusion_config()
 
     scores = list(decision_scores)
 
@@ -654,6 +681,7 @@ def build_fusion_summary(
         "fusion_successful": result.fusion_successful,
         "final_label": result.final_label,
         "fused_score": result.fused_score,
+        "pd_risk_score": result.pd_risk_score,
         "confidence_score": result.confidence_score,
         "confidence_level": result.confidence_level,
         "consistency_level": result.consistency_level,

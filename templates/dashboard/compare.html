@@ -11,466 +11,766 @@ Compare Screenings - NeuroSense AI
 
 {% block extra_css %}
 <style>
-    /* ============================================
-       COMPARE PAGE - PROFESSIONAL MEDICAL THEME
-       ============================================ */
+/* =========================================================
+   NEUROSENSE AI — COMPARE SCREENINGS
+   Minimal, balanced, theme-aligned
+   ========================================================= */
+
+.compare-page {
+    --ns-primary: #1478f2;
+    --ns-primary-dark: #0f68dc;
+
+    --ns-navy: #071d55;
+    --ns-text: #344866;
+    --ns-muted: #7d90ac;
+
+    --ns-blue-50: #f5f9ff;
+    --ns-blue-100: #eaf4ff;
+
+    --ns-border: #dce8f5;
+    --ns-white: #ffffff;
+
+    --ns-green: #16a765;
+    --ns-green-bg: #ecfbf3;
+    --ns-green-border: #bcebd3;
+
+    --ns-orange: #ed9500;
+    --ns-orange-bg: #fff7e4;
+    --ns-orange-border: #f7dc9d;
+
+    --ns-red: #ea4444;
+    --ns-red-bg: #fff0f0;
+    --ns-red-border: #f6c7c7;
+
+    --ns-radius: 18px;
+    --ns-radius-sm: 11px;
+
+    max-width: 1160px;
+    margin: 0 auto;
+    padding: 34px 24px 70px;
+}
+
+
+/* =========================================================
+   BACK LINK
+   ========================================================= */
+
+.compare-page .back-link {
+    width: fit-content;
+
+    margin-bottom: 20px;
+    padding: 9px 14px;
+
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    color: #405575;
+    background: #f7fafe;
+
+    border: 1px solid var(--ns-border);
+    border-radius: 10px;
+
+    font-size: 0.84rem;
+    font-weight: 650;
+
+    text-decoration: none;
+
+    transition:
+        color 0.2s ease,
+        background 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.compare-page .back-link:hover,
+.compare-page .back-link:focus {
+    color: var(--ns-primary);
+    background: var(--ns-blue-50);
+    border-color: #c8ddf3;
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.compare-page .compare-header {
+    margin-bottom: 28px;
+    padding: 26px 30px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+
+    background:
+        linear-gradient(
+            110deg,
+            #ffffff 0%,
+            #ffffff 68%,
+            #f6faff 100%
+        );
+
+    border: 1px solid var(--ns-border);
+    border-radius: var(--ns-radius);
+}
+
+.compare-page .header-copy {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.compare-page .header-icon {
+    width: 54px;
+    height: 54px;
+
+    flex-shrink: 0;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    color: var(--ns-primary);
+    background: var(--ns-blue-100);
+
+    border-radius: 15px;
+
+    font-size: 1.15rem;
+}
+
+.compare-page .compare-header h1 {
+    margin: 0;
+
+    color: var(--ns-navy);
+
+    font-size: 1.75rem;
+    font-weight: 800;
+    letter-spacing: -0.035em;
+}
+
+.compare-page .compare-header p {
+    margin: 4px 0 0;
+
+    color: var(--ns-muted);
+
+    font-size: 0.9rem;
+}
+
+
+/* =========================================================
+   COMPARE GRID
+   ========================================================= */
+
+.compare-page .compare-grid {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        64px
+        minmax(0, 1fr);
+
+    gap: 18px;
+
+    align-items: stretch;
+}
+
+
+/* =========================================================
+   SCREENING CARDS
+   ========================================================= */
+
+.compare-page .compare-card {
+    min-width: 0;
+
+    padding: 24px;
+
+    background: var(--ns-white);
+
+    border: 1px solid var(--ns-border);
+    border-radius: var(--ns-radius);
+}
+
+.compare-page .compare-card .card-header {
+    margin-bottom: 18px;
+    padding-bottom: 16px;
+
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+
+    border-bottom: 1px solid #edf2f7;
+}
+
+.compare-page .card-info {
+    min-width: 0;
+}
+
+.compare-page .card-date {
+    color: var(--ns-navy);
+
+    font-size: 0.92rem;
+    font-weight: 750;
+}
+
+.compare-page .card-id {
+    margin-top: 4px;
+
+    color: #90a1b8;
+
+    font-family: monospace;
+    font-size: 0.68rem;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+/* ---------- Risk badge ---------- */
+
+.compare-page .risk-badge {
+    min-width: 92px;
+
+    padding: 6px 12px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid transparent;
+    border-radius: 999px;
+
+    font-size: 0.66rem;
+    font-weight: 760;
+
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.compare-page .risk-badge.low {
+    color: var(--ns-green);
+    background: var(--ns-green-bg);
+    border-color: var(--ns-green-border);
+}
+
+.compare-page .risk-badge.medium {
+    color: var(--ns-orange);
+    background: var(--ns-orange-bg);
+    border-color: var(--ns-orange-border);
+}
+
+.compare-page .risk-badge.high {
+    color: var(--ns-red);
+    background: var(--ns-red-bg);
+    border-color: var(--ns-red-border);
+}
+
+
+/* =========================================================
+   MAIN PROBABILITY
+   ========================================================= */
+
+.compare-page .probability-box {
+    margin-bottom: 16px;
+    padding: 17px 18px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+
+    background: #f8fbff;
+
+    border: 1px solid #e1ebf5;
+    border-radius: 12px;
+}
+
+.compare-page .probability-label {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+
+    color: #667b99;
+
+    font-size: 0.76rem;
+    font-weight: 700;
+
+    letter-spacing: 0.035em;
+    text-transform: uppercase;
+}
+
+.compare-page .probability-label i {
+    color: var(--ns-primary);
+}
+
+.compare-page .probability-value {
+    color: var(--ns-navy);
+
+    font-size: 1.45rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+}
+
+
+/* =========================================================
+   MODULE RESULTS
+   ========================================================= */
+
+.compare-page .module-list {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+.compare-page .module-row {
+    min-height: 58px;
+
+    padding: 11px 13px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+
+    background: #fbfdff;
+
+    border: 1px solid #e4edf6;
+    border-radius: 11px;
+}
+
+.compare-page .module-name {
+    min-width: 0;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    color: var(--ns-navy);
+
+    font-size: 0.82rem;
+    font-weight: 680;
+}
+
+.compare-page .module-icon {
+    width: 34px;
+    height: 34px;
+
+    flex-shrink: 0;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    color: var(--ns-primary);
+    background: var(--ns-blue-100);
+
+    border-radius: 9px;
+
+    font-size: 0.78rem;
+}
+
+.compare-page .status-badge {
+    min-width: 84px;
+
+    padding: 5px 10px;
+
+    display: inline-flex;
+    justify-content: center;
+
+    border-radius: 999px;
+
+    font-size: 0.62rem;
+    font-weight: 760;
+
+    text-transform: uppercase;
+}
+
+.compare-page .status-badge.pd {
+    color: var(--ns-red);
+    background: var(--ns-red-bg);
+}
+
+.compare-page .status-badge.control {
+    color: var(--ns-green);
+    background: var(--ns-green-bg);
+}
+
+.compare-page .status-badge.borderline {
+    color: var(--ns-orange);
+    background: var(--ns-orange-bg);
+}
+
+
+/* =========================================================
+   VS
+   ========================================================= */
+
+.compare-page .compare-vs {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    gap: 9px;
+}
+
+.compare-page .vs-line {
+    width: 1px;
+    flex: 1;
+
+    min-height: 70px;
+
+    background: #dce8f5;
+}
+
+.compare-page .vs-badge {
+    width: 44px;
+    height: 44px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    color: var(--ns-primary);
+    background: var(--ns-blue-100);
+
+    border: 1px solid #d8e9fb;
+    border-radius: 50%;
+
+    font-size: 0.75rem;
+    font-weight: 800;
+}
+
+
+/* =========================================================
+   SUMMARY
+   ========================================================= */
+
+.compare-page .compare-summary {
+    margin-top: 24px;
+    padding: 18px 20px;
+
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+
+    background: #f8fbff;
+
+    border: 1px solid var(--ns-border);
+    border-radius: 13px;
+}
+
+.compare-page .summary-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    color: #5f7392;
+
+    font-size: 0.82rem;
+}
+
+.compare-page .summary-icon {
+    width: 32px;
+    height: 32px;
+
+    flex-shrink: 0;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    color: var(--ns-primary);
+    background: var(--ns-blue-100);
+
+    border-radius: 9px;
+}
+
+.compare-page .summary-item strong {
+    color: var(--ns-navy);
+}
+
+.compare-page .trend-icon {
+    margin-left: 4px;
+    font-weight: 800;
+}
+
+.compare-page .trend-icon.up {
+    color: var(--ns-red);
+}
+
+.compare-page .trend-icon.down {
+    color: var(--ns-green);
+}
+
+.compare-page .trend-icon.same {
+    color: #91a2b8;
+}
+
+
+/* =========================================================
+   ACTION BUTTONS
+   ========================================================= */
+
+.compare-page .action-buttons {
+    margin-top: 28px;
+    padding-top: 22px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+
+    gap: 10px;
+
+    border-top: 1px solid #e8eff6;
+}
+
+.compare-page .action-buttons a.btn {
+    min-height: 44px;
+
+    padding: 10px 18px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    position: relative;
+
+    border-radius: 10px;
+
+    font-family: inherit;
+    font-size: 0.82rem;
+    font-weight: 680;
+
+    text-decoration: none !important;
+
+    transition:
+        color 0.2s ease,
+        background-color 0.2s ease,
+        border-color 0.2s ease;
+}
+
+
+/* Kill any global button overlay/animation */
+.compare-page .action-buttons a.btn::before,
+.compare-page .action-buttons a.btn::after {
+    display: none !important;
+    content: none !important;
+}
+
+
+/* Primary */
+.compare-page .action-buttons a.btn-primary,
+.compare-page .action-buttons a.btn-primary:link,
+.compare-page .action-buttons a.btn-primary:visited {
+    color: #ffffff !important;
+
+    background: var(--ns-primary) !important;
+    background-image: none !important;
+
+    border: 1px solid var(--ns-primary) !important;
+}
+
+.compare-page .action-buttons a.btn-primary:hover,
+.compare-page .action-buttons a.btn-primary:focus,
+.compare-page .action-buttons a.btn-primary:active {
+    color: #ffffff !important;
+
+    background: var(--ns-primary-dark) !important;
+    background-image: none !important;
+
+    border-color: var(--ns-primary-dark) !important;
+
+    box-shadow: none !important;
+    transform: none !important;
+}
+
+
+/* Outline */
+.compare-page .action-buttons a.btn-outline,
+.compare-page .action-buttons a.btn-outline:link,
+.compare-page .action-buttons a.btn-outline:visited {
+    color: #405575 !important;
+
+    background: #ffffff !important;
+    background-image: none !important;
+
+    border: 1px solid var(--ns-border) !important;
+}
+
+.compare-page .action-buttons a.btn-outline:hover,
+.compare-page .action-buttons a.btn-outline:focus,
+.compare-page .action-buttons a.btn-outline:active {
+    color: #405575 !important;
+
+    background: var(--ns-blue-50) !important;
+    background-image: none !important;
+
+    border-color: #c8ddf3 !important;
+
+    box-shadow: none !important;
+    transform: none !important;
+}
+
+
+/* New Screening */
+.compare-page .action-buttons a.btn-success,
+.compare-page .action-buttons a.btn-success:link,
+.compare-page .action-buttons a.btn-success:visited {
+    color: var(--ns-primary) !important;
+
+    background: var(--ns-blue-50) !important;
+    background-image: none !important;
+
+    border: 1px solid #cfe2f7 !important;
+}
+
+.compare-page .action-buttons a.btn-success:hover,
+.compare-page .action-buttons a.btn-success:focus,
+.compare-page .action-buttons a.btn-success:active {
+    color: var(--ns-primary-dark) !important;
+
+    background: #eaf4ff !important;
+    background-image: none !important;
+
+    border-color: #bdd8f4 !important;
+
+    box-shadow: none !important;
+    transform: none !important;
+}
+
+
+/* =========================================================
+   RTL
+   ========================================================= */
+
+.compare-page.lang-ur {
+    direction: rtl;
+    text-align: right;
+}
+
+.compare-page.lang-ur .trend-icon {
+    margin-left: 0;
+    margin-right: 4px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 850px) {
+
+    .compare-page .compare-grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+
+    .compare-page .compare-vs {
+        flex-direction: row;
+        min-height: auto;
+    }
+
+    .compare-page .vs-line {
+        width: auto;
+        height: 1px;
+        min-height: 0;
+        min-width: 70px;
+        flex: 1;
+    }
+
+    .compare-page .compare-summary {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+@media (max-width: 600px) {
 
     .compare-page {
-        max-width: 1100px;
-        margin: 0 auto;
-        padding: 40px 20px 60px;
+        padding: 22px 14px 50px;
     }
 
-    /* ---------- Back Link ---------- */
-    .back-link {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        color: #4A6CF7;
-        text-decoration: none;
-        font-weight: 600;
-        font-size: 0.9rem;
-        margin-bottom: 24px;
-        transition: all 0.3s ease;
-        padding: 8px 16px;
-        border-radius: 10px;
-        background: #eef2ff;
+    .compare-page .compare-header {
+        padding: 22px 20px;
     }
 
-    .back-link:hover {
-        gap: 12px;
-        background: #e0e7ff;
+    .compare-page .header-icon {
+        width: 46px;
+        height: 46px;
     }
 
-    /* ---------- Header ---------- */
-    .compare-header {
-        text-align: center;
-        margin-bottom: 32px;
-        padding: 32px 40px;
-        background: white;
-        border-radius: 16px;
-        border: 1px solid #e2e8f0;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    .compare-page .compare-header h1 {
+        font-size: 1.45rem;
     }
 
-    .compare-header h1 {
-        font-size: 1.8rem;
-        font-weight: 800;
-        color: #1a1a2e;
-        margin: 0;
+    .compare-page .compare-card {
+        padding: 20px 16px;
     }
 
-    .compare-header h1 span {
-        background: linear-gradient(135deg, #4A6CF7 0%, #7c3aed 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
+    .compare-page .compare-card .card-header {
+        align-items: flex-start;
     }
 
-    .compare-header p {
-        color: #6b7280;
-        margin: 4px 0 0;
-        font-size: 0.95rem;
+    .compare-page .probability-box {
+        padding: 15px;
     }
 
-    /* ---------- Compare Grid ---------- */
-    .compare-grid {
-        display: grid;
-        grid-template-columns: 1fr auto 1fr;
-        gap: 20px;
-        align-items: start;
+    .compare-page .module-row {
+        padding: 10px 11px;
     }
 
-    @media (max-width: 768px) {
-        .compare-grid {
-            grid-template-columns: 1fr;
-            gap: 16px;
-        }
-
-        .compare-vs {
-            display: flex;
-            justify-content: center;
-            padding: 8px 0;
-        }
+    .compare-page .action-buttons {
+        align-items: stretch;
     }
 
-    /* ---------- Compare Cards ---------- */
-    .compare-card {
-        background: white;
-        border-radius: 16px;
-        padding: 24px 28px;
-        border: 1px solid #e2e8f0;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-        transition: all 0.3s ease;
-    }
-
-    .compare-card:hover {
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-        transform: translateY(-2px);
-    }
-
-    .compare-card .card-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 16px;
-        padding-bottom: 14px;
-        border-bottom: 2px solid #f1f5f9;
-    }
-
-    .compare-card .card-header .card-info {
-        display: flex;
-        flex-direction: column;
-        gap: 2px;
-    }
-
-    .compare-card .card-header .card-date {
-        font-size: 0.85rem;
-        font-weight: 700;
-        color: #1a1a2e;
-    }
-
-    .compare-card .card-header .card-id {
-        font-size: 0.7rem;
-        color: #94a3b8;
-        font-family: monospace;
-    }
-
-    .compare-card .card-header .risk-badge {
-        display: inline-block;
-        padding: 4px 16px;
-        border-radius: 30px;
-        font-size: 0.75rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.04em;
-        flex-shrink: 0;
-    }
-
-    .compare-card .card-header .risk-badge.low {
-        background: #f0fdf4;
-        color: #16a34a;
-        border: 1px solid #86efac;
-    }
-
-    .compare-card .card-header .risk-badge.medium {
-        background: #fffbeb;
-        color: #f59e0b;
-        border: 1px solid #fcd34d;
-    }
-
-    .compare-card .card-header .risk-badge.high {
-        background: #fef2f2;
-        color: #dc2626;
-        border: 1px solid #fca5a5;
-    }
-
-    /* ---------- Compare Items ---------- */
-    .compare-items {
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
-    }
-
-    .compare-item {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 10px 12px;
-        border-radius: 8px;
-        background: #f8fafc;
-        border: 1px solid transparent;
-        transition: all 0.3s ease;
-    }
-
-    .compare-item:hover {
-        background: #eef2ff;
-        border-color: #e2e8f0;
-    }
-
-    .compare-item .label {
-        color: #94a3b8;
-        font-weight: 500;
-        font-size: 0.85rem;
-        display: flex;
-        align-items: center;
-        gap: 6px;
-    }
-
-    .compare-item .label i {
-        font-size: 0.75rem;
-        color: #4A6CF7;
-    }
-
-    .compare-item .value {
-        font-weight: 700;
-        color: #1a1a2e;
-        font-size: 0.9rem;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-    }
-
-    .compare-item .value .status-badge {
-        display: inline-block;
-        padding: 2px 12px;
-        border-radius: 20px;
-        font-size: 0.65rem;
-        font-weight: 700;
-        text-transform: uppercase;
-    }
-
-    .compare-item .value .status-badge.pd {
-        background: #fef2f2;
-        color: #dc2626;
-    }
-
-    .compare-item .value .status-badge.control {
-        background: #f0fdf4;
-        color: #16a34a;
-    }
-
-    .compare-item .value .status-badge.borderline {
-        background: #fffbeb;
-        color: #f59e0b;
-    }
-
-    .compare-item .value .diff-indicator {
-        font-size: 0.7rem;
-        font-weight: 600;
-        padding: 2px 8px;
-        border-radius: 12px;
-    }
-
-    .compare-item .value .diff-indicator.up {
-        color: #dc2626;
-        background: #fef2f2;
-    }
-
-    .compare-item .value .diff-indicator.down {
-        color: #16a34a;
-        background: #f0fdf4;
-    }
-
-    .compare-item .value .diff-indicator.same {
-        color: #94a3b8;
-        background: #f1f5f9;
-    }
-
-    /* ---------- VS ---------- */
-    .compare-vs {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        padding: 20px 0;
-        min-width: 60px;
-    }
-
-    .compare-vs .vs-line {
+    .compare-page .action-buttons a.btn {
         flex: 1;
-        width: 2px;
-        background: linear-gradient(to bottom, #e2e8f0, #4A6CF7, #e2e8f0);
-        min-height: 40px;
+    }
+}
+
+
+@media (max-width: 460px) {
+
+    .compare-page .header-copy {
+        align-items: flex-start;
     }
 
-    .compare-vs .vs-text {
-        font-size: 1.8rem;
-        font-weight: 900;
-        color: #4A6CF7;
-        background: white;
-        padding: 0 4px;
-        letter-spacing: -0.02em;
-        text-shadow: 0 2px 8px rgba(74, 108, 247, 0.2);
+    .compare-page .compare-header p {
+        line-height: 1.5;
     }
 
-    .compare-vs .vs-sub {
-        font-size: 0.6rem;
-        color: #94a3b8;
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-        margin-top: 2px;
+    .compare-page .compare-card .card-header {
+        flex-direction: column;
     }
 
-    @media (max-width: 768px) {
-        .compare-vs {
-            flex-direction: row;
-            padding: 8px 0;
-            min-width: auto;
-        }
-
-        .compare-vs .vs-line {
-            width: 60px;
-            height: 2px;
-            min-height: auto;
-            background: linear-gradient(to right, #e2e8f0, #4A6CF7, #e2e8f0);
-        }
-
-        .compare-vs .vs-text {
-            padding: 0 16px;
-        }
-
-        .compare-vs .vs-sub {
-            display: none;
-        }
+    .compare-page .probability-box {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 7px;
     }
 
-    /* ---------- Comparison Summary ---------- */
-    .compare-summary {
-        margin-top: 20px;
-        padding: 16px 20px;
-        background: #f8fafc;
-        border-radius: 12px;
-        border: 1px solid #e2e8f0;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 12px;
+    .compare-page .action-buttons {
+        flex-direction: column;
     }
 
-    .compare-summary .summary-item {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        font-size: 0.85rem;
-        color: #475569;
+    .compare-page .action-buttons a.btn {
+        width: 100%;
     }
-
-    .compare-summary .summary-item strong {
-        color: #1a1a2e;
-    }
-
-    .compare-summary .summary-item .trend-icon {
-        font-size: 1rem;
-    }
-
-    .compare-summary .summary-item .trend-icon.up {
-        color: #dc2626;
-    }
-
-    .compare-summary .summary-item .trend-icon.down {
-        color: #16a34a;
-    }
-
-    .compare-summary .summary-item .trend-icon.same {
-        color: #94a3b8;
-    }
-
-    /* ---------- Action Buttons ---------- */
-    .action-buttons {
-        display: flex;
-        gap: 12px;
-        flex-wrap: wrap;
-        justify-content: center;
-        margin-top: 28px;
-        padding-top: 24px;
-        border-top: 2px solid #f1f5f9;
-    }
-
-    .action-buttons .btn {
-        padding: 10px 24px;
-        border-radius: 10px;
-        font-weight: 600;
-        font-size: 0.85rem;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        text-decoration: none;
-        border: none;
-        font-family: inherit;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-    }
-
-    .action-buttons .btn-primary {
-        background: #4A6CF7;
-        color: white;
-        box-shadow: 0 4px 12px rgba(74, 108, 247, 0.2);
-    }
-
-    .action-buttons .btn-primary:hover {
-        background: #3b5de7;
-        transform: translateY(-2px);
-        box-shadow: 0 8px 24px rgba(74, 108, 247, 0.3);
-    }
-
-    .action-buttons .btn-outline {
-        background: transparent;
-        color: #475569;
-        border: 1.5px solid #e2e8f0;
-    }
-
-    .action-buttons .btn-outline:hover {
-        background: #f8fafc;
-        border-color: #4A6CF7;
-        color: #4A6CF7;
-        transform: translateY(-2px);
-    }
-
-    .action-buttons .btn-success {
-        background: #10b981;
-        color: white;
-        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
-    }
-
-    .action-buttons .btn-success:hover {
-        background: #059669;
-        transform: translateY(-2px);
-        box-shadow: 0 8px 24px rgba(16, 185, 129, 0.3);
-    }
-
-    /* ---------- Responsive ---------- */
-    @media (max-width: 480px) {
-        .compare-page {
-            padding: 16px 12px;
-        }
-
-        .compare-header {
-            padding: 20px 16px;
-        }
-
-        .compare-header h1 {
-            font-size: 1.4rem;
-        }
-
-        .compare-card {
-            padding: 16px;
-        }
-
-        .compare-item {
-            flex-wrap: wrap;
-            gap: 4px;
-            padding: 8px 10px;
-        }
-
-        .compare-item .value {
-            font-size: 0.8rem;
-        }
-
-        .compare-summary {
-            flex-direction: column;
-            text-align: center;
-        }
-
-        .action-buttons .btn {
-            flex: 1;
-            justify-content: center;
-            font-size: 0.8rem;
-            padding: 10px 16px;
-        }
-    }
+}
 </style>
 {% endblock %}
 
 {% block content %}
-
 {% with lang=request.LANG|default:'en' %}
 
-<div class="compare-page">
+<div class="compare-page {% if lang == 'ur' %}lang-ur{% endif %}">
 
-    <!-- Back Link -->
+    <!-- Back -->
     <a href="{% url 'dashboard:dashboard' %}" class="back-link">
         <i class="fa-solid fa-arrow-left"></i>
         {% if lang == 'ur' %}ڈیش بورڈ پر واپس جائیں{% else %}Back to Dashboard{% endif %}
@@ -478,20 +778,29 @@ Compare Screenings - NeuroSense AI
 
     <!-- Header -->
     <div class="compare-header">
-        <h1>
-            {% if lang == 'ur' %}
-            📊 اسکریننگ کا <span>موازنہ</span>
-            {% else %}
-            📊 <span>Compare</span> Screenings
-            {% endif %}
-        </h1>
-        <p>
-            {% if lang == 'ur' %}
-            دو اسکریننگز کا ساتھ ساتھ موازنہ کریں
-            {% else %}
-            Compare two screenings side by side
-            {% endif %}
-        </p>
+        <div class="header-copy">
+            <span class="header-icon">
+                <i class="fa-solid fa-code-compare"></i>
+            </span>
+
+            <div>
+                <h1>
+                    {% if lang == 'ur' %}
+                    اسکریننگ کا موازنہ
+                    {% else %}
+                    Compare Screenings
+                    {% endif %}
+                </h1>
+
+                <p>
+                    {% if lang == 'ur' %}
+                    دو اسکریننگ نتائج کا سادہ اور واضح موازنہ
+                    {% else %}
+                    Compare two screening results side by side.
+                    {% endif %}
+                </p>
+            </div>
+        </div>
     </div>
 
     <!-- Compare Grid -->
@@ -499,215 +808,249 @@ Compare Screenings - NeuroSense AI
 
         <!-- Screening 1 -->
         <div class="compare-card">
+
             <div class="card-header">
                 <div class="card-info">
-                    <div class="card-date">{{ screening1.created_at|date:"d M Y, h:i A" }}</div>
-                    <div class="card-id">#{{ screening1.screening_id|truncatechars:12 }}</div>
+                    <div class="card-date">
+                        {{ screening1.created_at|date:"d M Y, h:i A" }}
+                    </div>
+
+                    <div class="card-id">
+                        #{{ screening1.screening_id|truncatechars:18 }}
+                    </div>
                 </div>
+
                 <span class="risk-badge {{ screening1.risk_level|lower }}">
                     {% if lang == 'ur' %}
-                    {% if screening1.risk_level == 'Low' %}کم
-                    {% elif screening1.risk_level == 'Medium' %}درمیانہ
-                    {% else %}زیادہ{% endif %}
+                        {% if screening1.risk_level == 'Low' %}کم خطرہ
+                        {% elif screening1.risk_level == 'Medium' %}درمیانہ خطرہ
+                        {% else %}زیادہ خطرہ{% endif %}
                     {% else %}
-                    {{ screening1.risk_level }}
+                        {{ screening1.risk_level }} Risk
                     {% endif %}
                 </span>
             </div>
 
-            <div class="compare-items">
-                <div class="compare-item">
-                    <span class="label">
-                        <i class="fa-solid fa-chart-simple"></i>
-                        {% if lang == 'ur' %}رسک سکور{% else %}Risk Score{% endif %}
-                    </span>
-                    <span class="value">{{ screening1.final_pd_probability|floatformat:2 }}%</span>
+            <!-- Probability -->
+            <div class="probability-box">
+                <div class="probability-label">
+                    <i class="fa-solid fa-chart-line"></i>
+                    {% if lang == 'ur' %}پی ڈی امکان{% else %}PD Probability{% endif %}
                 </div>
 
-                <div class="compare-item">
-                    <span class="label">
-                        <i class="fa-solid fa-bullseye"></i>
-                        {% if lang == 'ur' %}اعتماد{% else %}Confidence{% endif %}
-                    </span>
-                    <span class="value">{{ screening1.fusion_confidence|floatformat:2 }}%</span>
-                </div>
-
-                <div class="compare-item">
-                    <span class="label">
-                        <i class="fa-solid fa-person-walking"></i>
-                        {% if lang == 'ur' %}چال{% else %}Gait{% endif %}
-                    </span>
-                    <span class="value">
-                        <span
-                            class="status-badge {% if screening1.gait_prediction == 'PD' %}pd{% elif screening1.gait_prediction == 'Borderline' %}borderline{% else %}control{% endif %}">
-                            {{ screening1.gait_prediction|default:"N/A" }}
-                        </span>
-                    </span>
-                </div>
-
-                <div class="compare-item">
-                    <span class="label">
-                        <i class="fa-solid fa-microphone"></i>
-                        {% if lang == 'ur' %}آواز{% else %}Speech{% endif %}
-                    </span>
-                    <span class="value">
-                        <span
-                            class="status-badge {% if screening1.speech_prediction == 'PD' %}pd{% elif screening1.speech_prediction == 'Borderline' %}borderline{% else %}control{% endif %}">
-                            {{ screening1.speech_prediction|default:"N/A" }}
-                        </span>
-                    </span>
-                </div>
-
-                <div class="compare-item">
-                    <span class="label">
-                        <i class="fa-solid fa-clipboard"></i>
-                        {% if lang == 'ur' %}سوالنامہ{% else %}Questionnaire{% endif %}
-                    </span>
-                    <span class="value">
-                        <span
-                            class="status-badge {% if screening1.questionnaire_prediction == 'PD' %}pd{% elif screening1.questionnaire_prediction == 'Borderline' %}borderline{% else %}control{% endif %}">
-                            {{ screening1.questionnaire_prediction|default:"N/A" }}
-                        </span>
-                    </span>
+                <div class="probability-value">
+                    {% widthratio screening1.final_pd_probability 1 100 %}%
                 </div>
             </div>
+
+            <!-- Modules -->
+            <div class="module-list">
+
+                <div class="module-row">
+                    <div class="module-name">
+                        <span class="module-icon">
+                            <i class="fa-solid fa-person-walking"></i>
+                        </span>
+                        {% if lang == 'ur' %}چال{% else %}Gait{% endif %}
+                    </div>
+
+                    <span class="status-badge {% if screening1.gait_prediction == 'PD' %}pd{% elif screening1.gait_prediction == 'Borderline' %}borderline{% else %}control{% endif %}">
+                        {{ screening1.gait_prediction|default:"N/A" }}
+                    </span>
+                </div>
+
+                <div class="module-row">
+                    <div class="module-name">
+                        <span class="module-icon">
+                            <i class="fa-solid fa-microphone"></i>
+                        </span>
+                        {% if lang == 'ur' %}آواز{% else %}Speech{% endif %}
+                    </div>
+
+                    <span class="status-badge {% if screening1.speech_prediction == 'PD' %}pd{% elif screening1.speech_prediction == 'Borderline' %}borderline{% else %}control{% endif %}">
+                        {{ screening1.speech_prediction|default:"N/A" }}
+                    </span>
+                </div>
+
+                <div class="module-row">
+                    <div class="module-name">
+                        <span class="module-icon">
+                            <i class="fa-solid fa-clipboard-list"></i>
+                        </span>
+                        {% if lang == 'ur' %}سوالنامہ{% else %}Questionnaire{% endif %}
+                    </div>
+
+                    <span class="status-badge {% if screening1.questionnaire_prediction == 'PD' %}pd{% elif screening1.questionnaire_prediction == 'Borderline' %}borderline{% else %}control{% endif %}">
+                        {{ screening1.questionnaire_prediction|default:"N/A" }}
+                    </span>
+                </div>
+
+            </div>
         </div>
+
 
         <!-- VS -->
         <div class="compare-vs">
             <div class="vs-line"></div>
-            <span class="vs-text">VS</span>
-            <span class="vs-sub">موازنہ</span>
+
+            <span class="vs-badge">
+                VS
+            </span>
+
             <div class="vs-line"></div>
         </div>
 
+
         <!-- Screening 2 -->
         <div class="compare-card">
+
             <div class="card-header">
                 <div class="card-info">
-                    <div class="card-date">{{ screening2.created_at|date:"d M Y, h:i A" }}</div>
-                    <div class="card-id">#{{ screening2.screening_id|truncatechars:12 }}</div>
+                    <div class="card-date">
+                        {{ screening2.created_at|date:"d M Y, h:i A" }}
+                    </div>
+
+                    <div class="card-id">
+                        #{{ screening2.screening_id|truncatechars:18 }}
+                    </div>
                 </div>
+
                 <span class="risk-badge {{ screening2.risk_level|lower }}">
                     {% if lang == 'ur' %}
-                    {% if screening2.risk_level == 'Low' %}کم
-                    {% elif screening2.risk_level == 'Medium' %}درمیانہ
-                    {% else %}زیادہ{% endif %}
+                        {% if screening2.risk_level == 'Low' %}کم خطرہ
+                        {% elif screening2.risk_level == 'Medium' %}درمیانہ خطرہ
+                        {% else %}زیادہ خطرہ{% endif %}
                     {% else %}
-                    {{ screening2.risk_level }}
+                        {{ screening2.risk_level }} Risk
                     {% endif %}
                 </span>
             </div>
 
-            <div class="compare-items">
-                <div class="compare-item">
-                    <span class="label">
-                        <i class="fa-solid fa-chart-simple"></i>
-                        {% if lang == 'ur' %}رسک سکور{% else %}Risk Score{% endif %}
-                    </span>
-                    <span class="value">{{ screening2.final_pd_probability|floatformat:2 }}%</span>
+            <!-- Probability -->
+            <div class="probability-box">
+                <div class="probability-label">
+                    <i class="fa-solid fa-chart-line"></i>
+                    {% if lang == 'ur' %}پی ڈی امکان{% else %}PD Probability{% endif %}
                 </div>
 
-                <div class="compare-item">
-                    <span class="label">
-                        <i class="fa-solid fa-bullseye"></i>
-                        {% if lang == 'ur' %}اعتماد{% else %}Confidence{% endif %}
-                    </span>
-                    <span class="value">{{ screening2.fusion_confidence|floatformat:2 }}%</span>
+                <div class="probability-value">
+                    {% widthratio screening2.final_pd_probability 1 100 %}%
                 </div>
+            </div>
 
-                <div class="compare-item">
-                    <span class="label">
-                        <i class="fa-solid fa-person-walking"></i>
+            <!-- Modules -->
+            <div class="module-list">
+
+                <div class="module-row">
+                    <div class="module-name">
+                        <span class="module-icon">
+                            <i class="fa-solid fa-person-walking"></i>
+                        </span>
                         {% if lang == 'ur' %}چال{% else %}Gait{% endif %}
-                    </span>
-                    <span class="value">
-                        <span
-                            class="status-badge {% if screening2.gait_prediction == 'PD' %}pd{% elif screening2.gait_prediction == 'Borderline' %}borderline{% else %}control{% endif %}">
-                            {{ screening2.gait_prediction|default:"N/A" }}
-                        </span>
+                    </div>
+
+                    <span class="status-badge {% if screening2.gait_prediction == 'PD' %}pd{% elif screening2.gait_prediction == 'Borderline' %}borderline{% else %}control{% endif %}">
+                        {{ screening2.gait_prediction|default:"N/A" }}
                     </span>
                 </div>
 
-                <div class="compare-item">
-                    <span class="label">
-                        <i class="fa-solid fa-microphone"></i>
+                <div class="module-row">
+                    <div class="module-name">
+                        <span class="module-icon">
+                            <i class="fa-solid fa-microphone"></i>
+                        </span>
                         {% if lang == 'ur' %}آواز{% else %}Speech{% endif %}
-                    </span>
-                    <span class="value">
-                        <span
-                            class="status-badge {% if screening2.speech_prediction == 'PD' %}pd{% elif screening2.speech_prediction == 'Borderline' %}borderline{% else %}control{% endif %}">
-                            {{ screening2.speech_prediction|default:"N/A" }}
-                        </span>
+                    </div>
+
+                    <span class="status-badge {% if screening2.speech_prediction == 'PD' %}pd{% elif screening2.speech_prediction == 'Borderline' %}borderline{% else %}control{% endif %}">
+                        {{ screening2.speech_prediction|default:"N/A" }}
                     </span>
                 </div>
 
-                <div class="compare-item">
-                    <span class="label">
-                        <i class="fa-solid fa-clipboard"></i>
-                        {% if lang == 'ur' %}سوالنامہ{% else %}Questionnaire{% endif %}
-                    </span>
-                    <span class="value">
-                        <span
-                            class="status-badge {% if screening2.questionnaire_prediction == 'PD' %}pd{% elif screening2.questionnaire_prediction == 'Borderline' %}borderline{% else %}control{% endif %}">
-                            {{ screening2.questionnaire_prediction|default:"N/A" }}
+                <div class="module-row">
+                    <div class="module-name">
+                        <span class="module-icon">
+                            <i class="fa-solid fa-clipboard-list"></i>
                         </span>
+                        {% if lang == 'ur' %}سوالنامہ{% else %}Questionnaire{% endif %}
+                    </div>
+
+                    <span class="status-badge {% if screening2.questionnaire_prediction == 'PD' %}pd{% elif screening2.questionnaire_prediction == 'Borderline' %}borderline{% else %}control{% endif %}">
+                        {{ screening2.questionnaire_prediction|default:"N/A" }}
                     </span>
                 </div>
+
             </div>
         </div>
 
     </div>
 
+
     <!-- Comparison Summary -->
     <div class="compare-summary">
+
         <div class="summary-item">
-            <span>📊</span>
+            <span class="summary-icon">
+                <i class="fa-solid fa-chart-line"></i>
+            </span>
+
             <span>
                 {% if lang == 'ur' %}
                 <strong>رسک میں تبدیلی:</strong>
                 {% else %}
                 <strong>Risk Change:</strong>
                 {% endif %}
+
                 {% if risk_trend == 'up' %}
-                <span class="trend-icon up">↑</span> {{ risk_change_display }}
+                    <span class="trend-icon up">↑</span> {{ risk_change_display }}
                 {% elif risk_trend == 'down' %}
-                <span class="trend-icon down">↓</span> {{ risk_change_display }}
+                    <span class="trend-icon down">↓</span> {{ risk_change_display }}
                 {% else %}
-                <span class="trend-icon same">—</span> {{ risk_change_display }}
+                    <span class="trend-icon same">—</span> {{ risk_change_display }}
                 {% endif %}
             </span>
         </div>
+
         <div class="summary-item">
-            <span>📅</span>
+            <span class="summary-icon">
+                <i class="fa-regular fa-calendar"></i>
+            </span>
+
             <span>
                 {% if lang == 'ur' %}
-                <strong>وقت کا فرق:</strong> {{ screening2.created_at|timeuntil:screening1.created_at }}
+                <strong>وقت کا فرق:</strong>
+                {{ screening2.created_at|timeuntil:screening1.created_at }}
                 {% else %}
-                <strong>Time Difference:</strong> {{ screening1.created_at|timesince:screening2.created_at }}
+                <strong>Time Difference:</strong>
+                {{ screening1.created_at|timesince:screening2.created_at }}
                 {% endif %}
             </span>
         </div>
+
     </div>
 
-    <!-- Action Buttons -->
+
+    <!-- Actions -->
     <div class="action-buttons">
+
         <a href="{% url 'dashboard:compare_screenings' %}" class="btn btn-outline">
             <i class="fa-solid fa-rotate"></i>
             {% if lang == 'ur' %}مختلف اسکریننگز منتخب کریں{% else %}Select Different{% endif %}
         </a>
+
         <a href="{% url 'dashboard:dashboard' %}" class="btn btn-primary">
             <i class="fa-solid fa-arrow-left"></i>
             {% if lang == 'ur' %}ڈیش بورڈ{% else %}Dashboard{% endif %}
         </a>
+
         <a href="{% url 'questionnaire_app:home' %}" class="btn btn-success">
             <i class="fa-solid fa-play"></i>
             {% if lang == 'ur' %}نئی اسکریننگ{% else %}New Screening{% endif %}
         </a>
+
     </div>
 
 </div>
 
 {% endwith %}
-
 {% endblock %}

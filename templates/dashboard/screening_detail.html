@@ -1,589 +1,2030 @@
 {% extends 'base.html' %}
+
 {% load static %}
 
+
+
 {% block title %}
+
 {% if lang == 'ur' %}
+
 اسکریننگ کی تفصیلات - نیوروسینس اے آئی
+
 {% else %}
+
 Screening Details - NeuroSense AI
+
 {% endif %}
+
 {% endblock %}
+
+
 
 {% block extra_css %}
+
 <style>
-    /* ============================================
-       SCREENING DETAIL - PROFESSIONAL MEDICAL THEME
-       ============================================ */
+
+/* =========================================================
+
+   NEUROSENSE AI — SCREENING DETAILS
+
+   Clean unified stylesheet
+
+   ========================================================= */
+
+
+
+
+
+/* ---------- Page Theme ---------- */
+
+
+
+.detail-page {
+
+    --ns-primary: #1478f2;
+
+    --ns-primary-dark: #0f68dc;
+
+
+
+    --ns-navy: #071d55;
+
+    --ns-text: #243858;
+
+    --ns-muted: #66789b;
+
+
+
+    --ns-blue-50: #f5f9ff;
+
+    --ns-blue-100: #eaf4ff;
+
+
+
+    --ns-border: #dce8f5;
+
+    --ns-white: #ffffff;
+
+
+
+    --ns-green: #16a765;
+
+    --ns-green-bg: #ecfbf3;
+
+    --ns-green-border: #bcebd3;
+
+
+
+    --ns-orange: #ed9500;
+
+    --ns-orange-bg: #fff7e4;
+
+    --ns-orange-border: #f7dc9d;
+
+
+
+    --ns-red: #ea4444;
+
+    --ns-red-bg: #fff0f0;
+
+    --ns-red-border: #f6c7c7;
+
+
+
+    --ns-radius: 17px;
+
+    --ns-radius-sm: 11px;
+
+
+
+    --ns-shadow:
+
+        0 2px 10px rgba(35, 80, 130, 0.035);
+
+
+
+    max-width: 980px;
+
+    margin: 0 auto;
+
+    padding: 38px 24px 70px;
+
+}
+
+
+
+
+
+/* =========================================================
+
+   BACK TO DASHBOARD
+
+   ========================================================= */
+
+
+
+.detail-page .back-link {
+
+    width: fit-content;
+
+
+
+    margin-bottom: 20px;
+
+    padding: 9px 14px;
+
+
+
+    display: inline-flex;
+
+    align-items: center;
+
+
+
+    gap: 8px;
+
+
+
+    color: #405575;
+
+    background: #f7fafe;
+
+
+
+    border: 1px solid var(--ns-border);
+
+    border-radius: 10px;
+
+
+
+    font-size: 0.86rem;
+
+    font-weight: 650;
+
+
+
+    text-decoration: none;
+
+
+
+    transition:
+
+        color 0.2s ease,
+
+        background 0.2s ease,
+
+        border-color 0.2s ease;
+
+}
+
+
+
+
+
+.detail-page .back-link:hover {
+
+    color: var(--ns-primary);
+
+
+
+    background: var(--ns-blue-50);
+
+
+
+    border-color: #c8ddf3;
+
+}
+
+
+
+
+
+.detail-page .back-link i {
+
+    font-size: 0.8rem;
+
+}
+
+
+
+
+
+/* =========================================================
+
+   MAIN DETAIL CARD
+
+   ========================================================= */
+
+
+
+.detail-page .detail-card {
+
+    padding: 30px 32px;
+
+
+
+    background: var(--ns-white);
+
+
+
+    border: 1px solid var(--ns-border);
+
+    border-radius: var(--ns-radius);
+
+
+
+    box-shadow: var(--ns-shadow);
+
+}
+
+
+
+
+
+/* =========================================================
+
+   PAGE HEADER
+
+   ========================================================= */
+
+
+
+.detail-page .detail-header {
+
+    margin-bottom: 28px;
+
+    padding-bottom: 22px;
+
+
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+
+
+    flex-wrap: wrap;
+
+
+
+    gap: 18px;
+
+
+
+    border-bottom: 1px solid #e9f0f7;
+
+}
+
+
+
+
+
+.detail-page .detail-header .title h2 {
+
+    margin: 0;
+
+
+
+    display: flex;
+
+    align-items: center;
+
+
+
+    gap: 11px;
+
+
+
+    color: var(--ns-navy);
+
+
+
+    font-size: 1.45rem;
+
+    font-weight: 800;
+
+
+
+    letter-spacing: -0.025em;
+
+}
+
+
+
+
+
+.detail-page .detail-header .title h2 i {
+
+    width: 38px;
+
+    height: 38px;
+
+
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+
+
+    color: var(--ns-primary);
+
+    background: var(--ns-blue-100);
+
+
+
+    border-radius: 11px;
+
+
+
+    font-size: 1rem;
+
+}
+
+
+
+
+
+/* Screening ID + date */
+
+
+
+.detail-page .detail-header .sub {
+
+    margin: 7px 0 0;
+
+
+
+    display: flex;
+
+    align-items: center;
+
+
+
+    gap: 7px;
+
+
+
+    flex-wrap: wrap;
+
+
+
+    color: #8a9bb4;
+
+
+
+    font-size: 0.82rem;
+
+}
+
+
+
+
+
+.detail-page .detail-header .sub i {
+
+    color: #8fa8c5;
+
+
+
+    font-size: 0.72rem;
+
+}
+
+
+
+
+
+.detail-page .detail-header .separator {
+
+    color: #cdd9e6;
+
+}
+
+
+
+
+
+/* ---------- Main Risk Badge ---------- */
+
+
+
+.detail-page .detail-header .risk-badge {
+
+    padding: 7px 16px;
+
+
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+
+
+    border: 1px solid transparent;
+
+    border-radius: 999px;
+
+
+
+    font-size: 0.72rem;
+
+    font-weight: 750;
+
+
+
+    letter-spacing: 0.035em;
+
+
+
+    text-transform: uppercase;
+
+}
+
+
+
+
+
+.detail-page .detail-header .risk-badge.low {
+
+    color: var(--ns-green);
+
+
+
+    background: var(--ns-green-bg);
+
+
+
+    border-color: var(--ns-green-border);
+
+}
+
+
+
+
+
+.detail-page .detail-header .risk-badge.medium {
+
+    color: var(--ns-orange);
+
+
+
+    background: var(--ns-orange-bg);
+
+
+
+    border-color: var(--ns-orange-border);
+
+}
+
+
+
+
+
+.detail-page .detail-header .risk-badge.high {
+
+    color: var(--ns-red);
+
+
+
+    background: var(--ns-red-bg);
+
+
+
+    border-color: var(--ns-red-border);
+
+}
+
+
+
+
+
+/* =========================================================
+
+   DETAIL SECTIONS
+
+   ========================================================= */
+
+
+
+.detail-page .detail-section {
+
+    margin-bottom: 30px;
+
+}
+
+
+
+
+
+.detail-page .detail-section:last-of-type {
+
+    margin-bottom: 0;
+
+}
+
+
+
+
+
+/* Section heading */
+
+
+
+.detail-page .section-title {
+
+    margin: 0 0 15px;
+
+    padding-bottom: 10px;
+
+
+
+    display: flex;
+
+    align-items: center;
+
+
+
+    gap: 9px;
+
+
+
+    color: var(--ns-navy);
+
+
+
+    border-bottom: 1px solid #edf2f7;
+
+
+
+    font-size: 0.96rem;
+
+    font-weight: 750;
+
+}
+
+
+
+
+
+.detail-page .section-title > i {
+
+    width: 30px;
+
+    height: 30px;
+
+
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+
+
+    color: var(--ns-primary);
+
+    background: var(--ns-blue-100);
+
+
+
+    border-radius: 9px;
+
+
+
+    font-size: 0.82rem;
+
+}
+
+
+
+
+
+.detail-page .section-title .title-badge {
+
+    margin-left: auto;
+
+    padding: 4px 10px;
+
+
+
+    color: #6f829d;
+
+    background: #f3f7fb;
+
+
+
+    border: 1px solid #e8eff6;
+
+    border-radius: 999px;
+
+
+
+    font-size: 0.65rem;
+
+    font-weight: 650;
+
+}
+
+
+
+
+
+/* =========================================================
+
+   RISK OVERVIEW GRID
+
+   ========================================================= */
+
+
+
+.detail-page .detail-grid {
+
+    display: grid;
+
+
+
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+
+
+    gap: 12px;
+
+}
+
+
+
+
+
+/* ---------- Information Card ---------- */
+
+
+
+.detail-page .detail-item {
+
+    padding: 17px 18px;
+
+
+
+    background: #f9fbfe;
+
+
+
+    border: 1px solid #e1ebf5;
+
+    border-radius: 12px;
+
+
+
+    transition:
+
+        background 0.2s ease,
+
+        border-color 0.2s ease;
+
+}
+
+
+
+
+
+.detail-page .detail-item:hover {
+
+    background: #f5f9ff;
+
+
+
+    border-color: #c9def4;
+
+}
+
+
+
+
+
+/* Labels */
+
+
+
+.detail-page .detail-item .label {
+
+    display: flex;
+
+    align-items: center;
+
+
+
+    gap: 7px;
+
+
+
+    color: #8598b2;
+
+
+
+    font-size: 0.69rem;
+
+    font-weight: 700;
+
+
+
+    letter-spacing: 0.055em;
+
+
+
+    text-transform: uppercase;
+
+}
+
+
+
+
+
+.detail-page .detail-item .label i {
+
+    color: var(--ns-primary);
+
+
+
+    font-size: 0.68rem;
+
+}
+
+
+
+
+
+/* Main Values */
+
+
+
+.detail-page .detail-item .value {
+
+    margin-top: 6px;
+
+
+
+    color: var(--ns-navy);
+
+
+
+    font-size: 1.35rem;
+
+    font-weight: 800;
+
+
+
+    letter-spacing: -0.02em;
+
+}
+
+
+
+
+
+/* =========================================================
+
+   STATUS BADGES
+
+   ========================================================= */
+
+
+
+.detail-page .status-badge {
+
+    min-width: 82px;
+
+
+
+    padding: 5px 12px;
+
+
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+
+
+    border-radius: 999px;
+
+
+
+    font-size: 0.66rem;
+
+    font-weight: 750;
+
+
+
+    text-align: center;
+
+    text-transform: uppercase;
+
+}
+
+
+
+
+
+.detail-page .status-badge.pd {
+
+    color: var(--ns-red);
+
+
+
+    background: var(--ns-red-bg);
+
+
+
+    border: 1px solid var(--ns-red-border);
+
+}
+
+
+
+
+
+.detail-page .status-badge.control {
+
+    color: var(--ns-green);
+
+
+
+    background: var(--ns-green-bg);
+
+
+
+    border: 1px solid var(--ns-green-border);
+
+}
+
+
+
+
+
+.detail-page .status-badge.borderline {
+
+    color: var(--ns-orange);
+
+
+
+    background: var(--ns-orange-bg);
+
+
+
+    border: 1px solid var(--ns-orange-border);
+
+}
+
+
+
+
+
+/* =========================================================
+
+   MODULE RESULTS
+
+   ========================================================= */
+
+
+
+.detail-page .module-result {
+
+    margin-bottom: 9px;
+
+    padding: 13px 15px;
+
+
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+
+
+    gap: 15px;
+
+
+
+    background: #f9fbfe;
+
+
+
+    border: 1px solid #e1ebf5;
+
+    border-radius: 12px;
+
+
+
+    transition:
+
+        background 0.2s ease,
+
+        border-color 0.2s ease;
+
+}
+
+
+
+
+
+.detail-page .module-result:last-child {
+
+    margin-bottom: 0;
+
+}
+
+
+
+
+
+.detail-page .module-result:hover {
+
+    background: #f4f9ff;
+
+
+
+    border-color: #c8ddf3;
+
+}
+
+
+
+
+
+/* Module name */
+
+
+
+.detail-page .module-name {
+
+    display: flex;
+
+    align-items: center;
+
+
+
+    gap: 11px;
+
+
+
+    color: var(--ns-navy);
+
+
+
+    font-size: 0.9rem;
+
+    font-weight: 650;
+
+}
+
+
+
+
+
+/* Module icon */
+
+
+
+.detail-page .module-icon {
+
+    width: 36px;
+
+    height: 36px;
+
+
+
+    flex-shrink: 0;
+
+
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+
+
+    color: var(--ns-primary);
+
+    background: var(--ns-blue-100);
+
+
+
+    border-radius: 10px;
+
+
+
+    font-size: 0.82rem;
+
+}
+
+
+
+
+
+/*
+
+   Keep all three modules within the same NeuroSense visual
+
+   system instead of blue + purple + green icon blocks.
+
+*/
+
+
+
+.detail-page .module-icon.gait,
+
+.detail-page .module-icon.speech,
+
+.detail-page .module-icon.questionnaire {
+
+    color: var(--ns-primary);
+
+
+
+    background: var(--ns-blue-100);
+
+}
+
+
+
+
+
+/* Module result/status */
+
+
+
+.detail-page .module-status {
+
+    display: flex;
+
+    align-items: center;
+
+
+
+    gap: 10px;
+
+}
+
+
+
+
+
+/* =========================================================
+
+   ACTION BUTTONS
+
+   ========================================================= */
+
+
+
+.detail-page .action-buttons {
+
+    margin-top: 30px;
+
+    padding-top: 22px;
+
+
+
+    display: flex;
+
+    align-items: center;
+
+
+
+    gap: 10px;
+
+
+
+    flex-wrap: wrap;
+
+
+
+    border-top: 1px solid #e9f0f7;
+
+}
+
+
+
+
+
+/* ---------- Base ---------- */
+
+
+
+.detail-page .action-buttons a.btn {
+
+    min-height: 44px;
+
+
+
+    padding: 10px 19px;
+
+
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+
+
+    gap: 8px;
+
+
+
+    position: relative;
+
+
+
+    border-radius: 10px;
+
+
+
+    font-family: inherit;
+
+    font-size: 0.84rem;
+
+    font-weight: 650;
+
+
+
+    text-decoration: none !important;
+
+
+
+    cursor: pointer;
+
+
+
+    transition:
+
+        color 0.2s ease,
+
+        background-color 0.2s ease,
+
+        border-color 0.2s ease;
+
+}
+
+
+
+
+
+/*
+
+   Prevent global button animation / overlay rules
+
+   from covering text on hover.
+
+*/
+
+
+
+.detail-page .action-buttons a.btn::before,
+
+.detail-page .action-buttons a.btn::after {
+
+    display: none !important;
+
+
+
+    content: none !important;
+
+}
+
+
+
+
+
+/* =========================================================
+
+   PRIMARY — FULL REPORT
+
+   ========================================================= */
+
+
+
+.detail-page .action-buttons a.btn-primary,
+
+.detail-page .action-buttons a.btn-primary:link,
+
+.detail-page .action-buttons a.btn-primary:visited {
+
+    color: #ffffff !important;
+
+
+
+    background: var(--ns-primary) !important;
+
+    background-color: var(--ns-primary) !important;
+
+    background-image: none !important;
+
+
+
+    border: 1px solid var(--ns-primary) !important;
+
+
+
+    box-shadow:
+
+        0 4px 12px rgba(20, 120, 242, 0.15) !important;
+
+}
+
+
+
+
+
+.detail-page .action-buttons a.btn-primary:hover,
+
+.detail-page .action-buttons a.btn-primary:focus,
+
+.detail-page .action-buttons a.btn-primary:active {
+
+    color: #ffffff !important;
+
+
+
+    background: var(--ns-primary-dark) !important;
+
+    background-color: var(--ns-primary-dark) !important;
+
+    background-image: none !important;
+
+
+
+    border-color: var(--ns-primary-dark) !important;
+
+
+
+    box-shadow:
+
+        0 4px 12px rgba(20, 120, 242, 0.18) !important;
+
+
+
+    transform: none !important;
+
+}
+
+
+
+
+
+.detail-page .action-buttons a.btn-primary i,
+
+.detail-page .action-buttons a.btn-primary:hover i {
+
+    color: #ffffff !important;
+
+}
+
+
+
+
+
+/* =========================================================
+
+   OUTLINE — COMPARE
+
+   Same subtle hover behavior as Refresh
+
+   ========================================================= */
+
+
+
+.detail-page .action-buttons a.btn-outline,
+
+.detail-page .action-buttons a.btn-outline:link,
+
+.detail-page .action-buttons a.btn-outline:visited {
+
+    color: #405575 !important;
+
+
+
+    background: #ffffff !important;
+
+    background-color: #ffffff !important;
+
+    background-image: none !important;
+
+
+
+    border: 1px solid var(--ns-border) !important;
+
+
+
+    box-shadow: none !important;
+
+
+
+    filter: none !important;
+
+}
+
+
+
+
+
+.detail-page .action-buttons a.btn-outline i {
+
+    color: #405575 !important;
+
+}
+
+
+
+
+
+.detail-page .action-buttons a.btn-outline:hover,
+
+.detail-page .action-buttons a.btn-outline:focus,
+
+.detail-page .action-buttons a.btn-outline:active {
+
+    color: #405575 !important;
+
+
+
+    background: var(--ns-blue-50) !important;
+
+    background-color: var(--ns-blue-50) !important;
+
+    background-image: none !important;
+
+
+
+    border-color: #c8ddf3 !important;
+
+
+
+    box-shadow: none !important;
+
+
+
+    transform: none !important;
+
+
+
+    filter: none !important;
+
+}
+
+
+
+
+
+.detail-page .action-buttons a.btn-outline:hover i,
+
+.detail-page .action-buttons a.btn-outline:focus i,
+
+.detail-page .action-buttons a.btn-outline:active i {
+
+    color: #405575 !important;
+
+}
+
+
+
+
+
+/* =========================================================
+
+   NEW SCREENING
+
+   Clean secondary action instead of strong green button
+
+   ========================================================= */
+
+
+
+.detail-page .action-buttons a.btn-success,
+
+.detail-page .action-buttons a.btn-success:link,
+
+.detail-page .action-buttons a.btn-success:visited {
+
+    color: var(--ns-primary) !important;
+
+
+
+    background: var(--ns-blue-50) !important;
+
+    background-color: var(--ns-blue-50) !important;
+
+    background-image: none !important;
+
+
+
+    border: 1px solid #cfe2f7 !important;
+
+
+
+    box-shadow: none !important;
+
+
+
+    filter: none !important;
+
+}
+
+
+
+
+
+.detail-page .action-buttons a.btn-success i {
+
+    color: var(--ns-primary) !important;
+
+}
+
+
+
+
+
+.detail-page .action-buttons a.btn-success:hover,
+
+.detail-page .action-buttons a.btn-success:focus,
+
+.detail-page .action-buttons a.btn-success:active {
+
+    color: var(--ns-primary-dark) !important;
+
+
+
+    background: #eaf4ff !important;
+
+    background-color: #eaf4ff !important;
+
+    background-image: none !important;
+
+
+
+    border-color: #bcd8f4 !important;
+
+
+
+    box-shadow: none !important;
+
+
+
+    transform: none !important;
+
+
+
+    filter: none !important;
+
+}
+
+
+
+
+
+.detail-page .action-buttons a.btn-success:hover i,
+
+.detail-page .action-buttons a.btn-success:focus i,
+
+.detail-page .action-buttons a.btn-success:active i {
+
+    color: var(--ns-primary-dark) !important;
+
+}
+
+
+
+
+
+/* =========================================================
+
+   RESPONSIVE
+
+   ========================================================= */
+
+
+
+@media (max-width: 700px) {
+
+
 
     .detail-page {
-        max-width: 900px;
-        margin: 0 auto;
-        padding: 40px 20px 60px;
+
+        padding: 24px 16px 50px;
+
     }
 
-    /* ---------- Back Link ---------- */
-    .back-link {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        color: #4A6CF7;
-        text-decoration: none;
-        font-weight: 600;
-        font-size: 0.9rem;
-        margin-bottom: 24px;
-        padding: 8px 16px;
-        border-radius: 10px;
-        background: #eef2ff;
-        transition: all 0.3s ease;
+
+
+
+
+    .detail-page .detail-card {
+
+        padding: 24px 20px;
+
     }
 
-    .back-link:hover {
-        gap: 12px;
-        background: #e0e7ff;
-    }
 
-    /* ---------- Detail Card ---------- */
-    .detail-card {
-        background: white;
-        border-radius: 16px;
-        padding: 32px 36px;
-        border: 1px solid #e2e8f0;
-        box-shadow: 0 2px 12px rgba(0,0,0,0.04);
-        transition: all 0.3s ease;
-    }
 
-    .detail-card:hover {
-        box-shadow: 0 8px 24px rgba(0,0,0,0.06);
-    }
 
-    /* ---------- Header ---------- */
-    .detail-header {
-        display: flex;
-        justify-content: space-between;
+
+    .detail-page .detail-header {
+
+        flex-direction: column;
+
         align-items: flex-start;
-        flex-wrap: wrap;
-        gap: 16px;
-        margin-bottom: 24px;
-        padding-bottom: 20px;
-        border-bottom: 2px solid #f1f5f9;
+
     }
 
-    .detail-header .title h2 {
-        font-size: 1.4rem;
-        font-weight: 800;
-        color: #1a1a2e;
-        margin: 0;
-        display: flex;
-        align-items: center;
-        gap: 10px;
+
+
+
+
+    .detail-page .detail-header .title h2 {
+
+        font-size: 1.28rem;
+
     }
 
-    .detail-header .title h2 i {
-        color: #4A6CF7;
+
+
+
+
+    .detail-page .detail-header .risk-badge {
+
+        align-self: flex-start;
+
+    }
+
+
+
+
+
+    .detail-page .detail-grid {
+
+        grid-template-columns: 1fr;
+
+    }
+
+
+
+
+
+
+    .detail-page .action-buttons {
+
+        align-items: stretch;
+
+    }
+
+
+
+
+
+    .detail-page .action-buttons a.btn {
+
+        flex: 1;
+
+    }
+
+}
+
+
+
+
+
+@media (max-width: 520px) {
+
+
+
+    .detail-page {
+
+        padding: 18px 12px 40px;
+
+    }
+
+
+
+
+
+    .detail-page .detail-card {
+
+        padding: 20px 16px;
+
+    }
+
+
+
+
+
+    .detail-page .back-link {
+
+        margin-bottom: 16px;
+
+    }
+
+
+
+
+
+    .detail-page .detail-header .sub {
+
+        line-height: 1.6;
+
+    }
+
+
+
+
+
+    .detail-page .detail-item {
+
+        padding: 14px 15px;
+
+    }
+
+
+
+
+
+    .detail-page .detail-item .value {
+
         font-size: 1.2rem;
+
     }
 
-    .detail-header .title .sub {
-        font-size: 0.85rem;
-        color: #94a3b8;
-        margin: 4px 0 0;
-        display: flex;
-        align-items: center;
-        gap: 6px;
+
+
+
+
+    .detail-page .module-result {
+
+        padding: 12px 13px;
+
+
+
         flex-wrap: wrap;
+
     }
 
-    .detail-header .title .sub .separator {
-        color: #e2e8f0;
-    }
 
-    .detail-header .risk-badge {
-        padding: 6px 20px;
-        border-radius: 30px;
-        font-size: 0.8rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        align-self: center;
-        letter-spacing: 0.04em;
-        border: 2px solid transparent;
-    }
 
-    .detail-header .risk-badge.low {
-        background: #f0fdf4;
-        color: #16a34a;
-        border-color: #86efac;
-    }
 
-    .detail-header .risk-badge.medium {
-        background: #fffbeb;
-        color: #f59e0b;
-        border-color: #fcd34d;
-    }
 
-    .detail-header .risk-badge.high {
-        background: #fef2f2;
-        color: #dc2626;
-        border-color: #fca5a5;
-    }
+    .detail-page .module-status {
 
-    /* ---------- Sections ---------- */
-    .detail-section {
-        margin-bottom: 24px;
-    }
-
-    .detail-section:last-child {
-        margin-bottom: 0;
-    }
-
-    .detail-section .section-title {
-        font-size: 0.95rem;
-        font-weight: 700;
-        color: #1a1a2e;
-        margin: 0 0 14px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        padding-bottom: 8px;
-        border-bottom: 1px solid #f1f5f9;
-    }
-
-    .detail-section .section-title i {
-        color: #4A6CF7;
-        font-size: 1rem;
-    }
-
-    .detail-section .section-title .title-badge {
         margin-left: auto;
-        font-size: 0.65rem;
-        font-weight: 600;
-        color: #6b7280;
-        background: #f1f5f9;
-        padding: 2px 12px;
-        border-radius: 20px;
+
     }
 
-    /* ---------- Grid ---------- */
-    .detail-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 12px;
+
+
+
+
+    .detail-page .action-buttons {
+
+        flex-direction: column;
+
     }
 
-    @media (max-width: 600px) {
-        .detail-grid {
-            grid-template-columns: 1fr;
-        }
+
+
+
+
+    .detail-page .action-buttons a.btn {
+
+        width: 100%;
+
     }
 
-    /* ---------- Detail Items ---------- */
-    .detail-item {
-        background: #f8fafc;
-        padding: 14px 18px;
-        border-radius: 10px;
-        border: 1px solid #e2e8f0;
-        transition: all 0.3s ease;
-    }
+}
 
-    .detail-item:hover {
-        background: #eef2ff;
-        border-color: #4A6CF7;
-    }
-
-    .detail-item .label {
-        font-size: 0.7rem;
-        font-weight: 600;
-        color: #94a3b8;
-        text-transform: uppercase;
-        letter-spacing: 0.06em;
-        display: flex;
-        align-items: center;
-        gap: 6px;
-    }
-
-    .detail-item .label i {
-        font-size: 0.65rem;
-        color: #4A6CF7;
-    }
-
-    .detail-item .value {
-        font-size: 1.1rem;
-        font-weight: 700;
-        color: #1a1a2e;
-        margin-top: 2px;
-    }
-
-    .detail-item .value .status-badge {
-        display: inline-block;
-        padding: 2px 14px;
-        border-radius: 20px;
-        font-size: 0.7rem;
-        font-weight: 700;
-        text-transform: uppercase;
-    }
-
-    .detail-item .value .status-badge.pd {
-        background: #fef2f2;
-        color: #dc2626;
-    }
-
-    .detail-item .value .status-badge.control {
-        background: #f0fdf4;
-        color: #16a34a;
-    }
-
-    .detail-item .value .status-badge.borderline {
-        background: #fffbeb;
-        color: #f59e0b;
-    }
-
-    /* ---------- Module Results ---------- */
-    .module-result {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 12px 16px;
-        border-radius: 10px;
-        background: #f8fafc;
-        border: 1px solid #e2e8f0;
-        transition: all 0.3s ease;
-        margin-bottom: 10px;
-    }
-
-    .module-result:last-child {
-        margin-bottom: 0;
-    }
-
-    .module-result:hover {
-        background: #eef2ff;
-        border-color: #4A6CF7;
-        transform: translateX(4px);
-    }
-
-    .module-result .module-name {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        font-weight: 600;
-        color: #1a1a2e;
-        font-size: 0.9rem;
-    }
-
-    .module-result .module-name .module-icon {
-        width: 32px;
-        height: 32px;
-        border-radius: 8px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 0.8rem;
-        color: white;
-        flex-shrink: 0;
-    }
-
-    .module-result .module-name .module-icon.gait { background: #4A6CF7; }
-    .module-result .module-name .module-icon.speech { background: #7c3aed; }
-    .module-result .module-name .module-icon.questionnaire { background: #10b981; }
-
-    .module-result .module-status {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-    }
-
-    .module-result .module-status .status-badge {
-        display: inline-block;
-        padding: 2px 14px;
-        border-radius: 20px;
-        font-size: 0.7rem;
-        font-weight: 700;
-        text-transform: uppercase;
-    }
-
-    .module-result .module-status .status-badge.pd {
-        background: #fef2f2;
-        color: #dc2626;
-    }
-
-    .module-result .module-status .status-badge.control {
-        background: #f0fdf4;
-        color: #16a34a;
-    }
-
-    .module-result .module-status .status-badge.borderline {
-        background: #fffbeb;
-        color: #f59e0b;
-    }
-
-    /* ---------- Action Buttons ---------- */
-    .action-buttons {
-        display: flex;
-        gap: 12px;
-        flex-wrap: wrap;
-        margin-top: 24px;
-        padding-top: 20px;
-        border-top: 2px solid #f1f5f9;
-    }
-
-    .action-buttons .btn {
-        padding: 10px 24px;
-        border-radius: 10px;
-        font-weight: 600;
-        font-size: 0.85rem;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        text-decoration: none;
-        border: none;
-        font-family: inherit;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-    }
-
-    .action-buttons .btn-primary {
-        background: #4A6CF7;
-        color: white;
-        box-shadow: 0 4px 12px rgba(74, 108, 247, 0.2);
-    }
-
-    .action-buttons .btn-primary:hover {
-        background: #3b5de7;
-        transform: translateY(-2px);
-        box-shadow: 0 8px 24px rgba(74, 108, 247, 0.3);
-    }
-
-    .action-buttons .btn-outline {
-        background: transparent;
-        color: #475569;
-        border: 1.5px solid #e2e8f0;
-    }
-
-    .action-buttons .btn-outline:hover {
-        background: #f8fafc;
-        border-color: #4A6CF7;
-        color: #4A6CF7;
-        transform: translateY(-2px);
-    }
-
-    .action-buttons .btn-success {
-        background: #10b981;
-        color: white;
-        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
-    }
-
-    .action-buttons .btn-success:hover {
-        background: #059669;
-        transform: translateY(-2px);
-        box-shadow: 0 8px 24px rgba(16, 185, 129, 0.3);
-    }
-
-    /* ---------- Responsive ---------- */
-    @media (max-width: 600px) {
-        .detail-page {
-            padding: 16px 12px;
-        }
-
-        .detail-card {
-            padding: 20px 16px;
-        }
-
-        .detail-header {
-            flex-direction: column;
-            align-items: stretch;
-        }
-
-        .detail-header .risk-badge {
-            align-self: flex-start;
-        }
-
-        .detail-header .title h2 {
-            font-size: 1.2rem;
-        }
-
-        .module-result {
-            flex-wrap: wrap;
-            gap: 8px;
-            padding: 10px 14px;
-        }
-
-        .module-result .module-status {
-            margin-left: auto;
-        }
-
-        .action-buttons .btn {
-            flex: 1;
-            justify-content: center;
-            font-size: 0.8rem;
-            padding: 10px 16px;
-        }
-
-        .detail-item {
-            padding: 12px 14px;
-        }
-
-        .detail-item .value {
-            font-size: 1rem;
-        }
-    }
 </style>
+
 {% endblock %}
+
+
 
 {% block content %}
 
+
+
 {% with lang=request.LANG|default:'en' %}
+
+
 
 <div class="detail-page">
 
+
+
     <!-- Back Link -->
+
     <a href="{% url 'dashboard:dashboard' %}" class="back-link">
+
         <i class="fa-solid fa-arrow-left"></i>
+
         {% if lang == 'ur' %}ڈیش بورڈ پر واپس جائیں{% else %}Back to Dashboard{% endif %}
+
     </a>
+
+
 
     <div class="detail-card">
 
+
+
         <!-- ========================================== -->
+
         <!-- HEADER -->
+
         <!-- ========================================== -->
+
         <div class="detail-header">
+
             <div class="title">
+
                 <h2>
+
                     <i class="fa-regular fa-file-lines"></i>
+
                     {% if lang == 'ur' %}
+
                     اسکریننگ کی تفصیلات
+
                     {% else %}
+
                     Screening Details
+
                     {% endif %}
+
                 </h2>
+
                 <div class="sub">
+
                     <i class="fa-regular fa-hashtag"></i>
+
                     <span>{{ screening.screening_id|truncatechars:16 }}</span>
+
                     <span class="separator">·</span>
+
                     <i class="fa-regular fa-calendar"></i>
+
                     <span>{{ screening.created_at|date:"d M Y, h:i A" }}</span>
+
                 </div>
+
             </div>
+
             <span class="risk-badge {{ screening.risk_level|lower }}">
+
                 {% if lang == 'ur' %}
+
                     {% if screening.risk_level == 'Low' %}کم
+
                     {% elif screening.risk_level == 'Medium' %}درمیانہ
+
                     {% else %}زیادہ{% endif %}
+
                 {% else %}
+
                     {{ screening.risk_level }}
+
                 {% endif %}
+
                 {% if lang == 'ur' %}خطرہ{% else %}Risk{% endif %}
+
             </span>
+
         </div>
 
+
+
         <!-- ========================================== -->
+
         <!-- RISK OVERVIEW -->
+
         <!-- ========================================== -->
+
         <div class="detail-section">
+
             <div class="section-title">
+
                 <i class="fa-solid fa-chart-simple"></i>
+
                 {% if lang == 'ur' %}رسک کا جائزہ{% else %}Risk Overview{% endif %}
+
                 <span class="title-badge">
+
                     {% if lang == 'ur' %}خلاصہ{% else %}Summary{% endif %}
+
                 </span>
+
             </div>
-            <div class="detail-grid">
-                <div class="detail-item">
-                    <div class="label">
-                        <i class="fa-solid fa-arrow-trend-up"></i>
-                        {% if lang == 'ur' %}پی ڈی رسک سکور{% else %}PD Risk Score{% endif %}
-                    </div>
-                    <div class="value">{{ screening.final_pd_probability|floatformat:2 }}%</div>
-                </div>
-                <div class="detail-item">
-                    <div class="label">
-                        <i class="fa-solid fa-bullseye"></i>
-                        {% if lang == 'ur' %}اعتماد{% else %}Confidence{% endif %}
-                    </div>
-                    <div class="value">{{ screening.fusion_confidence|floatformat:2 }}%</div>
-                </div>
-            </div>
+
+            <div class="detail-grid probability-grid">
+
+
+
+    <div class="detail-item probability-card">
+
+        <div class="label">
+
+            <i class="fa-solid fa-chart-line"></i>
+
+            {% if lang == 'ur' %}
+
+                پی ڈی امکان
+
+            {% else %}
+
+                PD Probability
+
+            {% endif %}
+
         </div>
 
-        <!-- ========================================== -->
-        <!-- MODULE RESULTS -->
-        <!-- ========================================== -->
-        <div class="detail-section">
-            <div class="section-title">
-                <i class="fa-solid fa-layer-group"></i>
-                {% if lang == 'ur' %}ماڈیول کے نتائج{% else %}Module Results{% endif %}
-                <span class="title-badge">
-                    {% if lang == 'ur' %}تمام ماڈیولز{% else %}All Modules{% endif %}
-                </span>
-            </div>
 
-            <!-- Gait -->
-            <div class="module-result">
-                <div class="module-name">
-                    <span class="module-icon gait">
-                        <i class="fa-solid fa-person-walking"></i>
-                    </span>
-                    {% if lang == 'ur' %}چال کا تجزیہ{% else %}Gait Analysis{% endif %}
-                </div>
-                <div class="module-status">
-                    <span class="status-badge {% if screening.gait_prediction == 'PD' %}pd{% elif screening.gait_prediction == 'Borderline' %}borderline{% else %}control{% endif %}">
-                        {{ screening.gait_prediction|default:"N/A" }}
-                    </span>
-                </div>
-            </div>
 
-            <!-- Speech -->
-            <div class="module-result">
-                <div class="module-name">
-                    <span class="module-icon speech">
-                        <i class="fa-solid fa-microphone"></i>
-                    </span>
-                    {% if lang == 'ur' %}آواز کا تجزیہ{% else %}Speech Analysis{% endif %}
-                </div>
-                <div class="module-status">
-                    <span class="status-badge {% if screening.speech_prediction == 'PD' %}pd{% elif screening.speech_prediction == 'Borderline' %}borderline{% else %}control{% endif %}">
-                        {{ screening.speech_prediction|default:"N/A" }}
-                    </span>
-                </div>
-            </div>
+        <div class="value">
 
-            <!-- Questionnaire -->
-            <div class="module-result">
-                <div class="module-name">
-                    <span class="module-icon questionnaire">
-                        <i class="fa-solid fa-clipboard"></i>
-                    </span>
-                    {% if lang == 'ur' %}سوالنامہ{% else %}Questionnaire{% endif %}
-                </div>
-                <div class="module-status">
-                    <span class="status-badge {% if screening.questionnaire_prediction == 'PD' %}pd{% elif screening.questionnaire_prediction == 'Borderline' %}borderline{% else %}control{% endif %}">
-                        {{ screening.questionnaire_prediction|default:"N/A" }}
-                    </span>
-                </div>
-            </div>
-        </div>
+            {% widthratio screening.final_pd_probability 1 100 %}%
 
-        <!-- ========================================== -->
-        <!-- ACTION BUTTONS -->
-        <!-- ========================================== -->
-        <div class="action-buttons">
-            <a href="{% url 'fusion_app:report' %}" class="btn btn-primary">
-                <i class="fa-regular fa-file-lines"></i>
-                {% if lang == 'ur' %}مکمل رپورٹ{% else %}Full Report{% endif %}
-            </a>
-            <a href="{% url 'dashboard:compare_screenings' %}?ids={{ screening.screening_id }}" class="btn btn-outline">
-                <i class="fa-solid fa-arrows-left-right"></i>
-                {% if lang == 'ur' %}موازنہ{% else %}Compare{% endif %}
-            </a>
-            <a href="{% url 'questionnaire_app:home' %}" class="btn btn-success">
-                <i class="fa-solid fa-play"></i>
-                {% if lang == 'ur' %}نئی اسکریننگ{% else %}New Screening{% endif %}
-            </a>
         </div>
 
     </div>
 
 </div>
 
+<!-- Close Risk Overview section -->
+</div>
+
+        <!-- ========================================== -->
+
+        <!-- MODULE RESULTS -->
+
+        <!-- ========================================== -->
+
+        <div class="detail-section">
+
+            <div class="section-title">
+
+                <i class="fa-solid fa-layer-group"></i>
+
+                {% if lang == 'ur' %}ماڈیول کے نتائج{% else %}Module Results{% endif %}
+
+                <span class="title-badge">
+
+                    {% if lang == 'ur' %}تمام ماڈیولز{% else %}All Modules{% endif %}
+
+                </span>
+
+            </div>
+
+
+
+            <!-- Gait -->
+
+            <div class="module-result">
+
+                <div class="module-name">
+
+                    <span class="module-icon gait">
+
+                        <i class="fa-solid fa-person-walking"></i>
+
+                    </span>
+
+                    {% if lang == 'ur' %}چال کا تجزیہ{% else %}Gait Analysis{% endif %}
+
+                </div>
+
+                <div class="module-status">
+
+                    <span class="status-badge {% if screening.gait_prediction == 'PD' %}pd{% elif screening.gait_prediction == 'Borderline' %}borderline{% else %}control{% endif %}">
+
+                        {{ screening.gait_prediction|default:"N/A" }}
+
+                    </span>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- Speech -->
+
+            <div class="module-result">
+
+                <div class="module-name">
+
+                    <span class="module-icon speech">
+
+                        <i class="fa-solid fa-microphone"></i>
+
+                    </span>
+
+                    {% if lang == 'ur' %}آواز کا تجزیہ{% else %}Speech Analysis{% endif %}
+
+                </div>
+
+                <div class="module-status">
+
+                    <span class="status-badge {% if screening.speech_prediction == 'PD' %}pd{% elif screening.speech_prediction == 'Borderline' %}borderline{% else %}control{% endif %}">
+
+                        {{ screening.speech_prediction|default:"N/A" }}
+
+                    </span>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- Questionnaire -->
+
+            <div class="module-result">
+
+                <div class="module-name">
+
+                    <span class="module-icon questionnaire">
+
+                        <i class="fa-solid fa-clipboard"></i>
+
+                    </span>
+
+                    {% if lang == 'ur' %}سوالنامہ{% else %}Questionnaire{% endif %}
+
+                </div>
+
+                <div class="module-status">
+
+                    <span class="status-badge {% if screening.questionnaire_prediction == 'PD' %}pd{% elif screening.questionnaire_prediction == 'Borderline' %}borderline{% else %}control{% endif %}">
+
+                        {{ screening.questionnaire_prediction|default:"N/A" }}
+
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ========================================== -->
+        <!-- ACTION BUTTONS -->
+        <!-- ========================================== -->
+        <div class="action-buttons">
+            <a href="{% url 'fusion_app:report' %}?screening_id={{ screening.screening_id }}&lang={{ lang }}"
+               class="btn btn-primary">
+                <i class="fa-regular fa-file-lines"></i>
+                {% if lang == 'ur' %}مکمل رپورٹ{% else %}Full Report{% endif %}
+            </a>
+
+            <a href="{% url 'dashboard:compare_screenings' %}?ids={{ screening.screening_id }}"
+               class="btn btn-outline">
+                <i class="fa-solid fa-arrows-left-right"></i>
+                {% if lang == 'ur' %}موازنہ{% else %}Compare{% endif %}
+            </a>
+
+            <a href="{% url 'questionnaire_app:home' %}"
+               class="btn btn-success">
+                <i class="fa-solid fa-play"></i>
+                {% if lang == 'ur' %}نئی اسکریننگ{% else %}New Screening{% endif %}
+            </a>
+        </div>
+
+
+
+    </div>
+
+
+
+</div>
+
+
+
 {% endwith %}
+
+
 
 {% endblock %}

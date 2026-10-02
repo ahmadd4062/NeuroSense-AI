@@ -129,6 +129,17 @@ def save_screening_prediction(
             "Fusion result does not contain a final score."
         )
 
+    pd_risk_score = _get_value(
+        fusion_result,
+        "pd_risk_score",
+        None,
+    )
+
+    if pd_risk_score is None:
+        raise PredictionPersistenceError(
+            "Fusion result does not contain a PD risk score."
+        )
+
     if not final_label:
         raise PredictionPersistenceError(
             "Fusion result does not contain a final label."
@@ -154,7 +165,13 @@ def save_screening_prediction(
         ScreeningPrediction.objects.update_or_create(
             screening_id=normalized_screening_id,
             defaults={
+                # Preserve the original fused Linear-SVM decision score.
                 "final_score": float(final_score),
+
+                # Store the separate threshold-aligned PD risk value used
+                # by the recommendation/final multimodal fusion system.
+                "pd_risk_score": float(pd_risk_score),
+
                 "final_label": str(final_label),
                 "healthy_threshold": float(
                     healthy_threshold
