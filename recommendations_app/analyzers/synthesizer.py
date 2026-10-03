@@ -14,6 +14,87 @@ from .speech_analyzer import analyze_speech, get_speech_summary
 from .questionnaire_analyzer import analyze_questionnaire, get_questionnaire_summary
 
 
+def _snapshot_speech_analysis(fusion_result: Dict[str, Any]) -> Dict[str, Any]:
+    """Fallback speech profile from the exact saved screening snapshot."""
+    speech = (fusion_result.get('modules') or {}).get('speech') or {}
+    prediction = speech.get('prediction') or 'Unknown'
+    probability = speech.get('pd_probability')
+
+    if probability is None and prediction == 'Unknown':
+        return {}
+
+    try:
+        probability = float(probability or 0.0)
+    except (TypeError, ValueError):
+        probability = 0.0
+
+    if prediction == 'PD':
+        proximity = 'above_parkinson'
+    elif prediction == 'Borderline':
+        proximity = 'borderline_zone'
+    else:
+        proximity = 'healthy_zone'
+
+    return {
+        'has_data': True,
+        'final_score': probability,
+        'final_label': prediction,
+        'average_probability': probability,
+        'consistency': 'unknown',
+        'threshold_proximity': proximity,
+        'insights': [],
+        'source': 'historical_snapshot',
+    }
+
+
+def _snapshot_questionnaire_analysis(
+    questionnaire_result: Optional[Dict[str, Any]],
+    fusion_result: Dict[str, Any],
+) -> Dict[str, Any]:
+    """Build historical questionnaire intelligence from stored snapshot data."""
+    snapshot = questionnaire_result or {}
+    module = (fusion_result.get('modules') or {}).get('questionnaire') or {}
+
+    prediction = snapshot.get('prediction') or module.get('prediction') or 'Unknown'
+    probability = snapshot.get('pd_probability')
+    if probability is None:
+        probability = module.get('pd_probability')
+
+    motor_score = snapshot.get('motor_score')
+    if motor_score is None:
+        motor_score = module.get('motor_score')
+
+    if probability is None and motor_score is None and prediction == 'Unknown':
+        return {'has_data': False, 'insights': []}
+
+    try:
+        motor_score = float(motor_score or 0.0)
+    except (TypeError, ValueError):
+        motor_score = 0.0
+
+    if motor_score >= 0.60:
+        motor_severity = 'high'
+    elif motor_score >= 0.35:
+        motor_severity = 'moderate'
+    elif motor_score >= 0.15:
+        motor_severity = 'mild'
+    else:
+        motor_severity = 'minimal'
+
+    return {
+        'has_data': True,
+        'final_prediction': prediction,
+        'pd_probability': probability,
+        'motor_score': motor_score,
+        'motor_severity': motor_severity,
+        'secondary_support_level': snapshot.get('secondary_support_level', 'Unknown'),
+        'reliability_level': snapshot.get('reliability', 'Unknown'),
+        'safety_flags': snapshot.get('safety_flags', []),
+        'insights': [],
+        'source': 'historical_snapshot',
+    }
+
+
 def synthesize_intelligence(
     user,
     fusion_result: Dict[str, Any],
@@ -35,10 +116,21 @@ def synthesize_intelligence(
     if not screening_id:
         screening_id = fusion_result.get('screening_id')
     speech_analysis = analyze_speech(screening_id) if screening_id else {}
+    if not speech_analysis or not speech_analysis.get('has_data'):
+        speech_analysis = _snapshot_speech_analysis(fusion_result)
     speech_summary = get_speech_summary(speech_analysis, lang) if speech_analysis else {}
 
     # Questionnaire Analyzer
-    questionnaire_analysis = analyze_questionnaire(questionnaire_result_id)
+    # Current screenings can use the full QuestionnaireResult row. Historical
+    # screenings normally do not have that row ID in session, so use the exact
+    # values saved with that screening instead of returning an empty profile.
+    questionnaire_analysis = (
+        analyze_questionnaire(questionnaire_result_id)
+        if questionnaire_result_id
+        else _snapshot_questionnaire_analysis(questionnaire_result, fusion_result)
+    )
+    if not questionnaire_analysis.get('has_data') and questionnaire_result:
+        questionnaire_analysis = _snapshot_questionnaire_analysis(questionnaire_result, fusion_result)
     questionnaire_summary = get_questionnaire_summary(questionnaire_analysis, lang)
 
     current_pd = fusion_result.get('final_pd_probability')
@@ -124,6 +216,17 @@ def synthesize_intelligence(
             ),
             'discordance_level': fusion_analysis.get('discordance_level'),
             'certainty_level': fusion_analysis.get('certainty_level'),
+        },
+
+        # Module-specific recommendation focus. These states are deliberately
+        # independent of the final weighted probability. Questionnaire remains
+        # supporting evidence and cannot by itself trigger gait/speech therapy.
+        'module_focus': {
+            'gait': fusion_analysis.get('module_attention', {}).get('gait', 'low'),
+            'speech': fusion_analysis.get('module_attention', {}).get('speech', 'low'),
+            'questionnaire': fusion_analysis.get('module_attention', {}).get('questionnaire', 'low'),
+            'objective_attention_count': fusion_analysis.get('objective_attention_count', 0),
+            'questionnaire_only_elevated': fusion_analysis.get('questionnaire_only_elevated', False),
         },
 
         # Speech

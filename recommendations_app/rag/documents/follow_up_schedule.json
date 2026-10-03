@@ -1,0 +1,524 @@
+{
+  "schema_version": "1.0",
+  "section": "follow_up_schedule",
+  "display_heading": "6. Follow-up Schedule",
+  "purpose": "Provide a personalized follow-up plan after NeuroSense screening. The file separates NeuroSense repeat-screening timing from clinical follow-up urgency so that application-defined monitoring intervals are not presented as medical guidelines.",
+  "retrieval_policy": {
+    "preferred_match_order": [
+      "safety_trigger",
+      "longitudinal_trend",
+      "reliability",
+      "primary_pattern",
+      "risk_level",
+      "dominant_module"
+    ],
+    "max_cards_per_report": 3,
+    "required_base_card": "FU001",
+    "llm_role": "The language model may summarize and phrase the retrieved follow-up plan, but must not invent appointment deadlines, diagnosis-specific review intervals, or emergency advice that is not present in the retrieved cards.",
+    "schedule_boundary": "Any NeuroSense repeat-screening interval is an application monitoring cadence, not a clinical guideline. Clinical follow-up timing should be described using terms such as routine, soon, prompt, or urgent unless a verified source supports a specific interval."
+  },
+  "knowledge_cards": [
+    {
+      "id": "FU001",
+      "title": "Follow-up depends on screening pattern, symptoms and change over time",
+      "topics": [
+        "follow_up",
+        "screening_boundary",
+        "personalized_schedule"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "any"
+        ]
+      },
+      "priority": 1,
+      "clinical_follow_up": "Follow-up should be based on symptoms, functional impact, risk pattern and change over time.",
+      "neurosense_repeat_plan": "Use the project's planned repeat-screening cadence unless another card recommends repeating sooner.",
+      "recommendation": "Explain that NeuroSense is a screening tool and that follow-up should consider the full pattern rather than a single probability. Repeat screening can help compare changes with the user's own baseline, while clinical assessment remains necessary when symptoms are persistent, worsening or concerning.",
+      "source_ids": [
+        "SRC001",
+        "SRC007"
+      ],
+      "safety_level": "mandatory"
+    },
+    {
+      "id": "FU002",
+      "title": "Low-risk stable profile",
+      "topics": [
+        "low_risk",
+        "routine_follow_up",
+        "stable"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Low"
+        ],
+        "patterns": [
+          "all_control"
+        ],
+        "longitudinal_trends": [
+          "stable",
+          "improving",
+          "not_available"
+        ]
+      },
+      "priority": 3,
+      "clinical_follow_up": "Routine healthcare follow-up is appropriate unless new persistent symptoms develop.",
+      "neurosense_repeat_plan": "Repeat NeuroSense at the routine project-defined interval.",
+      "recommendation": "For a low-risk, stable profile, continue routine health follow-up and repeat NeuroSense according to the normal monitoring schedule. Earlier review is appropriate if new persistent gait, speech, cognitive or daily-function changes appear.",
+      "source_ids": [
+        "SRC001",
+        "SRC043"
+      ],
+      "safety_level": "routine"
+    },
+    {
+      "id": "FU003",
+      "title": "Medium-risk profile",
+      "topics": [
+        "medium_risk",
+        "earlier_review",
+        "monitoring"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Medium"
+        ],
+        "patterns": [
+          "any"
+        ]
+      },
+      "priority": 2,
+      "clinical_follow_up": "Arrange a non-urgent clinical review sooner rather than waiting only for routine screening.",
+      "neurosense_repeat_plan": "Repeat screening after an appropriate monitoring interval or after clinical review.",
+      "recommendation": "For a medium-risk profile, recommend discussing the report with a healthcare professional and continuing structured monitoring. The next NeuroSense screening should be scheduled early enough to compare whether the affected domains remain stable, improve or worsen.",
+      "source_ids": [
+        "SRC001",
+        "SRC004",
+        "SRC007"
+      ],
+      "safety_level": "targeted"
+    },
+    {
+      "id": "FU004",
+      "title": "High-risk profile",
+      "topics": [
+        "high_risk",
+        "prompt_review",
+        "specialist_assessment"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "High"
+        ],
+        "patterns": [
+          "any"
+        ]
+      },
+      "priority": 1,
+      "clinical_follow_up": "Prompt clinical assessment is appropriate, particularly when symptoms are persistent or affect daily life.",
+      "neurosense_repeat_plan": "Do not use repeat screening as a substitute for clinical assessment.",
+      "recommendation": "For a high-risk screening profile, prioritize clinical assessment rather than repeatedly self-testing. A neurologist or other appropriate clinician can interpret the symptoms in context and decide whether further evaluation is needed.",
+      "source_ids": [
+        "SRC001",
+        "SRC004",
+        "SRC007"
+      ],
+      "safety_level": "high_attention"
+    },
+    {
+      "id": "FU005",
+      "title": "Worsening longitudinal trend",
+      "topics": [
+        "worsening",
+        "trend",
+        "earlier_follow_up"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "worsening_trend"
+        ],
+        "longitudinal_trends": [
+          "worsening",
+          "significantly_worsening"
+        ]
+      },
+      "priority": 1,
+      "clinical_follow_up": "Move follow-up earlier when symptoms or screening domains are consistently worsening.",
+      "neurosense_repeat_plan": "Use the previous results as a baseline and avoid delaying clinical review solely to obtain another screen.",
+      "recommendation": "If gait, speech or questionnaire findings are worsening over repeated screenings, recommend earlier clinical review and bring the previous reports for comparison. A trend is more informative than a single isolated score, but it still does not establish disease progression.",
+      "source_ids": [
+        "SRC001",
+        "SRC007"
+      ],
+      "safety_level": "high_attention"
+    },
+    {
+      "id": "FU006",
+      "title": "Improving or stable longitudinal trend",
+      "topics": [
+        "stable",
+        "improving",
+        "planned_follow_up"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "stable_trend",
+          "improving_trend"
+        ],
+        "longitudinal_trends": [
+          "stable",
+          "improving",
+          "significantly_improving"
+        ]
+      },
+      "priority": 4,
+      "clinical_follow_up": "Continue the existing follow-up plan unless symptoms or daily functioning worsen.",
+      "neurosense_repeat_plan": "Repeat under similar testing conditions at the planned monitoring interval.",
+      "recommendation": "Stable or improving results support continuing the planned monitoring schedule. Do not interpret an improved screening score as proof that a neurological condition is absent; persistent symptoms should still be discussed with a clinician.",
+      "source_ids": [
+        "SRC001",
+        "SRC007"
+      ],
+      "safety_level": "routine"
+    },
+    {
+      "id": "FU007",
+      "title": "Low-reliability screening",
+      "topics": [
+        "low_reliability",
+        "repeat_module",
+        "quality_control"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "low_reliability"
+        ]
+      },
+      "priority": 1,
+      "clinical_follow_up": "Do not escalate or reassure solely on the basis of an unreliable screening result.",
+      "neurosense_repeat_plan": "Repeat the unreliable module under better recording/testing conditions before interpreting a trend.",
+      "recommendation": "When input quality or questionnaire reliability is low, repeat the affected module before using the result for longitudinal comparison. Persistent real-world symptoms should still be assessed clinically even if the screening quality was poor.",
+      "source_ids": [
+        "SRC001"
+      ],
+      "safety_level": "mandatory"
+    },
+    {
+      "id": "FU008",
+      "title": "Gait-dominant follow-up",
+      "topics": [
+        "gait",
+        "balance",
+        "mobility",
+        "follow_up"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "gait_only_pd",
+          "gait_questionnaire_pd",
+          "all_pd",
+          "mixed_pd"
+        ],
+        "dominant_modules": [
+          "gait"
+        ]
+      },
+      "priority": 2,
+      "clinical_follow_up": "Earlier review is appropriate when gait or balance problems are persistent, worsening or affecting safety.",
+      "neurosense_repeat_plan": "Track gait consistently and compare future gait results with the current baseline.",
+      "recommendation": "For gait-dominant findings, follow-up should pay particular attention to walking, turning, freezing, balance, falls and daily mobility. Bring information about falls or near-falls to the next clinical review.",
+      "source_ids": [
+        "SRC014",
+        "SRC052",
+        "SRC055"
+      ],
+      "safety_level": "targeted"
+    },
+    {
+      "id": "FU009",
+      "title": "Speech-dominant follow-up",
+      "topics": [
+        "speech",
+        "voice",
+        "communication",
+        "follow_up"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "speech_only_pd",
+          "speech_questionnaire_pd",
+          "all_pd",
+          "mixed_pd"
+        ],
+        "dominant_modules": [
+          "speech"
+        ]
+      },
+      "priority": 2,
+      "clinical_follow_up": "Review is appropriate when voice or speech changes persist or interfere with communication.",
+      "neurosense_repeat_plan": "Repeat speech screening using similar microphone and recording conditions.",
+      "recommendation": "For speech-dominant findings, monitor whether reduced volume, hesitation, articulation or communication difficulty persists. A clinician or speech-language professional can assess symptoms that are affecting daily communication.",
+      "source_ids": [
+        "SRC006",
+        "SRC007"
+      ],
+      "safety_level": "targeted"
+    },
+    {
+      "id": "FU010",
+      "title": "Questionnaire-dominant follow-up",
+      "topics": [
+        "questionnaire",
+        "non_motor",
+        "symptom_review"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "questionnaire_only",
+          "gait_questionnaire_pd",
+          "speech_questionnaire_pd",
+          "all_pd",
+          "mixed_pd"
+        ],
+        "dominant_modules": [
+          "questionnaire"
+        ]
+      },
+      "priority": 2,
+      "clinical_follow_up": "Follow up according to the specific persistent symptoms reported in the questionnaire.",
+      "neurosense_repeat_plan": "Repeat the questionnaire consistently and compare the same symptom domains over time.",
+      "recommendation": "When the questionnaire is the dominant concern, the follow-up plan should focus on the actual reported symptoms—such as sleep, mood, fatigue, dizziness, bowel changes, cognition or daily functioning—rather than treating the questionnaire score alone.",
+      "source_ids": [
+        "SRC059",
+        "SRC060"
+      ],
+      "safety_level": "targeted"
+    },
+    {
+      "id": "FU011",
+      "title": "Mixed or discordant module results",
+      "topics": [
+        "discordance",
+        "mixed_pattern",
+        "repeat_testing"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "mixed_pd",
+          "high_discordance"
+        ]
+      },
+      "priority": 2,
+      "clinical_follow_up": "Clinical context is especially important when screening modules disagree.",
+      "neurosense_repeat_plan": "Repeat the discordant module or modules under consistent conditions before interpreting the mismatch as a trend.",
+      "recommendation": "When gait, speech and questionnaire results disagree substantially, avoid basing the follow-up plan only on the combined score. Track each domain separately and discuss persistent real-world symptoms during clinical review.",
+      "source_ids": [
+        "SRC001",
+        "SRC004"
+      ],
+      "safety_level": "targeted"
+    },
+    {
+      "id": "FU012",
+      "title": "Falls or increasing balance problems",
+      "topics": [
+        "falls",
+        "balance",
+        "safety",
+        "earlier_review"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "gait_only_pd",
+          "gait_questionnaire_pd",
+          "all_pd",
+          "mixed_pd"
+        ],
+        "symptom_flags": [
+          "fall",
+          "near_fall",
+          "balance_problem"
+        ]
+      },
+      "priority": 1,
+      "clinical_follow_up": "Do not wait for the next routine screening when falls are recurring, increasing or causing injury.",
+      "neurosense_repeat_plan": "Screening may document change but should not delay professional fall-risk assessment.",
+      "recommendation": "Repeated falls, increasing near-falls or worsening balance justify earlier professional review. The follow-up plan should prioritize safety and assessment rather than simply scheduling another screening.",
+      "source_ids": [
+        "SRC014",
+        "SRC052",
+        "SRC055"
+      ],
+      "safety_level": "high_attention"
+    },
+    {
+      "id": "FU013",
+      "title": "New swallowing difficulty",
+      "topics": [
+        "swallowing",
+        "choking",
+        "clinical_review"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "any"
+        ],
+        "symptom_flags": [
+          "swallowing_difficulty",
+          "choking",
+          "coughing_with_food"
+        ]
+      },
+      "priority": 1,
+      "clinical_follow_up": "Prompt clinical assessment is appropriate for new or worsening swallowing difficulty.",
+      "neurosense_repeat_plan": "Do not wait for repeat NeuroSense screening to address swallowing safety.",
+      "recommendation": "New or worsening swallowing difficulty, choking or frequent coughing with food or drink should be assessed clinically. Follow-up should prioritize swallowing safety rather than another routine screen.",
+      "source_ids": [
+        "SRC006"
+      ],
+      "safety_level": "high_attention"
+    },
+    {
+      "id": "FU014",
+      "title": "Do not wait on a sudden marked module change",
+      "topics": [
+        "sudden_change",
+        "gait",
+        "speech",
+        "earlier_review"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "any"
+        ],
+        "safety_triggers": [
+          "sudden_neurological_change"
+        ]
+      },
+      "priority": 0,
+      "clinical_follow_up": "Seek urgent medical evaluation for sudden neurological symptoms.",
+      "neurosense_repeat_plan": "Do not repeat the screening first.",
+      "recommendation": "If the gait or speech change that NeuroSense is tracking becomes sudden or clearly much worse than the person’s usual pattern, do not wait for another routine screening before seeking medical advice.",
+      "source_ids": [
+        "SRC001",
+        "SRC026",
+        "SRC052"
+      ],
+      "safety_level": "high",
+      "personalization_hint": "Refer only to the module that is actually affected."
+    },
+    {
+      "id": "FU015",
+      "title": "Daily-function decline",
+      "topics": [
+        "daily_function",
+        "activities",
+        "earlier_review"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "any"
+        ],
+        "symptom_flags": [
+          "daily_function_decline",
+          "reduced_independence"
+        ]
+      },
+      "priority": 2,
+      "clinical_follow_up": "Bring follow-up forward when symptoms begin to reduce safety or independence in daily activities.",
+      "neurosense_repeat_plan": "Use future screening as supporting monitoring, not as the only response to functional decline.",
+      "recommendation": "If symptoms begin to interfere with walking, dressing, eating, communication, work, study or other daily activities, recommend earlier clinical review and consider whether rehabilitation support is needed.",
+      "source_ids": [
+        "SRC056",
+        "SRC057",
+        "SRC058"
+      ],
+      "safety_level": "high_attention"
+    },
+    {
+      "id": "FU016",
+      "title": "Prepare useful information for the next review",
+      "topics": [
+        "appointment_preparation",
+        "history",
+        "report_sharing"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "any"
+        ]
+      },
+      "priority": 5,
+      "clinical_follow_up": "Share the NeuroSense report together with a brief history of symptoms and changes.",
+      "neurosense_repeat_plan": "Keep prior reports so future screening results can be compared consistently.",
+      "recommendation": "For the next healthcare review, bring the NeuroSense report and note the most important new or changing symptoms, when they started, how they affect daily life, and whether family members have noticed changes.",
+      "source_ids": [
+        "SRC001"
+      ],
+      "safety_level": "routine"
+    }
+  ]
+}

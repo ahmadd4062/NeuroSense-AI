@@ -5,6 +5,7 @@ from django.utils import timezone
 from datetime import timedelta
 import json
 import logging
+from django.core.paginator import Paginator
 
 from .models import ScreeningHistory
 
@@ -15,27 +16,50 @@ logger = logging.getLogger(__name__)
 def dashboard(request):
     """
     Main dashboard showing screening history and statistics.
+
+    - Statistics use ALL screenings.
+    - Risk distribution uses ALL screenings.
+    - Trend chart uses the latest 10 screenings.
+    - Screening history is paginated 5 records per page.
     """
     lang = request.GET.get('lang', 'en')
 
     # ============================================================
-    # FETCH ALL SCREENINGS (newest first — model default ordering)
+    # FETCH ALL SCREENINGS — newest first
     # ============================================================
-    screenings = ScreeningHistory.objects.filter(user=request.user)
+    screenings = ScreeningHistory.objects.filter(
+        user=request.user
+    ).order_by('-created_at')
+
     total_screenings = screenings.count()
 
     # ============================================================
-    # STATISTICS
+    # STATISTICS — calculated from ALL screenings
     # ============================================================
     stats = {
         'total': total_screenings,
-        'average_risk': screenings.aggregate(Avg('final_pd_probability'))['final_pd_probability__avg'] or 0,
-        'highest_risk': screenings.aggregate(Max('final_pd_probability'))['final_pd_probability__max'] or 0,
-        'lowest_risk': screenings.aggregate(Min('final_pd_probability'))['final_pd_probability__min'] or 0,
+        'average_risk': (
+            screenings.aggregate(
+                Avg('final_pd_probability')
+            )['final_pd_probability__avg']
+            or 0
+        ),
+        'highest_risk': (
+            screenings.aggregate(
+                Max('final_pd_probability')
+            )['final_pd_probability__max']
+            or 0
+        ),
+        'lowest_risk': (
+            screenings.aggregate(
+                Min('final_pd_probability')
+            )['final_pd_probability__min']
+            or 0
+        ),
     }
 
     # ============================================================
-    # RISK DISTRIBUTION
+    # RISK DISTRIBUTION — ALL screenings
     # ============================================================
     risk_distribution = {
         'Low': screenings.filter(risk_level='Low').count(),
@@ -44,21 +68,28 @@ def dashboard(request):
     }
 
     # ============================================================
-    # RECENT SCREENINGS (last 5, newest first)
+    # SCREENING HISTORY — 5 PER PAGE
     # ============================================================
-    recent_screenings = list(screenings[:5])
+    paginator = Paginator(screenings, 5)
+
+    page_number = request.GET.get('page')
+    recent_screenings = paginator.get_page(page_number)
 
     # ============================================================
-    # TREND DATA — last 10 screenings, oldest to newest for chart
+    # TREND DATA — latest 10, oldest to newest for chart
     # ============================================================
-    recent_10 = list(screenings[:10])   # newest first (default ordering)
-    recent_10.reverse()                 # oldest first for the chart
+    recent_10 = list(screenings[:10])
+    recent_10.reverse()
 
     trend_data = []
+
     for screening in recent_10:
         trend_data.append({
             'date': screening.created_at.strftime('%Y-%m-%d'),
-            'risk': round(screening.final_pd_probability * 100, 1),
+            'risk': round(
+                screening.final_pd_probability * 100,
+                1
+            ),
             'level': screening.risk_level,
             'screening_id': screening.screening_id,
         })
@@ -67,10 +98,15 @@ def dashboard(request):
     # LAST SCREENING
     # ============================================================
     last_screening = screenings.first()
-    last_screening_date = last_screening.created_at if last_screening else None
+
+    last_screening_date = (
+        last_screening.created_at
+        if last_screening
+        else None
+    )
 
     # ============================================================
-    # USER PROFILE (for total count)
+    # USER PROFILE — total count
     # ============================================================
     try:
         profile = request.user.profile
@@ -83,18 +119,31 @@ def dashboard(request):
     # ============================================================
     context = {
         'lang': lang,
+
+        # Full queryset remains available where needed.
         'screenings': screenings,
+
+        # Current paginated history page — max 5 records.
         'recent_screenings': recent_screenings,
+
         'total_screenings': total_screenings,
         'total_from_profile': total_from_profile,
+
         'stats': stats,
         'risk_distribution': risk_distribution,
+
         'trend_data': json.dumps(trend_data),
+
         'last_screening_date': last_screening_date,
+
         'has_screenings': total_screenings > 0,
     }
 
-    return render(request, 'dashboard/dashboard.html', context)
+    return render(
+        request,
+        'dashboard/dashboard.html',
+        context
+    )
 
 
 @login_required
@@ -110,7 +159,9 @@ def screening_detail(request, screening_id):
         user=request.user,
     )
 
-    all_screenings = ScreeningHistory.objects.filter(user=request.user)
+    all_screenings = ScreeningHistory.objects.filter(
+        user=request.user
+    ).order_by('-created_at')
 
     context = {
         'lang': lang,
@@ -118,7 +169,11 @@ def screening_detail(request, screening_id):
         'all_screenings': all_screenings,
     }
 
-    return render(request, 'dashboard/screening_detail.html', context)
+    return render(
+        request,
+        'dashboard/screening_detail.html',
+        context
+    )
 
 
 @login_required
@@ -130,17 +185,25 @@ def compare_screenings(request):
     screening_ids = request.GET.getlist('ids')
 
     if len(screening_ids) != 2:
-        screenings = ScreeningHistory.objects.filter(user=request.user)
-        return render(request, 'dashboard/compare_select.html', {
-            'lang': lang,
-            'screenings': screenings,
-        })
+        screenings = ScreeningHistory.objects.filter(
+            user=request.user
+        ).order_by('-created_at')
+
+        return render(
+            request,
+            'dashboard/compare_select.html',
+            {
+                'lang': lang,
+                'screenings': screenings,
+            }
+        )
 
     screening1 = get_object_or_404(
         ScreeningHistory,
         screening_id=screening_ids[0],
         user=request.user,
     )
+
     screening2 = get_object_or_404(
         ScreeningHistory,
         screening_id=screening_ids[1],
@@ -150,14 +213,19 @@ def compare_screenings(request):
     # ============================================================
     # DELTA CALCULATION
     # ============================================================
-    risk_change = screening2.final_pd_probability - screening1.final_pd_probability
+    risk_change = (
+        screening2.final_pd_probability
+        - screening1.final_pd_probability
+    )
 
     if risk_change > 0.01:
         risk_trend = 'up'
         risk_change_display = f'+{risk_change * 100:.1f}%'
+
     elif risk_change < -0.01:
         risk_trend = 'down'
         risk_change_display = f'{risk_change * 100:.1f}%'
+
     else:
         risk_trend = 'same'
         risk_change_display = '0.0%'
@@ -171,30 +239,50 @@ def compare_screenings(request):
         'risk_trend': risk_trend,
     }
 
-    return render(request, 'dashboard/compare.html', context)
+    return render(
+        request,
+        'dashboard/compare.html',
+        context
+    )
 
 
 @login_required
 def progress_chart_data(request):
     """
     API endpoint for chart data.
-    Returns last 10 screenings, oldest to newest.
+    Returns latest 10 screenings, oldest to newest.
     """
     from django.http import JsonResponse
 
-    # Get last 10 (newest first due to model ordering)
     screenings = list(
-        ScreeningHistory.objects.filter(user=request.user)[:10]
+        ScreeningHistory.objects.filter(
+            user=request.user
+        ).order_by('-created_at')[:10]
     )
 
-    # Reverse so chart plots oldest to newest (left to right)
+    # Chart should display oldest -> newest.
     screenings.reverse()
 
     data = {
-        'dates': [s.created_at.strftime('%Y-%m-%d') for s in screenings],
-        'risks': [round(s.final_pd_probability * 100, 1) for s in screenings],
-        'levels': [s.risk_level for s in screenings],
-        'ids': [s.screening_id for s in screenings],
+        'dates': [
+            screening.created_at.strftime('%Y-%m-%d')
+            for screening in screenings
+        ],
+        'risks': [
+            round(
+                screening.final_pd_probability * 100,
+                1
+            )
+            for screening in screenings
+        ],
+        'levels': [
+            screening.risk_level
+            for screening in screenings
+        ],
+        'ids': [
+            screening.screening_id
+            for screening in screenings
+        ],
     }
 
     return JsonResponse(data, status=200)

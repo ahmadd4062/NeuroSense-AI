@@ -16,6 +16,25 @@ Data Source: fusion_result (from session)
 from typing import Dict, Any
 
 
+def _module_attention_state(value: float) -> str:
+    """Patient-facing module state independent of the weighted overall score.
+
+    <30%   -> low: no targeted recommendation needed
+    30-49% -> watch: mild change worth monitoring
+    >=50%  -> attention: targeted recommendations should be generated
+    """
+    try:
+        value = float(value or 0.0)
+    except (TypeError, ValueError):
+        value = 0.0
+
+    if value < 0.30:
+        return "low"
+    if value < 0.50:
+        return "watch"
+    return "attention"
+
+
 def analyze_fusion(fusion_result: Dict[str, Any]) -> Dict[str, Any]:
     """
     Analyze fusion result and extract unique intelligence.
@@ -94,12 +113,24 @@ def analyze_fusion(fusion_result: Dict[str, Any]) -> Dict[str, Any]:
     else:
         discordance_level = 'low'
  
-    # Are modules in agreement or disagreement?
-    is_gait_elevated = gait_pd > 0.5
-    is_speech_elevated = speech_pd > 0.5
-    is_questionnaire_elevated = questionnaire_pd > 0.5
-    
+    # Module-specific interpretation is kept separate from the weighted
+    # overall probability. This prevents a strong gait/speech signal from
+    # being hidden by a low combined score.
+    gait_state = _module_attention_state(gait_pd)
+    speech_state = _module_attention_state(speech_pd)
+    questionnaire_state = _module_attention_state(questionnaire_pd)
+
+    is_gait_elevated = gait_state == 'attention'
+    is_speech_elevated = speech_state == 'attention'
+    is_questionnaire_elevated = questionnaire_state == 'attention'
+
     elevated_count = sum([is_gait_elevated, is_speech_elevated, is_questionnaire_elevated])
+    objective_attention_count = sum([is_gait_elevated, is_speech_elevated])
+    questionnaire_only_elevated = (
+        is_questionnaire_elevated
+        and not is_gait_elevated
+        and not is_speech_elevated
+    )
     
     # Compare each pair
     gait_vs_speech_gap = abs(gait_pd - speech_pd)
@@ -171,6 +202,13 @@ def analyze_fusion(fusion_result: Dict[str, Any]) -> Dict[str, Any]:
             'speech': is_speech_elevated,
             'questionnaire': is_questionnaire_elevated,
         },
+        'module_attention': {
+            'gait': gait_state,
+            'speech': speech_state,
+            'questionnaire': questionnaire_state,
+        },
+        'objective_attention_count': objective_attention_count,
+        'questionnaire_only_elevated': questionnaire_only_elevated,
         'elevated_count': elevated_count,
         'module_gaps': {
             'gait_vs_speech': round(gait_vs_speech_gap, 4),

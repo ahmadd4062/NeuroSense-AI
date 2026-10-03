@@ -1,0 +1,509 @@
+{
+  "schema_version": "1.0",
+  "section": "symptom_monitoring",
+  "display_heading": "4. Symptom Monitoring",
+  "purpose": "Provide personalized guidance on what symptoms and functional changes to monitor after a NeuroSense screening. This section supports longitudinal comparison across gait, speech and questionnaire domains and helps the user recognize meaningful changes that should be discussed with a healthcare professional.",
+  "retrieval_policy": {
+    "preferred_match_order": [
+      "safety_trigger",
+      "longitudinal_trend",
+      "primary_pattern",
+      "dominant_module",
+      "risk_level",
+      "symptom_flags"
+    ],
+    "max_cards_per_report": 4,
+    "required_base_card": "SM001",
+    "llm_role": "The language model may summarize, personalize and combine retrieved monitoring guidance, but must not diagnose Parkinson's disease, predict disease progression, invent symptom thresholds, or create emergency claims beyond the retrieved safety guidance.",
+    "diagnostic_boundary": "NeuroSense AI is a screening and monitoring support tool. Changes in screening scores can indicate that further assessment may be useful, but they do not establish a diagnosis or measure disease progression."
+  },
+  "knowledge_cards": [
+    {
+      "id": "SM001",
+      "title": "Track changes consistently over time",
+      "topics": [
+        "monitoring",
+        "longitudinal_tracking",
+        "baseline"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "any"
+        ]
+      },
+      "priority": 1,
+      "recommendation": "Use future screenings to compare changes with the person's own previous results rather than relying on a single test. Encourage noting when symptoms started, whether they are becoming more frequent, and whether they affect everyday activities.",
+      "personalization_hint": "Mention the user's current dominant domain and, when available, whether it has changed from the previous screening.",
+      "source_ids": [
+        "SRC050",
+        "SRC053",
+        "SRC056"
+      ],
+      "safety_level": "mandatory"
+    },
+    {
+      "id": "SM002",
+      "title": "Low-risk profile - watch for new persistent changes",
+      "topics": [
+        "low_risk",
+        "baseline_monitoring",
+        "new_symptoms"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Low"
+        ],
+        "patterns": [
+          "all_control"
+        ]
+      },
+      "priority": 4,
+      "recommendation": "For a low-risk screening profile, no intensive symptom tracking is needed. Encourage awareness of new persistent changes in walking, balance, speech, movement, cognition, sleep or daily functioning and repeat screening according to the planned follow-up schedule.",
+      "personalization_hint": "Keep the wording reassuring and avoid suggesting that symptoms are expected to develop.",
+      "source_ids": [
+        "SRC050",
+        "SRC056"
+      ],
+      "safety_level": "routine"
+    },
+    {
+      "id": "SM003",
+      "title": "Monitor gait and balance changes",
+      "topics": [
+        "gait",
+        "balance",
+        "walking",
+        "falls"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "gait_only_pd",
+          "gait_questionnaire_pd",
+          "all_pd",
+          "mixed_pd"
+        ],
+        "dominant_modules": [
+          "gait"
+        ]
+      },
+      "priority": 2,
+      "recommendation": "Track noticeable changes in walking speed, step length, shuffling, freezing, turning, balance, near-falls and actual falls. Also note whether walking difficulties are becoming more frequent or are beginning to limit normal daily activities.",
+      "personalization_hint": "Use when gait is elevated or the user reports mobility concerns.",
+      "source_ids": [
+        "SRC050",
+        "SRC052",
+        "SRC054"
+      ],
+      "safety_level": "targeted",
+      "action_type": "self_care"
+    },
+    {
+      "id": "SM004",
+      "title": "Monitor speech and voice changes",
+      "topics": [
+        "speech",
+        "voice",
+        "communication"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "speech_only_pd",
+          "speech_questionnaire_pd",
+          "all_pd",
+          "mixed_pd"
+        ],
+        "dominant_modules": [
+          "speech"
+        ]
+      },
+      "priority": 2,
+      "recommendation": "Track changes such as reduced voice volume, unclear speech, faster or slower speaking rate, increased hesitation, longer pauses or greater difficulty being understood. Record whether these changes are persistent and whether they affect conversations or daily communication.",
+      "personalization_hint": "Include only when speech findings are elevated or speech concerns are reported.",
+      "source_ids": [
+        "SRC050",
+        "SRC055"
+      ],
+      "safety_level": "targeted",
+      "action_type": "self_care"
+    },
+    {
+      "id": "SM005",
+      "title": "Monitor questionnaire and non-motor symptoms",
+      "topics": [
+        "questionnaire",
+        "non_motor",
+        "daily_function"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "questionnaire_only",
+          "gait_questionnaire_pd",
+          "speech_questionnaire_pd",
+          "all_pd",
+          "mixed_pd"
+        ],
+        "dominant_modules": [
+          "questionnaire"
+        ]
+      },
+      "priority": 2,
+      "recommendation": "Track the specific questionnaire symptoms that were reported rather than monitoring every possible symptom. Examples may include sleep problems, mood changes, fatigue, bowel changes, dizziness, memory concerns or changes in daily functioning.",
+      "personalization_hint": "Select only the symptom categories actually reported in the questionnaire.",
+      "source_ids": [
+        "SRC050",
+        "SRC056",
+        "SRC057"
+      ],
+      "safety_level": "targeted",
+      "action_type": "self_care"
+    },
+    {
+      "id": "SM006",
+      "title": "Worsening trend requires closer follow-up",
+      "topics": [
+        "worsening",
+        "trend",
+        "longitudinal_change"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "worsening_trend"
+        ],
+        "longitudinal_trends": [
+          "worsening",
+          "significantly_worsening"
+        ]
+      },
+      "priority": 1,
+      "recommendation": "When one or more screening domains show a consistent worsening trend, encourage the user to keep a short record of the changes and discuss the pattern with a healthcare professional. A worsening screening trend should be interpreted together with symptoms and clinical assessment.",
+      "personalization_hint": "Name the domain that worsened when this information is available.",
+      "source_ids": [
+        "SRC053",
+        "SRC056"
+      ],
+      "safety_level": "high_attention"
+    },
+    {
+      "id": "SM007",
+      "title": "Stable results - continue consistent monitoring",
+      "topics": [
+        "stable",
+        "trend",
+        "repeat_screening"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "stable_trend"
+        ],
+        "longitudinal_trends": [
+          "stable"
+        ]
+      },
+      "priority": 4,
+      "recommendation": "If results are stable compared with previous screening, continue monitoring using the same method so that future changes can be compared reliably. Stability does not confirm absence of disease, but it provides a useful personal baseline.",
+      "personalization_hint": "Keep this concise and avoid over-reassurance when overall risk is Medium or High.",
+      "source_ids": [
+        "SRC053",
+        "SRC056"
+      ],
+      "safety_level": "routine"
+    },
+    {
+      "id": "SM008",
+      "title": "Improving trend - interpret cautiously",
+      "topics": [
+        "improving",
+        "trend",
+        "variability"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "improving_trend"
+        ],
+        "longitudinal_trends": [
+          "improving",
+          "significantly_improving"
+        ]
+      },
+      "priority": 4,
+      "recommendation": "If screening results improve, note the improvement but continue planned monitoring. Screening scores can vary because of fatigue, effort, recording conditions and day-to-day symptoms, so improvement should not be interpreted as proof that a neurological condition is absent.",
+      "personalization_hint": "Mention improvement without presenting it as recovery or resolution.",
+      "source_ids": [
+        "SRC053",
+        "SRC056"
+      ],
+      "safety_level": "routine"
+    },
+    {
+      "id": "SM009",
+      "title": "Mixed or discordant modules need domain-specific tracking",
+      "topics": [
+        "discordance",
+        "mixed_pattern",
+        "domain_tracking"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "mixed_pd",
+          "high_discordance"
+        ]
+      },
+      "priority": 2,
+      "recommendation": "When the gait, speech and questionnaire results do not agree, monitor each affected area separately instead of relying only on the overall score. Note which symptoms are actually present and whether the elevated domain remains elevated on repeat screening.",
+      "personalization_hint": "Name the elevated and non-elevated modules when generating the report.",
+      "source_ids": [
+        "SRC053",
+        "SRC056"
+      ],
+      "safety_level": "targeted"
+    },
+    {
+      "id": "SM010",
+      "title": "Low-reliability result should be repeated before trend interpretation",
+      "topics": [
+        "reliability",
+        "poor_quality",
+        "repeat_test"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "low_reliability"
+        ]
+      },
+      "priority": 1,
+      "recommendation": "If the current screening quality or reliability is low, avoid treating the score as a meaningful change. Repeat the affected module under better conditions before comparing it with previous results.",
+      "personalization_hint": "Specify the affected module if the system knows which input was unreliable.",
+      "source_ids": [
+        "SRC053",
+        "SRC056"
+      ],
+      "safety_level": "mandatory"
+    },
+    {
+      "id": "SM011",
+      "title": "Falls and near-falls are important to record",
+      "topics": [
+        "falls",
+        "near_falls",
+        "balance",
+        "safety"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "gait_only_pd",
+          "gait_questionnaire_pd",
+          "all_pd",
+          "mixed_pd"
+        ],
+        "symptom_flags": [
+          "fall",
+          "near_fall",
+          "balance_problem"
+        ]
+      },
+      "priority": 1,
+      "recommendation": "Record falls and near-falls, including what the person was doing when they occurred and whether injury happened. Repeated falls, a new increase in falls or injury should prompt professional assessment rather than waiting for the next routine screening.",
+      "personalization_hint": "Use only when falls, near-falls or significant balance problems are present.",
+      "source_ids": [
+        "SRC052",
+        "SRC054"
+      ],
+      "safety_level": "high_attention"
+    },
+    {
+      "id": "SM012",
+      "title": "New swallowing difficulty requires clinical attention",
+      "topics": [
+        "swallowing",
+        "choking",
+        "safety"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "any"
+        ],
+        "symptom_flags": [
+          "swallowing_difficulty",
+          "choking",
+          "coughing_with_food"
+        ]
+      },
+      "priority": 1,
+      "recommendation": "If new or worsening swallowing difficulty, frequent coughing with food or drinks, or choking is reported, advise clinical assessment rather than simply monitoring the symptom at home.",
+      "personalization_hint": "Do not suggest swallowing exercises unless selected from a separate clinician-guided resource.",
+      "source_ids": [
+        "SRC055",
+        "SRC058"
+      ],
+      "safety_level": "high_attention"
+    },
+    {
+      "id": "SM013",
+      "title": "Sudden worsening should match the affected area",
+      "topics": [
+        "sudden_change",
+        "module_specific",
+        "safety"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "any"
+        ],
+        "safety_triggers": [
+          "sudden_neurological_change"
+        ]
+      },
+      "priority": 0,
+      "recommendation": "If an affected screening area changes suddenly or becomes much worse than the person’s usual pattern, do not treat it as routine monitoring. For speech, this means a sudden marked loss of clarity or much greater difficulty being understood. For gait, this means a sudden marked loss of walking stability or becoming unable to walk safely as usual.",
+      "personalization_hint": "Use only the speech example when speech is affected, only the gait example when gait is affected, and both only when both modules are affected.",
+      "source_ids": [
+        "SRC026",
+        "SRC028",
+        "SRC052",
+        "SRC055"
+      ],
+      "safety_level": "high"
+    },
+    {
+      "id": "SM014",
+      "title": "Track impact on everyday activities",
+      "topics": [
+        "daily_function",
+        "activities",
+        "functional_change"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "any"
+        ]
+      },
+      "priority": 3,
+      "recommendation": "In addition to symptom severity, monitor whether changes are affecting everyday activities such as walking outside, dressing, eating, speaking with others, working, studying or completing household tasks. Functional change is useful information to share during clinical review.",
+      "personalization_hint": "Choose examples that match the user's reported difficulties rather than listing all activities.",
+      "source_ids": [
+        "SRC050",
+        "SRC056"
+      ],
+      "safety_level": "targeted",
+      "action_type": "self_care"
+    },
+    {
+      "id": "SM015",
+      "title": "Keep brief notes instead of relying on memory",
+      "topics": [
+        "symptom_diary",
+        "tracking",
+        "clinical_communication"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "any"
+        ]
+      },
+      "priority": 5,
+      "recommendation": "A short symptom diary can make follow-up more useful. Record the date, the symptom, what changed, how long it lasted and whether it affected daily activity. Keep the record simple so that it is practical to maintain.",
+      "personalization_hint": "Suggest brief note-taking especially when several symptoms or changing trends are present.",
+      "source_ids": [
+        "SRC050",
+        "SRC053"
+      ],
+      "safety_level": "routine",
+      "action_type": "self_care"
+    },
+    {
+      "id": "SM016",
+      "title": "Use the same screening conditions when possible",
+      "topics": [
+        "consistency",
+        "measurement_quality",
+        "repeat_screening"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "any"
+        ]
+      },
+      "priority": 5,
+      "recommendation": "For more meaningful comparison, repeat NeuroSense modules under similar conditions when possible—for example, similar recording setup, instructions and level of assistance. This reduces avoidable variation between screenings.",
+      "personalization_hint": "Useful as a final practical monitoring instruction.",
+      "source_ids": [
+        "SRC053",
+        "SRC056"
+      ],
+      "safety_level": "routine",
+      "action_type": "self_care"
+    }
+  ]
+}

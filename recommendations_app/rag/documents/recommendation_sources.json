@@ -1,0 +1,593 @@
+{
+  "schema_version": "1.0",
+  "description": "Curated source registry for the NeuroSense personalized Parkinson's recommendation RAG layer. These sources are retrieval references, not model-training data.",
+  "selection_policy": {
+    "preferred_source_types": [
+      "clinical_guideline",
+      "government_health_resource",
+      "recognized_parkinsons_organization",
+      "major_medical_center",
+      "professional_therapy_resource"
+    ],
+    "excluded_by_default": [
+      "personal_blogs",
+      "unverified_social_media",
+      "commercial_supplement_pages",
+      "anonymous_forum_posts"
+    ],
+    "llm_role": "The LLM may rephrase and organize retrieved content, but should not invent or independently select medical recommendations."
+  },
+  "report_sections": [
+    "medical_consultation",
+    "physical_therapy_exercise",
+    "speech_voice_therapy",
+    "lifestyle_wellness",
+    "symptom_monitoring",
+    "follow_up_schedule"
+  ],
+  "sources": [
+    {
+      "id": "SRC001",
+      "primary_section": "medical_consultation",
+      "topics": ["diagnosis", "neurology_referral", "clinical_assessment"],
+      "organization": "Parkinson's Foundation",
+      "title": "Getting Diagnosed",
+      "url": "https://www.parkinson.org/understanding-parkinsons/getting-diagnosed",
+      "source_type": "recognized_parkinsons_organization"
+    },
+    {
+      "id": "SRC002",
+      "primary_section": "medical_consultation",
+      "topics": ["treatment", "specialist_care", "physiotherapy", "speech_therapy"],
+      "organization": "NHS",
+      "title": "Parkinson's disease - Treatment",
+      "url": "https://www.nhs.uk/conditions/parkinsons-disease/treatment/",
+      "source_type": "government_health_resource"
+    },
+    {
+      "id": "SRC003",
+      "primary_section": "medical_consultation",
+      "topics": ["overview", "treatment", "supportive_therapy"],
+      "organization": "NHS",
+      "title": "Parkinson's disease",
+      "url": "https://www.nhs.uk/conditions/parkinsons-disease/",
+      "source_type": "government_health_resource"
+    },
+    {
+      "id": "SRC004",
+      "primary_section": "medical_consultation",
+      "topics": ["diagnosis", "treatment", "exercise", "fall_prevention"],
+      "organization": "Mayo Clinic",
+      "title": "Parkinson's disease - Diagnosis and treatment",
+      "url": "https://www.mayoclinic.org/diseases-conditions/parkinsons-disease/diagnosis-treatment/drc-20376062",
+      "source_type": "major_medical_center"
+    },
+    {
+      "id": "SRC005",
+      "primary_section": "medical_consultation",
+      "topics": ["clinical_guideline", "physiotherapy", "speech_therapy", "occupational_therapy"],
+      "organization": "NICE",
+      "title": "Parkinson's disease in adults - Recommendations",
+      "url": "https://www.nice.org.uk/guidance/ng71/chapter/Recommendations",
+      "source_type": "clinical_guideline"
+    },
+    {
+      "id": "SRC006",
+      "primary_section": "medical_consultation",
+      "topics": ["referral", "physiotherapy", "occupational_therapy", "speech_language_therapy"],
+      "organization": "NICE",
+      "title": "Quality statement 3: Referral to physiotherapy, occupational therapy or speech and language therapy",
+      "url": "https://www.nice.org.uk/guidance/qs164/chapter/quality-statement-3-referral-to-physiotherapy-occupational-therapy-or-speech-and-language-therapy",
+      "source_type": "clinical_guideline"
+    },
+    {
+      "id": "SRC007",
+      "primary_section": "medical_consultation",
+      "topics": ["guidelines", "specialist_referral", "review_frequency", "personalized_care"],
+      "organization": "Parkinson's UK",
+      "title": "NICE guidelines for Parkinson's",
+      "url": "https://www.parkinsons.org.uk/information/healthcare/nice-guidelines",
+      "source_type": "recognized_parkinsons_organization"
+    },
+    {
+      "id": "SRC008",
+      "primary_section": "medical_consultation",
+      "topics": ["multidisciplinary_team", "specialists", "care_team"],
+      "organization": "Parkinson's UK",
+      "title": "Health professionals and Parkinson's",
+      "url": "https://www.parkinsons.org.uk/information/healthcare/health-professionals",
+      "source_type": "recognized_parkinsons_organization"
+    },
+    {
+      "id": "SRC009",
+      "primary_section": "medical_consultation",
+      "topics": ["treatment", "rehabilitation", "exercise", "diet"],
+      "organization": "National Institute of Neurological Disorders and Stroke",
+      "title": "Parkinson's Disease",
+      "url": "https://www.ninds.nih.gov/current-research/focus-disorders/parkinsons-disease-research/parkinsons-disease-challenges-progress-and-promise",
+      "source_type": "government_health_resource"
+    },
+    {
+      "id": "SRC010",
+      "primary_section": "medical_consultation",
+      "topics": ["therapy_team", "physiotherapy", "speech_language_therapy", "dietitian"],
+      "organization": "Royal Free London NHS Foundation Trust",
+      "title": "Information about Parkinson's",
+      "url": "https://www.royalfree.nhs.uk/patients-and-visitors/patient-information-leaflets/information-about-parkinsons",
+      "source_type": "major_medical_center"
+    },
+
+    {
+      "id": "SRC011",
+      "primary_section": "physical_therapy_exercise",
+      "topics": ["exercise", "gait", "balance", "mobility"],
+      "organization": "Parkinson's Foundation",
+      "title": "Exercise and PD",
+      "url": "https://www.parkinson.org/library/fact-sheets/exercise",
+      "source_type": "recognized_parkinsons_organization"
+    },
+    {
+      "id": "SRC012",
+      "primary_section": "physical_therapy_exercise",
+      "topics": ["physical_therapy", "gait_training", "balance_training", "exercise"],
+      "organization": "Parkinson's Foundation",
+      "title": "Physical Therapy and PD",
+      "url": "https://www.parkinson.org/library/fact-sheets/physical-therapy",
+      "source_type": "recognized_parkinsons_organization"
+    },
+    {
+      "id": "SRC013",
+      "primary_section": "physical_therapy_exercise",
+      "topics": ["walking", "gait", "turning", "freezing"],
+      "organization": "Parkinson's Foundation",
+      "title": "Trouble Moving or Walking",
+      "url": "https://www.parkinson.org/understanding-parkinsons/movement-symptoms/trouble-moving",
+      "source_type": "recognized_parkinsons_organization"
+    },
+    {
+      "id": "SRC014",
+      "primary_section": "physical_therapy_exercise",
+      "topics": ["falls", "balance", "home_safety", "mobility"],
+      "organization": "Parkinson's Foundation",
+      "title": "Fall Prevention in Parkinson's",
+      "url": "https://www.parkinson.org/library/fact-sheets/fall-prevention",
+      "source_type": "recognized_parkinsons_organization"
+    },
+    {
+      "id": "SRC015",
+      "primary_section": "physical_therapy_exercise",
+      "topics": ["freezing", "gait", "fall_risk"],
+      "organization": "Parkinson's Foundation",
+      "title": "Freezing and PD",
+      "url": "https://www.parkinson.org/library/fact-sheets/freezing",
+      "source_type": "recognized_parkinsons_organization"
+    },
+    {
+      "id": "SRC016",
+      "primary_section": "physical_therapy_exercise",
+      "topics": ["balance", "falls", "gait", "exercise"],
+      "organization": "Parkinson's Foundation",
+      "title": "Finding Balance: Steps to Move Safely and Minimize Falls with Parkinson's",
+      "url": "https://www.parkinson.org/blog/awareness/finding-balance",
+      "source_type": "recognized_parkinsons_organization"
+    },
+    {
+      "id": "SRC017",
+      "primary_section": "physical_therapy_exercise",
+      "topics": ["exercise", "symptom_management", "brain_health"],
+      "organization": "The Michael J. Fox Foundation",
+      "title": "Exercise",
+      "url": "https://www.michaeljfox.org/news/exercise",
+      "source_type": "recognized_parkinsons_organization"
+    },
+    {
+      "id": "SRC018",
+      "primary_section": "physical_therapy_exercise",
+      "topics": ["exercise", "motor_symptoms", "balance", "freezing"],
+      "organization": "The Michael J. Fox Foundation",
+      "title": "Exercise and Parkinson's: Frequently Asked Questions",
+      "url": "https://www.michaeljfox.org/news/exercise-and-parkinsons-frequently-asked-questions",
+      "source_type": "recognized_parkinsons_organization"
+    },
+    {
+      "id": "SRC019",
+      "primary_section": "physical_therapy_exercise",
+      "topics": ["exercise", "brain_health", "personalized_activity"],
+      "organization": "The Michael J. Fox Foundation",
+      "title": "New Guide: Exercise, Brain Health and Parkinson's",
+      "url": "https://www.michaeljfox.org/news/new-guide-exercise-brain-health-and-parkinsons",
+      "source_type": "recognized_parkinsons_organization"
+    },
+    {
+      "id": "SRC020",
+      "primary_section": "physical_therapy_exercise",
+      "topics": ["exercise", "intensity", "mobility", "safety"],
+      "organization": "Parkinson's UK",
+      "title": "Physical activity and exercise",
+      "url": "https://www.parkinsons.org.uk/information/treatments/physical-activity-and-exercise",
+      "source_type": "recognized_parkinsons_organization"
+    },
+    {
+      "id": "SRC021",
+      "primary_section": "physical_therapy_exercise",
+      "topics": ["home_exercise", "balance", "chair_exercise", "intensity"],
+      "organization": "Parkinson's UK",
+      "title": "Staying active at home with Parkinson's: your toolkit",
+      "url": "https://www.parkinsons.org.uk/information/treatments/physical-activity-and-exercise/toolkit",
+      "source_type": "recognized_parkinsons_organization"
+    },
+    {
+      "id": "SRC022",
+      "primary_section": "physical_therapy_exercise",
+      "topics": ["physical_therapy", "mobility", "strength", "balance"],
+      "organization": "ChoosePT / American Physical Therapy Association",
+      "title": "11 Ways Physical Therapists Help Slow the Progression of Parkinson Disease",
+      "url": "https://www.choosept.com/health-tips/11-ways-physical-therapists-help-slow-progression-parkinsons-disease",
+      "source_type": "professional_therapy_resource"
+    },
+    {
+      "id": "SRC023",
+      "primary_section": "physical_therapy_exercise",
+      "topics": ["low_intensity", "exercise", "aerobic_activity"],
+      "organization": "Parkinson's UK",
+      "title": "Low-intensity physical activity",
+      "url": "https://www.parkinsons.org.uk/information/treatments/physical-activity-and-exercise/low-intensity-activity",
+      "source_type": "recognized_parkinsons_organization"
+    },
+    {
+      "id": "SRC024",
+      "primary_section": "physical_therapy_exercise",
+      "topics": ["high_intensity", "exercise", "fitness"],
+      "organization": "Parkinson's UK",
+      "title": "High-intensity physical activity",
+      "url": "https://www.parkinsons.org.uk/information/treatments/physical-activity-and-exercise/high-intensity",
+      "source_type": "recognized_parkinsons_organization"
+    },
+
+    {
+      "id": "SRC025",
+      "primary_section": "speech_voice_therapy",
+      "topics": ["speech", "swallowing", "voice", "speech_language_pathology"],
+      "organization": "Parkinson's Foundation",
+      "title": "Speech & Swallowing in Parkinson's",
+      "url": "https://www.parkinson.org/library/fact-sheets/speech-swallowing",
+      "source_type": "recognized_parkinsons_organization"
+    },
+    {
+      "id": "SRC026",
+      "primary_section": "speech_voice_therapy",
+      "topics": ["speech", "voice", "swallowing", "communication"],
+      "organization": "Parkinson's Foundation",
+      "title": "Speech & Swallowing Issues",
+      "url": "https://www.parkinson.org/understanding-parkinsons/non-movement-symptoms/speech-swallowing",
+      "source_type": "recognized_parkinsons_organization"
+    },
+    {
+      "id": "SRC027",
+      "primary_section": "speech_voice_therapy",
+      "topics": ["speech_language_therapy", "communication", "swallowing"],
+      "organization": "Parkinson's UK",
+      "title": "Speech and language therapy",
+      "url": "https://www.parkinsons.org.uk/information/treatments/speech-language-therapy",
+      "source_type": "recognized_parkinsons_organization"
+    },
+    {
+      "id": "SRC028",
+      "primary_section": "speech_voice_therapy",
+      "topics": ["speech", "communication", "breathing", "voice"],
+      "organization": "Parkinson's UK",
+      "title": "Speech and communication",
+      "url": "https://www.parkinsons.org.uk/information/symptoms/non-motor/speech-communication",
+      "source_type": "recognized_parkinsons_organization"
+    },
+    {
+      "id": "SRC029",
+      "primary_section": "speech_voice_therapy",
+      "topics": ["swallowing", "eating", "saliva", "dysphagia"],
+      "organization": "Parkinson's UK",
+      "title": "Eating, swallowing and managing saliva",
+      "url": "https://www.parkinsons.org.uk/information/symptoms/non-motor/eating-swallowing-managing-saliva",
+      "source_type": "recognized_parkinsons_organization"
+    },
+    {
+      "id": "SRC030",
+      "primary_section": "speech_voice_therapy",
+      "topics": ["rehabilitation", "speech_therapy", "physical_therapy", "occupational_therapy"],
+      "organization": "Parkinson's Foundation",
+      "title": "Physical, Occupational & Speech Therapies",
+      "url": "https://www.parkinson.org/living-with-parkinsons/treatment/physical-occupational-speech-therapies",
+      "source_type": "recognized_parkinsons_organization"
+    },
+
+    {
+      "id": "SRC031",
+      "primary_section": "lifestyle_wellness",
+      "topics": ["nutrition", "diet", "medication_timing"],
+      "organization": "Parkinson's Foundation",
+      "title": "Nutrition and PD",
+      "url": "https://www.parkinson.org/library/fact-sheets/nutrition",
+      "source_type": "recognized_parkinsons_organization"
+    },
+    {
+      "id": "SRC032",
+      "primary_section": "lifestyle_wellness",
+      "topics": ["diet", "nutrition", "constipation", "energy"],
+      "organization": "Parkinson's Foundation",
+      "title": "Diet & Nutrition",
+      "url": "https://www.parkinson.org/living-with-parkinsons/management/diet-nutrition",
+      "source_type": "recognized_parkinsons_organization"
+    },
+    {
+      "id": "SRC033",
+      "primary_section": "lifestyle_wellness",
+      "topics": ["diet", "nutrition", "weight", "medication"],
+      "organization": "Parkinson's UK",
+      "title": "Diet and Parkinson's",
+      "url": "https://www.parkinsons.org.uk/support/managing-parkinsons/diet",
+      "source_type": "recognized_parkinsons_organization"
+    },
+    {
+      "id": "SRC034",
+      "primary_section": "lifestyle_wellness",
+      "topics": ["weight", "diet", "nutrition_support"],
+      "organization": "Parkinson's UK",
+      "title": "Weight changes and Parkinson's",
+      "url": "https://www.parkinsons.org.uk/support/managing-parkinsons/diet/weight-changes",
+      "source_type": "recognized_parkinsons_organization"
+    },
+    {
+      "id": "SRC035",
+      "primary_section": "lifestyle_wellness",
+      "topics": ["diet", "nutrition", "symptom_management"],
+      "organization": "The Michael J. Fox Foundation",
+      "title": "Eating Well with Parkinson's: Diet and Nutrition Tips",
+      "url": "https://www.michaeljfox.org/news/diet-nutrition",
+      "source_type": "recognized_parkinsons_organization"
+    },
+    {
+      "id": "SRC036",
+      "primary_section": "lifestyle_wellness",
+      "topics": ["diet", "nutrition", "brain_health"],
+      "organization": "The Michael J. Fox Foundation",
+      "title": "Diet, Brain Health and Parkinson's: New Guide",
+      "url": "https://www.michaeljfox.org/news/diet-brain-health-and-parkinsons-new-guide",
+      "source_type": "recognized_parkinsons_organization"
+    },
+    {
+      "id": "SRC037",
+      "primary_section": "lifestyle_wellness",
+      "topics": ["diet", "dietitian", "personalized_nutrition"],
+      "organization": "The Michael J. Fox Foundation",
+      "title": "Ask the MD: How a Dietitian Can Help with Parkinson's",
+      "url": "https://www.michaeljfox.org/news/ask-md-how-dietitian-can-help-parkinsons",
+      "source_type": "recognized_parkinsons_organization"
+    },
+    {
+      "id": "SRC038",
+      "primary_section": "lifestyle_wellness",
+      "topics": ["diet", "nutrition", "healthy_eating"],
+      "organization": "The Michael J. Fox Foundation",
+      "title": "Ask the MD: What's the Best Diet for Parkinson's?",
+      "url": "https://www.michaeljfox.org/news/ask-md-whats-best-diet-parkinsons",
+      "source_type": "recognized_parkinsons_organization"
+    },
+    {
+      "id": "SRC039",
+      "primary_section": "lifestyle_wellness",
+      "topics": ["sleep", "sleep_hygiene", "daytime_sleepiness"],
+      "organization": "Parkinson's Foundation",
+      "title": "Understanding Sleep Problems in Parkinson's",
+      "url": "https://www.parkinson.org/library/fact-sheets/sleep?gad=1",
+      "source_type": "recognized_parkinsons_organization"
+    },
+    {
+      "id": "SRC040",
+      "primary_section": "lifestyle_wellness",
+      "topics": ["sleep", "insomnia", "sleep_patterns"],
+      "organization": "Parkinson's UK",
+      "title": "Sleep patterns and insomnia",
+      "url": "https://www.parkinsons.org.uk/information/symptoms/non-motor/sleep/patterns-insomnia",
+      "source_type": "recognized_parkinsons_organization"
+    },
+    {
+      "id": "SRC041",
+      "primary_section": "lifestyle_wellness",
+      "topics": ["sleep", "sleep_disorders", "fatigue"],
+      "organization": "The Michael J. Fox Foundation",
+      "title": "Your Top Questions about Sleep and Parkinson's, Answered",
+      "url": "https://www.michaeljfox.org/news/your-top-questions-about-sleep-and-parkinsons-answered",
+      "source_type": "recognized_parkinsons_organization"
+    },
+    {
+      "id": "SRC042",
+      "primary_section": "lifestyle_wellness",
+      "topics": ["mental_health", "depression", "anxiety", "wellbeing"],
+      "organization": "Parkinson's Foundation",
+      "title": "All About PD: Mental Health",
+      "url": "https://www.parkinson.org/library/fact-sheets/mental-health",
+      "source_type": "recognized_parkinsons_organization"
+    },
+
+    {
+      "id": "SRC043",
+      "primary_section": "symptom_monitoring",
+      "topics": ["early_signs", "symptoms", "monitoring"],
+      "organization": "Parkinson's Foundation",
+      "title": "10 Early Signs of Parkinson's Disease",
+      "url": "https://www.parkinson.org/library/fact-sheets/10-signs",
+      "source_type": "recognized_parkinsons_organization"
+    },
+    {
+      "id": "SRC044",
+      "primary_section": "symptom_monitoring",
+      "topics": ["constipation", "gastrointestinal", "symptom_tracking"],
+      "organization": "Parkinson's Foundation",
+      "title": "Constipation & Nausea",
+      "url": "https://www.parkinson.org/understanding-parkinsons/non-movement-symptoms/constipation?form=19983&tribute=true",
+      "source_type": "recognized_parkinsons_organization"
+    },
+    {
+      "id": "SRC045",
+      "primary_section": "symptom_monitoring",
+      "topics": ["constipation", "gastrointestinal", "medication_effect"],
+      "organization": "Parkinson's Foundation",
+      "title": "Constipation and Other Gastrointestinal Problems in Parkinson's Disease",
+      "url": "https://www.parkinson.org/library/fact-sheets/constipation?form=19983&tribute=true",
+      "source_type": "recognized_parkinsons_organization"
+    },
+    {
+      "id": "SRC046",
+      "primary_section": "symptom_monitoring",
+      "topics": ["anxiety", "off_periods", "symptom_tracking"],
+      "organization": "Parkinson's Foundation",
+      "title": "Managing Anxiety in Parkinson's",
+      "url": "https://www.parkinson.org/library/fact-sheets/anxiety",
+      "source_type": "recognized_parkinsons_organization"
+    },
+    {
+      "id": "SRC047",
+      "primary_section": "symptom_monitoring",
+      "topics": ["depression", "mood", "screening"],
+      "organization": "Parkinson's Foundation",
+      "title": "Depression",
+      "url": "https://www.parkinson.org/understanding-parkinsons/non-movement-symptoms/depression",
+      "source_type": "recognized_parkinsons_organization"
+    },
+    {
+      "id": "SRC048",
+      "primary_section": "symptom_monitoring",
+      "topics": ["fatigue", "sleep", "quality_of_life"],
+      "organization": "Parkinson's Foundation",
+      "title": "Fatigue",
+      "url": "https://www.parkinson.org/library/fact-sheets/fatigue?form=19983",
+      "source_type": "recognized_parkinsons_organization"
+    },
+    {
+      "id": "SRC049",
+      "primary_section": "symptom_monitoring",
+      "topics": ["dizziness", "low_blood_pressure", "fall_risk"],
+      "organization": "Parkinson's Foundation",
+      "title": "Vertigo, Dizziness & Low Blood Pressure",
+      "url": "https://www.parkinson.org/understanding-parkinsons/non-movement-symptoms/vertigo",
+      "source_type": "recognized_parkinsons_organization"
+    },
+    {
+      "id": "SRC050",
+      "primary_section": "symptom_monitoring",
+      "topics": ["urinary_symptoms", "autonomic_symptoms"],
+      "organization": "Parkinson's Foundation",
+      "title": "Urinary Problems in Parkinson's Disease",
+      "url": "https://www.parkinson.org/library/fact-sheets/urinary-problems",
+      "source_type": "recognized_parkinsons_organization"
+    },
+    {
+      "id": "SRC051",
+      "primary_section": "symptom_monitoring",
+      "topics": ["bladder", "bowel", "constipation"],
+      "organization": "Parkinson's UK",
+      "title": "Bladder and bowel changes",
+      "url": "https://www.parkinsons.org.uk/information/symptoms/non-motor/bladder-bowel-changes",
+      "source_type": "recognized_parkinsons_organization"
+    },
+    {
+      "id": "SRC052",
+      "primary_section": "symptom_monitoring",
+      "topics": ["falls", "dizziness", "blood_pressure", "safety"],
+      "organization": "Parkinson's UK",
+      "title": "Falls and dizziness",
+      "url": "https://www.parkinsons.org.uk/information/symptoms/motor/falls-and-dizziness",
+      "source_type": "recognized_parkinsons_organization"
+    },
+    {
+      "id": "SRC053",
+      "primary_section": "symptom_monitoring",
+      "topics": ["freezing", "gait", "fall_prevention"],
+      "organization": "Parkinson's UK",
+      "title": "Freezing",
+      "url": "https://www.parkinsons.org.uk/information/symptoms/motor/freezing",
+      "source_type": "recognized_parkinsons_organization"
+    },
+    {
+      "id": "SRC054",
+      "primary_section": "symptom_monitoring",
+      "topics": ["cognition", "memory", "thinking_changes"],
+      "organization": "Parkinson's Foundation",
+      "title": "Cognition: A Guide to Thinking Changes in Parkinson's Disease",
+      "url": "https://www.parkinson.org/library/books/cognition",
+      "source_type": "recognized_parkinsons_organization"
+    },
+
+    {
+      "id": "SRC055",
+      "primary_section": "follow_up_schedule",
+      "topics": ["home_safety", "occupational_therapy", "reassessment"],
+      "organization": "Parkinson's Foundation",
+      "title": "Home Safety",
+      "url": "https://www.parkinson.org/living-with-parkinsons/management/activities-daily-living/home-safety",
+      "source_type": "recognized_parkinsons_organization"
+    },
+    {
+      "id": "SRC056",
+      "primary_section": "follow_up_schedule",
+      "topics": ["daily_living", "occupational_therapy", "independence"],
+      "organization": "Parkinson's Foundation",
+      "title": "Activities of Daily Living",
+      "url": "https://www.parkinson.org/living-with-parkinsons/management/activities-daily-living",
+      "source_type": "recognized_parkinsons_organization"
+    },
+    {
+      "id": "SRC057",
+      "primary_section": "follow_up_schedule",
+      "topics": ["occupational_therapy", "daily_activities", "reassessment"],
+      "organization": "Parkinson's Foundation",
+      "title": "Occupational Therapy & Parkinson's",
+      "url": "https://www.parkinson.org/library/fact-sheets/occupational-therapy?form=19983",
+      "source_type": "recognized_parkinsons_organization"
+    },
+    {
+      "id": "SRC058",
+      "primary_section": "follow_up_schedule",
+      "topics": ["occupational_therapy", "self_management", "multidisciplinary_team"],
+      "organization": "Parkinson's UK",
+      "title": "Occupational therapy",
+      "url": "https://www.parkinsons.org.uk/information/treatments/occupational-therapy",
+      "source_type": "recognized_parkinsons_organization"
+    },
+    {
+      "id": "SRC059",
+      "primary_section": "follow_up_schedule",
+      "topics": ["sleep", "doctor_follow_up", "sleep_conditions"],
+      "organization": "Parkinson's UK",
+      "title": "Sleep",
+      "url": "https://www.parkinsons.org.uk/information/symptoms/non-motor/sleep",
+      "source_type": "recognized_parkinsons_organization"
+    },
+    {
+      "id": "SRC060",
+      "primary_section": "follow_up_schedule",
+      "topics": ["sleep_problems", "medication_review", "doctor_follow_up"],
+      "organization": "Parkinson's UK",
+      "title": "Sleep problems",
+      "url": "https://www.parkinsons.org.uk/information/symptoms/non-motor/sleep/problems-conditions",
+      "source_type": "recognized_parkinsons_organization"
+    },
+    {
+      "id": "SRC061",
+      "primary_section": "follow_up_schedule",
+      "topics": ["exercise_resources", "falls_prevention", "ongoing_activity"],
+      "organization": "Parkinson's UK",
+      "title": "Physical activity resources",
+      "url": "https://www.parkinsons.org.uk/information/treatments/physical-activity-and-exercise/resources",
+      "source_type": "recognized_parkinsons_organization"
+    },
+    {
+      "id": "SRC062",
+      "primary_section": "follow_up_schedule",
+      "topics": ["occupational_therapy", "best_practice", "stage_specific_care"],
+      "organization": "Parkinson's UK",
+      "title": "Occupational therapy for people with Parkinson's: Best practice guide",
+      "url": "https://www.parkinsons.org.uk/professionals/resources/occupational-therapy-people-parkinsons-best-practice-guide",
+      "source_type": "professional_therapy_resource"
+    }
+  ]
+}

@@ -1,0 +1,496 @@
+{
+  "schema_version": "1.0",
+  "resource_type": "youtube_resources",
+  "purpose": "Curated external video resources that may be attached to NeuroSense recommendations. These resources support the Physical Therapy & Exercise and Speech & Voice Therapy sections. The recommendation engine chooses the clinical topic first; this file only supplies an appropriate verified resource for that topic.",
+  "verification": {
+    "last_verified": "2026-10-03",
+    "policy": "Use only resources published by recognized Parkinson's organizations or professional therapy providers. Do not allow the LLM to invent, search for, or substitute URLs. Links should be re-verified periodically.",
+    "practice_summary_policy": "Practice points are short, patient-friendly summaries grounded in the verified provider's video description or official program guidance. They are not verbatim transcripts."
+  },
+  "selection_policy": {
+    "preferred_match_order": [
+      "section",
+      "topic_tags",
+      "ability_level",
+      "safety_tags"
+    ],
+    "max_resources_per_section": 1,
+    "allow_llm_url_generation": false,
+    "allow_unverified_links": false,
+    "rules": [
+      "Do not show a standing/balance resource when fall-risk or supervision requirements make it unsuitable.",
+      "Prefer seated or lower-intensity resources when mobility safety is uncertain.",
+      "Speech home-practice videos should be presented as supportive practice, not a replacement for speech-language therapy.",
+      "If no safe matching resource exists, show no video rather than selecting an unrelated one."
+    ]
+  },
+  "resources": [
+    {
+      "id": "YT001",
+      "section": "physical_therapy_exercise",
+      "title": "Parkinson's Disease Exercises: Strength, Balance and Gait Training",
+      "provider": "Parkinson's Foundation",
+      "url": "https://www.youtube.com/watch?v=Zw9eNMEzFTc",
+      "topic_tags": [
+        "gait",
+        "balance",
+        "strength",
+        "mobility",
+        "coordination",
+        "aerobic"
+      ],
+      "ability_level": [
+        "moderate",
+        "higher_function"
+      ],
+      "safety_tags": [
+        "standing",
+        "dynamic",
+        "supervision_preferred_if_fall_risk"
+      ],
+      "use_when": [
+        "gait_concern",
+        "balance_concern",
+        "general_mobility"
+      ],
+      "avoid_when": [
+        "unassessed_high_fall_risk",
+        "acute_injury"
+      ],
+      "safety_note": "Exercise only at a level that feels safe. If balance is poor or there is a risk of falling, use support or have someone nearby.",
+      "verified": true,
+      "practice_points": [
+        "Practice steady walking and gait drills that work on shuffling and slow movement.",
+        "Include strength and flexibility work to support a more upright posture.",
+        "Add balance work together with simple movement-and-thinking challenges."
+      ],
+      "practice_points_ur": [
+        "چلنے کی ایسی مشقیں کریں جو چھوٹے گھسٹتے قدموں اور سست حرکت پر کام کریں۔",
+        "سیدھی قامت کے لیے طاقت اور لچک کی مشقیں شامل کریں۔",
+        "توازن کی مشق کے ساتھ حرکت کرتے ہوئے سادہ ذہنی توجہ بھی شامل کریں۔"
+      ],
+      "safety_note_ur": "صرف اتنی ورزش کریں جتنی محفوظ محسوس ہو۔ اگر توازن کمزور ہو یا گرنے کا خدشہ ہو تو مضبوط سہارا لیں یا کسی کو اپنے پاس رکھیں۔"
+    },
+    {
+      "id": "YT002",
+      "section": "physical_therapy_exercise",
+      "title": "Parkinson's Disease Exercises: Balance Boost",
+      "provider": "Parkinson's Foundation",
+      "url": "https://www.youtube.com/watch?v=LfswDAM2trM",
+      "topic_tags": [
+        "balance",
+        "coordination",
+        "strength",
+        "fall_prevention"
+      ],
+      "ability_level": [
+        "moderate",
+        "higher_function"
+      ],
+      "safety_tags": [
+        "standing",
+        "balance_challenge",
+        "supervision_preferred_if_fall_risk"
+      ],
+      "use_when": [
+        "balance_concern",
+        "gait_concern"
+      ],
+      "avoid_when": [
+        "unassessed_high_fall_risk",
+        "recent_fall_injury"
+      ],
+      "safety_note": "Do the balance exercises at your own ability level. Use a stable support or another person's help if needed.",
+      "verified": true,
+      "practice_points": [
+        "Practice both still and moving balance exercises.",
+        "Use functional movements that are similar to everyday activities.",
+        "Add simple strength work to help improve stability."
+      ],
+      "practice_points_ur": [
+        "ایک جگہ کھڑے ہو کر اور حرکت کے ساتھ دونوں طرح کی توازن کی مشق کریں۔",
+        "روزمرہ کاموں جیسی آسان حرکات کی مشق کریں۔",
+        "توازن بہتر رکھنے کے لیے ہلکی طاقت کی مشقیں شامل کریں۔"
+      ],
+      "safety_note_ur": "توازن کی ورزش اپنی صلاحیت کے مطابق کریں۔ ضرورت ہو تو مضبوط سہارا استعمال کریں یا کسی کی مدد لیں۔"
+    },
+    {
+      "id": "YT003",
+      "section": "physical_therapy_exercise",
+      "title": "Parkinson's Disease Exercises: Resistance Bands for Strength & Flexibility",
+      "provider": "Parkinson's Foundation",
+      "url": "https://www.youtube.com/watch?v=FQmxJB_Svn0",
+      "topic_tags": [
+        "strength",
+        "flexibility",
+        "posture",
+        "mobility",
+        "stiffness"
+      ],
+      "ability_level": [
+        "beginner",
+        "moderate"
+      ],
+      "safety_tags": [
+        "equipment_resistance_band",
+        "controlled_movement"
+      ],
+      "use_when": [
+        "strength_concern",
+        "stiffness",
+        "general_mobility"
+      ],
+      "avoid_when": [
+        "acute_joint_injury",
+        "unsafe_band_use"
+      ],
+      "safety_note": "Use a light resistance band and move slowly with control. Stop if you feel pain or become unsteady.",
+      "verified": true,
+      "practice_points": [
+        "Use the resistance band with slow, controlled movements.",
+        "Keep your posture upright and aligned while using the band.",
+        "Use the band exercises to work on strength and flexibility without rushing."
+      ],
+      "practice_points_ur": [
+        "ریزسٹنس بینڈ کو آہستہ اور قابو میں رہ کر استعمال کریں۔",
+        "بینڈ استعمال کرتے وقت اپنی کمر اور قامت سیدھی رکھیں۔",
+        "بینڈ کی مشقوں سے طاقت اور لچک پر کام کریں، جلدی نہ کریں۔"
+      ],
+      "safety_note_ur": "ہلکا ریزسٹنس بینڈ استعمال کریں اور حرکت آہستہ رکھیں۔ درد ہو یا توازن بگڑنے لگے تو ورزش روک دیں۔"
+    },
+    {
+      "id": "YT004",
+      "section": "physical_therapy_exercise",
+      "title": "Parkinson's Disease Exercises: Flexible Balance",
+      "provider": "Parkinson's Foundation",
+      "url": "https://www.youtube.com/watch?v=QrallBt-j_8",
+      "topic_tags": [
+        "flexibility",
+        "balance",
+        "stretching",
+        "stiffness",
+        "functional_mobility"
+      ],
+      "ability_level": [
+        "moderate",
+        "higher_function"
+      ],
+      "safety_tags": [
+        "standing",
+        "floor_work",
+        "chair_support"
+      ],
+      "use_when": [
+        "stiffness",
+        "balance_concern",
+        "mobility_concern"
+      ],
+      "avoid_when": [
+        "unable_to_get_on_floor_safely",
+        "unassessed_high_fall_risk"
+      ],
+      "safety_note": "This video includes standing and floor exercises. Skip it if getting down to the floor, standing up, or keeping balance is not safe for you.",
+      "verified": true,
+      "practice_points": [
+        "Use slow stretches to help reduce stiffness.",
+        "Practice reaching and position changes while keeping your balance.",
+        "Use steady breathing while you move."
+      ],
+      "practice_points_ur": [
+        "اکڑاؤ کم کرنے کے لیے آہستہ آہستہ کھنچاؤ کی مشق کریں۔",
+        "چیز کی طرف ہاتھ بڑھانے اور جسم کی پوزیشن بدلنے کی مشق توازن کے ساتھ کریں۔",
+        "حرکت کے دوران سانس کو پرسکون اور باقاعدہ رکھیں۔"
+      ],
+      "safety_note_ur": "اس ویڈیو میں کھڑے ہو کر اور فرش پر کی جانے والی ورزشیں شامل ہیں۔ اگر فرش پر بیٹھنا، اٹھنا یا توازن برقرار رکھنا محفوظ نہ ہو تو یہ ورزش نہ کریں۔"
+    },
+    {
+      "id": "YT005",
+      "section": "physical_therapy_exercise",
+      "title": "Exercise and Parkinson's - Physical Activity Playlist",
+      "provider": "Parkinson's UK",
+      "url": "https://www.youtube.com/playlist?list=PL1ixQpbHed3ZS0iZKIb4RKmtM2JjMadtv",
+      "topic_tags": [
+        "general_exercise",
+        "mobility",
+        "fitness",
+        "balance",
+        "strength"
+      ],
+      "ability_level": [
+        "beginner",
+        "moderate",
+        "higher_function"
+      ],
+      "safety_tags": [
+        "playlist",
+        "choose_by_ability"
+      ],
+      "use_when": [
+        "general_activity",
+        "maintenance"
+      ],
+      "avoid_when": [],
+      "safety_note": "Choose an activity that matches your current ability. The playlist includes easier and more challenging exercise options.",
+      "verified": true,
+      "practice_points": [
+        "Choose a session that matches your current ability.",
+        "Use a low-intensity seated option if you need easier movement.",
+        "Choose balance, coordination or mobility sessions only at a level that feels safe."
+      ],
+      "practice_points_ur": [
+        "اپنی موجودہ صلاحیت کے مطابق سیشن منتخب کریں۔",
+        "اگر آسان حرکت کی ضرورت ہو تو بیٹھ کر کی جانے والی ہلکی ورزش منتخب کریں۔",
+        "توازن، ہم آہنگی یا حرکت کی ورزش وہی منتخب کریں جو آپ کے لیے محفوظ محسوس ہو۔"
+      ],
+      "safety_note_ur": "اپنی موجودہ صلاحیت کے مطابق سرگرمی منتخب کریں۔ اس پلے لسٹ میں آسان اور نسبتاً مشکل دونوں قسم کی ورزشیں موجود ہیں۔"
+    },
+    {
+      "id": "YT006",
+      "section": "physical_therapy_exercise",
+      "title": "Chair Based General Exercise",
+      "provider": "Parkinson's UK",
+      "url": "https://www.youtube.com/watch?v=EMO_ZlWjZMw",
+      "topic_tags": [
+        "chair_exercise",
+        "low_intensity",
+        "strength",
+        "posture",
+        "mobility"
+      ],
+      "ability_level": [
+        "beginner",
+        "lower_function",
+        "moderate"
+      ],
+      "safety_tags": [
+        "seated",
+        "lower_intensity",
+        "reduced_balance_demand"
+      ],
+      "use_when": [
+        "lower_mobility",
+        "balance_uncertainty",
+        "beginner_activity"
+      ],
+      "avoid_when": [],
+      "safety_note": "This is a gentle seated exercise option. Exercise comfortably and stay within your own physical limits.",
+      "verified": true,
+      "practice_points": [
+        "Use the seated routine to work on everyday strength and movement.",
+        "Focus on sitting tall and moving in a slow, controlled way.",
+        "Keep the routine gentle and stay within a comfortable range."
+      ],
+      "practice_points_ur": [
+        "بیٹھ کر کی جانے والی اس مشق سے روزمرہ طاقت اور حرکت پر کام کریں۔",
+        "سیدھا بیٹھیں اور حرکات آہستہ اور قابو میں رکھیں۔",
+        "ورزش ہلکی رکھیں اور صرف اتنی حرکت کریں جتنی آرام دہ محسوس ہو۔"
+      ],
+      "safety_note_ur": "یہ بیٹھ کر کی جانے والی ہلکی ورزش ہے۔ اپنی جسمانی حالت کے مطابق آرام سے ورزش کریں۔"
+    },
+    {
+      "id": "YT007",
+      "section": "physical_therapy_exercise",
+      "title": "Dynamic Balance",
+      "provider": "Parkinson's UK",
+      "url": "https://www.youtube.com/watch?v=rVP2lV3O4Us",
+      "topic_tags": [
+        "balance",
+        "coordination",
+        "mobility",
+        "dynamic_balance"
+      ],
+      "ability_level": [
+        "moderate"
+      ],
+      "safety_tags": [
+        "standing",
+        "balance_challenge",
+        "support_recommended"
+      ],
+      "use_when": [
+        "balance_concern",
+        "coordination_concern"
+      ],
+      "avoid_when": [
+        "unassessed_high_fall_risk",
+        "recent_fall_injury"
+      ],
+      "safety_note": "Use a stable support during balance practice if you feel unsteady. Ask someone to stay nearby if you need help.",
+      "verified": true,
+      "practice_points": [
+        "Practice moving balance activities at a comfortable pace.",
+        "Keep a stable chair or surface close for support.",
+        "Pause if you feel unsteady and continue only when you feel stable again."
+      ],
+      "practice_points_ur": [
+        "حرکت کے ساتھ توازن کی مشق آرام دہ رفتار سے کریں۔",
+        "سہارے کے لیے مضبوط کرسی یا سطح اپنے قریب رکھیں۔",
+        "اگر توازن بگڑے تو رک جائیں اور دوبارہ تب شروع کریں جب خود کو مستحکم محسوس کریں۔"
+      ],
+      "safety_note_ur": "اگر توازن کمزور محسوس ہو تو ورزش کے دوران مضبوط سہارا استعمال کریں۔ ضرورت ہو تو کسی کو اپنے پاس رکھیں۔"
+    },
+    {
+      "id": "YT008",
+      "section": "physical_therapy_exercise",
+      "title": "Balance Exercise",
+      "provider": "Parkinson's UK",
+      "url": "https://www.youtube.com/watch?v=_4QRex7Ykpk",
+      "topic_tags": [
+        "balance",
+        "stability",
+        "mobility"
+      ],
+      "ability_level": [
+        "moderate"
+      ],
+      "safety_tags": [
+        "standing",
+        "balance_challenge"
+      ],
+      "use_when": [
+        "balance_concern"
+      ],
+      "avoid_when": [
+        "unassessed_high_fall_risk"
+      ],
+      "safety_note": "Try the standing balance exercises only if you can do them safely with stable support.",
+      "verified": true,
+      "practice_points": [
+        "Practice standing balance movements with stable support nearby.",
+        "Move slowly and focus on keeping your body steady.",
+        "Stop the exercise if you cannot keep your balance safely."
+      ],
+      "practice_points_ur": [
+        "کھڑے ہو کر توازن کی مشق مضبوط سہارے کے قریب کریں۔",
+        "آہستہ حرکت کریں اور جسم کو مستحکم رکھنے پر توجہ دیں۔",
+        "اگر توازن محفوظ طریقے سے برقرار نہ رہے تو ورزش روک دیں۔"
+      ],
+      "safety_note_ur": "کھڑے ہو کر توازن کی مشق صرف اس وقت کریں جب آپ مضبوط سہارے کے ساتھ اسے محفوظ طریقے سے کر سکیں۔"
+    },
+    {
+      "id": "YT009",
+      "section": "speech_voice_therapy",
+      "title": "Parkinson's Disease Exercises: LSVT LOUD Vocal Therapy",
+      "provider": "Parkinson's Foundation",
+      "url": "https://www.youtube.com/watch?v=L8bkqvf6TRs",
+      "topic_tags": [
+        "voice",
+        "loudness",
+        "speech",
+        "communication",
+        "vocal_practice"
+      ],
+      "ability_level": [
+        "general"
+      ],
+      "safety_tags": [
+        "speech_practice",
+        "therapist_guided_content"
+      ],
+      "use_when": [
+        "reduced_voice_volume",
+        "speech_concern",
+        "communication_concern"
+      ],
+      "avoid_when": [
+        "acute_voice_pain"
+      ],
+      "safety_note": "Use this video as supportive voice practice. If voice or speech problems continue, a speech-language professional can provide more specific guidance.",
+      "verified": true,
+      "practice_points": [
+        "Practice a clear, strong 'ah' sound at a comfortable loudness.",
+        "Practice high and low 'ah' sounds while keeping the voice clear.",
+        "Say short everyday phrases using the same strong, clear voice."
+      ],
+      "practice_points_ur": [
+        "آرام دہ آواز میں واضح اور مضبوط 'آہ' کی مشق کریں۔",
+        "آواز کو صاف رکھتے ہوئے اونچی اور نیچی 'آہ' کی مشق کریں۔",
+        "روزمرہ کے مختصر جملے اسی مضبوط اور واضح آواز میں بولیں۔"
+      ],
+      "safety_note_ur": "یہ ویڈیو آواز کی مشق میں مدد کے لیے استعمال کریں۔ اگر آواز یا بولنے کی مشکل جاری رہے تو ماہرِ گفتار سے مزید رہنمائی لی جا سکتی ہے۔"
+    },
+    {
+      "id": "YT010",
+      "section": "speech_voice_therapy",
+      "title": "Changes in Speech and Voice",
+      "provider": "Parkinson's Foundation",
+      "url": "https://www.youtube.com/watch?v=k6w_PQihLr8",
+      "topic_tags": [
+        "speech",
+        "voice",
+        "communication",
+        "education"
+      ],
+      "ability_level": [
+        "general"
+      ],
+      "safety_tags": [
+        "educational",
+        "speech_language_pathologist"
+      ],
+      "use_when": [
+        "speech_concern",
+        "voice_change",
+        "communication_education"
+      ],
+      "avoid_when": [],
+      "safety_note": "This video explains common speech and voice changes. It is for education and does not replace a personal speech assessment.",
+      "verified": true,
+      "practice_points": [
+        "Take a breath before speaking and use short, clear phrases.",
+        "Pause between phrases instead of rushing your speech.",
+        "Talk in a quieter place when possible so your voice is easier to hear."
+      ],
+      "practice_points_ur": [
+        "بولنے سے پہلے سانس لیں اور مختصر، واضح جملے استعمال کریں۔",
+        "جلدی بولنے کے بجائے جملوں کے درمیان مختصر وقفہ دیں۔",
+        "جہاں ممکن ہو کم شور والی جگہ میں بات کریں تاکہ آواز آسانی سے سنی جا سکے۔"
+      ],
+      "safety_note_ur": "یہ ویڈیو آواز اور بولنے میں آنے والی عام تبدیلیوں کو سمجھاتی ہے۔ یہ معلوماتی رہنمائی ہے اور ذاتی جانچ کا متبادل نہیں۔"
+    },
+    {
+      "id": "YT011",
+      "section": "speech_voice_therapy",
+      "title": "Parkinson's Speech Exercises - SPEAK OUT! Home Practice",
+      "provider": "Parkinson Voice Project",
+      "url": "https://www.youtube.com/watch?v=-ON_wj9sNnY",
+      "topic_tags": [
+        "speech",
+        "articulation",
+        "pacing",
+        "breath_support",
+        "voice",
+        "home_practice"
+      ],
+      "ability_level": [
+        "general"
+      ],
+      "safety_tags": [
+        "speech_practice",
+        "slp_led",
+        "use_with_therapy"
+      ],
+      "use_when": [
+        "speech_clarity_concern",
+        "pacing_concern",
+        "voice_concern"
+      ],
+      "avoid_when": [
+        "new_swallowing_difficulty_without_assessment"
+      ],
+      "safety_note": "Use this as supportive home speech practice. If speaking problems continue or affect daily conversation, a speech-language professional can guide you further.",
+      "verified": true,
+      "practice_points": [
+        "Warm up with 'May, Me, My, Mo, Moo' using a clear, intentional voice.",
+        "Say a clear 'ah' for up to 10 seconds; focus on sound quality rather than holding it longer.",
+        "Practice a controlled pitch glide, then count or read aloud with intent."
+      ],
+      "practice_points_ur": [
+        "واضح اور ارادے کے ساتھ 'May, Me, My, Mo, Moo' بول کر آواز گرم کریں۔",
+        "واضح 'آہ' زیادہ سے زیادہ 10 سیکنڈ تک کہیں؛ زیادہ دیر کھینچنے کے بجائے آواز کی صفائی پر توجہ دیں۔",
+        "آواز کو قابو کے ساتھ اوپر نیچے لے جانے کی مشق کریں، پھر گنتی کریں یا بلند آواز سے پڑھیں۔"
+      ],
+      "safety_note_ur": "یہ گھر پر کی جانے والی مددگار بولنے کی مشق ہے۔ اگر بولنے کی مشکل جاری رہے یا روزمرہ گفتگو متاثر ہو تو ماہرِ گفتار سے مزید رہنمائی لی جا سکتی ہے۔"
+    }
+  ]
+}

@@ -1,0 +1,608 @@
+{
+  "schema_version": "1.0",
+  "section": "lifestyle_wellness",
+  "display_heading": "3. Lifestyle & Wellness",
+  "purpose": "Provide personalized, non-diagnostic lifestyle guidance that can support general wellbeing and symptom self-management after NeuroSense screening. This section covers nutrition, hydration, sleep, daily routine, stress management, fatigue, constipation, weight changes, and related wellness concerns without replacing medical care.",
+  "retrieval_policy": {
+    "preferred_match_order": [
+      "safety_trigger",
+      "symptom_flags",
+      "primary_pattern",
+      "risk_level",
+      "longitudinal_trend",
+      "dominant_module"
+    ],
+    "max_cards_per_report": 4,
+    "required_base_card": "LW001",
+    "llm_role": "The language model may summarize, personalize, translate, and combine retrieved cards, but must not diagnose Parkinson's disease, prescribe restrictive diets, recommend supplement doses, change medication timing, or add medical claims that are not present in retrieved content.",
+    "diagnostic_boundary": "NeuroSense AI is a screening system. Lifestyle guidance supports general wellbeing and does not confirm Parkinson's disease or replace advice from a qualified healthcare professional."
+  },
+  "knowledge_cards": [
+    {
+      "id": "LW001",
+      "title": "Lifestyle guidance supports wellbeing, not diagnosis",
+      "topics": [
+        "wellness",
+        "screening_boundary",
+        "healthy_routine"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "any"
+        ]
+      },
+      "priority": 1,
+      "recommendation": "Explain that healthy daily habits can support general wellbeing, energy, mobility and symptom management, but lifestyle changes do not confirm or rule out Parkinson's disease. Recommendations should be adapted to the person's abilities, existing health conditions and professional advice.",
+      "personalization_hint": "Relate the advice to the user's dominant screening domain and overall risk without implying that a particular lifestyle choice caused or will prevent Parkinson's disease.",
+      "source_ids": [
+        "SRC031",
+        "SRC032",
+        "SRC043"
+      ],
+      "safety_level": "mandatory"
+    },
+    {
+      "id": "LW002",
+      "title": "Low-risk profile - maintain healthy routines",
+      "topics": [
+        "prevention_mindset",
+        "routine",
+        "general_wellness"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Low"
+        ],
+        "patterns": [
+          "all_control"
+        ]
+      },
+      "priority": 3,
+      "recommendation": "Encourage continuation of a balanced routine that includes regular physical activity, adequate sleep, varied nutritious foods, hydration and social engagement. The goal is to maintain general health rather than introduce disease-specific restrictions.",
+      "personalization_hint": "Keep the tone reassuring and practical; avoid unnecessary medicalization.",
+      "source_ids": [
+        "SRC031",
+        "SRC032",
+        "SRC039"
+      ],
+      "safety_level": "routine"
+    },
+    {
+      "id": "LW003",
+      "title": "Balanced eating pattern",
+      "topics": [
+        "nutrition",
+        "balanced_diet",
+        "energy"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "any"
+        ],
+        "symptom_flags": [
+          "nutrition_concern",
+          "weight_change",
+          "appetite_change",
+          "constipation",
+          "bowel_change",
+          "fatigue"
+        ]
+      },
+      "priority": 4,
+      "recommendation": "If food advice is relevant, give clear examples instead of saying only 'eat healthy'. Useful examples include beans, eggs or fish for protein; brown rice or other whole grains; and fruits or vegetables such as apples, tomatoes or spinach.",
+      "personalization_hint": "If the questionnaire suggests appetite, digestive or weight concerns, mention that a clinician or dietitian can individualize nutrition advice.",
+      "source_ids": [
+        "SRC031",
+        "SRC032",
+        "SRC033",
+        "SRC035"
+      ],
+      "safety_level": "routine",
+      "action_type": "self_care",
+      "patient_action": "For meals, choose foods such as beans or eggs/fish, brown rice or other whole grains, and fruit or vegetables such as apples, tomatoes or spinach."
+    },
+    {
+      "id": "LW004",
+      "title": "Hydration and regular fluid intake",
+      "topics": [
+        "hydration",
+        "constipation",
+        "general_health"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "any"
+        ],
+        "symptom_flags": [
+          "hydration_concern",
+          "constipation",
+          "bowel_change"
+        ]
+      },
+      "priority": 5,
+      "recommendation": "If hydration is relevant, a practical general target is about 6 to 8 glasses of fluid across the day unless the person has been told to restrict fluids. Water-rich foods such as cucumber, strawberries or watermelon can also help with fluid intake.",
+      "personalization_hint": "If dizziness, urinary symptoms, heart or kidney conditions are known, keep the advice conservative and suggest professional guidance rather than specifying a fluid target.",
+      "source_ids": [
+        "SRC031",
+        "SRC032",
+        "SRC044",
+        "SRC049"
+      ],
+      "safety_level": "routine",
+      "action_type": "self_care"
+    },
+    {
+      "id": "LW005",
+      "title": "Constipation-supportive habits",
+      "topics": [
+        "constipation",
+        "fiber",
+        "hydration",
+        "activity"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "any"
+        ],
+        "symptom_flags": [
+          "constipation",
+          "bowel_change"
+        ]
+      },
+      "priority": 2,
+      "recommendation": "When constipation is reported, suggest about 6 to 8 glasses of fluid across the day unless fluids are restricted, plus fiber-rich foods such as brown rice, whole grains, fruit, beans, vegetables, nuts or seeds. Keep regular physical activity when safe.",
+      "personalization_hint": "Only include this card when constipation or bowel change is actually reported.",
+      "source_ids": [
+        "SRC031",
+        "SRC044",
+        "SRC045",
+        "SRC051"
+      ],
+      "safety_level": "targeted",
+      "action_type": "self_care"
+    },
+    {
+      "id": "LW006",
+      "title": "Regular sleep schedule",
+      "topics": [
+        "sleep",
+        "sleep_hygiene",
+        "routine"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "any"
+        ],
+        "symptom_flags": [
+          "sleep_problem",
+          "insomnia",
+          "daytime_sleepiness"
+        ]
+      },
+      "priority": 2,
+      "recommendation": "For sleep concerns, encourage a consistent sleep and wake schedule, a calm bedtime routine and a sleep environment that is dark, quiet and comfortable. Ongoing insomnia, marked daytime sleepiness or unusual nighttime behaviors should be discussed with a clinician.",
+      "personalization_hint": "Mention sleep only when it is relevant to the user's reported symptoms or questionnaire responses.",
+      "source_ids": [
+        "SRC039",
+        "SRC040",
+        "SRC041",
+        "SRC059",
+        "SRC060"
+      ],
+      "safety_level": "targeted",
+      "action_type": "self_care"
+    },
+    {
+      "id": "LW007",
+      "title": "Stress and anxiety self-management",
+      "topics": [
+        "stress",
+        "anxiety",
+        "relaxation",
+        "mental_wellbeing"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "questionnaire_only",
+          "speech_questionnaire_pd",
+          "gait_questionnaire_pd",
+          "all_pd",
+          "mixed_pd"
+        ],
+        "symptom_flags": [
+          "anxiety",
+          "stress"
+        ]
+      },
+      "priority": 3,
+      "recommendation": "When anxiety or stress is reported, suggest maintaining supportive routines, regular activity, social connection and simple relaxation practices. Persistent anxiety that interferes with daily life deserves discussion with a qualified healthcare or mental-health professional.",
+      "personalization_hint": "Do not imply that anxiety explains abnormal gait or speech findings.",
+      "source_ids": [
+        "SRC042",
+        "SRC046"
+      ],
+      "safety_level": "targeted",
+      "action_type": "self_care"
+    },
+    {
+      "id": "LW008",
+      "title": "Low mood deserves attention",
+      "topics": [
+        "mood",
+        "depression",
+        "mental_wellbeing"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "any"
+        ],
+        "symptom_flags": [
+          "low_mood",
+          "depression"
+        ]
+      },
+      "priority": 2,
+      "recommendation": "If persistent low mood, loss of interest or other depressive symptoms are reported, encourage the person to discuss them with a healthcare professional. Healthy routines and social support can help wellbeing, but they should not replace assessment when symptoms are persistent or significant.",
+      "personalization_hint": "Include only when mood concerns are actually present.",
+      "source_ids": [
+        "SRC042",
+        "SRC047"
+      ],
+      "safety_level": "targeted"
+    },
+    {
+      "id": "LW009",
+      "title": "Fatigue - pace activities and protect recovery time",
+      "topics": [
+        "fatigue",
+        "energy_management",
+        "pacing"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "any"
+        ],
+        "symptom_flags": [
+          "fatigue",
+          "low_energy"
+        ]
+      },
+      "priority": 3,
+      "recommendation": "When fatigue is reported, suggest pacing demanding activities, planning important tasks for times of better energy, maintaining appropriate activity and protecting regular sleep. New or worsening fatigue can have many causes and should be reviewed if it is persistent.",
+      "personalization_hint": "Avoid presenting fatigue as specific proof of Parkinson's disease.",
+      "source_ids": [
+        "SRC048",
+        "SRC039"
+      ],
+      "safety_level": "targeted",
+      "action_type": "self_care"
+    },
+    {
+      "id": "LW010",
+      "title": "Weight or appetite changes need monitoring",
+      "topics": [
+        "weight",
+        "appetite",
+        "nutrition"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "any"
+        ],
+        "symptom_flags": [
+          "weight_loss",
+          "weight_gain",
+          "poor_appetite"
+        ]
+      },
+      "priority": 2,
+      "recommendation": "Unplanned weight change or reduced appetite should be monitored rather than addressed with a restrictive diet. Encourage discussion with a clinician or dietitian when weight changes are persistent, significant or accompanied by swallowing or digestive difficulties.",
+      "personalization_hint": "Link this advice only to reported weight or appetite concerns.",
+      "source_ids": [
+        "SRC034",
+        "SRC037",
+        "SRC032"
+      ],
+      "safety_level": "targeted"
+    },
+    {
+      "id": "LW011",
+      "title": "Dizziness - prioritize safety",
+      "topics": [
+        "dizziness",
+        "low_blood_pressure",
+        "fall_safety"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "gait_only_pd",
+          "gait_questionnaire_pd",
+          "all_pd",
+          "mixed_pd"
+        ],
+        "symptom_flags": [
+          "dizziness",
+          "lightheadedness",
+          "near_fall"
+        ]
+      },
+      "priority": 1,
+      "recommendation": "If dizziness or lightheadedness is reported, prioritize fall prevention and encourage clinical review, especially when symptoms occur on standing or are associated with near-falls. Avoid giving specific salt, fluid or medication instructions without professional assessment.",
+      "personalization_hint": "Combine with mobility safety advice when gait concerns are also elevated.",
+      "source_ids": [
+        "SRC049",
+        "SRC052"
+      ],
+      "safety_level": "high_attention"
+    },
+    {
+      "id": "LW012",
+      "title": "Questionnaire-dominant profile - focus on reported daily-life symptoms",
+      "topics": [
+        "questionnaire",
+        "non_motor_symptoms",
+        "daily_life"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "questionnaire_only"
+        ],
+        "dominant_modules": [
+          "questionnaire"
+        ]
+      },
+      "priority": 3,
+      "recommendation": "When the questionnaire is the main elevated domain, lifestyle guidance should focus on the actual reported concerns—such as sleep, mood, bowel habits, fatigue or daily functioning—rather than giving generic Parkinson's-specific advice.",
+      "personalization_hint": "Select one or two symptom-specific cards that match the questionnaire responses.",
+      "source_ids": [
+        "SRC039",
+        "SRC042",
+        "SRC044",
+        "SRC048",
+        "SRC056"
+      ],
+      "safety_level": "targeted"
+    },
+    {
+      "id": "LW013",
+      "title": "Multi-domain profile - simplify the daily plan",
+      "topics": [
+        "multi_domain",
+        "routine",
+        "self_management"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "all_pd",
+          "mixed_pd"
+        ]
+      },
+      "priority": 3,
+      "recommendation": "When several screening domains are elevated, keep lifestyle advice simple and achievable: maintain regular meals and hydration, protect sleep, stay active within safe limits and organize daily routines. Avoid overwhelming the person with a long list of simultaneous changes.",
+      "personalization_hint": "Prioritize the two lifestyle issues most relevant to the user's questionnaire and functional concerns.",
+      "source_ids": [
+        "SRC032",
+        "SRC039",
+        "SRC056"
+      ],
+      "safety_level": "routine"
+    },
+    {
+      "id": "LW014",
+      "title": "Worsening trend - review lifestyle barriers as well as symptoms",
+      "topics": [
+        "longitudinal_trend",
+        "worsening",
+        "routine_review"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "worsening_trend"
+        ],
+        "longitudinal_trends": [
+          "worsening",
+          "significantly_worsening"
+        ]
+      },
+      "priority": 2,
+      "recommendation": "If results are worsening over time, review whether sleep disruption, reduced activity, poor intake, stress or other daily-life factors are also changing. These observations can be useful to share with the healthcare team, but worsening screening results should not be explained by lifestyle alone.",
+      "personalization_hint": "Mention the change from previous screening without assigning a cause.",
+      "source_ids": [
+        "SRC039",
+        "SRC048",
+        "SRC056"
+      ],
+      "safety_level": "targeted"
+    },
+    {
+      "id": "LW015",
+      "title": "Avoid unverified supplements and cure claims",
+      "topics": [
+        "supplements",
+        "misinformation",
+        "safety"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "any"
+        ]
+      },
+      "priority": 2,
+      "recommendation": "Do not recommend vitamins, herbal products or supplements as a cure or disease-modifying treatment based solely on the NeuroSense result. If the person is considering supplements, advise discussing them with a healthcare professional because supplements can interact with medicines or other conditions.",
+      "personalization_hint": "Use as a safety card when the report includes nutrition or wellness advice.",
+      "source_ids": [
+        "SRC032",
+        "SRC038"
+      ],
+      "safety_level": "mandatory"
+    },
+    {
+      "id": "LW016",
+      "title": "Build sustainable habits gradually",
+      "topics": [
+        "habit_building",
+        "routine",
+        "adherence"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "any"
+        ]
+      },
+      "priority": 5,
+      "recommendation": "Encourage small, sustainable changes rather than trying to change diet, sleep, exercise and routine all at once. A consistent routine that the person can maintain is more practical than an overly complex wellness plan.",
+      "personalization_hint": "End the section with one or two realistic actions matched to the user's needs.",
+      "source_ids": [
+        "SRC032",
+        "SRC039",
+        "SRC056"
+      ],
+      "safety_level": "routine",
+      "action_type": "self_care"
+    },
+    {
+      "id": "LW017",
+      "title": "Speech-focused hydration support",
+      "topics": [
+        "speech",
+        "voice_care",
+        "hydration",
+        "daily_routine"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "speech_only_pd",
+          "speech_questionnaire_pd",
+          "all_pd",
+          "mixed_pd"
+        ]
+      },
+      "priority": 2,
+      "action_type": "self_care",
+      "recommendation": "When speech or voice needs attention, give a simple hydration target: about 6 to 8 glasses of water through the day unless the person has been told to limit fluids. Explain that this may reduce dryness and support comfortable voice use.",
+      "personalization_hint": "Use this only when speech is an affected module. Do not present the fluid target as appropriate for someone with a medical fluid restriction.",
+      "source_ids": [
+        "SRC026",
+        "SRC031",
+        "SRC044",
+        "SRC049"
+      ],
+      "safety_level": "standard",
+      "patient_action": "Drink about 6 to 8 glasses of water through the day, unless you have been told to limit fluids. This can help keep your mouth and throat from feeling dry."
+    },
+    {
+      "id": "LW018",
+      "title": "Simple meal examples for a speech-focused care plan",
+      "topics": [
+        "nutrition",
+        "simple_meals",
+        "speech_support",
+        "daily_routine"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "speech_only_pd",
+          "speech_questionnaire_pd",
+          "all_pd",
+          "mixed_pd"
+        ]
+      },
+      "priority": 2,
+      "action_type": "self_care",
+      "patient_action": "For meals, choose foods such as beans or eggs/fish, brown rice or other whole grains, and fruit or vegetables such as apples, tomatoes or spinach.",
+      "recommendation": "When a simple meal example is useful, suggest familiar foods instead of vague 'balanced meals': beans, eggs or fish; brown rice or other whole grains; and fruit or vegetables such as apples, tomatoes or spinach. Do not claim that these foods treat Parkinson's disease.",
+      "personalization_hint": "Use as a simple general meal example when the lifestyle section is active for a speech-focused profile. Do not present it as a Parkinson's treatment.",
+      "source_ids": [
+        "SRC031",
+        "SRC032",
+        "SRC033",
+        "SRC035"
+      ],
+      "safety_level": "routine"
+    }
+  ]
+}

@@ -10,6 +10,325 @@ from .services import calculate_fusion, save_fusion_result
 logger = logging.getLogger(__name__)
 
 
+def _resolve_language(request):
+    """
+    Resolve NeuroSense language consistently with the navbar.
+
+    The navbar stores the selected language in the session/cookie.
+    Session is checked before an old ?lang=en value so switching to Urdu
+    immediately updates this report as well.
+    """
+    candidates = [
+        request.session.get('language'),
+        request.GET.get('lang'),
+        request.COOKIES.get('language'),
+        getattr(request, 'LANG', None),
+        'en',
+    ]
+
+    for value in candidates:
+        value = str(value or '').strip().lower()
+
+        if value.startswith('ur'):
+            return 'ur'
+
+        if value.startswith('en'):
+            return 'en'
+
+    return 'en'
+
+
+# Report-only interpretation thresholds.
+# These DO NOT change the fusion/model calculation.
+MODULE_WATCH_THRESHOLD = 0.30
+MODULE_NOTICEABLE_THRESHOLD = 0.50
+
+
+def _safe_probability(value):
+    """Return a module probability as a safe 0-1 float."""
+    try:
+        value = float(value or 0)
+    except (TypeError, ValueError):
+        return 0.0
+    return max(0.0, min(1.0, value))
+
+
+def _module_attention_state(probability):
+    """Classify a module for report interpretation only."""
+    probability = _safe_probability(probability)
+
+    if probability >= MODULE_NOTICEABLE_THRESHOLD:
+        return 'noticeable'
+    if probability >= MODULE_WATCH_THRESHOLD:
+        return 'watch'
+    return 'low'
+
+
+def _build_report_insights(fusion_result, lang='en'):
+    """
+    Build patient-friendly report interpretation from the individual modules.
+
+    The overall weighted PD probability is kept exactly as calculated by the
+    fusion service. This helper only prevents a strong gait/speech signal from
+    being hidden by a low combined score.
+
+    Gait and speech are treated as the primary objective screening areas.
+    Questionnaire findings are supportive context only.
+    """
+    modules = (fusion_result or {}).get('modules', {}) or {}
+
+    gait_probability = _safe_probability(
+        (modules.get('gait') or {}).get('pd_probability')
+    )
+    speech_probability = _safe_probability(
+        (modules.get('speech') or {}).get('pd_probability')
+    )
+    questionnaire_probability = _safe_probability(
+        (modules.get('questionnaire') or {}).get('pd_probability')
+    )
+
+    gait_state = _module_attention_state(gait_probability)
+    speech_state = _module_attention_state(speech_probability)
+    questionnaire_state = _module_attention_state(questionnaire_probability)
+
+    risk_level = str((fusion_result or {}).get('risk_level') or 'Low')
+
+    # Patient-facing Urdu label for the overall screening level.
+    # The stored/model risk level remains unchanged.
+    risk_level_ur = {
+        'low': 'کم',
+        'medium': 'درمیانہ',
+        'high': 'زیادہ',
+    }.get(risk_level.lower(), risk_level)
+
+    gait_pct = round(gait_probability * 100)
+    speech_pct = round(speech_probability * 100)
+    questionnaire_pct = round(questionnaire_probability * 100)
+
+    attention_items = []
+    next_steps = []
+
+    if lang == 'ur':
+        if gait_state == 'noticeable':
+            attention_items.append({
+                'module': 'gait',
+                'title': 'چال اور توازن',
+                'status': 'توجہ درکار',
+                'level': 'noticeable',
+                'score': gait_pct,
+                'show_score': True,
+                'message': 'چلنے یا توازن میں نمایاں تبدیلیاں نظر آئی ہیں۔ پاؤں گھسیٹ کر چلنے، مڑنے، رفتار اور توازن پر نظر رکھیں۔',
+            })
+            next_steps.append('روزمرہ چلنے میں توازن، پاؤں گھسیٹ کر چلنے، سست رفتار یا مڑنے میں مشکل کو نوٹ کریں۔')
+        elif gait_state == 'watch':
+            attention_items.append({
+                'module': 'gait',
+                'title': 'چال اور توازن',
+                'status': 'نگرانی کریں',
+                'level': 'watch',
+                'score': gait_pct,
+                'show_score': True,
+                'message': 'چال میں ہلکی تبدیلیاں نظر آئی ہیں۔ اگر توازن یا چلنے کے انداز میں مزید تبدیلی آئے تو نوٹ کریں۔',
+            })
+            next_steps.append('اگلی اسکریننگ تک چلنے، توازن اور موڑنے میں نئی تبدیلیوں پر نظر رکھیں۔')
+
+        if speech_state == 'noticeable':
+            attention_items.append({
+                'module': 'speech',
+                'title': 'آواز اور بولنے کا انداز',
+                'status': 'توجہ درکار',
+                'level': 'noticeable',
+                'score': speech_pct,
+                'show_score': True,
+                'message': 'آواز یا بولنے میں نمایاں تبدیلیاں نظر آئی ہیں۔ آواز کی شدت، وضاحت، وقفوں اور رفتار پر نظر رکھیں۔',
+            })
+            next_steps.append('آواز نرم ہونے، الفاظ غیر واضح ہونے، وقفے بڑھنے یا بولنے کی رفتار بدلنے کو نوٹ کریں۔')
+        elif speech_state == 'watch':
+            attention_items.append({
+                'module': 'speech',
+                'title': 'آواز اور بولنے کا انداز',
+                'status': 'نگرانی کریں',
+                'level': 'watch',
+                'score': speech_pct,
+                'show_score': True,
+                'message': 'آواز یا بولنے میں ہلکی تبدیلیاں نظر آئی ہیں۔ وقت کے ساتھ واضح تبدیلی آئے تو نوٹ کریں۔',
+            })
+            next_steps.append('اگلی اسکریننگ تک آواز کی شدت، وضاحت اور بولنے کے وقفوں میں تبدیلی پر نظر رکھیں۔')
+
+        if not attention_items:
+            attention_items.append({
+                'module': 'overall',
+                'title': 'کوئی نمایاں انفرادی تبدیلی نہیں',
+                'status': 'معمول کی نگرانی',
+                'level': 'low',
+                'score': None,
+                'show_score': False,
+                'message': 'چال اور آواز کے حصوں میں فی الحال کوئی نمایاں انفرادی تبدیلی نظر نہیں آئی۔',
+            })
+            next_steps.append('مستقبل کی اسکریننگ اسی طرح کے حالات میں مکمل کریں تاکہ تبدیلیوں کا بہتر موازنہ ہو سکے۔')
+
+        if questionnaire_state == 'noticeable':
+            questionnaire_note = (
+                f'سوالنامہ میں بھی کچھ معاون علامات رپورٹ ہوئی ہیں ({questionnaire_pct}٪)۔ '
+                'اسے معاون معلومات کے طور پر دیکھا جاتا ہے، بنیادی اشارے کے طور پر نہیں۔'
+            )
+        elif questionnaire_state == 'watch':
+            questionnaire_note = (
+                'سوالنامہ میں چند ہلکی معاون علامات رپورٹ ہوئی ہیں۔ '
+                'یہ چال اور آواز کے نتائج کے ساتھ معاون معلومات کے طور پر استعمال ہوتی ہیں۔'
+            )
+        else:
+            questionnaire_note = (
+                'سوالنامہ میں فی الحال کم معاون علامات رپورٹ ہوئی ہیں۔ '
+                'اہم توجہ چال اور آواز کے حصوں پر رکھی جاتی ہے۔'
+            )
+
+        if gait_state == 'noticeable' and speech_state == 'noticeable':
+            summary = (
+                f'آپ کی مجموعی اسکریننگ سطح {risk_level_ur} ہے، اور چال اور آواز دونوں میں نمایاں تبدیلیاں نظر آئی ہیں۔ '
+                'دونوں حصوں پر اگلی اسکریننگ تک نظر رکھنا اہم ہے۔'
+            )
+        elif gait_state == 'noticeable':
+            summary = (
+                f'آپ کی مجموعی اسکریننگ سطح {risk_level_ur} ہے، لیکن چال اور توازن کے نتائج میں نمایاں تبدیلیاں نظر آئی ہیں۔ '
+                'مجموعی اسکور کم ہونے کی صورت میں بھی اس حصے کو نظر انداز نہیں کرنا چاہیے۔'
+            )
+        elif speech_state == 'noticeable':
+            summary = (
+                f'آپ کی مجموعی اسکریننگ سطح {risk_level_ur} ہے، لیکن آواز اور بولنے کے نتائج میں نمایاں تبدیلیاں نظر آئی ہیں۔ '
+                'مجموعی اسکور کم ہونے کی صورت میں بھی اس حصے پر نظر رکھنی چاہیے۔'
+            )
+        elif gait_state == 'watch' and speech_state == 'watch':
+            summary = (
+                f'آپ کی مجموعی اسکریننگ سطح {risk_level_ur} ہے۔ چال اور آواز دونوں میں ہلکی تبدیلیاں ہیں جن پر وقت کے ساتھ نظر رکھنا مفید ہے۔'
+            )
+        elif gait_state == 'watch':
+            summary = f'آپ کی مجموعی اسکریننگ سطح {risk_level_ur} ہے۔ چال میں ہلکی تبدیلیاں ہیں جن پر وقت کے ساتھ نظر رکھنا بہتر ہے۔'
+        elif speech_state == 'watch':
+            summary = f'آپ کی مجموعی اسکریننگ سطح {risk_level_ur} ہے۔ آواز یا بولنے میں ہلکی تبدیلیاں ہیں جن پر وقت کے ساتھ نظر رکھنا بہتر ہے۔'
+        else:
+            summary = f'آپ کی مجموعی اسکریننگ سطح {risk_level_ur} ہے اور چال یا آواز میں فی الحال کوئی نمایاں انفرادی تبدیلی نظر نہیں آئی۔'
+
+    else:
+        if gait_state == 'noticeable':
+            attention_items.append({
+                'module': 'gait',
+                'title': 'Walking & Balance',
+                'status': 'Needs attention',
+                'level': 'noticeable',
+                'score': gait_pct,
+                'show_score': True,
+                'message': 'Noticeable gait changes were detected. Watch balance, shuffling, turning and walking speed in daily activity.',
+            })
+            next_steps.append('Track balance, shuffling, slower walking, or difficulty turning during normal daily activity.')
+        elif gait_state == 'watch':
+            attention_items.append({
+                'module': 'gait',
+                'title': 'Walking & Balance',
+                'status': 'Keep watching',
+                'level': 'watch',
+                'score': gait_pct,
+                'show_score': True,
+                'message': 'Mild gait changes were detected. Keep an eye on balance and changes in your walking pattern.',
+            })
+            next_steps.append('Watch for new changes in walking, balance, or turning before your next screening.')
+
+        if speech_state == 'noticeable':
+            attention_items.append({
+                'module': 'speech',
+                'title': 'Voice & Speech',
+                'status': 'Needs attention',
+                'level': 'noticeable',
+                'score': speech_pct,
+                'show_score': True,
+                'message': 'Noticeable speech changes were detected. Watch voice volume, clarity, pauses and speaking speed.',
+            })
+            next_steps.append('Track softer voice, unclear words, longer pauses, or changes in speaking speed.')
+        elif speech_state == 'watch':
+            attention_items.append({
+                'module': 'speech',
+                'title': 'Voice & Speech',
+                'status': 'Keep watching',
+                'level': 'watch',
+                'score': speech_pct,
+                'show_score': True,
+                'message': 'Mild speech changes were detected. Keep watching voice strength, clarity and pauses over time.',
+            })
+            next_steps.append('Watch voice volume, clarity, and speaking pauses until your next screening.')
+
+        if not attention_items:
+            attention_items.append({
+                'module': 'overall',
+                'title': 'No strong module-specific change',
+                'status': 'Routine monitoring',
+                'level': 'low',
+                'score': None,
+                'show_score': False,
+                'message': 'Neither gait nor speech currently shows a strong individual signal that needs extra attention.',
+            })
+            next_steps.append('Repeat future screenings under similar conditions so changes can be compared more meaningfully.')
+
+        if questionnaire_state == 'noticeable':
+            questionnaire_note = (
+                f'The questionnaire also reported supporting symptoms ({questionnaire_pct}%). '
+                'These are treated as supporting context rather than the main screening signal.'
+            )
+        elif questionnaire_state == 'watch':
+            questionnaire_note = (
+                'The questionnaire reported some mild supporting symptoms. '
+                'These are considered alongside the gait and speech results.'
+            )
+        else:
+            questionnaire_note = (
+                'The questionnaire currently shows fewer supporting symptoms. '
+                'Primary attention is based mainly on gait and speech findings.'
+            )
+
+        if gait_state == 'noticeable' and speech_state == 'noticeable':
+            summary = (
+                f'Your combined screening level is {risk_level}, but both gait and speech show noticeable changes. '
+                'Both areas should be monitored even if the combined score is lower than either module alone.'
+            )
+        elif gait_state == 'noticeable':
+            summary = (
+                f'Your combined screening level is {risk_level}, but gait and balance show noticeable changes. '
+                'This module should still be monitored even if your overall score is low.'
+            )
+        elif speech_state == 'noticeable':
+            summary = (
+                f'Your combined screening level is {risk_level}, but voice and speech show noticeable changes. '
+                'This module should still be monitored even if your overall score is low.'
+            )
+        elif gait_state == 'watch' and speech_state == 'watch':
+            summary = (
+                f'Your combined screening level is {risk_level}. Mild changes are present in both gait and speech, so both are worth watching over time.'
+            )
+        elif gait_state == 'watch':
+            summary = f'Your combined screening level is {risk_level}. Gait shows mild changes that are worth monitoring over time.'
+        elif speech_state == 'watch':
+            summary = f'Your combined screening level is {risk_level}. Speech shows mild changes that are worth monitoring over time.'
+        else:
+            summary = f'Your combined screening level is {risk_level}, and neither gait nor speech currently shows a strong individual change.'
+
+    return {
+        'gait_state': gait_state,
+        'speech_state': speech_state,
+        'questionnaire_state': questionnaire_state,
+        'gait_percent': gait_pct,
+        'speech_percent': speech_pct,
+        'questionnaire_percent': questionnaire_pct,
+        'attention_items': attention_items,
+        'questionnaire_note': questionnaire_note,
+        'summary': summary,
+        'next_steps': next_steps,
+        'has_noticeable_gait': gait_state == 'noticeable',
+        'has_noticeable_speech': speech_state == 'noticeable',
+        'has_both_noticeable': (
+            gait_state == 'noticeable' and speech_state == 'noticeable'
+        ),
+    }
+
+
 def _fusion_model_to_report_dict(fusion, history=None):
     """
     Convert a saved FusionResult model instance into the same nested structure
@@ -60,7 +379,9 @@ def report_page(request):
        Uses the current module data stored in the session and calculates/saves
        fusion exactly as before.
     """
-    lang = request.GET.get('lang', 'en')
+    # Keep report language in sync with the NeuroSense navbar.
+    # The navbar/session language takes priority over stale URL parameters.
+    lang = _resolve_language(request)
     selected_screening_id = request.GET.get('screening_id')
 
     # ---------------------------------------------------------
@@ -111,8 +432,14 @@ def report_page(request):
                 history=history
             )
 
+            report_insights = _build_report_insights(
+                fusion_result,
+                lang=lang
+            )
+
             return render(request, 'fusion_app/report.html', {
                 'fusion': fusion_result,
+                'report_insights': report_insights,
                 'saved': True,
                 'historical_report': True,
                 'report_created_at': saved_fusion.created_at,
@@ -312,8 +639,14 @@ def report_page(request):
             request.session.pop('generating_recommendations', None)
             request.session.modified = True
 
+        report_insights = _build_report_insights(
+            fusion_result,
+            lang=lang
+        )
+
         return render(request, 'fusion_app/report.html', {
             'fusion': fusion_result,
+            'report_insights': report_insights,
             'gait': gait_data,
             'speech': speech_data,
             'questionnaire': questionnaire_data,

@@ -56,12 +56,23 @@ def analyze_longitudinal(
     try:
         from dashboard.models import ScreeningHistory
 
-        # Step 1: Fetch newest screenings first
-        history = ScreeningHistory.objects.filter(
-            user=current_user
-        ).exclude(
-            screening_id=current_screening_id
-        ).order_by('-created_at')[:max_history]
+        # Step 1: Find the exact current screening timestamp.
+        # Historical reports must only compare against screenings that happened
+        # BEFORE the selected report. Otherwise future reports contaminate the
+        # trend and make many historical recommendations look identical.
+        current_record = ScreeningHistory.objects.filter(
+            user=current_user,
+            screening_id=current_screening_id,
+        ).first()
+
+        history_qs = ScreeningHistory.objects.filter(user=current_user)
+
+        if current_record is not None:
+            history_qs = history_qs.filter(created_at__lt=current_record.created_at)
+        else:
+            history_qs = history_qs.exclude(screening_id=current_screening_id)
+
+        history = history_qs.order_by('-created_at')[:max_history]
 
         # Step 2: Convert to list and reverse to get chronological order (oldest → newest)
         history_list = list(history)

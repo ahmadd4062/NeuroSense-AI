@@ -1,0 +1,570 @@
+{
+  "schema_version": "1.0",
+  "section": "speech_voice_therapy",
+  "display_heading": "2. Speech & Voice Therapy",
+  "purpose": "Provide personalized, non-diagnostic speech, voice and communication guidance based on NeuroSense screening patterns while keeping clinical assessment and therapy decisions with qualified speech-language professionals.",
+  "retrieval_policy": {
+    "preferred_match_order": [
+      "safety_trigger",
+      "primary_pattern",
+      "speech_threshold_proximity",
+      "speech_consistency",
+      "risk_level",
+      "longitudinal_trend",
+      "dominant_module"
+    ],
+    "max_cards_per_report": 4,
+    "required_base_card": "SV001",
+    "llm_role": "The language model may summarize, personalize, translate, and combine retrieved cards, but must not diagnose Parkinson's disease, prescribe unsupervised therapy protocols, invent exercises, recommend medication changes, or add swallowing advice that is not supported by retrieved content.",
+    "video_policy": "Speech or voice videos are supplemental resources only. A later resource selector may attach a curated video when its tags and safety level match the user's profile. The language model must never invent or search for a video URL.",
+    "diagnostic_boundary": "NeuroSense AI is a screening system. Speech and voice recommendations do not confirm Parkinson's disease and do not replace evaluation by a qualified clinician or speech-language pathologist."
+  },
+  "knowledge_cards": [
+    {
+      "id": "SV001",
+      "title": "Speech guidance is supportive, not diagnostic",
+      "topics": [
+        "speech",
+        "voice",
+        "communication",
+        "screening_boundary"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "any"
+        ]
+      },
+      "priority": 1,
+      "recommendation": "Explain that changes in speech or voice can have many causes. NeuroSense can identify a screening pattern that deserves attention, but it cannot diagnose Parkinson's disease or determine a therapy plan. A qualified speech-language pathologist can evaluate voice, speech, communication and, when relevant, swallowing concerns and tailor therapy to the person's needs.",
+      "personalization_hint": "Mention the user's speech result and whether speech is a dominant or secondary concern. Avoid saying that an abnormal speech result proves Parkinson's disease.",
+      "video_resource_tags": [],
+      "source_ids": [
+        "SRC025",
+        "SRC026",
+        "SRC027",
+        "SRC030"
+      ],
+      "safety_level": "mandatory"
+    },
+    {
+      "id": "SV002",
+      "title": "Normal speech pattern - maintain healthy communication habits",
+      "topics": [
+        "low_risk",
+        "voice_maintenance",
+        "communication"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Low"
+        ],
+        "patterns": [
+          "all_control"
+        ]
+      },
+      "priority": 5,
+      "recommendation": "When speech screening is within the expected range and the other domains are also normal, encourage normal voice use, adequate hydration, comfortable speaking volume and continued social communication. No Parkinson-specific speech therapy should be presented as necessary from this screening alone.",
+      "personalization_hint": "Keep the message brief and reassuring while noting that new or persistent voice changes should still be discussed with a healthcare professional.",
+      "video_resource_tags": [
+        "voice_maintenance",
+        "low_risk",
+        "beginner_friendly"
+      ],
+      "source_ids": [
+        "SRC025",
+        "SRC026",
+        "SRC028"
+      ],
+      "safety_level": "standard"
+    },
+    {
+      "id": "SV003",
+      "title": "Speech-dominant pattern - prioritize speech-language evaluation",
+      "topics": [
+        "speech_dominant",
+        "voice",
+        "speech_language_pathology",
+        "communication"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "speech_only_pd"
+        ]
+      },
+      "priority": 1,
+      "recommendation": "When speech is the main abnormal screening domain, recommend a speech-language pathology evaluation focused on voice loudness, speech clarity, speaking rate, breath support and functional communication. Early assessment can establish a useful baseline and identify whether structured therapy is appropriate.",
+      "personalization_hint": "State that speech contributed most strongly to the screening pattern while gait and questionnaire findings were comparatively less concerning. Do not infer swallowing difficulty unless it was actually reported.",
+      "video_resource_tags": [
+        "speech",
+        "voice",
+        "loudness",
+        "breath_support",
+        "slp_guided"
+      ],
+      "source_ids": [
+        "SRC025",
+        "SRC026",
+        "SRC027",
+        "SRC030",
+        "SRC006"
+      ],
+      "safety_level": "important"
+    },
+    {
+      "id": "SV004",
+      "title": "Speech plus questionnaire pattern - support communication and clinical review",
+      "topics": [
+        "speech",
+        "non_motor",
+        "communication",
+        "speech_language_pathology"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "speech_questionnaire_pd"
+        ]
+      },
+      "priority": 2,
+      "recommendation": "When speech and questionnaire findings are both elevated, recommend speech-language evaluation together with broader clinical review. The speech assessment can focus on voice, clarity, communication efficiency and any language or cognitive-communication difficulties that affect everyday conversation.",
+      "personalization_hint": "Connect the recommendation to both the speech result and questionnaire findings without claiming that either identifies a specific diagnosis.",
+      "video_resource_tags": [
+        "speech",
+        "communication",
+        "slp_guided"
+      ],
+      "source_ids": [
+        "SRC025",
+        "SRC026",
+        "SRC027",
+        "SRC028"
+      ],
+      "safety_level": "important"
+    },
+    {
+      "id": "SV005",
+      "title": "Multi-domain pattern - include speech therapy in multidisciplinary assessment",
+      "topics": [
+        "multi_domain",
+        "speech",
+        "voice",
+        "multidisciplinary_care"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "all_pd"
+        ]
+      },
+      "priority": 1,
+      "recommendation": "When all three screening domains are elevated, include speech-language pathology as part of the recommended multidisciplinary assessment. A speech-language pathologist can evaluate communication needs and determine whether individualized voice or speech therapy is appropriate alongside medical and mobility assessment.",
+      "personalization_hint": "Mention that speech is one part of a broader multi-domain pattern and avoid presenting speech therapy as the only next step.",
+      "video_resource_tags": [
+        "speech",
+        "voice",
+        "slp_guided",
+        "multidisciplinary"
+      ],
+      "source_ids": [
+        "SRC026",
+        "SRC027",
+        "SRC030",
+        "SRC006"
+      ],
+      "safety_level": "important"
+    },
+    {
+      "id": "SV006",
+      "title": "Borderline speech result - monitor and consider a baseline evaluation",
+      "topics": [
+        "borderline",
+        "speech_monitoring",
+        "baseline_assessment"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Low",
+          "Medium"
+        ],
+        "patterns": [
+          "all_borderline"
+        ],
+        "speech_threshold_proximity": [
+          "borderline_zone",
+          "near_healthy_boundary"
+        ]
+      },
+      "priority": 3,
+      "recommendation": "For a borderline speech result, avoid labeling the finding as disease. Encourage monitoring for persistent changes in voice loudness, clarity or speaking effort. If changes are noticeable in daily life or continue over time, a baseline speech-language evaluation can help document communication function and guide next steps.",
+      "personalization_hint": "Describe the result as borderline or near the screening boundary rather than abnormal unless the speech model itself classifies it as elevated.",
+      "video_resource_tags": [
+        "voice_maintenance",
+        "communication",
+        "beginner_friendly"
+      ],
+      "source_ids": [
+        "SRC025",
+        "SRC026",
+        "SRC027"
+      ],
+      "safety_level": "standard"
+    },
+    {
+      "id": "SV007",
+      "title": "Speech score above the screening threshold",
+      "topics": [
+        "speech_threshold",
+        "voice",
+        "speech_language_pathology"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "any"
+        ],
+        "speech_threshold_proximity": [
+          "above_parkinson"
+        ]
+      },
+      "priority": 1,
+      "recommendation": "When the speech score is above the model's screening threshold, recommend evaluation by a speech-language pathologist, particularly if the person or others have noticed softer voice, reduced clarity, altered speaking rate or communication difficulty. The threshold is a model signal, not a clinical diagnosis.",
+      "personalization_hint": "Use the actual speech score and threshold only if they are available in the report. Clearly call it a screening threshold rather than a diagnostic cutoff.",
+      "video_resource_tags": [
+        "speech",
+        "voice",
+        "slp_guided"
+      ],
+      "source_ids": [
+        "SRC025",
+        "SRC026",
+        "SRC027",
+        "SRC030"
+      ],
+      "safety_level": "important"
+    },
+    {
+      "id": "SV008",
+      "title": "Low consistency across speech recordings - repeat before strong conclusions",
+      "topics": [
+        "speech_consistency",
+        "recording_quality",
+        "repeat_screening"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "any"
+        ],
+        "speech_consistency": [
+          "low"
+        ]
+      },
+      "priority": 1,
+      "recommendation": "When speech recordings vary substantially, recommend repeating the speech screening under consistent recording conditions before relying heavily on the speech result. If real-world voice or communication changes are still present, clinical evaluation should be based on those symptoms rather than waiting for a perfect recording.",
+      "personalization_hint": "Mention that variability reduces confidence in the speech screening signal; do not reinterpret inconsistent recordings as progression.",
+      "video_resource_tags": [],
+      "source_ids": [
+        "SRC025",
+        "SRC026"
+      ],
+      "safety_level": "important"
+    },
+    {
+      "id": "SV009",
+      "title": "Technical recording problems - repeat the speech module",
+      "topics": [
+        "recording_quality",
+        "technical_issue",
+        "repeat_screening"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "low_reliability"
+        ]
+      },
+      "priority": 2,
+      "recommendation": "If the speech result is based on limited, failed or technically inconsistent recordings, recommend repeating the speech module in a quiet setting with the microphone positioned consistently. Do not generate a strong therapy recommendation from poor-quality input alone.",
+      "personalization_hint": "If failed-recording counts are available, mention them factually. Avoid blaming the user for technical quality problems.",
+      "video_resource_tags": [],
+      "source_ids": [
+        "SRC025",
+        "SRC026"
+      ],
+      "safety_level": "important"
+    },
+    {
+      "id": "SV010",
+      "title": "Persistent or worsening speech concern - timely professional review",
+      "topics": [
+        "worsening_trend",
+        "speech",
+        "clinical_review"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "worsening_trend",
+          "speech_only_pd",
+          "speech_questionnaire_pd",
+          "all_pd"
+        ]
+      },
+      "priority": 1,
+      "recommendation": "When the overall screening trend is worsening and speech is also an affected domain, recommend timely discussion with a healthcare professional and a speech-language pathologist. A professional assessment can determine whether the change reflects a treatable voice or communication problem and whether structured therapy is appropriate.",
+      "personalization_hint": "Only describe speech as worsening if longitudinal speech data actually support that statement; otherwise say the overall screening trend worsened while speech is currently elevated.",
+      "video_resource_tags": [
+        "speech",
+        "voice",
+        "slp_guided"
+      ],
+      "source_ids": [
+        "SRC025",
+        "SRC026",
+        "SRC027",
+        "SRC030"
+      ],
+      "safety_level": "important"
+    },
+    {
+      "id": "SV011",
+      "title": "Everyday strategies for clearer communication",
+      "topics": [
+        "communication_strategies",
+        "speech_clarity",
+        "voice"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "speech_only_pd",
+          "speech_questionnaire_pd",
+          "all_pd",
+          "all_borderline"
+        ]
+      },
+      "priority": 4,
+      "recommendation": "When speech or voice changes are present, use practical communication strategies: take a breath before speaking, pause between phrases, use short clear sentences, face the listener, and reduce background noise during conversation.",
+      "personalization_hint": "Present these as supportive communication tips, not as a replacement for individualized speech therapy.",
+      "video_resource_tags": [
+        "communication",
+        "voice",
+        "breath_support",
+        "beginner_friendly"
+      ],
+      "source_ids": [
+        "SRC026",
+        "SRC028"
+      ],
+      "safety_level": "standard",
+      "action_type": "self_care"
+    },
+    {
+      "id": "SV012",
+      "title": "Voice care and fatigue management",
+      "topics": [
+        "voice_care",
+        "hydration",
+        "voice_fatigue"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "speech_only_pd",
+          "speech_questionnaire_pd",
+          "all_pd",
+          "all_borderline"
+        ]
+      },
+      "priority": 5,
+      "recommendation": "For a speech or voice concern, support comfortable voice use by reading aloud or singing regularly, drinking enough water, using good posture, avoiding repeated shouting, and resting the voice when it feels tired.",
+      "personalization_hint": "Keep the advice practical and avoid giving rigid fluid targets because hydration needs vary by person and medical condition.",
+      "video_resource_tags": [
+        "voice_maintenance",
+        "beginner_friendly"
+      ],
+      "source_ids": [
+        "SRC026",
+        "SRC028"
+      ],
+      "safety_level": "standard",
+      "action_type": "self_care"
+    },
+    {
+      "id": "SV013",
+      "title": "Parkinson-specific speech programs should be clinician-guided",
+      "topics": [
+        "lsvt_loud",
+        "speak_out",
+        "structured_speech_therapy"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "speech_only_pd",
+          "speech_questionnaire_pd",
+          "all_pd"
+        ]
+      },
+      "priority": 3,
+      "recommendation": "A qualified speech-language pathologist may consider Parkinson-specific programs such as LSVT LOUD or SPEAK OUT! when appropriate. NeuroSense should not prescribe the full protocol itself; the therapist should select the program, intensity and exercises after evaluating the person's communication needs.",
+      "personalization_hint": "Mention these programs as examples of clinician-led options, not as mandatory treatment or proof of Parkinson's disease.",
+      "video_resource_tags": [
+        "lsvt_loud",
+        "speak_out",
+        "slp_guided"
+      ],
+      "source_ids": [
+        "SRC025",
+        "SRC026",
+        "SRC027"
+      ],
+      "safety_level": "important"
+    },
+    {
+      "id": "SV014",
+      "title": "Swallowing symptoms require professional assessment",
+      "topics": [
+        "swallowing",
+        "dysphagia",
+        "aspiration",
+        "speech_language_pathology"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "any"
+        ],
+        "safety_triggers": [
+          "reported_swallowing_difficulty",
+          "coughing_or_choking_with_food",
+          "unexplained_weight_loss",
+          "food_or_pills_feel_stuck"
+        ]
+      },
+      "priority": 1,
+      "recommendation": "If swallowing difficulty is reported, recommend medical and speech-language pathology assessment rather than providing generic swallowing exercises. Coughing or choking with meals, food or pills feeling stuck, or unexplained weight loss can warrant evaluation because swallowing problems may increase the risk of dehydration, malnutrition or aspiration.",
+      "personalization_hint": "Only retrieve this card when swallowing-related symptoms are explicitly available. Do not infer dysphagia from an abnormal speech score alone.",
+      "video_resource_tags": [],
+      "source_ids": [
+        "SRC025",
+        "SRC026",
+        "SRC027",
+        "SRC029",
+        "SRC030"
+      ],
+      "safety_level": "mandatory"
+    },
+    {
+      "id": "SV015",
+      "title": "Do not recommend food or liquid modification without swallowing evaluation",
+      "topics": [
+        "swallowing_safety",
+        "diet_texture",
+        "dysphagia"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "any"
+        ],
+        "safety_triggers": [
+          "reported_swallowing_difficulty"
+        ]
+      },
+      "priority": 1,
+      "recommendation": "Do not advise thickened liquids, altered food textures or specific swallowing maneuvers solely from NeuroSense screening. These strategies should be recommended by a qualified swallowing professional after assessment because the safest approach depends on the individual's swallowing pattern.",
+      "personalization_hint": "Use this as a safety guardrail whenever swallowing concerns are present.",
+      "video_resource_tags": [],
+      "source_ids": [
+        "SRC026",
+        "SRC029",
+        "SRC030"
+      ],
+      "safety_level": "mandatory"
+    },
+    {
+      "id": "SV016",
+      "title": "Communication aids may help when speech remains difficult",
+      "topics": [
+        "assistive_communication",
+        "amplification",
+        "communication_support"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "speech_only_pd",
+          "speech_questionnaire_pd",
+          "all_pd"
+        ]
+      },
+      "priority": 5,
+      "recommendation": "If reduced loudness or speech clarity continues to interfere with everyday communication, a speech-language pathologist can assess whether amplification or other communication aids would be useful. The choice of device should be based on the person's needs and environment.",
+      "personalization_hint": "Only emphasize assistive devices when communication difficulty is functionally significant; otherwise keep the recommendation secondary.",
+      "video_resource_tags": [
+        "communication_aids",
+        "slp_guided"
+      ],
+      "source_ids": [
+        "SRC026",
+        "SRC027",
+        "SRC028"
+      ],
+      "safety_level": "standard"
+    }
+  ]
+}

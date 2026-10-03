@@ -10,1436 +10,405 @@ Clinical Recommendations - NeuroSense AI
 {% endblock %}
 
 {% block extra_css %}
-<style>
-    /* ============================================
-       NEUROSENSE AI — CLINICAL RECOMMENDATIONS
-       Refined visual pass: tighter type scale,
-       calmer surfaces, clearer hierarchy.
-       ============================================ */
-
-    .rec-page {
-        --primary: #4A6CF7;
-        --primary-dark: #3B5DE7;
-        --primary-soft: #EEF2FF;
-        --primary-tint: #E0E7FF;
-        --primary-gradient: linear-gradient(135deg, #4A6CF7 0%, #7C3AED 100%);
-        --ink: #0B1B3A;
-        --ink-soft: #1E293B;
-        --success: #10B981;
-        --success-light: #ECFDF5;
-        --success-ink: #065F46;
-        --danger: #EF4444;
-        --danger-light: #FEF2F2;
-        --danger-ink: #991B1B;
-        --warning: #F59E0B;
-        --warning-light: #FFFBEB;
-        --gray-50: #F8FAFC;
-        --gray-100: #F1F5F9;
-        --gray-200: #E7EDF5;
-        --gray-300: #CBD5E1;
-        --gray-400: #94A3B8;
-        --gray-500: #64748B;
-        --gray-600: #475569;
-        --gray-700: #334155;
-        --shadow-xs: 0 1px 2px rgba(11, 27, 58, 0.04);
-        --shadow-sm: 0 2px 8px rgba(11, 27, 58, 0.05);
-        --shadow-md: 0 12px 32px rgba(11, 27, 58, 0.08);
-        --shadow-lg: 0 24px 60px rgba(11, 27, 58, 0.12);
-        --radius-sm: 10px;
-        --radius-md: 14px;
-        --radius-lg: 20px;
-        --radius-xl: 26px;
-        --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-        background: var(--gray-50);
-        color: var(--gray-700);
-    }
-
-    .rec-page :focus-visible {
-        outline: 3px solid rgba(74, 108, 247, 0.4);
-        outline-offset: 2px;
-        border-radius: 6px;
-    }
-
-    /* ==========================================
-       HERO
-       ========================================== */
-    .rec-hero {
-        background:
-            radial-gradient(circle at 82% -10%, rgba(74, 108, 247, 0.14) 0%, transparent 55%),
-            radial-gradient(circle at 5% 115%, rgba(124, 58, 237, 0.10) 0%, transparent 50%),
-            linear-gradient(180deg, #F3F6FF 0%, #FFFFFF 100%);
-        padding: 60px 20px 96px;
-        text-align: center;
-        position: relative;
-    }
-
-    .rec-hero-content {
-        max-width: 760px;
-        margin: 0 auto;
-        position: relative;
-        z-index: 1;
-    }
-
-    .rec-hero-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        background: #FFFFFF;
-        color: var(--primary);
-        padding: 7px 18px;
-        border-radius: 99px;
-        font-size: 0.72rem;
-        font-weight: 700;
-        letter-spacing: 0.06em;
-        text-transform: uppercase;
-        margin-bottom: 20px;
-        border: 1px solid var(--primary-tint);
-        box-shadow: var(--shadow-xs);
-    }
-
-    .rec-hero h1 {
-        font-size: 2.6rem;
-        font-weight: 800;
-        color: var(--ink);
-        margin: 0 0 14px;
-        line-height: 1.15;
-        letter-spacing: -0.03em;
-    }
-
-    .rec-hero h1 span {
-        background: var(--primary-gradient);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-    }
-
-    .rec-hero p {
-        font-size: 1.04rem;
-        color: var(--gray-500);
-        max-width: 58ch;
-        margin: 0 auto;
-        line-height: 1.7;
-    }
-
-    .rec-hero-stats {
-        display: flex;
-        justify-content: center;
-        gap: 10px;
-        margin-top: 26px;
-        flex-wrap: wrap;
-    }
-
-    .rec-hero-stat {
-        display: inline-flex;
-        align-items: center;
-        gap: 9px;
-        color: var(--gray-600);
-        font-size: 0.82rem;
-        background: #FFFFFF;
-        border: 1px solid var(--gray-200);
-        padding: 9px 17px;
-        border-radius: 99px;
-        box-shadow: var(--shadow-xs);
-    }
-
-    .rec-hero-stat i {
-        color: var(--primary);
-        font-size: 0.85rem;
-    }
-
-    .rec-hero-stat strong {
-        color: var(--ink);
-        font-weight: 700;
-    }
-
-    /* ==========================================
-       CONTAINER
-       ========================================== */
-    .rec-container {
-        max-width: 900px;
-        margin: -56px auto 0;
-        padding: 0 20px 80px;
-        position: relative;
-        z-index: 2;
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-    }
-
-    /* ==========================================
-       RISK SUMMARY
-       ========================================== */
-    .risk-summary-card {
-        background: #FFFFFF;
-        border-radius: var(--radius-lg);
-        padding: 26px 32px;
-        border: 1px solid var(--gray-200);
-        box-shadow: var(--shadow-lg);
-        display: grid;
-        grid-template-columns: minmax(180px, auto) minmax(220px, 1fr) auto;
-        align-items: center;
-        gap: 36px;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .risk-summary-card::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        width: 5px;
-        background: var(--gray-300);
-    }
-
-    .risk-summary-card.low::before {
-        background: var(--success);
-    }
-
-    .risk-summary-card.medium::before {
-        background: var(--warning);
-    }
-
-    .risk-summary-card.high::before {
-        background: var(--danger);
-    }
-
-    .risk-summary-left {
-        display: flex;
-        align-items: center;
-        gap: 16px;
-        min-width: 0;
-    }
-
-    .risk-summary-left .risk-dot {
-        width: 52px;
-        height: 52px;
-        border-radius: 15px;
-        flex-shrink: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.2rem;
-        color: #FFFFFF;
-    }
-
-    .risk-dot.low {
-        background: linear-gradient(135deg, #10B981 0%, #34D399 100%);
-        box-shadow: 0 10px 22px rgba(16, 185, 129, 0.3);
-    }
-
-    .risk-dot.medium {
-        background: linear-gradient(135deg, #F59E0B 0%, #FBBF24 100%);
-        box-shadow: 0 10px 22px rgba(245, 158, 11, 0.3);
-    }
-
-    .risk-dot.high {
-        background: linear-gradient(135deg, #EF4444 0%, #F87171 100%);
-        box-shadow: 0 10px 22px rgba(239, 68, 68, 0.3);
-    }
-
-    .risk-summary-left .risk-label {
-        display: block;
-        font-size: 0.7rem;
-        color: var(--gray-400);
-        font-weight: 700;
-        letter-spacing: 0.06em;
-        text-transform: uppercase;
-        margin-bottom: 4px;
-    }
-
-    .risk-summary-left .risk-value {
-        display: flex;
-        align-items: baseline;
-        gap: 8px;
-        font-size: 1.4rem;
-        font-weight: 800;
-        color: var(--ink);
-        letter-spacing: -0.02em;
-        white-space: nowrap;
-    }
-
-    .risk-summary-left .risk-score {
-        font-size: 0.82rem;
-        font-weight: 500;
-        color: var(--gray-500);
-    }
-
-    .risk-meter {
-        min-width: 0;
-    }
-
-    .risk-meter-track {
-        position: relative;
-        height: 10px;
-        border-radius: 99px;
-        background: linear-gradient(90deg, #10B981 0%, #F59E0B 55%, #EF4444 100%);
-    }
-
-    .risk-meter-marker {
-        position: absolute;
-        top: 50%;
-        width: 20px;
-        height: 20px;
-        border-radius: 50%;
-        background: #FFFFFF;
-        border: 4px solid var(--ink);
-        transform: translate(-50%, -50%);
-        box-shadow: 0 2px 10px rgba(11, 27, 58, 0.3);
-    }
-
-    .risk-meter-scale {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 9px;
-        font-size: 0.7rem;
-        color: var(--gray-400);
-        font-weight: 600;
-    }
-
-    .risk-summary-right {
-        display: flex;
-        flex-direction: column;
-        gap: 9px;
-        font-size: 0.8rem;
-        color: var(--gray-500);
-        padding-inline-start: 20px;
-        border-inline-start: 1px solid var(--gray-100);
-    }
-
-    .risk-summary-right span {
-        display: flex;
-        align-items: center;
-        gap: 9px;
-        white-space: nowrap;
-    }
-
-    .risk-summary-right i {
-        color: var(--primary);
-        width: 16px;
-        text-align: center;
-    }
-
-    /* ==========================================
-       MAIN CARD
-       ========================================== */
-    .rec-main-card {
-        background: #FFFFFF;
-        border-radius: var(--radius-xl);
-        border: 1px solid var(--gray-200);
-        box-shadow: var(--shadow-md);
-        overflow: hidden;
-    }
-
-    .rec-main-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 16px;
-        padding: 26px 40px;
-        border-bottom: 1px solid var(--gray-100);
-        background: linear-gradient(180deg, #FBFCFF 0%, #FFFFFF 100%);
-    }
-
-    .rec-main-header .header-left {
-        display: flex;
-        align-items: center;
-        gap: 16px;
-        min-width: 0;
-    }
-
-    .rec-main-header .header-icon {
-        width: 50px;
-        height: 50px;
-        background: var(--primary-gradient);
-        border-radius: 15px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.3rem;
-        color: #FFFFFF;
-        flex-shrink: 0;
-        box-shadow: 0 10px 24px rgba(74, 108, 247, 0.3);
-    }
-
-    .rec-main-header .header-title h2 {
-        font-size: 1.22rem;
-        font-weight: 800;
-        color: var(--ink);
-        margin: 0 0 3px;
-        letter-spacing: -0.02em;
-    }
-
-    .rec-main-header .header-title p {
-        font-size: 0.83rem;
-        color: var(--gray-500);
-        margin: 0;
-        line-height: 1.5;
-    }
-
-    .rec-main-header .header-badge {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        background: var(--success-light);
-        border: 1px solid #A7F3D0;
-        padding: 7px 15px;
-        border-radius: 99px;
-        font-size: 0.74rem;
-        color: var(--success-ink);
-        font-weight: 700;
-        flex-shrink: 0;
-    }
-
-    .rec-main-header .header-badge .dot {
-        width: 7px;
-        height: 7px;
-        background: var(--success);
-        border-radius: 50%;
-        animation: pulse-dot 2s infinite;
-    }
-
-    @keyframes pulse-dot {
-
-        0%,
-        100% {
-            opacity: 1;
-        }
-
-        50% {
-            opacity: 0.3;
-        }
-    }
-
-    .rec-main-body {
-        padding: 36px 40px 40px;
-    }
-
-    /* ==========================================
-       IN-PAGE NAVIGATION
-       ========================================== */
-    .rec-toc {
-        display: none;
-        margin: 0 0 32px;
-        padding: 18px 20px;
-        background: var(--gray-50);
-        border: 1px solid var(--gray-200);
-        border-radius: var(--radius-md);
-    }
-
-    .rec-toc.show {
-        display: block;
-    }
-
-    .rec-toc-title {
-        font-size: 0.72rem;
-        font-weight: 700;
-        letter-spacing: 0.06em;
-        text-transform: uppercase;
-        color: var(--gray-500);
-        margin: 0 0 12px;
-    }
-
-    .rec-toc-list {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-        list-style: none;
-        margin: 0;
-        padding: 0;
-    }
-
-    .rec-toc-list a {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        padding: 7px 15px 7px 7px;
-        background: #FFFFFF;
-        border: 1px solid var(--gray-200);
-        border-radius: 99px;
-        font-size: 0.79rem;
-        font-weight: 600;
-        color: var(--gray-700);
-        text-decoration: none;
-        transition: var(--transition);
-    }
-
-    .rec-toc-list a:hover {
-        border-color: var(--primary);
-        color: var(--primary);
-        background: var(--primary-soft);
-        transform: translateY(-1px);
-    }
-
-    .rec-toc-list a .n {
-        width: 20px;
-        height: 20px;
-        border-radius: 50%;
-        background: var(--primary-soft);
-        color: var(--primary);
-        font-size: 0.68rem;
-        font-weight: 800;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        flex-shrink: 0;
-    }
-
-    /* ==========================================
-       GENERATED CONTENT
-       ========================================== */
-    .rec-content {
-        font-size: 0.96rem;
-        line-height: 1.8;
-        color: var(--gray-700);
-        counter-reset: sec;
-    }
-
-    .rec-content .rec-h1 {
-        font-size: 1.55rem;
-        font-weight: 800;
-        color: var(--ink);
-        letter-spacing: -0.02em;
-        margin: 4px 0 20px;
-        padding-bottom: 16px;
-        border-bottom: 2px solid var(--gray-100);
-    }
-
-    .rec-content .rec-h2 {
-        counter-increment: sec;
-        display: flex;
-        align-items: center;
-        gap: 14px;
-        font-size: 1.08rem;
-        font-weight: 700;
-        color: var(--ink);
-        margin: 40px 0 18px;
-        padding: 15px 20px;
-        background: linear-gradient(90deg, var(--primary-soft) 0%, #FFFFFF 100%);
-        border: 1px solid var(--primary-tint);
-        border-radius: var(--radius-md);
-        letter-spacing: -0.01em;
-        scroll-margin-top: 90px;
-    }
-
-    .rec-content .rec-h2:first-child {
-        margin-top: 0;
-    }
-
-    .rec-content .rec-h2::before {
-        content: counter(sec);
-        flex-shrink: 0;
-        width: 30px;
-        height: 30px;
-        border-radius: 9px;
-        background: var(--primary);
-        color: #FFFFFF;
-        font-size: 0.85rem;
-        font-weight: 800;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 4px 12px rgba(74, 108, 247, 0.3);
-    }
-
-    .rec-content .rec-h3 {
-        font-size: 1.01rem;
-        font-weight: 700;
-        color: var(--primary-dark);
-        margin: 26px 0 10px;
-        padding-inline-start: 13px;
-        border-inline-start: 3px solid var(--primary-tint);
-    }
-
-    .rec-content .rec-h4 {
-        font-size: 0.92rem;
-        font-weight: 700;
-        color: var(--ink);
-        margin: 18px 0 7px;
-    }
-
-    .rec-content .rec-p {
-        margin: 10px 0;
-        color: var(--gray-700);
-        line-height: 1.8;
-    }
-
-    .rec-content .rec-list {
-        margin: 14px 0 18px;
-        padding: 0;
-        list-style: none;
-        display: flex;
-        flex-direction: column;
-        gap: 9px;
-    }
-
-    .rec-content .rec-list li {
-        position: relative;
-        padding: 12px 16px 12px 46px;
-        background: var(--gray-50);
-        border: 1px solid var(--gray-100);
-        border-radius: var(--radius-sm);
-        color: var(--gray-700);
-        line-height: 1.7;
-        transition: var(--transition);
-    }
-
-    .rec-content .rec-list li:hover {
-        border-color: var(--primary-tint);
-        background: #FFFFFF;
-        box-shadow: var(--shadow-sm);
-        transform: translateX(2px);
-    }
-
-    .rec-content ul.rec-list li::before {
-        content: '';
-        position: absolute;
-        left: 18px;
-        top: 21px;
-        width: 8px;
-        height: 8px;
-        background: var(--primary);
-        border-radius: 50%;
-        box-shadow: 0 0 0 4px var(--primary-soft);
-    }
-
-    .rec-content ol.rec-list {
-        counter-reset: item;
-    }
-
-    .rec-content ol.rec-list li {
-        counter-increment: item;
-    }
-
-    .rec-content ol.rec-list li::before {
-        content: counter(item);
-        position: absolute;
-        left: 11px;
-        top: 11px;
-        width: 25px;
-        height: 25px;
-        border-radius: 50%;
-        background: var(--primary);
-        color: #FFFFFF;
-        font-weight: 700;
-        font-size: 0.75rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .rec-content strong {
-        color: var(--ink);
-        font-weight: 700;
-    }
-
-    .rec-content em {
-        color: var(--primary-dark);
-        font-style: italic;
-    }
-
-    /* ---------- Callouts ---------- */
-    .rec-content .disclaimer-block {
-        background: var(--warning-light);
-        border: 1px solid #FDE68A;
-        border-inline-start: 4px solid var(--warning);
-        border-radius: var(--radius-md);
-        padding: 17px 22px;
-        margin: 22px 0;
-        display: flex;
-        align-items: flex-start;
-        gap: 14px;
-        font-size: 0.87rem;
-        color: #78350F;
-        line-height: 1.7;
-    }
-
-    .rec-content .disclaimer-block i {
-        color: var(--warning);
-        font-size: 1.2rem;
-        margin-top: 2px;
-        flex-shrink: 0;
-    }
-
-    .rec-content .disclaimer-block strong {
-        color: #78350F;
-    }
-
-    .rec-content .greeting-block {
-        background: linear-gradient(135deg, var(--primary-soft) 0%, #FFFFFF 100%);
-        border: 1px solid var(--primary-tint);
-        border-inline-start: 4px solid var(--primary);
-        border-radius: var(--radius-md);
-        padding: 20px 26px;
-        margin: 0 0 26px;
-        font-size: 0.98rem;
-        color: var(--gray-600);
-        line-height: 1.8;
-    }
-
-    .rec-content .greeting-block strong {
-        color: var(--ink);
-    }
-
-    /* ---------- Tags ---------- */
-    .rec-content .risk-tag {
-        display: inline-block;
-        padding: 2px 13px;
-        border-radius: 99px;
-        font-weight: 700;
-        font-size: 0.82rem;
-        white-space: nowrap;
-    }
-
-    .rec-content .risk-tag.risk-medium {
-        background: var(--warning-light);
-        color: #B45309;
-        border: 1px solid #FCD34D;
-    }
-
-    .rec-content .risk-tag.risk-high {
-        background: var(--danger-light);
-        color: #DC2626;
-        border: 1px solid #FCA5A5;
-    }
-
-    .rec-content .risk-tag.risk-low {
-        background: var(--success-light);
-        color: #15803D;
-        border: 1px solid #86EFAC;
-    }
-
-    .rec-content .urgency-tag {
-        display: inline-block;
-        padding: 2px 13px;
-        border-radius: 99px;
-        font-weight: 700;
-        font-size: 0.68rem;
-        text-transform: uppercase;
-        letter-spacing: 0.06em;
-        white-space: nowrap;
-        vertical-align: 1px;
-    }
-
-    .rec-content .urgency-tag.urgency-urgent {
-        background: var(--danger-light);
-        color: #DC2626;
-        border: 1px solid #FCA5A5;
-    }
-
-    .rec-content .urgency-tag.urgency-soon {
-        background: var(--warning-light);
-        color: #B45309;
-        border: 1px solid #FCD34D;
-    }
-
-    .rec-content .urgency-tag.urgency-routine {
-        background: var(--success-light);
-        color: #15803D;
-        border: 1px solid #86EFAC;
-    }
-
-    /* ---------- Bottom disclaimer ---------- */
-    .rec-disclaimer {
-        background: var(--gray-50);
-        border: 1px solid var(--gray-200);
-        border-radius: var(--radius-md);
-        padding: 18px 24px;
-        margin-top: 36px;
-        display: flex;
-        align-items: flex-start;
-        gap: 14px;
-        font-size: 0.81rem;
-        color: var(--gray-500);
-        line-height: 1.7;
-    }
-
-    .rec-disclaimer i {
-        color: var(--primary);
-        font-size: 1.05rem;
-        margin-top: 2px;
-        flex-shrink: 0;
-    }
-
-    .rec-disclaimer strong {
-        color: var(--ink);
-    }
-
-    /* ==========================================
-       ACTION BAR
-       ========================================== */
-    .rec-actions {
-        display: flex;
-        gap: 10px;
-        flex-wrap: wrap;
-        justify-content: center;
-        background: #FFFFFF;
-        border: 1px solid var(--gray-200);
-        border-radius: var(--radius-lg);
-        box-shadow: var(--shadow-sm);
-        padding: 16px 18px;
-    }
-
-    .rec-actions form {
-        margin: 0;
-        display: contents;
-    }
-
-    .rec-actions .btn {
-        padding: 12px 22px;
-        border-radius: var(--radius-sm);
-        font-weight: 600;
-        font-size: 0.86rem;
-        cursor: pointer;
-        transition: var(--transition);
-        display: inline-flex;
-        align-items: center;
-        gap: 9px;
-        text-decoration: none;
-        border: 1px solid transparent;
-        font-family: inherit;
-        line-height: 1.2;
-    }
-
-    .btn-pdf {
-        background: var(--primary);
-        color: #FFFFFF;
-        box-shadow: 0 8px 20px rgba(74, 108, 247, 0.3);
-    }
-
-    .btn-pdf:hover {
-        background: var(--primary-dark);
-        transform: translateY(-1px);
-        box-shadow: 0 10px 24px rgba(74, 108, 247, 0.36);
-    }
-
-    .btn-primary-rec {
-        background: var(--ink);
-        color: #FFFFFF;
-    }
-
-    .btn-primary-rec:hover {
-        background: #16294F;
-        transform: translateY(-1px);
-    }
-
-    .btn-outline-rec {
-        background: #FFFFFF;
-        color: var(--primary);
-        border-color: var(--primary-tint);
-    }
-
-    .btn-outline-rec:hover {
-        background: var(--primary-soft);
-        border-color: var(--primary);
-        transform: translateY(-1px);
-    }
-
-    .btn-secondary-rec {
-        background: var(--gray-100);
-        color: var(--gray-600);
-        border-color: var(--gray-200);
-    }
-
-    .btn-secondary-rec:hover {
-        background: var(--gray-200);
-        transform: translateY(-1px);
-    }
-
-    /* ==========================================
-       STATES
-       ========================================== */
-    .rec-loading {
-        background: #FFFFFF;
-        border-radius: var(--radius-xl);
-        padding: 60px 40px 52px;
-        text-align: center;
-        border: 1px solid var(--gray-200);
-        box-shadow: var(--shadow-md);
-    }
-
-    .rec-loading .spinner {
-        width: 46px;
-        height: 46px;
-        border: 4px solid var(--gray-200);
-        border-top-color: var(--primary);
-        border-radius: 50%;
-        animation: spin 0.8s linear infinite;
-        margin: 0 auto 22px;
-    }
-
-    @keyframes spin {
-        to {
-            transform: rotate(360deg);
-        }
-    }
-
-    .rec-loading h3 {
-        color: var(--ink);
-        margin: 0 0 8px;
-        font-size: 1.22rem;
-        font-weight: 800;
-    }
-
-    .rec-loading p {
-        color: var(--gray-500);
-        margin: 0 auto;
-        font-size: 0.95rem;
-        max-width: 44ch;
-    }
-
-    .rec-skeleton {
-        max-width: 520px;
-        margin: 30px auto 0;
-        display: flex;
-        flex-direction: column;
-        gap: 11px;
-    }
-
-    .rec-skeleton span {
-        display: block;
-        height: 12px;
-        border-radius: 99px;
-        background: linear-gradient(90deg, var(--gray-100) 25%, var(--gray-200) 50%, var(--gray-100) 75%);
-        background-size: 200% 100%;
-        animation: shimmer 1.4s linear infinite;
-    }
-
-    .rec-skeleton span:nth-child(2) {
-        width: 88%;
-    }
-
-    .rec-skeleton span:nth-child(3) {
-        width: 64%;
-    }
-
-    @keyframes shimmer {
-        to {
-            background-position: -200% 0;
-        }
-    }
-
-    .rec-error {
-        background: var(--danger-light);
-        border: 1px solid #FCA5A5;
-        border-radius: var(--radius-xl);
-        padding: 48px 32px;
-        text-align: center;
-        color: var(--danger-ink);
-    }
-
-    .rec-error h2 {
-        margin: 0 0 8px;
-        font-size: 1.32rem;
-        font-weight: 800;
-    }
-
-    .rec-error p {
-        margin: 0 0 22px;
-        color: #7F1D1D;
-    }
-
-    .rec-error .btn,
-    .rec-empty .btn {
-        padding: 12px 28px;
-        border-radius: var(--radius-sm);
-        font-weight: 600;
-        font-size: 0.88rem;
-        display: inline-flex;
-        align-items: center;
-        gap: 9px;
-        text-decoration: none;
-        background: var(--primary);
-        color: #FFFFFF;
-        box-shadow: 0 8px 20px rgba(74, 108, 247, 0.3);
-        transition: var(--transition);
-    }
-
-    .rec-error .btn:hover,
-    .rec-empty .btn:hover {
-        background: var(--primary-dark);
-        transform: translateY(-1px);
-    }
-
-    .rec-empty {
-        background: #FFFFFF;
-        border-radius: var(--radius-xl);
-        padding: 64px 40px;
-        text-align: center;
-        border: 1px solid var(--gray-200);
-        box-shadow: var(--shadow-md);
-    }
-
-    .rec-empty .empty-icon {
-        width: 74px;
-        height: 74px;
-        border-radius: 50%;
-        background: var(--primary-soft);
-        color: var(--primary);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.75rem;
-        margin: 0 auto 20px;
-    }
-
-    .rec-empty h3 {
-        color: var(--ink);
-        margin: 0 0 8px;
-        font-weight: 800;
-    }
-
-    .rec-empty p {
-        color: var(--gray-500);
-        margin: 0 0 24px;
-    }
-
-    /* ==========================================
-       RESPONSIVE
-       ========================================== */
-    @media (max-width: 860px) {
-        .risk-summary-card {
-            grid-template-columns: 1fr;
-            gap: 22px;
-            padding: 24px;
-        }
-
-        .risk-summary-right {
-            flex-direction: row;
-            flex-wrap: wrap;
-            gap: 16px;
-            padding-inline-start: 0;
-            border-inline-start: none;
-            padding-top: 18px;
-            border-top: 1px solid var(--gray-100);
-        }
-
-        .rec-main-header,
-        .rec-main-body {
-            padding-left: 26px;
-            padding-right: 26px;
-        }
-    }
-
-    @media (max-width: 768px) {
-        .rec-hero {
-            padding: 46px 16px 72px;
-        }
-
-        .rec-hero h1 {
-            font-size: 2rem;
-        }
-
-        .rec-hero p {
-            font-size: 0.95rem;
-        }
-
-        .rec-hero-stats {
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .rec-main-header {
-            flex-direction: column;
-            text-align: center;
-        }
-
-        .rec-main-header .header-left {
-            flex-direction: column;
-        }
-
-        .rec-actions .btn {
-            flex: 1 1 40%;
-            justify-content: center;
-            font-size: 0.8rem;
-            padding: 11px 14px;
-        }
-
-        .rec-content .disclaimer-block,
-        .rec-disclaimer {
-            flex-direction: column;
-        }
-
-        .rec-content .rec-h2 {
-            font-size: 1rem;
-            padding: 13px 15px;
-            margin-top: 34px;
-        }
-    }
-
-    @media (max-width: 480px) {
-        .rec-hero h1 {
-            font-size: 1.6rem;
-        }
-
-        .rec-container {
-            padding: 0 14px 60px;
-        }
-
-        .rec-main-header,
-        .rec-main-body {
-            padding-left: 18px;
-            padding-right: 18px;
-        }
-
-        .rec-content .rec-list li {
-            font-size: 0.9rem;
-            padding-left: 44px;
-        }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-
-        .rec-page *,
-        .rec-page *::before,
-        .rec-page *::after {
-            animation-duration: 0.01ms !important;
-            animation-iteration-count: 1 !important;
-            transition-duration: 0.01ms !important;
-        }
-    }
-
-    @media print {
-        .rec-hero {
-            background: none;
-            padding: 16px 0 8px;
-        }
-
-        .rec-hero-stats,
-        .rec-actions,
-        .rec-toc,
-        .header-badge {
-            display: none !important;
-        }
-
-        .rec-container {
-            margin-top: 0;
-            padding: 0;
-        }
-
-        .risk-summary-card,
-        .rec-main-card {
-            box-shadow: none;
-            border: 1px solid #E7EDF5;
-        }
-
-        .rec-main-card {
-            overflow: visible;
-        }
-
-        .rec-content .rec-h2,
-        .rec-content .rec-list li {
-            break-inside: avoid;
-            -webkit-print-color-adjust: exact;
-            print-color-adjust: exact;
-        }
-
-        .risk-dot,
-        .risk-meter-track,
-        .rec-content .rec-h2::before,
-        .rec-content .rec-list li::before {
-            -webkit-print-color-adjust: exact;
-            print-color-adjust: exact;
-        }
-    }
-</style>
+<link rel="stylesheet" href="{% static 'recommendations_app/css/recommendations.css' %}?v=11">
 {% endblock %}
 
 {% block content %}
+{% with current_lang=lang|default:request.LANG|default:'en' %}
 
-{% with lang=request.LANG|default:'en' %}
-
-<div class="rec-page">
-
-    <!-- ========================================== -->
-    <!-- HERO -->
-    <!-- ========================================== -->
-    <section class="rec-hero">
-        <div class="rec-hero-content">
-            <div class="rec-hero-badge">
-                <i class="fa-solid fa-star-of-life"></i>
-                {% if lang == 'ur' %}طبی سفارشات{% else %}Clinical Recommendations{% endif %}
-            </div>
-
-            <h1>
-                {% if lang == 'ur' %}
-                آپ کا ذاتی نوعیت کا
-                <span>ویلنس پلان</span>
-                {% else %}
-                Your Personalized
-                <span>Wellness Plan</span>
-                {% endif %}
-            </h1>
-
-            <p>
-                {% if lang == 'ur' %}
-                آپ کے اسکریننگ نتائج کی بنیاد پر تیار کردہ ذاتی نوعیت کی طبی سفارشات۔
-                یہ بصیرتیں بہتر نیورولوجیکل صحت کی طرف آپ کے اگلے اقدامات کی رہنمائی کے لیے بنائی گئی ہیں۔
-                {% else %}
-                Clinical recommendations tailored to your screening results.
-                These insights are designed to guide your next steps toward better neurological health.
-                {% endif %}
-            </p>
-
-            <div class="rec-hero-stats">
-                <span class="rec-hero-stat">
-                    <i class="fa-regular fa-clock"></i>
-                    {% if lang == 'ur' %}<strong>ریئل ٹائم</strong> میں تیار{% else %}Generated in <strong>real-time</strong>{% endif %}
-                </span>
-                <span class="rec-hero-stat">
-                    <i class="fa-regular fa-circle-check"></i>
-                    {% if lang == 'ur' %}<strong>3 اسکریننگ ماڈیولز</strong> کی بنیاد پر{% else %}Based on <strong>3 screening modules</strong>{% endif %}
-                </span>
-                <span class="rec-hero-stat">
-                    <i class="fa-regular fa-message"></i>
-                    {% if lang == 'ur' %}<strong>نیوروسینس انٹیلیجنس</strong> سے تقویت یافتہ{% else %}Powered by <strong>NeuroSense Intelligence</strong>{% endif %}
-                </span>
-            </div>
-        </div>
-    </section>
-
-    <!-- ========================================== -->
-    <!-- MAIN CONTENT -->
-    <!-- ========================================== -->
-    <div class="rec-container">
+<div class="rec-page {% if current_lang == 'ur' %}rec-rtl{% endif %}">
+    <main class="rec-container">
 
         {% if error %}
-        <div class="rec-error">
-            <h2>⚠️ {{ error }}</h2>
-            <p>
-                {% if lang == 'ur' %}
-                براہ کرم پہلے تمام اسکریننگ ماڈیولز مکمل کریں یا دوبارہ کوشش کریں۔
-                {% else %}
-                Please complete all screening modules first or try again.
-                {% endif %}
-            </p>
-            <a href="{% url 'speech_app:home' %}" class="btn">
-                <i class="fa-solid fa-house"></i>
-                {% if lang == 'ur' %}ہوم پیج{% else %}Go to Home{% endif %}
+        <section class="state-card">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <h2>{{ error }}</h2>
+            <a href="{% url 'dashboard:dashboard' %}" class="rec-btn">
+                <i class="fa-solid fa-arrow-left"></i>
+                {% if current_lang == 'ur' %}ڈیش بورڈ{% else %}Back to Dashboard{% endif %}
             </a>
-        </div>
+        </section>
 
         {% elif is_generating %}
-        <div class="rec-loading">
-            <div class="spinner"></div>
-            <h3>
-                {% if lang == 'ur' %}آپ کی سفارشات تیار ہو رہی ہیں{% else %}Generating Your Recommendations{% endif %}
-            </h3>
-            <p>
-                {% if lang == 'ur' %}
-                ہمارا سسٹم آپ کے اسکریننگ نتائج کا تجزیہ کر کے ذاتی نوعیت کی بصیرتیں تیار کر رہا ہے۔
+        <section class="state-card">
+            <i class="fa-solid fa-brain"></i>
+            <h2>
+                {% if current_lang == 'ur' %}
+                آپ کی سفارشات تیار ہو رہی ہیں
                 {% else %}
-                Our system is analyzing your screening results to build personalized insights.
+                Building Your Personalized Plan
+                {% endif %}
+            </h2>
+            <p>
+                {% if current_lang == 'ur' %}
+                نیوروسینس آپ کے اسکریننگ نتائج کے مطابق مناسب رہنمائی تیار کر رہا ہے۔
+                {% else %}
+                NeuroSense is preparing guidance based on your screening results.
                 {% endif %}
             </p>
-            <div class="rec-skeleton" aria-hidden="true">
-                <span></span><span></span><span></span>
-            </div>
-        </div>
+        </section>
 
         {% elif recommendations %}
-        <!-- ========================================== -->
-        <!-- RECOMMENDATIONS DISPLAY                    -->
-        <!-- ========================================== -->
+        {% widthratio fusion.final_pd_probability 1 100 as risk_percent %}
 
-        <!-- Risk Summary -->
-        <div class="risk-summary-card {% if fusion.risk_level == 'Low' %}low{% elif fusion.risk_level == 'Medium' %}medium{% else %}high{% endif %}">
-            <div class="risk-summary-left">
-                <span class="risk-dot {% if fusion.risk_level == 'Low' %}low{% elif fusion.risk_level == 'Medium' %}medium{% else %}high{% endif %}">
-                    <i class="fa-solid fa-gauge-high"></i>
-                </span>
-                <div>
-                    <span class="risk-label">
-                        {% if lang == 'ur' %}مجموعی خطرے کی سطح{% else %}Overall Risk Level{% endif %}
-                    </span>
-                    <span class="risk-value">
-                        {% if lang == 'ur' %}
-                            {% if fusion.risk_level == 'Low' %}کم
-                            {% elif fusion.risk_level == 'Medium' %}درمیانہ
-                            {% else %}زیادہ{% endif %}
-                        {% else %}
-                            {{ fusion.risk_level|upper }}
-                        {% endif %}
-                        <span class="risk-score">· {{ fusion.final_pd_probability|floatformat:2 }} / 1.00</span>
-                    </span>
-                </div>
-            </div>
-
-            <div class="risk-meter" aria-hidden="true">
-                <div class="risk-meter-track">
-                    <span class="risk-meter-marker" style="left: {% widthratio fusion.final_pd_probability 1 100 %}%;"></span>
-                </div>
-                <div class="risk-meter-scale">
-                    <span>{% if lang == 'ur' %}کم{% else %}Low{% endif %}</span>
-                    <span>{% if lang == 'ur' %}درمیانہ{% else %}Medium{% endif %}</span>
-                    <span>{% if lang == 'ur' %}زیادہ{% else %}High{% endif %}</span>
-                </div>
-            </div>
-
-            <div class="risk-summary-right">
-                <span><i class="fa-regular fa-file-lines"></i> {{ fusion.screening_id|default:"Report"|truncatechars:10 }}</span>
-                <span><i class="fa-regular fa-calendar"></i> {% now "d M Y" %}</span>
-            </div>
-        </div>
-
-        <!-- Main Card -->
-        <div class="rec-main-card">
-            <div class="rec-main-header">
-                <div class="header-left">
-                    <div class="header-icon">
-                        <i class="fa-regular fa-lightbulb"></i>
-                    </div>
-                    <div class="header-title">
-                        <h2>
-                            {% if lang == 'ur' %}طبی سفارشات{% else %}Clinical Recommendations{% endif %}
-                        </h2>
-                        <p>
-                            {% if lang == 'ur' %}
-                            آپ کے اسکریننگ نتائج کی بنیاد پر ذاتی نوعیت کی رہنمائی
-                            {% else %}
-                            Personalized guidance based on your screening results
-                            {% endif %}
-                        </p>
-                    </div>
-                </div>
-                <div class="header-badge">
-                    <span class="dot"></span>
-                    {% if lang == 'ur' %}نیوروسینس انٹیلیجنس{% else %}NeuroSense Intelligence{% endif %}
-                </div>
-            </div>
-
-            <div class="rec-main-body">
-                <!-- In-page navigation (built by JS) -->
-                <nav class="rec-toc" id="rec-toc" aria-label="Sections">
-                    <p class="rec-toc-title">
-                        {% if lang == 'ur' %}اس صفحے پر{% else %}On this page{% endif %}
-                    </p>
-                    <ol class="rec-toc-list" id="rec-toc-list"></ol>
-                </nav>
-
-                <!-- Structured content -->
-                <div class="rec-content" id="rec-content">
-                    {% if recommendations %}
-                        {{ recommendations|safe }}
+        <!-- =====================================================
+             PAGE HEADER
+             Uses the exact class names expected by the preferred CSS
+             ===================================================== -->
+        <header class="rec-header">
+            <div>
+                <div class="rec-eyebrow">
+                    <i class="fa-solid fa-heart-pulse"></i>
+                    {% if current_lang == 'ur' %}
+                    آپ کی ذاتی رہنمائی
                     {% else %}
-                        <p class="rec-p">
-                            {% if lang == 'ur' %}کوئی سفارشات دستیاب نہیں ہیں۔{% else %}No recommendations available.{% endif %}
-                        </p>
+                    Your Personal Guide
                     {% endif %}
                 </div>
 
-                <!-- Bottom Disclaimer -->
-                <div class="rec-disclaimer">
-                    <i class="fa-regular fa-circle-info"></i>
-                    <div>
-                        <strong>{% if lang == 'ur' %}اہم:{% else %}Important:{% endif %}</strong>
-                        {% if lang == 'ur' %}
-                        یہ سفارشات آپ کے اسکریننگ نتائج کی بنیاد پر نیوروسینس انٹیلیجنس کے ذریعے تیار کی گئی ہیں اور صرف معلوماتی مقاصد کے لیے ہیں۔
-                        یہ پیشہ ورانہ طبی مشورے، تشخیص، یا علاج کا متبادل نہیں ہیں۔
-                        طبی فیصلوں کے لیے ہمیشہ کسی مستند ہیلتھ کیئر فراہم کنندہ سے مشورہ کریں۔
-                        {% else %}
-                        These recommendations are generated by NeuroSense Intelligence based on your screening results
-                        and are for informational purposes only. They are not a substitute for professional medical advice,
-                        diagnosis, or treatment. Always consult a qualified healthcare provider for clinical decisions.
-                        {% endif %}
+                <h1>
+                    {% if current_lang == 'ur' %}
+                    آپ کی سفارشات
+                    {% else %}
+                    Your Recommendations
+                    {% endif %}
+                </h1>
+
+                <p>
+                    {% if current_lang == 'ur' %}
+                    آپ کی اسکریننگ کے مطابق واضح اور ذاتی نوعیت کی رہنمائی۔
+                    {% else %}
+                    Simple next steps based on your screening.
+                    {% endif %}
+                </p>
+            </div>
+
+            <div class="rec-date">
+                <i class="fa-regular fa-calendar"></i>
+                {% if current_lang == 'ur' %}
+                    {% if fusion.created_at %}
+                        {{ fusion.created_at|date:"d-m-Y" }}
+                    {% else %}
+                        {% now "d-m-Y" %}
+                    {% endif %}
+                {% else %}
+                    {% if fusion.created_at %}
+                        {{ fusion.created_at|date:"d M Y" }}
+                    {% else %}
+                        {% now "d M Y" %}
+                    {% endif %}
+                {% endif %}
+            </div>
+        </header>
+
+        <!-- =====================================================
+             PROBABILITY / RISK
+             ===================================================== -->
+        <section class="risk-panel risk-{{ fusion.risk_level|lower }}">
+
+            <div class="probability-block">
+
+                <div class="probability-ring" aria-label="{{ risk_percent }}% probability">
+                    <svg class="probability-svg" viewBox="0 0 100 100" aria-hidden="true">
+                        <circle
+                            class="probability-track-circle"
+                            cx="50"
+                            cy="50"
+                            r="43"
+                            pathLength="100">
+                        </circle>
+                        <circle
+                            class="probability-progress-circle"
+                            cx="50"
+                            cy="50"
+                            r="43"
+                            pathLength="100"
+                            stroke-dasharray="{{ risk_percent }} 100"
+                            transform="rotate(-90 50 50)">
+                        </circle>
+                    </svg>
+
+                    <div class="probability-inner">
+                        <strong>{{ risk_percent }}%</strong>
                     </div>
                 </div>
+
+                <div>
+                    <span class="risk-kicker">
+                        {% if current_lang == 'ur' %}
+                        پارکنسن کا امکان
+                        {% else %}
+                        Parkinson's Probability
+                        {% endif %}
+                    </span>
+
+                    <h2>
+                        {% if current_lang == 'ur' %}
+                            {% if fusion.risk_level == 'Low' %}کم اسکریننگ سطح
+                            {% elif fusion.risk_level == 'Medium' %}درمیانی اسکریننگ سطح
+                            {% else %}زیادہ اسکریننگ سطح{% endif %}
+                        {% else %}
+                            {{ fusion.risk_level }} screening level
+                        {% endif %}
+                    </h2>
+
+                    <p>
+                        {% if current_lang == 'ur' %}
+                        یہ اسکریننگ کا تخمینہ ہے، تشخیص نہیں۔
+                        {% else %}
+                        This is a screening estimate, not a diagnosis.
+                        {% endif %}
+                    </p>
+                </div>
+
             </div>
-        </div>
 
-        <!-- Action Bar -->
-        <div class="rec-actions">
-            <button type="button" class="btn btn-pdf" onclick="window.print()">
-                <i class="fa-regular fa-file-pdf"></i>
-                {% if lang == 'ur' %}پی ڈی ایف ڈاؤن لوڈ کریں{% else %}Download PDF{% endif %}
-            </button>
+            <div class="risk-bar-wrap">
+                <div class="risk-bar">
+                    <span style="width: {{ risk_percent }}%;"></span>
+                    <b style="left: {{ risk_percent }}%;"></b>
+                </div>
 
-            <a href="{% url 'fusion_app:report' %}" class="btn btn-outline-rec">
-                <i class="fa-regular fa-file-lines"></i>
-                {% if lang == 'ur' %}رپورٹ پر واپس جائیں{% else %}Back to Report{% endif %}
-            </a>
+                <div class="risk-labels">
+                    <span>{% if current_lang == 'ur' %}کم{% else %}Low{% endif %}</span>
+                    <span>{% if current_lang == 'ur' %}درمیانہ{% else %}Medium{% endif %}</span>
+                    <span>{% if current_lang == 'ur' %}زیادہ{% else %}High{% endif %}</span>
+                </div>
+            </div>
 
-            <form method="post"
-                  action="{% url 'recommendations_app:regenerate' %}"
-                  onsubmit="return confirm('{% if lang == 'ur' %}کیا آپ واقعی سفارشات دوبارہ تیار کرنا چاہتے ہیں؟ اس سے آپ کے جیمنی اے آئی کریڈٹ استعمال ہوں گے۔{% else %}Regenerate recommendations? This will use your Gemini API credits.{% endif %}');">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-secondary-rec">
-                    <i class="fa-solid fa-rotate"></i>
-                    {% if lang == 'ur' %}دوبارہ تیار کریں{% else %}Regenerate{% endif %}
+        </section>
+
+        <!-- =====================================================
+             RECOMMENDATION CONTENT
+             JS below applies the exact classes used by the CSS:
+             overview-grid, overview-card, section-stack,
+             section-card, section-icon, section-heading-copy
+             ===================================================== -->
+        <section class="recommendation-shell">
+            <div class="rec-content" id="rec-content">
+                {{ recommendations|safe }}
+            </div>
+        </section>
+
+        <!-- =====================================================
+             FOOTER / ACTIONS
+             ===================================================== -->
+        <footer class="rec-footer-bar">
+
+            <div class="footer-note">
+                <i class="fa-solid fa-circle-info"></i>
+                <span>
+                    {% if current_lang == 'ur' %}
+                    نیوروسینس ایک اسکریننگ اور رہنمائی کا ٹول ہے، طبی تشخیص نہیں۔
+                    {% else %}
+                    NeuroSense is a screening and guidance tool, not a medical diagnosis.
+                    {% endif %}
+                </span>
+            </div>
+
+            <div class="action-buttons">
+
+                <button type="button" class="rec-btn primary" onclick="window.print()">
+                    <i class="fa-regular fa-file-pdf"></i>
+                    {% if current_lang == 'ur' %}PDF محفوظ کریں{% else %}Save PDF{% endif %}
                 </button>
-            </form>
 
-            <a href="{% url 'speech_app:home' %}" class="btn btn-primary-rec">
-                <i class="fa-solid fa-house"></i>
-                {% if lang == 'ur' %}ہوم پیج{% else %}Home{% endif %}
-            </a>
-        </div>
+                <a
+                    href="{% url 'fusion_app:report' %}?screening_id={{ screening_id|urlencode }}&lang={{ current_lang }}"
+                    class="rec-btn"
+                >
+                    <i class="fa-regular fa-file-lines"></i>
+                    {% if current_lang == 'ur' %}رپورٹ دیکھیں{% else %}View Report{% endif %}
+                </a>
+
+                <form method="post" action="{% url 'recommendations_app:regenerate' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="screening_id" value="{{ screening_id }}">
+                    <input type="hidden" name="lang" value="{{ current_lang }}">
+
+                    <button type="submit" class="rec-btn">
+                        <i class="fa-solid fa-rotate"></i>
+                        {% if current_lang == 'ur' %}دوبارہ بنائیں{% else %}Refresh{% endif %}
+                    </button>
+                </form>
+
+                <a href="{% url 'dashboard:dashboard' %}" class="rec-btn">
+                    <i class="fa-solid fa-house"></i>
+                    {% if current_lang == 'ur' %}ڈیش بورڈ{% else %}Dashboard{% endif %}
+                </a>
+
+            </div>
+
+        </footer>
 
         {% else %}
-        <!-- Empty State -->
-        <div class="rec-empty">
-            <div class="empty-icon"><i class="fa-regular fa-clipboard"></i></div>
-            <h3>
-                {% if lang == 'ur' %}کوئی سفارشات دستیاب نہیں{% else %}No Recommendations Available{% endif %}
-            </h3>
-            <p>
-                {% if lang == 'ur' %}
-                براہ کرم پہلے مکمل اسکریننگ کا عمل مکمل کریں۔
+
+        <section class="state-card">
+            <i class="fa-regular fa-clipboard"></i>
+            <h2>
+                {% if current_lang == 'ur' %}
+                ابھی کوئی سفارشات دستیاب نہیں
                 {% else %}
-                Please complete the full screening process first.
+                No Recommendations Yet
                 {% endif %}
-            </p>
-            <a href="{% url 'questionnaire_app:home' %}" class="btn">
+            </h2>
+
+            <a href="{% url 'questionnaire_app:home' %}" class="rec-btn primary">
                 <i class="fa-solid fa-arrow-right"></i>
-                {% if lang == 'ur' %}اسکریننگ شروع کریں{% else %}Start Screening{% endif %}
+                {% if current_lang == 'ur' %}اسکریننگ شروع کریں{% else %}Start Screening{% endif %}
             </a>
-        </div>
+        </section>
+
         {% endif %}
 
-    </div>
+    </main>
 </div>
 
 {% endwith %}
-
 {% endblock %}
+
 
 {% block extra_js %}
 <script>
-    (function () {
-        'use strict';
-        // Build the "On this page" nav from the generated H2 headings.
-        var content = document.getElementById('rec-content');
-        var toc = document.getElementById('rec-toc');
-        var list = document.getElementById('rec-toc-list');
-        if (!content || !toc || !list) return;
+(function () {
+    'use strict';
 
-        var headings = content.querySelectorAll('.rec-h2');
-        if (headings.length < 2) return;
+    var content = document.getElementById('rec-content');
+    if (!content) return;
 
-        headings.forEach(function (h, i) {
-            var id = 'rec-sec-' + (i + 1);
-            h.id = id;
+    var headings = Array.from(content.querySelectorAll('.rec-h2'));
+    if (!headings.length) return;
 
-            var li = document.createElement('li');
-            var a = document.createElement('a');
-            a.href = '#' + id;
+    /*
+     * IMPORTANT:
+     * These class names intentionally match the preferred CSS exactly.
+     */
+    var overviewGrid = document.createElement('div');
+    overviewGrid.className = 'overview-grid';
 
-            var n = document.createElement('span');
-            n.className = 'n';
-            n.textContent = i + 1;
+    var sectionStack = document.createElement('div');
+    sectionStack.className = 'section-stack';
 
-            var label = document.createElement('span');
-            label.textContent = h.textContent.trim();
+    var firstHeading = headings[0];
 
-            a.appendChild(n);
-            a.appendChild(label);
-            li.appendChild(a);
-            list.appendChild(li);
+    content.insertBefore(overviewGrid, firstHeading);
+    content.insertBefore(sectionStack, firstHeading);
+
+    var iconMap = {
+        1: 'fa-person-walking',
+        2: 'fa-microphone-lines',
+        3: 'fa-heart-pulse',
+        4: 'fa-eye',
+        5: 'fa-triangle-exclamation',
+        6: 'fa-calendar-check'
+    };
+
+    headings.forEach(function (heading) {
+
+        var rawTitle = heading.textContent.trim();
+        var numberMatch = rawTitle.match(/^([1-6])\.\s*/);
+        var sectionNumber = numberMatch
+            ? parseInt(numberMatch[1], 10)
+            : null;
+
+        var card = document.createElement('section');
+
+        var isSummary = /your summary|خلاصہ/i.test(rawTitle);
+        var isMeaning = /what your results mean|نتائج کا مطلب/i.test(rawTitle);
+
+        if (sectionNumber) {
+
+            /*
+             * Exact preferred CSS classes:
+             * section-card section-1 ... section-6
+             */
+            card.className = 'section-card section-' + sectionNumber;
+            card.id = 'recommendation-section-' + sectionNumber;
+
+            var icon = document.createElement('span');
+            icon.className = 'section-icon';
+            icon.innerHTML =
+                '<i class="fa-solid ' +
+                iconMap[sectionNumber] +
+                '"></i>';
+
+            var titleWrap = document.createElement('span');
+            titleWrap.className = 'section-heading-copy';
+
+            var number = document.createElement('small');
+            number.textContent = '0' + sectionNumber;
+
+            var title = document.createElement('span');
+            title.textContent =
+                rawTitle.replace(/^([1-6])\.\s*/, '');
+
+            titleWrap.appendChild(number);
+            titleWrap.appendChild(title);
+
+            heading.textContent = '';
+            heading.appendChild(icon);
+            heading.appendChild(titleWrap);
+
+        } else {
+
+            /*
+             * Exact preferred CSS classes:
+             * overview-card + optional meaning-card
+             */
+            card.className = 'overview-card';
+
+            if (isMeaning) {
+                card.classList.add('meaning-card');
+            }
+        }
+
+        var next = heading.nextSibling;
+        card.appendChild(heading);
+
+        while (
+            next &&
+            !(
+                next.nodeType === 1 &&
+                next.classList &&
+                next.classList.contains('rec-h2')
+            )
+        ) {
+            var moving = next;
+            next = next.nextSibling;
+            card.appendChild(moving);
+        }
+
+        if (sectionNumber) {
+            sectionStack.appendChild(card);
+        } else {
+            overviewGrid.appendChild(card);
+        }
+    });
+
+
+    /*
+     * Curated video cards:
+     * exact classes expected by the preferred CSS.
+     */
+    content
+        .querySelectorAll('.guided-resource')
+        .forEach(function (resource) {
+
+            resource.classList.add('video-card');
+
+            if (!resource.querySelector('.video-play')) {
+                var play = document.createElement('span');
+                play.className = 'video-play';
+                play.innerHTML =
+                    '<i class="fa-brands fa-youtube"></i>';
+
+                resource.insertBefore(
+                    play,
+                    resource.firstChild
+                );
+            }
         });
 
-        toc.classList.add('show');
-    })();
+})();
 </script>
 {% endblock %}
