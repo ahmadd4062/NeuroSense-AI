@@ -1,0 +1,612 @@
+{
+  "schema_version": "1.0",
+  "section": "physical_therapy_exercise",
+  "display_heading": "1. Physical Therapy & Exercise",
+  "purpose": "Curated physical-therapy and exercise knowledge cards for RAG retrieval. These cards personalize movement recommendations using NeuroSense screening patterns while preserving a clear screening-only boundary.",
+  "retrieval_policy": {
+    "preferred_match_order": [
+      "safety_trigger",
+      "primary_pattern",
+      "gait_status",
+      "risk_level",
+      "longitudinal_trend",
+      "discordance_level",
+      "dominant_module"
+    ],
+    "max_cards_per_report": 4,
+    "required_base_card": "PT001",
+    "llm_role": "The language model may summarize, personalize, translate, and combine retrieved cards, but must not invent exercises, prescribe intensity, diagnose Parkinson's disease, or recommend unsupervised activities that are not present in retrieved content.",
+    "video_policy": "Exercise videos are supplemental resources only. A later resource selector may attach a curated video when its tags and safety level match the user's profile. The language model must never invent or search for a video URL.",
+    "diagnostic_boundary": "NeuroSense AI is a screening system. Exercise recommendations do not confirm Parkinson's disease and should not replace assessment by a qualified clinician or physiotherapist."
+  },
+  "knowledge_cards": [
+    {
+      "id": "PT001",
+      "title": "Exercise and physical therapy are supportive, not diagnostic",
+      "topics": [
+        "exercise",
+        "physical_therapy",
+        "screening_boundary",
+        "mobility"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "any"
+        ]
+      },
+      "priority": 1,
+      "recommendation": "Explain that regular physical activity and physiotherapy can support mobility, balance, strength and daily function, but the appropriate program depends on the person's symptoms, abilities and safety. The screening result should guide which areas deserve attention, not act as an exercise prescription or diagnosis.",
+      "personalization_hint": "Mention the user's gait result and dominant screening domain. Avoid claiming that exercise will prevent or cure Parkinson's disease.",
+      "video_resource_tags": [],
+      "source_ids": [
+        "SRC011",
+        "SRC012",
+        "SRC030"
+      ],
+      "safety_level": "mandatory"
+    },
+    {
+      "id": "PT002",
+      "title": "All domains normal - maintain regular activity",
+      "topics": [
+        "low_risk",
+        "general_activity",
+        "prevention",
+        "mobility"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Low"
+        ],
+        "patterns": [
+          "all_control"
+        ]
+      },
+      "priority": 5,
+      "recommendation": "When all screening domains are normal, encourage maintaining regular age-appropriate physical activity that includes aerobic movement, strength, flexibility and balance work as tolerated. The goal is general health and mobility maintenance rather than treatment of a detected disorder.",
+      "personalization_hint": "Keep this brief and reassuring. Do not imply that a normal screen permanently rules out future movement problems.",
+      "video_resource_tags": [
+        "general_mobility",
+        "low_risk",
+        "beginner_friendly"
+      ],
+      "source_ids": [
+        "SRC011",
+        "SRC020",
+        "SRC021"
+      ],
+      "safety_level": "standard"
+    },
+    {
+      "id": "PT003",
+      "title": "Gait-dominant pattern - prioritize physiotherapy assessment",
+      "topics": [
+        "gait",
+        "walking",
+        "balance",
+        "physiotherapy"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "gait_only_pd"
+        ]
+      },
+      "priority": 1,
+      "recommendation": "When gait is the main abnormal domain, recommend a physiotherapy assessment focused on walking pattern, balance, posture, turning and functional mobility. A physiotherapist with neurological or Parkinson's experience can help identify specific movement difficulties and choose exercises that match the person's abilities and safety needs.",
+      "personalization_hint": "State that gait contributed most strongly to the screening pattern. Do not infer falls, freezing or weakness unless those features are actually available in the user's data.",
+      "video_resource_tags": [
+        "gait",
+        "balance",
+        "mobility"
+      ],
+      "source_ids": [
+        "SRC012",
+        "SRC013",
+        "SRC022"
+      ],
+      "safety_level": "important"
+    },
+    {
+      "id": "PT004",
+      "title": "Gait plus questionnaire pattern - combine mobility and safety focus",
+      "topics": [
+        "gait",
+        "balance",
+        "functional_mobility",
+        "multidomain"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "gait_questionnaire_pd"
+        ]
+      },
+      "priority": 1,
+      "recommendation": "When gait findings occur together with questionnaire concerns, recommend individualized physiotherapy rather than a generic exercise plan. The movement program should emphasize safe walking, balance, posture, strength and everyday mobility while taking any reported symptoms or support needs into account.",
+      "personalization_hint": "Refer to the gait and questionnaire domains together. If questionnaire data contains a support or mobility concern, mention it without adding new symptoms.",
+      "video_resource_tags": [
+        "gait",
+        "balance",
+        "strength",
+        "supervised_preferred"
+      ],
+      "source_ids": [
+        "SRC012",
+        "SRC014",
+        "SRC020"
+      ],
+      "safety_level": "high"
+    },
+    {
+      "id": "PT005",
+      "title": "Multi-domain pattern - supervised, individualized movement plan",
+      "topics": [
+        "multidomain",
+        "physiotherapy",
+        "exercise_plan",
+        "safety"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "all_pd",
+          "mixed_pd"
+        ]
+      },
+      "priority": 1,
+      "recommendation": "When two or more screening domains are abnormal, recommend an individualized exercise plan designed with a qualified physiotherapist or healthcare professional, especially if movement difficulties are present. A balanced program may include aerobic activity, strengthening, flexibility and balance/agility work, selected according to the person's functional level and safety.",
+      "personalization_hint": "Name only the domains that are elevated. Avoid prescribing a fixed exercise dose from the screening result alone.",
+      "video_resource_tags": [
+        "multicomponent",
+        "supervised_preferred",
+        "balance",
+        "strength"
+      ],
+      "source_ids": [
+        "SRC011",
+        "SRC012",
+        "SRC020",
+        "SRC030"
+      ],
+      "safety_level": "high"
+    },
+    {
+      "id": "PT006",
+      "title": "Speech- or questionnaire-dominant pattern with normal gait",
+      "topics": [
+        "normal_gait",
+        "general_activity",
+        "maintenance"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "speech_only_pd",
+          "questionnaire_only",
+          "speech_questionnaire_pd"
+        ]
+      },
+      "priority": 4,
+      "recommendation": "If gait remains normal and the main screening concern comes from speech or questionnaire findings, recommend maintaining regular safe physical activity rather than presenting intensive gait rehabilitation as necessary. Escalate to targeted physiotherapy if walking, balance, posture or mobility problems are present clinically or develop over time.",
+      "personalization_hint": "Explicitly acknowledge that gait was not the main concern so the physical-therapy recommendation does not feel mismatched.",
+      "video_resource_tags": [
+        "general_mobility",
+        "low_impact"
+      ],
+      "source_ids": [
+        "SRC011",
+        "SRC020"
+      ],
+      "safety_level": "standard"
+    },
+    {
+      "id": "PT007",
+      "title": "Borderline across domains - gentle activity and reassessment",
+      "topics": [
+        "borderline",
+        "monitoring",
+        "general_activity"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Low",
+          "Medium"
+        ],
+        "patterns": [
+          "all_borderline"
+        ]
+      },
+      "priority": 4,
+      "recommendation": "For borderline findings without a clearly dominant movement problem, encourage regular safe activity and observation rather than a disease-specific exercise prescription. If movement symptoms become clearer or worsen, a physiotherapy assessment can help determine whether targeted gait, balance or strength work is appropriate.",
+      "personalization_hint": "Use cautious language because no single domain shows a clear pattern.",
+      "video_resource_tags": [
+        "general_mobility",
+        "beginner_friendly"
+      ],
+      "source_ids": [
+        "SRC011",
+        "SRC021"
+      ],
+      "safety_level": "standard"
+    },
+    {
+      "id": "PT008",
+      "title": "Worsening trend - reassess movement plan",
+      "topics": [
+        "worsening_trend",
+        "reassessment",
+        "physiotherapy"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "worsening_trend"
+        ]
+      },
+      "priority": 1,
+      "recommendation": "If repeated screenings show a worsening trend, recommend clinical reassessment of mobility and the current exercise routine. A physiotherapist can review whether walking, balance, strength or flexibility goals need to be adjusted and whether additional safety strategies are needed.",
+      "personalization_hint": "Mention the direction of change from longitudinal analysis, but do not claim that the trend proves disease progression.",
+      "video_resource_tags": [
+        "supervised_preferred"
+      ],
+      "source_ids": [
+        "SRC012",
+        "SRC016"
+      ],
+      "safety_level": "high"
+    },
+    {
+      "id": "PT009",
+      "title": "Low-reliability screen - avoid over-personalizing exercise",
+      "topics": [
+        "low_reliability",
+        "repeat_screen",
+        "exercise_safety"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "low_reliability"
+        ]
+      },
+      "priority": 2,
+      "recommendation": "When screening reliability is low, avoid using the result to prescribe a highly specific exercise plan. Encourage safe general activity within the person's usual abilities and recommend repeating or clinically reviewing the uncertain screening information before making stronger symptom-specific recommendations.",
+      "personalization_hint": "Explain that the limitation comes from uncertain screening data, not from a confirmed physical impairment.",
+      "video_resource_tags": [
+        "general_mobility",
+        "beginner_friendly"
+      ],
+      "source_ids": [
+        "SRC011",
+        "SRC012"
+      ],
+      "safety_level": "important"
+    },
+    {
+      "id": "PT010",
+      "title": "Balance or fall concern - prioritize safety",
+      "topics": [
+        "balance",
+        "falls",
+        "home_safety",
+        "physiotherapy"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "gait_only_pd",
+          "gait_questionnaire_pd",
+          "all_pd",
+          "mixed_pd"
+        ],
+        "extra_trigger": "Use only when available questionnaire, gait, or clinical data indicates balance difficulty, falls, fear of falling, or unsafe mobility."
+      },
+      "priority": 1,
+      "recommendation": "If the available data indicates balance difficulty, falls, fear of falling or unsafe mobility, recommend a physiotherapy assessment and fall-prevention strategies rather than unsupervised challenging exercises. Home-safety review and support during exercise may also be appropriate depending on the person's functional status.",
+      "personalization_hint": "Never infer a fall history from probability scores alone. This card requires an explicit balance/fall safety signal.",
+      "video_resource_tags": [
+        "balance",
+        "fall_prevention",
+        "supervised_only"
+      ],
+      "source_ids": [
+        "SRC014",
+        "SRC016",
+        "SRC012"
+      ],
+      "safety_level": "high"
+    },
+    {
+      "id": "PT011",
+      "title": "Freezing or start-hesitation concern - targeted gait strategies",
+      "topics": [
+        "freezing",
+        "gait",
+        "cueing",
+        "walking"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "gait_only_pd",
+          "gait_questionnaire_pd",
+          "all_pd",
+          "mixed_pd"
+        ],
+        "extra_trigger": "Use only when an explicit freezing, start-hesitation, or similar gait signal is available."
+      },
+      "priority": 1,
+      "recommendation": "If freezing or difficulty initiating steps is explicitly reported or detected, recommend assessment by a physiotherapist who can teach individualized walking and cueing strategies. Avoid giving complex unsupervised gait drills when balance or fall safety is uncertain.",
+      "personalization_hint": "Only retrieve this card when freezing or start-hesitation is an explicit signal; do not infer it from a high gait probability alone.",
+      "video_resource_tags": [
+        "freezing",
+        "gait_cueing",
+        "supervised_preferred"
+      ],
+      "source_ids": [
+        "SRC013",
+        "SRC015",
+        "SRC012"
+      ],
+      "safety_level": "high"
+    },
+    {
+      "id": "PT012",
+      "title": "Use a balanced exercise framework",
+      "topics": [
+        "aerobic",
+        "strength",
+        "balance",
+        "flexibility",
+        "exercise_framework"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "any"
+        ]
+      },
+      "priority": 3,
+      "recommendation": "When exercise is appropriate, frame the plan around a balanced mix of aerobic activity, strengthening, flexibility and balance/agility work rather than a single exercise. The exact activities, intensity and progression should be adapted to the person's health, current activity level, movement difficulties and professional advice.",
+      "personalization_hint": "Select one or two components that best match the affected domains, but do not invent intensity targets from the screening probabilities.",
+      "video_resource_tags": [
+        "multicomponent",
+        "aerobic",
+        "strength",
+        "balance",
+        "flexibility"
+      ],
+      "source_ids": [
+        "SRC011",
+        "SRC020"
+      ],
+      "safety_level": "standard",
+      "action_type": "self_care"
+    },
+    {
+      "id": "PT013",
+      "title": "Walking difficulty - functional mobility focus",
+      "topics": [
+        "walking",
+        "turning",
+        "posture",
+        "functional_mobility"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "gait_only_pd",
+          "gait_questionnaire_pd",
+          "all_pd",
+          "mixed_pd"
+        ],
+        "extra_trigger": "Prefer when gait is the dominant module or explicit walking difficulty is available."
+      },
+      "priority": 2,
+      "recommendation": "When walking is a prominent concern, prioritize functional goals such as safer walking, turning, posture, transfers and everyday mobility. A physiotherapist can use task-specific practice and appropriate exercise to address the movement problems that matter most to the individual.",
+      "personalization_hint": "Tie the recommendation to gait dominance or explicit mobility findings rather than generic Parkinson's assumptions.",
+      "video_resource_tags": [
+        "gait",
+        "walking",
+        "functional_mobility"
+      ],
+      "source_ids": [
+        "SRC012",
+        "SRC013",
+        "SRC022"
+      ],
+      "safety_level": "important",
+      "action_type": "self_care"
+    },
+    {
+      "id": "PT014",
+      "title": "Home-based exercise resource can supplement professional care",
+      "topics": [
+        "home_exercise",
+        "video_resource",
+        "self_management"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Low",
+          "Medium"
+        ],
+        "patterns": [
+          "all_control",
+          "all_borderline",
+          "speech_only_pd",
+          "questionnaire_only",
+          "gait_only_pd"
+        ],
+        "extra_trigger": "Attach only when no explicit fall-risk, unsafe-mobility, or supervision-required signal is present."
+      },
+      "priority": 4,
+      "recommendation": "A curated home-exercise or guided-video resource may be offered as a supplement when the activity matches the person's ability and there is no identified safety reason to require supervision. The resource should come from a trusted Parkinson's, hospital, university or professional rehabilitation organization.",
+      "personalization_hint": "Do not present the video as treatment. Introduce it as an optional guided resource that complements professional advice.",
+      "video_resource_tags": [
+        "home_exercise",
+        "verified_source",
+        "beginner_friendly"
+      ],
+      "source_ids": [
+        "SRC021",
+        "SRC011"
+      ],
+      "safety_level": "standard",
+      "action_type": "self_care"
+    },
+    {
+      "id": "PT015",
+      "title": "High-risk movement profile - do not rely on video alone",
+      "topics": [
+        "high_risk",
+        "safety",
+        "supervision",
+        "video_resource"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "High"
+        ],
+        "patterns": [
+          "gait_only_pd",
+          "gait_questionnaire_pd",
+          "all_pd",
+          "mixed_pd",
+          "worsening_trend"
+        ]
+      },
+      "priority": 1,
+      "recommendation": "For a high-risk profile with significant gait involvement, emphasize professional assessment and an individualized safe movement plan. A video can be used only as supplementary education when appropriate; it should not replace supervision or professional guidance if balance, falls or unsafe mobility are concerns.",
+      "personalization_hint": "If gait is not elevated, avoid implying that high overall risk automatically means unsafe exercise.",
+      "video_resource_tags": [
+        "education_only",
+        "supervised_preferred"
+      ],
+      "source_ids": [
+        "SRC012",
+        "SRC014",
+        "SRC016"
+      ],
+      "safety_level": "high"
+    },
+    {
+      "id": "PT016",
+      "title": "Exercise consistency matters more than a one-off session",
+      "topics": [
+        "consistency",
+        "routine",
+        "exercise_habit"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "any"
+        ]
+      },
+      "priority": 5,
+      "recommendation": "Encourage building a consistent, sustainable activity routine rather than relying on occasional exercise sessions. The type and amount of activity should remain appropriate to the person's health, mobility and professional guidance, especially when symptoms or functional limitations are present.",
+      "personalization_hint": "Use this as a supportive closing point rather than a primary recommendation.",
+      "video_resource_tags": [
+        "general_mobility",
+        "routine"
+      ],
+      "source_ids": [
+        "SRC011",
+        "SRC020"
+      ],
+      "safety_level": "standard",
+      "action_type": "self_care"
+    },
+    {
+      "id": "PT017",
+      "title": "Practical gait-focused activity when gait needs attention",
+      "topics": [
+        "gait",
+        "walking",
+        "turning",
+        "posture",
+        "balance",
+        "safe_activity",
+        "self_management"
+      ],
+      "priority": 2,
+      "safety_level": "general",
+      "applies_when": {
+        "risk_levels": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "gait_only_pd",
+          "gait_questionnaire_pd",
+          "all_pd",
+          "mixed_pd"
+        ]
+      },
+      "recommendation": "When gait needs attention, keep physical activity safe and practical: focus on comfortable walking, turning, posture and balance during normal daily movement. Avoid adding difficult balance drills on your own if you feel unsteady.",
+      "personalization_hint": "Use as the main self-action point for gait-focused recommendations, including when the overall weighted risk is still Low.",
+      "clinical_follow_up": "A physiotherapist can individualize walking, balance and mobility work when gait changes persist or affect daily function.",
+      "video_resource_tags": [
+        "walking",
+        "gait",
+        "mobility",
+        "balance",
+        "beginner_friendly"
+      ],
+      "source_ids": [
+        "SRC011",
+        "SRC012",
+        "SRC013",
+        "SRC014"
+      ],
+      "action_type": "self_care"
+    }
+  ]
+}

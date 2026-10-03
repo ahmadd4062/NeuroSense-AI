@@ -1,0 +1,244 @@
+{
+  "section": "medical_consultation",
+  "display_heading": "5. Changes to Watch Closely",
+  "retrieval_policy": {
+    "preferred_match_order": [
+      "safety_trigger",
+      "primary_pattern",
+      "longitudinal_trend",
+      "dominant_module",
+      "risk_level"
+    ],
+    "max_cards_per_report": 3,
+    "required_base_card": "MC001",
+    "llm_role": "The language model may simplify the retrieved warning signs, but must not decide that medical review is unnecessary. It must keep warnings limited to affected screening areas and explicitly reported supporting symptoms.",
+    "diagnostic_boundary": "NeuroSense is a screening and recommendation-support tool. This section highlights changes worth watching; it does not rule medical care in or out."
+  },
+  "knowledge_cards": [
+    {
+      "id": "MC001",
+      "title": "Watch only relevant changes",
+      "topics": [
+        "safety",
+        "module_specific",
+        "screening_boundary"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "any"
+        ]
+      },
+      "priority": 1,
+      "recommendation": "Focus this section only on changes that match the affected screening areas or symptoms the person actually reported. Do not say that a low screening result means medical care is unnecessary.",
+      "personalization_hint": "Name only the gait, speech or explicitly reported questionnaire changes that apply to this screening.",
+      "source_ids": [
+        "SRC001"
+      ],
+      "safety_level": "mandatory"
+    },
+    {
+      "id": "MC002",
+      "title": "Gait changes to watch closely",
+      "topics": [
+        "gait",
+        "balance",
+        "walking",
+        "near_falls",
+        "safety"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "gait_only_pd",
+          "gait_questionnaire_pd"
+        ]
+      },
+      "priority": 1,
+      "recommendation": "When gait is affected, watch for shorter or shuffling steps, feet seeming to stick, more difficulty turning, increasing unsteadiness, repeated near-falls linked to walking or balance, or needing more support to walk safely. If walking becomes suddenly much harder or unsafe, seek prompt medical advice.",
+      "personalization_hint": "Keep the wording simple and movement-specific. Do not add unrelated neurological warning signs.",
+      "source_ids": [
+        "SRC014",
+        "SRC052",
+        "SRC055"
+      ],
+      "safety_level": "high"
+    },
+    {
+      "id": "MC003",
+      "title": "Speech changes to watch closely",
+      "topics": [
+        "speech",
+        "voice",
+        "clarity",
+        "hesitation",
+        "pauses",
+        "safety"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "speech_only_pd",
+          "speech_questionnaire_pd"
+        ]
+      },
+      "priority": 1,
+      "recommendation": "When speech is affected, watch for a much softer voice, words becoming harder to understand, more hesitation, longer pauses, or a clear worsening from the person’s usual speech. If speech suddenly becomes much harder to understand than usual, seek prompt medical advice.",
+      "personalization_hint": "Keep the wording speech-specific. Do not add gait, seizure, facial-expression or consciousness warnings unless they were separately reported.",
+      "source_ids": [
+        "SRC026",
+        "SRC028"
+      ],
+      "safety_level": "high"
+    },
+    {
+      "id": "MC004",
+      "title": "Both gait and speech need watching",
+      "topics": [
+        "gait",
+        "speech",
+        "balance",
+        "voice",
+        "safety"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "all_pd",
+          "mixed_pd"
+        ]
+      },
+      "priority": 1,
+      "recommendation": "When both gait and speech are affected, monitor movement and communication separately. Watch for worsening balance or walking safety together with a softer voice, unclear words, longer pauses or greater difficulty being understood. If either area changes suddenly or becomes clearly worse than usual, seek prompt medical advice.",
+      "personalization_hint": "Mention both affected areas without adding unrelated emergency symptoms.",
+      "source_ids": [
+        "SRC014",
+        "SRC026",
+        "SRC028",
+        "SRC052"
+      ],
+      "safety_level": "high"
+    },
+    {
+      "id": "MC005",
+      "title": "Questionnaire-only concern",
+      "topics": [
+        "questionnaire",
+        "reported_symptoms",
+        "supporting_evidence"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "questionnaire_only"
+        ]
+      },
+      "priority": 2,
+      "recommendation": "When questionnaire symptoms are elevated but gait and speech are not, monitor only the symptoms the person actually reported. Do not create gait or speech warning signs that were not detected. If a reported symptom becomes sudden, severe or clearly worse, seek medical advice.",
+      "personalization_hint": "Treat the questionnaire as supporting information rather than proof of a movement or speech problem.",
+      "source_ids": [
+        "SRC001",
+        "SRC056"
+      ],
+      "safety_level": "standard"
+    },
+    {
+      "id": "MC006",
+      "title": "No gait or speech warning highlighted",
+      "topics": [
+        "low_risk",
+        "baseline",
+        "safety"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Low"
+        ],
+        "patterns": [
+          "all_control"
+        ]
+      },
+      "priority": 5,
+      "recommendation": "If gait and speech are both within the lower range, no gait- or speech-specific warning change is highlighted by this screening. Still pay attention to any new or persistent real-world symptom that worries you.",
+      "personalization_hint": "Do not say that the person does not need medical care or that disease has been ruled out.",
+      "source_ids": [
+        "SRC001"
+      ],
+      "safety_level": "routine"
+    },
+    {
+      "id": "MC007",
+      "title": "Worsening affected area",
+      "topics": [
+        "worsening",
+        "change_over_time",
+        "safety"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "worsening_trend"
+        ]
+      },
+      "priority": 1,
+      "recommendation": "If the affected gait or speech area is becoming clearly worse across repeated screenings and in daily life, do not rely only on repeated self-testing. Keep the previous reports and seek medical advice sooner.",
+      "personalization_hint": "Name only the area that is actually worsening.",
+      "source_ids": [
+        "SRC001",
+        "SRC052",
+        "SRC026"
+      ],
+      "safety_level": "high"
+    },
+    {
+      "id": "MC008",
+      "title": "Uncertain input needs careful interpretation",
+      "topics": [
+        "low_reliability",
+        "repeat_screening",
+        "safety"
+      ],
+      "applies_when": {
+        "risk_levels": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "patterns": [
+          "low_reliability"
+        ]
+      },
+      "priority": 2,
+      "recommendation": "If the input quality is uncertain, repeat the affected screening module under better conditions before drawing strong conclusions. Real symptoms that are persistent or concerning should not be ignored just because the screening input was unclear.",
+      "personalization_hint": "Do not create a new diagnosis or a module-specific warning that the screening did not support.",
+      "source_ids": [
+        "SRC001"
+      ],
+      "safety_level": "standard"
+    }
+  ]
+}

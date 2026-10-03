@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
+from django.urls import reverse
+from urllib.parse import urlencode
 import logging
 import re
 
@@ -8,277 +10,365 @@ from .services import generate_ai_recommendations
 
 logger = logging.getLogger(__name__)
 
+# Change this whenever recommendation content/layout rules change.
+RECOMMENDATION_PIPELINE_VERSION = "rag_urdu_clean_v11"
+CACHE_SESSION_KEY = "recommendation_cache_v11"
+MAX_CACHE_ITEMS = 12
+
 
 def clean_markdown(text):
-    """
-    Convert Markdown to HTML for structured display.
-    """
+    """Convert the small recommendation Markdown response to safe display HTML."""
     if not text:
         return text
 
-    # Fix bold with spaces after them
-    text = re.sub(r'\*\*([A-Z]+)\*\*\s+([a-z])', r'<strong>\1</strong>\2', text)
-    text = re.sub(r'\*\*([A-Z]+)\*\*\s+ly', r'<strong>\1</strong>ly', text)
-
-    # Convert ALL bold
     text = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', text)
+    text = re.sub(
+        r'(?<!\*)\*(?!\*)(.*?)(?<!\*)\*(?!\*)',
+        r'<em>\1</em>',
+        text
+    )
 
-    # Convert italic (with negative lookahead to avoid bold markers)
-    text = re.sub(r'(?<!\*)\*(?!\*)(.*?)(?<!\*)\*(?!\*)', r'<em>\1</em>', text)
+    text = re.sub(
+        r'^##\s+(.*?)$',
+        r'<h2 class="rec-h2">\1</h2>',
+        text,
+        flags=re.MULTILINE
+    )
 
-    # Convert headings
-    text = re.sub(r'^####\s+(.*?)$', r'<h4 class="rec-h4">\1</h4>', text, flags=re.MULTILINE)
-    text = re.sub(r'^###\s+(.*?)$', r'<h3 class="rec-h3">\1</h3>', text, flags=re.MULTILINE)
-    text = re.sub(r'^##\s+(.*?)$', r'<h2 class="rec-h2">\1</h2>', text, flags=re.MULTILINE)
-    text = re.sub(r'^#\s+(.*?)$', r'<h1 class="rec-h1">\1</h1>', text, flags=re.MULTILINE)
-
-    # Process line by line for lists
-    lines = text.split('\n')
+    lines = text.splitlines()
     result = []
     in_list = False
-    in_ordered_list = False
 
-    for line in lines:
-        line_stripped = line.strip()
+    for raw_line in lines:
+        line = raw_line.strip()
 
-        numbered_match = re.match(r'^[\s]*(\d+)\.\s+(.+)$', line)
-        bullet_match = re.match(r'^[\s]*[\*\-•]\s+(.+)$', line)
-
-        if numbered_match:
-            if not in_ordered_list:
-                if in_list:
-                    result.append('</ul>')
-                    in_list = False
-                result.append('<ol class="rec-list rec-ol">')
-                in_ordered_list = True
-            content = numbered_match.group(2)
-            content = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', content)
-            content = re.sub(r'(?<!\*)\*(?!\*)(.*?)(?<!\*)\*(?!\*)', r'<em>\1</em>', content)
-            result.append(f'<li>{content}</li>')
-
-        elif bullet_match:
-            if in_ordered_list:
-                result.append('</ol>')
-                in_ordered_list = False
+        bullet = re.match(r'^[\-\*•]\s+(.+)$', line)
+        if bullet:
             if not in_list:
                 result.append('<ul class="rec-list">')
                 in_list = True
-            content = bullet_match.group(1)
-            content = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', content)
-            content = re.sub(r'(?<!\*)\*(?!\*)(.*?)(?<!\*)\*(?!\*)', r'<em>\1</em>', content)
-            result.append(f'<li>{content}</li>')
+            result.append(f'<li>{bullet.group(1)}</li>')
+            continue
+
+        if in_list:
+            result.append('</ul>')
+            in_list = False
+
+        if not line:
+            continue
+
+        if line.startswith('<h2'):
+            result.append(line)
+        elif line.startswith('<div') or line.startswith('<span'):
+            result.append(line)
         else:
-            if in_list:
-                result.append('</ul>')
-                in_list = False
-            if in_ordered_list:
-                result.append('</ol>')
-                in_ordered_list = False
-
-            if line_stripped == '':
-                result.append('')
-                continue
-
-            lower_line = line_stripped.lower()
-
-            # Disclaimer block
-            if 'disclaimer' in lower_line or 'not a substitute' in lower_line:
-                line_stripped = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', line_stripped)
-                result.append(
-                    f'<div class="disclaimer-block">'
-                    f'<i class="fa-regular fa-circle-exclamation"></i>'
-                    f'<div>{line_stripped}</div></div>'
-                )
-            # Greeting block
-            elif re.match(r'^(Hello|Thank you|First,|I want to|Assalam|السلام)', line_stripped, re.IGNORECASE):
-                line_stripped = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', line_stripped)
-                result.append(f'<div class="greeting-block">{line_stripped}</div>')
-            else:
-                line_stripped = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', line_stripped)
-                line_stripped = re.sub(r'(?<!\*)\*(?!\*)(.*?)(?<!\*)\*(?!\*)', r'<em>\1</em>', line_stripped)
-                result.append(f'<p class="rec-p">{line_stripped}</p>')
+            result.append(f'<p class="rec-p">{line}</p>')
 
     if in_list:
         result.append('</ul>')
-    if in_ordered_list:
-        result.append('</ol>')
 
-    text = '\n'.join(result)
-    text = re.sub(r'<p class="rec-p">\s*</p>', '', text)
-    text = re.sub(r'\n\s*\n', '\n\n', text)
+    return "\n".join(result)
 
-    # Highlight risk levels and urgency
-    text = re.sub(r'(Medium Risk)', r'<span class="risk-tag risk-medium">\1</span>', text, flags=re.IGNORECASE)
-    text = re.sub(r'(High Risk)', r'<span class="risk-tag risk-high">\1</span>', text, flags=re.IGNORECASE)
-    text = re.sub(r'(Low Risk)', r'<span class="risk-tag risk-low">\1</span>', text, flags=re.IGNORECASE)
 
-    text = re.sub(r'(Within 2 weeks)', r'<span class="urgency-tag urgency-soon">\1</span>', text, flags=re.IGNORECASE)
-    text = re.sub(r'(Immediate)', r'<span class="urgency-tag urgency-urgent">\1</span>', text, flags=re.IGNORECASE)
-    text = re.sub(r'(Within 3 months|Routine)', r'<span class="urgency-tag urgency-routine">\1</span>', text, flags=re.IGNORECASE)
+def _fusion_model_to_dict(fusion, history=None):
+    """Convert a saved FusionResult into the structure used by the recommendation analyzers."""
+    return {
+        "screening_id": fusion.screening_id,
+        "final_prediction": fusion.final_prediction,
+        "final_pd_probability": fusion.final_pd_probability,
+        "fusion_confidence": fusion.fusion_confidence,
+        "risk_level": fusion.risk_level,
+        "created_at": fusion.created_at,
+        "modules": {
+            "gait": {
+                "prediction": fusion.gait_prediction,
+                "pd_probability": fusion.gait_pd_probability,
+                "weight": fusion.gait_weight,
+            },
+            "speech": {
+                "prediction": fusion.speech_prediction,
+                "pd_probability": fusion.speech_pd_probability,
+                "weight": fusion.speech_weight,
+            },
+            "questionnaire": {
+                "prediction": fusion.questionnaire_prediction,
+                "pd_probability": fusion.questionnaire_pd_probability,
+                "weight": fusion.questionnaire_weight,
+                "motor_score": getattr(history, "motor_score", None) if history else None,
+            },
+        },
+    }
 
-    return text
+
+def _historical_questionnaire_stub(fusion, history=None):
+    """
+    Historical records may not retain the full questionnaire row ID.
+    This small structure still gives the pattern detector the saved module result.
+    """
+    return {
+        "prediction": fusion.questionnaire_prediction,
+        "pd_probability": fusion.questionnaire_pd_probability,
+        "motor_score": getattr(history, "motor_score", None) if history else None,
+    }
+
+
+def _probability_percent(fusion_result):
+    value = fusion_result.get("final_pd_probability", 0) if fusion_result else 0
+    try:
+        value = float(value or 0)
+    except (TypeError, ValueError):
+        value = 0.0
+
+    if value <= 1:
+        value *= 100
+
+    return max(0.0, min(100.0, round(value, 1)))
+
+
+def _cache_key(screening_id, lang):
+    return f"{RECOMMENDATION_PIPELINE_VERSION}:{screening_id}:{lang}"
+
+
+def _trim_cache(cache):
+    if len(cache) <= MAX_CACHE_ITEMS:
+        return cache
+
+    # Session dictionaries preserve insertion order in modern Python.
+    while len(cache) > MAX_CACHE_ITEMS:
+        first_key = next(iter(cache))
+        cache.pop(first_key, None)
+    return cache
+
+
+def _resolve_language(request, explicit_lang=None):
+    """
+    Resolve the site's active language consistently.
+
+    The NeuroSense navbar stores the selected language in:
+        request.session["language"]
+    and also in the "language" cookie.
+
+    Session is intentionally checked BEFORE a query-string value so an old
+    ?lang=en in the current URL cannot override a newly selected Urdu navbar
+    preference after the language switch redirects back to the same page.
+    """
+    candidates = [
+        request.session.get("language"),
+        explicit_lang,
+        request.GET.get("lang"),
+        request.COOKIES.get("language"),
+        getattr(request, "LANG", None),
+        "en",
+    ]
+
+    for value in candidates:
+        value = str(value or "").strip().lower()
+
+        if value.startswith("ur"):
+            return "ur"
+
+        if value.startswith("en"):
+            return "en"
+
+    return "en"
 
 
 @login_required
 def recommendations_page(request):
     """
-    Render personalized recommendations page.
-    Uses system intelligence (analyzers) + Gemini polish.
+    Show recommendations for the EXACT screening requested.
 
-    Cache is tied to a specific screening_id — new screening = fresh recommendations.
+    Historical mode:
+        /recommendations/?screening_id=<id>
+
+    Current mode:
+        /recommendations/
+        Uses the active screening stored in session.
     """
-    lang = getattr(request, 'LANG', 'en')
+    lang = _resolve_language(request)
+    selected_screening_id = request.GET.get("screening_id")
 
-    fusion_result = request.session.get('fusion_result')
-    questionnaire_data = request.session.get('questionnaire_result')
-    questionnaire_result_id = request.session.get('questionnaire_result_id')
+    questionnaire_data = None
+    questionnaire_result_id = None
+    historical_report = False
 
-    # Current screening ID (source of truth)
-    current_screening_id = (
-        request.session.get('screening_id') or
-        (fusion_result.get('screening_id') if fusion_result else None)
+    # ---------------------------------------------------------
+    # HISTORICAL SCREENING
+    # ---------------------------------------------------------
+    if selected_screening_id:
+        try:
+            from fusion_app.models import FusionResult
+            from dashboard.models import ScreeningHistory
+
+            history = ScreeningHistory.objects.filter(
+                user=request.user,
+                screening_id=selected_screening_id,
+            ).first()
+
+            if not history:
+                raise ValueError("The selected screening could not be found.")
+
+            saved_fusion = FusionResult.objects.filter(
+                screening_id=selected_screening_id
+            ).order_by("-created_at").first()
+
+            if not saved_fusion:
+                raise ValueError("The saved report for this screening is unavailable.")
+
+            fusion_result = _fusion_model_to_dict(saved_fusion, history=history)
+            questionnaire_data = _historical_questionnaire_stub(
+                saved_fusion,
+                history=history,
+            )
+            current_screening_id = str(selected_screening_id)
+            historical_report = True
+
+        except Exception as exc:
+            logger.exception(
+                "Could not load historical recommendation screening %s",
+                selected_screening_id,
+            )
+            return render(
+                request,
+                "recommendations_app/recommendations.html",
+                {
+                    "error": str(exc),
+                    "lang": lang,
+                },
+            )
+
+    # ---------------------------------------------------------
+    # CURRENT SCREENING
+    # ---------------------------------------------------------
+    else:
+        fusion_result = request.session.get("fusion_result")
+        questionnaire_data = request.session.get("questionnaire_result")
+        questionnaire_result_id = request.session.get("questionnaire_result_id")
+
+        current_screening_id = (
+            request.session.get("screening_id")
+            or (fusion_result.get("screening_id") if fusion_result else None)
+        )
+
+        if not fusion_result or not current_screening_id:
+            error_msg = (
+                "No screening data found. Please complete the screening first."
+                if lang == "en"
+                else "کوئی اسکریننگ ڈیٹا نہیں ملا۔ براہ کرم پہلے اسکریننگ مکمل کریں۔"
+            )
+            return render(
+                request,
+                "recommendations_app/recommendations.html",
+                {
+                    "error": error_msg,
+                    "lang": lang,
+                },
+            )
+
+    # ---------------------------------------------------------
+    # SCREENING-SPECIFIC CACHE
+    # ---------------------------------------------------------
+    cache = request.session.get(CACHE_SESSION_KEY, {})
+    if not isinstance(cache, dict):
+        cache = {}
+
+    key = _cache_key(current_screening_id, lang)
+    recommendations = cache.get(key)
+
+    if recommendations:
+        logger.info(
+            "Recommendation cache HIT | screening=%s | lang=%s | pipeline=%s",
+            current_screening_id,
+            lang,
+            RECOMMENDATION_PIPELINE_VERSION,
+        )
+
+    if not recommendations:
+        logger.info(
+            "Recommendation cache MISS - generating fresh output | screening=%s | historical=%s | pipeline=%s",
+            current_screening_id,
+            historical_report,
+            RECOMMENDATION_PIPELINE_VERSION,
+        )
+
+        user = request.user if request.user.is_authenticated else None
+
+        raw_recommendations = generate_ai_recommendations(
+            user=user,
+            fusion_result=fusion_result,
+            questionnaire_result=questionnaire_data,
+            questionnaire_result_id=questionnaire_result_id,
+            screening_id=current_screening_id,
+            lang=lang,
+        )
+
+        recommendations = clean_markdown(raw_recommendations)
+
+        cache[key] = recommendations
+        request.session[CACHE_SESSION_KEY] = _trim_cache(cache)
+        request.session.modified = True
+
+    context = {
+        "recommendations": recommendations,
+        "fusion": fusion_result,
+        "pd_probability_percent": _probability_percent(fusion_result),
+        "screening_id": current_screening_id,
+        "historical_report": historical_report,
+        "lang": lang,
+        "has_recommendations": bool(recommendations),
+        "recommendations_pipeline_version": RECOMMENDATION_PIPELINE_VERSION,
+    }
+
+    return render(
+        request,
+        "recommendations_app/recommendations.html",
+        context,
     )
 
-    if not fusion_result:
-        error_msg = (
-            'No screening data found. Please complete the full screening first.'
-            if lang == 'en' else
-            'کوئی اسکریننگ ڈیٹا نہیں ملا۔ براہ کرم پہلے مکمل اسکریننگ مکمل کریں۔'
-        )
-        return render(request, 'recommendations_app/recommendations.html', {
-            'error': error_msg,
-            'lang': lang,
-        })
 
-    try:
-        recommendations = request.session.get('recommendations')
-        generating = request.session.get('generating_recommendations', False)
+@login_required
+def regenerate_recommendations(request):
+    """Regenerate only the recommendation belonging to the selected screening."""
+    if request.method != "POST":
+        return JsonResponse({"error": "Method not allowed"}, status=405)
 
-        cached_screening_id = request.session.get('recommendations_screening_id')
+    screening_id = request.POST.get("screening_id") or request.session.get("screening_id")
+    lang = _resolve_language(request, explicit_lang=request.POST.get("lang"))
 
-        if recommendations and cached_screening_id and cached_screening_id != current_screening_id:
-            logger.info(
-                f"🔄 Stale recommendations detected "
-                f"(cached for {cached_screening_id}, current is {current_screening_id}). "
-                f"Clearing cache."
-            )
-            request.session.pop('recommendations', None)
-            request.session.pop('recommendations_lang', None)
-            request.session.pop('recommendations_screening_id', None)
-            request.session.pop('generating_recommendations', None)
-            request.session.modified = True
-            recommendations = None
-            generating = False
+    cache = request.session.get(CACHE_SESSION_KEY, {})
+    if isinstance(cache, dict) and screening_id:
+        screening_text = str(screening_id)
+        keys_to_remove = [
+            key for key in list(cache.keys())
+            if screening_text in str(key)
+        ]
+        for key in keys_to_remove:
+            cache.pop(key, None)
+
+        request.session[CACHE_SESSION_KEY] = cache
+        request.session.modified = True
 
         logger.info(
-            f"Recommendations page loaded | "
-            f"cached={bool(recommendations)} | "
-            f"generating={generating} | "
-            f"lang={lang} | "
-            f"screening_id={current_screening_id}"
+            "Cleared recommendation cache for screening=%s (%d entries)",
+            screening_id,
+            len(keys_to_remove),
         )
 
+    url = reverse("recommendations_app:recommendations")
+    params = {}
 
-        if not recommendations and not generating:
-            logger.info("🔄 Generating new recommendations via intelligence pipeline...")
-            request.session['generating_recommendations'] = True
-            request.session.modified = True
+    if screening_id:
+        params["screening_id"] = screening_id
+    if lang:
+        params["lang"] = lang
 
-            user = request.user if request.user.is_authenticated else None
+    if params:
+        url = f"{url}?{urlencode(params)}"
 
-            try:
-                raw_recommendations = generate_ai_recommendations(
-                    user=user,
-                    fusion_result=fusion_result,
-                    questionnaire_result=questionnaire_data,
-                    questionnaire_result_id=questionnaire_result_id,
-                    screening_id=current_screening_id,
-                    lang=lang,
-                )
-                logger.info(f"Recommendations generated ({len(raw_recommendations)} chars)")
+    return redirect(url)
 
-            except Exception as gen_error:
-                logger.warning(f"Gemini polish failed: {gen_error}. Using fallback.")
-                try:
-                    from .analyzers.synthesizer import synthesize_intelligence
-                    from .services import get_fallback_recommendations
-
-                    intelligence = synthesize_intelligence(
-                        user=user,
-                        fusion_result=fusion_result,
-                        questionnaire_result=questionnaire_data,
-                        questionnaire_result_id=questionnaire_result_id,
-                        screening_id=current_screening_id,
-                        lang=lang,
-                    )
-                    raw_recommendations = get_fallback_recommendations(intelligence, lang=lang)
-                    logger.info(f"Fallback recommendations generated ({len(raw_recommendations)} chars)")
-                except Exception as fallback_error:
-                    logger.error(f"Fallback also failed: {fallback_error}")
-                    raise
-
-
-            recommendations = clean_markdown(raw_recommendations)
-
-            request.session['recommendations'] = recommendations
-            request.session['recommendations_lang'] = lang
-            request.session['recommendations_screening_id'] = current_screening_id  # ← KEY LINE
-            request.session['generating_recommendations'] = False
-            request.session.modified = True
-
-        cached_lang = request.session.get('recommendations_lang', 'en')
-        if recommendations and cached_lang != lang:
-            logger.info(f"Language changed ({cached_lang} → {lang}). Regenerating.")
-            request.session.pop('recommendations', None)
-            request.session.pop('recommendations_lang', None)
-            request.session.pop('recommendations_screening_id', None)
-            request.session.modified = True
-            return redirect('recommendations_app:recommendations')
-
-        if recommendations and '##' in recommendations:
-            logger.warning("Markdown symbols found in cached HTML. Re-cleaning.")
-            recommendations = clean_markdown(recommendations)
-            request.session['recommendations'] = recommendations
-            request.session.modified = True
-
-        return render(request, 'recommendations_app/recommendations.html', {
-            'recommendations': recommendations,
-            'fusion': fusion_result,
-            'is_generating': generating,
-            'has_recommendations': bool(recommendations),
-            'lang': lang,
-        })
-
-    except Exception as e:
-        logger.exception(f"Error generating recommendations: {str(e)}")
-        request.session['generating_recommendations'] = False
-        request.session.modified = True
-
-        error_msg = (
-            f'Error generating recommendations: {str(e)}'
-            if lang == 'en' else
-            f'سفارشات تیار کرنے میں خرابی: {str(e)}'
-        )
-        return render(request, 'recommendations_app/recommendations.html', {
-            'error': error_msg,
-            'fusion': fusion_result,
-            'lang': lang,
-        })
-
-
-def regenerate_recommendations(request):
-    """Force regenerate recommendations."""
-    if request.method == 'POST':
-        request.session.pop('recommendations', None)
-        request.session.pop('recommendations_lang', None)
-        request.session.pop('recommendations_screening_id', None)
-        request.session.pop('generating_recommendations', None)
-        request.session.modified = True
-        return redirect('recommendations_app:recommendations')
-
-    return JsonResponse({'error': 'Method not allowed'}, status=405)
 
 def save_recommendations(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         pass
-    return JsonResponse({'error': 'Method not allowed'}, status=405)
+    return JsonResponse({"error": "Method not allowed"}, status=405)
