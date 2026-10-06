@@ -22,23 +22,39 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
+# ============================================================
+# SECURITY — read from environment (Azure overrides via env vars)
+# ============================================================
+SECRET_KEY = os.getenv(
+    'SECRET_KEY',
+    'django-insecure-mltg*7^sq8=f()&ozhmph+j1@0$50nmn#dh-%h96jvhlib)3%@'
+)
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-mltg*7^sq8=f()&ozhmph+j1@0$50nmn#dh-%h96jvhlib)3%@'
+DEBUG = os.getenv('DEBUG', 'True').lower() == 'true'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+ALLOWED_HOSTS = os.getenv(
+    'ALLOWED_HOSTS',
+    'localhost,127.0.0.1,10.201.106.130'
+).split(',')
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", "10.201.106.130"]
+CSRF_TRUSTED_ORIGINS = os.getenv(
+    'CSRF_TRUSTED_ORIGINS',
+    'http://10.201.106.130:8000'
+).split(',')
+
+# Azure-specific: ensure Azure hostname is always allowed in production
+if not DEBUG:
+    azure_host = 'neurosense-ai.azurewebsites.net'
+    if azure_host not in ALLOWED_HOSTS:
+        ALLOWED_HOSTS.append(azure_host)
+    azure_csrf = f'https://{azure_host}'
+    if azure_csrf not in CSRF_TRUSTED_ORIGINS:
+        CSRF_TRUSTED_ORIGINS.append(azure_csrf)
 
 
-CSRF_TRUSTED_ORIGINS = [
-    "http://10.201.106.130:8000",
-]
-
+# ============================================================
 # Application definition
+# ============================================================
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -52,9 +68,9 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
-    
+
     "speech_app.apps.SpeechAppConfig",
-    'rest_framework',      
+    'rest_framework',
     'corsheaders',
     'gait_app',
     'questionnaire_app',
@@ -73,8 +89,9 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',   
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',   # ← serves static files in production
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -90,7 +107,7 @@ ROOT_URLCONF = 'Neurosense.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        "DIRS": [BASE_DIR / "templates",],
+        "DIRS": [BASE_DIR / "templates", ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -105,15 +122,38 @@ TEMPLATES = [
 WSGI_APPLICATION = 'Neurosense.wsgi.application'
 
 
+# ============================================================
 # Database
-# https://docs.djangoproject.com/en/5.2/ref/settings/#databases
+# ------------------------------------------------------------
+# In production (Azure), DATABASE_URL is set to a Postgres connection string.
+# In local development, DATABASE_URL is unset, so we fall back to SQLite.
+# ============================================================
+DATABASE_URL = os.getenv('DATABASE_URL')
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+if DATABASE_URL:
+    import urllib.parse as urlparse
+    url = urlparse.urlparse(DATABASE_URL)
+
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': url.path[1:],
+            'USER': url.username,
+            'PASSWORD': url.password,
+            'HOST': url.hostname,
+            'PORT': url.port or 5432,
+            'OPTIONS': {
+                'sslmode': 'require',
+            },
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 
 # Password validation
@@ -147,7 +187,6 @@ USE_TZ = True
 USE_I18N = True
 
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
@@ -155,11 +194,12 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
+STATIC_ROOT = BASE_DIR / "staticfiles"     # ← collectstatic target
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'   # ← WhiteNoise
 
 # Default primary key field type
-# https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
 MEDIA_ROOT = BASE_DIR / "media"
 MEDIA_URL = "/media/"
 SPEECH_MEDIA_ROOT = BASE_DIR / "speech_app" / "media"
@@ -203,8 +243,8 @@ AUDIO_FEATURE_EXTRACTION = {
 CORS_ALLOW_ALL_ORIGINS = True
 
 # File upload settings
-FILE_UPLOAD_MAX_MEMORY_SIZE = 50 * 1024 * 1024  # 50MB for video
-DATA_UPLOAD_MAX_MEMORY_SIZE = 50 * 1024 * 1024  # 50MB for video
+FILE_UPLOAD_MAX_MEMORY_SIZE = 50 * 1024 * 1024
+DATA_UPLOAD_MAX_MEMORY_SIZE = 50 * 1024 * 1024
 
 
 ACCOUNT_LOGIN_METHODS = {'email', 'username'}
@@ -219,10 +259,8 @@ SOCIALACCOUNT_EMAIL_VERIFICATION = 'none'
 SOCIALACCOUNT_EMAIL_REQUIRED = True
 SOCIALACCOUNT_QUERY_EMAIL = True
 
-
 ACCOUNT_ADAPTER = 'accounts.adapters.CustomAccountAdapter'
 SOCIALACCOUNT_ADAPTER = 'accounts.adapters.CustomSocialAccountAdapter'
-
 
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
