@@ -14,6 +14,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 from pathlib import Path
 
 
@@ -31,7 +32,7 @@ SECRET_KEY = 'django-insecure-mltg*7^sq8=f()&ozhmph+j1@0$50nmn#dh-%h96jvhlib)3%@
 DEBUG = True
 
 ALLOWED_HOSTS = ["localhost", "127.0.0.1", "10.201.106.130"]
-GEMINI_API_KEY = "AQ.Ab8RN6ICcOfTD-3C6BYoP3FLulVyVA3zMZfAyYRkEkbDqW_ItA"
+
 
 CSRF_TRUSTED_ORIGINS = [
     "http://10.201.106.130:8000",
@@ -241,3 +242,26 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 SOCIALACCOUNT_LOGIN_ON_GET = True
+
+
+# ============================================================
+# EMAIL CONFIGURATION (for password reset)
+# ------------------------------------------------------------
+# During development, set EMAIL_BACKEND_OVERRIDE=console in .env
+# to print reset emails to the terminal instead of sending them.
+#
+# For real emails, leave EMAIL_BACKEND_OVERRIDE unset and set:
+#   EMAIL_HOST_USER=<your gmail>
+#   EMAIL_HOST_PASSWORD=<16-char App Password>
+# ============================================================
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL = f'NeuroSense AI <{os.getenv("EMAIL_HOST_USER") or "noreply@neurosense.local"}>'
+
+# Dev override — print emails to console instead of sending
+if os.getenv('EMAIL_BACKEND_OVERRIDE', '').lower() == 'console':
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
