@@ -1,4 +1,7 @@
 import json
+import logging
+import traceback
+
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.http import JsonResponse
 from django.shortcuts import render
@@ -17,9 +20,14 @@ from .services.memory_service import (
     get_recent_messages,
 )
 
+
+logger = logging.getLogger(__name__)
+
+
 @ensure_csrf_cookie
 def chatbot_page(request):
     return render(request, "chatbot_app/chatbot.html")
+
 
 @require_POST
 def chat_api(request):
@@ -109,12 +117,33 @@ def chat_api(request):
         )
 
     except Exception as error:
-        print(f"Chatbot error: {error}")
+        # ============================================================
+        # TEMPORARY DEBUG BLOCK
+        # Logs the full traceback to Django/Azure logs, prints to stdout,
+        # and exposes the error details in the JSON response so it can be
+        # read directly from the browser Network tab.
+        #
+        # REMOVE the `debug_error_type` and `debug_error_message` fields
+        # after debugging is complete.
+        # ============================================================
+        error_type = type(error).__name__
+        error_message = str(error)
+        full_traceback = traceback.format_exc()
+
+        logger.exception(f"Chatbot error: {error_message}")
+
+        print("=== CHATBOT ERROR ===")
+        print(f"Type: {error_type}")
+        print(f"Message: {error_message}")
+        print(f"Traceback:\n{full_traceback}")
+        print("=== END CHATBOT ERROR ===")
 
         return JsonResponse(
             {
                 "success": False,
-                "error": "Something went wrong while processing your message."
+                "error": "Something went wrong while processing your message.",
+                "debug_error_type": error_type,
+                "debug_error_message": error_message,
             },
             status=500
         )
