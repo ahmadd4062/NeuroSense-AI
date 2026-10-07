@@ -10,6 +10,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libxrender-dev \
     libgomp1 \
     libsndfile1 \
+    libgles2-mesa \
+    libegl1-mesa \
+    libglvnd-dev \
     ffmpeg \
     build-essential \
     && rm -rf /var/lib/apt/lists/*
