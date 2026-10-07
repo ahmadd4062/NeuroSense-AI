@@ -1,6 +1,6 @@
 """
 NeuroSense AI - Recommendation Services
-Hybrid architecture: NeuroSense analyzers + curated RAG + Gemini language layer.
+Hybrid architecture: NeuroSense analyzers + curated RAG + Groq language layer.
 
 Important methodology
 ---------------------
@@ -8,9 +8,13 @@ Important methodology
 2. The RAG service selects eligible recommendation cards from NeuroSense's
    curated JSON knowledge base.
 3. The curated resource selector optionally attaches verified video resources.
-4. Gemini is used only to organize, personalize and translate the already
+4. Groq is used only to organize, personalize and translate the already
    selected content. It is NOT allowed to invent medical recommendations,
    exercises, timelines or URLs.
+
+Why Groq instead of Gemini:
+Gemini API is blocked in Azure East Asia datacenter (Singapore region).
+Groq works globally and produces the same structured JSON output.
 """
 
 import logging
@@ -37,20 +41,25 @@ logger = logging.getLogger(__name__)
 
 
 # ================================================================
-# GEMINI CLIENT
+# GROQ CLIENT
 # ================================================================
-def get_gemini_client():
-    """Initialize and return the google-genai client."""
+def get_groq_client():
+    """Initialize and return the Groq client."""
     try:
-        api_key = getattr(settings, "GEMINI_API_KEY", None)
+        api_key = getattr(settings, "GROQ_API_KEY", None) or None
         if not api_key:
-            raise ValueError("GEMINI_API_KEY not found in settings")
+            # Fallback: try environment variable directly
+            import os
+            api_key = os.getenv("GROQ_API_KEY")
 
-        from google import genai
-        return genai.Client(api_key=api_key)
+        if not api_key:
+            raise ValueError("GROQ_API_KEY not found in settings or environment")
+
+        from groq import Groq
+        return Groq(api_key=api_key)
 
     except Exception as exc:
-        logger.error("Failed to initialize Gemini client: %s", exc)
+        logger.error("Failed to initialize Groq client: %s", exc)
         return None
 
 
@@ -171,7 +180,7 @@ def _has_previous_screening(intelligence) -> bool:
 def _build_locked_rag_context(
     retrieved: Dict[str, List[Dict[str, Any]]]
 ) -> str:
-    """Convert selected RAG cards to a locked content block for Gemini."""
+    """Convert selected RAG cards to a locked content block for the LLM."""
     return format_retrieved_context(retrieved, include_sources=False)
 
 
@@ -339,13 +348,9 @@ def _describe_module_against_trend(
 
     Handles plural module names like "walking and balance" with correct verb agreement.
     """
-    # Detect plural module names so verb agreement is correct.
     plural_en = " and " in module_name_en
-    plural_ur = "اور" in module_name_ur
 
     if lang == "ur":
-        # Urdu verb forms are the same for singular and plural in most of these
-        # phrasings, so plural_ur is informational only.
         if module_state == "attention":
             if has_previous and trend == "worsening":
                 return f"{module_name_ur} میں تبدیلیاں پہلے سے زیادہ نمایاں ہیں، جن پر توجہ دینا اچھا رہے گا"
@@ -362,14 +367,12 @@ def _describe_module_against_trend(
             if has_previous and trend == "stable":
                 return f"{module_name_ur} تقریباً پہلے جیسے ہیں"
             return f"{module_name_ur} میں ہلکی تبدیلیاں ہیں جن پر نظر رکھنا اچھا ہے"
-        # low
         if has_previous and trend == "improving":
             return f"{module_name_ur} پہلے سے بہتر ہیں"
         if has_previous and trend == "stable":
             return f"{module_name_ur} تقریباً پہلے جیسے ہیں"
         return f"{module_name_ur} ٹھیک لگ رہے ہیں"
 
-    # English — verb agreement based on plural detection
     verb_has = "have" if plural_en else "has"
     verb_looks = "look" if plural_en else "looks"
 
@@ -389,7 +392,6 @@ def _describe_module_against_trend(
         if has_previous and trend == "stable":
             return f"your {module_name_en} {verb_looks} about the same as last time"
         return f"there are some mild changes in your {module_name_en} that are worth keeping an eye on"
-    # low
     if has_previous and trend == "improving":
         return f"your {module_name_en} {verb_looks} a bit better than last time"
     if has_previous and trend == "stable":
@@ -414,10 +416,7 @@ def _risk_aware_opener(risk_level: str, lang: str) -> str:
 
 
 def _summary_and_meaning(intelligence, lang="en"):
-    """Build the patient-facing Summary and What Your Results Mean.
-
-    Single writer. Risk-aware + comparison-aware. No prepending. No contradictions.
-    """
+    """Build the patient-facing Summary and What Your Results Mean."""
     policy = _recommendation_policy(intelligence)
     risk = str((intelligence.get("risk_summary") or {}).get("risk_level") or "Low")
 
@@ -431,9 +430,6 @@ def _summary_and_meaning(intelligence, lang="en"):
 
     opener = _risk_aware_opener(risk, lang)
 
-    # ============================================================
-    # URDU
-    # ============================================================
     if lang == "ur":
         gait_phrase = _describe_module_against_trend(
             "gait", "چال", gait, gait_trend, has_prev, "ur"
@@ -488,9 +484,6 @@ def _summary_and_meaning(intelligence, lang="en"):
             ]
 
         summary = opener + body
-    # ============================================================
-    # ENGLISH
-    # ============================================================
     else:
         gait_phrase = _describe_module_against_trend(
             "walking and balance", "", gait, gait_trend, has_prev, "en"
@@ -908,7 +901,6 @@ def _apply_section_policy(payload, intelligence, retrieved, lang="en"):
     }
 
     for key, rag_section in section_map.items():
-        # Specific lifestyle advice takes priority over neutral fallback.
         if key == "lifestyle":
             specific_lifestyle = _specific_lifestyle_points(
                 policy,
@@ -978,7 +970,7 @@ def build_doctor_prompt(
     selected_resources=None,
     lang="en",
 ):
-    """Build the strict wording prompt. RAG decides the content; Gemini only phrases it."""
+    """Build the strict wording prompt. RAG decides the content; LLM only phrases it."""
     retrieved = retrieved or {}
     rag_context = format_retrieved_context(retrieved, include_sources=False)
     profile_hint = _patient_profile_hint(intelligence, lang=lang)
@@ -1178,7 +1170,7 @@ def _clean_patient_text(text, limit=22):
 
 
 def _normalize_points(value, min_points=1, max_points=3):
-    """Normalize Gemini JSON fields into up to three useful patient-facing points."""
+    """Normalize LLM JSON fields into up to three useful patient-facing points."""
     if isinstance(value, str):
         raw_points = [
             item.strip()
@@ -1367,7 +1359,7 @@ def generate_ai_recommendations(
     lang="en",
 ):
     """Generate the existing NeuroSense recommendation report using:
-    analyzers -> RAG -> optional verified resource -> Gemini wording layer.
+    analyzers -> RAG -> optional verified resource -> Groq wording layer.
     """
     try:
         intelligence = synthesize_intelligence(
@@ -1428,8 +1420,9 @@ def generate_ai_recommendations(
         lang=lang,
     )
 
-    client = get_gemini_client()
+    client = get_groq_client()
     if not client:
+        logger.warning("Groq client not available. Using fallback.")
         return get_fallback_recommendations(
             intelligence=intelligence,
             lang=lang,
@@ -1438,20 +1431,31 @@ def generate_ai_recommendations(
         )
 
     try:
-        from google.genai import types
-
-        response = client.models.generate_content(
-            model="gemini-3.6-flash",
-            contents=prompt,
-            config=types.GenerateContentConfig(
-                temperature=0.30,
-                top_p=0.75,
-                max_output_tokens=2000,
-                response_mime_type="application/json",
-            ),
+        # Groq uses OpenAI-compatible chat completions API.
+        # We use the JSON response format to enforce structured output.
+        response = client.chat.completions.create(
+            model="openai/gpt-oss-120b",
+            messages=[
+                {
+                    "role": "system",
+                    "content": (
+                        "You are a warm, careful neurologist writing patient-facing "
+                        "recommendations. You always return valid JSON only, never "
+                        "explanations or markdown."
+                    ),
+                },
+                {
+                    "role": "user",
+                    "content": prompt,
+                },
+            ],
+            temperature=0.30,
+            top_p=0.75,
+            max_tokens=2000,
+            response_format={"type": "json_object"},
         )
 
-        raw_json = (response.text or "").strip()
+        raw_json = (response.choices[0].message.content or "").strip()
         payload = json.loads(raw_json)
 
         required = {
@@ -1479,7 +1483,7 @@ def generate_ai_recommendations(
         return result
 
     except Exception as exc:
-        logger.exception("Gemini language-layer error: %s", exc)
+        logger.exception("Groq language-layer error: %s", exc)
         return get_fallback_recommendations(
             intelligence=intelligence,
             lang=lang,
