@@ -1,6 +1,6 @@
 """
 NeuroSense AI - Recommendation Services
-Hybrid architecture: NeuroSense analyzers + curated RAG + Groq language layer.
+Hybrid architecture: NeuroSense analyzers + curated RAG + OpenRouter language layer.
 
 Important methodology
 ---------------------
@@ -8,13 +8,13 @@ Important methodology
 2. The RAG service selects eligible recommendation cards from NeuroSense's
    curated JSON knowledge base.
 3. The curated resource selector optionally attaches verified video resources.
-4. Groq is used only to organize, personalize and translate the already
+4. OpenRouter is used only to organize, personalize and translate the already
    selected content. It is NOT allowed to invent medical recommendations,
    exercises, timelines or URLs.
 
-Why Groq instead of Gemini:
-Gemini API is blocked in Azure East Asia datacenter (Singapore region).
-Groq works globally and produces the same structured JSON output.
+Why OpenRouter instead of Gemini / Groq:
+Both Gemini and Groq block Azure East Asia datacenter (Singapore region).
+OpenRouter works globally and produces the same structured JSON output.
 """
 
 import logging
@@ -41,26 +41,46 @@ logger = logging.getLogger(__name__)
 
 
 # ================================================================
-# GROQ CLIENT
+# OPENROUTER CLIENT
 # ================================================================
-def get_groq_client():
-    """Initialize and return the Groq client."""
+def get_openrouter_client():
+    """Initialize and return the OpenRouter client (OpenAI-compatible)."""
     try:
-        api_key = getattr(settings, "GROQ_API_KEY", None) or None
+        api_key = getattr(settings, "OPENROUTER_API_KEY", None) or None
         if not api_key:
-            # Fallback: try environment variable directly
             import os
-            api_key = os.getenv("GROQ_API_KEY")
+            api_key = os.getenv("OPENROUTER_API_KEY")
 
         if not api_key:
-            raise ValueError("GROQ_API_KEY not found in settings or environment")
+            raise ValueError("OPENROUTER_API_KEY not found in settings or environment")
 
-        from groq import Groq
-        return Groq(api_key=api_key)
+        from openai import OpenAI
+        return OpenAI(
+            api_key=api_key,
+            base_url="https://openrouter.ai/api/v1",
+            default_headers={
+                "HTTP-Referer": "https://neurosense-ai.azurewebsites.net",
+                "X-Title": "NeuroSense AI",
+            },
+        )
 
     except Exception as exc:
-        logger.error("Failed to initialize Groq client: %s", exc)
+        logger.error("Failed to initialize OpenRouter client: %s", exc)
         return None
+
+
+# ================================================================
+# MODEL
+# ================================================================
+# Verified working free model on OpenRouter (2026-10-07):
+#   nvidia/nemotron-3-super-120b-a12b:free
+#
+# Fallbacks if rate-limited:
+#   google/gemma-4-26b-a4b-it:free
+#   inclusionai/ling-3.0-flash-sante:free
+#   nvidia/nemotron-3.5-lightning:free
+# ================================================================
+RECOMMENDATION_MODEL = "nvidia/nemotron-3-super-120b-a12b:free"
 
 
 # ================================================================
@@ -344,10 +364,7 @@ def _describe_module_against_trend(
     has_previous: bool,
     lang: str,
 ) -> str:
-    """Return a warm sentence fragment describing one module's current state + trend.
-
-    Handles plural module names like "walking and balance" with correct verb agreement.
-    """
+    """Return a warm sentence fragment describing one module's current state + trend."""
     plural_en = " and " in module_name_en
 
     if lang == "ur":
@@ -1359,7 +1376,7 @@ def generate_ai_recommendations(
     lang="en",
 ):
     """Generate the existing NeuroSense recommendation report using:
-    analyzers -> RAG -> optional verified resource -> Groq wording layer.
+    analyzers -> RAG -> optional verified resource -> OpenRouter wording layer.
     """
     try:
         intelligence = synthesize_intelligence(
@@ -1420,9 +1437,9 @@ def generate_ai_recommendations(
         lang=lang,
     )
 
-    client = get_groq_client()
+    client = get_openrouter_client()
     if not client:
-        logger.warning("Groq client not available. Using fallback.")
+        logger.warning("OpenRouter client not available. Using fallback.")
         return get_fallback_recommendations(
             intelligence=intelligence,
             lang=lang,
@@ -1431,10 +1448,10 @@ def generate_ai_recommendations(
         )
 
     try:
-        # Groq uses OpenAI-compatible chat completions API.
+        # OpenRouter uses OpenAI-compatible chat completions API.
         # We use the JSON response format to enforce structured output.
         response = client.chat.completions.create(
-            model="openai/gpt-oss-120b",
+            model=RECOMMENDATION_MODEL,
             messages=[
                 {
                     "role": "system",
@@ -1483,7 +1500,7 @@ def generate_ai_recommendations(
         return result
 
     except Exception as exc:
-        logger.exception("Groq language-layer error: %s", exc)
+        logger.exception("OpenRouter language-layer error: %s", exc)
         return get_fallback_recommendations(
             intelligence=intelligence,
             lang=lang,

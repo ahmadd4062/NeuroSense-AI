@@ -1,12 +1,42 @@
 import re
 
 from django.conf import settings
-from groq import Groq
+from openai import OpenAI
 
 from .rag_service import retrieve_relevant_chunks
 
 
-client = Groq(api_key=settings.GROQ_API_KEY)
+# ============================================================
+# OPENROUTER CLIENT
+# ============================================================
+# OpenRouter uses the OpenAI-compatible API, so we use the openai
+# SDK pointed at OpenRouter's base URL. This works from any region
+# including Azure East Asia (Singapore), where both Gemini and Groq
+# are blocked.
+# ============================================================
+client = OpenAI(
+    api_key=getattr(settings, "OPENROUTER_API_KEY", None) or "",
+    base_url="https://openrouter.ai/api/v1",
+    default_headers={
+        "HTTP-Referer": "https://neurosense-ai.azurewebsites.net",
+        "X-Title": "NeuroSense AI",
+    },
+)
+
+
+# ============================================================
+# MODEL
+# ============================================================
+# Working free model on OpenRouter (verified 2026-10-07):
+#   nvidia/nemotron-3-super-120b-a12b:free
+#
+# Other free options if that one is rate-limited:
+#   google/gemma-4-26b-a4b-it:free
+#   inclusionai/ling-3.0-flash-sante:free
+#   nvidia/nemotron-3.5-lightning:free
+#   openrouter/free
+# ============================================================
+CHATBOT_MODEL = "nvidia/nemotron-3-super-120b-a12b:free"
 
 
 SYSTEM_PROMPT = """
@@ -137,6 +167,7 @@ def should_use_conversation_history(message):
 
     return False
 
+
 def is_parkinsons_question(message):
     text = message.lower()
 
@@ -147,6 +178,8 @@ def is_parkinsons_question(message):
     ]
 
     return any(term in text for term in terms)
+
+
 def has_grounded_rag_support(message, rag_results):
     if not rag_results:
         return False
@@ -191,6 +224,8 @@ def has_grounded_rag_support(message, rag_results):
             return True
 
     return False
+
+
 def get_llm_response(
     message,
     conversation_history=None,
@@ -272,7 +307,7 @@ def get_llm_response(
         )
     if is_parkinsons_question(message):
         if not has_rag_context:
-         messages.append(
+            messages.append(
                 {
                     "role": "system",
                     "content": (
@@ -325,7 +360,7 @@ def get_llm_response(
     )
 
     response = client.chat.completions.create(
-        model="openai/gpt-oss-120b",
+        model=CHATBOT_MODEL,
         messages=messages,
         temperature=0.4,
         max_tokens=700,
