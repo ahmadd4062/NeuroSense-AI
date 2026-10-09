@@ -42,11 +42,6 @@ NeuroSense AI Assistant
                 </div>
             </div>
 
-            <!-- ========================================== -->
-            <!-- LANGUAGE SWITCHER REMOVED                   -->
-            <!-- Using centralized navbar toggle instead    -->
-            <!-- ========================================== -->
-
             <div class="new-chat-wrapper">
                 <button class="new-chat-btn" id="newChatBtn">
                     <i class="fa-solid fa-plus"></i>
@@ -81,7 +76,6 @@ NeuroSense AI Assistant
                             Health Assistant
                             {% endif %}
                         </strong>
-                        
                     </div>
                 </div>
             </div>
@@ -173,15 +167,15 @@ NeuroSense AI Assistant
                         !
                     </h2>
 
-                  <p>
-    {% if lang == 'ur' %}
-    <span dir="rtl">
-        میں آپ کا NeuroSense AI اسسٹنٹ ہوں۔ میں نیورولوجیکل اسکریننگ، پارکنسن سے متعلق سوالات اور NeuroSense کے استعمال کے بارے میں آسان اور مددگار معلومات فراہم کر سکتا ہوں۔
-    </span>
-    {% else %}
-    I'm your NeuroSense AI assistant. I can provide clear and supportive information about neurological screening, Parkinson's-related concerns and your NeuroSense journey.
-    {% endif %}
-</p>
+                    <p>
+                        {% if lang == 'ur' %}
+                        <span dir="rtl">
+                            میں آپ کا NeuroSense AI اسسٹنٹ ہوں۔ میں نیورولوجیکل اسکریننگ، پارکنسن سے متعلق سوالات اور NeuroSense کے استعمال کے بارے میں آسان اور مددگار معلومات فراہم کر سکتا ہوں۔
+                        </span>
+                        {% else %}
+                        I'm your NeuroSense AI assistant. I can provide clear and supportive information about neurological screening, Parkinson's-related concerns and your NeuroSense journey.
+                        {% endif %}
+                    </p>
 
                     <div class="suggestion-grid">
 
@@ -202,7 +196,6 @@ NeuroSense AI Assistant
                                     Understand Parkinson's
                                     {% endif %}
                                 </strong>
-                                
                             </div>
 
                             <i class="fa-solid fa-arrow-right suggestion-arrow"></i>
@@ -226,7 +219,6 @@ NeuroSense AI Assistant
                                     Discuss a Symptom
                                     {% endif %}
                                 </strong>
-                                
                             </div>
 
                             <i class="fa-solid fa-arrow-right suggestion-arrow"></i>
@@ -250,7 +242,6 @@ NeuroSense AI Assistant
                                     Screening Guidance
                                     {% endif %}
                                 </strong>
-                                
                             </div>
 
                             <i class="fa-solid fa-arrow-right suggestion-arrow"></i>
@@ -274,7 +265,6 @@ NeuroSense AI Assistant
                                     Daily Wellbeing
                                     {% endif %}
                                 </strong>
-                                
                             </div>
 
                             <i class="fa-solid fa-arrow-right suggestion-arrow"></i>
@@ -298,7 +288,29 @@ NeuroSense AI Assistant
             </div>
 
             <div class="chat-input-area">
+
+                {# ============================================ #}
+                {# LISTENING BANNER — hidden by default          #}
+                {# ============================================ #}
+                <div id="listeningBanner" class="listening-banner">
+                    <span class="listening-dot"></span>
+                    <span class="listening-text">
+                        {% if lang == 'ur' %}سن رہے ہیں... بولیں{% else %}Listening... speak now{% endif %}
+                    </span>
+                </div>
+
                 <div class="chat-input-wrapper">
+
+                    {# --- MIC BUTTON (voice input) --- #}
+                    <button
+                        id="micBtn"
+                        class="voice-btn"
+                        type="button"
+                        title="{% if lang == 'ur' %}آواز سے لکھیں{% else %}Start voice input{% endif %}"
+                        aria-label="{% if lang == 'ur' %}آواز سے لکھیں{% else %}Start voice input{% endif %}">
+                        <i class="fa-solid fa-microphone"></i>
+                    </button>
+
                     <textarea id="messageInput" rows="1" maxlength="1000" placeholder="{% if lang == 'ur' %}NeuroSense سے کچھ پوچھیں...{% else %}Ask NeuroSense anything...{% endif %}"></textarea>
 
                     <button
@@ -308,13 +320,24 @@ NeuroSense AI Assistant
                         aria-label="Send message">
                         <i class="fa-solid fa-arrow-up"></i>
                     </button>
+
+                    {# --- SPEAKER BUTTON (voice output toggle) --- #}
+                    <button
+                        id="speakerBtn"
+                        class="voice-btn"
+                        type="button"
+                        title="{% if lang == 'ur' %}آواز آن کریں{% else %}Turn on voice output{% endif %}"
+                        aria-label="{% if lang == 'ur' %}آواز آن کریں{% else %}Turn on voice output{% endif %}">
+                        <i class="fa-solid fa-volume-xmark"></i>
+                    </button>
+
                 </div>
 
                 <p class="chat-disclaimer">
                     <i class="fa-solid fa-shield-halved"></i>
                     <span>
                         {% if lang == 'ur' %}
-                     NeuroSense AI صرف معلوماتی رہنمائی فراہم کرتا ہے اور پیشہ ورانہ طبی مشورے کا متبادل نہیں ہے۔ 
+                        NeuroSense AI صرف معلوماتی رہنمائی فراہم کرتا ہے اور پیشہ ورانہ طبی مشورے کا متبادل نہیں ہے۔
                         {% else %}
                         NeuroSense AI provides informational guidance only and does not replace professional medical advice.
                         {% endif %}

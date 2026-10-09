@@ -26,7 +26,9 @@ logger = logging.getLogger(__name__)
 
 @ensure_csrf_cookie
 def chatbot_page(request):
-    return render(request, "chatbot_app/chatbot.html")
+    return render(request, "chatbot_app/chatbot.html", {
+        "hide_floating_chatbot": True,
+    })
 
 
 @require_POST
