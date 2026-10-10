@@ -14,215 +14,51 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <link rel="stylesheet" href="{% static 'speech_app/css/style.css' %}">
 
-    {% block extra_css %}{% endblock %}
-
-    {% if not hide_floating_chatbot %}
-    <link rel="stylesheet" href="{% static 'chatbot_app/css/floating_widget.css' %}">
+    {% if user.is_authenticated and request.path != '/' and request.resolver_match.namespace != 'questionnaire_app' and request.resolver_match.namespace != 'gait_app' and request.resolver_match.namespace != 'speech_app' and request.resolver_match.app_name != 'registration' and request.resolver_match.url_name != 'login' and request.resolver_match.url_name != 'signup' and request.resolver_match.url_name != 'register' %}
+    <link rel="stylesheet" href="{% static 'css/neurosense_workspace.css' %}">
     {% endif %}
+    {% block extra_css %}{% endblock %}
 </head>
 <body>
+    {% if user.is_authenticated and request.path != '/' and request.resolver_match.namespace != 'questionnaire_app' and request.resolver_match.namespace != 'gait_app' and request.resolver_match.namespace != 'speech_app' and request.resolver_match.app_name != 'registration' and request.resolver_match.url_name != 'login' and request.resolver_match.url_name != 'signup' and request.resolver_match.url_name != 'register' %}
+    <script>document.body.classList.add('ns-workspace-view');</script>
+    {% endif %}
 
     {% include 'includes/navbar.html' %}
 
     <main>
+    {% if user.is_authenticated and request.path != '/' and request.resolver_match.namespace != 'questionnaire_app' and request.resolver_match.namespace != 'gait_app' and request.resolver_match.namespace != 'speech_app' and request.resolver_match.url_name != 'login' and request.resolver_match.url_name != 'signup' and request.resolver_match.url_name != 'register' %}
+        <div class="ns-app-shell" id="nsWorkspaceShell">
+            {% include 'includes/workspace_sidebar.html' %}
+            <div class="ns-workspace">
+                <div class="ns-topbar">
+                    <button class="ns-menu-toggle" type="button" aria-label="Toggle sidebar" aria-expanded="false" aria-controls="nsSidebar"><i class="fa-solid fa-bars"></i></button>
+                    <div class="ns-breadcrumb"><span>NeuroSense AI</span><i class="fa-solid fa-chevron-right"></i><strong>{% block workspace_heading %}My Screening Space{% endblock %}</strong></div>
+                    <div class="ns-topbar-end"><span class="ns-live"><span></span>My Screening Space</span><a class="ns-top-avatar" href="{% url 'accounts:profile' %}" aria-label="Profile"><i class="fa-regular fa-user"></i></a></div>
+                </div>
+                <div class="ns-main-content">
+    {% endif %}
         {% block content %}{% endblock %}
+    {% if user.is_authenticated and request.path != '/' and request.resolver_match.namespace != 'questionnaire_app' and request.resolver_match.namespace != 'gait_app' and request.resolver_match.namespace != 'speech_app' and request.resolver_match.url_name != 'login' and request.resolver_match.url_name != 'signup' and request.resolver_match.url_name != 'register' %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
     </main>
 
     {% include 'includes/footer.html' %}
 
-
-    {% if not hide_floating_chatbot %}
-
-    {% with lang=request.LANG|default:'en' %}
-
-    {# --- LAUNCHER BUTTON --- #}
-    <button
-        type="button"
-        id="nswLauncher"
-        class="nsw-launcher"
-        aria-label="{% if lang == 'ur' %}اسسٹنٹ کھولیں{% else %}Open assistant{% endif %}"
-        data-lang="{{ lang }}"
-    >
-        <i class="fa-solid fa-comment-dots"></i>
-        <span class="nsw-launcher-badge" aria-hidden="true"></span>
-    </button>
-
-    {# --- CHAT PANEL --- #}
-    <div
-        id="nswPanel"
-        class="nsw-panel"
-        role="dialog"
-        aria-label="{% if lang == 'ur' %}نیوروسینس اسسٹنٹ{% else %}NeuroSense Assistant{% endif %}"
-        aria-hidden="true"
-        dir="{% if lang == 'ur' %}rtl{% else %}ltr{% endif %}"
-    >
-
-        {# --- HEADER --- #}
-        <div class="nsw-header">
-            <div class="nsw-header-left">
-                <div class="nsw-header-avatar">
-                    <i class="fa-solid fa-robot"></i>
-                </div>
-                <div class="nsw-header-text">
-                    <h3>{% if lang == 'ur' %}نیوروسینس اسسٹنٹ{% else %}NeuroSense Assistant{% endif %}</h3>
-                    <p>{% if lang == 'ur' %}اے آئی سے چلنے والی معاونت{% else %}AI-powered support{% endif %}</p>
-                </div>
-            </div>
-            <div class="nsw-header-actions">
-                <button
-                    type="button"
-                    id="nswClear"
-                    class="nsw-header-btn"
-                    title="{% if lang == 'ur' %}نئی گفتگو{% else %}New chat{% endif %}"
-                    aria-label="{% if lang == 'ur' %}نئی گفتگو{% else %}New chat{% endif %}"
-                >
-                    <i class="fa-solid fa-rotate-right"></i>
-                </button>
-                <button
-                    type="button"
-                    id="nswClose"
-                    class="nsw-header-btn"
-                    title="{% if lang == 'ur' %}بند کریں{% else %}Close{% endif %}"
-                    aria-label="{% if lang == 'ur' %}بند کریں{% else %}Close{% endif %}"
-                >
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
-            </div>
-        </div>
-
-        {# --- MESSAGES AREA --- #}
-        <div id="nswMessages" class="nsw-messages">
-
-            {# --- WELCOME BLOCK (initial state) --- #}
-            <div id="nswWelcome" class="nsw-welcome">
-                <div class="nsw-welcome-icon">
-                    <i class="fa-solid fa-robot"></i>
-                </div>
-                <h4>{% if lang == 'ur' %}السلام علیکم!{% else %}Hello!{% endif %}</h4>
-                <p>
-                    {% if lang == 'ur' %}
-                    پارکنسن، اپنے اسکریننگ نتائج، یا نیوروسینس کے بارے میں کچھ بھی پوچھیں۔
-                    {% else %}
-                    Ask me anything about Parkinson's, your screening results, or NeuroSense.
-                    {% endif %}
-                </p>
-            </div>
-
-        </div>
-
-        {# --- SUGGESTION CHIPS (visible only in welcome state) --- #}
-        <div id="nswSuggestions" class="nsw-suggestions">
-            <button
-                type="button"
-                class="nsw-suggestion"
-                data-message-en="What is Parkinson's disease?"
-                data-message-ur="پارکنسن کی بیماری کیا ہے؟"
-            >
-                {% if lang == 'ur' %}پارکنسن کی بیماری کیا ہے؟{% else %}What is Parkinson's disease?{% endif %}
-            </button>
-            <button
-                type="button"
-                class="nsw-suggestion"
-                data-message-en="What symptoms should I pay attention to?"
-                data-message-ur="مجھے کن علامات پر توجہ دینی چاہیے؟"
-            >
-                {% if lang == 'ur' %}مجھے کن علامات پر توجہ دینی چاہیے؟{% else %}What symptoms should I pay attention to?{% endif %}
-            </button>
-            <button
-                type="button"
-                class="nsw-suggestion"
-                data-message-en="How does NeuroSense screening work?"
-                data-message-ur="NeuroSense اسکریننگ کیسے کام کرتی ہے؟"
-            >
-                {% if lang == 'ur' %}NeuroSense اسکریننگ کیسے کام کرتی ہے؟{% else %}How does NeuroSense screening work?{% endif %}
-            </button>
-        </div>
-
-        {# --- TYPING INDICATOR --- #}
-        <div id="nswTyping" class="nsw-typing" aria-hidden="true">
-            <div class="nsw-typing-dots">
-                <span></span><span></span><span></span>
-            </div>
-        </div>
-
-        {# --- INPUT AREA --- #}
-        <div class="nsw-input-area">
-
-            {# --- LISTENING BANNER (hidden by default) --- #}
-            <div id="nswListeningBanner" class="nsw-listening-banner">
-                <span class="nsw-listening-dot"></span>
-                <span class="nsw-listening-text">
-                    {% if lang == 'ur' %}سن رہے ہیں... بولیں{% else %}Listening... speak now{% endif %}
-                </span>
-            </div>
-
-            <div class="nsw-input-wrap">
-
-                {# --- MIC BUTTON (voice input) --- #}
-                <button
-                    type="button"
-                    id="nswMic"
-                    class="nsw-voice-btn"
-                    title="{% if lang == 'ur' %}آواز سے لکھیں{% else %}Start voice input{% endif %}"
-                    aria-label="{% if lang == 'ur' %}آواز سے لکھیں{% else %}Start voice input{% endif %}"
-                >
-                    <i class="fa-solid fa-microphone"></i>
-                </button>
-
-                {# --- TEXTAREA --- #}
-                <textarea
-                    id="nswInput"
-                    class="nsw-input"
-                    rows="1"
-                    maxlength="1000"
-                    placeholder="{% if lang == 'ur' %}NeuroSense سے کچھ پوچھیں...{% else %}Ask NeuroSense anything...{% endif %}"
-                    aria-label="{% if lang == 'ur' %}پیغام لکھیں{% else %}Type a message{% endif %}"
-                ></textarea>
-
-                {# --- SEND BUTTON --- #}
-                <button
-                    type="button"
-                    id="nswSend"
-                    class="nsw-send"
-                    aria-label="{% if lang == 'ur' %}بھیجیں{% else %}Send{% endif %}"
-                >
-                    <i class="fa-solid fa-arrow-up"></i>
-                </button>
-
-                {# --- SPEAKER BUTTON (voice output toggle) --- #}
-                <button
-                    type="button"
-                    id="nswSpeaker"
-                    class="nsw-voice-btn"
-                    title="{% if lang == 'ur' %}آواز آن کریں{% else %}Turn on voice output{% endif %}"
-                    aria-label="{% if lang == 'ur' %}آواز آن کریں{% else %}Turn on voice output{% endif %}"
-                >
-                    <i class="fa-solid fa-volume-xmark"></i>
-                </button>
-
-            </div>
-
-            <p class="nsw-disclaimer">
-                <i class="fa-solid fa-shield-halved"></i>
-                <span>
-                    {% if lang == 'ur' %}
-                    صرف معلوماتی رہنمائی
-                    {% else %}
-                    Informational guidance only
-                    {% endif %}
-                </span>
-            </p>
-        </div>
-
-    </div>
-
-    {% endwith %}
-    {% endif %}
-
     {% block extra_js %}{% endblock %}
-
-    {% if not hide_floating_chatbot %}
-    <script src="{% static 'chatbot_app/js/floating_widget.js' %}"></script>
-    {% endif %}
+    <script>
+    document.addEventListener('DOMContentLoaded',function(){
+      const shell=document.getElementById('nsWorkspaceShell');
+      const btn=shell&&shell.querySelector('.ns-menu-toggle');
+      if(!btn)return;
+      const close=()=>{shell.classList.remove('sidebar-open');btn.setAttribute('aria-expanded','false')};
+      btn.addEventListener('click',()=>{const open=shell.classList.toggle('sidebar-open');btn.setAttribute('aria-expanded',String(open))});
+      document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
+      document.addEventListener('click',e=>{if(shell.classList.contains('sidebar-open')&&!e.target.closest('.ns-side')&&!e.target.closest('.ns-menu-toggle'))close()});
+    });
+    </script>
 </body>
 </html>

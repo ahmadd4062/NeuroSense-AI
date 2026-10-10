@@ -1,18 +1,34 @@
 {% extends 'base.html' %}
 
+
+
 {% load static tz %}
+
+
 
 {% block title %}
 
+
+
 {% if lang == 'ur' %}
+
+
 
 حتمی رپورٹ - نیوروسینس اے آئی
 
+
+
 {% else %}
+
+
 
 Final Report - NeuroSense AI
 
+
+
 {% endif %}
+
+
 
 {% endblock %}
 
@@ -20,11 +36,19 @@ Final Report - NeuroSense AI
 
 {% block extra_css %}
 
+
+
 <style>
+
+
 
 /* =========================================================
 
+
+
    NEUROSENSE AI — MINIMAL FINAL REPORT
+
+
 
    ========================================================= */
 
@@ -32,13 +56,23 @@ Final Report - NeuroSense AI
 
 .report-page {
 
+
+
     --ns-primary: #1478f2;
+
+
 
     --ns-primary-dark: #0f68dc;
 
+
+
     --ns-navy: #071d55;
 
+
+
     --ns-text: #314766;
+
+
 
     --ns-muted: #7a8ca8;
 
@@ -46,11 +80,19 @@ Final Report - NeuroSense AI
 
     --ns-bg: #fbfdff;
 
+
+
     --ns-white: #ffffff;
+
+
 
     --ns-blue-50: #f5f9ff;
 
+
+
     --ns-blue-100: #eaf4ff;
+
+
 
     --ns-border: #dce8f5;
 
@@ -58,11 +100,15 @@ Final Report - NeuroSense AI
 
     --ns-green: #19ae68;
 
+
+
     --ns-green-bg: #edf9f3;
 
 
 
     --ns-orange: #f4a10b;
+
+
 
     --ns-orange-bg: #fff7e6;
 
@@ -70,11 +116,15 @@ Final Report - NeuroSense AI
 
     --ns-red: #ef4747;
 
+
+
     --ns-red-bg: #fff2f2;
 
 
 
     --ns-radius: 18px;
+
+
 
     --ns-radius-sm: 11px;
 
@@ -82,11 +132,19 @@ Final Report - NeuroSense AI
 
     max-width: 1180px;
 
+
+
     margin: 0 auto;
+
+
 
     padding: 30px 24px 70px;
 
+
+
     color: var(--ns-text);
+
+
 
 }
 
@@ -98,9 +156,15 @@ Final Report - NeuroSense AI
 
 .report-page.lang-ur {
 
+
+
     direction: rtl;
 
+
+
     text-align: right;
+
+
 
 }
 
@@ -108,9 +172,15 @@ Final Report - NeuroSense AI
 
 .report-page.lang-ur .report-toolbar,
 
+
+
 .report-page.lang-ur .report-actions {
 
+
+
     direction: rtl;
+
+
 
 }
 
@@ -118,13 +188,23 @@ Final Report - NeuroSense AI
 
 .report-page.lang-ur .report-meta {
 
+
+
     border-left: 0;
+
+
 
     border-right: 1px solid var(--ns-border);
 
+
+
     padding-left: 0;
 
+
+
     padding-right: 28px;
+
+
 
 }
 
@@ -132,9 +212,15 @@ Final Report - NeuroSense AI
 
 .report-page.lang-ur .module-head,
 
+
+
 .report-page.lang-ur .module-row {
 
+
+
     grid-template-columns: minmax(170px, 1.6fr) minmax(170px, 1.6fr) 110px 90px;
+
+
 
 }
 
@@ -142,7 +228,11 @@ Final Report - NeuroSense AI
 
 /* =========================================================
 
+
+
    TOP TOOLBAR
+
+
 
    ========================================================= */
 
@@ -150,15 +240,27 @@ Final Report - NeuroSense AI
 
 .report-toolbar {
 
+
+
     display: flex;
+
+
 
     align-items: center;
 
+
+
     justify-content: space-between;
+
+
 
     gap: 14px;
 
+
+
     margin-bottom: 18px;
+
+
 
 }
 
@@ -166,7 +268,11 @@ Final Report - NeuroSense AI
 
 .report-toolbar .toolbar-btn {
 
+
+
     min-height: 42px;
+
+
 
     padding: 9px 15px;
 
@@ -174,9 +280,15 @@ Final Report - NeuroSense AI
 
     display: inline-flex;
 
+
+
     align-items: center;
 
+
+
     justify-content: center;
+
+
 
     gap: 8px;
 
@@ -184,13 +296,19 @@ Final Report - NeuroSense AI
 
     border: 1px solid var(--ns-border);
 
+
+
     border-radius: 11px;
 
 
 
     color: #405575 !important;
 
+
+
     background: #ffffff !important;
+
+
 
     background-image: none !important;
 
@@ -198,9 +316,15 @@ Final Report - NeuroSense AI
 
     font-family: inherit;
 
+
+
     font-size: 0.82rem;
 
+
+
     font-weight: 650;
+
+
 
     text-decoration: none !important;
 
@@ -212,11 +336,19 @@ Final Report - NeuroSense AI
 
     transition:
 
+
+
         background-color 0.2s ease,
+
+
 
         border-color 0.2s ease,
 
+
+
         color 0.2s ease;
+
+
 
 }
 
@@ -224,21 +356,39 @@ Final Report - NeuroSense AI
 
 .report-toolbar .toolbar-btn:hover,
 
+
+
 .report-toolbar .toolbar-btn:focus,
+
+
 
 .report-toolbar .toolbar-btn:active {
 
+
+
     color: var(--ns-primary) !important;
+
+
 
     background: var(--ns-blue-50) !important;
 
+
+
     background-image: none !important;
+
+
 
     border-color: #c6dcf3 !important;
 
+
+
     box-shadow: none !important;
 
+
+
     transform: none !important;
+
+
 
 }
 
@@ -246,11 +396,19 @@ Final Report - NeuroSense AI
 
 .report-toolbar .toolbar-btn::before,
 
+
+
 .report-toolbar .toolbar-btn::after {
+
+
 
     display: none !important;
 
+
+
     content: none !important;
+
+
 
 }
 
@@ -258,7 +416,11 @@ Final Report - NeuroSense AI
 
 /* =========================================================
 
+
+
    REPORT HERO
+
+
 
    ========================================================= */
 
@@ -266,7 +428,11 @@ Final Report - NeuroSense AI
 
 .report-hero {
 
+
+
     position: relative;
+
+
 
     overflow: hidden;
 
@@ -274,9 +440,15 @@ Final Report - NeuroSense AI
 
     display: grid;
 
+
+
     grid-template-columns: minmax(0, 1.5fr) minmax(310px, 0.85fr);
 
+
+
     gap: 34px;
+
+
 
     align-items: center;
 
@@ -284,11 +456,15 @@ Final Report - NeuroSense AI
 
     padding: 28px 30px;
 
+
+
     margin-bottom: 28px;
 
 
 
     background:
+
+
 
         linear-gradient(110deg, #ffffff 0%, #ffffff 66%, #f5f9ff 100%);
 
@@ -296,7 +472,11 @@ Final Report - NeuroSense AI
 
     border: 1px solid var(--ns-border);
 
+
+
     border-radius: var(--ns-radius);
+
+
 
 }
 
@@ -304,11 +484,19 @@ Final Report - NeuroSense AI
 
 .report-hero::after {
 
+
+
     content: "";
+
+
 
     position: absolute;
 
+
+
     right: 18%;
+
+
 
     bottom: -70px;
 
@@ -316,21 +504,35 @@ Final Report - NeuroSense AI
 
     width: 330px;
 
+
+
     height: 135px;
 
 
 
     background:
 
+
+
         radial-gradient(ellipse at center,
+
+
 
             rgba(20,120,242,0.12) 0%,
 
+
+
             rgba(20,120,242,0.05) 40%,
+
+
 
             transparent 72%);
 
+
+
     pointer-events: none;
+
+
 
 }
 
@@ -338,17 +540,31 @@ Final Report - NeuroSense AI
 
 .hero-title-wrap {
 
+
+
     display: flex;
+
+
 
     align-items: center;
 
+
+
     gap: 18px;
+
+
 
     min-width: 0;
 
+
+
     position: relative;
 
+
+
     z-index: 1;
+
+
 
 }
 
@@ -356,9 +572,15 @@ Final Report - NeuroSense AI
 
 .hero-icon {
 
+
+
     width: 70px;
 
+
+
     height: 70px;
+
+
 
     flex-shrink: 0;
 
@@ -366,13 +588,19 @@ Final Report - NeuroSense AI
 
     display: inline-flex;
 
+
+
     align-items: center;
+
+
 
     justify-content: center;
 
 
 
     color: var(--ns-primary);
+
+
 
     background: var(--ns-blue-100);
 
@@ -380,7 +608,11 @@ Final Report - NeuroSense AI
 
     border-radius: 18px;
 
+
+
     font-size: 1.75rem;
+
+
 
 }
 
@@ -388,19 +620,31 @@ Final Report - NeuroSense AI
 
 .hero-copy .eyebrow {
 
+
+
     margin-bottom: 5px;
 
 
 
     color: var(--ns-primary);
 
+
+
     font-size: 0.68rem;
+
+
 
     font-weight: 750;
 
+
+
     letter-spacing: 0.16em;
 
+
+
     text-transform: uppercase;
+
+
 
 }
 
@@ -408,17 +652,27 @@ Final Report - NeuroSense AI
 
 .hero-copy h1 {
 
+
+
     margin: 0;
 
 
 
     color: var(--ns-navy);
 
+
+
     font-size: 2rem;
+
+
 
     font-weight: 800;
 
+
+
     letter-spacing: -0.035em;
+
+
 
 }
 
@@ -426,13 +680,19 @@ Final Report - NeuroSense AI
 
 .hero-copy p {
 
+
+
     margin: 5px 0 0;
 
 
 
     color: var(--ns-muted);
 
+
+
     font-size: 0.92rem;
+
+
 
 }
 
@@ -440,9 +700,15 @@ Final Report - NeuroSense AI
 
 .report-meta {
 
+
+
     display: flex;
 
+
+
     flex-direction: column;
+
+
 
     gap: 3px;
 
@@ -450,13 +716,19 @@ Final Report - NeuroSense AI
 
     padding-left: 28px;
 
+
+
     border-left: 1px solid var(--ns-border);
 
 
 
     position: relative;
 
+
+
     z-index: 1;
+
+
 
 }
 
@@ -464,15 +736,23 @@ Final Report - NeuroSense AI
 
 .meta-row {
 
+
+
     min-height: 42px;
 
 
 
     display: grid;
 
+
+
     grid-template-columns: 30px 105px 1fr;
 
+
+
     align-items: center;
+
+
 
     gap: 10px;
 
@@ -480,13 +760,19 @@ Final Report - NeuroSense AI
 
     border-bottom: 1px solid #edf3f8;
 
+
+
 }
 
 
 
 .meta-row:last-child {
 
+
+
     border-bottom: 0;
+
+
 
 }
 
@@ -494,7 +780,11 @@ Final Report - NeuroSense AI
 
 .meta-icon {
 
+
+
     width: 30px;
+
+
 
     height: 30px;
 
@@ -502,7 +792,11 @@ Final Report - NeuroSense AI
 
     display: inline-flex;
 
+
+
     align-items: center;
+
+
 
     justify-content: center;
 
@@ -510,13 +804,19 @@ Final Report - NeuroSense AI
 
     color: var(--ns-primary);
 
+
+
     background: var(--ns-blue-100);
 
 
 
     border-radius: 9px;
 
+
+
     font-size: 0.75rem;
+
+
 
 }
 
@@ -524,11 +824,19 @@ Final Report - NeuroSense AI
 
 .meta-label {
 
+
+
     color: var(--ns-muted);
+
+
 
     font-size: 0.76rem;
 
+
+
     font-weight: 550;
+
+
 
 }
 
@@ -536,13 +844,19 @@ Final Report - NeuroSense AI
 
 .meta-value {
 
+
+
     min-width: 0;
 
 
 
     color: var(--ns-navy);
 
+
+
     font-size: 0.82rem;
+
+
 
     font-weight: 700;
 
@@ -550,9 +864,15 @@ Final Report - NeuroSense AI
 
     white-space: nowrap;
 
+
+
     overflow: hidden;
 
+
+
     text-overflow: ellipsis;
+
+
 
 }
 
@@ -560,9 +880,15 @@ Final Report - NeuroSense AI
 
 .status-complete {
 
+
+
     display: inline-flex;
 
+
+
     align-items: center;
+
+
 
     gap: 7px;
 
@@ -570,21 +896,35 @@ Final Report - NeuroSense AI
 
     color: var(--ns-green);
 
+
+
 }
 
 
 
 .status-complete::before {
 
+
+
     content: "";
+
+
 
     width: 8px;
 
+
+
     height: 8px;
+
+
 
     border-radius: 50%;
 
+
+
     background: var(--ns-green);
+
+
 
 }
 
@@ -592,7 +932,11 @@ Final Report - NeuroSense AI
 
 /* =========================================================
 
+
+
    COMMON CARD
+
+
 
    ========================================================= */
 
@@ -600,7 +944,11 @@ Final Report - NeuroSense AI
 
 .report-section {
 
+
+
     margin-bottom: 28px;
+
+
 
     padding: 26px 28px;
 
@@ -612,7 +960,11 @@ Final Report - NeuroSense AI
 
     border: 1px solid var(--ns-border);
 
+
+
     border-radius: var(--ns-radius);
+
+
 
 }
 
@@ -620,9 +972,15 @@ Final Report - NeuroSense AI
 
 .section-heading {
 
+
+
     display: flex;
 
+
+
     align-items: center;
+
+
 
     gap: 11px;
 
@@ -630,15 +988,23 @@ Final Report - NeuroSense AI
 
     margin-bottom: 18px;
 
+
+
 }
 
 
 
 .section-icon {
 
+
+
     width: 38px;
 
+
+
     height: 38px;
+
+
 
     flex-shrink: 0;
 
@@ -646,7 +1012,11 @@ Final Report - NeuroSense AI
 
     display: inline-flex;
 
+
+
     align-items: center;
+
+
 
     justify-content: center;
 
@@ -654,13 +1024,19 @@ Final Report - NeuroSense AI
 
     color: var(--ns-primary);
 
+
+
     background: var(--ns-blue-100);
 
 
 
     border-radius: 11px;
 
+
+
     font-size: 0.9rem;
+
+
 
 }
 
@@ -668,15 +1044,23 @@ Final Report - NeuroSense AI
 
 .section-copy h2 {
 
+
+
     margin: 0;
 
 
 
     color: var(--ns-navy);
 
+
+
     font-size: 1.08rem;
 
+
+
     font-weight: 760;
+
+
 
 }
 
@@ -684,13 +1068,19 @@ Final Report - NeuroSense AI
 
 .section-copy p {
 
+
+
     margin: 2px 0 0;
 
 
 
     color: #8a9bb5;
 
+
+
     font-size: 0.76rem;
+
+
 
 }
 
@@ -698,7 +1088,11 @@ Final Report - NeuroSense AI
 
 /* =========================================================
 
+
+
    OVERALL RESULT
+
+
 
    ========================================================= */
 
@@ -706,13 +1100,23 @@ Final Report - NeuroSense AI
 
 .overall-grid {
 
+
+
     display: grid;
+
+
 
     grid-template-columns: 220px minmax(0, 1fr);
 
+
+
     gap: 34px;
 
+
+
     align-items: center;
+
+
 
 }
 
@@ -720,11 +1124,19 @@ Final Report - NeuroSense AI
 
 .risk-ring-wrap {
 
+
+
     display: flex;
+
+
 
     align-items: center;
 
+
+
     justify-content: center;
+
+
 
 }
 
@@ -732,7 +1144,11 @@ Final Report - NeuroSense AI
 
 .risk-ring {
 
+
+
     --ring-color: var(--ns-primary);
+
+
 
     --risk-pct: 0;
 
@@ -740,11 +1156,15 @@ Final Report - NeuroSense AI
 
     width: 155px;
 
+
+
     height: 155px;
 
 
 
     display: grid;
+
+
 
     place-items: center;
 
@@ -756,11 +1176,19 @@ Final Report - NeuroSense AI
 
     background:
 
+
+
         conic-gradient(
+
+
 
             var(--ring-color) calc(var(--risk-pct) * 1%),
 
+
+
             #edf3f8 0
+
+
 
         );
 
@@ -768,15 +1196,23 @@ Final Report - NeuroSense AI
 
     position: relative;
 
+
+
 }
 
 
 
 .risk-ring::before {
 
+
+
     content: "";
 
+
+
     position: absolute;
+
+
 
     inset: 15px;
 
@@ -784,7 +1220,11 @@ Final Report - NeuroSense AI
 
     background: #ffffff;
 
+
+
     border-radius: 50%;
+
+
 
 }
 
@@ -792,7 +1232,11 @@ Final Report - NeuroSense AI
 
 .risk-ring.low { --ring-color: var(--ns-green); }
 
+
+
 .risk-ring.medium { --ring-color: var(--ns-orange); }
+
+
 
 .risk-ring.high { --ring-color: var(--ns-red); }
 
@@ -800,11 +1244,19 @@ Final Report - NeuroSense AI
 
 .risk-ring-content {
 
+
+
     position: relative;
+
+
 
     z-index: 1;
 
+
+
     text-align: center;
+
+
 
 }
 
@@ -812,13 +1264,23 @@ Final Report - NeuroSense AI
 
 .risk-percent {
 
+
+
     color: var(--ns-navy);
+
+
 
     font-size: 2rem;
 
+
+
     font-weight: 800;
 
+
+
     line-height: 1;
+
+
 
 }
 
@@ -826,17 +1288,27 @@ Final Report - NeuroSense AI
 
 .risk-percent-label {
 
+
+
     margin-top: 6px;
 
 
 
     color: #5f7394;
 
+
+
     font-size: 0.72rem;
+
+
 
     font-weight: 700;
 
+
+
     text-transform: uppercase;
+
+
 
 }
 
@@ -844,7 +1316,11 @@ Final Report - NeuroSense AI
 
 .result-copy {
 
+
+
     min-width: 0;
+
+
 
 }
 
@@ -852,7 +1328,11 @@ Final Report - NeuroSense AI
 
 .result-badge-box {
 
+
+
     padding: 15px 18px;
+
+
 
     margin-bottom: 15px;
 
@@ -860,7 +1340,11 @@ Final Report - NeuroSense AI
 
     display: flex;
 
+
+
     align-items: center;
+
+
 
     gap: 12px;
 
@@ -868,7 +1352,11 @@ Final Report - NeuroSense AI
 
     border-radius: 13px;
 
+
+
     border: 1px solid transparent;
+
+
 
 }
 
@@ -876,11 +1364,19 @@ Final Report - NeuroSense AI
 
 .result-badge-box.low {
 
+
+
     color: #0f7e4a;
+
+
 
     background: var(--ns-green-bg);
 
+
+
     border-color: #d3f0e1;
+
+
 
 }
 
@@ -888,11 +1384,19 @@ Final Report - NeuroSense AI
 
 .result-badge-box.medium {
 
+
+
     color: #b66f00;
+
+
 
     background: var(--ns-orange-bg);
 
+
+
     border-color: #f5dfaf;
+
+
 
 }
 
@@ -900,11 +1404,19 @@ Final Report - NeuroSense AI
 
 .result-badge-box.high {
 
+
+
     color: #cf3030;
+
+
 
     background: var(--ns-red-bg);
 
+
+
     border-color: #f4cccc;
+
+
 
 }
 
@@ -912,9 +1424,15 @@ Final Report - NeuroSense AI
 
 .result-badge-icon {
 
+
+
     width: 38px;
 
+
+
     height: 38px;
+
+
 
     flex-shrink: 0;
 
@@ -922,7 +1440,11 @@ Final Report - NeuroSense AI
 
     display: inline-flex;
 
+
+
     align-items: center;
+
+
 
     justify-content: center;
 
@@ -930,7 +1452,11 @@ Final Report - NeuroSense AI
 
     border-radius: 50%;
 
+
+
     background: rgba(255,255,255,0.72);
+
+
 
 }
 
@@ -938,11 +1464,19 @@ Final Report - NeuroSense AI
 
 .result-badge-title {
 
+
+
     margin: 0 0 2px;
+
+
 
     font-size: 1.05rem;
 
+
+
     font-weight: 800;
+
+
 
 }
 
@@ -950,9 +1484,15 @@ Final Report - NeuroSense AI
 
 .result-badge-subtitle {
 
+
+
     margin: 0;
 
+
+
     font-size: 0.8rem;
+
+
 
 }
 
@@ -960,15 +1500,23 @@ Final Report - NeuroSense AI
 
 .result-description {
 
+
+
     margin: 0;
 
 
 
     color: #536987;
 
+
+
     font-size: 0.88rem;
 
+
+
     line-height: 1.7;
+
+
 
 }
 
@@ -976,9 +1524,15 @@ Final Report - NeuroSense AI
 
 .risk-scale {
 
+
+
     display: grid;
 
+
+
     grid-template-columns: repeat(3, 1fr);
+
+
 
     gap: 0;
 
@@ -986,11 +1540,15 @@ Final Report - NeuroSense AI
 
     margin-top: 20px;
 
+
+
     padding-top: 17px;
 
 
 
     border-top: 1px solid #edf2f7;
+
+
 
 }
 
@@ -998,11 +1556,19 @@ Final Report - NeuroSense AI
 
 .scale-item {
 
+
+
     display: flex;
+
+
 
     align-items: flex-start;
 
+
+
     justify-content: center;
+
+
 
     gap: 8px;
 
@@ -1010,7 +1576,11 @@ Final Report - NeuroSense AI
 
     padding: 0 12px;
 
+
+
     border-right: 1px solid #edf2f7;
+
+
 
 }
 
@@ -1018,7 +1588,11 @@ Final Report - NeuroSense AI
 
 .scale-item:last-child {
 
+
+
     border-right: 0;
+
+
 
 }
 
@@ -1026,15 +1600,27 @@ Final Report - NeuroSense AI
 
 .scale-dot {
 
+
+
     width: 9px;
+
+
 
     height: 9px;
 
+
+
     margin-top: 4px;
+
+
 
     flex-shrink: 0;
 
+
+
     border-radius: 50%;
+
+
 
 }
 
@@ -1042,7 +1628,11 @@ Final Report - NeuroSense AI
 
 .scale-dot.low { background: var(--ns-green); }
 
+
+
 .scale-dot.medium { background: var(--ns-orange); }
+
+
 
 .scale-dot.high { background: var(--ns-red); }
 
@@ -1050,13 +1640,19 @@ Final Report - NeuroSense AI
 
 .scale-text strong {
 
+
+
     display: block;
 
 
 
     color: var(--ns-navy);
 
+
+
     font-size: 0.75rem;
+
+
 
 }
 
@@ -1064,7 +1660,11 @@ Final Report - NeuroSense AI
 
 .scale-text span {
 
+
+
     display: block;
+
+
 
     margin-top: 2px;
 
@@ -1072,7 +1672,11 @@ Final Report - NeuroSense AI
 
     color: #8a9bb5;
 
+
+
     font-size: 0.68rem;
+
+
 
 }
 
@@ -1080,7 +1684,11 @@ Final Report - NeuroSense AI
 
 /* =========================================================
 
+
+
    MODULE RESULTS
+
+
 
    ========================================================= */
 
@@ -1088,15 +1696,27 @@ Final Report - NeuroSense AI
 
 .module-head,
 
+
+
 .module-row {
+
+
 
     display: grid;
 
+
+
     grid-template-columns: minmax(170px, 1.6fr) minmax(170px, 1.6fr) 110px 90px;
+
+
 
     gap: 18px;
 
+
+
     align-items: center;
+
+
 
 }
 
@@ -1104,15 +1724,23 @@ Final Report - NeuroSense AI
 
 .module-head {
 
+
+
     padding: 0 14px 10px;
 
 
 
     color: #8395b0;
 
+
+
     font-size: 0.68rem;
 
+
+
     font-weight: 700;
+
+
 
 }
 
@@ -1120,11 +1748,15 @@ Final Report - NeuroSense AI
 
 .module-row {
 
+
+
     padding: 13px 14px;
 
 
 
     border-top: 1px solid #edf2f7;
+
+
 
 }
 
@@ -1132,9 +1764,15 @@ Final Report - NeuroSense AI
 
 .module-name {
 
+
+
     display: flex;
 
+
+
     align-items: center;
+
+
 
     gap: 11px;
 
@@ -1142,9 +1780,15 @@ Final Report - NeuroSense AI
 
     color: var(--ns-navy);
 
+
+
     font-size: 0.84rem;
 
+
+
     font-weight: 700;
+
+
 
 }
 
@@ -1152,9 +1796,15 @@ Final Report - NeuroSense AI
 
 .module-icon {
 
+
+
     width: 36px;
 
+
+
     height: 36px;
+
+
 
     flex-shrink: 0;
 
@@ -1162,7 +1812,11 @@ Final Report - NeuroSense AI
 
     display: inline-flex;
 
+
+
     align-items: center;
+
+
 
     justify-content: center;
 
@@ -1170,13 +1824,19 @@ Final Report - NeuroSense AI
 
     color: var(--ns-primary);
 
+
+
     background: var(--ns-blue-100);
 
 
 
     border-radius: 10px;
 
+
+
     font-size: 0.8rem;
+
+
 
 }
 
@@ -1184,13 +1844,23 @@ Final Report - NeuroSense AI
 
 .module-score {
 
+
+
     display: grid;
+
+
 
     grid-template-columns: 46px 1fr;
 
+
+
     align-items: center;
 
+
+
     gap: 11px;
+
+
 
 }
 
@@ -1198,17 +1868,27 @@ Final Report - NeuroSense AI
 
 .module-percent {
 
+
+
     color: var(--ns-navy);
+
+
 
     font-size: 0.82rem;
 
+
+
     font-weight: 750;
+
+
 
 }
 
 
 
 .module-track {
+
+
 
     height: 7px;
 
@@ -1220,7 +1900,11 @@ Final Report - NeuroSense AI
 
     background: #edf2f7;
 
+
+
     border-radius: 999px;
+
+
 
 }
 
@@ -1228,13 +1912,19 @@ Final Report - NeuroSense AI
 
 .module-fill {
 
+
+
     height: 100%;
 
 
 
     background: var(--ns-primary);
 
+
+
     border-radius: inherit;
+
+
 
 }
 
@@ -1242,9 +1932,15 @@ Final Report - NeuroSense AI
 
 .module-prediction {
 
+
+
     display: inline-flex;
 
+
+
     align-items: center;
+
+
 
     justify-content: center;
 
@@ -1252,7 +1948,11 @@ Final Report - NeuroSense AI
 
     width: fit-content;
 
+
+
     min-width: 82px;
+
+
 
     padding: 5px 10px;
 
@@ -1264,9 +1964,15 @@ Final Report - NeuroSense AI
 
     font-size: 0.64rem;
 
+
+
     font-weight: 760;
 
+
+
     text-transform: uppercase;
+
+
 
 }
 
@@ -1274,9 +1980,15 @@ Final Report - NeuroSense AI
 
 .module-prediction.pd {
 
+
+
     color: var(--ns-red);
 
+
+
     background: var(--ns-red-bg);
+
+
 
 }
 
@@ -1284,9 +1996,15 @@ Final Report - NeuroSense AI
 
 .module-prediction.borderline {
 
+
+
     color: #d18100;
 
+
+
     background: var(--ns-orange-bg);
+
+
 
 }
 
@@ -1294,9 +2012,15 @@ Final Report - NeuroSense AI
 
 .module-prediction.control {
 
+
+
     color: var(--ns-green);
 
+
+
     background: var(--ns-green-bg);
+
+
 
 }
 
@@ -1304,11 +2028,19 @@ Final Report - NeuroSense AI
 
 .module-weight {
 
+
+
     color: #70839f;
+
+
 
     font-size: 0.76rem;
 
+
+
     font-weight: 650;
+
+
 
 }
 
@@ -1316,7 +2048,11 @@ Final Report - NeuroSense AI
 
 /* =========================================================
 
+
+
    INTERPRETATION
+
+
 
    ========================================================= */
 
@@ -1324,11 +2060,15 @@ Final Report - NeuroSense AI
 
 .interpretation-box {
 
+
+
     padding: 20px 22px;
 
 
 
     color: #536987;
+
+
 
     background: #f7fbff;
 
@@ -1336,13 +2076,19 @@ Final Report - NeuroSense AI
 
     border: 1px solid #e6f0fa;
 
+
+
     border-radius: 13px;
 
 
 
     font-size: 0.9rem;
 
+
+
     line-height: 1.75;
+
+
 
 }
 
@@ -1350,7 +2096,11 @@ Final Report - NeuroSense AI
 
 .interpretation-box strong {
 
+
+
     color: var(--ns-navy);
+
+
 
 }
 
@@ -1358,7 +2108,11 @@ Final Report - NeuroSense AI
 
 /* =========================================================
 
+
+
    MODULE FOCUS / NEXT STEPS
+
+
 
    ========================================================= */
 
@@ -1366,7 +2120,11 @@ Final Report - NeuroSense AI
 
 .attention-summary {
 
+
+
     margin-bottom: 16px;
+
+
 
     padding: 15px 17px;
 
@@ -1374,11 +2132,15 @@ Final Report - NeuroSense AI
 
     color: #536987;
 
+
+
     background: #f7fbff;
 
 
 
     border: 1px solid #e2edf9;
+
+
 
     border-radius: 13px;
 
@@ -1386,7 +2148,11 @@ Final Report - NeuroSense AI
 
     font-size: 0.88rem;
 
+
+
     line-height: 1.65;
+
+
 
 }
 
@@ -1394,11 +2160,19 @@ Final Report - NeuroSense AI
 
 .attention-grid {
 
+
+
     display: grid;
+
+
 
     grid-template-columns: repeat(2, minmax(0, 1fr));
 
+
+
     gap: 12px;
+
+
 
 }
 
@@ -1406,13 +2180,19 @@ Final Report - NeuroSense AI
 
 .attention-card {
 
+
+
     padding: 16px 17px;
 
 
 
     display: flex;
 
+
+
     align-items: flex-start;
+
+
 
     gap: 12px;
 
@@ -1420,9 +2200,15 @@ Final Report - NeuroSense AI
 
     background: #ffffff;
 
+
+
     border: 1px solid var(--ns-border);
 
+
+
     border-radius: 13px;
+
+
 
 }
 
@@ -1430,9 +2216,15 @@ Final Report - NeuroSense AI
 
 .attention-card.noticeable {
 
+
+
     border-color: #f0d9b0;
 
+
+
     background: #fffdf8;
+
+
 
 }
 
@@ -1440,9 +2232,15 @@ Final Report - NeuroSense AI
 
 .attention-card.watch {
 
+
+
     border-color: #d9e8f7;
 
+
+
     background: #fbfdff;
+
+
 
 }
 
@@ -1450,9 +2248,15 @@ Final Report - NeuroSense AI
 
 .attention-card.low {
 
+
+
     border-color: #dcebe5;
 
+
+
     background: #fbfefc;
+
+
 
 }
 
@@ -1460,9 +2264,15 @@ Final Report - NeuroSense AI
 
 .attention-card-icon {
 
+
+
     width: 38px;
 
+
+
     height: 38px;
+
+
 
     flex: 0 0 38px;
 
@@ -1470,7 +2280,11 @@ Final Report - NeuroSense AI
 
     display: inline-flex;
 
+
+
     align-items: center;
+
+
 
     justify-content: center;
 
@@ -1478,11 +2292,15 @@ Final Report - NeuroSense AI
 
     color: var(--ns-primary);
 
+
+
     background: var(--ns-blue-100);
 
 
 
     border-radius: 11px;
+
+
 
 }
 
@@ -1490,9 +2308,15 @@ Final Report - NeuroSense AI
 
 .attention-card-copy {
 
+
+
     min-width: 0;
 
+
+
     flex: 1;
+
+
 
 }
 
@@ -1500,15 +2324,27 @@ Final Report - NeuroSense AI
 
 .attention-card-top {
 
+
+
     display: flex;
+
+
 
     align-items: center;
 
+
+
     justify-content: space-between;
+
+
 
     gap: 12px;
 
+
+
     margin-bottom: 5px;
+
+
 
 }
 
@@ -1516,11 +2352,19 @@ Final Report - NeuroSense AI
 
 .attention-card-title {
 
+
+
     color: var(--ns-navy);
+
+
 
     font-size: 0.86rem;
 
+
+
     font-weight: 760;
+
+
 
 }
 
@@ -1528,13 +2372,19 @@ Final Report - NeuroSense AI
 
 .attention-status {
 
+
+
     flex-shrink: 0;
+
+
 
     padding: 4px 8px;
 
 
 
     color: #5f7394;
+
+
 
     background: #f3f7fb;
 
@@ -1546,7 +2396,11 @@ Final Report - NeuroSense AI
 
     font-size: 0.61rem;
 
+
+
     font-weight: 760;
+
+
 
 }
 
@@ -1554,9 +2408,15 @@ Final Report - NeuroSense AI
 
 .attention-card.noticeable .attention-status {
 
+
+
     color: #a96c00;
 
+
+
     background: #fff1cf;
+
+
 
 }
 
@@ -1564,9 +2424,15 @@ Final Report - NeuroSense AI
 
 .attention-card.watch .attention-status {
 
+
+
     color: #356b9f;
 
+
+
     background: #edf6ff;
+
+
 
 }
 
@@ -1574,9 +2440,15 @@ Final Report - NeuroSense AI
 
 .attention-card.low .attention-status {
 
+
+
     color: #17744c;
 
+
+
     background: #edf9f3;
+
+
 
 }
 
@@ -1584,13 +2456,23 @@ Final Report - NeuroSense AI
 
 .attention-card p {
 
+
+
     margin: 0;
+
+
 
     color: #607491;
 
+
+
     font-size: 0.79rem;
 
+
+
     line-height: 1.6;
+
+
 
 }
 
@@ -1598,7 +2480,11 @@ Final Report - NeuroSense AI
 
 .questionnaire-context {
 
+
+
     margin-top: 12px;
+
+
 
     padding: 12px 14px;
 
@@ -1606,11 +2492,15 @@ Final Report - NeuroSense AI
 
     color: #647894;
 
+
+
     background: #fbfcfe;
 
 
 
     border: 1px solid #e7eef6;
+
+
 
     border-radius: 11px;
 
@@ -1618,7 +2508,11 @@ Final Report - NeuroSense AI
 
     font-size: 0.75rem;
 
+
+
     line-height: 1.55;
+
+
 
 }
 
@@ -1626,7 +2520,11 @@ Final Report - NeuroSense AI
 
 .questionnaire-context strong {
 
+
+
     color: var(--ns-navy);
+
+
 
 }
 
@@ -1634,9 +2532,15 @@ Final Report - NeuroSense AI
 
 .next-step-list {
 
+
+
     margin: 0;
 
+
+
     padding: 0;
+
+
 
     list-style: none;
 
@@ -1644,7 +2548,11 @@ Final Report - NeuroSense AI
 
     display: grid;
 
+
+
     gap: 9px;
+
+
 
 }
 
@@ -1652,7 +2560,11 @@ Final Report - NeuroSense AI
 
 .next-step-list li {
 
+
+
     position: relative;
+
+
 
     padding: 11px 13px 11px 37px;
 
@@ -1660,11 +2572,15 @@ Final Report - NeuroSense AI
 
     color: #536987;
 
+
+
     background: #fbfdff;
 
 
 
     border: 1px solid #e7eef7;
+
+
 
     border-radius: 11px;
 
@@ -1672,7 +2588,11 @@ Final Report - NeuroSense AI
 
     font-size: 0.82rem;
 
+
+
     line-height: 1.55;
+
+
 
 }
 
@@ -1680,11 +2600,19 @@ Final Report - NeuroSense AI
 
 .next-step-list li::before {
 
+
+
     content: "✓";
+
+
 
     position: absolute;
 
+
+
     left: 13px;
+
+
 
     top: 11px;
 
@@ -1692,19 +2620,27 @@ Final Report - NeuroSense AI
 
     width: 17px;
 
+
+
     height: 17px;
 
 
 
     display: inline-flex;
 
+
+
     align-items: center;
+
+
 
     justify-content: center;
 
 
 
     color: var(--ns-primary);
+
+
 
     background: var(--ns-blue-100);
 
@@ -1716,7 +2652,11 @@ Final Report - NeuroSense AI
 
     font-size: 0.62rem;
 
+
+
     font-weight: 800;
+
+
 
 }
 
@@ -1724,7 +2664,11 @@ Final Report - NeuroSense AI
 
 .report-page.lang-ur .next-step-list li {
 
+
+
     padding: 11px 37px 11px 13px;
+
+
 
 }
 
@@ -1732,9 +2676,15 @@ Final Report - NeuroSense AI
 
 .report-page.lang-ur .next-step-list li::before {
 
+
+
     left: auto;
 
+
+
     right: 13px;
+
+
 
 }
 
@@ -1742,7 +2692,11 @@ Final Report - NeuroSense AI
 
 .recommendation-cta {
 
+
+
     margin-top: 17px;
+
+
 
     padding: 16px 17px;
 
@@ -1750,9 +2704,15 @@ Final Report - NeuroSense AI
 
     display: flex;
 
+
+
     align-items: center;
 
+
+
     justify-content: space-between;
+
+
 
     gap: 18px;
 
@@ -1760,9 +2720,15 @@ Final Report - NeuroSense AI
 
     background: #f5f9ff;
 
+
+
     border: 1px solid #dce9f8;
 
+
+
     border-radius: 13px;
+
+
 
 }
 
@@ -1770,7 +2736,11 @@ Final Report - NeuroSense AI
 
 .recommendation-cta-copy strong {
 
+
+
     display: block;
+
+
 
     margin-bottom: 3px;
 
@@ -1778,7 +2748,11 @@ Final Report - NeuroSense AI
 
     color: var(--ns-navy);
 
+
+
     font-size: 0.84rem;
+
+
 
 }
 
@@ -1786,13 +2760,23 @@ Final Report - NeuroSense AI
 
 .recommendation-cta-copy span {
 
+
+
     display: block;
+
+
 
     color: #6d809c;
 
+
+
     font-size: 0.74rem;
 
+
+
     line-height: 1.5;
+
+
 
 }
 
@@ -1800,7 +2784,11 @@ Final Report - NeuroSense AI
 
 .recommendation-cta .report-btn {
 
+
+
     min-width: 205px;
+
+
 
     min-height: 42px;
 
@@ -1808,9 +2796,15 @@ Final Report - NeuroSense AI
 
     display: inline-flex;
 
+
+
     align-items: center;
 
+
+
     justify-content: center;
+
+
 
     gap: 8px;
 
@@ -1822,11 +2816,15 @@ Final Report - NeuroSense AI
 
     color: #ffffff !important;
 
+
+
     background: var(--ns-primary) !important;
 
 
 
     border: 1px solid var(--ns-primary) !important;
+
+
 
     border-radius: 10px;
 
@@ -1834,9 +2832,15 @@ Final Report - NeuroSense AI
 
     font-size: 0.78rem;
 
+
+
     font-weight: 700;
 
+
+
     text-decoration: none !important;
+
+
 
 }
 
@@ -1844,9 +2848,15 @@ Final Report - NeuroSense AI
 
 .recommendation-cta .report-btn:hover {
 
+
+
     background: var(--ns-primary-dark) !important;
 
+
+
     border-color: var(--ns-primary-dark) !important;
+
+
 
 }
 
@@ -1854,7 +2864,11 @@ Final Report - NeuroSense AI
 
 /* =========================================================
 
+
+
    IMPORTANT NOTE
+
+
 
    ========================================================= */
 
@@ -1862,7 +2876,11 @@ Final Report - NeuroSense AI
 
 .report-note {
 
+
+
     margin-bottom: 22px;
+
+
 
     padding: 15px 17px;
 
@@ -1870,7 +2888,11 @@ Final Report - NeuroSense AI
 
     display: flex;
 
+
+
     align-items: flex-start;
+
+
 
     gap: 11px;
 
@@ -1878,11 +2900,15 @@ Final Report - NeuroSense AI
 
     color: #5e7393;
 
+
+
     background: #f7fbff;
 
 
 
     border: 1px solid #dceaf8;
+
+
 
     border-radius: 13px;
 
@@ -1890,7 +2916,11 @@ Final Report - NeuroSense AI
 
     font-size: 0.75rem;
 
+
+
     line-height: 1.55;
+
+
 
 }
 
@@ -1898,9 +2928,15 @@ Final Report - NeuroSense AI
 
 .report-note i {
 
+
+
     margin-top: 1px;
 
+
+
     color: var(--ns-primary);
+
+
 
 }
 
@@ -1908,7 +2944,11 @@ Final Report - NeuroSense AI
 
 .report-note strong {
 
+
+
     color: var(--ns-navy);
+
+
 
 }
 
@@ -1916,7 +2956,11 @@ Final Report - NeuroSense AI
 
 /* =========================================================
 
+
+
    ACTIONS
+
+
 
    ========================================================= */
 
@@ -1924,11 +2968,15 @@ Final Report - NeuroSense AI
 
 .report-actions-wrap {
 
+
+
     padding: 18px 20px;
 
 
 
     border: 1px solid var(--ns-border);
+
+
 
     border-radius: 15px;
 
@@ -1936,19 +2984,31 @@ Final Report - NeuroSense AI
 
     background: #ffffff;
 
+
+
 }
 
 
 
 .report-actions {
 
+
+
     display: flex;
+
+
 
     justify-content: center;
 
+
+
     flex-wrap: wrap;
 
+
+
     gap: 10px;
+
+
 
 }
 
@@ -1956,7 +3016,11 @@ Final Report - NeuroSense AI
 
 .report-actions .report-btn {
 
+
+
     min-width: 180px;
+
+
 
     min-height: 44px;
 
@@ -1968,9 +3032,15 @@ Final Report - NeuroSense AI
 
     display: inline-flex;
 
+
+
     align-items: center;
 
+
+
     justify-content: center;
+
+
 
     gap: 8px;
 
@@ -1986,7 +3056,11 @@ Final Report - NeuroSense AI
 
     font-family: inherit;
 
+
+
     font-size: 0.82rem;
+
+
 
     font-weight: 700;
 
@@ -1994,17 +3068,27 @@ Final Report - NeuroSense AI
 
     text-decoration: none !important;
 
+
+
     cursor: pointer;
 
 
 
     transition:
 
+
+
         background-color 0.2s ease,
+
+
 
         border-color 0.2s ease,
 
+
+
         color 0.2s ease;
+
+
 
 }
 
@@ -2012,11 +3096,19 @@ Final Report - NeuroSense AI
 
 .report-actions .report-btn::before,
 
+
+
 .report-actions .report-btn::after {
+
+
 
     display: none !important;
 
+
+
     content: none !important;
+
+
 
 }
 
@@ -2024,9 +3116,15 @@ Final Report - NeuroSense AI
 
 .report-actions .btn-primary-report,
 
+
+
 .report-actions .btn-primary-report:link,
 
+
+
 .report-actions .btn-primary-report:visited {
+
+
 
     color: #ffffff !important;
 
@@ -2034,11 +3132,15 @@ Final Report - NeuroSense AI
 
     background: var(--ns-primary) !important;
 
+
+
     background-image: none !important;
 
 
 
     border: 1px solid var(--ns-primary) !important;
+
+
 
 }
 
@@ -2046,15 +3148,23 @@ Final Report - NeuroSense AI
 
 .report-actions .btn-primary-report:hover,
 
+
+
 .report-actions .btn-primary-report:focus,
 
+
+
 .report-actions .btn-primary-report:active {
+
+
 
     color: #ffffff !important;
 
 
 
     background: var(--ns-primary-dark) !important;
+
+
 
     background-image: none !important;
 
@@ -2066,7 +3176,11 @@ Final Report - NeuroSense AI
 
     box-shadow: none !important;
 
+
+
     transform: none !important;
+
+
 
 }
 
@@ -2074,9 +3188,15 @@ Final Report - NeuroSense AI
 
 .report-actions .btn-outline-report,
 
+
+
 .report-actions .btn-outline-report:link,
 
+
+
 .report-actions .btn-outline-report:visited {
+
+
 
     color: #405575 !important;
 
@@ -2084,11 +3204,15 @@ Final Report - NeuroSense AI
 
     background: #ffffff !important;
 
+
+
     background-image: none !important;
 
 
 
     border: 1px solid var(--ns-border) !important;
+
+
 
 }
 
@@ -2096,15 +3220,23 @@ Final Report - NeuroSense AI
 
 .report-actions .btn-outline-report:hover,
 
+
+
 .report-actions .btn-outline-report:focus,
 
+
+
 .report-actions .btn-outline-report:active {
+
+
 
     color: var(--ns-primary) !important;
 
 
 
     background: var(--ns-blue-50) !important;
+
+
 
     background-image: none !important;
 
@@ -2116,7 +3248,11 @@ Final Report - NeuroSense AI
 
     box-shadow: none !important;
 
+
+
     transform: none !important;
+
+
 
 }
 
@@ -2124,13 +3260,19 @@ Final Report - NeuroSense AI
 
 /* =========================================================
 
+
+
    ERROR
+
+
 
    ========================================================= */
 
 
 
 .report-error {
+
+
 
     padding: 34px 24px;
 
@@ -2142,7 +3284,11 @@ Final Report - NeuroSense AI
 
     background: #fff6f6;
 
+
+
     border: 1px solid #f4d1d1;
+
+
 
     border-radius: var(--ns-radius);
 
@@ -2150,15 +3296,23 @@ Final Report - NeuroSense AI
 
     color: #9e3030;
 
+
+
 }
 
 
 
 .report-error i {
 
+
+
     margin-bottom: 10px;
 
+
+
     font-size: 1.8rem;
+
+
 
 }
 
@@ -2166,9 +3320,15 @@ Final Report - NeuroSense AI
 
 .report-error h2 {
 
+
+
     margin: 0 0 7px;
 
+
+
     font-size: 1.05rem;
+
+
 
 }
 
@@ -2176,9 +3336,15 @@ Final Report - NeuroSense AI
 
 .report-error p {
 
+
+
     margin: 0 0 16px;
 
+
+
     font-size: 0.85rem;
+
+
 
 }
 
@@ -2186,7 +3352,11 @@ Final Report - NeuroSense AI
 
 /* =========================================================
 
+
+
    RESPONSIVE
+
+
 
    ========================================================= */
 
@@ -2198,9 +3368,15 @@ Final Report - NeuroSense AI
 
     .report-hero {
 
+
+
         grid-template-columns: 1fr;
 
+
+
         gap: 24px;
+
+
 
     }
 
@@ -2208,11 +3384,19 @@ Final Report - NeuroSense AI
 
     .report-meta,
 
+
+
     .report-page.lang-ur .report-meta {
+
+
 
         padding-left: 0;
 
+
+
         padding-right: 0;
+
+
 
         padding-top: 18px;
 
@@ -2220,9 +3404,15 @@ Final Report - NeuroSense AI
 
         border-left: 0;
 
+
+
         border-right: 0;
 
+
+
         border-top: 1px solid var(--ns-border);
+
+
 
     }
 
@@ -2230,9 +3420,15 @@ Final Report - NeuroSense AI
 
     .overall-grid {
 
+
+
         grid-template-columns: 190px 1fr;
 
+
+
         gap: 24px;
+
+
 
     }
 
@@ -2240,17 +3436,31 @@ Final Report - NeuroSense AI
 
     .module-head,
 
+
+
     .module-row,
+
+
 
     .report-page.lang-ur .module-head,
 
+
+
     .report-page.lang-ur .module-row {
+
+
 
         grid-template-columns: minmax(150px, 1.3fr) minmax(150px, 1.5fr) 100px 75px;
 
+
+
         gap: 12px;
 
+
+
     }
+
+
 
 }
 
@@ -2262,7 +3472,11 @@ Final Report - NeuroSense AI
 
     .report-page {
 
+
+
         padding: 22px 15px 50px;
+
+
 
     }
 
@@ -2270,7 +3484,11 @@ Final Report - NeuroSense AI
 
     .report-toolbar {
 
+
+
         flex-wrap: wrap;
+
+
 
     }
 
@@ -2278,9 +3496,15 @@ Final Report - NeuroSense AI
 
     .report-hero,
 
+
+
     .report-section {
 
+
+
         padding: 22px 20px;
+
+
 
     }
 
@@ -2288,7 +3512,11 @@ Final Report - NeuroSense AI
 
     .hero-title-wrap {
 
+
+
         align-items: flex-start;
+
+
 
     }
 
@@ -2296,13 +3524,23 @@ Final Report - NeuroSense AI
 
     .hero-icon {
 
+
+
         width: 58px;
+
+
 
         height: 58px;
 
+
+
         border-radius: 15px;
 
+
+
         font-size: 1.35rem;
+
+
 
     }
 
@@ -2310,7 +3548,11 @@ Final Report - NeuroSense AI
 
     .hero-copy h1 {
 
+
+
         font-size: 1.65rem;
+
+
 
     }
 
@@ -2318,9 +3560,15 @@ Final Report - NeuroSense AI
 
     .overall-grid {
 
+
+
         grid-template-columns: 1fr;
 
+
+
         gap: 22px;
+
+
 
     }
 
@@ -2328,9 +3576,15 @@ Final Report - NeuroSense AI
 
     .risk-ring {
 
+
+
         width: 145px;
 
+
+
         height: 145px;
+
+
 
     }
 
@@ -2338,7 +3592,11 @@ Final Report - NeuroSense AI
 
     .module-head {
 
+
+
         display: none;
+
+
 
     }
 
@@ -2346,9 +3604,15 @@ Final Report - NeuroSense AI
 
     .module-row,
 
+
+
     .report-page.lang-ur .module-row {
 
+
+
         grid-template-columns: 1fr;
+
+
 
         gap: 11px;
 
@@ -2356,15 +3620,23 @@ Final Report - NeuroSense AI
 
         margin-bottom: 10px;
 
+
+
         padding: 15px;
 
 
 
         background: #fbfdff;
 
+
+
         border: 1px solid #e7eff7;
 
+
+
         border-radius: 12px;
+
+
 
     }
 
@@ -2372,7 +3644,11 @@ Final Report - NeuroSense AI
 
     .module-row:first-of-type {
 
+
+
         border-top: 1px solid #e7eff7;
+
+
 
     }
 
@@ -2380,7 +3656,11 @@ Final Report - NeuroSense AI
 
     .module-score {
 
+
+
         grid-template-columns: 46px 1fr;
+
+
 
     }
 
@@ -2388,11 +3668,19 @@ Final Report - NeuroSense AI
 
     .module-weight::before {
 
+
+
         content: "Weight: ";
+
+
 
         color: #91a1b8;
 
+
+
         font-weight: 500;
+
+
 
     }
 
@@ -2400,7 +3688,11 @@ Final Report - NeuroSense AI
 
     .report-actions .report-btn {
 
+
+
         flex: 1 1 100%;
+
+
 
     }
 
@@ -2408,9 +3700,15 @@ Final Report - NeuroSense AI
 
     .risk-scale {
 
+
+
         grid-template-columns: 1fr;
 
+
+
         gap: 12px;
+
+
 
     }
 
@@ -2418,23 +3716,35 @@ Final Report - NeuroSense AI
 
     .scale-item {
 
+
+
         justify-content: flex-start;
+
+
 
         border-right: 0;
 
+
+
         padding: 0;
 
+
+
     }
+
+
 
 }
 
 
 
-
-
     .attention-grid {
 
+
+
         grid-template-columns: 1fr;
+
+
 
     }
 
@@ -2442,9 +3752,15 @@ Final Report - NeuroSense AI
 
     .recommendation-cta {
 
+
+
         align-items: flex-start;
 
+
+
         flex-direction: column;
+
+
 
     }
 
@@ -2452,7 +3768,11 @@ Final Report - NeuroSense AI
 
     .recommendation-cta .report-btn {
 
+
+
         width: 100%;
+
+
 
     }
 
@@ -2464,7 +3784,11 @@ Final Report - NeuroSense AI
 
     .report-page {
 
+
+
         padding: 18px 11px 40px;
+
+
 
     }
 
@@ -2472,7 +3796,11 @@ Final Report - NeuroSense AI
 
     .report-toolbar .toolbar-btn {
 
+
+
         flex: 1;
+
+
 
     }
 
@@ -2480,9 +3808,15 @@ Final Report - NeuroSense AI
 
     .report-hero,
 
+
+
     .report-section {
 
+
+
         padding: 19px 16px;
+
+
 
     }
 
@@ -2490,7 +3824,11 @@ Final Report - NeuroSense AI
 
     .hero-title-wrap {
 
+
+
         gap: 13px;
+
+
 
     }
 
@@ -2498,7 +3836,11 @@ Final Report - NeuroSense AI
 
     .hero-copy h1 {
 
+
+
         font-size: 1.45rem;
+
+
 
     }
 
@@ -2506,7 +3848,11 @@ Final Report - NeuroSense AI
 
     .meta-row {
 
+
+
         grid-template-columns: 30px 90px 1fr;
+
+
 
     }
 
@@ -2514,9 +3860,15 @@ Final Report - NeuroSense AI
 
     .result-badge-box {
 
+
+
         align-items: flex-start;
 
+
+
     }
+
+
 
 }
 
@@ -2524,7 +3876,11 @@ Final Report - NeuroSense AI
 
 /* =========================================================
 
+
+
    PRINT
+
+
 
    ========================================================= */
 
@@ -2536,15 +3892,27 @@ Final Report - NeuroSense AI
 
     nav,
 
+
+
     .navbar,
+
+
 
     footer,
 
+
+
     .report-toolbar,
+
+
 
     .report-actions-wrap {
 
+
+
         display: none !important;
+
+
 
     }
 
@@ -2552,7 +3920,11 @@ Final Report - NeuroSense AI
 
     body {
 
+
+
         background: #ffffff !important;
+
+
 
     }
 
@@ -2560,9 +3932,15 @@ Final Report - NeuroSense AI
 
     .report-page {
 
+
+
         max-width: none;
 
+
+
         padding: 0;
+
+
 
     }
 
@@ -2570,13 +3948,23 @@ Final Report - NeuroSense AI
 
     .report-hero,
 
+
+
     .report-section,
+
+
 
     .report-note {
 
+
+
         box-shadow: none !important;
 
+
+
         break-inside: avoid;
+
+
 
     }
 
@@ -2584,24 +3972,245 @@ Final Report - NeuroSense AI
 
     .report-hero {
 
+
+
         margin-top: 0;
+
+
 
     }
 
+
+
 }
+
 
 
 /* ---------- Urdu bidi helpers ---------- */
+
+
+
 .report-page.lang-ur .risk-percent,
+
+
+
 .report-page.lang-ur .module-percent,
+
+
+
 .report-page.lang-ur .module-weight,
+
+
+
 .report-page.lang-ur .scale-text strong,
+
+
+
 .report-page.lang-ur bdi {
+
+
+
     direction: ltr;
+
+
+
     unicode-bidi: isolate;
+
+
+
+}
+
+
+
+
+
+/* ===== NeuroSense AI · Radiant Clinical report ===== */
+.report-page {
+ --ns-primary:#2667d3; --ns-primary-dark:#1d55b5; --ns-navy:#172c54;
+ --ns-text:#385274; --ns-muted:#8192ae; --ns-blue-50:#f4f8ff;
+ --ns-blue-100:#e8f1ff; --ns-border:#e4ebf6;
+ --ns-green:#11a88e; --ns-green-bg:#e6f7f1;
+ --ns-orange:#d79a26; --ns-orange-bg:#fff5dc;
+ --ns-red:#dc6466; --ns-red-bg:#fff0ef;
+ max-width:none; width:100%; margin:0; padding:0 0 38px;
+ font-family:Inter,system-ui,sans-serif; color:var(--ns-text);
+}
+.report-page *{box-sizing:border-box}
+.report-page .report-toolbar{margin:0 0 18px;gap:12px}
+.report-page .report-toolbar .toolbar-btn{
+ background:#fff!important;border:1px solid #e1e9f5;color:#315579!important;
+ border-radius:10px;box-shadow:0 5px 14px rgba(25,64,129,.06);
+ transition:transform .2s ease,box-shadow .2s ease;
+}
+.report-page .report-toolbar .toolbar-btn:hover{background:#f3f8ff!important;transform:translateY(-2px)!important;box-shadow:0 8px 18px rgba(25,64,129,.1)!important}
+.report-page .report-hero{
+ position:relative;min-height:218px;padding:31px 32px;margin-bottom:18px;
+ border:1px solid rgba(255,255,255,.22);border-radius:18px;
+ background:linear-gradient(115deg,#245fc6 0%,#2773de 67%,#398de3 100%);
+ box-shadow:0 14px 30px rgba(32,89,178,.16);color:white;
+ grid-template-columns:minmax(0,1.2fr) minmax(255px,.9fr);gap:20px;
+}
+.report-page .report-hero::before{content:"";pointer-events:none;position:absolute;
+ right:-70px;top:-118px;width:355px;height:355px;border-radius:50%;border:1px solid rgba(255,255,255,.14);
+ box-shadow:0 0 0 42px rgba(255,255,255,.035),0 0 0 92px rgba(255,255,255,.025)}
+.report-page .report-hero::after{right:auto;left:-100px;bottom:-130px;width:300px;height:230px;
+ background:radial-gradient(circle,rgba(20,190,205,.26),transparent 70%)}
+.report-page .hero-title-wrap{z-index:2;max-width:450px;gap:18px}
+.report-page .hero-icon{width:63px;height:63px;flex-shrink:0;color:#fff;background:rgba(255,255,255,.17);
+ border:1px solid rgba(255,255,255,.34);border-radius:16px;box-shadow:0 8px 20px rgba(12,45,117,.11);
+ animation:ns-report-float 6s ease-in-out infinite}
+.report-page .hero-copy .eyebrow{color:#b0ffe5;letter-spacing:.14em;font-size:.67rem}
+.report-page .hero-copy h1{color:#fff;font-size:clamp(1.65rem,2.6vw,2.25rem)}
+.report-page .hero-copy p{color:#e6f2ff;font-size:.85rem;line-height:1.6}
+.report-page .report-meta{border:1px solid rgba(255,255,255,.35)!important;
+ background:rgba(255,255,255,.91);backdrop-filter:blur(12px);border-radius:14px;
+ padding:13px 18px!important;box-shadow:0 10px 30px rgba(13,50,120,.13);z-index:2}
+.report-page .meta-row{grid-template-columns:30px minmax(80px,105px) minmax(0,1fr);border-bottom-color:#edf2fa}
+.report-page .meta-icon{color:#2673d8;background:#e9f5ff}
+.report-page .meta-label{color:#7c8ca5}.report-page .meta-value{color:#1e365d}
+.report-page .meta-value.status-complete{color:#079f8a}
+.report-page .report-section,.report-page .report-actions-wrap{position:relative;
+ border:1px solid #e5ecf6;border-radius:17px;background:#fff;
+ box-shadow:0 5px 20px rgba(31,70,130,.055)}
+.report-page .report-section{padding:24px 26px;margin-bottom:18px;
+ transition:box-shadow .22s ease,transform .22s ease}
+@media(hover:hover){.report-page .report-section:hover{transform:translateY(-2px);box-shadow:0 12px 29px rgba(31,70,130,.085)}}
+.report-page .section-heading{margin-bottom:20px}
+.report-page .section-icon{color:#276bda;background:#eaf0ff;border-radius:11px;box-shadow:none}
+.report-page .ns-modules-section .section-icon{color:#0daaa1;background:#e0f8f4}
+.report-page .ns-attention-section .section-icon{color:#d99432;background:#fff3e1}
+.report-page .ns-next-section .section-icon{color:#2f76cf;background:#e7f3ff}
+.report-page .section-copy h2{color:#1d345b;font-size:1.05rem}
+.report-page .section-copy p{color:#94a3b9}
+.report-page .overall-grid{grid-template-columns:195px minmax(0,1fr);gap:25px}
+.report-page .risk-ring{width:162px;height:162px;box-shadow:0 0 0 10px #f2f6fc,0 8px 26px rgba(29,67,117,.09)}
+.report-page .risk-ring::before{background:white}
+.report-page .result-badge-box{border-radius:11px}
+.report-page .risk-scale{margin-top:18px;padding-top:16px}
+.report-page .module-row{border-top-color:#edf2f8;transition:background .2s}
+.report-page .module-row:hover{background:#f8fbff}
+.report-page .module-icon{background:#e9f2ff;color:#3778d7}
+.report-page .module-row:nth-of-type(3) .module-icon{background:#dff9f3;color:#10ada1}
+.report-page .module-row:nth-of-type(4) .module-icon{background:#fff1e2;color:#d9933a}
+.report-page .module-track{height:9px;background:#edf2f9}
+.report-page .module-fill{background:#3879df}
+.report-page .module-row:nth-of-type(3) .module-fill{background:#17b7a7}
+.report-page .module-row:nth-of-type(4) .module-fill{background:#e3ad55}
+.report-page .attention-card{border-radius:12px;transition:transform .2s ease,box-shadow .2s ease}
+.report-page .attention-card:hover{transform:translateY(-2px);box-shadow:0 8px 18px rgba(38,77,134,.06)}
+.report-page .attention-card.noticeable .attention-card-icon{background:#fff0db;color:#d09230}
+.report-page .attention-card.watch .attention-card-icon{background:#e8f1ff;color:#3874cf}
+.report-page .attention-card.low .attention-card-icon{background:#e2f7ef;color:#0da281}
+.report-page .attention-summary,.report-page .questionnaire-context,
+.report-page .interpretation-box{background:#f6f9fe;border:1px solid #e8eef8}
+.report-page .next-step-list li{background:#f8fbff;border-color:#e7effa}
+.report-page .recommendation-cta{background:linear-gradient(110deg,#eef6ff,#e9faf7);border:1px solid #e3edf6}
+.report-page .recommendation-cta .report-btn,
+.report-page .report-actions .btn-primary-report{background:#2667d3!important;border-color:#2667d3!important;color:#fff!important;
+ box-shadow:0 7px 16px rgba(38,103,211,.15)}
+.report-page .recommendation-cta .report-btn:hover,
+.report-page .report-actions .btn-primary-report:hover{background:#1954b7!important;border-color:#1954b7!important}
+.report-page .report-note{background:#eef6ff;border-color:#dfeafa}
+.report-page .report-actions-wrap{padding:18px}
+.report-page .report-btn:focus-visible,.report-page .toolbar-btn:focus-visible{outline:3px solid #85b6ff;outline-offset:3px}
+/* One lightweight decorative document graphic, visually separate from health results */
+.report-page .ns-report-art{position:absolute;right:35%;top:15px;opacity:.21;pointer-events:none;z-index:0;width:150px;height:175px;transform:rotate(-9deg)}
+.report-page .ns-report-art svg{width:100%;height:100%}
+.report-page.lang-ur .ns-report-art{right:auto;left:34%}
+@keyframes ns-report-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+@media(max-width:1100px){.report-page .ns-report-art{display:none}.report-page .report-hero{grid-template-columns:1fr}}
+@media(max-width:700px){.report-page .report-hero,.report-page .report-section{padding:21px 18px}.report-page .overall-grid{grid-template-columns:1fr}.report-page .attention-grid{grid-template-columns:1fr}.report-page .recommendation-cta{flex-direction:column;align-items:stretch}.report-page .recommendation-cta .report-btn{width:100%;min-width:0}.report-page .report-meta{width:100%}}
+@media(max-width:480px){.report-page .hero-icon{width:53px;height:53px;font-size:1.4rem}.report-page .hero-copy h1{font-size:1.55rem}.report-page .meta-row{grid-template-columns:28px 75px minmax(0,1fr)}}
+@media(prefers-reduced-motion:reduce){.report-page *,.report-page *::before,.report-page *::after{animation:none!important;transition:none!important}.report-page .ns-reveal{opacity:1!important;transform:none!important}}
+@media print{
+ .report-page{padding:0!important;max-width:none!important}
+ .report-page .ns-report-art{display:none!important}
+ .report-page .report-hero{background:#fff!important;color:#172c54!important;border:1px solid #dce5f0!important;box-shadow:none!important}
+ .report-page .hero-copy h1{color:#172c54!important}.report-page .hero-copy p,.report-page .hero-copy .eyebrow{color:#405575!important}
+ .report-page .report-meta{background:#fff!important;border:1px solid #dee7f2!important;box-shadow:none!important}
+ .report-page .report-section,.report-page .report-actions-wrap{box-shadow:none!important;border:1px solid #e3e9f3!important;transform:none!important}
+ .report-page .ns-reveal{opacity:1!important;transform:none!important}
+}
+
+
+/* ===== Refined result presentation — NeuroSense dashboard design language ===== */
+.report-page .ns-overall-section,
+.report-page .ns-modules-section {padding:28px 30px 30px;border-radius:20px;}
+.report-page .ns-overall-section .section-heading,
+.report-page .ns-modules-section .section-heading {margin-bottom:24px;}
+.report-page .ns-overall-section .overall-grid{grid-template-columns:minmax(190px, .55fr) minmax(0,2fr);gap:24px;align-items:stretch;}
+.report-page .ns-overall-section .risk-ring-wrap{
+ background:linear-gradient(145deg,#f4f8ff,#edf5ff);
+ border:1px solid #e4edf9;border-radius:18px;min-height:248px;padding:24px;
+}
+.report-page .ns-overall-section .risk-ring{width:188px;height:188px;box-shadow:0 0 0 10px rgba(255,255,255,.78),0 12px 28px rgba(38,87,164,.09);}
+.report-page .ns-overall-section .risk-ring::before{inset:16px;}
+.report-page .ns-overall-section .risk-percent{font-size:2.4rem;letter-spacing:-.055em;}
+.report-page .ns-overall-section .risk-percent-label{font-size:.7rem;letter-spacing:.075em;}
+.report-page .ns-overall-section .result-copy{display:flex;flex-direction:column;justify-content:center;}
+.report-page .ns-overall-section .result-badge-box{padding:18px 20px;margin-bottom:15px;border-radius:14px;}
+.report-page .ns-overall-section .result-badge-title{font-size:1.16rem;}
+.report-page .ns-overall-section .result-description{font-size:.9rem;line-height:1.7;max-width:800px;}
+.report-page .ns-overall-section .risk-scale{margin-top:18px;padding:15px 10px 0;gap:0;}
+.report-page .ns-overall-section .scale-item{padding:5px 14px;align-items:center;}
+.report-page .ns-overall-section .scale-dot{margin-top:0;}
+.report-page .ns-overall-section .scale-text strong{font-size:.83rem;}
+.report-page .ns-overall-section .scale-text span{font-size:.73rem;}
+/* Replace the dense table look with elegant, structured result cards */
+.report-page .ns-modules-section .module-head{padding:0 20px 12px;color:#8798b0;font-size:.72rem;}
+.report-page .ns-modules-section .module-row{
+ margin:0 0 12px;padding:20px 20px;border:1px solid #e6edf7!important;
+ border-radius:15px;background:#fafcff;gap:22px;
+ box-shadow:0 2px 8px rgba(32,70,123,.025);
+ transition:background .2s ease,border-color .2s ease,box-shadow .2s ease,transform .2s ease;
+}
+.report-page .ns-modules-section .module-row:hover{background:#f6faff;border-color:#d3e2f7!important;box-shadow:0 9px 20px rgba(37,83,151,.07);transform:translateY(-2px);}
+.report-page .ns-modules-section .module-row:last-child{margin-bottom:0;}
+.report-page .ns-modules-section .module-name{font-size:.91rem;gap:14px;}
+.report-page .ns-modules-section .module-icon{width:46px;height:46px;font-size:1.03rem;border-radius:13px;flex-shrink:0;}
+.report-page .ns-modules-section .module-score{grid-template-columns:60px minmax(0,1fr);gap:13px;}
+.report-page .ns-modules-section .module-percent{font-size:1.08rem;font-weight:800;letter-spacing:-.03em;}
+.report-page .ns-modules-section .module-track{height:11px;background:#e7edf6;}
+.report-page .ns-modules-section .module-fill{transition:width .7s ease;}
+.report-page .ns-modules-section .module-prediction{min-width:85px;padding:8px 11px;border-radius:9px;font-size:.7rem;}
+.report-page .ns-modules-section .module-weight{font-size:.88rem;color:#60779a;font-weight:760;}
+/* Consistent icon/bar accents, with risk classifications preserved */
+.report-page .ns-modules-section .module-row:nth-of-type(2) .module-icon{background:#e8f0ff;color:#3178db;}
+.report-page .ns-modules-section .module-row:nth-of-type(3) .module-icon{background:#ddf7f3;color:#0fa99d;}
+.report-page .ns-modules-section .module-row:nth-of-type(4) .module-icon{background:#fff1df;color:#d99835;}
+.report-page .ns-modules-section .module-row:nth-of-type(2) .module-fill{background:#4383e6;}
+.report-page .ns-modules-section .module-row:nth-of-type(3) .module-fill{background:#1ab3a5;}
+.report-page .ns-modules-section .module-row:nth-of-type(4) .module-fill{background:#e2ae50;}
+@media(max-width:1000px){
+ .report-page .ns-overall-section .overall-grid{grid-template-columns:180px minmax(0,1fr);gap:16px;}
+ .report-page .ns-overall-section .risk-ring-wrap{min-height:210px;padding:14px;}
+ .report-page .ns-overall-section .risk-ring{width:151px;height:151px;}
+ .report-page .ns-modules-section .module-row,.report-page .ns-modules-section .module-head{grid-template-columns:minmax(145px,1.2fr) minmax(135px,1.6fr) 86px 65px;gap:12px;}
+}
+@media(max-width:700px){
+ .report-page .ns-overall-section,.report-page .ns-modules-section{padding:21px 17px;}
+ .report-page .ns-overall-section .overall-grid{grid-template-columns:1fr;gap:20px;}
+ .report-page .ns-overall-section .risk-ring-wrap{min-height:198px;}
+ .report-page .ns-modules-section .module-head{display:none;}
+ .report-page .ns-modules-section .module-row{grid-template-columns:1fr!important;gap:13px;margin-bottom:11px;padding:17px;}
+ .report-page .ns-modules-section .module-score{grid-template-columns:60px 1fr;}
+ .report-page .ns-modules-section .module-weight{display:block;}
+}
+@media(max-width:460px){
+ .report-page .ns-overall-section .risk-scale{padding-inline:0;}
+ .report-page .ns-overall-section .scale-item{padding:5px 7px;}
+ .report-page .ns-overall-section .scale-text strong{font-size:.72rem;}
+ .report-page .ns-overall-section .scale-text span{font-size:.64rem;}
+}
+@media(prefers-reduced-motion:reduce){.report-page .ns-modules-section .module-row{transition:none!important;}}
+@media print{
+ .report-page .ns-overall-section .risk-ring-wrap{background:#fff!important;border:1px solid #dfe7f0!important;}
+ .report-page .ns-modules-section .module-row{background:#fff!important;box-shadow:none!important;transform:none!important;break-inside:avoid;}
 }
 
 </style>
+
+
 
 {% endblock %}
 
@@ -2611,21 +4220,29 @@ Final Report - NeuroSense AI
 
 
 
-
-
 <div class="report-page {% if lang == 'ur' %}lang-ur{% endif %}" lang="{% if lang == 'ur' %}ur{% else %}en{% endif %}" dir="{% if lang == 'ur' %}rtl{% else %}ltr{% endif %}">
 
 
 
     <!-- Toolbar -->
 
+
+
     <div class="report-toolbar">
+
+
 
         <a href="{% url 'dashboard:dashboard' %}" class="toolbar-btn">
 
+
+
             <i class="fa-solid fa-arrow-left"></i>
 
+
+
             {% if lang == 'ur' %}ڈیش بورڈ پر واپس جائیں{% else %}Back to Dashboard{% endif %}
+
+
 
         </a>
 
@@ -2633,11 +4250,19 @@ Final Report - NeuroSense AI
 
         <button type="button" class="toolbar-btn" onclick="window.print()">
 
+
+
             <i class="fa-solid fa-download"></i>
+
+
 
             {% if lang == 'ur' %}پی ڈی ایف ڈاؤن لوڈ کریں{% else %}Download PDF{% endif %}
 
+
+
         </button>
+
+
 
     </div>
 
@@ -2645,13 +4270,22 @@ Final Report - NeuroSense AI
 
     <!-- Report Hero -->
 
+
+
     <section class="report-hero">
 
+    <div class="ns-report-art" aria-hidden="true"><svg viewBox="0 0 140 168" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="17" y="9" width="100" height="140" rx="16" fill="white" stroke="white" stroke-width="5"/><path d="M87 10v31h31" fill="#CDEFFF"/><rect x="35" y="61" width="56" height="6" rx="3" fill="#62E1E5"/><rect x="35" y="80" width="66" height="6" rx="3" fill="#B9E4FF"/><rect x="35" y="99" width="57" height="6" rx="3" fill="#B9E4FF"/><path d="M39 126l11-12 10 6 12-18 10 5" stroke="#51DCCB" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         <div class="hero-title-wrap">
+
+
 
             <div class="hero-icon">
 
+
+
                 <i class="fa-regular fa-file-lines"></i>
+
+
 
             </div>
 
@@ -2659,9 +4293,15 @@ Final Report - NeuroSense AI
 
             <div class="hero-copy">
 
+
+
                 <div class="eyebrow">
 
+
+
                     {% if lang == 'ur' %}اسکریننگ رپورٹ{% else %}Screening Report{% endif %}
+
+
 
                 </div>
 
@@ -2669,7 +4309,11 @@ Final Report - NeuroSense AI
 
                 <h1>
 
+
+
                     {% if lang == 'ur' %}حتمی رپورٹ{% else %}Final Report{% endif %}
+
+
 
                 </h1>
 
@@ -2677,19 +4321,35 @@ Final Report - NeuroSense AI
 
                 <p>
 
+
+
                     {% if lang == 'ur' %}
+
+
 
                     آپ کے نیوروسینس اسکریننگ نتائج کا خلاصہ۔
 
+
+
                     {% else %}
+
+
 
                     Summary of your NeuroSense screening results.
 
+
+
                     {% endif %}
+
+
 
                 </p>
 
+
+
             </div>
+
+
 
         </div>
 
@@ -2697,41 +4357,75 @@ Final Report - NeuroSense AI
 
         <div class="report-meta">
 
+
+
             <div class="meta-row">
+
+
 
                 <span class="meta-icon"><i class="fa-regular fa-file-lines"></i></span>
 
+
+
                 <span class="meta-label">
+
+
 
                     {% if lang == 'ur' %}اسکریننگ آئی ڈی{% else %}Screening ID{% endif %}
 
+
+
                 </span>
 
+
+
                 <span class="meta-value">
+
+
 
                     {{ fusion.screening_id|default:"N/A"|truncatechars:18 }}
 
+
+
                 </span>
+
+
 
             </div>
 
 
 
             <div class="meta-row">
+
+
 
                 <span class="meta-icon"><i class="fa-regular fa-calendar"></i></span>
 
+
+
                 <span class="meta-label">
+
+
 
                     {% if lang == 'ur' %}تاریخ{% else %}Date{% endif %}
 
+
+
                 </span>
+
+
 
                 <span class="meta-value">
 
+
+
                 {{ report_created_at|localtime|date:"d M Y, h:i A"|default:"—" }}
 
+
+
             </span>
+
+
 
             </div>
 
@@ -2739,23 +4433,43 @@ Final Report - NeuroSense AI
 
             <div class="meta-row">
 
+
+
                 <span class="meta-icon"><i class="fa-regular fa-circle-check"></i></span>
+
+
 
                 <span class="meta-label">
 
+
+
                     {% if lang == 'ur' %}حالت{% else %}Status{% endif %}
 
+
+
                 </span>
+
+
 
                 <span class="meta-value status-complete">
 
+
+
                     {% if lang == 'ur' %}مکمل{% else %}Completed{% endif %}
+
+
 
                 </span>
 
+
+
             </div>
 
+
+
         </div>
+
+
 
     </section>
 
@@ -2767,7 +4481,11 @@ Final Report - NeuroSense AI
 
     <div class="report-error">
 
+
+
         <i class="fa-solid fa-circle-exclamation"></i>
+
+
 
         <h2>{{ error }}</h2>
 
@@ -2775,15 +4493,27 @@ Final Report - NeuroSense AI
 
         <p>
 
+
+
             {% if lang == 'ur' %}
+
+
 
             رپورٹ دیکھنے سے پہلے تمام اسکریننگ ماڈیول مکمل کریں۔
 
+
+
             {% else %}
+
+
 
             Please complete all screening modules before viewing the report.
 
+
+
             {% endif %}
+
+
 
         </p>
 
@@ -2791,11 +4521,19 @@ Final Report - NeuroSense AI
 
         <a href="{% url 'dashboard:dashboard' %}" class="toolbar-btn">
 
+
+
             <i class="fa-solid fa-arrow-left"></i>
+
+
 
             {% if lang == 'ur' %}ڈیش بورڈ{% else %}Back to Dashboard{% endif %}
 
+
+
         </a>
+
+
 
     </div>
 
@@ -2807,15 +4545,23 @@ Final Report - NeuroSense AI
 
     <!-- Overall Result -->
 
-    <section class="report-section">
+
+
+    <section class="report-section ns-overall-section">
 
 
 
         <div class="section-heading">
 
+
+
             <span class="section-icon">
 
+
+
                 <i class="fa-solid fa-chart-simple"></i>
+
+
 
             </span>
 
@@ -2823,27 +4569,51 @@ Final Report - NeuroSense AI
 
             <div class="section-copy">
 
+
+
                 <h2>
+
+
 
                     {% if lang == 'ur' %}مجموعی نتیجہ{% else %}Overall Result{% endif %}
 
+
+
                 </h2>
+
+
 
                 <p>
 
+
+
                     {% if lang == 'ur' %}
+
+
 
                     تمام ماڈیولز سے آپ کا مشترکہ اسکریننگ نتیجہ
 
+
+
                     {% else %}
+
+
 
                     Your combined screening result from all modules.
 
+
+
                     {% endif %}
+
+
 
                 </p>
 
+
+
             </div>
+
+
 
         </div>
 
@@ -2855,31 +4625,59 @@ Final Report - NeuroSense AI
 
             <div class="risk-ring-wrap">
 
+
+
                 <div
+
+
 
                     class="risk-ring {% if fusion.risk_level == 'Low' %}low{% elif fusion.risk_level == 'Medium' %}medium{% else %}high{% endif %}"
 
+
+
                     style="--risk-pct:{% widthratio fusion.final_pd_probability 1 100 %};"
+
+
 
                 >
 
+
+
                     <div class="risk-ring-content">
+
+
 
                         <div class="risk-percent">
 
+
+
                             {% widthratio fusion.final_pd_probability 1 100 %}%
 
+
+
                         </div>
+
+
 
                         <div class="risk-percent-label">
 
+
+
                             {% if lang == 'ur' %}پی ڈی رسک{% else %}PD Risk{% endif %}
+
+
 
                         </div>
 
+
+
                     </div>
 
+
+
                 </div>
+
+
 
             </div>
 
@@ -2891,21 +4689,39 @@ Final Report - NeuroSense AI
 
                 <div class="result-badge-box {% if fusion.risk_level == 'Low' %}low{% elif fusion.risk_level == 'Medium' %}medium{% else %}high{% endif %}">
 
+
+
                     <span class="result-badge-icon">
+
+
 
                         {% if fusion.risk_level == 'Low' %}
 
+
+
                         <i class="fa-solid fa-check"></i>
+
+
 
                         {% elif fusion.risk_level == 'Medium' %}
 
+
+
                         <i class="fa-solid fa-exclamation"></i>
+
+
 
                         {% else %}
 
+
+
                         <i class="fa-solid fa-exclamation"></i>
 
+
+
                         {% endif %}
+
+
 
                     </span>
 
@@ -2913,21 +4729,39 @@ Final Report - NeuroSense AI
 
                     <div>
 
+
+
                         <div class="result-badge-title">
+
+
 
                             {% if lang == 'ur' %}
 
+
+
                                 {% if fusion.risk_level == 'Low' %}کم خطرہ
+
+
 
                                 {% elif fusion.risk_level == 'Medium' %}درمیانہ خطرہ
 
+
+
                                 {% else %}زیادہ خطرہ{% endif %}
+
+
 
                             {% else %}
 
+
+
                                 {{ fusion.risk_level }} Risk
 
+
+
                             {% endif %}
+
+
 
                         </div>
 
@@ -2935,19 +4769,35 @@ Final Report - NeuroSense AI
 
                         <p class="result-badge-subtitle">
 
+
+
                             {% if lang == 'ur' %}
+
+
 
                             پارکنسنین اشاروں کے لیے اسکریننگ نتیجہ
 
+
+
                             {% else %}
+
+
 
                             Screening result for Parkinsonian indicators
 
+
+
                             {% endif %}
+
+
 
                         </p>
 
+
+
                     </div>
+
+
 
                 </div>
 
@@ -2955,19 +4805,35 @@ Final Report - NeuroSense AI
 
                 <p class="result-description">
 
+
+
                     {% if lang == 'ur' %}
+
+
 
                     یہ مجموعی اسکور چال، آواز اور سوالنامہ کے نتائج کو ملا کر بنایا گیا ہے۔
 
+
+
                     نیچے دیے گئے انفرادی ماڈیول نتائج پھر بھی اہم ہو سکتے ہیں، چاہے مجموعی اسکور کم ہو۔
+
+
 
                     {% else %}
 
+
+
                     This combined score summarizes gait, speech and questionnaire results.
+
+
 
                     Individual gait or speech findings below may still need attention even when the overall score is low.
 
+
+
                     {% endif %}
+
+
 
                 </p>
 
@@ -2979,31 +4845,55 @@ Final Report - NeuroSense AI
 
                     <div class="scale-item">
 
+
+
                         <span class="scale-dot low"></span>
 
+
+
                         <div class="scale-text">
+
+
 
                             <strong>0–29%</strong>
 
+
+
                             <span>{% if lang == 'ur' %}کم خطرہ{% else %}Low Risk{% endif %}</span>
 
+
+
                         </div>
+
+
 
                     </div>
 
 
 
                     <div class="scale-item">
+
+
 
                         <span class="scale-dot medium"></span>
 
+
+
                         <div class="scale-text">
+
+
 
                             <strong>30–59%</strong>
 
+
+
                             <span>{% if lang == 'ur' %}درمیانہ خطرہ{% else %}Moderate Risk{% endif %}</span>
 
+
+
                         </div>
+
+
 
                     </div>
 
@@ -3011,15 +4901,27 @@ Final Report - NeuroSense AI
 
                     <div class="scale-item">
 
+
+
                         <span class="scale-dot high"></span>
+
+
 
                         <div class="scale-text">
 
+
+
                             <strong>60–100%</strong>
+
+
 
                             <span>{% if lang == 'ur' %}زیادہ خطرہ{% else %}High Risk{% endif %}</span>
 
+
+
                         </div>
+
+
 
                     </div>
 
@@ -3031,7 +4933,11 @@ Final Report - NeuroSense AI
 
             </div>
 
+
+
         </div>
+
+
 
     </section>
 
@@ -3039,15 +4945,23 @@ Final Report - NeuroSense AI
 
     <!-- Module Results -->
 
-    <section class="report-section">
+
+
+    <section class="report-section ns-modules-section">
 
 
 
         <div class="section-heading">
 
+
+
             <span class="section-icon">
 
+
+
                 <i class="fa-solid fa-layer-group"></i>
+
+
 
             </span>
 
@@ -3055,27 +4969,51 @@ Final Report - NeuroSense AI
 
             <div class="section-copy">
 
+
+
                 <h2>
+
+
 
                     {% if lang == 'ur' %}ماڈیول کے نتائج{% else %}Module Results{% endif %}
 
+
+
                 </h2>
+
+
 
                 <p>
 
+
+
                     {% if lang == 'ur' %}
+
+
 
                     انفرادی اسکریننگ ماڈیولز کے نتائج
 
+
+
                     {% else %}
+
+
 
                     Results from individual screening components.
 
+
+
                     {% endif %}
+
+
 
                 </p>
 
+
+
             </div>
+
+
 
         </div>
 
@@ -3083,13 +5021,23 @@ Final Report - NeuroSense AI
 
         <div class="module-head">
 
+
+
             <span>{% if lang == 'ur' %}ماڈیول{% else %}Module{% endif %}</span>
+
+
 
             <span>{% if lang == 'ur' %}نتیجہ{% else %}Result{% endif %}</span>
 
+
+
             <span>{% if lang == 'ur' %}پیشگوئی{% else %}Prediction{% endif %}</span>
 
+
+
             <span>{% if lang == 'ur' %}وزن{% else %}Weight{% endif %}</span>
+
+
 
         </div>
 
@@ -3097,19 +5045,31 @@ Final Report - NeuroSense AI
 
         <!-- Gait -->
 
+
+
         <div class="module-row">
 
 
 
             <div class="module-name">
 
+
+
                 <span class="module-icon">
+
+
 
                     <i class="fa-solid fa-person-walking"></i>
 
+
+
                 </span>
 
+
+
                 {% if lang == 'ur' %}چال کا تجزیہ{% else %}Gait Analysis{% endif %}
+
+
 
             </div>
 
@@ -3117,9 +5077,15 @@ Final Report - NeuroSense AI
 
             <div class="module-score">
 
+
+
                 <span class="module-percent">
 
+
+
                     {% widthratio fusion.modules.gait.pd_probability 1 100 %}%
+
+
 
                 </span>
 
@@ -3127,15 +5093,27 @@ Final Report - NeuroSense AI
 
                 <div class="module-track">
 
+
+
                     <div
+
+
 
                         class="module-fill"
 
+
+
                         style="width:{% widthratio fusion.modules.gait.pd_probability 1 100 %}%;">
+
+
 
                     </div>
 
+
+
                 </div>
+
+
 
             </div>
 
@@ -3143,19 +5121,35 @@ Final Report - NeuroSense AI
 
             <span class="module-prediction {% if fusion.modules.gait.prediction == 'PD' %}pd{% elif fusion.modules.gait.prediction == 'Borderline' %}borderline{% else %}control{% endif %}">
 
+
+
                 {% if lang == 'ur' %}
+
+
 
                     {% if fusion.modules.gait.prediction == 'PD' %}پی ڈی
 
+
+
                     {% elif fusion.modules.gait.prediction == 'Borderline' %}سرحدی
+
+
 
                     {% else %}کنٹرول{% endif %}
 
+
+
                 {% else %}
+
+
 
                     {{ fusion.modules.gait.prediction|default:"N/A" }}
 
+
+
                 {% endif %}
+
+
 
             </span>
 
@@ -3163,7 +5157,11 @@ Final Report - NeuroSense AI
 
             <span class="module-weight">
 
+
+
                 {% widthratio fusion.modules.gait.weight 1 100 %}%
+
+
 
             </span>
 
@@ -3175,19 +5173,31 @@ Final Report - NeuroSense AI
 
         <!-- Speech -->
 
+
+
         <div class="module-row">
 
 
 
             <div class="module-name">
 
+
+
                 <span class="module-icon">
+
+
 
                     <i class="fa-solid fa-microphone"></i>
 
+
+
                 </span>
 
+
+
                 {% if lang == 'ur' %}آواز کا تجزیہ{% else %}Speech Analysis{% endif %}
+
+
 
             </div>
 
@@ -3195,9 +5205,15 @@ Final Report - NeuroSense AI
 
             <div class="module-score">
 
+
+
                 <span class="module-percent">
 
+
+
                     {% widthratio fusion.modules.speech.pd_probability 1 100 %}%
+
+
 
                 </span>
 
@@ -3205,15 +5221,27 @@ Final Report - NeuroSense AI
 
                 <div class="module-track">
 
+
+
                     <div
+
+
 
                         class="module-fill"
 
+
+
                         style="width:{% widthratio fusion.modules.speech.pd_probability 1 100 %}%;">
+
+
 
                     </div>
 
+
+
                 </div>
+
+
 
             </div>
 
@@ -3221,19 +5249,35 @@ Final Report - NeuroSense AI
 
             <span class="module-prediction {% if fusion.modules.speech.prediction == 'PD' %}pd{% elif fusion.modules.speech.prediction == 'Borderline' %}borderline{% else %}control{% endif %}">
 
+
+
                 {% if lang == 'ur' %}
+
+
 
                     {% if fusion.modules.speech.prediction == 'PD' %}پی ڈی
 
+
+
                     {% elif fusion.modules.speech.prediction == 'Borderline' %}سرحدی
+
+
 
                     {% else %}کنٹرول{% endif %}
 
+
+
                 {% else %}
+
+
 
                     {{ fusion.modules.speech.prediction|default:"N/A" }}
 
+
+
                 {% endif %}
+
+
 
             </span>
 
@@ -3241,7 +5285,11 @@ Final Report - NeuroSense AI
 
             <span class="module-weight">
 
+
+
                 {% widthratio fusion.modules.speech.weight 1 100 %}%
+
+
 
             </span>
 
@@ -3253,19 +5301,31 @@ Final Report - NeuroSense AI
 
         <!-- Questionnaire -->
 
+
+
         <div class="module-row">
 
 
 
             <div class="module-name">
 
+
+
                 <span class="module-icon">
+
+
 
                     <i class="fa-solid fa-clipboard-list"></i>
 
+
+
                 </span>
 
+
+
                 {% if lang == 'ur' %}سوالنامہ{% else %}Questionnaire{% endif %}
+
+
 
             </div>
 
@@ -3273,9 +5333,15 @@ Final Report - NeuroSense AI
 
             <div class="module-score">
 
+
+
                 <span class="module-percent">
 
+
+
                     {% widthratio fusion.modules.questionnaire.pd_probability 1 100 %}%
+
+
 
                 </span>
 
@@ -3283,15 +5349,27 @@ Final Report - NeuroSense AI
 
                 <div class="module-track">
 
+
+
                     <div
+
+
 
                         class="module-fill"
 
+
+
                         style="width:{% widthratio fusion.modules.questionnaire.pd_probability 1 100 %}%;">
+
+
 
                     </div>
 
+
+
                 </div>
+
+
 
             </div>
 
@@ -3299,19 +5377,35 @@ Final Report - NeuroSense AI
 
             <span class="module-prediction {% if fusion.modules.questionnaire.prediction == 'PD' %}pd{% elif fusion.modules.questionnaire.prediction == 'Borderline' %}borderline{% else %}control{% endif %}">
 
+
+
                 {% if lang == 'ur' %}
+
+
 
                     {% if fusion.modules.questionnaire.prediction == 'PD' %}پی ڈی
 
+
+
                     {% elif fusion.modules.questionnaire.prediction == 'Borderline' %}سرحدی
+
+
 
                     {% else %}کنٹرول{% endif %}
 
+
+
                 {% else %}
+
+
 
                     {{ fusion.modules.questionnaire.prediction|default:"N/A" }}
 
+
+
                 {% endif %}
+
+
 
             </span>
 
@@ -3319,7 +5413,11 @@ Final Report - NeuroSense AI
 
             <span class="module-weight">
 
+
+
                 {% widthratio fusion.modules.questionnaire.weight 1 100 %}%
+
+
 
             </span>
 
@@ -3335,15 +5433,23 @@ Final Report - NeuroSense AI
 
     <!-- Areas to Pay Attention To -->
 
-    <section class="report-section">
+
+
+    <section class="report-section ns-attention-section">
 
 
 
         <div class="section-heading">
 
+
+
             <span class="section-icon">
 
+
+
                 <i class="fa-solid fa-eye"></i>
+
+
 
             </span>
 
@@ -3351,27 +5457,51 @@ Final Report - NeuroSense AI
 
             <div class="section-copy">
 
+
+
                 <h2>
+
+
 
                     {% if lang == 'ur' %}کن حصوں پر توجہ دیں{% else %}Areas to Pay Attention To{% endif %}
 
+
+
                 </h2>
+
+
 
                 <p>
 
+
+
                     {% if lang == 'ur' %}
+
+
 
                     مجموعی اسکور کے ساتھ انفرادی چال اور آواز کے نتائج بھی اہم ہیں۔
 
+
+
                     {% else %}
+
+
 
                     Individual gait and speech findings are considered alongside your combined score.
 
+
+
                     {% endif %}
+
+
 
                 </p>
 
+
+
             </div>
+
+
 
         </div>
 
@@ -3379,7 +5509,11 @@ Final Report - NeuroSense AI
 
         <div class="attention-summary">
 
+
+
             {{ report_insights.summary }}
+
+
 
         </div>
 
@@ -3387,7 +5521,11 @@ Final Report - NeuroSense AI
 
         <div class="attention-grid">
 
+
+
             {% for item in report_insights.attention_items %}
+
+
 
             <div class="attention-card {{ item.level }}">
 
@@ -3395,19 +5533,35 @@ Final Report - NeuroSense AI
 
                 <span class="attention-card-icon">
 
+
+
                     {% if item.module == 'gait' %}
+
+
 
                     <i class="fa-solid fa-person-walking"></i>
 
+
+
                     {% elif item.module == 'speech' %}
+
+
 
                     <i class="fa-solid fa-microphone"></i>
 
+
+
                     {% else %}
+
+
 
                     <i class="fa-solid fa-circle-check"></i>
 
+
+
                     {% endif %}
+
+
 
                 </span>
 
@@ -3415,17 +5569,31 @@ Final Report - NeuroSense AI
 
                 <div class="attention-card-copy">
 
+
+
                     <div class="attention-card-top">
+
+
 
                         <span class="attention-card-title">
 
+
+
                             {{ item.title }}
+
+
 
                             {% if item.show_score %} — <bdi>{{ item.score }}%</bdi>{% endif %}
 
+
+
                         </span>
 
+
+
                         <span class="attention-status">{{ item.status }}</span>
+
+
 
                     </div>
 
@@ -3433,13 +5601,19 @@ Final Report - NeuroSense AI
 
                     <p>{{ item.message }}</p>
 
+
+
                 </div>
 
 
 
             </div>
 
+
+
             {% endfor %}
+
+
 
         </div>
 
@@ -3447,13 +5621,23 @@ Final Report - NeuroSense AI
 
         <div class="questionnaire-context">
 
+
+
             <strong>
+
+
 
                 {% if lang == 'ur' %}سوالنامہ بطور معاون معلومات:{% else %}Questionnaire as supporting context:{% endif %}
 
+
+
             </strong>
 
+
+
             {{ report_insights.questionnaire_note }}
+
+
 
         </div>
 
@@ -3465,15 +5649,23 @@ Final Report - NeuroSense AI
 
     <!-- What You Can Do Now -->
 
-    <section class="report-section">
+
+
+    <section class="report-section ns-next-section">
 
 
 
         <div class="section-heading">
 
+
+
             <span class="section-icon">
 
+
+
                 <i class="fa-solid fa-list-check"></i>
+
+
 
             </span>
 
@@ -3481,27 +5673,51 @@ Final Report - NeuroSense AI
 
             <div class="section-copy">
 
+
+
                 <h2>
+
+
 
                     {% if lang == 'ur' %}اب آپ کیا کر سکتے ہیں{% else %}What You Can Do Now{% endif %}
 
+
+
                 </h2>
+
+
 
                 <p>
 
+
+
                     {% if lang == 'ur' %}
+
+
 
                     ان حصوں پر اگلی اسکریننگ تک نظر رکھیں جہاں تبدیلیاں دیکھی گئی ہیں۔
 
+
+
                     {% else %}
+
+
 
                     Focus on the areas where your screening showed changes.
 
+
+
                     {% endif %}
+
+
 
                 </p>
 
+
+
             </div>
+
+
 
         </div>
 
@@ -3509,11 +5725,19 @@ Final Report - NeuroSense AI
 
         <ul class="next-step-list">
 
+
+
             {% for step in report_insights.next_steps %}
+
+
 
             <li>{{ step }}</li>
 
+
+
             {% endfor %}
+
+
 
         </ul>
 
@@ -3521,35 +5745,67 @@ Final Report - NeuroSense AI
 
         <div class="recommendation-cta">
 
+
+
             <div class="recommendation-cta-copy">
+
+
 
                 <strong>
 
+
+
                     {% if lang == 'ur' %}
+
+
 
                     مزید تفصیلی ایکشن پلان دیکھنا چاہتے ہیں؟
 
+
+
                     {% else %}
+
+
 
                     Want a more detailed action plan?
 
+
+
                     {% endif %}
+
+
 
                 </strong>
 
+
+
                 <span>
+
+
 
                     {% if lang == 'ur' %}
 
+
+
                     اپنی چال، آواز، سوالنامہ اور مجموعی نتیجے کے مطابق ذاتی سفارشات دیکھیں۔
+
+
 
                     {% else %}
 
+
+
                     See personalized exercises, monitoring tips and daily actions based on this exact screening.
+
+
 
                     {% endif %}
 
+
+
                 </span>
+
+
 
             </div>
 
@@ -3557,17 +5813,31 @@ Final Report - NeuroSense AI
 
             <a
 
+
+
                 href="{% url 'recommendations_app:recommendations' %}?screening_id={{ fusion.screening_id|urlencode }}&lang={{ lang|default:'en' }}"
+
+
 
                 class="report-btn"
 
+
+
             >
+
+
 
                 <i class="fa-regular fa-lightbulb"></i>
 
+
+
                 {% if lang == 'ur' %}میری سفارشات دیکھیں{% else %}View My Recommendations{% endif %}
 
+
+
             </a>
+
+
 
         </div>
 
@@ -3579,7 +5849,11 @@ Final Report - NeuroSense AI
 
     <!-- Important Note -->
 
+
+
     <div class="report-note">
+
+
 
         <i class="fa-solid fa-circle-info"></i>
 
@@ -3587,11 +5861,19 @@ Final Report - NeuroSense AI
 
         <div>
 
+
+
             <strong>
+
+
 
                 {% if lang == 'ur' %}اہم نوٹ{% else %}Important Note{% endif %}
 
+
+
             </strong>
+
+
 
             <br>
 
@@ -3599,15 +5881,27 @@ Final Report - NeuroSense AI
 
             {% if lang == 'ur' %}
 
+
+
             نیوروسینس اے آئی اسکریننگ سپورٹ ٹول ہے، طبی تشخیص نہیں۔ اگر علامات مسلسل بڑھیں یا روزمرہ زندگی کو متاثر کریں تو طبی معائنہ کروانے پر غور کریں۔
+
+
 
             {% else %}
 
+
+
             NeuroSense AI is a screening support tool, not a medical diagnosis. If symptoms persist, worsen, or affect daily activities, consider a clinical evaluation.
+
+
 
             {% endif %}
 
+
+
         </div>
+
+
 
     </div>
 
@@ -3615,7 +5909,11 @@ Final Report - NeuroSense AI
 
     <!-- Actions -->
 
+
+
     <div class="report-actions-wrap">
+
+
 
         <div class="report-actions">
 
@@ -3623,17 +5921,31 @@ Final Report - NeuroSense AI
 
             <button
 
+
+
                 type="button"
+
+
 
                 class="report-btn btn-outline-report"
 
+
+
                 onclick="window.print()"
+
+
 
             >
 
+
+
                 <i class="fa-regular fa-file-lines"></i>
 
+
+
                 {% if lang == 'ur' %}رپورٹ ڈاؤن لوڈ کریں{% else %}Download Report{% endif %}
+
+
 
             </button>
 
@@ -3641,21 +5953,35 @@ Final Report - NeuroSense AI
 
             <a
 
+
+
                 href="{% url 'dashboard:dashboard' %}"
+
+
 
                 class="report-btn btn-outline-report"
 
+
+
             >
+
+
 
                 <i class="fa-solid fa-arrow-left"></i>
 
+
+
                 {% if lang == 'ur' %}ڈیش بورڈ پر واپس جائیں{% else %}Back to Dashboard{% endif %}
+
+
 
             </a>
 
 
 
         </div>
+
+
 
     </div>
 
@@ -3669,6 +5995,34 @@ Final Report - NeuroSense AI
 
 
 
+{% endblock %}
 
+
+
+{% block extra_js %}
+
+<script>
+
+document.addEventListener('DOMContentLoaded', function () {
+
+  var page=document.querySelector('.report-page');
+
+  if(!page || !('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var parts=page.querySelectorAll('.report-hero,.report-section,.report-note,.report-actions-wrap');
+
+  var observer=new IntersectionObserver(function(entries){
+
+    entries.forEach(function(entry){if(entry.isIntersecting){entry.target.classList.add('ns-visible');observer.unobserve(entry.target);}});
+
+  },{threshold:.07,rootMargin:'0px 0px 35px 0px'});
+
+  parts.forEach(function(el){el.classList.add('ns-reveal');observer.observe(el);});
+
+  window.addEventListener('beforeprint',function(){parts.forEach(function(el){el.classList.add('ns-visible');});});
+
+});
+
+</script>
 
 {% endblock %}
