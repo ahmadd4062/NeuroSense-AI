@@ -1,13 +1,83 @@
-  <aside class="ns-side" id="nsSidebar" aria-label="Dashboard navigation">
+{% with lang=request.LANG|default:'en' %}
+{% if lang == 'ur' %}
+<link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+{% endif %}
+<style>
+/* Inherit the original sidebar colours from neurosense_workspace.css. */
+#nsSidebar[dir="rtl"] {
+    font-family: 'Noto Naskh Arabic', Tahoma, Arial, sans-serif;
+    text-align: right;
+}
+#nsSidebar[dir="rtl"] .ns-side-label {
+    letter-spacing: 0;
+    font-size: 13px;
+    line-height: 1.7;
+}
+#nsSidebar[dir="rtl"] .ns-side-links a span {
+    font-size: 14px;
+    line-height: 1.7;
+}
+#nsSidebar[dir="rtl"] .ns-journey span {
+    font-size: 14px;
+    line-height: 1.7;
+}
+#nsSidebar[dir="rtl"] .ns-side-bottom { text-align: center; }
+#nsSidebar[dir="rtl"] .ns-side-bottom strong {
+    font-size: 15px;
+    line-height: 1.7;
+}
+#nsSidebar[dir="rtl"] .ns-side-bottom p,
+#nsSidebar[dir="rtl"] .ns-side-bottom a {
+    font-size: 14px;
+    line-height: 1.7;
+}
+#nsSidebar[dir="rtl"] .ns-side-foot {
+    font-size: 14px;
+    line-height: 1.7;
+    text-align: center;
+}
+#nsSidebar[dir="rtl"] .ns-nav-chevron,
+#nsSidebar[dir="rtl"] .ns-side-bottom .fa-arrow-right {
+    transform: rotate(180deg);
+}
+</style>
+<aside class="ns-side" id="nsSidebar"
+    lang="{{ lang }}" dir="{% if lang == 'ur' %}rtl{% else %}ltr{% endif %}"
+    aria-label="{% if lang == 'ur' %}ڈیش بورڈ کی رہنمائی{% else %}Dashboard navigation{% endif %}">
     <div class="ns-side-label">{% if lang == 'ur' %}مین مینو{% else %}MAIN MENU{% endif %}</div>
-    <nav class="ns-side-links" aria-label="Main navigation">
-      <a class="{% if request.resolver_match.namespace == 'dashboard' and request.resolver_match.url_name == 'dashboard' %}active{% endif %}" href="{% url 'dashboard:dashboard' %}"><i class="fa-solid fa-table-cells-large"></i><span>{% if lang == 'ur' %}ڈیش بورڈ{% else %}Dashboard{% endif %}</span><i class="fa-solid fa-chevron-right ns-nav-chevron"></i></a>
-      <a href="{% url 'questionnaire_app:home' %}"><i class="fa-solid fa-stethoscope"></i><span>{% if lang == 'ur' %}نئی اسکریننگ{% else %}New Screening{% endif %}</span></a>
-      <a href="{% url 'dashboard:dashboard' %}?page=1#screening-history"><i class="fa-regular fa-file-lines"></i><span>{% if lang == 'ur' %}رپورٹس{% else %}My Reports{% endif %}</span></a>
-      <a class="{% if request.resolver_match.namespace == 'accounts' %}active{% endif %}" href="{% url 'accounts:profile' %}"><i class="fa-regular fa-circle-user"></i><span>{% if lang == 'ur' %}میرا پروفائل{% else %}My Profile{% endif %}</span></a>
+    <nav class="ns-side-links" aria-label="{% if lang == 'ur' %}مرکزی روابط{% else %}Main navigation{% endif %}">
+        <a class="{% if request.resolver_match.namespace == 'dashboard' and request.resolver_match.url_name == 'dashboard' %}active{% endif %}" href="{% url 'dashboard:dashboard' %}">
+            <i class="fa-solid fa-table-cells-large"></i>
+            <span>{% if lang == 'ur' %}ڈیش بورڈ{% else %}Dashboard{% endif %}</span>
+            <i class="fa-solid fa-chevron-right ns-nav-chevron"></i>
+        </a>
+        <a href="{% url 'questionnaire_app:home' %}">
+            <i class="fa-solid fa-stethoscope"></i>
+            <span>{% if lang == 'ur' %}نئی اسکریننگ{% else %}New Screening{% endif %}</span>
+        </a>
+        <a href="{% url 'dashboard:dashboard' %}?page=1#screening-history">
+            <i class="fa-regular fa-file-lines"></i>
+            <span>{% if lang == 'ur' %}میری رپورٹس{% else %}My Reports{% endif %}</span>
+        </a>
+        <a class="{% if request.resolver_match.namespace == 'accounts' %}active{% endif %}" href="{% url 'accounts:profile' %}">
+            <i class="fa-regular fa-circle-user"></i>
+            <span>{% if lang == 'ur' %}میرا پروفائل{% else %}My Profile{% endif %}</span>
+        </a>
     </nav>
     <div class="ns-side-label ns-side-label-secondary">{% if lang == 'ur' %}اسکریننگ کا عمل{% else %}SCREENING JOURNEY{% endif %}</div>
-    <div class="ns-journey"><div><i class="fa-solid fa-microphone-lines"></i><span>{% if lang == 'ur' %}آواز کا تجزیہ{% else %}Speech analysis{% endif %}</span></div><div><i class="fa-solid fa-person-walking"></i><span>{% if lang == 'ur' %}چال کا تجزیہ{% else %}Gait analysis{% endif %}</span></div><div><i class="fa-regular fa-clipboard"></i><span>{% if lang == 'ur' %}سوالنامہ{% else %}Questionnaire{% endif %}</span></div></div>
-    <div class="ns-side-bottom"><div class="ns-side-art"><i class="fa-solid fa-heart-pulse"></i><span class="ns-art-orbit"></span></div><strong>{% if lang == 'ur' %}آپ کی صحت، ہماری ترجیح{% else %}Your insights, clearly presented{% endif %}</strong><p>{% if lang == 'ur' %}اپنی اسکریننگ کی پیشرفت دیکھیں۔{% else %}Understand your screening journey with NeuroSense AI.{% endif %}</p><a href="{% url 'questionnaire_app:home' %}">{% if lang == 'ur' %}شروع کریں{% else %}Start Screening{% endif %} <i class="fa-solid fa-arrow-right"></i></a></div>
-    <div class="ns-side-foot">NeuroSense AI <span>·</span> Screening support, not a diagnosis</div>
-  </aside>
+    <div class="ns-journey">
+        <div><i class="fa-solid fa-microphone-lines"></i><span>{% if lang == 'ur' %}آواز کا تجزیہ{% else %}Speech analysis{% endif %}</span></div>
+        <div><i class="fa-solid fa-person-walking"></i><span>{% if lang == 'ur' %}چال کا تجزیہ{% else %}Gait analysis{% endif %}</span></div>
+        <div><i class="fa-regular fa-clipboard"></i><span>{% if lang == 'ur' %}سوالنامہ{% else %}Questionnaire{% endif %}</span></div>
+    </div>
+    <div class="ns-side-bottom">
+        <div class="ns-side-art"><i class="fa-solid fa-heart-pulse"></i><span class="ns-art-orbit"></span></div>
+        <strong>{% if lang == 'ur' %}آپ کے نتائج، واضح انداز میں{% else %}Your insights, clearly presented{% endif %}</strong>
+        <p>{% if lang == 'ur' %}نیوروسینس اے آئی کے ساتھ اپنی اسکریننگ کے نتائج سمجھیں۔{% else %}Understand your screening journey with NeuroSense AI.{% endif %}</p>
+        <a href="{% url 'questionnaire_app:home' %}">{% if lang == 'ur' %}اسکریننگ شروع کریں{% else %}Start Screening{% endif %} <i class="fa-solid fa-arrow-right"></i></a>
+    </div>
+    <div class="ns-side-foot">
+        {% if lang == 'ur' %}نیوروسینس اے آئی <span>·</span> اسکریننگ میں معاونت، طبی تشخیص نہیں{% else %}NeuroSense AI <span>·</span> Screening support, not a diagnosis{% endif %}
+    </div>
+</aside>
+{% endwith %}

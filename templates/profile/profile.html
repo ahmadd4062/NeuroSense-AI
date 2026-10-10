@@ -1,923 +1,349 @@
 {% extends 'base.html' %}
+
 {% load static %}
 
-{% block title %}
-{% if lang == 'ur' %}
-میرا پروفائل - نیوروسینس اے آئی
-{% else %}
-My Profile - NeuroSense AI
-{% endif %}
-{% endblock %}
+{% block title %}{% if request.LANG == 'ur' %}میرا پروفائل - نیوروسینس{% else %}My Profile - NeuroSense AI{% endif %}{% endblock %}
 
 {% block extra_css %}
+
 <style>
-/* =========================================================
-   NEUROSENSE AI — PROFILE PAGE
-   Clean, concise, project-aligned profile interface
-   ========================================================= */
-
-.profile-page {
-    --ns-primary: #1478f2;
-    --ns-primary-dark: #0f68dc;
-    --ns-navy: #071d55;
-    --ns-text: #243858;
-    --ns-muted: #6b7d98;
-    --ns-blue-50: #f5f9ff;
-    --ns-blue-100: #eaf4ff;
-    --ns-border: #dce8f5;
-    --ns-white: #ffffff;
-    --ns-green: #16a765;
-    --ns-green-bg: #ecfbf3;
-    --ns-orange: #d98200;
-    --ns-orange-bg: #fff7e4;
-    --ns-red: #dc3f45;
-    --ns-red-bg: #fff1f2;
-    --ns-radius: 18px;
-    --ns-radius-sm: 11px;
-    --ns-shadow: 0 2px 12px rgba(35, 80, 130, 0.04);
-
-    max-width: 1180px;
-    margin: 0 auto;
-    padding: 38px 24px 70px;
-    color: var(--ns-text);
-}
 
-/* =========================================================
-   PROFILE HERO
-   ========================================================= */
-
-.profile-page .profile-hero {
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 24px;
-    margin-bottom: 24px;
-    padding: 28px 30px;
-    background: linear-gradient(110deg, #ffffff 0%, #ffffff 64%, #f1f7ff 100%);
-    border: 1px solid var(--ns-border);
-    border-radius: var(--ns-radius);
-    box-shadow: var(--ns-shadow);
-}
+/* NEUROSENSE / PROFILE ONLY. Deliberately does not style the shared workspace sidebar/navbar. */
 
-.profile-page .profile-hero::after {
-    content: '';
-    position: absolute;
-    right: -80px;
-    bottom: -105px;
-    width: 360px;
-    height: 180px;
-    border-radius: 50%;
-    background: rgba(20, 120, 242, 0.045);
-    transform: rotate(-8deg);
-    pointer-events: none;
-}
+#ns-profile-isolated-2026{--p-blue:#2667d3;--p-dark:#173562;--p-teal:#13a79d;--p-warm:#e8a044;--p-border:#dfe9f7;--p-muted:#788cab;display:block!important;width:100%!important;max-width:none!important;min-width:0!important;margin:0!important;padding:3px 0 36px!important;position:relative!important;float:none!important;clear:both!important;font-family:Inter,system-ui,sans-serif;font-size:14px;color:var(--p-dark);line-height:1.5}
 
-.profile-page .profile-identity {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    align-items: center;
-    min-width: 0;
-    gap: 20px;
-}
+#ns-profile-isolated-2026 *,#ns-profile-isolated-2026 *::before,#ns-profile-isolated-2026 *::after{box-sizing:border-box}
 
-.profile-page .profile-avatar {
-    width: 88px;
-    height: 88px;
-    flex: 0 0 88px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--ns-primary);
-    background: linear-gradient(145deg, #edf6ff, #dfeeff);
-    border: 1px solid #cfe2f6;
-    border-radius: 50%;
-    font-size: 2.1rem;
-}
+#ns-profile-isolated-2026 a{text-decoration:none!important}
 
-.profile-page .profile-copy {
-    min-width: 0;
-}
+#ns-profile-isolated-2026 h1,#ns-profile-isolated-2026 h2,#ns-profile-isolated-2026 h3,#ns-profile-isolated-2026 p{margin-top:0}
 
-.profile-page .profile-kicker {
-    width: fit-content;
-    margin-bottom: 7px;
-    padding: 5px 11px;
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-    color: var(--ns-primary);
-    background: var(--ns-blue-100);
-    border-radius: 999px;
-    font-size: 0.72rem;
-    font-weight: 700;
-}
+#ns-profile-isolated-2026 .nspx-head{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:14px!important;margin-bottom:16px!important}
 
-.profile-page .profile-copy h1 {
-    margin: 0;
-    color: var(--ns-navy);
-    font-size: 2rem;
-    font-weight: 800;
-    letter-spacing: -0.035em;
-    line-height: 1.08;
-}
+#ns-profile-isolated-2026 .nspx-head h1{font-size:24px!important;line-height:1.2!important;font-weight:800!important;letter-spacing:-.035em;color:var(--p-dark)!important;margin:0 0 3px!important}
 
-.profile-page .profile-copy p {
-    margin: 7px 0 0;
-    color: var(--ns-muted);
-    font-size: 0.94rem;
-}
+#ns-profile-isolated-2026 .nspx-head p{font-size:12px!important;color:var(--p-muted)!important;margin:0!important}
 
-.profile-page .profile-actions {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    flex-direction: column;
-    min-width: 190px;
-    gap: 10px;
-}
+#ns-profile-isolated-2026 .nspx-tag{display:inline-flex;gap:8px;align-items:center;padding:9px 12px;border-radius:999px;border:1px solid #cce8ef;color:#148d94;background:#edfafb;font-size:11px;font-weight:800;white-space:nowrap}
 
-.profile-page .profile-btn {
-    min-height: 44px;
-    padding: 10px 18px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 9px;
-    position: relative;
-    border-radius: 10px;
-    font-family: inherit;
-    font-size: 0.84rem;
-    font-weight: 700;
-    text-decoration: none !important;
-    cursor: pointer;
-    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
-}
+#ns-profile-isolated-2026 .nspx-hero{position:relative!important;isolation:isolate;overflow:hidden!important;display:grid!important;grid-template-columns:145px minmax(0,1fr) minmax(300px, .85fr)!important;align-items:center!important;gap:24px!important;min-height:220px!important;padding:27px 29px!important;margin-bottom:18px!important;border:1px solid #d1e8ff!important;border-radius:24px!important;background:linear-gradient(115deg,#ddebff 0%,#e9f5ff 48%,#d6efff 100%)!important;box-shadow:0 18px 38px rgba(42,102,178,.12)!important}
 
-/* Protect buttons from global hover overlays */
-.profile-page .profile-btn::before,
-.profile-page .profile-btn::after,
-.profile-page .delete-account-btn::before,
-.profile-page .delete-account-btn::after {
-    display: none !important;
-    content: none !important;
-}
+#ns-profile-isolated-2026 .nspx-hero:before{content:'';position:absolute;right:-100px;top:-180px;width:390px;height:390px;border-radius:50%;border:1px solid #ffffffaa;box-shadow:0 0 0 42px #ffffff35,0 0 0 86px #ffffff28;z-index:-1;pointer-events:none}
 
-.profile-page .profile-btn.primary,
-.profile-page .profile-btn.primary:link,
-.profile-page .profile-btn.primary:visited {
-    color: #ffffff !important;
-    background: var(--ns-primary) !important;
-    background-image: none !important;
-    border: 1px solid var(--ns-primary) !important;
-    box-shadow: 0 4px 12px rgba(20, 120, 242, 0.16);
-}
+#ns-profile-isolated-2026 .nspx-hero:after{content:'';position:absolute;inset:auto 0 0;background:linear-gradient(100deg,#98d6ff49,#59d7dd25,#aed1ff5e);height:35px;z-index:-1}
 
-.profile-page .profile-btn.primary:hover,
-.profile-page .profile-btn.primary:focus,
-.profile-page .profile-btn.primary:active {
-    color: #ffffff !important;
-    background: var(--ns-primary-dark) !important;
-    background-image: none !important;
-    border-color: var(--ns-primary-dark) !important;
-    transform: none !important;
-}
+#ns-profile-isolated-2026 .nspx-orb{position:absolute;z-index:-1;pointer-events:none;width:64px;height:64px;border-radius:50%;background:radial-gradient(circle at 30% 25%,#ffffff,#53b8f4 60%,#2083d1);opacity:.5;filter:blur(.3px);animation:nspx-float 8s ease-in-out infinite}
 
-.profile-page .profile-btn.primary i {
-    color: #ffffff !important;
-}
+#ns-profile-isolated-2026 .nspx-orb.a{top:9px;left:17px;width:39px;height:39px}#ns-profile-isolated-2026 .nspx-orb.b{right:26px;bottom:13px;animation-delay:-2s;width:29px;height:29px}
 
-.profile-page .profile-btn.outline,
-.profile-page .profile-btn.outline:link,
-.profile-page .profile-btn.outline:visited {
-    color: var(--ns-primary) !important;
-    background: #ffffff !important;
-    background-image: none !important;
-    border: 1px solid #bdd8f3 !important;
-    box-shadow: none !important;
-}
+#ns-profile-isolated-2026 .nspx-avatarwrap{width:138px;height:138px;position:relative;flex-shrink:0;align-self:center}
 
-.profile-page .profile-btn.outline:hover,
-.profile-page .profile-btn.outline:focus,
-.profile-page .profile-btn.outline:active {
-    color: var(--ns-primary) !important;
-    background: var(--ns-blue-50) !important;
-    background-image: none !important;
-    border-color: #a9ccee !important;
-    box-shadow: none !important;
-    transform: none !important;
-}
+#ns-profile-isolated-2026 .nspx-avatar{display:block;width:100%;height:100%;object-fit:cover;border-radius:50%;border:5px solid #fff;background:#fff;box-shadow:0 11px 27px #2156b333}
 
-.profile-page .profile-btn.outline i {
-    color: var(--ns-primary) !important;
-}
+#ns-profile-isolated-2026 .nspx-overline{letter-spacing:.13em;color:#658ab5;font-size:10px;font-weight:800}
 
-/* =========================================================
-   MAIN PROFILE GRID
-   ========================================================= */
-
-.profile-page .profile-layout {
-    display: grid;
-    grid-template-columns: minmax(0, 1.12fr) minmax(340px, 0.88fr);
-    gap: 20px;
-    align-items: start;
-}
+#ns-profile-isolated-2026 .nspx-name{font-size:clamp(21px,2.3vw,30px)!important;line-height:1.2!important;font-weight:850!important;margin:8px 0!important;letter-spacing:-.035em;color:#173765!important;overflow-wrap:anywhere}
 
-.profile-page .right-column {
-    display: grid;
-    gap: 20px;
-}
+#ns-profile-isolated-2026 .nspx-welcome{max-width:360px;font-size:12px!important;line-height:1.65!important;color:#627f9f!important;margin:0 0 14px!important}
 
-.profile-page .profile-card {
-    background: var(--ns-white);
-    border: 1px solid var(--ns-border);
-    border-radius: var(--ns-radius);
-    box-shadow: var(--ns-shadow);
-    overflow: hidden;
-}
+#ns-profile-isolated-2026 .nspx-hero-actions{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
 
-.profile-page .card-head {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 20px 22px 16px;
-    border-bottom: 1px solid #edf2f7;
-}
+#ns-profile-isolated-2026 .nspx-btn,#ns-profile-isolated-2026 .nspx-btn:visited{display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:8px!important;white-space:nowrap;min-height:37px!important;width:auto!important;padding:8px 13px!important;background:#fff!important;color:#23549d!important;border:1px solid #cfe0f5!important;border-radius:10px!important;font-size:11px!important;font-weight:800!important;text-decoration:none!important;box-shadow:0 4px 12px rgba(32,78,146,.06)!important;transition:transform .2s ease,box-shadow .2s ease}
 
-.profile-page .card-icon {
-    width: 40px;
-    height: 40px;
-    flex: 0 0 40px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--ns-primary);
-    background: var(--ns-blue-100);
-    border-radius: 11px;
-    font-size: 1rem;
-}
+#ns-profile-isolated-2026 .nspx-btn.primary,#ns-profile-isolated-2026 .nspx-btn.primary:visited{background:#2667d3!important;color:#fff!important;border-color:#2667d3!important}
 
-.profile-page .card-heading h2 {
-    margin: 0;
-    color: var(--ns-navy);
-    font-size: 1rem;
-    font-weight: 800;
-}
+#ns-profile-isolated-2026 .nspx-btn:hover{transform:translateY(-2px);box-shadow:0 10px 20px rgba(32,78,146,.12)!important}
 
-.profile-page .card-heading p {
-    margin: 3px 0 0;
-    color: var(--ns-muted);
-    font-size: 0.78rem;
-}
+#ns-profile-isolated-2026 .nspx-glass{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;min-width:0}
 
-/* =========================================================
-   PERSONAL INFORMATION
-   ========================================================= */
+#ns-profile-isolated-2026 .nspx-chip{display:flex;align-items:center;gap:10px;min-width:0;padding:12px;border-radius:14px;border:1px solid #ffffffdd;background:rgba(255,255,255,.73);backdrop-filter:blur(11px);-webkit-backdrop-filter:blur(11px);box-shadow:0 8px 20px #4c83af0d;transition:transform .2s}
 
-.profile-page .info-list {
-    padding: 4px 22px 16px;
-}
+#ns-profile-isolated-2026 .nspx-chip:hover{transform:translateY(-3px)}
 
-.profile-page .info-row {
-    display: grid;
-    grid-template-columns: 42px minmax(120px, 0.7fr) minmax(0, 1.3fr);
-    align-items: center;
-    gap: 12px;
-    min-height: 68px;
-    border-bottom: 1px solid #edf2f7;
-}
+#ns-profile-isolated-2026 .nspx-chip i{display:grid;place-items:center;flex:0 0 35px;width:35px;height:35px;border-radius:11px;color:#2667d3;background:#e6f0ff}
 
-.profile-page .info-row:last-child {
-    border-bottom: 0;
-}
+#ns-profile-isolated-2026 .nspx-chip:nth-child(2) i{color:#099e91;background:#def8f1}#ns-profile-isolated-2026 .nspx-chip:nth-child(3) i{color:#d19532;background:#fff3e0}#ns-profile-isolated-2026 .nspx-chip:nth-child(4) i{color:#19a16e;background:#e4f8ed}
 
-.profile-page .info-icon {
-    width: 36px;
-    height: 36px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--ns-primary);
-    background: var(--ns-blue-100);
-    border-radius: 10px;
-    font-size: 0.88rem;
-}
+#ns-profile-isolated-2026 .nspx-chip small{display:block;font-size:10px;color:#7993b0}#ns-profile-isolated-2026 .nspx-chip strong{display:block;font-size:12px;color:#16355f;margin-top:2px;overflow-wrap:anywhere}
 
-.profile-page .info-label {
-    color: #6f819d;
-    font-size: 0.84rem;
-    font-weight: 600;
-}
+#ns-profile-isolated-2026 .nspx-panel{display:block!important;position:relative!important;width:100%!important;min-width:0!important;max-width:none!important;height:auto!important;min-height:0!important;padding:18px!important;margin:0!important;border:1px solid var(--p-border)!important;border-radius:20px!important;background:rgba(255,255,255,.96)!important;box-shadow:0 9px 25px rgba(35,78,135,.045)!important;overflow:hidden!important;float:none!important;transform:none!important}
 
-.profile-page .info-value {
-    min-width: 0;
-    color: var(--ns-navy);
-    font-size: 0.88rem;
-    font-weight: 650;
-    overflow-wrap: anywhere;
-}
+#ns-profile-isolated-2026 .nspx-panelhead{display:flex;align-items:center;gap:11px;margin-bottom:15px}
 
-/* =========================================================
-   ACCOUNT INFORMATION
-   ========================================================= */
+#ns-profile-isolated-2026 .nspx-panelhead i{width:39px;height:39px;display:grid;place-items:center;flex:0 0 39px;border-radius:12px;background:#e8f1ff;color:#2667d3}
 
-.profile-page .account-list {
-    padding: 4px 20px 14px;
-}
+#ns-profile-isolated-2026 .nspx-panelhead h2{font-size:14px!important;line-height:1.2!important;font-weight:800!important;margin:0 0 3px!important;color:#1b365f!important}
 
-.profile-page .account-row {
-    display: grid;
-    grid-template-columns: 38px minmax(120px, 0.82fr) minmax(0, 1.18fr);
-    align-items: center;
-    gap: 10px;
-    min-height: 58px;
-    border-bottom: 1px solid #edf2f7;
-}
+#ns-profile-isolated-2026 .nspx-panelhead p{font-size:11px!important;color:#8a9dba!important;margin:0!important}
 
-.profile-page .account-row:last-child {
-    border-bottom: 0;
-}
+#ns-profile-isolated-2026 .nspx-choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 
-.profile-page .account-row i {
-    width: 32px;
-    height: 32px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--ns-primary);
-    background: var(--ns-blue-100);
-    border-radius: 9px;
-    font-size: 0.8rem;
-}
+#ns-profile-isolated-2026 .nspx-choice{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:8px!important;width:100%!important;min-width:0!important;min-height:148px!important;border:1px solid #e2ebf7!important;border-radius:16px!important;background:#f8fbff!important;cursor:pointer!important;color:#244b81!important;padding:11px!important;position:relative;box-shadow:none!important;transition:transform .2s,border-color .2s,background .2s}
 
-.profile-page .account-label {
-    color: #6f819d;
-    font-size: 0.82rem;
-    font-weight: 600;
-}
+#ns-profile-isolated-2026 .nspx-choice:hover{transform:translateY(-3px);border-color:#9ac4ff!important}
 
-.profile-page .account-value {
-    color: var(--ns-navy);
-    font-size: 0.84rem;
-    font-weight: 700;
-}
+#ns-profile-isolated-2026 .nspx-choice.selected{border:2px solid #2667d3!important;background:#edf5ff!important}
 
-.profile-page .status-pill {
-    width: fit-content;
-    padding: 5px 10px;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    border-radius: 999px;
-    font-size: 0.7rem;
-    font-weight: 750;
-}
+#ns-profile-isolated-2026 .nspx-choice img{width:82px;height:82px;border-radius:50%;object-fit:cover;background:#fff}
 
-.profile-page .status-pill::before {
-    content: '';
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: currentColor;
-}
+#ns-profile-isolated-2026 .nspx-choice span{font-size:11px;font-weight:750}
 
-.profile-page .status-pill.active,
-.profile-page .status-pill.granted {
-    color: var(--ns-green);
-    background: var(--ns-green-bg);
-}
+#ns-profile-isolated-2026 .nspx-choice .nspx-check{position:absolute;right:9px;top:9px;color:#2667d3;display:none}#ns-profile-isolated-2026 .nspx-choice.selected .nspx-check{display:block}
 
-.profile-page .status-pill.not-granted {
-    color: var(--ns-orange);
-    background: var(--ns-orange-bg);
-}
+#ns-profile-isolated-2026 .nspx-note{font-size:11px!important;color:#8a9cba!important;margin:11px 0 0!important}
 
-/* =========================================================
-   NEUROSENSE ACCESS LINKS
-   ========================================================= */
+#ns-profile-isolated-2026 .nspx-bottom{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:15px!important;margin-top:16px!important;width:100%!important}
 
-.profile-page .access-list {
-    padding: 4px 14px 14px;
-}
+#ns-profile-isolated-2026 .nspx-fields{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:9px!important}
 
-.profile-page .access-link {
-    min-height: 58px;
-    padding: 8px 10px;
-    display: grid;
-    grid-template-columns: 36px minmax(0, 1fr) 22px;
-    align-items: center;
-    gap: 11px;
-    color: inherit !important;
-    text-decoration: none !important;
-    border-bottom: 1px solid #edf2f7;
-    transition: background-color 0.2s ease;
-}
+#ns-profile-isolated-2026 .nspx-field{display:block!important;min-width:0!important;min-height:0!important;height:auto!important;padding:12px!important;border:1px solid #e7edf6!important;border-radius:12px!important;background:#f8fbff!important}
 
-.profile-page .access-link:last-child {
-    border-bottom: 0;
-}
+#ns-profile-isolated-2026 .nspx-field small{display:block;font-size:10px!important;font-weight:650!important;color:#8395b2!important;line-height:1.4}
 
-.profile-page .access-link:hover {
-    background: var(--ns-blue-50);
-}
+#ns-profile-isolated-2026 .nspx-field strong{display:block;font-size:12px!important;color:#19365f!important;margin-top:5px!important;overflow-wrap:anywhere!important;line-height:1.5!important}
 
-.profile-page .access-link::before,
-.profile-page .access-link::after {
-    display: none !important;
-    content: none !important;
-}
+#ns-profile-isolated-2026 .nspx-preflist{display:flex!important;flex-direction:column!important;gap:9px!important}
 
-.profile-page .access-link .access-icon {
-    width: 34px;
-    height: 34px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--ns-primary);
-    background: var(--ns-blue-100);
-    border-radius: 9px;
-    font-size: 0.82rem;
-}
+#ns-profile-isolated-2026 .nspx-pref{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:12px!important;min-height:49px!important;padding:11px 12px!important;background:#f9fbff!important;border:1px solid #e8eef7!important;border-radius:12px!important}
 
-.profile-page .access-copy {
-    min-width: 0;
-}
+#ns-profile-isolated-2026 .nspx-pref span{display:flex;align-items:center;gap:9px;font-size:12px;font-weight:650;color:#365176}#ns-profile-isolated-2026 .nspx-pref span i{color:#2870d5}
 
-.profile-page .access-title {
-    color: var(--ns-navy);
-    font-size: 0.84rem;
-    font-weight: 700;
-}
+#ns-profile-isolated-2026 .nspx-pref strong{font-size:11px;color:#19365f;overflow-wrap:anywhere;text-align:end}
 
-.profile-page .access-subtitle {
-    margin-top: 2px;
-    color: var(--ns-muted);
-    font-size: 0.72rem;
-}
+#ns-profile-isolated-2026 .nspx-status{display:inline-block;padding:5px 10px;border-radius:999px;background:#e3f8ee;color:#0b9b77!important}
 
-.profile-page .access-arrow {
-    color: #8fa7c2;
-    font-size: 0.72rem;
-    transition: transform 0.2s ease, color 0.2s ease;
-}
+#ns-profile-isolated-2026 .nspx-status.pending{background:#fff3df;color:#ba872b!important}
 
-.profile-page .access-link:hover .access-arrow {
-    color: var(--ns-primary);
-    transform: translateX(2px);
-}
+#ns-profile-isolated-2026 .nspx-links{display:flex;flex-wrap:wrap;gap:9px;margin-top:14px}
 
-/* =========================================================
-   DELETE ACCOUNT
-   ========================================================= */
-
-.profile-page .danger-zone {
-    margin-top: 20px;
-    padding: 18px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 20px;
-    background: #fffafa;
-    border: 1px solid #f2d8db;
-    border-radius: var(--ns-radius);
-}
+#ns-profile-isolated-2026 .nspx-danger{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:14px!important;width:100%!important;padding:14px 17px!important;margin-top:16px!important;border:1px solid #f4d9dd!important;background:#fffafb!important;border-radius:16px!important;min-height:0!important}
 
-.profile-page .danger-copy {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    min-width: 0;
-}
+#ns-profile-isolated-2026 .nspx-danger strong{font-size:12px;color:#b34b57}#ns-profile-isolated-2026 .nspx-danger small{display:block;color:#a17a85;font-size:10px;margin-top:3px}
 
-.profile-page .danger-icon {
-    width: 38px;
-    height: 38px;
-    flex: 0 0 38px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--ns-red);
-    background: var(--ns-red-bg);
-    border-radius: 10px;
-}
+#ns-profile-isolated-2026 .nspx-delete{display:inline-flex!important;align-items:center;gap:8px;padding:9px 13px!important;border:1px solid #ebc6ce!important;border-radius:10px!important;background:#fff!important;color:#b94e5b!important;font-size:11px!important;font-weight:800!important;white-space:nowrap;text-decoration:none!important}
 
-.profile-page .danger-text h3 {
-    margin: 0;
-    color: #7b2630;
-    font-size: 0.9rem;
-    font-weight: 800;
-}
+#ns-profile-isolated-2026 .nspx-btn::before,#ns-profile-isolated-2026 .nspx-btn::after,#ns-profile-isolated-2026 .nspx-delete::before,#ns-profile-isolated-2026 .nspx-delete::after{content:none!important;display:none!important}
 
-.profile-page .danger-text p {
-    margin: 4px 0 0;
-    color: #96636a;
-    font-size: 0.76rem;
-    line-height: 1.5;
-}
+#ns-profile-isolated-2026 .nspx-toast{display:none;padding:10px 13px;margin-top:12px;background:#e8f8f3;border:1px solid #bfe6db;border-radius:10px;color:#087e75;font-size:12px}
 
-.profile-page .delete-account-btn,
-.profile-page .delete-account-btn:link,
-.profile-page .delete-account-btn:visited {
-    min-height: 42px;
-    padding: 9px 15px;
-    flex: 0 0 auto;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    position: relative;
-    color: #b93843 !important;
-    background: #ffffff !important;
-    background-image: none !important;
-    border: 1px solid #efc9cd !important;
-    border-radius: 10px;
-    box-shadow: none !important;
-    font-family: inherit;
-    font-size: 0.8rem;
-    font-weight: 700;
-    text-decoration: none !important;
-    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
-}
+@keyframes nspx-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-11px)}}
 
-.profile-page .delete-account-btn:hover,
-.profile-page .delete-account-btn:focus,
-.profile-page .delete-account-btn:active {
-    color: #a52f39 !important;
-    background: #fff1f2 !important;
-    background-image: none !important;
-    border-color: #e8b4ba !important;
-    box-shadow: none !important;
-    transform: none !important;
-}
+@media(max-width:1180px){#ns-profile-isolated-2026 .nspx-hero{grid-template-columns:120px minmax(0,1fr)!important}#ns-profile-isolated-2026 .nspx-avatarwrap{width:116px;height:116px}#ns-profile-isolated-2026 .nspx-glass{grid-column:1/-1!important;grid-template-columns:repeat(4,minmax(0,1fr))}}
 
-.profile-page .delete-account-btn i {
-    color: inherit !important;
-}
+@media(max-width:770px){#ns-profile-isolated-2026 .nspx-hero{grid-template-columns:1fr!important;justify-items:center!important;text-align:center!important}#ns-profile-isolated-2026 .nspx-hero-actions{justify-content:center}#ns-profile-isolated-2026 .nspx-glass{grid-column:1!important;width:100%!important;grid-template-columns:repeat(2,minmax(0,1fr))}#ns-profile-isolated-2026 .nspx-bottom{grid-template-columns:1fr!important}}
 
-/* =========================================================
-   RTL SUPPORT
-   ========================================================= */
+@media(max-width:520px){#ns-profile-isolated-2026 .nspx-hero{padding:22px 15px!important}#ns-profile-isolated-2026 .nspx-head{align-items:flex-start!important}#ns-profile-isolated-2026 .nspx-tag{display:none}#ns-profile-isolated-2026 .nspx-choices{gap:7px}#ns-profile-isolated-2026 .nspx-choice{min-height:115px!important;padding:7px!important}#ns-profile-isolated-2026 .nspx-choice img{width:55px;height:55px}#ns-profile-isolated-2026 .nspx-fields{grid-template-columns:1fr!important}#ns-profile-isolated-2026 .nspx-danger{flex-direction:column!important;align-items:stretch!important}}
 
-.profile-page[dir="rtl"] .access-arrow {
-    transform: rotate(180deg);
-}
+@media(prefers-reduced-motion:reduce){#ns-profile-isolated-2026 *,#ns-profile-isolated-2026 *::before,#ns-profile-isolated-2026 *::after{animation:none!important;transition:none!important}}
 
-.profile-page[dir="rtl"] .access-link:hover .access-arrow {
-    transform: rotate(180deg) translateX(2px);
+/* Explicit placement protects these grids from shared workspace rules. */
+#ns-profile-isolated-2026 .nspx-hero > .nspx-avatarwrap,
+#ns-profile-isolated-2026 .nspx-hero > .nspx-profile-copy,
+#ns-profile-isolated-2026 .nspx-hero > .nspx-glass,
+#ns-profile-isolated-2026 .nspx-bottom > .nspx-panel,
+#ns-profile-isolated-2026 .nspx-choices > .nspx-choice,
+#ns-profile-isolated-2026 .nspx-fields > .nspx-field {
+ grid-area:auto!important; order:0!important; float:none!important;
+ margin:0!important; inset:auto!important; min-width:0!important;
 }
-
-/* =========================================================
-   RESPONSIVE
-   ========================================================= */
-
-@media (max-width: 900px) {
-    .profile-page .profile-layout {
-        grid-template-columns: 1fr;
-    }
-
-    .profile-page .right-column {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
+#ns-profile-isolated-2026 .nspx-bottom > .nspx-panel {align-self:stretch!important}
+#ns-profile-isolated-2026 .nspx-choices {display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px!important}
+#ns-profile-isolated-2026 .nspx-glass {display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important}
+#ns-profile-isolated-2026 .nspx-avatarwrap {position:relative!important;transform:none!important}
+#ns-profile-isolated-2026 .nspx-profile-copy {width:auto!important;max-width:none!important;text-align:start!important}
+#ns-profile-isolated-2026 .nspx-choice {grid-column:auto!important;grid-row:auto!important}
+#ns-profile-isolated-2026 .nspx-choice:focus-visible,
+#ns-profile-isolated-2026 .nspx-btn:focus-visible {outline:3px solid #82b4ff;outline-offset:3px}
+@media(max-width:1180px){
+ #ns-profile-isolated-2026 .nspx-hero > .nspx-glass {grid-column:1/-1!important;grid-template-columns:repeat(4,minmax(0,1fr))!important}
 }
-
-@media (max-width: 720px) {
-    .profile-page {
-        padding: 24px 16px 50px;
-    }
-
-    .profile-page .profile-hero {
-        align-items: flex-start;
-        padding: 24px 22px;
-        flex-direction: column;
-    }
-
-    .profile-page .profile-actions {
-        width: 100%;
-        min-width: 0;
-        flex-direction: row;
-    }
-
-    .profile-page .profile-btn {
-        flex: 1;
-    }
-
-    .profile-page .right-column {
-        grid-template-columns: 1fr;
-    }
+@media(max-width:770px){
+ #ns-profile-isolated-2026 .nspx-hero > .nspx-glass {grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ #ns-profile-isolated-2026 .nspx-profile-copy {text-align:center!important}
 }
-
-@media (max-width: 560px) {
-    .profile-page {
-        padding: 18px 12px 40px;
-    }
-
-    .profile-page .profile-identity {
-        align-items: flex-start;
-        gap: 14px;
-    }
-
-    .profile-page .profile-avatar {
-        width: 66px;
-        height: 66px;
-        flex-basis: 66px;
-        font-size: 1.55rem;
-    }
-
-    .profile-page .profile-copy h1 {
-        font-size: 1.45rem;
-    }
-
-    .profile-page .profile-actions {
-        flex-direction: column;
-    }
-
-    .profile-page .profile-btn {
-        width: 100%;
-    }
-
-    .profile-page .card-head {
-        padding: 18px 16px 14px;
-    }
-
-    .profile-page .info-list {
-        padding: 4px 16px 12px;
-    }
-
-    .profile-page .info-row {
-        grid-template-columns: 38px 1fr;
-        gap: 10px;
-        padding: 12px 0;
-    }
-
-    .profile-page .info-value {
-        grid-column: 2;
-        color: #3f5473;
-        font-size: 0.83rem;
-    }
-
-    .profile-page .account-list {
-        padding: 4px 16px 12px;
-    }
-
-    .profile-page .account-row {
-        grid-template-columns: 34px 1fr;
-        gap: 9px;
-        padding: 10px 0;
-    }
-
-    .profile-page .account-value {
-        grid-column: 2;
-        color: #3f5473;
-    }
-
-    .profile-page .danger-zone {
-        align-items: stretch;
-        flex-direction: column;
-    }
-
-    .profile-page .delete-account-btn {
-        width: 100%;
-    }
+@media(max-width:520px){
+ #ns-profile-isolated-2026 .nspx-choices {grid-template-columns:1fr!important}
+ #ns-profile-isolated-2026 .nspx-choice {min-height:110px!important}
 }
+
+/* Compact section action; logical margin also supports Urdu. */
+#ns-profile-isolated-2026 .nspx-panelhead .nspx-edit-info{margin-inline-start:auto!important;flex:0 0 auto!important;min-height:32px!important;padding:6px 10px!important}
+#ns-profile-isolated-2026 .nspx-edit-info i{display:inline-block!important;width:auto!important;height:auto!important;flex:none!important;background:transparent!important;border-radius:0!important;font-size:11px!important}
+#ns-profile-isolated-2026 .nspx-panelhead > div{min-width:0}
 </style>
+
 {% endblock %}
 
 {% block content %}
 
 {% with lang=request.LANG|default:'en' %}
 
-<div class="profile-page" dir="{% if lang == 'ur' %}rtl{% else %}ltr{% endif %}">
+<div id="ns-profile-isolated-2026" dir="{% if lang == 'ur' %}rtl{% else %}ltr{% endif %}" data-user-id="{{ user.pk }}" data-default-avatar="{% if profile.gender == 'F' %}female{% else %}male{% endif %}">
 
-    <!-- ===================================================== -->
-    <!-- PROFILE HERO -->
-    <!-- ===================================================== -->
-    <section class="profile-hero">
-        <div class="profile-identity">
-            <div class="profile-avatar" aria-hidden="true">
-                <i class="fa-solid fa-user"></i>
-            </div>
+  <header class="nspx-head">
 
-            <div class="profile-copy">
-                <div class="profile-kicker">
-                    <i class="fa-regular fa-user"></i>
-                    {% if lang == 'ur' %}پروفائل اور اکاؤنٹ{% else %}Profile & Account{% endif %}
-                </div>
+    <div><h1>{% if lang == 'ur' %}میرا پروفائل{% else %}My Profile{% endif %}</h1><p>{% if lang == 'ur' %}اپنی ذاتی معلومات اور اکاؤنٹ کی تفصیلات دیکھیں{% else %}Your personal space in NeuroSense AI{% endif %}</p></div>
 
-                <h1>{{ user.get_full_name|default:user.username }}</h1>
-                <p>
-                    {% if lang == 'ur' %}
-                    اپنی اکاؤنٹ کی معلومات اور رضامندی کی ترجیحات کا انتظام کریں۔
-                    {% else %}
-                    Manage your account information and consent preferences.
-                    {% endif %}
-                </p>
-            </div>
-        </div>
+    <span class="nspx-tag"><i class="fa-solid fa-heart-pulse"></i> NeuroSense AI</span>
 
-        <div class="profile-actions">
-            <a href="{% url 'accounts:edit_profile' %}" class="profile-btn primary">
-                <i class="fa-regular fa-pen-to-square"></i>
-                {% if lang == 'ur' %}پروفائل میں ترمیم کریں{% else %}Edit Profile{% endif %}
-            </a>
+  </header>
 
-            <a href="{% url 'accounts:manage_consent' %}" class="profile-btn outline">
-                <i class="fa-solid fa-shield-halved"></i>
-                {% if lang == 'ur' %}رضامندی کا انتظام کریں{% else %}Manage Consent{% endif %}
-            </a>
-        </div>
-    </section>
+  <section class="nspx-hero">
 
-    <!-- ===================================================== -->
-    <!-- PROFILE CONTENT -->
-    <!-- ===================================================== -->
-    <div class="profile-layout">
+    <span class="nspx-orb a"></span><span class="nspx-orb b"></span>
 
-        <!-- Personal Information -->
-        <section class="profile-card">
-            <div class="card-head">
-                <span class="card-icon"><i class="fa-solid fa-user"></i></span>
-                <div class="card-heading">
-                    <h2>{% if lang == 'ur' %}ذاتی معلومات{% else %}Personal Information{% endif %}</h2>
-                    <p>{% if lang == 'ur' %}آپ کے اکاؤنٹ کی بنیادی معلومات{% else %}Your basic account information{% endif %}</p>
-                </div>
-            </div>
+    <div class="nspx-avatarwrap">
 
-            <div class="info-list">
-                <div class="info-row">
-                    <span class="info-icon"><i class="fa-regular fa-user"></i></span>
-                    <span class="info-label">{% if lang == 'ur' %}پورا نام{% else %}Full Name{% endif %}</span>
-                    <span class="info-value">{{ user.get_full_name|default:user.username }}</span>
-                </div>
+      <img class="nspx-avatar" id="npAvatarMain" src="{% if profile.gender == 'F' %}{% static 'speech_app/images/avatar_female.png' %}{% else %}{% static 'speech_app/images/avatar_male.png' %}{% endif %}" alt="{% if lang == 'ur' %}منتخب کردہ اوتار{% else %}Selected profile avatar{% endif %}">
 
-                <div class="info-row">
-                    <span class="info-icon"><i class="fa-solid fa-at"></i></span>
-                    <span class="info-label">{% if lang == 'ur' %}صارف کا نام{% else %}Username{% endif %}</span>
-                    <span class="info-value">@{{ user.username }}</span>
-                </div>
-
-                <div class="info-row">
-                    <span class="info-icon"><i class="fa-regular fa-envelope"></i></span>
-                    <span class="info-label">{% if lang == 'ur' %}ای میل{% else %}Email Address{% endif %}</span>
-                    <span class="info-value">{{ user.email|default:"—" }}</span>
-                </div>
-
-                <div class="info-row">
-                    <span class="info-icon"><i class="fa-solid fa-phone"></i></span>
-                    <span class="info-label">{% if lang == 'ur' %}فون نمبر{% else %}Phone Number{% endif %}</span>
-                    <span class="info-value">{{ profile.phone_number|default:"—" }}</span>
-                </div>
-
-                <div class="info-row">
-                    <span class="info-icon"><i class="fa-regular fa-calendar"></i></span>
-                    <span class="info-label">{% if lang == 'ur' %}تاریخ پیدائش{% else %}Date of Birth{% endif %}</span>
-                    <span class="info-value">{{ profile.date_of_birth|date:"d M Y"|default:"—" }}</span>
-                </div>
-
-                <div class="info-row">
-                    <span class="info-icon"><i class="fa-solid fa-venus-mars"></i></span>
-                    <span class="info-label">{% if lang == 'ur' %}جنس{% else %}Gender{% endif %}</span>
-                    <span class="info-value">
-                        {% if profile.gender == 'M' %}
-                            {% if lang == 'ur' %}مرد{% else %}Male{% endif %}
-                        {% elif profile.gender == 'F' %}
-                            {% if lang == 'ur' %}خاتون{% else %}Female{% endif %}
-                        {% elif profile.gender == 'O' %}
-                            {% if lang == 'ur' %}دوسری{% else %}Other{% endif %}
-                        {% else %}
-                            {% if lang == 'ur' %}ترجیح نہیں{% else %}Prefer not to say{% endif %}
-                        {% endif %}
-                    </span>
-                </div>
-            </div>
-        </section>
-
-        <!-- Right Column -->
-        <div class="right-column">
-
-            <!-- Account Information -->
-            <section class="profile-card">
-                <div class="card-head">
-                    <span class="card-icon"><i class="fa-solid fa-chart-simple"></i></span>
-                    <div class="card-heading">
-                        <h2>{% if lang == 'ur' %}اکاؤنٹ کی معلومات{% else %}Account Information{% endif %}</h2>
-                        <p>{% if lang == 'ur' %}آپ کے اکاؤنٹ کا مختصر جائزہ{% else %}A simple overview of your account{% endif %}</p>
-                    </div>
-                </div>
-
-                <div class="account-list">
-                    <div class="account-row">
-                        <i class="fa-regular fa-calendar"></i>
-                        <span class="account-label">{% if lang == 'ur' %}ممبر از{% else %}Member Since{% endif %}</span>
-                        <span class="account-value">{{ user.date_joined|date:"M Y" }}</span>
-                    </div>
-
-                    <div class="account-row">
-                        <i class="fa-solid fa-language"></i>
-                        <span class="account-label">{% if lang == 'ur' %}ترجیحی زبان{% else %}Preferred Language{% endif %}</span>
-                        <span class="account-value">
-                            {% if profile.preferred_language == 'ur' %}اردو{% else %}English{% endif %}
-                        </span>
-                    </div>
-
-                    <div class="account-row">
-                        <i class="fa-solid fa-circle-check"></i>
-                        <span class="account-label">{% if lang == 'ur' %}اکاؤنٹ کی حیثیت{% else %}Account Status{% endif %}</span>
-                        <span class="account-value">
-                            <span class="status-pill active">
-                                {% if lang == 'ur' %}فعال{% else %}Active{% endif %}
-                            </span>
-                        </span>
-                    </div>
-
-                    <div class="account-row">
-                        <i class="fa-solid fa-shield-halved"></i>
-                        <span class="account-label">{% if lang == 'ur' %}رضامندی کی حیثیت{% else %}Consent Status{% endif %}</span>
-                        <span class="account-value">
-                            {% if profile.data_consent %}
-                                <span class="status-pill granted">
-                                    {% if lang == 'ur' %}منظور شدہ{% else %}Granted{% endif %}
-                                </span>
-                            {% else %}
-                                <span class="status-pill not-granted">
-                                    {% if lang == 'ur' %}منظور نہیں{% else %}Not Granted{% endif %}
-                                </span>
-                            {% endif %}
-                        </span>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Project Navigation -->
-            <section class="profile-card">
-                <div class="card-head">
-                    <span class="card-icon"><i class="fa-solid fa-brain"></i></span>
-                    <div class="card-heading">
-                        <h2>{% if lang == 'ur' %}نیوروسینس رسائی{% else %}NeuroSense Access{% endif %}</h2>
-                        <p>{% if lang == 'ur' %}متعلقہ اسکریننگ اور ڈیٹا صفحات کھولیں{% else %}Open related screening and data pages{% endif %}</p>
-                    </div>
-                </div>
-
-                <div class="access-list">
-                    <a href="{% url 'dashboard:dashboard' %}" class="access-link">
-                        <span class="access-icon"><i class="fa-regular fa-clock"></i></span>
-                        <span class="access-copy">
-                            <span class="access-title">{% if lang == 'ur' %}اسکریننگ کی تاریخ{% else %}Screening History{% endif %}</span>
-                            <span class="access-subtitle">{% if lang == 'ur' %}پچھلی اسکریننگ دیکھیں{% else %}View previous screenings{% endif %}</span>
-                        </span>
-                        <i class="fa-solid fa-chevron-right access-arrow"></i>
-                    </a>
-
-                    <a href="{% url 'fusion_app:report' %}" class="access-link">
-                        <span class="access-icon"><i class="fa-regular fa-file-lines"></i></span>
-                        <span class="access-copy">
-                            <span class="access-title">{% if lang == 'ur' %}رپورٹس اور نتائج{% else %}Reports & Results{% endif %}</span>
-                            <span class="access-subtitle">{% if lang == 'ur' %}تیار شدہ رپورٹ کھولیں{% else %}Open your generated report{% endif %}</span>
-                        </span>
-                        <i class="fa-solid fa-chevron-right access-arrow"></i>
-                    </a>
-
-                    <a href="{% url 'accounts:manage_consent' %}" class="access-link">
-                        <span class="access-icon"><i class="fa-solid fa-shield-halved"></i></span>
-                        <span class="access-copy">
-                            <span class="access-title">{% if lang == 'ur' %}رضامندی کا انتظام{% else %}Consent Management{% endif %}</span>
-                            <span class="access-subtitle">{% if lang == 'ur' %}ڈیٹا کے استعمال کی اجازتوں کا جائزہ لیں{% else %}Review data usage permissions{% endif %}</span>
-                        </span>
-                        <i class="fa-solid fa-chevron-right access-arrow"></i>
-                    </a>
-                </div>
-            </section>
-        </div>
     </div>
 
-    <!-- ===================================================== -->
-    <!-- DELETE ACCOUNT -->
-    <!-- ===================================================== -->
-    <section class="danger-zone">
-        <div class="danger-copy">
-            <span class="danger-icon"><i class="fa-solid fa-trash-can"></i></span>
-            <div class="danger-text">
-                <h3>{% if lang == 'ur' %}اکاؤنٹ حذف کریں{% else %}Delete Account{% endif %}</h3>
-                <p>
-                    {% if lang == 'ur' %}
-                    آپ کا اکاؤنٹ حذف کرنے سے آپ کی محفوظ شدہ اکاؤنٹ معلومات مستقل طور پر ختم ہو جائیں گی۔
-                    {% else %}
-                    Deleting your account permanently removes your saved account information. This action cannot be undone.
-                    {% endif %}
-                </p>
-            </div>
-        </div>
+    <div class="nspx-profile-copy">
 
-        <a href="{% url 'accounts:delete_account' %}"
-           class="delete-account-btn"
-           onclick="return confirm('{% if lang == 'ur' %}کیا آپ واقعی اپنا اکاؤنٹ حذف کرنا چاہتے ہیں؟ یہ عمل واپس نہیں کیا جا سکتا۔{% else %}Are you sure you want to delete your account? This action cannot be undone.{% endif %}');">
-            <i class="fa-solid fa-trash-can"></i>
-            {% if lang == 'ur' %}اکاؤنٹ حذف کریں{% else %}Delete Account{% endif %}
-        </a>
+      <div class="nspx-overline">NEUROSENSE AI MEMBER</div>
+
+      <h2 class="nspx-name">{{ user.get_full_name|default:user.username }}</h2>
+
+      <p class="nspx-welcome">{% if lang == 'ur' %}اپنی اسکریننگ اور اکاؤنٹ کی معلومات ایک ہی جگہ دیکھیں۔{% else %}A personal space for your screening journey, account information, and preferences.{% endif %}</p>
+
+      <div class="nspx-hero-actions">
+
+        <a class="nspx-btn primary" href="{% url 'accounts:edit_profile' %}"><i class="fa-solid fa-pen"></i>{% if lang == 'ur' %}پروفائل میں ترمیم{% else %}Edit Profile{% endif %}</a>
+
+        <a class="nspx-btn" href="{% url 'accounts:manage_consent' %}"><i class="fa-solid fa-shield-halved"></i>{% if lang == 'ur' %}رضامندی{% else %}Consent{% endif %}</a>
+
+      </div>
+
+    </div>
+
+    <div class="nspx-glass">
+
+      <div class="nspx-chip"><i class="fa-solid fa-calendar-check"></i><div><small>{% if lang == 'ur' %}ممبر از{% else %}Member Since{% endif %}</small><strong>{{ user.date_joined|date:'M Y' }}</strong></div></div>
+
+      <div class="nspx-chip"><i class="fa-solid fa-shield-halved"></i><div><small>{% if lang == 'ur' %}رضامندی{% else %}Data Consent{% endif %}</small><strong>{% if profile.data_consent %}{% if lang == 'ur' %}منظور{% else %}Granted{% endif %}{% else %}{% if lang == 'ur' %}منظور نہیں{% else %}Not Granted{% endif %}{% endif %}</strong></div></div>
+
+      <div class="nspx-chip"><i class="fa-solid fa-language"></i><div><small>{% if lang == 'ur' %}زبان{% else %}Language{% endif %}</small><strong>{% if profile.preferred_language == 'ur' %}اردو{% else %}English{% endif %}</strong></div></div>
+
+      <div class="nspx-chip"><i class="fa-solid fa-circle-check"></i><div><small>{% if lang == 'ur' %}اکاؤنٹ{% else %}Account{% endif %}</small><strong>{% if lang == 'ur' %}فعال{% else %}Active{% endif %}</strong></div></div>
+
+    </div>
+
+  </section>
+
+  <section class="nspx-panel">
+
+    <div class="nspx-panelhead"><i class="fa-solid fa-user-astronaut"></i><div><h2>{% if lang == 'ur' %}اپنا اوتار منتخب کریں{% else %}Choose Your Avatar{% endif %}</h2><p>{% if lang == 'ur' %}اپنا پسندیدہ اوتار منتخب کریں{% else %}Select your preferred avatar{% endif %}</p></div></div>
+
+    <div class="nspx-choices">
+
+      <button class="nspx-choice" type="button" data-avatar="male"><i class="fa-solid fa-circle-check nspx-check"></i><img src="{% static 'speech_app/images/avatar_male.png' %}" alt="Male avatar"><span>{% if lang == 'ur' %}مرد اوتار{% else %}Male Avatar{% endif %}</span></button>
+
+      <button class="nspx-choice" type="button" data-avatar="female"><i class="fa-solid fa-circle-check nspx-check"></i><img src="{% static 'speech_app/images/avatar_female.png' %}" alt="Female avatar"><span>{% if lang == 'ur' %}خاتون اوتار{% else %}Female Avatar{% endif %}</span></button>
+
+    </div>
+
+    <div class="nspx-toast" id="npPhotoMsg" role="status"></div>
+
+    <p class="nspx-note">{% if lang == 'ur' %}آپ کا انتخاب اس براؤزر میں محفوظ رہے گا۔{% else %}Your choice is saved in this browser.{% endif %}</p>
+
+  </section>
+
+  <div class="nspx-bottom">
+
+    <section class="nspx-panel">
+
+      <div class="nspx-panelhead"><i class="fa-solid fa-address-card"></i><div><h2>{% if lang == 'ur' %}ذاتی معلومات{% else %}Personal Information{% endif %}</h2><p>{% if lang == 'ur' %}محفوظ شدہ پروفائل تفصیلات{% else %}Your saved information{% endif %}</p></div><a class="nspx-btn nspx-edit-info" href="{% url 'accounts:edit_profile' %}" aria-label="{% if lang == 'ur' %}ذاتی معلومات میں ترمیم{% else %}Edit personal information{% endif %}"><i class="fa-solid fa-pen" aria-hidden="true"></i>{% if lang == 'ur' %}ترمیم{% else %}Edit{% endif %}</a></div>
+
+      <div class="nspx-fields">
+
+        <div class="nspx-field"><small>{% if lang == 'ur' %}پورا نام{% else %}Full Name{% endif %}</small><strong>{{ user.get_full_name|default:user.username }}</strong></div>
+
+        <div class="nspx-field"><small>{% if lang == 'ur' %}صارف کا نام{% else %}Username{% endif %}</small><strong>@{{ user.username }}</strong></div>
+
+        <div class="nspx-field"><small>{% if lang == 'ur' %}ای میل{% else %}Email{% endif %}</small><strong>{{ user.email|default:'—' }}</strong></div>
+
+        <div class="nspx-field"><small>{% if lang == 'ur' %}فون نمبر{% else %}Phone{% endif %}</small><strong>{{ profile.phone_number|default:'—' }}</strong></div>
+
+        <div class="nspx-field"><small>{% if lang == 'ur' %}تاریخ پیدائش{% else %}Date of Birth{% endif %}</small><strong>{{ profile.date_of_birth|date:'d M Y'|default:'—' }}</strong></div>
+
+        <div class="nspx-field"><small>{% if lang == 'ur' %}جنس{% else %}Gender{% endif %}</small><strong>{% if profile.gender == 'M' %}{% if lang == 'ur' %}مرد{% else %}Male{% endif %}{% elif profile.gender == 'F' %}{% if lang == 'ur' %}خاتون{% else %}Female{% endif %}{% elif profile.gender == 'O' %}{% if lang == 'ur' %}دیگر{% else %}Other{% endif %}{% else %}{% if lang == 'ur' %}نہیں بتایا{% else %}Prefer not to say{% endif %}{% endif %}</strong></div>
+
+      </div>
+
     </section>
 
+    <section class="nspx-panel">
+
+      <div class="nspx-panelhead"><i class="fa-solid fa-gear"></i><div><h2>{% if lang == 'ur' %}اکاؤنٹ اور ترجیحات{% else %}Account & Preferences{% endif %}</h2><p>{% if lang == 'ur' %}اکاؤنٹ کا مختصر خلاصہ{% else %}Your account at a glance{% endif %}</p></div></div>
+
+      <div class="nspx-preflist">
+
+        <div class="nspx-pref"><span><i class="fa-solid fa-calendar"></i>{% if lang == 'ur' %}ممبر از{% else %}Member Since{% endif %}</span><strong>{{ user.date_joined|date:'M Y' }}</strong></div>
+
+        <div class="nspx-pref"><span><i class="fa-solid fa-globe"></i>{% if lang == 'ur' %}ترجیحی زبان{% else %}Preferred Language{% endif %}</span><strong>{% if profile.preferred_language == 'ur' %}اردو{% else %}English{% endif %}</strong></div>
+
+        <div class="nspx-pref"><span><i class="fa-solid fa-circle-check"></i>{% if lang == 'ur' %}اکاؤنٹ کی حیثیت{% else %}Account Status{% endif %}</span><strong class="nspx-status">{% if lang == 'ur' %}فعال{% else %}Active{% endif %}</strong></div>
+
+        <div class="nspx-pref"><span><i class="fa-solid fa-shield-halved"></i>{% if lang == 'ur' %}رضامندی کی حیثیت{% else %}Consent Status{% endif %}</span><strong class="nspx-status {% if not profile.data_consent %}pending{% endif %}">{% if profile.data_consent %}{% if lang == 'ur' %}منظور{% else %}Granted{% endif %}{% else %}{% if lang == 'ur' %}منظور نہیں{% else %}Not Granted{% endif %}{% endif %}</strong></div>
+
+      </div>
+
+      <div class="nspx-links">
+
+        <a href="{% url 'dashboard:dashboard' %}" class="nspx-btn"><i class="fa-solid fa-chart-line"></i>{% if lang == 'ur' %}اسکریننگ ہسٹری{% else %}Screening History{% endif %}</a>
+
+        <a href="{% url 'accounts:manage_consent' %}" class="nspx-btn"><i class="fa-solid fa-shield-halved"></i>{% if lang == 'ur' %}رضامندی{% else %}Consent{% endif %}</a>
+
+      </div>
+
+    </section>
+
+  </div>
+
+  <section class="nspx-danger">
+
+    <div><strong><i class="fa-solid fa-triangle-exclamation"></i> {% if lang == 'ur' %}اکاؤنٹ حذف کریں{% else %}Delete Account{% endif %}</strong><small>{% if lang == 'ur' %}یہ عمل واپس نہیں کیا جا سکتا۔{% else %}This action permanently removes your account and cannot be undone.{% endif %}</small></div>
+
+    <a class="nspx-delete" href="{% url 'accounts:delete_account' %}"><i class="fa-solid fa-trash-can"></i>{% if lang == 'ur' %}اکاؤنٹ حذف کریں{% else %}Delete Account{% endif %}</a>
+
+  </section>
+
 </div>
+
+<script>
+(function(){
+  const root=document.getElementById('ns-profile-isolated-2026');
+  if(!root)return;
+  const main=root.querySelector('#npAvatarMain');
+  const choices=Array.from(root.querySelectorAll('[data-avatar]'));
+  const msg=root.querySelector('#npPhotoMsg');
+  const key='neurosense.profile.avatar.v1.user.'+root.dataset.userId;
+  const valid=value=>value==='male'||value==='female';
+  function display(type){
+    const selected=choices.find(button=>button.dataset.avatar===type);
+    main.src=selected.querySelector('img').src;
+    choices.forEach(button=>{
+      const active=button===selected;
+      button.classList.toggle('selected',active);
+      button.setAttribute('aria-pressed',String(active));
+    });
+  }
+  let initial=root.dataset.defaultAvatar;
+  try{const saved=localStorage.getItem(key);if(valid(saved))initial=saved;}catch(error){}
+  display(valid(initial)?initial:'male');
+  choices.forEach(button=>button.addEventListener('click',()=>{
+    const type=button.dataset.avatar;
+    display(type);
+    try{
+      localStorage.setItem(key,type);
+      msg.textContent="{% if lang == 'ur' %}اوتار اس براؤزر میں محفوظ ہو گیا۔{% else %}Avatar saved in this browser.{% endif %}";
+    }catch(error){
+      msg.textContent="{% if lang == 'ur' %}اس براؤزر میں انتخاب محفوظ نہیں ہو سکا۔{% else %}This browser could not save your choice.{% endif %}";
+    }
+    msg.style.display='block';
+  }));
+})();
+</script>
 
 {% endwith %}
 

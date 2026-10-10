@@ -1,751 +1,142 @@
 {% extends 'base.html' %}
 {% load static tz %}
 
-{% block title %}
-{% if lang == 'ur' %}
-موازنہ کے لیے منتخب کریں - نیوروسینس اے آئی
-{% else %}
-Select to Compare - NeuroSense AI
-{% endif %}
-{% endblock %}
+{% block title %}{% if request.LANG == 'ur' %}موازنہ کے لیے منتخب کریں - نیوروسینس اے آئی{% else %}Select to Compare - NeuroSense AI{% endif %}{% endblock %}
+{% block workspace_heading %}{% if request.LANG == 'ur' %}اسکریننگ کا موازنہ{% else %}Compare Screenings{% endif %}{% endblock %}
 
 {% block extra_css %}
 <style>
-/* =========================================================
-   NEUROSENSE AI — SELECT SCREENINGS TO COMPARE
-   Minimal, clean, theme-aligned
-   ========================================================= */
-
-.compare-select-page {
-    --ns-primary: #1478f2;
-    --ns-primary-dark: #0f68dc;
-
-    --ns-navy: #071d55;
-    --ns-text: #344866;
-    --ns-muted: #7d90ac;
-
-    --ns-blue-50: #f5f9ff;
-    --ns-blue-100: #eaf4ff;
-
-    --ns-border: #dce8f5;
-    --ns-white: #ffffff;
-
-    --ns-green: #16a765;
-    --ns-green-bg: #ecfbf3;
-    --ns-green-border: #bcebd3;
-
-    --ns-orange: #ed9500;
-    --ns-orange-bg: #fff7e4;
-    --ns-orange-border: #f7dc9d;
-
-    --ns-red: #ea4444;
-    --ns-red-bg: #fff0f0;
-    --ns-red-border: #f6c7c7;
-
-    --ns-radius: 18px;
-    --ns-radius-sm: 11px;
-
-    max-width: 860px;
-    margin: 0 auto;
-    padding: 34px 24px 70px;
-}
-
-
-/* =========================================================
-   RTL
-   ========================================================= */
-
-.compare-select-page.lang-ur {
-    direction: rtl;
-    text-align: right;
-}
-
-
-/* =========================================================
-   BACK LINK
-   ========================================================= */
-
-.compare-select-page .back-link {
-    width: fit-content;
-
-    margin-bottom: 20px;
-    padding: 9px 14px;
-
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-
-    color: #405575;
-    background: #f7fafe;
-
-    border: 1px solid var(--ns-border);
-    border-radius: 10px;
-
-    font-size: 0.84rem;
-    font-weight: 650;
-
-    text-decoration: none;
-
-    transition:
-        color 0.2s ease,
-        background 0.2s ease,
-        border-color 0.2s ease;
-}
-
-.compare-select-page .back-link:hover,
-.compare-select-page .back-link:focus {
-    color: var(--ns-primary);
-    background: var(--ns-blue-50);
-    border-color: #c8ddf3;
-}
-
-
-/* =========================================================
-   MAIN CARD
-   ========================================================= */
-
-.compare-select-page .compare-select-card {
-    padding: 28px 30px;
-
-    background:
-        linear-gradient(
-            180deg,
-            #ffffff 0%,
-            #ffffff 86%,
-            #fbfdff 100%
-        );
-
-    border: 1px solid var(--ns-border);
-    border-radius: var(--ns-radius);
-}
-
-
-/* =========================================================
-   HEADER
-   ========================================================= */
-
-.compare-select-page .compare-select-header {
-    margin-bottom: 24px;
-    padding-bottom: 20px;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 18px;
-
-    border-bottom: 1px solid #edf2f7;
-}
-
-.compare-select-page .header-copy {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-.compare-select-page .header-icon {
-    width: 50px;
-    height: 50px;
-
-    flex-shrink: 0;
-
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-
-    color: var(--ns-primary);
-    background: var(--ns-blue-100);
-
-    border-radius: 14px;
-
-    font-size: 1.05rem;
-}
-
-.compare-select-page .compare-select-header h1 {
-    margin: 0;
-
-    color: var(--ns-navy);
-
-    font-size: 1.5rem;
-    font-weight: 800;
-    letter-spacing: -0.03em;
-}
-
-.compare-select-page .compare-select-header p {
-    margin: 4px 0 0;
-
-    color: var(--ns-muted);
-
-    font-size: 0.87rem;
-}
-
-
-/* =========================================================
-   SELECTION INFO
-   ========================================================= */
-
-.compare-select-page .selection-info {
-    margin-bottom: 16px;
-    padding: 10px 13px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 7px;
-
-    color: #607491;
-    background: #f8fbff;
-
-    border: 1px solid #e2edf7;
-    border-radius: 10px;
-
-    font-size: 0.79rem;
-}
-
-.compare-select-page .selection-info strong,
-.compare-select-page .selection-info #selectedCount {
-    color: var(--ns-primary);
-    font-weight: 750;
-}
-
-
-/* =========================================================
-   SCREENING LIST
-   ========================================================= */
-
-.compare-select-page .screening-list {
-    display: flex;
-    flex-direction: column;
-    gap: 9px;
-
-    margin-bottom: 20px;
-}
-
-.compare-select-page .screening-option {
-    min-height: 70px;
-
-    padding: 12px 14px;
-
-    display: grid;
-    grid-template-columns: auto minmax(0, 1fr) auto auto;
-    align-items: center;
-    gap: 14px;
-
-    background: #fbfdff;
-
-    border: 1px solid #e2ebf5;
-    border-radius: 12px;
-
-    cursor: pointer;
-
-    transition:
-        background 0.2s ease,
-        border-color 0.2s ease;
-}
-
-.compare-select-page .screening-option:hover {
-    background: #f6faff;
-    border-color: #c9def4;
-}
-
-.compare-select-page .screening-option.selected {
-    background: #f3f8ff;
-    border-color: #9fc8f6;
-}
-
-
-/* ---------- Checkbox ---------- */
-
-.compare-select-page .screening-option input[type="checkbox"] {
-    width: 18px;
-    height: 18px;
-
-    margin: 0;
-
-    accent-color: var(--ns-primary);
-
-    cursor: pointer;
-    flex-shrink: 0;
-}
-
-
-/* ---------- Screening info ---------- */
-
-.compare-select-page .screening-option .info {
-    min-width: 0;
-}
-
-.compare-select-page .screening-option .date {
-    color: var(--ns-navy);
-
-    font-size: 0.86rem;
-    font-weight: 700;
-}
-
-.compare-select-page .screening-option .id {
-    margin-top: 3px;
-
-    color: #93a4ba;
-
-    font-family: monospace;
-    font-size: 0.66rem;
-
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-
-/* ---------- Risk Badge ---------- */
-
-.compare-select-page .risk-badge {
-    min-width: 82px;
-
-    padding: 5px 10px;
-
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-
-    border: 1px solid transparent;
-    border-radius: 999px;
-
-    font-size: 0.62rem;
-    font-weight: 760;
-
-    text-transform: uppercase;
-    white-space: nowrap;
-}
-
-.compare-select-page .risk-badge.low {
-    color: var(--ns-green);
-    background: var(--ns-green-bg);
-    border-color: var(--ns-green-border);
-}
-
-.compare-select-page .risk-badge.medium {
-    color: var(--ns-orange);
-    background: var(--ns-orange-bg);
-    border-color: var(--ns-orange-border);
-}
-
-.compare-select-page .risk-badge.high {
-    color: var(--ns-red);
-    background: var(--ns-red-bg);
-    border-color: var(--ns-red-border);
-}
-
-
-/* ---------- Probability ---------- */
-
-.compare-select-page .score {
-    min-width: 58px;
-
-    color: var(--ns-navy);
-
-    font-size: 0.9rem;
-    font-weight: 760;
-
-    text-align: right;
-    white-space: nowrap;
-}
-
-.compare-select-page.lang-ur .score {
-    text-align: left;
-}
-
-
-/* =========================================================
-   COMPARE BUTTON
-   ========================================================= */
-
-.compare-select-page .btn-compare {
-    width: 100%;
-    min-height: 46px;
-
-    padding: 11px 18px;
-
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 9px;
-
-    position: relative;
-
-    color: #ffffff !important;
-    background: var(--ns-primary) !important;
-    background-image: none !important;
-
-    border: 1px solid var(--ns-primary) !important;
-    border-radius: 11px;
-
-    font-family: inherit;
-    font-size: 0.88rem;
-    font-weight: 700;
-
-    cursor: pointer;
-
-    transition:
-        background-color 0.2s ease,
-        border-color 0.2s ease,
-        opacity 0.2s ease;
-}
-
-/* Prevent global button overlay */
-.compare-select-page .btn-compare::before,
-.compare-select-page .btn-compare::after {
-    display: none !important;
-    content: none !important;
-}
-
-.compare-select-page .btn-compare:hover:not(:disabled),
-.compare-select-page .btn-compare:focus:not(:disabled),
-.compare-select-page .btn-compare:active:not(:disabled) {
-    color: #ffffff !important;
-
-    background: var(--ns-primary-dark) !important;
-    background-image: none !important;
-
-    border-color: var(--ns-primary-dark) !important;
-
-    box-shadow: none !important;
-    transform: none !important;
-}
-
-.compare-select-page .btn-compare:disabled {
-    color: #8ea1bb !important;
-    background: #edf3f8 !important;
-    background-image: none !important;
-
-    border-color: #e1eaf3 !important;
-
-    opacity: 1;
-    cursor: not-allowed;
-
-    box-shadow: none !important;
-    transform: none !important;
-}
-
-
-/* =========================================================
-   EMPTY STATE
-   ========================================================= */
-
-.compare-select-page .empty-state {
-    padding: 36px 20px;
-
-    text-align: center;
-
-    color: #8fa1b8;
-}
-
-.compare-select-page .empty-state .empty-icon {
-    width: 54px;
-    height: 54px;
-
-    margin: 0 auto 14px;
-
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-
-    color: var(--ns-primary);
-    background: var(--ns-blue-100);
-
-    border-radius: 15px;
-
-    font-size: 1.2rem;
-}
-
-.compare-select-page .empty-state h3 {
-    margin: 0 0 6px;
-
-    color: var(--ns-navy);
-
-    font-size: 1rem;
-    font-weight: 750;
-}
-
-.compare-select-page .empty-state p {
-    margin: 0;
-
-    font-size: 0.83rem;
-}
-
-.compare-select-page .empty-state a {
-    color: var(--ns-primary);
-    font-weight: 650;
-    text-decoration: none;
-}
-
-.compare-select-page .empty-state a:hover {
-    text-decoration: underline;
-}
-
-
-/* =========================================================
-   RESPONSIVE
-   ========================================================= */
-
-@media (max-width: 650px) {
-
-    .compare-select-page {
-        padding: 24px 16px 50px;
-    }
-
-    .compare-select-page .compare-select-card {
-        padding: 22px 18px;
-    }
-
-    .compare-select-page .compare-select-header {
-        align-items: flex-start;
-    }
-
-    .compare-select-page .header-icon {
-        width: 46px;
-        height: 46px;
-    }
-
-    .compare-select-page .compare-select-header h1 {
-        font-size: 1.3rem;
-    }
-
-    .compare-select-page .screening-option {
-        grid-template-columns: auto minmax(0, 1fr) auto;
-        gap: 11px;
-    }
-
-    .compare-select-page .score {
-        grid-column: 2 / 4;
-        justify-self: start;
-
-        min-width: 0;
-
-        color: #607491;
-        font-size: 0.78rem;
-        font-weight: 650;
-    }
-
-    .compare-select-page.lang-ur .score {
-        justify-self: end;
-    }
-}
-
-
-@media (max-width: 460px) {
-
-    .compare-select-page {
-        padding: 18px 11px 40px;
-    }
-
-    .compare-select-page .compare-select-card {
-        padding: 19px 15px;
-    }
-
-    .compare-select-page .header-copy {
-        align-items: flex-start;
-        gap: 12px;
-    }
-
-    .compare-select-page .compare-select-header p {
-        line-height: 1.5;
-    }
-
-    .compare-select-page .selection-info {
-        flex-wrap: wrap;
-        text-align: center;
-    }
-
-    .compare-select-page .screening-option {
-        padding: 11px 12px;
-    }
-
-    .compare-select-page .risk-badge {
-        min-width: 74px;
-    }
-}
+/* NeuroSense | Select Screenings — isolated from global dashboard styles */
+.ns-picker {--p:#2667d3;--navy:#172c54;--muted:#8192ae;--stroke:#e0e9f8;--teal:#0fa99b;max-width:none;width:100%;padding:2px 0 38px;color:var(--navy);font-family:Inter,system-ui,sans-serif}
+.ns-picker,.ns-picker *,.ns-picker *::before,.ns-picker *::after {box-sizing:border-box}
+.ns-picker a{text-decoration:none}
+.ns-picker .ns-pick-back{display:inline-flex!important;align-items:center;gap:9px;width:max-content!important;max-width:100%;padding:11px 15px;margin:0 0 16px;color:#365577!important;background:#fff;border:1px solid var(--stroke);border-radius:11px;font-size:13px;font-weight:700;box-shadow:0 4px 13px rgba(36,88,156,.045)}
+.ns-picker .ns-pick-back:hover{color:var(--p)!important;background:#f4f8ff}
+.ns-picker .ns-pick-hero{min-height:196px;padding:29px 34px;display:flex!important;align-items:center!important;justify-content:space-between!important;gap:20px;position:relative;isolation:isolate;overflow:hidden;background:linear-gradient(110deg,#255bbd 0%,#2667d3 60%,#398de6 100%);border-radius:19px;color:white;box-shadow:0 14px 30px rgba(34,94,188,.13);margin-bottom:19px}
+.ns-picker .ns-pick-hero::before{content:"";position:absolute;right:-65px;top:-165px;width:390px;height:390px;border-radius:50%;border:1px solid rgba(255,255,255,.2);box-shadow:0 0 0 43px rgba(255,255,255,.04),0 0 0 92px rgba(255,255,255,.022);z-index:-1;pointer-events:none}
+.ns-picker .ns-pick-hero::after{content:"";position:absolute;bottom:-135px;left:-85px;width:300px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(46,217,211,.24),transparent 70%);pointer-events:none}
+.ns-picker .ns-pick-hero-content{min-width:0;max-width:690px;position:relative;z-index:1}
+.ns-picker .ns-pick-eyebrow{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:800;letter-spacing:.1em;color:#b5ffec;text-transform:uppercase;margin-bottom:11px}
+.ns-picker .ns-pick-eyebrow::before{content:"";width:8px;height:8px;border-radius:50%;background:#69f2d3}
+.ns-picker .ns-pick-hero h1{font-size:clamp(24px,2.5vw,33px);font-weight:800;line-height:1.18;letter-spacing:-.035em;margin:0 0 10px;color:#fff;text-align:start}
+.ns-picker .ns-pick-hero p{font-size:14px;line-height:1.6;color:#e8f2ff;margin:0;max-width:580px;text-align:start}
+.ns-picker .ns-pick-hero-art{width:155px;height:122px;flex:0 0 155px;position:relative;z-index:1;animation:nsPickBob 6s ease-in-out infinite}
+.ns-picker .ns-pick-art-card{position:absolute;top:19px;width:72px;height:89px;border:1px solid rgba(255,255,255,.52);background:rgba(255,255,255,.18);border-radius:15px;backdrop-filter:blur(8px);display:grid;place-items:center;font-size:29px;color:white;box-shadow:0 12px 25px rgba(14,55,122,.1)}
+.ns-picker .ns-pick-art-card:first-child{left:5px;transform:rotate(-10deg)}.ns-picker .ns-pick-art-card:nth-child(2){right:5px;transform:rotate(10deg)}
+.ns-picker .ns-pick-art-center{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:#e9fcf9;color:#079d9e;box-shadow:0 8px 24px rgba(13,55,116,.16);font-size:17px}
+@keyframes nsPickBob{50%{transform:translateY(-5px)}}
+.ns-picker .ns-pick-panel{padding:23px 24px 24px;border:1px solid var(--stroke);border-radius:18px;background:#fff;box-shadow:0 8px 26px rgba(26,67,126,.055);min-width:0}
+.ns-picker .ns-pick-intro{display:flex;align-items:center;justify-content:space-between;gap:15px;flex-wrap:wrap;margin-bottom:18px}
+.ns-picker .ns-pick-title{display:flex;align-items:center;gap:12px;min-width:0}
+.ns-picker .ns-pick-title-icon{width:43px;height:43px;border-radius:12px;display:grid;place-items:center;color:var(--p);background:#eaf0ff;font-size:18px;flex-shrink:0}
+.ns-picker .ns-pick-title h2{font-size:18px;line-height:1.25;margin:0 0 3px;color:var(--navy);font-weight:800}
+.ns-picker .ns-pick-title p{margin:0;color:var(--muted);font-size:12px}
+.ns-picker .ns-pick-count{display:flex;align-items:center;gap:9px;padding:9px 13px;border-radius:999px;border:1px solid #d9e9f8;background:#f3f8ff;color:#567096;font-size:12px;font-weight:650}
+.ns-picker .ns-pick-count strong{display:grid;place-items:center;min-width:26px;height:26px;border-radius:50%;background:#e1edff;color:var(--p);font-size:12px}
+.ns-picker .ns-pick-count.ready{border-color:#bce9dd;background:#ebfaf5;color:#0f8172}.ns-picker .ns-pick-count.ready strong{background:#15aa99;color:#fff}
+.ns-picker .ns-pick-columns{display:grid;grid-template-columns:minmax(0,1fr) 135px 92px;gap:14px;padding:0 18px 9px;font-size:11px;color:#8a9cb7;font-weight:750}
+.ns-picker .ns-pick-list{display:flex;flex-direction:column;gap:10px;min-width:0}
+.ns-picker .ns-pick-option{min-width:0;display:grid!important;grid-template-columns:23px minmax(0,1fr) 135px 92px;gap:14px;align-items:center;position:relative;padding:15px 18px!important;border:1px solid #e3ebf7;border-radius:13px;background:#fbfdff;cursor:pointer;transition:background .2s,border-color .2s,box-shadow .2s,transform .2s}
+.ns-picker .ns-pick-option:hover{background:#f5f9ff;border-color:#c7def7;transform:translateY(-1px)}
+.ns-picker .ns-pick-option.is-selected{background:#f2f7ff;border-color:#79adef;box-shadow:0 4px 15px rgba(38,103,211,.07)}
+.ns-picker .ns-pick-option input[type=checkbox]{width:19px;height:19px;accent-color:var(--p);margin:0;cursor:pointer}
+.ns-picker .ns-pick-record{display:flex;align-items:center;gap:12px;min-width:0}
+.ns-picker .ns-pick-record-icon{display:grid;place-items:center;width:40px;height:40px;flex:0 0 40px;border-radius:11px;background:#eaf2ff;color:#3779d8;font-size:16px}
+.ns-picker .ns-pick-date{font-size:13.5px;font-weight:780;color:#213c6a;line-height:1.45;white-space:normal}
+.ns-picker .ns-pick-id{font-size:11px;color:#889fbb;margin-top:3px;direction:ltr;unicode-bidi:isolate;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ns-picker .ns-pick-risk{display:inline-flex;align-items:center;justify-content:center;width:fit-content;min-width:86px;padding:7px 10px;border-radius:999px;font-size:11px;font-weight:780;white-space:nowrap;border:1px solid transparent}
+.ns-picker .ns-pick-risk.low{color:#0b9278;background:#e8f8f2;border-color:#c9eee0}
+.ns-picker .ns-pick-risk.medium{color:#ae781d;background:#fff5e4;border-color:#f3e5c7}
+.ns-picker .ns-pick-risk.high{color:#d4555c;background:#fff0ef;border-color:#f6d9d8}
+.ns-picker .ns-pick-score{font-size:20px;line-height:1;font-weight:820;color:#1d3969;direction:ltr;unicode-bidi:isolate;font-variant-numeric:tabular-nums;text-align:end}
+.ns-picker .ns-pick-footer{display:flex;align-items:center;justify-content:space-between;gap:18px;padding-top:19px;margin-top:18px;border-top:1px solid #e8eef8}
+.ns-picker .ns-pick-hint{display:flex;align-items:center;gap:9px;color:#7185a5;font-size:12px;line-height:1.5}
+.ns-picker .ns-pick-hint i{color:var(--teal);font-size:15px}
+.ns-picker .ns-pick-button{width:auto!important;min-width:220px;min-height:45px;padding:11px 19px;display:inline-flex!important;align-items:center;justify-content:center;gap:10px;border:1px solid var(--p)!important;border-radius:11px;background:var(--p)!important;background-image:none!important;color:#fff!important;font-size:13px;font-weight:770;font-family:inherit;cursor:pointer;box-shadow:0 8px 18px rgba(38,103,211,.14);transition:transform .2s,background .2s,box-shadow .2s}
+.ns-picker .ns-pick-button:enabled:hover{background:#1b55b4!important;transform:translateY(-2px);box-shadow:0 11px 21px rgba(38,103,211,.19)}
+.ns-picker .ns-pick-button:disabled{background:#ecf1f7!important;color:#8da0b7!important;border-color:#e1e9f2!important;box-shadow:none;cursor:not-allowed}
+.ns-picker .ns-pick-button::before,.ns-picker .ns-pick-button::after{content:none!important;display:none!important}
+.ns-picker .ns-pick-empty{text-align:center;padding:38px 18px}
+.ns-picker .ns-pick-empty-icon{width:62px;height:62px;margin:0 auto 15px;display:grid;place-items:center;background:#eaf2ff;color:var(--p);border-radius:19px;font-size:24px}
+.ns-picker .ns-pick-empty h3{font-size:18px;color:var(--navy);margin:0 0 7px}.ns-picker .ns-pick-empty p{font-size:13px;color:#7f93ae;line-height:1.65;margin:0}
+.ns-picker .ns-pick-empty a{color:var(--p);font-weight:750}
+.ns-picker.lang-ur{direction:rtl;text-align:right}.ns-picker.lang-ur .ns-pick-hero::before{left:-65px;right:auto}.ns-picker.lang-ur .ns-pick-option .ns-pick-record{direction:rtl}.ns-picker.lang-ur .ns-pick-score{text-align:start}
+@media(max-width:980px){.ns-picker .ns-pick-panel{padding:20px 16px}.ns-picker .ns-pick-option{gap:10px;grid-template-columns:22px minmax(0,1fr) 100px 70px}.ns-picker .ns-pick-columns{grid-template-columns:minmax(0,1fr) 100px 70px}.ns-picker .ns-pick-date{font-size:12px}}
+@media(max-width:680px){.ns-picker .ns-pick-hero{min-height:155px;padding:24px 22px}.ns-picker .ns-pick-hero-art{display:none}.ns-picker .ns-pick-columns{display:none}.ns-picker .ns-pick-option{grid-template-columns:21px minmax(0,1fr) auto;gap:9px;padding:12px!important}.ns-picker .ns-pick-risk{grid-column:2;grid-row:2}.ns-picker .ns-pick-score{grid-column:3;grid-row:1 / 3;font-size:18px}.ns-picker .ns-pick-footer{flex-direction:column;align-items:stretch}.ns-picker .ns-pick-button{width:100%!important}.ns-picker .ns-pick-record-icon{width:34px;height:34px;flex-basis:34px}.ns-picker .ns-pick-record{gap:9px}}
+@media(max-width:420px){.ns-picker .ns-pick-hero h1{font-size:23px}.ns-picker .ns-pick-hero p{font-size:12px}.ns-picker .ns-pick-title h2{font-size:16px}.ns-picker .ns-pick-panel{padding:17px 12px}.ns-picker .ns-pick-date{font-size:11px}.ns-picker .ns-pick-option{grid-template-columns:21px minmax(0,1fr) 54px}.ns-picker .ns-pick-score{font-size:15px}}
+@media(prefers-reduced-motion:reduce){.ns-picker *,.ns-picker *::before,.ns-picker *::after{animation:none!important;transition:none!important}}
+@media print{.ns-picker .ns-pick-back,.ns-picker .ns-pick-footer{display:none!important}.ns-picker .ns-pick-hero{background:#eaf2ff!important;color:#172c54!important;box-shadow:none!important}.ns-picker .ns-pick-hero h1,.ns-picker .ns-pick-hero p{color:#172c54!important}.ns-picker .ns-pick-panel{box-shadow:none!important}}
 </style>
 {% endblock %}
 
 {% block content %}
 {% with lang=request.LANG|default:'en' %}
-
-<div class="compare-select-page {% if lang == 'ur' %}lang-ur{% endif %}">
-
-    <!-- Back -->
-    <a href="{% url 'dashboard:dashboard' %}" class="back-link">
-        <i class="fa-solid fa-arrow-left"></i>
-        {% if lang == 'ur' %}ڈیش بورڈ پر واپس جائیں{% else %}Back to Dashboard{% endif %}
-    </a>
-
-    <div class="compare-select-card">
-
-        <!-- Header -->
-        <div class="compare-select-header">
-            <div class="header-copy">
-                <span class="header-icon">
-                    <i class="fa-solid fa-code-compare"></i>
-                </span>
-
-                <div>
-                    <h1>
-                        {% if lang == 'ur' %}
-                        موازنہ کے لیے دو اسکریننگز منتخب کریں
-                        {% else %}
-                        Select Two Screenings
-                        {% endif %}
-                    </h1>
-
-                    <p>
-                        {% if lang == 'ur' %}
-                        ساتھ ساتھ موازنہ کرنے کے لیے دو نتائج منتخب کریں۔
-                        {% else %}
-                        Choose two results to compare side by side.
-                        {% endif %}
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        {% if screenings %}
-
-        <!-- Selection counter -->
-        <div class="selection-info" id="selectionInfo">
-            <span id="selectedCount">0</span>
-            <span>
-                {% if lang == 'ur' %}منتخب{% else %}selected{% endif %}
-            </span>
-
-            <span>·</span>
-
-            <span>
-                {% if lang == 'ur' %}
-                براہ کرم دو اسکریننگز منتخب کریں۔
-                {% else %}
-                Please select exactly two screenings.
-                {% endif %}
-            </span>
-        </div>
-
-        <form id="compareForm"
-              method="GET"
-              action="{% url 'dashboard:compare_screenings' %}">
-
-            <div class="screening-list">
-
-                {% for screening in screenings %}
-                <label class="screening-option"
-                       data-id="{{ screening.screening_id }}">
-
-                    <input type="checkbox"
-                           name="ids"
-                           value="{{ screening.screening_id }}">
-
-                    <div class="info">
-                        <div class="date">
-                            {{ screening.created_at|localtime|date:"d M Y, h:i A" }}
-                        </div>
-
-                        <div class="id">
-                            #{{ screening.screening_id|truncatechars:16 }}
-                        </div>
-                    </div>
-
-                    <span class="risk-badge {{ screening.risk_level|lower }}">
-                        {% if lang == 'ur' %}
-                            {% if screening.risk_level == 'Low' %}کم
-                            {% elif screening.risk_level == 'Medium' %}درمیانہ
-                            {% else %}زیادہ{% endif %}
-                        {% else %}
-                            {{ screening.risk_level }}
-                        {% endif %}
-                    </span>
-
-                    <span class="score">
-                        {% widthratio screening.final_pd_probability 1 100 %}%
-                    </span>
-
-                </label>
-                {% endfor %}
-
-            </div>
-
-            <button type="submit"
-                    class="btn-compare"
-                    id="compareBtn"
-                    disabled>
-                <i class="fa-solid fa-arrows-left-right"></i>
-                {% if lang == 'ur' %}موازنہ کریں{% else %}Compare Screenings{% endif %}
-            </button>
-
-        </form>
-
-        {% else %}
-
-        <div class="empty-state">
-            <span class="empty-icon">
-                <i class="fa-regular fa-clipboard"></i>
-            </span>
-
-            <h3>
-                {% if lang == 'ur' %}کوئی اسکریننگ نہیں{% else %}No Screenings Yet{% endif %}
-            </h3>
-
-            <p>
-                {% if lang == 'ur' %}
-                موازنہ کرنے کے لیے
-                <a href="{% url 'questionnaire_app:home' %}">اسکریننگ شروع کریں</a>
-                {% else %}
-                <a href="{% url 'questionnaire_app:home' %}">Start a screening</a>
-                to compare results.
-                {% endif %}
-            </p>
-        </div>
-
-        {% endif %}
-
+<div class="ns-picker {% if lang == 'ur' %}lang-ur{% endif %}" dir="{% if lang == 'ur' %}rtl{% else %}ltr{% endif %}">
+  <a class="ns-pick-back" href="{% url 'dashboard:dashboard' %}"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i>{% if lang == 'ur' %}ڈیش بورڈ پر واپس جائیں{% else %}Back to Dashboard{% endif %}</a>
+  <section class="ns-pick-hero" aria-labelledby="ns-pick-heading">
+    <div class="ns-pick-hero-content">
+      <div class="ns-pick-eyebrow">{% if lang == 'ur' %}اسکریننگ کا سفر{% else %}YOUR SCREENING JOURNEY{% endif %}</div>
+      <h1 id="ns-pick-heading">{% if lang == 'ur' %}موازنے کے لیے دو اسکریننگز منتخب کریں{% else %}Compare Your Screenings{% endif %}</h1>
+      <p>{% if lang == 'ur' %}اپنے محفوظ شدہ نتائج میں سے دو منتخب کریں اور ان کا ساتھ ساتھ موازنہ دیکھیں۔{% else %}Choose two saved screenings to explore how your results compare over time.{% endif %}</p>
     </div>
-
+    <div class="ns-pick-hero-art" aria-hidden="true"><div class="ns-pick-art-card"><i class="fa-regular fa-file-lines"></i></div><div class="ns-pick-art-card"><i class="fa-solid fa-chart-line"></i></div><div class="ns-pick-art-center"><i class="fa-solid fa-arrow-right-arrow-left"></i></div></div>
+  </section>
+  <section class="ns-pick-panel" aria-labelledby="ns-pick-list-heading">
+    <div class="ns-pick-intro">
+      <div class="ns-pick-title"><span class="ns-pick-title-icon"><i class="fa-solid fa-list-check" aria-hidden="true"></i></span><div><h2 id="ns-pick-list-heading">{% if lang == 'ur' %}محفوظ شدہ اسکریننگز{% else %}Your Screening History{% endif %}</h2><p>{% if lang == 'ur' %}موازنہ کرنے کے لیے دو نتائج منتخب کریں{% else %}Select exactly two records from your history{% endif %}</p></div></div>
+      {% if screenings %}<div class="ns-pick-count" id="nsPickCountWrap" role="status" aria-live="polite"><strong id="nsPickCount">0</strong><span>{% if lang == 'ur' %}از ۲ منتخب{% else %}of 2 selected{% endif %}</span></div>{% endif %}
+    </div>
+    {% if screenings %}
+      <form id="nsPickForm" method="GET" action="{% url 'dashboard:compare_screenings' %}">
+        <div class="ns-pick-columns" aria-hidden="true"><span>{% if lang == 'ur' %}اسکریننگ{% else %}SCREENING{% endif %}</span><span>{% if lang == 'ur' %}خطرے کی سطح{% else %}RISK LEVEL{% endif %}</span><span>{% if lang == 'ur' %}امکان{% else %}SCORE{% endif %}</span></div>
+        <div class="ns-pick-list">
+          {% for screening in screenings %}
+          <label class="ns-pick-option">
+            <input type="checkbox" name="ids" value="{{ screening.screening_id }}" aria-label="{% if lang == 'ur' %}اسکریننگ منتخب کریں{% else %}Select screening{% endif %} {{ screening.created_at|localtime|date:'d M Y, h:i A' }}">
+            <div class="ns-pick-record"><span class="ns-pick-record-icon"><i class="fa-regular fa-file-lines" aria-hidden="true"></i></span><div style="min-width:0"><div class="ns-pick-date">{{ screening.created_at|localtime|date:"d M Y, h:i A" }}</div><div class="ns-pick-id">#{{ screening.screening_id|truncatechars:20 }}</div></div></div>
+            <span class="ns-pick-risk {{ screening.risk_level|lower }}">{% if lang == 'ur' %}{% if screening.risk_level == 'Low' %}کم خطرہ{% elif screening.risk_level == 'Medium' %}درمیانہ خطرہ{% else %}زیادہ خطرہ{% endif %}{% else %}{{ screening.risk_level }} Risk{% endif %}</span>
+            <span class="ns-pick-score"><bdi>{% widthratio screening.final_pd_probability 1 100 %}%</bdi></span>
+          </label>
+          {% endfor %}
+        </div>
+        <div class="ns-pick-footer">
+          <div class="ns-pick-hint"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span id="nsPickHint">{% if lang == 'ur' %}موازنہ شروع کرنے کے لیے دو اسکریننگز منتخب کریں۔{% else %}Choose two screenings to enable comparison.{% endif %}</span></div>
+          <button class="ns-pick-button" id="nsPickSubmit" type="submit" disabled><i class="fa-solid fa-arrow-right-arrow-left" aria-hidden="true"></i>{% if lang == 'ur' %}نتائج کا موازنہ کریں{% else %}Compare Selected{% endif %}<i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button>
+        </div>
+      </form>
+    {% else %}
+      <div class="ns-pick-empty"><span class="ns-pick-empty-icon"><i class="fa-regular fa-folder-open" aria-hidden="true"></i></span><h3>{% if lang == 'ur' %}ابھی کوئی اسکریننگ نہیں{% else %}No Screenings Yet{% endif %}</h3><p>{% if lang == 'ur' %}نتائج کا موازنہ کرنے کے لیے پہلے اسکریننگ کریں۔ <a href="{% url 'questionnaire_app:home' %}">اسکریننگ شروع کریں</a>{% else %}<a href="{% url 'questionnaire_app:home' %}">Start a screening</a> to build your history and compare results.{% endif %}</p></div>
+    {% endif %}
+  </section>
 </div>
+{% endwith %}
+{% endblock %}
 
+{% block extra_js %}
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    const checkboxes = document.querySelectorAll('input[name="ids"]');
-    const compareBtn = document.getElementById('compareBtn');
-    const selectedCount = document.getElementById('selectedCount');
-
-    if (!checkboxes.length || !compareBtn || !selectedCount) {
-        return;
-    }
-
-    function updateSelectionUI() {
-        const checked = document.querySelectorAll('input[name="ids"]:checked');
-        const count = checked.length;
-
-        selectedCount.textContent = count;
-
-        document.querySelectorAll('.screening-option').forEach(label => {
-            const checkbox = label.querySelector('input[name="ids"]');
-            label.classList.toggle('selected', checkbox && checkbox.checked);
-        });
-
-        compareBtn.disabled = count !== 2;
-    }
-
-    checkboxes.forEach(checkbox => {
-        checkbox.addEventListener('change', function () {
-            const checked = document.querySelectorAll('input[name="ids"]:checked');
-
-            if (checked.length > 2) {
-                this.checked = false;
-            }
-
-            updateSelectionUI();
-        });
+  const root = document.querySelector('.ns-picker');
+  if (!root) return;
+  const boxes = Array.from(root.querySelectorAll('input[type="checkbox"][name="ids"]'));
+  const count = root.querySelector('#nsPickCount');
+  const wrap = root.querySelector('#nsPickCountWrap');
+  const submit = root.querySelector('#nsPickSubmit');
+  const form = root.querySelector('#nsPickForm');
+  if (!boxes.length || !count || !submit) return;
+  function refresh() {
+    const checked = boxes.filter(b => b.checked);
+    count.textContent = checked.length;
+    submit.disabled = checked.length !== 2;
+    if (wrap) wrap.classList.toggle('ready', checked.length === 2);
+    boxes.forEach(b => {
+      const row = b.closest('.ns-pick-option');
+      if (row) row.classList.toggle('is-selected', b.checked);
+      b.disabled = checked.length === 2 && !b.checked;
     });
-
-    updateSelectionUI();
+  }
+  boxes.forEach(b => b.addEventListener('change', refresh));
+  if (form) form.addEventListener('submit', function(e) { if (boxes.filter(b => b.checked).length !== 2) e.preventDefault(); });
+  refresh();
 });
 </script>
-
-{% endwith %}
 {% endblock %}

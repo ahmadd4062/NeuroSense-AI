@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
 {% load static %}
-
 {% block title %}
 {% if lang == 'ur' %}
 پروفائل میں ترمیم - نیوروسینس اے آئی
@@ -8,545 +7,128 @@
 Edit Profile - NeuroSense AI
 {% endif %}
 {% endblock %}
-
 {% block extra_css %}
 <style>
-/* =========================================================
-   NEUROSENSE AI — EDIT PROFILE
-   Clean, minimal, theme-aligned
-   ========================================================= */
-
-.edit-profile-page {
-    --ns-primary: #1478f2;
-    --ns-primary-dark: #0f68dc;
-
-    --ns-navy: #071d55;
-    --ns-text: #344866;
-    --ns-muted: #7d90ac;
-
-    --ns-blue-50: #f5f9ff;
-    --ns-blue-100: #eaf4ff;
-
-    --ns-border: #dce8f5;
-    --ns-white: #ffffff;
-
-    --ns-green: #16a765;
-    --ns-green-bg: #ecfbf3;
-
-    --ns-red: #dc3f3f;
-    --ns-red-bg: #fff2f2;
-
-    --ns-radius: 18px;
-
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 34px 24px 70px;
-}
-
-
-/* =========================================================
-   RTL
-   ========================================================= */
-
-.edit-profile-page.lang-ur {
-    direction: rtl;
-    text-align: right;
-}
-
-
-/* =========================================================
-   BACK LINK
-   ========================================================= */
-
-.edit-profile-page .back-link {
-    width: fit-content;
-
-    margin-bottom: 20px;
-    padding: 9px 14px;
-
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-
-    color: #405575;
-    background: #f7fafe;
-
-    border: 1px solid var(--ns-border);
-    border-radius: 10px;
-
-    font-size: 0.84rem;
-    font-weight: 650;
-
-    text-decoration: none;
-
-    transition:
-        color 0.2s ease,
-        background 0.2s ease,
-        border-color 0.2s ease;
-}
-
-.edit-profile-page .back-link:hover,
-.edit-profile-page .back-link:focus {
-    color: var(--ns-primary);
-    background: var(--ns-blue-50);
-    border-color: #c8ddf3;
-}
-
-
-/* =========================================================
-   MAIN CARD
-   ========================================================= */
-
-.edit-profile-page .edit-profile-card {
-    padding: 30px 32px;
-
-    background:
-        linear-gradient(
-            180deg,
-            #ffffff 0%,
-            #ffffff 90%,
-            #fbfdff 100%
-        );
-
-    border: 1px solid var(--ns-border);
-    border-radius: var(--ns-radius);
-}
-
-
-/* =========================================================
-   HEADER
-   ========================================================= */
-
-.edit-profile-page .edit-profile-header {
-    margin-bottom: 28px;
-    padding-bottom: 22px;
-
-    display: flex;
-    align-items: center;
-    gap: 16px;
-
-    border-bottom: 1px solid #edf2f7;
-}
-
-.edit-profile-page .edit-profile-header .icon {
-    width: 52px;
-    height: 52px;
-
-    flex-shrink: 0;
-
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-
-    color: var(--ns-primary);
-    background: var(--ns-blue-100);
-
-    border-radius: 14px;
-
-    font-size: 1.1rem;
-}
-
-.edit-profile-page .edit-profile-header h1 {
-    margin: 0;
-
-    color: var(--ns-navy);
-
-    font-size: 1.55rem;
-    font-weight: 800;
-    letter-spacing: -0.03em;
-}
-
-.edit-profile-page .edit-profile-header p {
-    margin: 4px 0 0;
-
-    color: var(--ns-muted);
-
-    font-size: 0.88rem;
-}
-
-
-/* =========================================================
-   MESSAGES
-   ========================================================= */
-
-.edit-profile-page .messages {
-    margin-bottom: 20px;
-}
-
-.edit-profile-page .message {
-    margin-bottom: 8px;
-    padding: 11px 14px;
-
-    border: 1px solid transparent;
-    border-radius: 10px;
-
-    font-size: 0.82rem;
-}
-
-.edit-profile-page .message.error {
-    color: #a53434;
-    background: var(--ns-red-bg);
-    border-color: #f2cece;
-}
-
-.edit-profile-page .message.success {
-    color: #0f7c49;
-    background: var(--ns-green-bg);
-    border-color: #caead9;
-}
-
-.edit-profile-page .message.info {
-    color: #315f98;
-    background: var(--ns-blue-50);
-    border-color: #d6e7f8;
-}
-
-
-/* =========================================================
-   FORM LAYOUT
-   ========================================================= */
-
-.edit-profile-page .form-row {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 18px;
-}
-
-.edit-profile-page .form-group {
-    margin-bottom: 19px;
-}
-
-.edit-profile-page .form-group label {
-    margin-bottom: 7px;
-
-    display: block;
-
-    color: var(--ns-navy);
-
-    font-size: 0.79rem;
-    font-weight: 680;
-}
-
-.edit-profile-page .required {
-    color: var(--ns-red);
-}
-
-
-/* =========================================================
-   INPUTS
-   ========================================================= */
-
-.edit-profile-page .form-input {
-    width: 100%;
-    min-height: 46px;
-
-    padding: 10px 13px;
-
-    color: var(--ns-text);
-    background: #fbfdff;
-
-    border: 1px solid #dfe9f3;
-    border-radius: 10px;
-
-    font-family: inherit;
-    font-size: 0.88rem;
-
-    outline: none;
-
-    transition:
-        background 0.2s ease,
-        border-color 0.2s ease,
-        box-shadow 0.2s ease;
-}
-
-.edit-profile-page .form-input:hover {
-    border-color: #cfdeed;
-}
-
-.edit-profile-page .form-input:focus {
-    background: #ffffff;
-    border-color: #9cc5f3;
-
-    box-shadow: 0 0 0 3px rgba(20, 120, 242, 0.07);
-}
-
-.edit-profile-page .form-input.error {
-    background: #fff9f9;
-    border-color: #e6a9a9;
-}
-
-.edit-profile-page .form-input.is-valid {
-    background: #fbfffd;
-    border-color: #9fd6ba;
-}
-
-
-/* =========================================================
-   FORM HINTS / ERRORS
-   ========================================================= */
-
-.edit-profile-page .form-hint {
-    margin-top: 6px;
-
-    color: #91a2b8;
-
-    font-size: 0.7rem;
-    line-height: 1.45;
-}
-
-.edit-profile-page .form-error {
-    margin-top: 5px;
-
-    display: block;
-
-    color: var(--ns-red);
-
-    font-size: 0.72rem;
-}
-
-
-/* =========================================================
-   EMAIL NOTIFICATION OPTION
-   ========================================================= */
-
-.edit-profile-page .form-checkbox-group {
-    margin-top: 2px;
-    padding: 13px 14px;
-
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-
-    background: #f8fbff;
-
-    border: 1px solid #e2edf7;
-    border-radius: 11px;
-}
-
-.edit-profile-page .form-checkbox-group input[type="checkbox"] {
-    width: 17px;
-    height: 17px;
-
-    margin-top: 1px;
-
-    flex-shrink: 0;
-
-    accent-color: var(--ns-primary);
-    cursor: pointer;
-}
-
-.edit-profile-page .form-checkbox-group label {
-    margin: 0;
-
-    color: #4e6382;
-
-    font-size: 0.8rem;
-    font-weight: 550;
-    line-height: 1.5;
-
-    cursor: pointer;
-}
-
-
-/* =========================================================
-   ACTIONS
-   ========================================================= */
-
-.edit-profile-page .form-actions {
-    margin-top: 28px;
-    padding-top: 22px;
-
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 10px;
-
-    border-top: 1px solid #e8eff6;
-}
-
-.edit-profile-page .form-actions .btn {
-    min-width: 150px;
-    min-height: 44px;
-
-    padding: 10px 18px;
-
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-
-    position: relative;
-
-    border-radius: 10px;
-
-    font-family: inherit;
-    font-size: 0.82rem;
-    font-weight: 680;
-
-    text-decoration: none !important;
-    cursor: pointer;
-
-    transition:
-        color 0.2s ease,
-        background-color 0.2s ease,
-        border-color 0.2s ease;
-}
-
-/* Prevent global hover overlays */
-.edit-profile-page .form-actions .btn::before,
-.edit-profile-page .form-actions .btn::after {
-    display: none !important;
-    content: none !important;
-}
-
-
-/* ---------- Save ---------- */
-
-.edit-profile-page .form-actions .btn-primary,
-.edit-profile-page .form-actions .btn-primary:link,
-.edit-profile-page .form-actions .btn-primary:visited {
-    color: #ffffff !important;
-
-    background: var(--ns-primary) !important;
-    background-image: none !important;
-
-    border: 1px solid var(--ns-primary) !important;
-}
-
-.edit-profile-page .form-actions .btn-primary:hover,
-.edit-profile-page .form-actions .btn-primary:focus,
-.edit-profile-page .form-actions .btn-primary:active {
-    color: #ffffff !important;
-
-    background: var(--ns-primary-dark) !important;
-    background-image: none !important;
-
-    border-color: var(--ns-primary-dark) !important;
-
-    box-shadow: none !important;
-    transform: none !important;
-}
-
-
-/* ---------- Cancel ---------- */
-
-.edit-profile-page .form-actions .btn-outline,
-.edit-profile-page .form-actions .btn-outline:link,
-.edit-profile-page .form-actions .btn-outline:visited {
-    color: #405575 !important;
-
-    background: #ffffff !important;
-    background-image: none !important;
-
-    border: 1px solid var(--ns-border) !important;
-}
-
-.edit-profile-page .form-actions .btn-outline:hover,
-.edit-profile-page .form-actions .btn-outline:focus,
-.edit-profile-page .form-actions .btn-outline:active {
-    color: #405575 !important;
-
-    background: var(--ns-blue-50) !important;
-    background-image: none !important;
-
-    border-color: #c8ddf3 !important;
-
-    box-shadow: none !important;
-    transform: none !important;
-}
-
-
-/* =========================================================
-   RESPONSIVE
-   ========================================================= */
-
-@media (max-width: 680px) {
-
-    .edit-profile-page {
-        padding: 24px 16px 50px;
-    }
-
-    .edit-profile-page .edit-profile-card {
-        padding: 24px 20px;
-    }
-
-    .edit-profile-page .form-row {
-        grid-template-columns: 1fr;
-        gap: 0;
-    }
-
-    .edit-profile-page .edit-profile-header {
-        align-items: flex-start;
-    }
-
-    .edit-profile-page .edit-profile-header h1 {
-        font-size: 1.35rem;
-    }
-
-    .edit-profile-page .form-actions {
-        align-items: stretch;
-    }
-
-    .edit-profile-page .form-actions .btn {
-        flex: 1;
-    }
-}
-
-
-@media (max-width: 460px) {
-
-    .edit-profile-page {
-        padding: 18px 11px 40px;
-    }
-
-    .edit-profile-page .edit-profile-card {
-        padding: 20px 15px;
-    }
-
-    .edit-profile-page .edit-profile-header {
-        gap: 12px;
-    }
-
-    .edit-profile-page .edit-profile-header .icon {
-        width: 46px;
-        height: 46px;
-    }
-
-    .edit-profile-page .form-actions {
-        flex-direction: column-reverse;
-    }
-
-    .edit-profile-page .form-actions .btn {
-        width: 100%;
-    }
-}
+#ns-edit-profile{--blue:#2667d3;--ink:#173562;--muted:#788cab;display:block!important;width:100%!important;max-width:980px!important;margin:0 auto!important;padding:6px 0 32px!important;color:var(--ink);font-family:Inter,system-ui,sans-serif}
+#ns-edit-profile *{box-sizing:border-box}#ns-edit-profile a{text-decoration:none}
+#ns-edit-profile .ne-back-profile{display:inline-flex;align-items:center;gap:8px;color:#52769f;font-size:12px;margin-bottom:16px}
+#ns-edit-profile .edit-profile-card{display:block!important;border:1px solid #dfe9f7;border-radius:24px;background:#fff;box-shadow:0 15px 40px #245eab0b;overflow:hidden}
+#ns-edit-profile .edit-profile-header{position:relative;display:flex;align-items:center;gap:16px;padding:25px 28px;background:linear-gradient(115deg,#dfecff,#edf8ff);border-bottom:1px solid #d9e9fc;overflow:hidden}
+#ns-edit-profile .edit-profile-header:after{content:'';position:absolute;width:180px;height:180px;inset-inline-end:-50px;top:-85px;border-radius:50%;border:1px solid #fff;box-shadow:0 0 0 25px #ffffff44,0 0 0 50px #ffffff33;pointer-events:none}
+#ns-edit-profile .icon{display:grid;place-items:center;width:48px;height:48px;flex:0 0 48px;border-radius:15px;background:#ffffffa8;backdrop-filter:blur(10px);color:var(--blue)}
+#ns-edit-profile h1{font-size:24px;margin:0;color:var(--ink)}#ns-edit-profile p{font-size:12px;color:var(--muted);margin:5px 0 0}
+#ns-edit-profile form{padding:24px 28px}#ns-edit-profile .form-row{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:18px}
+#ns-edit-profile .form-group{display:block!important;grid-area:auto!important;min-width:0;margin:0 0 18px!important}
+#ns-edit-profile label{display:block;font-size:12px;font-weight:650;color:var(--ink);margin-bottom:7px}
+#ns-edit-profile .form-input{display:block!important;width:100%!important;min-height:43px;padding:10px 13px;border:1px solid #dae6f5;border-radius:11px;background:#f8fbff;font:inherit;font-size:13px;color:#344866;transition:border-color .2s,box-shadow .2s}
+#ns-edit-profile .form-input:focus{outline:none;border-color:#79a7ed;background:#fff;box-shadow:0 0 0 3px #2667d312}
+#ns-edit-profile .form-hint{font-size:11px;color:var(--muted);margin-top:6px}#ns-edit-profile .required,#ns-edit-profile .form-error{color:#ba4358}#ns-edit-profile .form-error{display:block;font-size:12px;margin-top:5px}
+#ns-edit-profile .messages{padding:16px 28px 0}#ns-edit-profile .message,#ns-edit-profile .nonfield-errors{padding:10px 12px;border-radius:10px;background:#edf5ff;font-size:12px;margin-bottom:8px}
+#ns-edit-profile .form-checkbox-group{display:flex;align-items:flex-start;gap:10px;background:#f5f9ff;border:1px solid #e2ebf7;padding:13px;border-radius:12px}#ns-edit-profile .form-checkbox-group input{width:17px;height:17px;flex:0 0 17px;accent-color:var(--blue)}#ns-edit-profile .form-checkbox-group label{margin:0;font-weight:400}
+#ns-edit-profile .form-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:24px;padding-top:18px;border-top:1px solid #e7eef7}
+#ns-edit-profile .btn{display:inline-flex!important;align-items:center;justify-content:center;gap:8px;width:auto!important;min-height:38px!important;padding:9px 15px!important;border:1px solid #d8e5f6!important;border-radius:10px!important;font:inherit;font-size:12px!important;font-weight:700!important;background:#fff!important;color:#395e8a!important;cursor:pointer}
+#ns-edit-profile .btn-primary{background:var(--blue)!important;border-color:var(--blue)!important;color:white!important}#ns-edit-profile .btn::before,#ns-edit-profile .btn::after{content:none!important}
+#ns-edit-profile .ne-avatar-panel{display:flex;align-items:center;gap:24px;padding:18px;margin-bottom:24px;border-radius:18px;border:1px solid #dce9fa;background:linear-gradient(120deg,#f0f6ff,#fafdff)}
+#ns-edit-profile .ne-preview{width:92px;height:92px;border:4px solid white;border-radius:50%;object-fit:cover;box-shadow:0 10px 24px #2667d322;animation:ne-float 6s ease-in-out infinite}
+#ns-edit-profile .ne-avatar-copy{flex:1;min-width:0}#ns-edit-profile h2{font-size:15px;margin:0;color:var(--ink)}#ns-edit-profile .ne-options{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
+#ns-edit-profile .ne-choice{display:flex;align-items:center;gap:9px;padding:8px 12px;border:1px solid #d5e3f7;border-radius:12px;background:#ffffffb8;backdrop-filter:blur(8px);font:inherit;font-size:12px;color:#365783;cursor:pointer;transition:transform .2s,border-color .2s}
+#ns-edit-profile .ne-choice img{width:38px;height:38px;border-radius:50%;object-fit:cover}#ns-edit-profile .ne-choice[aria-pressed=true]{border-color:#2667d3;background:#e8f1ff;box-shadow:0 0 0 1px #2667d3}#ns-edit-profile .ne-choice:hover{transform:translateY(-2px)}
+#ns-edit-profile button:focus-visible,#ns-edit-profile a:focus-visible{outline:3px solid #8eb9ff;outline-offset:3px}#ns-edit-profile .ne-status{font-size:11px;color:#52769f;margin-top:8px;min-height:16px}
+@keyframes ne-float{50%{transform:translateY(-5px)}}
+@media(max-width:600px){#ns-edit-profile form{padding:18px}#ns-edit-profile .edit-profile-header{padding:20px 18px}#ns-edit-profile .form-row{grid-template-columns:1fr!important;gap:0}#ns-edit-profile .ne-avatar-panel{align-items:flex-start;gap:14px;padding:14px}#ns-edit-profile .ne-preview{width:64px;height:64px}#ns-edit-profile .form-actions .btn{flex:1}}
+@media(prefers-reduced-motion:reduce){#ns-edit-profile *{animation:none!important;transition:none!important}}
+
+/* Blue banner with a decorative profile card. */
+#ns-edit-profile .edit-profile-header{background:linear-gradient(115deg,#215bc2,#2667d3 55%,#3989e5);min-height:142px;gap:16px;isolation:isolate}
+#ns-edit-profile .edit-profile-header h1{color:#fff!important}
+#ns-edit-profile .edit-profile-header p{color:#e3efff!important;max-width:390px;line-height:1.6}
+#ns-edit-profile .edit-profile-header .icon{background:#ffffff21;color:white;border:1px solid #ffffff40}
+#ns-edit-profile .edit-profile-header:after{z-index:-1}
+#ns-edit-profile .ne-header-art{display:block;width:156px;height:108px;flex:0 0 156px;margin-inline-start:auto;overflow:visible;animation:ne-float 6s ease-in-out infinite;filter:drop-shadow(0 10px 12px #123b8528);pointer-events:none}
+@media(max-width:600px){#ns-edit-profile .ne-header-art{width:100px;height:82px;flex-basis:100px}#ns-edit-profile .edit-profile-header h1{font-size:21px}}
+@media(max-width:430px){#ns-edit-profile .ne-header-art{display:none}#ns-edit-profile .edit-profile-header{min-height:124px}}
+
+/* Final royal styling overrides shared workspace backgrounds. */
+#ns-edit-profile .edit-profile-header{display:flex!important;align-items:center!important;background:linear-gradient(115deg,#184cad 0%,#2667d3 60%,#3985df 100%)!important;background-color:#2667d3!important;border-bottom:1px solid #1b55b7!important;padding:28px!important;min-height:152px!important;box-shadow:inset 0 1px 0 #ffffff25}
+#ns-edit-profile .edit-profile-header h1{color:#fff!important;font-weight:800!important;letter-spacing:-.025em}
+#ns-edit-profile .edit-profile-header p{color:#e4efff!important}
+#ns-edit-profile .edit-profile-header>.icon{background:#ffffff20!important;color:#fff!important;border:1px solid #ffffff45!important;box-shadow:0 8px 18px #123a8520}
+#ns-edit-profile .edit-profile-card{border:1px solid #d8e5f7!important;box-shadow:0 18px 45px #2055a112!important;border-radius:24px!important}
+#ns-edit-profile form{background:linear-gradient(180deg,#ffffff,#fbfdff)!important}
+#ns-edit-profile .form-group{transition:transform .2s ease}
+#ns-edit-profile .form-group label{font-weight:700;letter-spacing:.01em}
+#ns-edit-profile .form-input{background:#f7faff!important;border-color:#dce7f6!important;box-shadow:inset 0 1px 2px #1b478a03;transition:background .2s,border-color .2s,box-shadow .2s}
+#ns-edit-profile .form-input:hover{background:#fff!important;border-color:#abc9ef!important;box-shadow:0 4px 12px #2667d30a}
+#ns-edit-profile .form-input:focus{background:#fff!important;border-color:#6a9ce3!important;box-shadow:0 0 0 4px #2667d312!important}
+#ns-edit-profile .ne-avatar-panel{background:linear-gradient(120deg,#edf4ff,#f7fbff)!important;border-color:#d8e7fb!important;box-shadow:inset 0 1px 0 white,0 8px 20px #2667d306}
+#ns-edit-profile .ne-choice{box-shadow:0 4px 12px #2667d306}
+#ns-edit-profile .ne-choice:hover{border-color:#88b2ed;box-shadow:0 8px 18px #2667d315;transform:translateY(-2px)}
+#ns-edit-profile .btn{transition:transform .2s,box-shadow .2s,background .2s!important}
+#ns-edit-profile .btn-primary{background:linear-gradient(110deg,#235bc0,#317ce0)!important;box-shadow:0 6px 16px #2667d325!important}
+#ns-edit-profile .btn-primary:hover{background:linear-gradient(110deg,#1c4faa,#2667d3)!important;transform:translateY(-2px)!important;box-shadow:0 9px 20px #2667d334!important;color:#fff!important}
+#ns-edit-profile .btn-outline:hover{background:#edf4ff!important;transform:translateY(-2px)!important}
+#ns-edit-profile .ne-header-art{display:block!important;max-width:156px!important;position:relative!important;margin-inline-start:auto!important}
+@media(max-width:600px){#ns-edit-profile .edit-profile-header{padding:22px 18px!important}#ns-edit-profile .ne-header-art{max-width:100px!important}}
+@media(max-width:430px){#ns-edit-profile .ne-header-art{display:none!important}}
+@media(prefers-reduced-motion:reduce){#ns-edit-profile *,#ns-edit-profile .btn{animation:none!important;transition:none!important}}
+
+/* Compact layout and bilingual alignment. */
+#ns-edit-profile{max-width:1100px!important}
+#ns-edit-profile .ne-back-profile{position:relative!important;z-index:2!important;pointer-events:auto!important;display:inline-flex!important;align-items:center!important;gap:8px!important;padding:8px 12px!important;margin-bottom:12px!important;border:1px solid #d7e5f7!important;border-radius:9px!important;background:white!important;color:#365f99!important;font-size:12px!important;cursor:pointer!important;text-decoration:none!important}
+#ns-edit-profile .ne-back-profile::before,#ns-edit-profile .ne-back-profile::after{content:none!important;pointer-events:none!important}
+#ns-edit-profile .edit-profile-header{min-height:118px!important;padding:18px 24px!important}
+#ns-edit-profile .ne-header-art{height:82px!important;width:124px!important;flex-basis:124px!important}
+#ns-edit-profile form{padding:20px 24px!important}
+#ns-edit-profile .ne-avatar-panel{padding:14px 18px!important;margin-bottom:18px!important;gap:18px!important;min-height:0!important}
+#ns-edit-profile .ne-preview{width:74px!important;height:74px!important;flex:0 0 74px!important}
+#ns-edit-profile .ne-status:empty{display:none}
+#ns-edit-profile .ne-options{margin-top:9px!important}
+#ns-edit-profile .form-group{margin-bottom:14px!important}
+#ns-edit-profile .form-actions{margin-top:18px!important;padding-top:14px!important}
+#ns-edit-profile[dir=rtl]{text-align:right;letter-spacing:normal;font-family:inherit}
+#ns-edit-profile[dir=rtl] h1,#ns-edit-profile[dir=rtl] label{letter-spacing:normal!important}
+#ns-edit-profile[dir=rtl] p,#ns-edit-profile[dir=rtl] label{line-height:1.8}
+#ns-edit-profile[dir=rtl] .ne-back-profile i,#ns-edit-profile[dir=rtl] .btn-outline i{transform:rotate(180deg)}
+#ns-edit-profile input[type=email],#ns-edit-profile input[name=phone_number],#ns-edit-profile input[type=date]{direction:ltr;text-align:left}
+@media(min-width:760px){#ns-edit-profile .ne-avatar-copy{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:18px;align-items:center}#ns-edit-profile .ne-avatar-copy h2,#ns-edit-profile .ne-avatar-copy>p,#ns-edit-profile .ne-status{grid-column:1}#ns-edit-profile .ne-options{grid-column:2;grid-row:1/4;margin-top:0!important}}
+@media(max-width:600px){#ns-edit-profile form{padding:16px!important}#ns-edit-profile .edit-profile-header{padding:18px!important}#ns-edit-profile .ne-avatar-panel{padding:12px!important}}
+
+/* Compact v5: two-column field layout, including email and phone. */
+#ns-edit-profile form{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:16px 20px!important}
+#ns-edit-profile form>.form-row{display:contents!important}
+#ns-edit-profile form .form-group{margin:0!important;min-height:0!important}
+#ns-edit-profile form>.ne-avatar-panel,#ns-edit-profile form>.nonfield-errors,#ns-edit-profile form>.form-checkbox-group,#ns-edit-profile form>.form-error,#ns-edit-profile form>.form-actions{grid-column:1/-1!important}
+#ns-edit-profile form>.ne-avatar-panel{margin-bottom:2px!important}
+#ns-edit-profile form>.form-group:has(#id_preferred_language){grid-column:1/-1!important}
+#ns-edit-profile .edit-profile-header{height:auto!important;min-height:104px!important;padding:14px 22px!important}
+#ns-edit-profile .ne-avatar-panel{height:auto!important;min-height:0!important;padding:12px 16px!important}
+#ns-edit-profile .ne-avatar-copy{min-height:0!important}
+#ns-edit-profile .form-actions{margin-top:0!important}
+#ns-edit-profile[dir=rtl] .form-input,#ns-edit-profile[dir=rtl] label,#ns-edit-profile[dir=rtl] .form-hint{font-family:inherit!important}
+#ns-edit-profile[dir=rtl] input[type=text]{text-align:right!important}
+#ns-edit-profile[dir=rtl] input[name=phone_number]{text-align:left!important}
+@media(max-width:600px){#ns-edit-profile form{grid-template-columns:1fr!important;gap:14px!important}#ns-edit-profile form>.form-group{grid-column:1!important}}
 </style>
 {% endblock %}
-
 {% block content %}
 {% with lang=request.LANG|default:'en' %}
-
-<div class="edit-profile-page {% if lang == 'ur' %}lang-ur{% endif %}">
-
+<div id="ns-edit-profile" dir="{% if lang == 'ur' %}rtl{% else %}ltr{% endif %}" data-user-id="{{ user.pk }}" data-default-avatar="{% if user.profile.gender == 'F' %}female{% else %}male{% endif %}" class="edit-profile-page {% if lang == 'ur' %}lang-ur{% endif %}">
+    <!-- Edit profile compact v5 -->
     <!-- Back -->
-    <a href="{% url 'accounts:profile' %}" class="back-link">
+    <a href="{% url 'accounts:profile' %}" class="ne-back-profile" onclick="event.stopImmediatePropagation(); window.location.assign(this.href); return false;">
         <i class="fa-solid fa-arrow-left"></i>
         {% if lang == 'ur' %}پروفائل پر واپس جائیں{% else %}Back to Profile{% endif %}
     </a>
-
     <div class="edit-profile-card">
-
         <!-- Header -->
         <div class="edit-profile-header">
             <div class="icon">
                 <i class="fa-regular fa-pen-to-square"></i>
             </div>
-
             <div>
                 <h1>
                     {% if lang == 'ur' %}پروفائل میں ترمیم{% else %}Edit Profile{% endif %}
                 </h1>
-
                 <p>
                     {% if lang == 'ur' %}
                     اپنی ذاتی معلومات اور ترجیحات کو اپ ڈیٹ کریں
@@ -555,8 +137,21 @@ Edit Profile - NeuroSense AI
                     {% endif %}
                 </p>
             </div>
-        </div>
-
+        <svg class="ne-header-art" viewBox="0 0 156 108" fill="none" aria-hidden="true" focusable="false">
+<rect x="20" y="14" width="120" height="82" rx="15" fill="white" fill-opacity=".14" stroke="white" stroke-opacity=".45" transform="rotate(-6 80 55)"/>
+<rect x="12" y="20" width="120" height="80" rx="14" fill="#F2F7FF"/>
+<rect x="12" y="20" width="120" height="20" rx="14" fill="#DCEBFF"/>
+<path d="M12 32H132V40H12Z" fill="#DCEBFF"/>
+<circle cx="23" cy="30" r="2.5" fill="#6498EB"/><circle cx="32" cy="30" r="2.5" fill="#9FBEED"/>
+<circle cx="44" cy="65" r="18" fill="#DCEAFF"/><circle cx="44" cy="60" r="6" fill="#5389DD"/><path d="M32 77C33 65 55 65 56 77" fill="#5389DD"/>
+<rect x="73" y="51" width="42" height="5" rx="2.5" fill="#487CC8"/>
+<rect x="73" y="63" width="32" height="4" rx="2" fill="#ABC5EC"/>
+<rect x="73" y="74" width="38" height="4" rx="2" fill="#ABC5EC"/>
+<circle cx="128" cy="87" r="17" fill="#DFEEFF" stroke="white" stroke-width="3"/>
+<path d="M121 87L126 92L135 82" stroke="#2667D3" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M145 24V34M140 29H150" stroke="white" stroke-opacity=".65" stroke-width="2" stroke-linecap="round"/>
+</svg>
+</div>
         <!-- Messages -->
         {% if messages %}
         <div class="messages">
@@ -567,13 +162,19 @@ Edit Profile - NeuroSense AI
             {% endfor %}
         </div>
         {% endif %}
-
         <!-- Form -->
         <form method="POST" action="{% url 'accounts:edit_profile' %}">
             {% csrf_token %}
+{% if form.non_field_errors %}<div class="nonfield-errors" role="alert">{{ form.non_field_errors }}</div>{% endif %}
+<section class="ne-avatar-panel" aria-label="{% if lang == 'ur' %}اوتار{% else %}Avatar{% endif %}">
+<img class="ne-preview" id="neAvatarPreview" src="{% if user.profile.gender == 'F' %}{% static 'speech_app/images/avatar_female.png' %}{% else %}{% static 'speech_app/images/avatar_male.png' %}{% endif %}" alt="{% if lang == 'ur' %}پروفائل اوتار{% else %}Profile avatar{% endif %}">
+<div class="ne-avatar-copy"><h2>{% if lang == 'ur' %}اپنا اوتار منتخب کریں{% else %}Choose Your Avatar{% endif %}</h2><p>{% if lang == 'ur' %}آپ کا انتخاب اس براؤزر میں فوراً محفوظ ہو جاتا ہے۔{% else %}Your selection saves immediately in this browser.{% endif %}</p>
+<div class="ne-options">
+<button type="button" class="ne-choice" data-avatar="male" aria-pressed="false"><img src="{% static 'speech_app/images/avatar_male.png' %}" alt=""><span>{% if lang == 'ur' %}مرد اوتار{% else %}Male Avatar{% endif %}</span></button>
+<button type="button" class="ne-choice" data-avatar="female" aria-pressed="false"><img src="{% static 'speech_app/images/avatar_female.png' %}" alt=""><span>{% if lang == 'ur' %}خاتون اوتار{% else %}Female Avatar{% endif %}</span></button>
+</div><div class="ne-status" role="status" id="neAvatarStatus"></div></div></section>
 
             <div class="form-row">
-
                 <div class="form-group">
                     <label for="id_first_name">
                         {% if lang == 'ur' %}
@@ -582,22 +183,18 @@ Edit Profile - NeuroSense AI
                         First Name <span class="required">*</span>
                         {% endif %}
                     </label>
-
                     <input type="text"
                            name="first_name"
                            id="id_first_name"
                            class="form-input"
                            value="{{ form.first_name.value|default:'' }}"
                            required>
-
                     {% if form.first_name.errors %}
                     <span class="form-error">
                         {{ form.first_name.errors.0 }}
                     </span>
                     {% endif %}
                 </div>
-
-
                 <div class="form-group">
                     <label for="id_last_name">
                         {% if lang == 'ur' %}
@@ -606,24 +203,19 @@ Edit Profile - NeuroSense AI
                         Last Name <span class="required">*</span>
                         {% endif %}
                     </label>
-
                     <input type="text"
                            name="last_name"
                            id="id_last_name"
                            class="form-input"
                            value="{{ form.last_name.value|default:'' }}"
                            required>
-
                     {% if form.last_name.errors %}
                     <span class="form-error">
                         {{ form.last_name.errors.0 }}
                     </span>
                     {% endif %}
                 </div>
-
             </div>
-
-
             <div class="form-group">
                 <label for="id_email">
                     {% if lang == 'ur' %}
@@ -632,14 +224,12 @@ Edit Profile - NeuroSense AI
                     Email Address <span class="required">*</span>
                     {% endif %}
                 </label>
-
                 <input type="email"
                        name="email"
                        id="id_email"
                        class="form-input"
                        value="{{ form.email.value|default:'' }}"
                        required>
-
                 <div class="form-hint">
                     {% if lang == 'ur' %}
                     یہ ای میل آپ کی لاگ ان اور مواصلت کے لیے استعمال ہوگی۔
@@ -647,117 +237,90 @@ Edit Profile - NeuroSense AI
                     This email is used for your account and communication.
                     {% endif %}
                 </div>
-
                 {% if form.email.errors %}
                 <span class="form-error">
                     {{ form.email.errors.0 }}
                 </span>
                 {% endif %}
             </div>
-
-
             <div class="form-group">
                 <label for="id_phone_number">
                     {% if lang == 'ur' %}فون نمبر{% else %}Phone Number{% endif %}
                 </label>
-
                 <input type="text"
                        name="phone_number"
                        id="id_phone_number"
                        class="form-input"
                        value="{{ form.phone_number.value|default:'' }}">
-
                 {% if form.phone_number.errors %}
                 <span class="form-error">
                     {{ form.phone_number.errors.0 }}
                 </span>
                 {% endif %}
             </div>
-
-
             <div class="form-row">
-
                 <div class="form-group">
                     <label for="id_date_of_birth">
                         {% if lang == 'ur' %}تاریخ پیدائش{% else %}Date of Birth{% endif %}
                     </label>
-
                     <input type="date"
                            name="date_of_birth"
                            id="id_date_of_birth"
                            class="form-input"
                            value="{{ form.date_of_birth.value|date:'Y-m-d'|default:'' }}">
-
                     {% if form.date_of_birth.errors %}
                     <span class="form-error">
                         {{ form.date_of_birth.errors.0 }}
                     </span>
                     {% endif %}
                 </div>
-
-
                 <div class="form-group">
                     <label for="id_gender">
                         {% if lang == 'ur' %}جنس{% else %}Gender{% endif %}
                     </label>
-
                     <select name="gender"
                             id="id_gender"
                             class="form-input">
-
                         <option value="P"
                                 {% if form.gender.value == 'P' %}selected{% endif %}>
                             {% if lang == 'ur' %}ترجیح نہیں{% else %}Prefer not to say{% endif %}
                         </option>
-
                         <option value="M"
                                 {% if form.gender.value == 'M' %}selected{% endif %}>
                             {% if lang == 'ur' %}مرد{% else %}Male{% endif %}
                         </option>
-
                         <option value="F"
                                 {% if form.gender.value == 'F' %}selected{% endif %}>
                             {% if lang == 'ur' %}خاتون{% else %}Female{% endif %}
                         </option>
-
                         <option value="O"
                                 {% if form.gender.value == 'O' %}selected{% endif %}>
                             {% if lang == 'ur' %}دوسری{% else %}Other{% endif %}
                         </option>
-
                     </select>
-
                     {% if form.gender.errors %}
                     <span class="form-error">
                         {{ form.gender.errors.0 }}
                     </span>
                     {% endif %}
                 </div>
-
             </div>
-
-
             <div class="form-group">
                 <label for="id_preferred_language">
                     {% if lang == 'ur' %}ترجیحی زبان{% else %}Preferred Language{% endif %}
                 </label>
-
                 <select name="preferred_language"
                         id="id_preferred_language"
                         class="form-input">
-
                     <option value="en"
                             {% if form.preferred_language.value == 'en' %}selected{% endif %}>
                         English
                     </option>
-
                     <option value="ur"
                             {% if form.preferred_language.value == 'ur' %}selected{% endif %}>
                         اردو
                     </option>
-
                 </select>
-
                 <div class="form-hint">
                     {% if lang == 'ur' %}
                     یہ آپ کی ڈیفالٹ ویب سائٹ کی زبان کا تعین کرے گا۔
@@ -765,22 +328,17 @@ Edit Profile - NeuroSense AI
                     This determines your default website language.
                     {% endif %}
                 </div>
-
                 {% if form.preferred_language.errors %}
                 <span class="form-error">
                     {{ form.preferred_language.errors.0 }}
                 </span>
                 {% endif %}
             </div>
-
-
             <div class="form-checkbox-group">
-
                 <input type="checkbox"
                        name="email_notifications"
                        id="id_email_notifications"
                        {% if form.email_notifications.value %}checked{% endif %}>
-
                 <label for="id_email_notifications">
                     {% if lang == 'ur' %}
                     مجھے ای میل اطلاعات بھیجیں (اسکریننگ ریمائنڈرز اور اپ ڈیٹس)
@@ -788,38 +346,39 @@ Edit Profile - NeuroSense AI
                     Send me email notifications for screening reminders and updates.
                     {% endif %}
                 </label>
-
             </div>
-
             {% if form.email_notifications.errors %}
             <span class="form-error">
                 {{ form.email_notifications.errors.0 }}
             </span>
             {% endif %}
-
-
             <!-- Actions -->
             <div class="form-actions">
-
                 <a href="{% url 'accounts:profile' %}"
                    class="btn btn-outline">
                     <i class="fa-solid fa-arrow-left"></i>
                     {% if lang == 'ur' %}منسوخ کریں{% else %}Cancel{% endif %}
                 </a>
-
                 <button type="submit"
                         class="btn btn-primary">
                     <i class="fa-regular fa-floppy-disk"></i>
                     {% if lang == 'ur' %}محفوظ کریں{% else %}Save Changes{% endif %}
                 </button>
-
             </div>
-
         </form>
-
     </div>
-
 </div>
-
+<script>
+(function(){
+const root=document.getElementById('ns-edit-profile');if(!root)return;
+const preview=root.querySelector('#neAvatarPreview'),buttons=Array.from(root.querySelectorAll('[data-avatar]')),status=root.querySelector('#neAvatarStatus');
+const key='neurosense.profile.avatar.v1.user.'+root.dataset.userId;
+const valid=t=>t==='male'||t==='female';
+function display(type){const selected=buttons.find(b=>b.dataset.avatar===type);preview.src=selected.querySelector('img').src;buttons.forEach(b=>b.setAttribute('aria-pressed',String(b===selected)));}
+let initial=root.dataset.defaultAvatar;try{const stored=localStorage.getItem(key);if(valid(stored))initial=stored;}catch(error){}
+display(valid(initial)?initial:'male');
+buttons.forEach(button=>button.addEventListener('click',()=>{const type=button.dataset.avatar;display(type);try{localStorage.setItem(key,type);status.textContent="{% if lang == 'ur' %}اوتار اس براؤزر میں محفوظ ہو گیا۔{% else %}Avatar saved in this browser.{% endif %}";}catch(error){status.textContent="{% if lang == 'ur' %}اس براؤزر میں انتخاب محفوظ نہیں ہو سکا۔{% else %}This browser could not save your choice.{% endif %}";}}));
+})();
+</script>
 {% endwith %}
 {% endblock %}

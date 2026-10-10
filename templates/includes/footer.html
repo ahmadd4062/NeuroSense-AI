@@ -1,133 +1,52 @@
 {% load static %}
 {% with lang=request.LANG|default:'en' %}
-
 <footer class="site-footer" id="contact">
     <div class="footer-container">
-
         <div class="footer-top">
-
             <div class="footer-brand">
                 <a href="{% url 'speech_app:home' %}" class="footer-logo">
-                    <img
-                        src="{% static 'speech_app/images/logo.png' %}"
-                        alt="NeuroSense AI"
-                    >
+                    <img src="{% static 'speech_app/images/logo.png' %}" alt="NeuroSense AI">
                 </a>
-
                 <p>
                     {% if lang == 'ur' %}
-                    اے آئی سے چلنے والی نیورولوجیکل اسکریننگ جو حرکت، تقریر، اور رویاتی تجزیہ کے ذریعے ابتدائی آگاہی کی حمایت کے لیے ڈیزائن کی گئی ہے۔
+                    نیوروسینس اے آئی سوالنامے، آواز اور چال کے تجزیے سے پارکنسنز کے خطرے کی ابتدائی آگاہی میں مدد فراہم کرتا ہے۔
                     {% else %}
-                    AI-powered neurological screening designed to support early
-                    awareness through movement, speech, and behavioral analysis.
+                    NeuroSense AI supports early Parkinson’s risk awareness through questionnaire, speech, and gait analysis.
                     {% endif %}
                 </p>
-
-                <a href="{% url 'questionnaire_app:home' %}" class="footer-button">
-                    <span>
-                        {% if lang == 'ur' %}اسکریننگ شروع کریں{% else %}Start Screening{% endif %}
-                    </span>
-                    <i class="fa-solid fa-arrow-right"></i>
+                {% url 'questionnaire_app:home' as screening_url %}
+                <a href="{% if user.is_authenticated %}{{ screening_url }}{% else %}{% url 'accounts:login' %}?next={{ screening_url|urlencode }}{% endif %}" class="footer-button">
+                    <span>{% if lang == 'ur' %}اسکریننگ شروع کریں{% else %}Start Screening{% endif %}</span>
+                    <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
                 </a>
             </div>
-
             <div class="footer-column">
-    <h3>
-        {% if lang == 'ur' %}فوری روابط{% else %}Quick Links{% endif %}
-    </h3>
-
-    <!-- Home -->
-    <a href="{% url 'speech_app:home' %}">
-        {% if lang == 'ur' %}ہوم{% else %}Home{% endif %}
-    </a>
-
-    <!-- About Us -->
-    <a href="{% url 'speech_app:home' %}#about">
-        {% if lang == 'ur' %}ہمارے بارے میں{% else %}About Us{% endif %}
-    </a>
-
-    <!-- Early Signs / How It Works -->
-    <a href="{% url 'speech_app:home' %}#early-signs">
-        {% if lang == 'ur' %}ابتدائی علامات{% else %}Early Signs{% endif %}
-    </a>
-
-    <!-- Features -->
-    <a href="{% url 'speech_app:home' %}#features">
-        {% if lang == 'ur' %}تشخیصات{% else %}Assessments{% endif %}
-    </a>
-</div>
-
-            <div class="footer-column">
-                <h3>
-                    {% if lang == 'ur' %}معاونت{% else %}Support{% endif %}
-                </h3>
-
-                <a href="{% url 'chatbot_app:chatbot' %}">
-                    {% if lang == 'ur' %}اے آئی چیٹ بوٹ{% else %}AI Chatbot{% endif %}
-                </a>
-                <a href="#faq">
-                    {% if lang == 'ur' %}عمومی سوالات{% else %}FAQs{% endif %}
-                </a>
-                <a href="#">
-                    {% if lang == 'ur' %}رازداری کی پالیسی{% else %}Privacy Policy{% endif %}
-                </a>
-                <a href="#">
-                    {% if lang == 'ur' %}شرائط و ضوابط{% else %}Terms &amp; Conditions{% endif %}
-                </a>
+                <h3>{% if lang == 'ur' %}فوری روابط{% else %}Quick Links{% endif %}</h3>
+                <a href="{% url 'speech_app:home' %}">{% if lang == 'ur' %}ہوم{% else %}Home{% endif %}</a>
+                <a href="{% url 'speech_app:home' %}#about">{% if lang == 'ur' %}ہمارے بارے میں{% else %}About Us{% endif %}</a>
+                <a href="{% url 'speech_app:home' %}#features">{% if lang == 'ur' %}خصوصیات{% else %}Features{% endif %}</a>
             </div>
-
             <div class="footer-column">
-                <h3>
-                    {% if lang == 'ur' %}تشخیصات{% else %}Assessments{% endif %}
-                </h3>
-
-                <a href="{% url 'gait_app:gait_screening' %}">
-                    {% if lang == 'ur' %}ویڈیو تشخیص{% else %}Video Assessment{% endif %}
-                </a>
-                <a href="{% url 'speech_app:screening' %}">
-                    {% if lang == 'ur' %}آڈیو تشخیص{% else %}Audio Assessment{% endif %}
-                </a>
-                <a href="{% url 'questionnaire_app:home' %}">
-                    {% if lang == 'ur' %}رویاتی تشخیص{% else %}Behavioral Assessment{% endif %}
-                </a>
-                <a href="{% url 'fusion_app:report' %}">
-                    {% if lang == 'ur' %}رسک رپورٹ{% else %}Risk Report{% endif %}
-                </a>
+                <h3>{% if lang == 'ur' %}آگاہی اور مدد{% else %}Learn & Support{% endif %}</h3>
+                <a href="{% url 'speech_app:home' %}#early-signs">{% if lang == 'ur' %}ابتدائی علامات{% else %}Early Signs{% endif %}</a>
+                <a href="{% url 'speech_app:home' %}#faq">{% if lang == 'ur' %}عمومی سوالات{% else %}FAQs{% endif %}</a>
+                <a href="{% url 'chatbot_app:chatbot' %}">{% if lang == 'ur' %}اے آئی چیٹ بوٹ{% else %}AI Chatbot{% endif %}</a>
             </div>
-
+            <div class="footer-column">
+                <h3>{% if lang == 'ur' %}رازداری اور شرائط{% else %}Privacy & Terms{% endif %}</h3>
+                <a href="{% url 'speech_app:privacy_policy' %}">{% if lang == 'ur' %}رازداری کی پالیسی{% else %}Privacy Policy{% endif %}</a>
+                <a href="{% url 'speech_app:terms_conditions' %}">{% if lang == 'ur' %}شرائط و ضوابط{% else %}Terms &amp; Conditions{% endif %}</a>
+            </div>
         </div>
-
         <div class="footer-bottom">
-
-            <p>
-                {% if lang == 'ur' %}
-                © 2026 نیوروسینس اے آئی۔ جملہ حقوق محفوظ ہیں۔
-                {% else %}
-                © 2026 NeuroSense AI. All rights reserved.
-                {% endif %}
-            </p>
-
+            <p>{% if lang == 'ur' %}© 2026 نیوروسینس اے آئی۔ جملہ حقوق محفوظ ہیں۔{% else %}© 2026 NeuroSense AI. All rights reserved.{% endif %}</p>
             <div class="footer-socials">
-                <a href="#" aria-label="Facebook">
-                    <i class="fa-brands fa-facebook-f"></i>
-                </a>
-
-                <a href="#" aria-label="LinkedIn">
-                    <i class="fa-brands fa-linkedin-in"></i>
-                </a>
-
-                <a href="#" aria-label="Instagram">
-                    <i class="fa-brands fa-instagram"></i>
-                </a>
-
-                <a href="#" aria-label="GitHub">
-                    <i class="fa-brands fa-github"></i>
-                </a>
+                <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f" aria-hidden="true"></i></a>
+                <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in" aria-hidden="true"></i></a>
+                <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a>
+                <a href="#" aria-label="GitHub"><i class="fa-brands fa-github" aria-hidden="true"></i></a>
             </div>
-
         </div>
-
     </div>
 </footer>
-
 {% endwith %}

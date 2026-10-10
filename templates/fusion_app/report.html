@@ -4133,79 +4133,353 @@ Final Report - NeuroSense AI
 }
 
 
-/* ===== Refined result presentation — NeuroSense dashboard design language ===== */
+/* NeuroSense — compact results (replaces former oversized results layer) */
 .report-page .ns-overall-section,
-.report-page .ns-modules-section {padding:28px 30px 30px;border-radius:20px;}
+.report-page .ns-modules-section{
+  padding:19px 23px 21px;
+  border-radius:17px;
+}
 .report-page .ns-overall-section .section-heading,
-.report-page .ns-modules-section .section-heading {margin-bottom:24px;}
-.report-page .ns-overall-section .overall-grid{grid-template-columns:minmax(190px, .55fr) minmax(0,2fr);gap:24px;align-items:stretch;}
+.report-page .ns-modules-section .section-heading{margin-bottom:15px}
+.report-page .ns-overall-section .section-icon,
+.report-page .ns-modules-section .section-icon{width:35px;height:35px;border-radius:10px}
+.report-page .ns-overall-section .overall-grid{
+  display:grid;
+  grid-template-columns:160px minmax(0,1fr);
+  align-items:center;
+  gap:22px;
+}
 .report-page .ns-overall-section .risk-ring-wrap{
- background:linear-gradient(145deg,#f4f8ff,#edf5ff);
- border:1px solid #e4edf9;border-radius:18px;min-height:248px;padding:24px;
+  min-height:166px;
+  padding:14px 10px;
+  border:1px solid #e6eef9;
+  border-radius:14px;
+  background:linear-gradient(145deg,#f5f9ff,#edf4ff);
 }
-.report-page .ns-overall-section .risk-ring{width:188px;height:188px;box-shadow:0 0 0 10px rgba(255,255,255,.78),0 12px 28px rgba(38,87,164,.09);}
-.report-page .ns-overall-section .risk-ring::before{inset:16px;}
-.report-page .ns-overall-section .risk-percent{font-size:2.4rem;letter-spacing:-.055em;}
-.report-page .ns-overall-section .risk-percent-label{font-size:.7rem;letter-spacing:.075em;}
-.report-page .ns-overall-section .result-copy{display:flex;flex-direction:column;justify-content:center;}
-.report-page .ns-overall-section .result-badge-box{padding:18px 20px;margin-bottom:15px;border-radius:14px;}
-.report-page .ns-overall-section .result-badge-title{font-size:1.16rem;}
-.report-page .ns-overall-section .result-description{font-size:.9rem;line-height:1.7;max-width:800px;}
-.report-page .ns-overall-section .risk-scale{margin-top:18px;padding:15px 10px 0;gap:0;}
-.report-page .ns-overall-section .scale-item{padding:5px 14px;align-items:center;}
-.report-page .ns-overall-section .scale-dot{margin-top:0;}
-.report-page .ns-overall-section .scale-text strong{font-size:.83rem;}
-.report-page .ns-overall-section .scale-text span{font-size:.73rem;}
-/* Replace the dense table look with elegant, structured result cards */
-.report-page .ns-modules-section .module-head{padding:0 20px 12px;color:#8798b0;font-size:.72rem;}
+.report-page .ns-overall-section .risk-ring{
+  width:128px;height:128px;
+  box-shadow:0 0 0 6px rgba(255,255,255,.8),0 7px 17px rgba(38,87,164,.08);
+}
+.report-page .ns-overall-section .risk-ring::before{inset:11px}
+.report-page .ns-overall-section .risk-percent{font-size:1.85rem;letter-spacing:-.04em}
+.report-page .ns-overall-section .risk-percent-label{font-size:.61rem;letter-spacing:.035em}
+.report-page .ns-overall-section .result-copy{display:block;min-width:0}
+.report-page .ns-overall-section .result-badge-box{
+  min-height:58px;padding:10px 13px;margin:0 0 10px;border-radius:11px;gap:10px;
+}
+.report-page .ns-overall-section .result-badge-icon{width:31px;height:31px;flex:0 0 31px}
+.report-page .ns-overall-section .result-badge-title{font-size:.95rem}
+.report-page .ns-overall-section .result-badge-subtitle{font-size:.74rem;line-height:1.45}
+.report-page .ns-overall-section .result-description{
+  font-size:.79rem;line-height:1.55;max-width:850px;
+}
+.report-page .ns-overall-section .risk-scale{
+  margin-top:12px;padding:11px 0 0;grid-template-columns:repeat(3,minmax(0,1fr));
+}
+.report-page .ns-overall-section .scale-item{gap:7px;padding:0 8px;align-items:center}
+.report-page .ns-overall-section .scale-dot{width:7px;height:7px;margin:0}
+.report-page .ns-overall-section .scale-text strong{font-size:.72rem;white-space:nowrap}
+.report-page .ns-overall-section .scale-text span{font-size:.65rem}
+/* Tighter module rows, with clear columns and proportional progress bars */
+.report-page .ns-modules-section .module-head,
+.report-page .ns-modules-section .module-row,
+.report-page.lang-ur .ns-modules-section .module-head,
+.report-page.lang-ur .ns-modules-section .module-row{
+  grid-template-columns:minmax(145px,1.35fr) minmax(160px,1.75fr) minmax(76px,.45fr) 56px;
+  gap:14px;
+}
+.report-page .ns-modules-section .module-head{padding:0 14px 8px;font-size:.66rem}
 .report-page .ns-modules-section .module-row{
- margin:0 0 12px;padding:20px 20px;border:1px solid #e6edf7!important;
- border-radius:15px;background:#fafcff;gap:22px;
- box-shadow:0 2px 8px rgba(32,70,123,.025);
- transition:background .2s ease,border-color .2s ease,box-shadow .2s ease,transform .2s ease;
+  min-height:61px;
+  margin:0 0 8px;
+  padding:10px 14px;
+  border:1px solid #e6edf7!important;
+  border-radius:12px;
+  background:#fafcff;
+  box-shadow:none;
+  transition:background .2s,border-color .2s,transform .2s;
 }
-.report-page .ns-modules-section .module-row:hover{background:#f6faff;border-color:#d3e2f7!important;box-shadow:0 9px 20px rgba(37,83,151,.07);transform:translateY(-2px);}
-.report-page .ns-modules-section .module-row:last-child{margin-bottom:0;}
-.report-page .ns-modules-section .module-name{font-size:.91rem;gap:14px;}
-.report-page .ns-modules-section .module-icon{width:46px;height:46px;font-size:1.03rem;border-radius:13px;flex-shrink:0;}
-.report-page .ns-modules-section .module-score{grid-template-columns:60px minmax(0,1fr);gap:13px;}
-.report-page .ns-modules-section .module-percent{font-size:1.08rem;font-weight:800;letter-spacing:-.03em;}
-.report-page .ns-modules-section .module-track{height:11px;background:#e7edf6;}
-.report-page .ns-modules-section .module-fill{transition:width .7s ease;}
-.report-page .ns-modules-section .module-prediction{min-width:85px;padding:8px 11px;border-radius:9px;font-size:.7rem;}
-.report-page .ns-modules-section .module-weight{font-size:.88rem;color:#60779a;font-weight:760;}
-/* Consistent icon/bar accents, with risk classifications preserved */
-.report-page .ns-modules-section .module-row:nth-of-type(2) .module-icon{background:#e8f0ff;color:#3178db;}
-.report-page .ns-modules-section .module-row:nth-of-type(3) .module-icon{background:#ddf7f3;color:#0fa99d;}
-.report-page .ns-modules-section .module-row:nth-of-type(4) .module-icon{background:#fff1df;color:#d99835;}
-.report-page .ns-modules-section .module-row:nth-of-type(2) .module-fill{background:#4383e6;}
-.report-page .ns-modules-section .module-row:nth-of-type(3) .module-fill{background:#1ab3a5;}
-.report-page .ns-modules-section .module-row:nth-of-type(4) .module-fill{background:#e2ae50;}
-@media(max-width:1000px){
- .report-page .ns-overall-section .overall-grid{grid-template-columns:180px minmax(0,1fr);gap:16px;}
- .report-page .ns-overall-section .risk-ring-wrap{min-height:210px;padding:14px;}
- .report-page .ns-overall-section .risk-ring{width:151px;height:151px;}
- .report-page .ns-modules-section .module-row,.report-page .ns-modules-section .module-head{grid-template-columns:minmax(145px,1.2fr) minmax(135px,1.6fr) 86px 65px;gap:12px;}
+.report-page .ns-modules-section .module-row:hover{
+  background:#f5f9ff;border-color:#d5e4f7!important;
+  transform:translateY(-1px);box-shadow:none;
+}
+.report-page .ns-modules-section .module-row:last-child{margin-bottom:0}
+.report-page .ns-modules-section .module-name{font-size:.79rem;gap:10px}
+.report-page .ns-modules-section .module-icon{width:35px;height:35px;font-size:.82rem;border-radius:10px}
+.report-page .ns-modules-section .module-score{grid-template-columns:42px minmax(0,1fr);gap:8px;min-width:0}
+.report-page .ns-modules-section .module-percent{font-size:.9rem;letter-spacing:0}
+.report-page .ns-modules-section .module-track{height:7px;background:#e8eef7}
+.report-page .ns-modules-section .module-prediction{min-width:70px;padding:5px 8px;border-radius:8px;font-size:.62rem}
+.report-page .ns-modules-section .module-weight{font-size:.75rem;font-weight:700;color:#60779a}
+.report-page .ns-modules-section .module-row:nth-of-type(2) .module-icon{background:#e6f0ff;color:#3178db}
+.report-page .ns-modules-section .module-row:nth-of-type(3) .module-icon{background:#ddf7f3;color:#0fa99d}
+.report-page .ns-modules-section .module-row:nth-of-type(4) .module-icon{background:#fff1df;color:#d99835}
+.report-page .ns-modules-section .module-row:nth-of-type(2) .module-fill{background:#4383e6}
+.report-page .ns-modules-section .module-row:nth-of-type(3) .module-fill{background:#1ab3a5}
+.report-page .ns-modules-section .module-row:nth-of-type(4) .module-fill{background:#e2ae50}
+@media(max-width:1050px){
+ .report-page .ns-overall-section .overall-grid{grid-template-columns:150px minmax(0,1fr);gap:16px}
+ .report-page .ns-modules-section .module-head,
+ .report-page .ns-modules-section .module-row,
+ .report-page.lang-ur .ns-modules-section .module-head,
+ .report-page.lang-ur .ns-modules-section .module-row{grid-template-columns:minmax(115px,1.25fr) minmax(110px,1.6fr) 75px 45px;gap:9px}
 }
 @media(max-width:700px){
- .report-page .ns-overall-section,.report-page .ns-modules-section{padding:21px 17px;}
- .report-page .ns-overall-section .overall-grid{grid-template-columns:1fr;gap:20px;}
- .report-page .ns-overall-section .risk-ring-wrap{min-height:198px;}
- .report-page .ns-modules-section .module-head{display:none;}
- .report-page .ns-modules-section .module-row{grid-template-columns:1fr!important;gap:13px;margin-bottom:11px;padding:17px;}
- .report-page .ns-modules-section .module-score{grid-template-columns:60px 1fr;}
- .report-page .ns-modules-section .module-weight{display:block;}
+ .report-page .ns-overall-section,.report-page .ns-modules-section{padding:17px 15px}
+ .report-page .ns-overall-section .overall-grid{grid-template-columns:1fr;gap:13px}
+ .report-page .ns-overall-section .risk-ring-wrap{min-height:148px;padding:11px}
+ .report-page .ns-overall-section .risk-ring{width:124px;height:124px}
+ .report-page .ns-overall-section .risk-scale{gap:6px}
+ .report-page .ns-overall-section .scale-item{padding:0 4px;justify-content:flex-start}
+ .report-page .ns-modules-section .module-head{display:none}
+ .report-page .ns-modules-section .module-row,
+ .report-page.lang-ur .ns-modules-section .module-row{grid-template-columns:1fr 1fr;gap:10px;padding:12px}
+ .report-page .ns-modules-section .module-name{grid-column:1 / -1}
+ .report-page .ns-modules-section .module-score{grid-column:1 / -1}
+ .report-page .ns-modules-section .module-weight{justify-self:end;align-self:center}
 }
-@media(max-width:460px){
- .report-page .ns-overall-section .risk-scale{padding-inline:0;}
- .report-page .ns-overall-section .scale-item{padding:5px 7px;}
- .report-page .ns-overall-section .scale-text strong{font-size:.72rem;}
- .report-page .ns-overall-section .scale-text span{font-size:.64rem;}
+@media(max-width:410px){
+ .report-page .ns-overall-section .risk-scale{grid-template-columns:1fr;gap:7px}
+ .report-page .ns-overall-section .scale-item{border:0;justify-content:flex-start}
 }
-@media(prefers-reduced-motion:reduce){.report-page .ns-modules-section .module-row{transition:none!important;}}
+@media(prefers-reduced-motion:reduce){.report-page .ns-modules-section .module-row{transition:none!important}}
 @media print{
- .report-page .ns-overall-section .risk-ring-wrap{background:#fff!important;border:1px solid #dfe7f0!important;}
- .report-page .ns-modules-section .module-row{background:#fff!important;box-shadow:none!important;transform:none!important;break-inside:avoid;}
+ .report-page .ns-overall-section .risk-ring-wrap,.report-page .ns-modules-section .module-row{background:#fff!important;box-shadow:none!important}
+ .report-page .ns-modules-section .module-row{break-inside:avoid;transform:none!important}
+}
+
+
+/* Final visual polish: understated risk ranges and slim module indicators */
+.report-page .ns-overall-section .risk-scale {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:10px;
+  margin-top:14px;
+  padding:12px 0 0;
+  border-top:1px solid #e9eff8;
+}
+.report-page .ns-overall-section .scale-item {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-width:0;
+  padding:8px 7px 7px;
+  border-right:none;
+  border-top:3px solid #e2eaf5;
+  border-radius:3px 3px 0 0;
+  text-align:center;
+}
+.report-page .ns-overall-section .scale-item:nth-child(1){border-top-color:#16a78d}
+.report-page .ns-overall-section .scale-item:nth-child(2){border-top-color:#dfa238}
+.report-page .ns-overall-section .scale-item:nth-child(3){border-top-color:#dc6466}
+.report-page .ns-overall-section .scale-dot{display:none}
+.report-page .ns-overall-section .scale-text strong{font-size:.74rem;font-weight:750;color:#213b67;line-height:1.3}
+.report-page .ns-overall-section .scale-text span{font-size:.67rem;line-height:1.35;color:#8797b1;margin-top:3px}
+.report-page .ns-modules-section .module-row {
+  background:#fff;
+  border-color:#e4ebf5!important;
+  border-radius:11px;
+  padding:10px 14px;
+  min-height:57px;
+  box-shadow:none;
+}
+.report-page .ns-modules-section .module-score {
+  display:grid;
+  grid-template-columns:45px minmax(0,1fr);
+  gap:12px;
+  align-items:center;
+  min-width:0;
+}
+.report-page .ns-modules-section .module-percent{font-size:.87rem;font-weight:800;font-variant-numeric:tabular-nums}
+.report-page .ns-modules-section .module-track{
+  height:6px;
+  width:100%;
+  border-radius:99px;
+  background:#eef2f8;
+  box-shadow:inset 0 1px 1px rgba(22,45,78,.035);
+  overflow:hidden;
+}
+.report-page .ns-modules-section .module-fill{
+  height:100%;border-radius:99px;box-shadow:none;transition:width .45s ease;
+}
+.report-page .ns-modules-section .module-row:nth-of-type(2) .module-fill{background:#18ad9d}
+.report-page .ns-modules-section .module-row:nth-of-type(3) .module-fill{background:#dfa83f}
+.report-page .ns-modules-section .module-row:nth-of-type(4) .module-fill{background:#3979db}
+@media(max-width:700px){
+  .report-page .ns-overall-section .risk-scale{grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}
+  .report-page .ns-overall-section .scale-item{padding:8px 2px 5px;justify-content:center}
+  .report-page .ns-modules-section .module-score{grid-template-columns:45px minmax(0,1fr)}
+}
+@media(max-width:410px){
+  .report-page .ns-overall-section .risk-scale{grid-template-columns:repeat(3,minmax(0,1fr));gap:4px}
+  .report-page .ns-overall-section .scale-item{justify-content:center;border-top-width:2px}
+  .report-page .ns-overall-section .scale-text strong{font-size:.66rem}
+  .report-page .ns-overall-section .scale-text span{font-size:.6rem}
+}
+@media(prefers-reduced-motion:reduce){.report-page .ns-modules-section .module-fill{transition:none}}
+
+
+/* === NeuroSense | polished compact result infographic ===
+   Scoped, final rules. No additional markup / data dependencies. */
+.report-page .ns-overall-section .overall-grid{
+  grid-template-columns:158px minmax(0,1fr);gap:20px;align-items:center;
+}
+.report-page .ns-overall-section .risk-ring-wrap{
+  min-height:168px;padding:14px 12px;position:relative;
+  background:linear-gradient(145deg,#f4f8ff,#ebf3ff);
+  border:1px solid #e2ebfa;border-radius:16px;isolation:isolate;
+}
+.report-page .ns-overall-section .risk-ring-wrap::after{
+  content:"";position:absolute;inset:16px;z-index:-1;border-radius:50%;
+  background:rgba(38,103,211,.08);animation:nsRiskBreath 4.5s ease-in-out infinite;
+}
+.report-page .ns-overall-section .risk-ring{
+  width:126px;height:126px;box-shadow:0 0 0 5px white,0 8px 18px rgba(26,77,148,.09);
+}
+.report-page .ns-overall-section .risk-ring::before{inset:11px}
+@keyframes nsRiskBreath{0%,100%{transform:scale(.95);opacity:.30}50%{transform:scale(1.12);opacity:.7}}
+/* Three restrained infographic tiles instead of dots or long strokes */
+.report-page .ns-overall-section .risk-scale{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;
+  margin-top:12px;padding:12px 0 0;border-top:1px solid #e9eff8;
+}
+.report-page .ns-overall-section .scale-item{
+  display:flex;align-items:center;justify-content:center;min-width:0;
+  padding:9px 6px;border:1px solid #e5eef7;border-radius:10px;
+  background:#f8fbff;text-align:center;
+}
+.report-page .ns-overall-section .scale-item:nth-child(1){background:#f0faf7;border-color:#dcefe9}
+.report-page .ns-overall-section .scale-item:nth-child(2){background:#fffaf0;border-color:#f4e9cc}
+.report-page .ns-overall-section .scale-item:nth-child(3){background:#fff5f4;border-color:#f4e0de}
+.report-page .ns-overall-section .scale-item .scale-dot{display:none!important}
+.report-page .ns-overall-section .scale-item .scale-text strong{font-size:.76rem;line-height:1.25;font-weight:800}
+.report-page .ns-overall-section .scale-item:nth-child(1) .scale-text strong{color:#108a79}
+.report-page .ns-overall-section .scale-item:nth-child(2) .scale-text strong{color:#ae781b}
+.report-page .ns-overall-section .scale-item:nth-child(3) .scale-text strong{color:#c54f56}
+.report-page .ns-overall-section .scale-item .scale-text span{font-size:.68rem;margin-top:2px}
+/* Distinct module color identity, based on the real Django DOM order */
+.report-page .ns-modules-section .module-row{
+  position:relative;min-height:62px;background:#fbfdff;
+  border:1px solid #e3ecf8!important;border-radius:12px;
+  padding:10px 14px;overflow:hidden;
+}
+.report-page .ns-modules-section .module-row::before{
+  content:"";position:absolute;inset-block:10px;inset-inline-start:0;
+  width:3px;border-radius:0 4px 4px 0;background:var(--module-color,#2667d3);
+}
+.report-page .ns-modules-section .module-row:nth-of-type(2){--module-color:#12ad9d;--module-soft:#e1f7f3}
+.report-page .ns-modules-section .module-row:nth-of-type(3){--module-color:#d99b36;--module-soft:#fff1dc}
+.report-page .ns-modules-section .module-row:nth-of-type(4){--module-color:#3b7ce0;--module-soft:#e8f0ff}
+.report-page .ns-modules-section .module-row .module-icon{
+  color:var(--module-color)!important;background:var(--module-soft)!important;
+  width:37px;height:37px;border-radius:11px;
+}
+.report-page .ns-modules-section .module-track{
+  height:8px;border-radius:999px;background:#eaf0f7;overflow:hidden;
+}
+.report-page .ns-modules-section .module-row .module-fill{
+  position:relative;background:var(--module-color)!important;border-radius:999px;
+  transform-origin:left center;animation:nsFillIn 1s cubic-bezier(.2,.7,.2,1) both;
+}
+.report-page.lang-ur .ns-modules-section .module-row .module-fill{transform-origin:right center}
+@keyframes nsFillIn{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.report-page .ns-modules-section .module-row:nth-of-type(3) .module-fill{animation-delay:.1s}
+.report-page .ns-modules-section .module-row:nth-of-type(4) .module-fill{animation-delay:.2s}
+.report-page .ns-modules-section .module-row:hover{background:#f5f9ff;border-color:#d5e5f7!important}
+@media(max-width:700px){
+  .report-page .ns-overall-section .overall-grid{grid-template-columns:1fr;gap:12px}
+  .report-page .ns-overall-section .risk-ring-wrap{min-height:156px}
+  .report-page .ns-overall-section .risk-scale{grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}
+  .report-page .ns-overall-section .scale-item{padding:8px 3px}
+}
+@media(max-width:410px){
+  .report-page .ns-overall-section .scale-item .scale-text strong{font-size:.66rem}
+  .report-page .ns-overall-section .scale-item .scale-text span{font-size:.59rem}
+}
+@media(prefers-reduced-motion:reduce){
+  .report-page .ns-modules-section .module-fill,
+  .report-page .ns-overall-section .risk-ring-wrap::after{animation:none!important}
+}
+@media print{
+  .report-page .ns-modules-section .module-fill,
+  .report-page .ns-overall-section .risk-ring-wrap::after{animation:none!important;transform:none!important}
+  .report-page .ns-overall-section .risk-scale .scale-item{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+
+/* =========================================================
+   MODULE RESULTS — SCORE-BASED POLISH
+   Applies to the existing Django module rows; not sample data.
+   Low: below 30% | Moderate: 30–59% | High: 60%+
+   ========================================================= */
+.report-page .ns-modules-section .module-row.risk-low {
+  --score-color:#13a384; --score-light:#e3f8f0;
+  --score-gradient:linear-gradient(90deg,#36cfaa,#13a384);
+}
+.report-page .ns-modules-section .module-row.risk-medium {
+  --score-color:#ce931d; --score-light:#fff3d9;
+  --score-gradient:linear-gradient(90deg,#f1bd58,#d69b29);
+}
+.report-page .ns-modules-section .module-row.risk-high {
+  --score-color:#df5961; --score-light:#ffe9eb;
+  --score-gradient:linear-gradient(90deg,#fa8d93,#df5961);
+}
+.report-page .ns-modules-section .module-row.risk-low,
+.report-page .ns-modules-section .module-row.risk-medium,
+.report-page .ns-modules-section .module-row.risk-high {
+  position:relative;overflow:hidden;
+  background:linear-gradient(115deg,#fff,#fbfdff);
+  border:1px solid #e3ebf6!important;border-radius:13px;
+  min-height:67px;transition:box-shadow .25s ease,transform .25s ease;
+}
+.report-page .ns-modules-section .module-row[class*="risk-"]::before {
+  content:"";position:absolute;inset-inline-start:0;inset-block:12px;
+  width:3px;border-radius:5px;background:var(--score-color);
+}
+.report-page .ns-modules-section .module-row[class*="risk-"] .module-icon {
+  color:var(--score-color)!important;background:var(--score-light)!important;
+  width:38px;height:38px;border-radius:11px;
+}
+.report-page .ns-modules-section .module-row[class*="risk-"] .module-track {
+  position:relative;background:#eaf0f7;height:9px;border-radius:99px;
+  overflow:hidden;box-shadow:inset 0 1px 2px rgba(23,44,84,.045);
+}
+.report-page .ns-modules-section .module-row[class*="risk-"] .module-fill {
+  position:relative;height:100%;border-radius:99px;
+  background:var(--score-gradient)!important;
+  transform:scaleX(0);transform-origin:left center;
+  animation:ns-score-reveal 1.15s cubic-bezier(.18,.8,.22,1) forwards;
+}
+.report-page.lang-ur .ns-modules-section .module-row[class*="risk-"] .module-fill {transform-origin:right center}
+.report-page .ns-modules-section .module-row[class*="risk-"] .module-fill::after {
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(110deg,transparent 26%,rgba(255,255,255,.36) 48%,transparent 68%);
+  transform:translateX(-130%);animation:ns-score-shine 2s ease-in-out 1.3s 1 both;
+}
+.report-page .ns-modules-section .module-row[class*="risk-"] .module-percent {
+  color:#1b345e;font-weight:800;font-variant-numeric:tabular-nums;
+}
+.report-page .ns-modules-section .module-row[class*="risk-"]:hover {
+  transform:translateY(-2px);box-shadow:0 8px 24px rgba(24,68,137,.075);
+}
+.report-page .ns-modules-section .module-row:nth-of-type(3) .module-fill {animation-delay:.10s}
+.report-page .ns-modules-section .module-row:nth-of-type(4) .module-fill {animation-delay:.20s}
+@keyframes ns-score-reveal {to{transform:scaleX(1)}}
+@keyframes ns-score-shine {to{transform:translateX(130%)}}
+@media(prefers-reduced-motion:reduce) {
+  .report-page .ns-modules-section .module-row[class*="risk-"] .module-fill,
+  .report-page .ns-modules-section .module-row[class*="risk-"] .module-fill::after {
+    animation:none!important;transform:none!important;
+  }
+}
+@media print {
+  .report-page .ns-modules-section .module-row[class*="risk-"] .module-fill,
+  .report-page .ns-modules-section .module-row[class*="risk-"] .module-fill::after {
+    animation:none!important;transform:none!important;
+  }
+  .report-page .ns-modules-section .module-row[class*="risk-"] {
+    box-shadow:none!important;transform:none!important;print-color-adjust:exact;
+    -webkit-print-color-adjust:exact;
+  }
 }
 
 </style>
@@ -5047,7 +5321,7 @@ Final Report - NeuroSense AI
 
 
 
-        <div class="module-row">
+        <div class="module-row {% if fusion.modules.gait.pd_probability >= 0.6 %}risk-high{% elif fusion.modules.gait.pd_probability >= 0.3 %}risk-medium{% else %}risk-low{% endif %}">
 
 
 
@@ -5091,7 +5365,7 @@ Final Report - NeuroSense AI
 
 
 
-                <div class="module-track">
+                <div class="module-track" role="progressbar" aria-label="Gait PD probability" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{% widthratio fusion.modules.gait.pd_probability 1 100 %}">
 
 
 
@@ -5175,7 +5449,7 @@ Final Report - NeuroSense AI
 
 
 
-        <div class="module-row">
+        <div class="module-row {% if fusion.modules.speech.pd_probability >= 0.6 %}risk-high{% elif fusion.modules.speech.pd_probability >= 0.3 %}risk-medium{% else %}risk-low{% endif %}">
 
 
 
@@ -5219,7 +5493,7 @@ Final Report - NeuroSense AI
 
 
 
-                <div class="module-track">
+                <div class="module-track" role="progressbar" aria-label="Speech PD probability" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{% widthratio fusion.modules.speech.pd_probability 1 100 %}">
 
 
 
@@ -5303,7 +5577,7 @@ Final Report - NeuroSense AI
 
 
 
-        <div class="module-row">
+        <div class="module-row {% if fusion.modules.questionnaire.pd_probability >= 0.6 %}risk-high{% elif fusion.modules.questionnaire.pd_probability >= 0.3 %}risk-medium{% else %}risk-low{% endif %}">
 
 
 
@@ -5347,7 +5621,7 @@ Final Report - NeuroSense AI
 
 
 
-                <div class="module-track">
+                <div class="module-track" role="progressbar" aria-label="Questionnaire PD probability" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{% widthratio fusion.modules.questionnaire.pd_probability 1 100 %}">
 
 
 

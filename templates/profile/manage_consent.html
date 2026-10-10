@@ -1,691 +1,82 @@
 {% extends 'base.html' %}
 {% load static %}
-
 {% block title %}
 {% if lang == 'ur' %}
-رضایت کا انتظام - نیوروسینس اے آئی
+اسکریننگ کی رضامندی - نیوروسینس اے آئی
 {% else %}
-Manage Consent - NeuroSense AI
+Screening Consent - NeuroSense AI
 {% endif %}
 {% endblock %}
-
 {% block extra_css %}
 <style>
-/* =========================================================
-   NEUROSENSE AI — MANAGE CONSENT
-   Minimal, calm, theme-aligned
-   ========================================================= */
-
-.consent-page {
-    --ns-primary: #1478f2;
-    --ns-primary-dark: #0f68dc;
-
-    --ns-navy: #071d55;
-    --ns-text: #344866;
-    --ns-muted: #7d90ac;
-
-    --ns-blue-50: #f5f9ff;
-    --ns-blue-100: #eaf4ff;
-
-    --ns-border: #dce8f5;
-    --ns-white: #ffffff;
-
-    --ns-green: #16a765;
-    --ns-green-bg: #ecfbf3;
-    --ns-green-border: #bcebd3;
-
-    --ns-orange: #d48700;
-    --ns-orange-bg: #fff8e8;
-    --ns-orange-border: #f0d8a4;
-
-    --ns-red: #dc3f3f;
-    --ns-red-bg: #fff2f2;
-
-    --ns-radius: 18px;
-
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 34px 24px 70px;
-}
-
-
-/* =========================================================
-   RTL
-   ========================================================= */
-
-.consent-page.lang-ur {
-    direction: rtl;
-    text-align: right;
-}
-
-
-/* =========================================================
-   BACK LINK
-   ========================================================= */
-
-.consent-page .back-link {
-    width: fit-content;
-
-    margin-bottom: 20px;
-    padding: 9px 14px;
-
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-
-    color: #405575;
-    background: #f7fafe;
-
-    border: 1px solid var(--ns-border);
-    border-radius: 10px;
-
-    font-size: 0.84rem;
-    font-weight: 650;
-
-    text-decoration: none;
-
-    transition:
-        color 0.2s ease,
-        background 0.2s ease,
-        border-color 0.2s ease;
-}
-
-.consent-page .back-link:hover,
-.consent-page .back-link:focus {
-    color: var(--ns-primary);
-    background: var(--ns-blue-50);
-    border-color: #c8ddf3;
-}
-
-
-/* =========================================================
-   MAIN CARD
-   ========================================================= */
-
-.consent-page .consent-card {
-    padding: 30px 32px;
-
-    background:
-        linear-gradient(
-            180deg,
-            #ffffff 0%,
-            #ffffff 91%,
-            #fbfdff 100%
-        );
-
-    border: 1px solid var(--ns-border);
-    border-radius: var(--ns-radius);
-}
-
-
-/* =========================================================
-   HEADER
-   ========================================================= */
-
-.consent-page .consent-header {
-    margin-bottom: 24px;
-    padding-bottom: 22px;
-
-    display: flex;
-    align-items: center;
-    gap: 16px;
-
-    border-bottom: 1px solid #edf2f7;
-}
-
-.consent-page .consent-header .icon {
-    width: 52px;
-    height: 52px;
-
-    flex-shrink: 0;
-
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-
-    color: var(--ns-primary);
-    background: var(--ns-blue-100);
-
-    border-radius: 14px;
-
-    font-size: 1.15rem;
-}
-
-.consent-page .consent-header h1 {
-    margin: 0;
-
-    color: var(--ns-navy);
-
-    font-size: 1.55rem;
-    font-weight: 800;
-    letter-spacing: -0.03em;
-}
-
-.consent-page .consent-header p {
-    margin: 4px 0 0;
-
-    color: var(--ns-muted);
-
-    font-size: 0.88rem;
-}
-
-
-/* =========================================================
-   MESSAGES
-   ========================================================= */
-
-.consent-page .messages {
-    margin-bottom: 20px;
-}
-
-.consent-page .message {
-    margin-bottom: 8px;
-    padding: 11px 14px;
-
-    border: 1px solid transparent;
-    border-radius: 10px;
-
-    font-size: 0.82rem;
-}
-
-.consent-page .message.error {
-    color: #a53434;
-    background: var(--ns-red-bg);
-    border-color: #f2cece;
-}
-
-.consent-page .message.success {
-    color: #0f7c49;
-    background: var(--ns-green-bg);
-    border-color: #caead9;
-}
-
-.consent-page .message.info {
-    color: #315f98;
-    background: var(--ns-blue-50);
-    border-color: #d6e7f8;
-}
-
-
-/* =========================================================
-   CURRENT CONSENT STATUS
-   ========================================================= */
-
-.consent-page .consent-status-box {
-    margin-bottom: 22px;
-    padding: 15px 17px;
-
-    display: flex;
-    align-items: center;
-    gap: 13px;
-
-    border: 1px solid;
-    border-radius: 12px;
-}
-
-.consent-page .consent-status-box.granted {
-    color: #0e7d49;
-    background: var(--ns-green-bg);
-    border-color: var(--ns-green-border);
-}
-
-.consent-page .consent-status-box.not-granted {
-    color: #a46600;
-    background: var(--ns-orange-bg);
-    border-color: var(--ns-orange-border);
-}
-
-.consent-page .status-icon {
-    width: 36px;
-    height: 36px;
-
-    flex-shrink: 0;
-
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-
-    background: rgba(255,255,255,0.72);
-    border-radius: 10px;
-
-    font-size: 1rem;
-}
-
-.consent-page .status-text strong {
-    display: block;
-
-    margin-bottom: 2px;
-
-    color: inherit;
-
-    font-size: 0.9rem;
-    font-weight: 760;
-}
-
-.consent-page .status-text span {
-    color: inherit;
-
-    font-size: 0.75rem;
-    opacity: 0.84;
-}
-
-
-/* =========================================================
-   CONSENT DETAILS
-   ========================================================= */
-
-.consent-page .consent-details {
-    margin-bottom: 22px;
-    padding: 20px;
-
-    background: #f8fbff;
-
-    border: 1px solid #e2edf7;
-    border-radius: 13px;
-}
-
-.consent-page .consent-details h3 {
-    margin: 0 0 10px;
-
-    display: flex;
-    align-items: center;
-    gap: 9px;
-
-    color: var(--ns-navy);
-
-    font-size: 0.92rem;
-    font-weight: 750;
-}
-
-.consent-page .consent-details h3 i {
-    color: var(--ns-primary);
-}
-
-.consent-page .consent-details > p {
-    margin: 0 0 12px;
-
-    color: #566b89;
-
-    font-size: 0.8rem;
-    line-height: 1.6;
-}
-
-.consent-page .consent-details ul {
-    margin: 0;
-    padding-left: 20px;
-
-    color: #536987;
-
-    font-size: 0.79rem;
-    line-height: 1.65;
-}
-
-.consent-page.lang-ur .consent-details ul {
-    padding-left: 0;
-    padding-right: 20px;
-}
-
-.consent-page .consent-details li {
-    margin-bottom: 5px;
-}
-
-.consent-page .secure-note {
-    margin-top: 13px !important;
-    margin-bottom: 0 !important;
-    padding-top: 12px;
-
-    display: flex;
-    align-items: flex-start;
-    gap: 8px;
-
-    color: #7f91aa !important;
-
-    border-top: 1px solid #e4edf6;
-}
-
-.consent-page .secure-note i {
-    margin-top: 2px;
-    color: var(--ns-primary);
-}
-
-
-/* =========================================================
-   CONSENT CHECKBOX
-   ========================================================= */
-
-.consent-page .form-group {
-    margin-bottom: 18px;
-}
-
-.consent-page .form-checkbox-group {
-    padding: 15px 16px;
-
-    display: flex;
-    align-items: flex-start;
-    gap: 11px;
-
-    background: #fbfdff;
-
-    border: 1px solid #dde8f3;
-    border-radius: 12px;
-
-    cursor: pointer;
-
-    transition:
-        background 0.2s ease,
-        border-color 0.2s ease;
-}
-
-.consent-page .form-checkbox-group:hover {
-    background: #f6faff;
-    border-color: #c7dcf2;
-}
-
-.consent-page .form-checkbox-group.checked {
-    background: #f4fbf7;
-    border-color: #b9dfcc;
-}
-
-.consent-page .form-checkbox-group input[type="checkbox"] {
-    width: 18px;
-    height: 18px;
-
-    margin-top: 2px;
-
-    flex-shrink: 0;
-
-    accent-color: var(--ns-primary);
-    cursor: pointer;
-}
-
-.consent-page .checkbox-label {
-    margin: 0;
-
-    color: var(--ns-text);
-
-    font-size: 0.82rem;
-    line-height: 1.55;
-
-    cursor: pointer;
-}
-
-.consent-page .checkbox-label strong {
-    color: var(--ns-navy);
-    font-weight: 700;
-}
-
-.consent-page .checkbox-label .hint {
-    margin-top: 4px;
-
-    display: block;
-
-    color: #8d9eb5;
-
-    font-size: 0.71rem;
-    font-weight: 400;
-}
-
-.consent-page .form-error {
-    margin-top: 6px;
-
-    display: block;
-
-    color: var(--ns-red);
-
-    font-size: 0.72rem;
-}
-
-
-/* =========================================================
-   POLICY NOTE
-   ========================================================= */
-
-.consent-page .policy-note {
-    margin: 0 0 18px;
-    padding: 11px 13px;
-
-    color: #7f91aa;
-    background: #fafcff;
-
-    border: 1px solid #e7eef6;
-    border-radius: 10px;
-
-    font-size: 0.73rem;
-    line-height: 1.55;
-}
-
-.consent-page .policy-note i {
-    margin-right: 5px;
-    color: var(--ns-primary);
-}
-
-.consent-page.lang-ur .policy-note i {
-    margin-right: 0;
-    margin-left: 5px;
-}
-
-.consent-page .privacy-link {
-    color: var(--ns-primary);
-
-    font-weight: 650;
-    text-decoration: none;
-}
-
-.consent-page .privacy-link:hover {
-    text-decoration: underline;
-}
-
-
-/* =========================================================
-   ACTIONS
-   ========================================================= */
-
-.consent-page .form-actions {
-    margin-top: 24px;
-    padding-top: 22px;
-
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 10px;
-
-    border-top: 1px solid #e8eff6;
-}
-
-.consent-page .consent-btn {
-    min-width: 150px;
-    min-height: 44px;
-
-    padding: 10px 18px;
-
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-
-    position: relative;
-
-    border-radius: 10px;
-
-    font-family: inherit;
-    font-size: 0.82rem;
-    font-weight: 680;
-
-    text-decoration: none !important;
-    cursor: pointer;
-
-    transition:
-        color 0.2s ease,
-        background-color 0.2s ease,
-        border-color 0.2s ease;
-}
-
-/* Prevent global hover overlays */
-.consent-page .consent-btn::before,
-.consent-page .consent-btn::after {
-    display: none !important;
-    content: none !important;
-}
-
-
-/* Save */
-.consent-page .consent-btn-primary,
-.consent-page .consent-btn-primary:link,
-.consent-page .consent-btn-primary:visited {
-    color: #ffffff !important;
-
-    background: var(--ns-primary) !important;
-    background-image: none !important;
-
-    border: 1px solid var(--ns-primary) !important;
-}
-
-.consent-page .consent-btn-primary:hover,
-.consent-page .consent-btn-primary:focus,
-.consent-page .consent-btn-primary:active {
-    color: #ffffff !important;
-
-    background: var(--ns-primary-dark) !important;
-    background-image: none !important;
-
-    border-color: var(--ns-primary-dark) !important;
-
-    box-shadow: none !important;
-    transform: none !important;
-}
-
-
-/* Cancel */
-.consent-page .consent-btn-outline,
-.consent-page .consent-btn-outline:link,
-.consent-page .consent-btn-outline:visited {
-    color: #405575 !important;
-
-    background: #ffffff !important;
-    background-image: none !important;
-
-    border: 1px solid var(--ns-border) !important;
-}
-
-.consent-page .consent-btn-outline:hover,
-.consent-page .consent-btn-outline:focus,
-.consent-page .consent-btn-outline:active {
-    color: #405575 !important;
-
-    background: var(--ns-blue-50) !important;
-    background-image: none !important;
-
-    border-color: #c8ddf3 !important;
-
-    box-shadow: none !important;
-    transform: none !important;
-}
-
-
-/* =========================================================
-   RESPONSIVE
-   ========================================================= */
-
-@media (max-width: 680px) {
-
-    .consent-page {
-        padding: 24px 16px 50px;
-    }
-
-    .consent-page .consent-card {
-        padding: 24px 20px;
-    }
-
-    .consent-page .consent-header {
-        align-items: flex-start;
-    }
-
-    .consent-page .consent-header h1 {
-        font-size: 1.35rem;
-    }
-
-    .consent-page .form-actions {
-        align-items: stretch;
-    }
-
-    .consent-page .consent-btn {
-        flex: 1;
-    }
-}
-
-
-@media (max-width: 460px) {
-
-    .consent-page {
-        padding: 18px 11px 40px;
-    }
-
-    .consent-page .consent-card {
-        padding: 20px 15px;
-    }
-
-    .consent-page .consent-header {
-        gap: 12px;
-    }
-
-    .consent-page .consent-header .icon {
-        width: 46px;
-        height: 46px;
-    }
-
-    .consent-page .consent-status-box {
-        align-items: flex-start;
-    }
-
-    .consent-page .form-actions {
-        flex-direction: column-reverse;
-    }
-
-    .consent-page .consent-btn {
-        width: 100%;
-    }
-}
+#ns-consent-visual{--blue:#2667d3;--ink:#193863;--muted:#6e83a2;display:block!important;width:100%!important;max-width:1100px!important;margin:0 auto!important;padding:6px 0 30px!important;font-family:inherit;color:var(--ink)}
+#ns-consent-visual *{box-sizing:border-box}#ns-consent-visual a{text-decoration:none}#ns-consent-visual .nc-back{display:inline-flex;gap:8px;align-items:center;color:#416799;background:white;border:1px solid #dce7f6;padding:8px 12px;border-radius:10px;font-size:12px;margin-bottom:14px}
+#ns-consent-visual .consent-card{padding:0!important;border:0!important;background:transparent!important}
+#ns-consent-visual .consent-header{position:relative;isolation:isolate;display:flex!important;align-items:center!important;gap:16px;overflow:hidden;background:linear-gradient(115deg,#184cad,#2667d3 60%,#3985df)!important;padding:24px 28px!important;border:1px solid #2e6ccc;border-radius:23px;margin-bottom:18px!important;box-shadow:0 14px 30px #2667d320}
+#ns-consent-visual .consent-header:after{content:'';width:230px;height:230px;position:absolute;inset-inline-end:-30px;top:-85px;border-radius:50%;box-shadow:0 0 0 25px #ffffff15,0 0 0 55px #ffffff0b;border:1px solid #ffffff40;z-index:-1}
+#ns-consent-visual .consent-header>.icon{display:grid;place-items:center;width:48px;height:48px;flex:0 0 48px;border-radius:15px;background:#ffffff20;border:1px solid #ffffff40;color:white}
+#ns-consent-visual h1{font-size:25px!important;color:#fff!important;margin:0!important;line-height:1.35}
+#ns-consent-visual .consent-header p{color:#e6efff!important;font-size:13px;margin:6px 0 0;line-height:1.7}
+#ns-consent-visual .nc-art{width:140px;height:114px;flex:0 0 140px;margin-inline-start:auto;filter:drop-shadow(0 10px 15px #10398030);animation:nc-float 6s ease-in-out infinite}
+#ns-consent-visual .consent-status-box{display:flex;align-items:center;gap:12px;padding:13px 17px;border:1px solid #dce9f8;border-radius:15px;background:#fff;margin-bottom:18px;box-shadow:0 6px 20px #214c8306}
+#ns-consent-visual .status-icon{display:grid;place-items:center;width:37px;height:37px;border-radius:12px;background:#eaf2ff;color:#2667d3}
+#ns-consent-visual .granted .status-icon{background:#e1f8ee;color:#128469}#ns-consent-visual .not-granted .status-icon{background:#fff1d9;color:#a66a10}
+#ns-consent-visual .status-text strong{display:block;font-size:13px}#ns-consent-visual .status-text span{font-size:11px;color:var(--muted)}
+#ns-consent-visual .nc-grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:14px;margin-bottom:18px}
+#ns-consent-visual .consent-details{display:block!important;grid-area:auto!important;min-width:0!important;margin:0!important;padding:19px!important;border:1px solid #dce7f6;border-radius:18px;background:linear-gradient(145deg,#fff,#f8fbff);box-shadow:0 7px 20px #214c8306;transition:transform .2s,box-shadow .2s}
+#ns-consent-visual .consent-details:hover{transform:translateY(-2px);box-shadow:0 12px 26px #214c8310}
+#ns-consent-visual .nc-card-icon{display:grid;place-items:center;width:41px;height:41px;border-radius:13px;background:var(--tint);color:var(--accent);font-size:18px;margin-bottom:12px}
+#ns-consent-visual h3{font-size:15px;margin:0 0 8px;color:var(--ink)}#ns-consent-visual .consent-details p{font-size:12px;color:#617693;line-height:1.8;margin:0}
+#ns-consent-visual details{margin-top:10px;padding-top:8px;border-top:1px solid #e5edf7}#ns-consent-visual summary{font-size:11px;font-weight:700;color:#2667d3;cursor:pointer;padding:4px 0}#ns-consent-visual details p{padding-top:8px}
+#ns-consent-visual .nc-saved-consent{background:#fff;border:1px solid #d9e7f8;border-radius:18px;padding:20px;box-shadow:0 10px 25px #214c8308}
+#ns-consent-visual .form-checkbox-group{display:flex;align-items:flex-start;gap:12px;padding:15px;border:1px solid #dce7f6;border-radius:13px;background:#f7faff;transition:background .2s,border-color .2s}
+#ns-consent-visual .form-checkbox-group.checked{background:#edf7ff;border-color:#96bbee}#ns-consent-visual input[type=checkbox]{width:19px;height:19px;flex:0 0 19px;margin:3px 0 0;accent-color:#2667d3}
+#ns-consent-visual .checkbox-label{font-size:12px;line-height:1.8;color:var(--ink);cursor:pointer}#ns-consent-visual .hint{display:block;font-size:11px;color:var(--muted);margin-top:4px}
+#ns-consent-visual .policy-note{font-size:11px;color:var(--muted);line-height:1.7;margin:12px 0}#ns-consent-visual .privacy-link{color:#2667d3;text-decoration:underline}
+#ns-consent-visual .form-actions{display:flex;gap:10px;justify-content:flex-end;padding-top:14px;border-top:1px solid #e5edf7}
+#ns-consent-visual .consent-btn{display:inline-flex!important;align-items:center;justify-content:center;gap:8px;width:auto!important;min-height:38px;padding:9px 15px;border:1px solid #d8e5f6;border-radius:10px;background:#fff;color:#416799;font:inherit;font-size:12px;font-weight:700;cursor:pointer;transition:transform .2s,box-shadow .2s}
+#ns-consent-visual .consent-btn-primary{background:#2667d3!important;color:#fff!important;border-color:#2667d3!important;box-shadow:0 5px 12px #2667d325}#ns-consent-visual .consent-btn:hover{transform:translateY(-2px);box-shadow:0 8px 18px #2667d325}#ns-consent-visual .consent-btn:before,#ns-consent-visual .consent-btn:after{content:none!important}
+#ns-consent-visual .message,#ns-consent-visual .form-error{display:block;font-size:12px;padding:10px;margin-bottom:10px;background:#fff0f1;border-radius:10px;color:#a43a4c}
+#ns-consent-visual [tabindex]:focus-visible,#ns-consent-visual a:focus-visible,#ns-consent-visual button:focus-visible,#ns-consent-visual summary:focus-visible,#ns-consent-visual input:focus-visible{outline:3px solid #8eb9ff;outline-offset:3px}
+#ns-consent-visual[dir=rtl]{text-align:right}#ns-consent-visual[dir=rtl] .fa-arrow-left{transform:rotate(180deg)}
+@keyframes nc-float{50%{transform:translateY(-6px)}}
+@media(max-width:650px){#ns-consent-visual .nc-grid{grid-template-columns:1fr!important}#ns-consent-visual .consent-header{padding:20px!important}#ns-consent-visual .nc-art{width:85px;height:90px;flex-basis:85px}#ns-consent-visual h1{font-size:21px!important}}
+@media(max-width:430px){#ns-consent-visual .nc-art{display:none}#ns-consent-visual .form-actions{flex-wrap:wrap}#ns-consent-visual .consent-btn{flex:1}}
+@media(prefers-reduced-motion:reduce){#ns-consent-visual *{animation:none!important;transition:none!important}}
+#ns-consent-visual .checkbox-label{cursor:default}#ns-consent-visual input:disabled{opacity:1;cursor:default}
 </style>
 {% endblock %}
-
 {% block content %}
 {% with lang=request.LANG|default:'en' %}
-
-<div class="consent-page {% if lang == 'ur' %}lang-ur{% endif %}">
-
+<div id="ns-consent-visual" dir="{% if lang == 'ur' %}rtl{% else %}ltr{% endif %}" class="consent-page {% if lang == 'ur' %}lang-ur{% endif %}">
     <!-- Back -->
-    <a href="{% url 'accounts:profile' %}" class="back-link">
+    <a href="{% url 'accounts:profile' %}" class="nc-back">
         <i class="fa-solid fa-arrow-left"></i>
         {% if lang == 'ur' %}پروفائل پر واپس جائیں{% else %}Back to Profile{% endif %}
     </a>
-
     <div class="consent-card">
-
         <!-- Header -->
         <div class="consent-header">
             <div class="icon">
                 <i class="fa-solid fa-shield-halved"></i>
             </div>
-
             <div>
                 <h1>
                     {% if lang == 'ur' %}
-                    ڈیٹا کی رضایت کا انتظام
+                    ڈیٹا کی اسکریننگ کی رضامندی
                     {% else %}
-                    Manage Data Consent
+                    Screening Consent
                     {% endif %}
                 </h1>
-
                 <p>
                     {% if lang == 'ur' %}
-                    اپنے ڈیٹا کی جمع اور پروسیسنگ کی ترجیحات کا نظم کریں۔
+                    اسکریننگ کے لیے درکار اجازت اور معلومات کے استعمال کو سمجھیں۔
                     {% else %}
-                    Manage how your data is collected and processed.
+                    Understand the permission needed for your screening.
                     {% endif %}
                 </p>
             </div>
-        </div>
-
+        <svg class="nc-art" viewBox="0 0 140 114" fill="none" aria-hidden="true"><rect x="13" y="18" width="98" height="76" rx="14" fill="white" fill-opacity=".14" stroke="white" stroke-opacity=".45" transform="rotate(-8 62 56)"/><rect x="20" y="25" width="98" height="76" rx="14" fill="#EDF5FF"/><rect x="33" y="39" width="38" height="5" rx="2.5" fill="#A4C4EF"/><rect x="33" y="50" width="24" height="4" rx="2" fill="#CDDEF7"/><path d="M88 36L110 45V66C110 82 88 94 88 94S66 82 66 66V45L88 36Z" fill="#2667D3" stroke="white" stroke-width="3"/><path d="M78 63L85 70L99 55" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="30" cy="76" r="9" fill="#D5E7FF"/><path d="M27 76L30 79L34 73" stroke="#4F85D0" stroke-width="2" stroke-linecap="round"/><circle cx="124" cy="21" r="4" fill="white" fill-opacity=".7"/></svg></div>
         <!-- Messages -->
         {% if messages %}
         <div class="messages">
@@ -696,10 +87,8 @@ Manage Consent - NeuroSense AI
             {% endfor %}
         </div>
         {% endif %}
-
         <!-- Current Status -->
         <div class="consent-status-box {% if profile.data_consent %}granted{% else %}not-granted{% endif %}">
-
             <div class="status-icon">
                 {% if profile.data_consent %}
                 <i class="fa-solid fa-circle-check"></i>
@@ -707,16 +96,14 @@ Manage Consent - NeuroSense AI
                 <i class="fa-solid fa-circle-exclamation"></i>
                 {% endif %}
             </div>
-
             <div class="status-text">
                 <strong>
                     {% if profile.data_consent %}
-                        {% if lang == 'ur' %}رضایت دی گئی{% else %}Consent Granted{% endif %}
+                        {% if lang == 'ur' %}رضامندی دی گئی{% else %}Consent Granted{% endif %}
                     {% else %}
-                        {% if lang == 'ur' %}رضایت نہیں دی گئی{% else %}Consent Not Granted{% endif %}
+                        {% if lang == 'ur' %}رضامندی نہیں دی گئی{% else %}Consent Not Granted{% endif %}
                     {% endif %}
                 </strong>
-
                 {% if profile.data_consent and profile.consent_date %}
                 <span>
                     {% if lang == 'ur' %}
@@ -727,179 +114,26 @@ Manage Consent - NeuroSense AI
                 </span>
                 {% endif %}
             </div>
-
         </div>
-
-        <!-- Consent Explanation -->
-        <div class="consent-details">
-
-            <h3>
-                <i class="fa-solid fa-circle-info"></i>
-                {% if lang == 'ur' %}
-                رضایت کا کیا مطلب ہے؟
-                {% else %}
-                What Does Consent Mean?
-                {% endif %}
-            </h3>
-
-            <p>
-                {% if lang == 'ur' %}
-                اپنی رضایت دینے سے آپ نیوروسینس اے آئی کو اجازت دیتے ہیں:
-                {% else %}
-                By granting consent, you allow NeuroSense AI to:
-                {% endif %}
-            </p>
-
-            <ul>
-                <li>
-                    {% if lang == 'ur' %}
-                    اسکریننگ کے مقاصد کے لیے آپ کی ذاتی اور صحت سے متعلق ڈیٹا جمع کریں
-                    {% else %}
-                    Collect your personal and health-related data for screening purposes.
-                    {% endif %}
-                </li>
-
-                <li>
-                    {% if lang == 'ur' %}
-                    اسکریننگ نتائج پیدا کرنے کے لیے آپ کے ڈیٹا کا تجزیہ کریں
-                    {% else %}
-                    Analyze your data to generate screening results.
-                    {% endif %}
-                </li>
-
-                <li>
-                    {% if lang == 'ur' %}
-                    مستقبل کی اسکریننگ اور رپورٹس کے لیے آپ کا ڈیٹا محفوظ کریں
-                    {% else %}
-                    Store your data for future screenings and reports.
-                    {% endif %}
-                </li>
-
-                <li>
-                    {% if lang == 'ur' %}
-                    اسکریننگ کی درستگی بہتر بنانے کے لیے ڈیٹا استعمال کریں
-                    {% else %}
-                    Use your data to improve screening accuracy.
-                    {% endif %}
-                </li>
-            </ul>
-
-            <p class="secure-note">
-                <i class="fa-solid fa-lock"></i>
-
-                <span>
-                    {% if lang == 'ur' %}
-                    آپ کا ڈیٹا محفوظ طریقے سے ذخیرہ کیا جاتا ہے اور آپ کے اکاؤنٹ سے منسلک رہتا ہے۔
-                    {% else %}
-                    Your data is stored securely and remains associated with your account.
-                    {% endif %}
-                </span>
-            </p>
-
-        </div>
-
-        <!-- Consent Form -->
-        <form method="POST" action="{% url 'accounts:manage_consent' %}">
-            {% csrf_token %}
-
-            <div class="form-group">
-
-                <div class="form-checkbox-group {% if form.data_consent.value %}checked{% endif %}">
-
-                    <input type="checkbox"
-                           name="data_consent"
-                           id="id_data_consent"
-                           {% if form.data_consent.value %}checked{% endif %}>
-
-                    <label for="id_data_consent" class="checkbox-label">
-
-                        {% if lang == 'ur' %}
-                        <strong>
-                            میں اسکریننگ کے مقاصد کے لیے اپنے ڈیٹا کی جمع اور پروسیسنگ کی رضایت دیتا ہوں۔
-                        </strong>
-
-                        <span class="hint">
-                            آپ کسی بھی وقت اپنی رضایت واپس لے سکتے ہیں۔
-                        </span>
-
-                        {% else %}
-                        <strong>
-                            I consent to the collection and processing of my data for screening purposes.
-                        </strong>
-
-                        <span class="hint">
-                            You can withdraw your consent at any time.
-                        </span>
-                        {% endif %}
-
-                    </label>
-
-                </div>
-
-                {% if form.data_consent.errors %}
-                <span class="form-error">
-                    {{ form.data_consent.errors.0 }}
-                </span>
-                {% endif %}
-
-            </div>
-
-            <p class="policy-note">
-                <i class="fa-solid fa-circle-info"></i>
-
-                {% if lang == 'ur' %}
-                رضایت واپس لینے سے آپ کا موجودہ ڈیٹا نہیں مٹے گا، لیکن نیا ڈیٹا جمع نہیں کیا جائے گا۔
-                مزید معلومات کے لیے ہماری
-                <a href="#" class="privacy-link">پرائیویسی پالیسی</a>
-                دیکھیں۔
-                {% else %}
-                Withdrawing consent will not delete your existing data, but no new data will be collected.
-                See our
-                <a href="#" class="privacy-link">Privacy Policy</a>
-                for more information.
-                {% endif %}
-            </p>
-
-            <!-- Actions -->
-            <div class="form-actions">
-
-                <a href="{% url 'accounts:profile' %}"
-                   class="consent-btn consent-btn-outline">
-                    <i class="fa-solid fa-arrow-left"></i>
-                    {% if lang == 'ur' %}منسوخ کریں{% else %}Cancel{% endif %}
-                </a>
-
-                <button type="submit"
-                        class="consent-btn consent-btn-primary">
-                    <i class="fa-regular fa-floppy-disk"></i>
-                    {% if lang == 'ur' %}رضایت محفوظ کریں{% else %}Save Consent{% endif %}
-                </button>
-
-            </div>
-
-        </form>
-
-    </div>
-
+<div class="nc-grid">
+<section class="consent-details" style="--accent:#2667d3;--tint:#e8f1ff"><span class="nc-card-icon" aria-hidden="true"><i class="fa-solid fa-wave-square"></i></span><h3>{% if lang == 'ur' %}ہم رضامندی کیوں لیتے ہیں؟{% else %}Why we ask for consent{% endif %}</h3><p>{% if lang == 'ur' %}نیوروسینس اے آئی آپ کے سوالنامے کے جوابات، آواز کی ریکارڈنگ اور چال کی ویڈیو سے پارکنسنز کے خطرے کا جائزہ لیتا ہے اور اسکریننگ کے نتائج اور ذاتی نوعیت کی تجاویز فراہم کرتا ہے۔{% else %}NeuroSense AI uses your questionnaire answers, voice recording, and gait video to analyse Parkinson’s risk and provide screening results and personalised recommendations.{% endif %}</p></section>
+<section class="consent-details" style="--accent:#168b82;--tint:#e2f8f3"><span class="nc-card-icon" aria-hidden="true"><i class="fa-solid fa-shield-halved"></i></span><h3>{% if lang == 'ur' %}یہ اجازت کس مقصد کے لیے ہے؟{% else %}What this permission covers{% endif %}</h3><p>{% if lang == 'ur' %}صرف اسکریننگ اور محفوظ رپورٹس کے لیے۔ دیگر استعمال کے لیے الگ اجازت ضروری ہے۔{% else %}Screening and saved reports only. Other uses need separate permission.{% endif %}</p><details><summary>{% if lang == 'ur' %}تفصیل پڑھیں{% else %}Read details{% endif %}</summary><p>{% if lang == 'ur' %}آپ کی اجازت اسکریننگ کے لیے ان معلومات کے تجزیے اور نتائج کو آپ کے اکاؤنٹ کے ساتھ محفوظ کرنے کے لیے ہے، تاکہ آپ انہیں دیکھ اور موازنہ کر سکیں۔ یہ اجازت آپ کی معلومات فروخت کرنے، اشتہارات، تحقیق یا ماڈل کی تربیت کے لیے استعمال کرنے کی اجازت نہیں ہے۔ کسی الگ اختیاری استعمال کے لیے الگ وضاحت اور اجازت ضروری ہے۔{% else %}Your permission covers processing these screening inputs and saving the resulting reports with your account so you can view and compare them. It does not authorise selling your information, advertising use, or reuse for research or model training. Any separate optional use needs its own explanation and permission.{% endif %}</p></details></section>
+<section class="consent-details" style="--accent:#ad7521;--tint:#fff2dd"><span class="nc-card-icon" aria-hidden="true"><i class="fa-solid fa-folder-open"></i></span><h3>{% if lang == 'ur' %}ریکارڈنگ اور محفوظ معلومات{% else %}Recordings and saved information{% endif %}</h3><p>{% if lang == 'ur' %}اسکریننگ کی ریکارڈنگ اور محفوظ رپورٹس مختلف قسم کی معلومات ہیں۔{% else %}Screening recordings and saved reports are different types of information.{% endif %}</p><details><summary>{% if lang == 'ur' %}تفصیل پڑھیں{% else %}Read details{% endif %}</summary><p>{% if lang == 'ur' %}آپ کی آواز کی ریکارڈنگ اور چال کی ویڈیو اسکریننگ کے تجزیے کے لیے استعمال ہوتی ہیں۔ محفوظ رپورٹس ان ریکارڈنگز سے الگ ہیں۔ یہ نوٹس اس بات کی ضمانت نہیں دیتا کہ ریکارڈنگ کبھی محفوظ نہیں ہوتی یا فوراً خودکار طور پر حذف ہو جاتی ہے۔ ریکارڈنگ، سوالنامے کے جوابات، اخذ کردہ پیمائشوں اور بیک اپ کی مدت اور طریقہ پرائیویسی پالیسی میں واضح ہونا چاہیے۔{% else %}Your voice recording and gait video are inputs to the screening analysis. Saved reports are separate from these recordings. This notice does not promise that recordings are never stored or automatically deleted immediately; recording retention, questionnaire storage, extracted measurements, and backup handling must be explained in the Privacy Policy.{% endif %}</p></details></section>
+<section class="consent-details" style="--accent:#7357b6;--tint:#efe9fb"><span class="nc-card-icon" aria-hidden="true"><i class="fa-solid fa-cloud"></i></span><h3>{% if lang == 'ur' %}ہوسٹنگ اور اے آئی کے ذریعے تجزیہ{% else %}Hosting and AI processing{% endif %}</h3><p>{% if lang == 'ur' %}ہوسٹنگ اور اے آئی خدمات نیوروسینس اے آئی کو چلانے میں مدد دیتی ہیں۔{% else %}Hosting and AI services help operate NeuroSense AI.{% endif %}</p><details><summary>{% if lang == 'ur' %}تفصیل پڑھیں{% else %}Read details{% endif %}</summary><p>{% if lang == 'ur' %}نظام چلانے کے لیے ہوسٹنگ اور اے آئی خدمات استعمال ہوتی ہیں۔ پرائیویسی پالیسی میں واضح ہونا چاہیے کہ کن خدمات کو اسکریننگ کی معلومات ملتی ہیں، کون سی معلومات دی جاتی ہیں اور وہ انہیں کیسے سنبھالتی ہیں۔ یہ رضامندی صرف یہاں بیان کردہ اسکریننگ کے مقاصد تک محدود ہے۔{% else %}The system uses hosting and AI services to operate. The Privacy Policy must identify which providers receive screening information, what information they receive, and how they handle it. This consent is limited to the screening purposes described here.{% endif %}</p></details></section>
+<section class="consent-details" style="--accent:#2667d3;--tint:#e8f1ff"><span class="nc-card-icon" aria-hidden="true"><i class="fa-solid fa-hand"></i></span><h3>{% if lang == 'ur' %}اسکریننگ کے لیے اجازت{% else %}Permission to screen{% endif %}</h3><p>{% if lang == 'ur' %}اسکریننگ کے لیے آپ کی فراہم کردہ معلومات کے تجزیے کی رضامندی ضروری ہے۔ اگر آپ متفق نہیں ہیں تو اسکریننگ شروع نہ کریں۔{% else %}Screening requires your agreement to process the information you provide. If you do not agree, do not begin a screening.{% endif %}</p><details><summary>{% if lang == 'ur' %}تفصیل پڑھیں{% else %}Read details{% endif %}</summary><p>{% if lang == 'ur' %}یہ صفحہ صرف محفوظ رضامندی دکھاتا ہے؛ یہاں اسے تبدیل یا واپس نہیں لیا جا سکتا۔ پروفائل سے اکاؤنٹ حذف کرنے کا صفحہ کھولا جا سکتا ہے۔ اکاؤنٹ حذف کرنا رضامندی واپس لینے کا الگ طریقہ نہیں ہے۔{% else %}This page displays recorded consent; it cannot change or withdraw it. Account deletion is available from your profile. Deleting an account is a separate action from withdrawing consent.{% endif %}</p></details></section>
+<section class="consent-details" style="--accent:#ba5c70;--tint:#ffedf1"><span class="nc-card-icon" aria-hidden="true"><i class="fa-solid fa-heart-pulse"></i></span><h3>{% if lang == 'ur' %}اسکریننگ طبی تشخیص نہیں ہے{% else %}Screening is not a diagnosis{% endif %}</h3><p>{% if lang == 'ur' %}نیوروسینس اے آئی خطرے کی اسکریننگ میں مدد فراہم کرتا ہے۔ نتائج غلط بھی ہو سکتے ہیں اور پارکنسنز کی تصدیق یا مکمل نفی نہیں کرتے۔ تجاویز کسی مستند طبی ماہر کے مشورے کا متبادل نہیں ہیں۔{% else %}NeuroSense AI provides risk-screening support. Results may be inaccurate and do not confirm or rule out Parkinson’s disease. Recommendations do not replace advice from a qualified healthcare professional.{% endif %}</p></section>
 </div>
-
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    const checkbox = document.getElementById('id_data_consent');
-    const group = document.querySelector('.form-checkbox-group');
-
-    if (!checkbox || !group) {
-        return;
-    }
-
-    function updateConsentState() {
-        group.classList.toggle('checked', checkbox.checked);
-    }
-
-    checkbox.addEventListener('change', updateConsentState);
-    updateConsentState();
-});
-</script>
+<section class="nc-saved-consent" aria-labelledby="nc-saved-title">
+<h3 id="nc-saved-title">{% if lang == 'ur' %}آپ کی محفوظ رضامندی{% else %}Your recorded consent{% endif %}</h3>
+<div class="form-checkbox-group {% if profile.data_consent %}checked{% endif %}">
+<input type="checkbox" id="id_data_consent" disabled {% if profile.data_consent %}checked{% endif %} aria-describedby="nc-readonly-note">
+<label for="id_data_consent" class="checkbox-label"><strong>{% if profile.data_consent %}{% if lang == 'ur' %}اسکریننگ کے لیے معلومات کے تجزیے کی رضامندی محفوظ ہے۔{% else %}Consent to process information for screening is recorded.{% endif %}{% else %}{% if lang == 'ur' %}اسکریننگ کی رضامندی ابھی محفوظ نہیں ہے۔{% else %}Screening consent has not been recorded.{% endif %}{% endif %}</strong><span class="hint" id="nc-readonly-note">{% if lang == 'ur' %}یہ صرف محفوظ حیثیت دکھاتا ہے؛ اسے یہاں تبدیل نہیں کیا جا سکتا۔{% else %}This is a read-only display of your saved status.{% endif %}</span></label>
+</div>
+<p class="policy-note">{% if lang == 'ur' %}اسکریننگ سے پہلے آپ کی معلومات کے تجزیے کی اجازت ضروری ہے۔{% else %}Permission to process your screening inputs is required before screening.{% endif %}</p>
+<div class="form-actions"><a href="{% url 'accounts:profile' %}" class="consent-btn consent-btn-outline"><i class="fa-solid fa-arrow-left"></i>{% if lang == 'ur' %}پروفائل پر واپس جائیں{% else %}Back to Profile{% endif %}</a></div>
+</section>
+    </div>
+</div>
 
 {% endwith %}
 {% endblock %}

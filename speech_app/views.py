@@ -724,3 +724,9 @@ def set_language(request):
     response.set_cookie('language', lang, max_age=365*24*60*60) 
     
     return response
+
+def privacy_policy(request):
+    return render(request, "privacy_policy.html")
+
+def terms_conditions(request):
+    return render(request, "terms_conditions.html")

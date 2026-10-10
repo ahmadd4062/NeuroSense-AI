@@ -29,7 +29,8 @@ urlpatterns = [
         lambda request: redirect('gait_app:gait_screening'),
         name="module_three"),
     path("", views.home, name="home"),
-
+    path("privacy-policy/", views.privacy_policy, name="privacy_policy"),
+    path("terms-and-conditions/", views.terms_conditions, name="terms_conditions"),
     path('set-language/', views.set_language, name='set_language'),
 
 ]

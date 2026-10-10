@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
 {% load static %}
-
 {% block title %}
 {% if lang == 'ur' %}
 اکاؤنٹ بنائیں - نیوروسینس اے آئی
@@ -8,402 +7,59 @@
 Create Account - NeuroSense AI
 {% endif %}
 {% endblock %}
-
 {% block extra_css %}
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Roboto:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-    .auth-page {
-        min-height: 80vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 40px 20px;
-        background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
-    }
+#ns-signup{font-family:'Roboto',Arial,sans-serif;color:#17365d}#ns-signup *{box-sizing:border-box}#ns-signup input,#ns-signup button,#ns-signup select{font:inherit}
+#ns-signup .auth-page{min-height:calc(100svh - 100px);padding:32px clamp(18px,5vw,76px);background:radial-gradient(ellipse at 10% 10%,#e0eeff,transparent 50%),radial-gradient(ellipse at 95% 90%,#d8edff,transparent 50%),#f5f8ff;position:relative;isolation:isolate}
+#ns-signup .signup-shell{max-width:1100px;margin:auto;display:grid;grid-template-columns:42% 58%;direction:ltr;background:white;border:1px solid #fff;border-radius:28px;overflow:hidden;box-shadow:0 22px 65px #1b4a8a16}
+#ns-signup .signup-visual{padding:46px 30px;background:linear-gradient(150deg,#184ba7,#2667d3 58%,#4595dc);color:white;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+#ns-signup .signup-eyebrow{font-size:11px;letter-spacing:.16em;font-weight:700;color:#d5e7ff;margin-bottom:14px}#ns-signup .signup-visual h2{font-size:28px;line-height:1.35;font-weight:700;letter-spacing:-.5px;max-width:300px;margin:0;color:white}#ns-signup .signup-visual p{font-size:14px;line-height:1.8;max-width:290px;margin:14px 0;color:#e2eeff}
+#ns-signup .signup-robot{width:100%;max-width:330px;height:360px;overflow:hidden;display:flex;justify-content:center;align-items:center;margin:10px 0 18px;background:none;border:0;box-shadow:none}#ns-signup .signup-robot img{width:100%;height:100%;object-fit:contain;transform:scale(1.25);transform-origin:center;filter:none;mix-blend-mode:normal}
+#ns-signup .signup-modules{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}#ns-signup .signup-modules span{font-size:11px;border:1px solid #ffffff30;background:#ffffff14;padding:8px 12px;border-radius:10px}
+#ns-signup .auth-container{padding:36px 38px;width:100%;min-width:0}#ns-signup .auth-logo{text-align:start;margin-bottom:24px}#ns-signup .auth-logo h1{font-size:29px;line-height:1.25;margin:0 0 8px;color:#17365d;font-weight:700}#ns-signup .auth-logo p{font-size:14px;color:#7a8fac;margin:0;line-height:1.6}
+#ns-signup .google-btn{display:flex;align-items:center;justify-content:center;gap:12px;padding:13px 18px;border:1px solid #d8e4f7;border-radius:12px;color:#213c60;font-weight:600;font-size:14px;text-decoration:none;background:white;transition:background .2s,border-color .2s,transform .2s}#ns-signup .google-btn:hover{background:#f5f9ff;border-color:#2667d3;transform:translateY(-1px)}
+#ns-signup .or-divider{display:flex;align-items:center;gap:14px;margin:20px 0;color:#8b9db7;font-size:11px}#ns-signup .or-divider .line{height:1px;background:#e3ecfa;flex:1}
+#ns-signup form{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:17px 16px}#ns-signup .form-row{display:contents}#ns-signup .form-group{min-width:0}#ns-signup label{display:block;font-size:12px;font-weight:600;margin-bottom:7px;color:#18365f}#ns-signup .required{color:#d95a65}
+#ns-signup .form-input{width:100%;min-height:45px;border:1px solid #d8e4f7;border-radius:11px;background:#f5f8fe;padding:11px 12px;font-size:13px;transition:background .2s,border-color .2s,box-shadow .2s;color:#213c60}#ns-signup .form-input::placeholder{color:#94a3ba}#ns-signup .form-input:hover{border-color:#a9c5ee}#ns-signup .form-input:focus{outline:none;background:white;border-color:#2667d3;box-shadow:0 0 0 3px #2667d315}
+#ns-signup .form-help{font-size:10px;color:#8295af;margin-top:5px;line-height:1.5}#ns-signup .form-error{font-size:12px;color:#b42336;display:block;line-height:1.6;margin-top:5px}#ns-signup .form-errors{grid-column:1/-1;background:#fff3f4;border:1px solid #ffd4dc;border-radius:11px;padding:10px 14px}
+#ns-signup .password-wrap{position:relative}#ns-signup .password-wrap .form-input{padding-inline-end:42px}#ns-signup .password-toggle{position:absolute;top:50%;inset-inline-end:7px;transform:translateY(-50%);width:30px;height:30px;display:flex;align-items:center;justify-content:center;background:transparent;border:0;border-radius:7px;color:#859dbc;cursor:pointer;padding:0}#ns-signup .password-toggle svg{width:18px;height:18px}#ns-signup .password-toggle:hover{color:#2667d3;background:#e6efff}#ns-signup .password-toggle:focus-visible{outline:2px solid #2667d3;outline-offset:2px}
+#ns-signup .password-requirements{color:#8295af;font-size:10px;margin-top:6px;line-height:1.6}#ns-signup .password-requirements strong{font-weight:500}#ns-signup .password-requirements ul{padding-inline-start:15px;margin:3px 0 0}
+#ns-signup .form-checkbox-group{grid-column:1/-1;display:flex;align-items:flex-start;gap:10px;background:#f5f8fe;border:1px solid #d8e4f7;border-radius:12px;padding:13px}#ns-signup .form-checkbox-group input{width:17px;height:17px;flex-shrink:0;margin-top:2px;accent-color:#2667d3;cursor:pointer}#ns-signup .checkbox-label{font-size:12px;font-weight:400;color:#61728b;line-height:1.7;margin:0;cursor:pointer}#ns-signup a{color:#2667d3}#ns-signup .checkbox-label a{text-decoration:underline;text-underline-offset:3px}
+#ns-signup .btn-submit{grid-column:1/-1;background:linear-gradient(115deg,#2059be,#327ce6);color:white;border:0;border-radius:12px;padding:14px;font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 8px 20px #2667d319;transition:transform .2s,box-shadow .2s}#ns-signup .btn-submit:hover{transform:translateY(-2px);box-shadow:0 12px 24px #2667d32b}#ns-signup .btn-submit:disabled{opacity:.6;cursor:not-allowed;transform:none}
+#ns-signup .auth-footer{text-align:center;font-size:12px;color:#8295af;margin-top:22px}#ns-signup .auth-footer a{font-weight:600;text-decoration:none}#ns-signup .auth-footer a:hover{text-decoration:underline}#ns-signup .message{padding:11px 14px;border-radius:10px;font-size:13px;margin-bottom:12px;background:#eef5ff;color:#234e89}#ns-signup .message.error{background:#fff3f4;color:#b42336}
+#ns-signup .signup-note{text-align:center;color:#8b9db7;font-size:11px;margin:18px 0 0}#ns-signup[dir=rtl] .auth-container,#ns-signup[dir=rtl] .signup-visual{direction:rtl}#ns-signup[dir=rtl] h2{letter-spacing:normal}#ns-signup[dir=rtl] .checkbox-label{line-height:1.9}
+@media(max-width:850px){#ns-signup .signup-shell{grid-template-columns:1fr}#ns-signup .auth-container{grid-row:1;padding:30px}#ns-signup .signup-visual{padding:28px}#ns-signup .signup-robot{height:220px;margin:4px 0 12px}#ns-signup .signup-visual h2{font-size:24px;max-width:400px}#ns-signup .signup-visual p{max-width:380px}}
+@media(max-width:480px){#ns-signup .auth-page{padding:20px 12px}#ns-signup .signup-shell{border-radius:20px}#ns-signup .auth-container{padding:25px 20px}#ns-signup form{grid-template-columns:1fr}#ns-signup .auth-logo h1{font-size:25px}}
+@media(prefers-reduced-motion:reduce){#ns-signup *{transition:none!important}}
 
-    .auth-container {
-        background: white;
-        border-radius: 20px;
-        padding: 48px 40px;
-        max-width: 520px;
-        width: 100%;
-        box-shadow: 0 12px 48px rgba(0, 0, 0, 0.08);
-        border: 1px solid #e2e8f0;
-    }
+#ns-signup .privacy-trigger{display:inline;padding:0;border:0;background:transparent;color:#2667d3;text-decoration:underline;text-underline-offset:3px;font-size:inherit;cursor:pointer}#ns-signup .privacy-trigger:hover{color:#174ba9}#ns-signup .privacy-trigger:focus-visible,#ns-signup .privacy-close:focus-visible,#ns-signup .privacy-done:focus-visible{outline:3px solid #8eb9ff;outline-offset:3px}
+#ns-signup .privacy-dialog{padding:0;border:1px solid #d9e6f7;border-radius:22px;width:min(680px,calc(100vw - 28px));max-height:85vh;max-height:85svh;color:#17365d;background:white;box-shadow:0 28px 90px #12366a45;overflow:hidden;font-family:'Roboto',Arial,sans-serif}#ns-signup .privacy-dialog::backdrop{background:#122c5da6;backdrop-filter:blur(4px)}#ns-signup .privacy-layout{display:flex;flex-direction:column;max-height:85vh;max-height:85svh}
+#ns-signup .privacy-header{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:21px 25px;background:linear-gradient(115deg,#184cad,#2667d3);color:white;flex-shrink:0}#ns-signup .privacy-header h2{font-size:22px;color:white;margin:0 0 5px}#ns-signup .privacy-header p{margin:0;font-size:12px;color:#e2eeff;line-height:1.6}#ns-signup .privacy-close{width:34px;height:34px;border:1px solid #ffffff40;border-radius:10px;background:#ffffff15;color:white;font-size:25px;cursor:pointer;flex-shrink:0;line-height:1}
+#ns-signup .privacy-body{overflow-y:auto;overscroll-behavior:contain;padding:22px 25px;min-height:0;line-height:1.8;font-size:13px;color:#61728b}#ns-signup .privacy-body section{padding:0 0 16px;margin-bottom:16px;border-bottom:1px solid #e6edf8}#ns-signup .privacy-body section:last-child{border:0;margin-bottom:0;padding-bottom:0}#ns-signup .privacy-body h3{font-size:15px;color:#17365d;margin:0 0 7px}#ns-signup .privacy-body p{margin:0}#ns-signup .privacy-body .privacy-intro{padding:13px 15px;background:#eef5ff;border:1px solid #dbe9fc;border-radius:12px;margin-bottom:20px;color:#365c8a}
+#ns-signup .privacy-footer{padding:15px 25px;border-top:1px solid #e6edf8;display:flex;justify-content:space-between;align-items:center;gap:14px;background:#f8fbff;flex-shrink:0}#ns-signup .privacy-footer p{font-size:11px;color:#71849f;margin:0;line-height:1.6}#ns-signup .privacy-done{border:0;border-radius:10px;padding:11px 18px;background:#2667d3;color:white;font-weight:600;font-size:13px;cursor:pointer;white-space:nowrap}#ns-signup .privacy-done:hover{background:#2059be}
+@media(max-width:480px){#ns-signup .privacy-header,#ns-signup .privacy-body,#ns-signup .privacy-footer{padding:17px}#ns-signup .privacy-footer{flex-wrap:wrap}#ns-signup .privacy-header h2{font-size:20px}}
 
-    .auth-logo {
-        text-align: center;
-        margin-bottom: 28px;
-    }
-
-    .auth-logo img {
-        height: 48px;
-        width: auto;
-        display: block;
-        margin: 0 auto;
-    }
-
-    .auth-logo h1 {
-        font-size: 1.5rem;
-        font-weight: 700;
-        color: #1a1a2e;
-        margin: 12px 0 4px;
-    }
-
-    .auth-logo p {
-        color: #6b7280;
-        font-size: 0.9rem;
-        margin: 0;
-    }
-
-    /* ========================================== */
-    /* GOOGLE SIGN-UP BUTTON                      */
-    /* ========================================== */
-    .google-btn {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 12px;
-        width: 100%;
-        padding: 12px 20px;
-        background: white;
-        border: 1.5px solid #e2e8f0;
-        border-radius: 10px;
-        color: #1a1a2e;
-        font-weight: 600;
-        font-size: 0.95rem;
-        text-decoration: none;
-        transition: all 0.3s ease;
-        font-family: inherit;
-        cursor: pointer;
-        margin-bottom: 20px;
-    }
-
-    .google-btn:hover {
-        border-color: #4A6CF7;
-        background: #eef2ff;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(74, 108, 247, 0.15);
-    }
-
-    /* ========================================== */
-    /* OR DIVIDER                                 */
-    /* ========================================== */
-    .or-divider {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        margin: 20px 0;
-        color: #94a3b8;
-        font-size: 0.8rem;
-        font-weight: 600;
-    }
-
-    .or-divider .line {
-        flex: 1;
-        height: 1px;
-        background: #e2e8f0;
-    }
-
-    .form-group {
-        margin-bottom: 16px;
-    }
-
-    .form-group label {
-        display: block;
-        font-size: 0.85rem;
-        font-weight: 600;
-        color: #1a1a2e;
-        margin-bottom: 4px;
-    }
-
-    .form-group label .required {
-        color: #ef4444;
-    }
-
-    .form-group .form-input {
-        width: 100%;
-        padding: 10px 14px;
-        border: 1.5px solid #e2e8f0;
-        border-radius: 10px;
-        font-size: 0.95rem;
-        transition: all 0.3s ease;
-        background: #f8fafc;
-        font-family: inherit;
-    }
-
-    .form-group .form-input:focus {
-        outline: none;
-        border-color: #4A6CF7;
-        background: white;
-        box-shadow: 0 0 0 4px rgba(74, 108, 247, 0.08);
-    }
-
-    .form-group .form-input.error {
-        border-color: #ef4444;
-        background: #fef2f2;
-    }
-
-    .form-group .form-input.is-valid {
-        border-color: #10b981;
-        background: #f0fdf4;
-    }
-
-    .form-group .form-help {
-        font-size: 0.75rem;
-        color: #94a3b8;
-        margin-top: 4px;
-    }
-
-    /* ========================================== */
-    /* PASSWORD FIELD WITH TOGGLE                 */
-    /* ========================================== */
-    .password-wrap {
-        position: relative;
-        width: 100%;
-    }
-
-    .password-wrap .form-input {
-        padding-right: 44px;
-        /* make room for the eye button */
-    }
-
-    .password-toggle {
-        position: absolute;
-        top: 50%;
-        right: 8px;
-        transform: translateY(-50%);
-        width: 30px;
-        height: 30px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        border: none;
-        background: transparent;
-        color: #94a3b8;
-        cursor: pointer;
-        border-radius: 8px;
-        transition: color 0.2s ease, background 0.2s ease;
-        padding: 0;
-    }
-
-    .password-toggle:hover {
-        color: #4A6CF7;
-        background: #eef2ff;
-    }
-
-    .password-toggle:focus-visible {
-        outline: 2px solid #4A6CF7;
-        outline-offset: 2px;
-    }
-
-    .password-toggle svg {
-        width: 18px;
-        height: 18px;
-        display: block;
-    }
-
-    /* RTL support */
-    [dir="rtl"] .password-wrap .form-input,
-    .rec-rtl .password-wrap .form-input {
-        padding-right: 14px;
-        padding-left: 44px;
-    }
-
-    [dir="rtl"] .password-toggle,
-    .rec-rtl .password-toggle {
-        right: auto;
-        left: 8px;
-    }
-
-    .form-error {
-        color: #dc2626;
-        font-size: 0.8rem;
-        margin-top: 4px;
-        display: block;
-    }
-
-    .form-row {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 16px;
-    }
-
-    .form-checkbox-group {
-        display: flex;
-        align-items: flex-start;
-        gap: 10px;
-        margin: 8px 0 4px;
-        padding: 12px 16px;
-        background: #f8fafc;
-        border-radius: 10px;
-        border: 1px solid #e2e8f0;
-        transition: all 0.3s ease;
-    }
-
-    .form-checkbox-group:hover {
-        border-color: #4A6CF7;
-        background: #eef2ff;
-    }
-
-    .form-checkbox-group input[type="checkbox"] {
-        width: 18px;
-        height: 18px;
-        accent-color: #4A6CF7;
-        margin-top: 2px;
-        flex-shrink: 0;
-        cursor: pointer;
-    }
-
-    .form-checkbox-group .checkbox-label {
-        font-size: 0.85rem;
-        color: #475569;
-        cursor: pointer;
-    }
-
-    .form-checkbox-group .checkbox-label strong {
-        color: #1a1a2e;
-    }
-
-    .form-checkbox-group .checkbox-label a {
-        color: #4A6CF7;
-        text-decoration: none;
-    }
-
-    .form-checkbox-group .checkbox-label a:hover {
-        text-decoration: underline;
-    }
-
-    .btn-submit {
-        width: 100%;
-        padding: 14px;
-        background: #4A6CF7;
-        color: white;
-        border: none;
-        border-radius: 10px;
-        font-size: 1rem;
-        font-weight: 700;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        font-family: inherit;
-        margin-top: 4px;
-    }
-
-    .btn-submit:hover {
-        background: #3b5de7;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 16px rgba(74, 108, 247, 0.3);
-    }
-
-    .btn-submit:disabled {
-        opacity: 0.6;
-        cursor: not-allowed;
-        transform: none;
-    }
-
-    .auth-footer {
-        text-align: center;
-        margin-top: 20px;
-        font-size: 0.9rem;
-        color: #6b7280;
-    }
-
-    .auth-footer a {
-        color: #4A6CF7;
-        text-decoration: none;
-        font-weight: 600;
-    }
-
-    .auth-footer a:hover {
-        text-decoration: underline;
-    }
-
-    .messages {
-        margin-bottom: 16px;
-    }
-
-    .message {
-        padding: 10px 14px;
-        border-radius: 10px;
-        font-size: 0.9rem;
-        margin-bottom: 6px;
-    }
-
-    .message.error {
-        background: #fef2f2;
-        color: #991b1b;
-        border: 1px solid #fca5a5;
-    }
-
-    .message.success {
-        background: #f0fdf4;
-        color: #065f46;
-        border: 1px solid #86efac;
-    }
-
-    .message.info {
-        background: #eff6ff;
-        color: #1e40af;
-        border: 1px solid #93c5fd;
-    }
-
-    .password-requirements {
-        font-size: 0.75rem;
-        color: #94a3b8;
-        margin-top: 4px;
-        padding: 8px 12px;
-        background: #f8fafc;
-        border-radius: 8px;
-        border: 1px solid #e2e8f0;
-    }
-
-    .password-requirements ul {
-        margin: 4px 0 0;
-        padding-left: 20px;
-    }
-
-    .password-requirements ul li {
-        line-height: 1.6;
-    }
-
-    .password-requirements ul li.valid {
-        color: #10b981;
-    }
-
-    .password-requirements ul li.invalid {
-        color: #94a3b8;
-    }
-
-    @media (max-width: 480px) {
-        .auth-container {
-            padding: 28px 16px;
-        }
-
-        .auth-logo h1 {
-            font-size: 1.3rem;
-        }
-
-        .form-row {
-            grid-template-columns: 1fr;
-            gap: 0;
-        }
-
-        .form-checkbox-group {
-            padding: 10px 12px;
-        }
-    }
-</style>
-{% endblock %}
-
+/* Explicit centring overrides the site's global dialog/margin resets. */
+#ns-signup dialog.privacy-dialog{position:fixed!important;inset:0!important;margin:auto!important;height:fit-content!important;max-width:calc(100vw - 28px)!important;max-height:85vh!important;max-height:85svh!important;transform:none!important;text-align:start}
+#ns-signup[dir=rtl] .checkbox-label,#ns-signup .privacy-dialog[dir=rtl]{font-family:'Noto Naskh Arabic',Tahoma,Arial,sans-serif!important}
+#ns-signup[dir=rtl] .checkbox-label{font-size:16px!important;line-height:2!important;color:#405672;font-weight:500;word-break:normal;overflow-wrap:break-word}
+#ns-signup[dir=rtl] .privacy-trigger{font-family:inherit!important;font-size:inherit!important;line-height:inherit}
+#ns-signup[dir=rtl] .form-checkbox-group{gap:12px;padding:16px;align-items:flex-start}
+#ns-signup[dir=rtl] .form-checkbox-group input{margin-top:8px}
+#ns-signup .privacy-dialog[dir=rtl] .privacy-body{font-family:inherit!important;font-size:17px!important;line-height:2.15!important;color:#405672;text-align:right;word-break:normal;overflow-wrap:break-word}
+#ns-signup .privacy-dialog[dir=rtl] .privacy-body h3{font-family:inherit!important;font-size:20px;line-height:1.8;font-weight:700;margin-bottom:10px}
+#ns-signup .privacy-dialog[dir=rtl] .privacy-body section{padding-bottom:21px;margin-bottom:21px}
+#ns-signup .privacy-dialog[dir=rtl] .privacy-header h2{font-family:inherit!important;font-size:25px;line-height:1.7}
+#ns-signup .privacy-dialog[dir=rtl] .privacy-header p,#ns-signup .privacy-dialog[dir=rtl] .privacy-footer p{font-family:inherit!important;font-size:15px;line-height:1.9}
+#ns-signup .privacy-dialog[dir=rtl] .privacy-done{font-family:inherit!important;font-size:16px;line-height:1.7}
+</style>{% endblock %}
 {% block content %}
-
 {% with lang=request.LANG|default:'en' %}
-
-<div class="auth-page">
-
+<div id="ns-signup" dir="{% if lang == 'ur' %}rtl{% else %}ltr{% endif %}"><div class="auth-page"><div class="signup-shell"><aside class="signup-visual"><div class="signup-eyebrow">NEUROSENSE AI</div><h2>{% if lang == 'ur' %}بہتر آگاہی کی طرف پہلا قدم{% else %}Your first step towards better awareness.{% endif %}</h2><p>{% if lang == 'ur' %}اپنا اکاؤنٹ بنائیں، اسکریننگ مکمل کریں اور اپنی رپورٹس اور ذاتی تجاویز ایک ہی جگہ دیکھیں۔{% else %}Create your account to begin screening, view your reports, and explore personalised guidance.{% endif %}</p><div class="signup-robot"><img src="{% static 'speech_app/images/signup_robot.gif' %}" alt="" aria-hidden="true"></div><div class="signup-modules"><span>{% if lang == 'ur' %}آواز{% else %}Speech{% endif %}</span><span>{% if lang == 'ur' %}چال{% else %}Gait{% endif %}</span><span>{% if lang == 'ur' %}سوالنامہ{% else %}Questionnaire{% endif %}</span></div></aside>
     <div class="auth-container">
-
         <div class="auth-logo">
-            <img src="{% static 'speech_app/images/logo.png' %}" alt="NeuroSense AI">
             <h1>
                 {% if lang == 'ur' %}اکاؤنٹ بنائیں{% else %}Create Account{% endif %}
             </h1>
@@ -415,7 +71,6 @@ Create Account - NeuroSense AI
                 {% endif %}
             </p>
         </div>
-
         {% if messages %}
         <div class="messages">
             {% for message in messages %}
@@ -425,7 +80,6 @@ Create Account - NeuroSense AI
             {% endfor %}
         </div>
         {% endif %}
-
         <!-- ========================================== -->
         <!-- GOOGLE SIGN-UP BUTTON                      -->
         <!-- ========================================== -->
@@ -444,7 +98,6 @@ Create Account - NeuroSense AI
                 {% endif %}
             </span>
         </a>
-
         <!-- ========================================== -->
         <!-- OR DIVIDER                                 -->
         <!-- ========================================== -->
@@ -455,18 +108,17 @@ Create Account - NeuroSense AI
             </span>
             <div class="line"></div>
         </div>
-
         <!-- ========================================== -->
         <!-- EXISTING REGISTRATION FORM                 -->
         <!-- ========================================== -->
         <form method="POST" action="{% url 'accounts:register' %}">
             {% csrf_token %}
-
+{% if form.non_field_errors %}<div class="form-errors" role="alert">{% for error in form.non_field_errors %}<div class="form-error">{{ error }}</div>{% endfor %}</div>{% endif %}
             <div class="form-group">
                 <label for="id_username">
                     {% if lang == 'ur' %}صارف کا نام <span class="required">*</span>{% else %}Username <span class="required">*</span>{% endif %}
                 </label>
-                <input type="text" name="username" id="id_username" class="form-input" placeholder="{% if lang == 'ur' %}صارف کا نام منتخب کریں{% else %}Choose a username{% endif %}" required>
+                <input type="text" name="username" value="{{ form.username.value|default_if_none:'' }}" id="id_username" class="form-input" placeholder="{% if lang == 'ur' %}صارف کا نام منتخب کریں{% else %}Choose a username{% endif %}" required>
                 <div class="form-help">
                     {% if lang == 'ur' %}صرف حروف، اعداد اور انڈر اسکور{% else %}Letters, numbers, and underscores only{% endif %}
                 </div>
@@ -474,39 +126,35 @@ Create Account - NeuroSense AI
                 <span class="form-error">{{ form.username.errors.0 }}</span>
                 {% endif %}
             </div>
-
             <div class="form-row">
                 <div class="form-group">
                     <label for="id_first_name">
                         {% if lang == 'ur' %}پہلا نام <span class="required">*</span>{% else %}First Name <span class="required">*</span>{% endif %}
                     </label>
-                    <input type="text" name="first_name" id="id_first_name" class="form-input" placeholder="{% if lang == 'ur' %}پہلا نام{% else %}First name{% endif %}" required>
+                    <input type="text" name="first_name" value="{{ form.first_name.value|default_if_none:'' }}" id="id_first_name" class="form-input" placeholder="{% if lang == 'ur' %}پہلا نام{% else %}First name{% endif %}" required>
                     {% if form.first_name.errors %}
                     <span class="form-error">{{ form.first_name.errors.0 }}</span>
                     {% endif %}
                 </div>
-
                 <div class="form-group">
                     <label for="id_last_name">
                         {% if lang == 'ur' %}آخری نام <span class="required">*</span>{% else %}Last Name <span class="required">*</span>{% endif %}
                     </label>
-                    <input type="text" name="last_name" id="id_last_name" class="form-input" placeholder="{% if lang == 'ur' %}آخری نام{% else %}Last name{% endif %}" required>
+                    <input type="text" name="last_name" value="{{ form.last_name.value|default_if_none:'' }}" id="id_last_name" class="form-input" placeholder="{% if lang == 'ur' %}آخری نام{% else %}Last name{% endif %}" required>
                     {% if form.last_name.errors %}
                     <span class="form-error">{{ form.last_name.errors.0 }}</span>
                     {% endif %}
                 </div>
             </div>
-
             <div class="form-group">
                 <label for="id_email">
                     {% if lang == 'ur' %}ای میل ایڈریس <span class="required">*</span>{% else %}Email Address <span class="required">*</span>{% endif %}
                 </label>
-                <input type="email" name="email" id="id_email" class="form-input" placeholder="{% if lang == 'ur' %}اپنا ای میل درج کریں{% else %}Enter your email{% endif %}" required>
+                <input type="email" name="email" value="{{ form.email.value|default_if_none:'' }}" id="id_email" class="form-input" placeholder="{% if lang == 'ur' %}اپنا ای میل درج کریں{% else %}Enter your email{% endif %}" required>
                 {% if form.email.errors %}
                 <span class="form-error">{{ form.email.errors.0 }}</span>
                 {% endif %}
             </div>
-
             <div class="form-group">
                 <label for="id_password1">
                     {% if lang == 'ur' %}پاس ورڈ <span class="required">*</span>{% else %}Password <span class="required">*</span>{% endif %}
@@ -542,7 +190,6 @@ Create Account - NeuroSense AI
                 <span class="form-error">{{ form.password1.errors.0 }}</span>
                 {% endif %}
             </div>
-
             <div class="form-group">
                 <label for="id_password2">
                     {% if lang == 'ur' %}پاس ورڈ کی تصدیق <span class="required">*</span>{% else %}Confirm Password <span class="required">*</span>{% endif %}
@@ -563,79 +210,72 @@ Create Account - NeuroSense AI
                 <span class="form-error">{{ form.password2.errors.0 }}</span>
                 {% endif %}
             </div>
-
             <div class="form-group">
                 <label for="id_phone_number">
                     {% if lang == 'ur' %}فون نمبر{% else %}Phone Number{% endif %}
                 </label>
-                <input type="text" name="phone_number" id="id_phone_number" class="form-input" placeholder="{% if lang == 'ur' %}فون نمبر درج کریں (اختیاری){% else %}Enter phone number (optional){% endif %}">
+                <input type="text" name="phone_number" value="{{ form.phone_number.value|default_if_none:'' }}" id="id_phone_number" class="form-input" placeholder="{% if lang == 'ur' %}فون نمبر درج کریں (اختیاری){% else %}Enter phone number (optional){% endif %}">
                 {% if form.phone_number.errors %}
                 <span class="form-error">{{ form.phone_number.errors.0 }}</span>
                 {% endif %}
             </div>
-
             <div class="form-row">
                 <div class="form-group">
                     <label for="id_date_of_birth">
                         {% if lang == 'ur' %}تاریخ پیدائش{% else %}Date of Birth{% endif %}
                     </label>
-                    <input type="date" name="date_of_birth" id="id_date_of_birth" class="form-input">
+                    <input type="date" name="date_of_birth" value="{{ form.date_of_birth.value|default_if_none:'' }}" id="id_date_of_birth" class="form-input">
                     {% if form.date_of_birth.errors %}
                     <span class="form-error">{{ form.date_of_birth.errors.0 }}</span>
                     {% endif %}
                 </div>
-
                 <div class="form-group">
                     <label for="id_gender">
                         {% if lang == 'ur' %}جنس{% else %}Gender{% endif %}
                     </label>
                     <select name="gender" id="id_gender" class="form-input">
                         <option value="">{% if lang == 'ur' %}منتخب کریں{% else %}Select{% endif %}</option>
-                        <option value="M">{% if lang == 'ur' %}مرد{% else %}Male{% endif %}</option>
-                        <option value="F">{% if lang == 'ur' %}خاتون{% else %}Female{% endif %}</option>
-                        <option value="O">{% if lang == 'ur' %}دوسری{% else %}Other{% endif %}</option>
-                        <option value="P">{% if lang == 'ur' %}ترجیح نہیں{% else %}Prefer not to say{% endif %}</option>
+                        <option value="M" {% if form.gender.value == 'M' %}selected{% endif %}>{% if lang == 'ur' %}مرد{% else %}Male{% endif %}</option>
+                        <option value="F" {% if form.gender.value == 'F' %}selected{% endif %}>{% if lang == 'ur' %}خاتون{% else %}Female{% endif %}</option>
+                        <option value="O" {% if form.gender.value == 'O' %}selected{% endif %}>{% if lang == 'ur' %}دوسری{% else %}Other{% endif %}</option>
+                        <option value="P" {% if form.gender.value == 'P' %}selected{% endif %}>{% if lang == 'ur' %}ترجیح نہیں{% else %}Prefer not to say{% endif %}</option>
                     </select>
                     {% if form.gender.errors %}
                     <span class="form-error">{{ form.gender.errors.0 }}</span>
                     {% endif %}
                 </div>
             </div>
-
             <div class="form-group">
                 <label for="id_preferred_language">
                     {% if lang == 'ur' %}ترجیحی زبان <span class="required">*</span>{% else %}Preferred Language <span class="required">*</span>{% endif %}
                 </label>
                 <select name="preferred_language" id="id_preferred_language" class="form-input">
-                    <option value="en">English</option>
-                    <option value="ur">اردو</option>
+                    <option value="en" {% if form.preferred_language.value == 'en' %}selected{% endif %}>English</option>
+                    <option value="ur" {% if form.preferred_language.value == 'ur' %}selected{% endif %}>اردو</option>
                 </select>
                 {% if form.preferred_language.errors %}
                 <span class="form-error">{{ form.preferred_language.errors.0 }}</span>
                 {% endif %}
             </div>
-
             <div class="form-checkbox-group">
-                <input type="checkbox" name="data_consent" id="id_data_consent" required>
+                <input type="checkbox" name="data_consent" id="id_data_consent" {% if form.data_consent.value %}checked{% endif %} required>
                 <label for="id_data_consent" class="checkbox-label">
                     {% if lang == 'ur' %}
                     میں <strong>ڈیٹا جمع کرنے</strong> اور اسکریننگ کے مقاصد کے لیے <strong>کارروائی</strong> کرنے کی رضایت دیتا ہوں۔
-                    میں <a href="#">پرائیویسی پالیسی</a> پڑھ چکا ہوں۔
+                    میں <button type="button" class="privacy-trigger" aria-haspopup="dialog" aria-controls="signup-privacy">پرائیویسی پالیسی</button> پڑھ چکا ہوں۔
                     {% else %}
                     I consent to the <strong>collection</strong> and <strong>processing</strong> of my data for screening purposes.
-                    I have read the <a href="#">Privacy Policy</a>.
+                    I have read the <button type="button" class="privacy-trigger" aria-haspopup="dialog" aria-controls="signup-privacy">Privacy Policy</button>.
                     {% endif %}
                 </label>
             </div>
             {% if form.data_consent.errors %}
-            <span class="form-error">{{ form.data_consent.errors.0 }}</span>
+            <span class="form-error" style="grid-column:1/-1">{{ form.data_consent.errors.0 }}</span>
             {% endif %}
-
             <button type="submit" class="btn-submit">
                 {% if lang == 'ur' %}اکاؤنٹ بنائیں{% else %}Create Account{% endif %}
             </button>
         </form>
-
         <div class="auth-footer">
             {% if lang == 'ur' %}
             پہلے سے اکاؤنٹ ہے؟ <a href="{% url 'accounts:login' %}">لاگ ان کریں</a>
@@ -643,28 +283,22 @@ Create Account - NeuroSense AI
             Already have an account? <a href="{% url 'accounts:login' %}">Log In</a>
             {% endif %}
         </div>
-
     </div>
-
 </div>
-
+</div><p class="signup-note">{% if lang == 'ur' %}اسکریننگ میں مدد — طبی تشخیص نہیں{% else %}Screening support · Not a medical diagnosis{% endif %}</p><dialog id="signup-privacy" class="privacy-dialog" aria-labelledby="signup-privacy-title" dir="{% if lang == 'ur' %}rtl{% else %}ltr{% endif %}"><div class="privacy-layout"><header class="privacy-header"><div><h2 id="signup-privacy-title">{% if lang == 'ur' %}رازداری اور اسکریننگ کی رضامندی{% else %}Privacy & Screening Consent{% endif %}</h2><p>{% if lang == 'ur' %}نیوروسینس اے آئی میں آپ کی معلومات کا استعمال{% else %}How your information is used in NeuroSense AI{% endif %}</p></div><button type="button" class="privacy-close" data-privacy-close aria-label="{% if lang == 'ur' %}رازداری کی تفصیلات بند کریں{% else %}Close privacy details{% endif %}" autofocus>×</button></header><div class="privacy-body"><p class="privacy-intro">{% if lang == 'ur' %}آپ کی معلومات نیچے بیان کردہ اسکریننگ کے مقاصد کے لیے استعمال ہوتی ہیں۔ رضامندی کا فیصلہ کرنے سے پہلے یہ نوٹس پڑھیں۔{% else %}Your information is used for the screening purposes described below. Please review this notice before deciding whether to consent.{% endif %}</p><section><h3>{% if lang == 'ur' %}ہم کون سی معلومات استعمال کرتے ہیں؟{% else %}Information we use{% endif %}</h3><p>{% if lang == 'ur' %}ہم آپ کے فراہم کردہ اکاؤنٹ اور پروفائل کی تفصیلات استعمال کرتے ہیں، جن میں نام، ای میل اور اختیاری ذاتی معلومات شامل ہیں۔ اسکریننگ کے لیے سوالنامے کے جوابات، آواز کی ریکارڈنگ اور چال کی ویڈیو استعمال ہوتی ہے۔ تجزیے سے پیمائشیں، خطرے کا اندازہ، رپورٹس اور ذاتی تجاویز بھی بنتی ہیں۔{% else %}We use the account and profile details you provide, including your name, email and optional personal details. Screening uses your questionnaire answers, voice recording and gait video. Analysis can also produce measurements, risk estimates, reports and personalised recommendations.{% endif %}</p></section><section><h3>{% if lang == 'ur' %}مقصد اور اجازت یافتہ استعمال{% else %}Purpose and permitted use{% endif %}</h3><p>{% if lang == 'ur' %}آپ کی رضامندی اسکریننگ کے تجزیے، نتائج اور رہنمائی فراہم کرنے اور رپورٹس کو آپ کے اکاؤنٹ کے ساتھ محفوظ کرنے کے لیے ہے تاکہ آپ انہیں دیکھ اور موازنہ کر سکیں۔ ہم آپ کی معلومات کا غلط استعمال نہیں کریں گے۔ یہ رضامندی معلومات فروخت کرنے، اشتہارات، تحقیق یا ماڈل کی تربیت کی اجازت نہیں دیتی۔ کسی الگ اختیاری استعمال کے لیے الگ وضاحت اور اجازت ضروری ہے۔{% else %}Your consent covers processing your information for screening, providing results and guidance, and saving reports with your account so you can view and compare them. We will not misuse your information. This consent does not authorise selling it, advertising use, research or model training. Any separate optional use needs its own explanation and permission.{% endif %}</p></section><section><h3>{% if lang == 'ur' %}ریکارڈنگ اور محفوظ رپورٹس{% else %}Recordings and stored reports{% endif %}</h3><p>{% if lang == 'ur' %}آواز کی ریکارڈنگ اور چال کی ویڈیو اسکریننگ کے تجزیے کے لیے استعمال ہوتی ہیں؛ محفوظ رپورٹس ان ریکارڈنگز سے الگ ہیں۔ یہ نوٹس اس بات کی ضمانت نہیں دیتا کہ ریکارڈنگ کبھی محفوظ نہیں ہوتی یا فوراً حذف ہو جاتی ہے۔ ریکارڈنگ، سوالنامے کے جوابات، اخذ کردہ پیمائشوں اور بیک اپ کی درست مدت اس نوٹس میں ابھی تصدیق شدہ نہیں ہے۔{% else %}Voice recordings and gait videos are inputs to the screening analysis; saved reports are separate from those recordings. This notice does not guarantee that recordings are never stored or are deleted immediately. Exact retention periods for recordings, questionnaire answers, extracted measurements and backups have not yet been confirmed in this notice.{% endif %}</p></section><section><h3>{% if lang == 'ur' %}ہوسٹنگ اور اے آئی خدمات{% else %}Hosting and AI services{% endif %}</h3><p>{% if lang == 'ur' %}ہوسٹنگ اور اے آئی خدمات نیوروسینس اے آئی کو چلانے میں مدد دیتی ہیں۔ یہ رضامندی یہاں بیان کردہ اسکریننگ کے مقاصد تک محدود ہے۔ خدمات فراہم کرنے والوں کی مکمل فہرست، ہر خدمت کو دی جانے والی معلومات اور ان کے معلومات محفوظ رکھنے کے طریقے اس نوٹس میں ابھی تصدیق شدہ نہیں ہیں۔{% else %}Hosting and AI services help operate NeuroSense AI. This consent remains limited to the screening purposes described here. The complete list of providers, the information sent to each service, and their retention practices have not yet been confirmed in this notice.{% endif %}</p></section><section><h3>{% if lang == 'ur' %}آپ کا انتخاب اور رضامندی{% else %}Your choice and consent{% endif %}</h3><p>{% if lang == 'ur' %}رضامندی کے خانے کو منتخب کرنے سے پہلے یہ تفصیلات پڑھیں۔ اسکریننگ کے لیے آپ کی فراہم کردہ معلومات کے تجزیے کی اجازت ضروری ہے۔ اگر آپ متفق نہیں ہیں تو خانہ منتخب نہ کریں اور آگے نہ بڑھیں۔ اس نوٹس کو کھولنے یا بند کرنے سے رضامندی نہیں دی جاتی اور خانہ خود منتخب نہیں ہوتا۔{% else %}Please read these details before selecting the consent checkbox. Permission to process your screening inputs is required to use screening. If you do not agree, leave the checkbox unticked and do not proceed. Opening or closing this notice does not give consent or select the checkbox.{% endif %}</p></section><section><h3>{% if lang == 'ur' %}اکاؤنٹ حذف کرنا اور محفوظ رضامندی{% else %}Account deletion and recorded consent{% endif %}</h3><p>{% if lang == 'ur' %}رجسٹریشن کے بعد پروفائل سے اکاؤنٹ حذف کرنے اور محفوظ رضامندی دیکھنے کے صفحات کھولے جا سکتے ہیں۔ رضامندی کا صفحہ صرف محفوظ حیثیت دکھاتا ہے اور فی الحال رضامندی واپس لینے کا اختیار فراہم نہیں کرتا۔ اکاؤنٹ حذف کرنا الگ عمل ہے؛ یہ نوٹس تمام بیک اپ یا خدمات فراہم کرنے والوں کے پاس موجود معلومات کے فوری حذف ہونے کی ضمانت نہیں دیتا۔{% else %}After registration, your profile provides access to account deletion and a page showing recorded consent. The consent page displays your saved status and does not currently provide a withdrawal control. Account deletion is a separate action; this notice does not promise immediate deletion of all backups or provider-held information.{% endif %}</p></section><section><h3>{% if lang == 'ur' %}اسکریننگ طبی تشخیص نہیں ہے{% else %}Screening is not a diagnosis{% endif %}</h3><p>{% if lang == 'ur' %}نیوروسینس اے آئی پارکنسنز کے خطرے کی اسکریننگ میں مدد فراہم کرتا ہے۔ نتائج غلط بھی ہو سکتے ہیں اور پارکنسنز کی تصدیق یا مکمل نفی نہیں کرتے۔ رپورٹس، تجاویز اور چیٹ بوٹ کے جوابات کسی مستند طبی ماہر کے مشورے کا متبادل نہیں ہیں۔{% else %}NeuroSense AI provides Parkinson’s risk-screening support. Results may be inaccurate and do not confirm or rule out Parkinson’s disease. Reports, recommendations and chatbot responses do not replace advice from a qualified healthcare professional.{% endif %}</p></section></div><footer class="privacy-footer"><p>{% if lang == 'ur' %}یہ نوٹس بند کریں، پھر متفق ہونے پر رضامندی کا خانہ منتخب کریں۔{% else %}Close this notice, then select the checkbox if you agree.{% endif %}</p><button type="button" class="privacy-done" data-privacy-close>{% if lang == 'ur' %}رجسٹریشن پر واپس جائیں{% else %}Back to signup{% endif %}</button></footer></div></dialog></div>
 {% endwith %}
-
 <script>
     (function () {
         'use strict';
-
         // Attach a click handler to every password toggle on the page.
         // Works for login (single field) and register (two fields) automatically.
-        document.querySelectorAll('.password-toggle').forEach(function (btn) {
+        document.querySelectorAll('#ns-signup .password-toggle').forEach(function (btn) {
             btn.addEventListener('click', function () {
                 var targetId = btn.getAttribute('data-target');
                 var input = document.getElementById(targetId);
                 if (!input) return;
-
                 var isHidden = input.type === 'password';
                 input.type = isHidden ? 'text' : 'password';
-
                 // Swap icon
                 var eye = btn.querySelector('.icon-eye');
                 var eyeOff = btn.querySelector('.icon-eye-off');
@@ -672,15 +306,31 @@ Create Account - NeuroSense AI
                     eye.style.display = isHidden ? 'none' : 'block';
                     eyeOff.style.display = isHidden ? 'block' : 'none';
                 }
-
                 // Update accessibility state
                 btn.setAttribute('aria-pressed', isHidden ? 'true' : 'false');
-
                 // Keep focus on the input for a smoother UX
                 input.focus();
             });
         });
     })();
-</script>
 
+(function(){
+ const root=document.getElementById('ns-signup');
+ const dialog=document.getElementById('signup-privacy');
+ if(!root||!dialog)return;
+ let opener=null,previousOverflow='';
+ root.querySelectorAll('.privacy-trigger').forEach(function(button){
+  button.addEventListener('click',function(event){
+   event.preventDefault();event.stopPropagation();
+   if(dialog.open)return;
+   opener=button;previousOverflow=document.body.style.overflow;
+   dialog.showModal();document.body.style.overflow='hidden';
+   dialog.querySelector('.privacy-body').scrollTop=0;
+  });
+ });
+ dialog.querySelectorAll('[data-privacy-close]').forEach(function(button){button.addEventListener('click',function(){dialog.close();});});
+ dialog.addEventListener('click',function(event){if(event.target===dialog){const r=dialog.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)dialog.close();}});
+ dialog.addEventListener('close',function(){document.body.style.overflow=previousOverflow;if(opener)opener.focus();});
+})();
+</script>
 {% endblock %}

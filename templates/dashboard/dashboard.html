@@ -1,250 +1,997 @@
 {% extends 'base.html' %}
+
+
+
 {% load static %}
+
+
+
 {% block title %}{% if lang == 'ur' %}ڈیش بورڈ - نیوروسینس اے آئی{% else %}Dashboard - NeuroSense AI{% endif %}{% endblock %}
+
+
+
 {% block workspace_heading %}{% if lang == 'ur' %}ڈیش بورڈ{% else %}Dashboard{% endif %}{% endblock %}
+
+
+
 {% block extra_css %}<style>
+
+
+
 /* NeuroSense AI — Radiant Clinical Dashboard */
+
+
+
 .dashboard-page.ns-radiant {--n-blue:#2667d3;--n-navy:#172c54;--n-mute:#8190a8;--n-border:#e7edf7;--n-teal:#14b8ab;--n-coral:#ed7867;--n-gold:#e6ac3e;--n-purple:#7d78dd;max-width:none;margin:0;padding:0;color:var(--n-navy);font-family:Inter,system-ui,sans-serif}
+
+
+
 .ns-radiant *{box-sizing:border-box}
+
+
+
 .ns-radiant .top-layout{display:grid;grid-template-columns:minmax(0,2.65fr) minmax(205px,1fr);gap:18px;margin-bottom:18px}
+
+
+
 .ns-radiant .welcome-panel{min-height:221px;border-radius:17px;position:relative;overflow:hidden;display:flex;align-items:center;background:linear-gradient(112deg,#265fc7 0%,#246cdd 60%,#3a8ae2 100%);box-shadow:0 12px 26px #256cc02b;color:#fff;padding:30px 32px;isolation:isolate}
+
+
+
 .ns-radiant .welcome-panel::before{content:"";position:absolute;right:-55px;top:-125px;width:350px;height:350px;border:1px solid rgba(255,255,255,.16);border-radius:50%;box-shadow:0 0 0 34px rgba(255,255,255,.035),0 0 0 86px rgba(255,255,255,.025);pointer-events:none}
+
+
+
 .ns-radiant .welcome-panel::after{content:"";position:absolute;inset:auto auto -103px -110px;width:265px;height:190px;border-radius:50%;background:radial-gradient(circle,#2dafe8a0,transparent 75%);pointer-events:none}
+
+
+
 .ns-radiant .welcome-copy{width:60%;max-width:375px;position:relative;z-index:2}
+
+
+
 .ns-radiant .welcome-kicker{display:inline-flex;align-items:center;gap:7px;font-size:10px;letter-spacing:.15em;color:#c6ffeb;font-weight:800;text-transform:uppercase;margin-bottom:10px}
+
+
+
 .ns-radiant .welcome-kicker span{width:7px;height:7px;background:#82e5d5;border-radius:50%}
+
+
+
 .ns-radiant .welcome-copy h1{font-size:clamp(1.4rem,2.1vw,2.05rem);font-weight:780;line-height:1.25;letter-spacing:-.035em;color:white;margin:0 0 10px;word-break:break-word}
+
+
+
 .ns-radiant .welcome-copy p{font-size:12px;line-height:1.7;color:#e1f0ff;margin:0 0 20px;max-width:310px}
+
+
+
 .ns-radiant .welcome-actions{display:flex;gap:9px;flex-wrap:wrap}
+
+
+
 .ns-radiant .welcome-action{display:inline-flex;align-items:center;gap:8px;min-height:35px;padding:9px 13px;border-radius:8px;border:1px solid rgba(255,255,255,.26);font-size:11px;font-weight:750;white-space:nowrap;text-decoration:none!important;transition:transform .2s,background .2s,box-shadow .2s}
+
+
+
 .ns-radiant .welcome-action.main{background:#fff;color:#1c61bd!important;border-color:white;box-shadow:0 7px 19px #0036772a}
+
+
+
 .ns-radiant .welcome-action.alt{background:rgba(255,255,255,.14);color:white!important;backdrop-filter:blur(4px)}
+
+
+
 .ns-radiant .welcome-action:hover{transform:translateY(-2px)}
+
+
+
 .ns-radiant .hero-art{position:absolute;width:48%;max-width:365px;right:0;bottom:-1px;height:98%;pointer-events:none;z-index:1;filter:drop-shadow(0 13px 19px rgba(0,37,92,.17));animation:ns-art-rise 6s ease-in-out infinite}
+
+
+
 .ns-radiant .hero-art img{width:100%;height:100%;display:block;object-fit:contain;object-position:center bottom}
+
+
+
 .ns-radiant .hero-art{width:38%;right:2%;background:transparent}.ns-radiant .hero-art img{background:transparent}
+
+
+
 .ns-radiant .profile-panel{background:#fff;border-radius:17px;border:1px solid var(--n-border);min-height:221px;padding:18px 18px 16px;display:flex;align-items:center;flex-direction:column;text-align:center;box-shadow:0 5px 19px #294f8908}
+
+
+
 .ns-radiant .profile-top{align-self:stretch;display:flex;align-items:center;justify-content:space-between;color:#23365d;font-size:12px;font-weight:780}
+
+
+
 .ns-radiant .profile-top i{color:#8ea2c0}
+
+
+
 .ns-radiant .profile-avatar{width:66px;height:66px;margin:12px auto 8px;border-radius:50%;background:linear-gradient(135deg,#e3f8f4,#e3ecff);display:grid;place-items:center;border:3px solid #fff;box-shadow:0 6px 16px #1e63b523;color:#2471ca;font-size:23px;position:relative}
+
+
+
 .ns-radiant .profile-avatar::after{content:"";width:13px;height:13px;background:#25bfa8;border:3px solid white;position:absolute;right:-2px;bottom:5px;border-radius:50%}
+
+
+
 .ns-radiant .profile-panel strong{font-size:13px;color:#1a3261;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+
+
 .ns-radiant .profile-role{font-size:10px;color:#8b9aaf;margin-top:5px}
+
+
+
 .ns-radiant .profile-link{margin-top:12px;display:inline-flex;align-items:center;gap:7px;color:#2575d5!important;text-decoration:none!important;font-size:10.5px;font-weight:760}
+
+
+
 .ns-radiant .stats-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-bottom:18px}
+
+
+
 .ns-radiant .stat-card{min-width:0;min-height:138px;border-radius:15px;background:#fff;padding:17px 18px 16px;border:1px solid var(--n-border);position:relative;overflow:hidden;box-shadow:0 5px 18px #284b7b08;transition:transform .25s,box-shadow .25s}
+
+
+
 .ns-radiant .stat-card::after{content:"";position:absolute;right:-23px;top:-40px;width:104px;height:104px;border-radius:50%;opacity:.38;background:var(--icon-bg)}
+
+
+
 .ns-radiant .stat-card:hover,.ns-radiant .panel:hover{box-shadow:0 12px 28px #26548914;transform:translateY(-2px)}
+
+
+
 .ns-radiant .stat-card .stat-icon{width:37px;height:37px;border-radius:11px;display:grid;place-items:center;font-size:17px;background:var(--icon-bg);color:var(--icon-color);margin-bottom:13px;position:relative;z-index:1}
+
+
+
 .ns-radiant .stat-card .stat-number{font-size:clamp(1.18rem,1.8vw,1.7rem);line-height:1.2;font-weight:800;color:#1e325b;letter-spacing:-.045em;font-variant-numeric:tabular-nums}
+
+
+
 .ns-radiant .stat-card .stat-label{font-size:11px;color:#697d9f;font-weight:650;margin-top:4px}
+
+
+
 .ns-radiant .stat-card .stat-sub{display:flex;align-items:center;gap:6px;font-size:10px;color:#91a0b7;margin-top:9px}
+
+
+
 .ns-radiant .stat-card .stat-sub i{color:var(--icon-color)}
+
+
+
 .ns-radiant .stat-card.blue{--icon-color:#4c70e8;--icon-bg:#ebefff}.ns-radiant .stat-card.teal{--icon-color:#11aaa1;--icon-bg:#e0f8f4}.ns-radiant .stat-card.coral{--icon-color:#ed7567;--icon-bg:#fff0ea}.ns-radiant .stat-card.gold{--icon-color:#c8942d;--icon-bg:#fff6dc}
+
+
+
 .ns-radiant .main-panels{display:grid;grid-template-columns:minmax(0,1.18fr) minmax(0,1fr);gap:18px;align-items:stretch}
+
+
+
 .ns-radiant .panel{background:#fff;border:1px solid var(--n-border);border-radius:16px;padding:21px 22px;min-width:0;box-shadow:0 5px 20px #2a4c7c08;transition:transform .25s,box-shadow .25s}
+
+
+
 .ns-radiant .panel-head{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:19px}
+
+
+
 .ns-radiant .panel-title{display:flex;align-items:center;gap:9px;margin:0;font-size:13px;font-weight:780;color:#1e335b}
+
+
+
 .ns-radiant .panel-title i{display:grid;place-items:center;width:32px;height:32px;border-radius:10px;color:#3b6fe0;background:#eff3ff;font-size:13px}
+
+
+
 .ns-radiant .panel-sub{font-size:10px;color:#95a3b9;margin-top:4px}
+
+
+
 .ns-radiant .panel-tag{font-size:10px;color:#6481aa;background:#f2f6ff;border:1px solid #e8eef8;padding:6px 10px;border-radius:9px;font-weight:650;white-space:nowrap}
+
+
+
 .ns-radiant .chart-container{height:285px;position:relative}
+
+
+
 .ns-radiant .chart-container canvas{width:100%!important;height:100%!important}
+
+
+
 .ns-radiant .chart-empty{height:285px;display:flex;flex-direction:column;gap:10px;align-items:center;justify-content:center;color:#93a5be;text-align:center;font-size:12px}
+
+
+
 .ns-radiant .chart-empty i{font-size:30px;color:#a6c1e5}
+
+
+
 .ns-radiant #screening-history{scroll-margin-top:90px}
+
+
+
 .ns-radiant .history-list{display:flex;flex-direction:column;gap:2px}
+
+
+
 .ns-radiant .history-item{min-height:62px;padding:11px 5px;display:flex;gap:10px;align-items:center;justify-content:space-between;border-bottom:1px solid #edf0f7;text-decoration:none!important;color:inherit;border-radius:7px;transition:background .2s,padding .2s}
+
+
+
 .ns-radiant .history-item:last-child{border-bottom:0}
+
+
+
 .ns-radiant .history-item:hover{background:#f6faff;padding-inline:9px}
+
+
+
 .ns-radiant .history-icon{width:32px;height:34px;display:grid;place-items:center;flex:0 0 32px;border-radius:9px;background:#eef5ff;color:#4076d5;font-size:12px}
+
+
+
 .ns-radiant .history-info{min-width:0;flex:1;display:flex;flex-direction:column;gap:5px}
+
+
+
 .ns-radiant .history-date{font-weight:730;color:#253a60;font-size:10.5px}
+
+
+
 .ns-radiant .history-id{font-size:9px;color:#99a7bb;letter-spacing:.02em}
+
+
+
 .ns-radiant .history-end{display:flex;gap:8px;align-items:center;flex-shrink:0}
+
+
+
 .ns-radiant .history-value{font-size:11px;font-weight:780;color:#28436b;font-variant-numeric:tabular-nums}
+
+
+
 .ns-radiant .risk-badge{display:inline-flex;align-items:center;justify-content:center;border-radius:7px;padding:5px 7px;font-size:9px;font-weight:800;min-width:48px}
+
+
+
 .ns-radiant .risk-badge.low{color:#16816f;background:#e3f6ee}.ns-radiant .risk-badge.medium{color:#b07916;background:#fff4da}.ns-radiant .risk-badge.high{color:#ce5d54;background:#ffefed}
+
+
+
 .ns-radiant .history-arrow{color:#9eaac2;font-size:9px}
+
+
+
 .ns-radiant .empty-state{min-height:240px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;color:#8899b5;font-size:12px}
+
+
+
 .ns-radiant .empty-state i{font-size:30px;color:#aec2dd}.ns-radiant .empty-state h3{margin:0;color:#2a4067;font-size:14px}.ns-radiant .empty-state p{margin:0}.ns-radiant .empty-state a{color:#296ecb;text-decoration:none!important}
+
+
+
 .ns-radiant .screening-pagination{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;padding-top:15px;margin-top:10px;border-top:1px solid #edf1f7}
+
+
+
 .ns-radiant .page-numbers{display:flex;gap:5px}
+
+
+
 .ns-radiant .page-btn,.ns-radiant .page-number{display:inline-flex;align-items:center;justify-content:center;gap:4px;min-width:28px;height:30px;border:1px solid #e6edf7;border-radius:7px;background:#fff;color:#5d739b;font-size:10px;text-decoration:none!important;font-weight:700;padding:0 7px}
+
+
+
 .ns-radiant .page-number.active{background:#286cd5;color:white;border-color:#286cd5}.ns-radiant .page-btn.disabled{opacity:.42;cursor:default}
+
+
+
 .ns-radiant .secondary-panels{display:grid;grid-template-columns:1.3fr 1fr;gap:18px;margin-top:18px}
+
+
+
 .ns-radiant .distribution{display:grid;gap:16px;margin:5px 0 0}
+
+
+
 .ns-radiant .risk-row{display:grid;grid-template-columns:55px 1fr 24px;align-items:center;gap:10px;font-size:11px;color:#647997}
+
+
+
 .ns-radiant .risk-track{height:8px;overflow:hidden;border-radius:30px;background:#eff2f8}
+
+
+
 .ns-radiant .risk-fill{height:100%;border-radius:30px;transition:width .9s ease}
+
+
+
 .ns-radiant .risk-fill.low{background:#18b5a6}.ns-radiant .risk-fill.medium{background:#efb348}.ns-radiant .risk-fill.high{background:#ed8371}
+
+
+
 .ns-radiant .risk-count{text-align:right;color:#234167;font-size:11px;font-weight:780}
+
+
+
 .ns-radiant .date-card{display:flex;gap:13px;align-items:center;padding:13px 14px;background:#f3f8ff;border-radius:11px;color:#3d587c;font-size:11px;line-height:1.6}
+
+
+
 .ns-radiant .date-icon{display:grid;place-items:center;width:40px;height:40px;border-radius:12px;background:#e0edff;color:#3775d2;font-size:17px;flex-shrink:0}
+
+
+
 .ns-radiant .quick-actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:15px}
+
+
+
 .ns-radiant .quick-actions a{display:inline-flex;align-items:center;justify-content:center;gap:7px;border:1px solid #e5eefa;border-radius:9px;background:white;color:#2b6ec3!important;text-decoration:none!important;min-height:33px;padding:7px 10px;font-size:10px;font-weight:730}
+
+
+
 .ns-radiant .quick-actions a:first-child{background:#2a6dd2;color:white!important;border-color:#2a6dd2}
+
+
+
 .ns-radiant.is-ur{direction:rtl;text-align:right}.ns-radiant.is-ur .history-list,.ns-radiant.is-ur .risk-row{direction:rtl}.ns-radiant.is-ur .chart-container{direction:ltr}
+
+
+
 @keyframes ns-art-rise{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+
+
+
 @media(max-width:1200px){.ns-radiant .top-layout{grid-template-columns:minmax(0,2fr) minmax(175px,.9fr)}.ns-radiant .welcome-panel{padding:23px}.ns-radiant .welcome-copy{width:66%}.ns-radiant .hero-art{width:45%;opacity:.94}.ns-radiant .stats-grid{gap:10px}.ns-radiant .stat-card{padding:15px}}
+
+
+
 @media(max-width:1000px){.ns-radiant .main-panels{grid-template-columns:1fr}.ns-radiant .secondary-panels{grid-template-columns:1fr}.ns-radiant .stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+
+
 @media(max-width:630px){.ns-radiant .top-layout{grid-template-columns:1fr}.ns-radiant .welcome-panel{min-height:202px}.ns-radiant .profile-panel{min-height:90px;display:grid;grid-template-columns:45px 1fr auto;column-gap:12px;text-align:left;align-items:center}.ns-radiant .profile-top{grid-column:1/-1}.ns-radiant .profile-avatar{width:42px;height:42px;margin:0;grid-row:2/4;font-size:17px}.ns-radiant .profile-panel strong{grid-column:2}.ns-radiant .profile-role{grid-column:2;margin:0}.ns-radiant .profile-link{grid-column:3;grid-row:2/4;margin:0}.ns-radiant .panel{padding:17px}.ns-radiant .history-date{font-size:10px}.ns-radiant .history-end{gap:5px}}
+
+
+
 @media(max-width:430px){.ns-radiant .welcome-panel{padding:20px;min-height:210px}.ns-radiant .welcome-copy{width:76%}.ns-radiant .hero-art{width:60%;opacity:.31}.ns-radiant .welcome-copy h1{font-size:1.35rem}.ns-radiant .stats-grid{gap:9px}.ns-radiant .stat-card{min-height:130px;padding:13px}.ns-radiant .stat-card .stat-number{font-size:1.35rem}.ns-radiant .history-end{flex-wrap:wrap;justify-content:flex-end}.ns-radiant .history-item{gap:5px}.ns-radiant .history-icon{display:none}}
+
+
+
 @media(prefers-reduced-motion:reduce){.ns-radiant *, .ns-radiant *::before,.ns-radiant *::after{animation:none!important;transition:none!important}}
+
+
+
 @media print{.ns-radiant .hero-art{display:none}.ns-radiant .welcome-panel{background:#e9f3ff!important;color:#1e335e!important;box-shadow:none}.ns-radiant .welcome-copy h1{color:#1e335e}.ns-radiant .welcome-copy p{color:#426282}.ns-radiant .stat-card,.ns-radiant .panel{box-shadow:none;border:1px solid #d9e2ef}}
 
 
+
+
+
+
+
+
+
+
+
 /* Slightly larger robot, kept entirely within the blue welcome banner */
+
+
+
 .ns-radiant .welcome-panel .hero-art {
+
+
+
     width: 285px;
+
+
+
     max-width: 39%;
+
+
+
     height: 225px;
+
+
+
     right: 18px;
+
+
+
     bottom: 6px;
+
+
+
     top: auto;
+
+
+
     opacity: 1;
+
+
+
     display: flex;
+
+
+
     align-items: flex-end;
+
+
+
     justify-content: center;
+
+
+
     overflow: visible;
+
+
+
 }
+
+
+
 .ns-radiant .welcome-panel .hero-art img {
+
+
+
     width: 100%;
+
+
+
     height: 100%;
+
+
+
     object-fit: contain;
+
+
+
     object-position: center bottom;
+
+
+
 }
+
+
+
 @media(max-width: 1200px) {
+
+
+
     .ns-radiant .welcome-panel .hero-art { width: 235px; max-width: 35%; height: 195px; right: 12px; }
+
+
+
 }
+
+
+
 @media(max-width: 700px) {
+
+
+
     .ns-radiant .welcome-panel .hero-art { width: 155px; height: 155px; max-width: 32%; right: 8px; bottom: 6px; opacity: .72; }
+
+
+
 }
+
+
+
 @media(max-width: 430px) {
+
+
+
     .ns-radiant .welcome-panel .hero-art { width: 125px; height: 125px; max-width: 30%; opacity: .4; }
+
+
+
 }
+
+
+
+
+
+
 
 /* Urdu hero: reserve the right for RTL copy, robot on the left. */
+
+
+
 .ns-radiant.is-ur .welcome-panel { direction: rtl; }
+
+
+
 .ns-radiant.is-ur .welcome-panel .welcome-copy {
+
+
+
     margin-right: 0;
+
+
+
     margin-left: auto;
+
+
+
     width: 62%;
+
+
+
     max-width: 440px;
+
+
+
     text-align: right;
+
+
+
 }
+
+
+
 .ns-radiant.is-ur .welcome-panel .welcome-copy h1 {line-height: 1.65;}
+
+
+
 .ns-radiant.is-ur .welcome-panel .welcome-copy p {margin-right: 0; margin-left: auto;}
+
+
+
 .ns-radiant.is-ur .welcome-panel .welcome-actions {justify-content: flex-start;}
+
+
+
 .ns-radiant.is-ur .welcome-panel .hero-art {
+
+
+
     left: 18px;
+
+
+
     right: auto;
+
+
+
     width: 285px;
+
+
+
     max-width: 36%;
+
+
+
     height: 225px;
+
+
+
 }
+
+
+
 .ns-radiant.is-ur .welcome-panel .hero-art img {object-position: left bottom;}
+
+
+
 .ns-radiant.is-ur .welcome-panel::before {left:-55px;right:auto;}
+
+
+
 @media (max-width: 1200px) {
+
+
+
     .ns-radiant.is-ur .welcome-panel .welcome-copy {width:64%;}
+
+
+
     .ns-radiant.is-ur .welcome-panel .hero-art {left:12px;right:auto;width:235px;max-width:34%;height:195px;}
+
+
+
 }
+
+
+
 @media (max-width: 700px) {
+
+
+
     .ns-radiant.is-ur .welcome-panel .welcome-copy {width:70%;}
+
+
+
     .ns-radiant.is-ur .welcome-panel .hero-art {left:7px;right:auto;width:155px;max-width:29%;height:155px;}
+
+
+
 }
+
+
+
 @media (max-width: 430px) {
+
+
+
     .ns-radiant.is-ur .welcome-panel .welcome-copy {width:76%;}
+
+
+
     .ns-radiant.is-ur .welcome-panel .hero-art {left:4px;right:auto;width:120px;max-width:24%;height:122px;opacity:.3;}
+
+
+
 }
+
+
+
 </style>{% endblock %}
+
+
+
 {% block content %}
+
+
+
 {% with lang=request.LANG|default:'en' %}
+
+
+
 <div class="dashboard-page ns-radiant {% if lang == 'ur' %}is-ur{% endif %}" lang="{{ lang }}" dir="{% if lang == 'ur' %}rtl{% else %}ltr{% endif %}">
+
+
+
   <div class="top-layout">
+
+
+
     <section class="welcome-panel" aria-label="{% if lang == 'ur' %}خوش آمدید{% else %}Welcome{% endif %}">
+
+
+
       <div class="welcome-copy">
+
+
+
         <div class="welcome-kicker"><span></span>{% if lang == 'ur' %}آپ کی صحت کی جھلک{% else %}YOUR SCREENING SPACE{% endif %}</div>
-        <h1>{% if lang == 'ur' %}خوش آمدید، <bdi dir="auto">{{ user.get_full_name|default:user.username }}</bdi>!{% else %}Welcome back, {{ user.get_full_name|default:user.username }}!{% endif %}</h1>
+
+
+
+        <h1>{% if lang == 'ur' %}خوش آمدید، <bdi dir="auto">{{ user.first_name|default:user.username }}</bdi>!{% else %}Welcome back, {{ user.first_name|default:user.username }}!{% endif %}</h1>
+
+
+
         <p>{% if lang == 'ur' %}اپنے اسکریننگ نتائج دیکھیں اور اپنی پیشرفت کا جائزہ لیں۔{% else %}Track screenings, review results, and explore your progress.{% endif %}</p>
+
+
+
         <div class="welcome-actions">
+
+
+
           <a class="welcome-action main" href="{% url 'questionnaire_app:home' %}"><i class="fa-solid fa-plus"></i>{% if lang == 'ur' %}نئی اسکریننگ{% else %}New Screening{% endif %}</a>
+
+
+
           <a class="welcome-action alt" href="#screening-history"><i class="fa-regular fa-folder-open"></i>{% if lang == 'ur' %}رپورٹس دیکھیں{% else %}View Reports{% endif %}</a>
+
+
+
         </div>
+
+
+
       </div>
+
+
+
       <div class="hero-art">
+
+
+
         <img src="{% static 'speech_app/images/dashboard-hero.gif' %}" alt="" aria-hidden="true">
+
+
+
       </div>
+
+
+
     </section>
+
+
+
     <aside class="profile-panel" aria-label="{% if lang == 'ur' %}پروفائل{% else %}Profile{% endif %}">
+
+
+
       <div class="profile-top"><span>{% if lang == 'ur' %}میرا پروفائل{% else %}My Profile{% endif %}</span><i class="fa-solid fa-ellipsis"></i></div>
+
+
+
       <div class="profile-avatar"><i class="fa-solid fa-user" aria-hidden="true"></i></div>
-      <strong>{{ user.get_full_name|default:user.username }}</strong>
+
+
+
+      <strong>{{ user.first_name|default:user.username }}</strong>
+
+
+
       <span class="profile-role">{% if lang == 'ur' %}نیوروسینس صارف{% else %}NeuroSense Member{% endif %}</span>
+
+
+
       <a class="profile-link" href="{% url 'accounts:profile' %}">{% if lang == 'ur' %}پروفائل دیکھیں{% else %}View Profile{% endif %}<i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+
+
+
     </aside>
+
+
+
   </div>
+
+
+
+
+
+
 
   <div class="stats-grid" aria-label="{% if lang == 'ur' %}اسکریننگ کا خلاصہ{% else %}Screening statistics{% endif %}">
+
+
+
     <div class="stat-card blue"><div class="stat-icon"><i class="fa-solid fa-layer-group"></i></div><div class="stat-number">{{ total_screenings }}</div><div class="stat-label">{% if lang == 'ur' %}کل اسکریننگز{% else %}Total Screenings{% endif %}</div><div class="stat-sub"><i class="fa-solid fa-circle-check"></i>{% if lang == 'ur' %}ریکارڈ شدہ اسکریننگز{% else %}Recorded assessments{% endif %}</div></div>
+
+
+
     <div class="stat-card teal"><div class="stat-icon"><i class="fa-solid fa-chart-line"></i></div><div class="stat-number">{{ stats.average_risk|floatformat:2 }}%</div><div class="stat-label">{% if lang == 'ur' %}اوسط خطرہ{% else %}Average Risk{% endif %}</div><div class="stat-sub"><i class="fa-solid fa-chart-simple"></i>{% if lang == 'ur' %}تمام اسکریننگز کا اوسط{% else %}Across all screenings{% endif %}</div></div>
+
+
+
     <div class="stat-card coral"><div class="stat-icon"><i class="fa-solid fa-arrow-trend-up"></i></div><div class="stat-number">{{ stats.highest_risk|floatformat:2 }}%</div><div class="stat-label">{% if lang == 'ur' %}سب سے زیادہ خطرہ{% else %}Highest Risk{% endif %}</div><div class="stat-sub"><i class="fa-regular fa-flag"></i>{% if lang == 'ur' %}سب سے زیادہ ریکارڈ شدہ{% else %}Highest recorded score{% endif %}</div></div>
+
+
+
     <div class="stat-card gold"><div class="stat-icon"><i class="fa-solid fa-shield-heart"></i></div><div class="stat-number">{{ stats.lowest_risk|floatformat:2 }}%</div><div class="stat-label">{% if lang == 'ur' %}سب سے کم خطرہ{% else %}Lowest Risk{% endif %}</div><div class="stat-sub"><i class="fa-solid fa-minus"></i>{% if lang == 'ur' %}سب سے کم ریکارڈ شدہ{% else %}Lowest recorded score{% endif %}</div></div>
+
+
+
   </div>
+
+
+
+
+
+
 
   <div class="main-panels">
+
+
+
     <section class="panel" aria-labelledby="riskTrendTitle">
+
+
+
       <div class="panel-head"><div><h2 class="panel-title" id="riskTrendTitle"><i class="fa-solid fa-wave-square"></i>{% if lang == 'ur' %}خطرے کا رجحان{% else %}Risk Trend{% endif %}</h2><div class="panel-sub">{% if lang == 'ur' %}آپ کی تازہ اسکریننگز کا جائزہ{% else %}Your screening history at a glance{% endif %}</div></div><span class="panel-tag">{% if lang == 'ur' %}آخری 10{% else %}Last 10{% endif %}</span></div>
+
+
+
       {% if has_screenings and trend_data|length > 1 %}<div class="chart-container"><canvas id="trendChart" aria-label="Risk trend chart" role="img"></canvas></div>
+
+
+
       {% else %}<div class="chart-empty"><i class="fa-solid fa-chart-line"></i><span>{% if lang == 'ur' %}مزید اسکریننگز کے بعد رجحان ظاہر ہوگا{% else %}Trend will appear after more screenings{% endif %}</span></div>{% endif %}
+
+
+
     </section>
+
+
+
     <section class="panel" id="screening-history" aria-labelledby="reportListTitle">
+
+
+
       <div class="panel-head"><div><h2 class="panel-title" id="reportListTitle"><i class="fa-regular fa-file-lines"></i>{% if lang == 'ur' %}میری رپورٹس{% else %}My Screening Reports{% endif %}</h2><div class="panel-sub">{% if lang == 'ur' %}تمام مکمل شدہ اسکریننگز{% else %}Browse your screening records{% endif %}</div></div><span class="panel-tag">{{ recent_screenings.paginator.count }}</span></div>
+
+
+
       {% if has_screenings %}<div class="history-list">
+
+
+
       {% for screening in recent_screenings %}
+
+
+
         <a class="history-item" href="{% url 'dashboard:screening_detail' screening.screening_id %}">
+
+
+
           <span class="history-icon"><i class="fa-regular fa-file-lines"></i></span>
+
+
+
           <span class="history-info"><span class="history-date">{{ screening.created_at|date:"d M Y, h:i A" }}</span><span class="history-id">#{{ screening.screening_id|truncatechars:12 }}</span></span>
+
+
+
           <span class="history-end"><span class="risk-badge {{ screening.risk_level|lower }}">{% if lang == 'ur' %}{% if screening.risk_level == 'Low' %}کم{% elif screening.risk_level == 'Medium' %}درمیانہ{% else %}زیادہ{% endif %}{% else %}{{ screening.risk_level }}{% endif %}</span><span class="history-value">{{ screening.final_pd_probability|floatformat:2 }}%</span><i class="history-arrow fa-solid fa-chevron-right"></i></span>
+
+
+
         </a>
+
+
+
       {% endfor %}</div>
+
+
+
       {% if recent_screenings.has_other_pages %}<nav class="screening-pagination" aria-label="Screening history pages">
+
+
+
         {% if recent_screenings.has_previous %}<a class="page-btn" href="?page={{ recent_screenings.previous_page_number }}&lang={{ lang }}#screening-history"><i class="fa-solid fa-chevron-left"></i>{% if lang == 'ur' %}پچھلا{% else %}Prev{% endif %}</a>{% else %}<span class="page-btn disabled">{% if lang == 'ur' %}پچھلا{% else %}Prev{% endif %}</span>{% endif %}
+
+
+
         <span class="page-numbers">{% for num in recent_screenings.paginator.page_range %}{% if num == recent_screenings.number %}<span class="page-number active" aria-current="page">{{ num }}</span>{% elif num >= recent_screenings.number|add:'-2' and num <= recent_screenings.number|add:'2' %}<a class="page-number" href="?page={{ num }}&lang={{ lang }}#screening-history">{{ num }}</a>{% endif %}{% endfor %}</span>
+
+
+
         {% if recent_screenings.has_next %}<a class="page-btn" href="?page={{ recent_screenings.next_page_number }}&lang={{ lang }}#screening-history">{% if lang == 'ur' %}اگلا{% else %}Next{% endif %}<i class="fa-solid fa-chevron-right"></i></a>{% else %}<span class="page-btn disabled">{% if lang == 'ur' %}اگلا{% else %}Next{% endif %}</span>{% endif %}
+
+
+
       </nav>{% endif %}
+
+
+
       {% else %}<div class="empty-state"><i class="fa-regular fa-folder-open"></i><h3>{% if lang == 'ur' %}ابھی کوئی رپورٹ نہیں{% else %}No reports yet{% endif %}</h3><p><a href="{% url 'questionnaire_app:home' %}">{% if lang == 'ur' %}اپنی پہلی اسکریننگ شروع کریں{% else %}Start your first screening{% endif %}</a></p></div>{% endif %}
+
+
+
     </section>
+
+
+
   </div>
 
+
+
+
+
+
+
   <div class="secondary-panels">
+
+
+
     <section class="panel"><div class="panel-head"><div><h2 class="panel-title"><i class="fa-solid fa-chart-pie"></i>{% if lang == 'ur' %}خطرے کی تقسیم{% else %}Risk Distribution{% endif %}</h2><div class="panel-sub">{% if lang == 'ur' %}خطرے کی سطح کے لحاظ سے نتائج{% else %}Results grouped by risk level{% endif %}</div></div></div>
+
+
+
       {% if has_screenings %}<div class="distribution">
+
+
+
         <div class="risk-row"><span>{% if lang == 'ur' %}کم{% else %}Low{% endif %}</span><div class="risk-track"><div class="risk-fill low" style="width:{% if total_screenings > 0 %}{% widthratio risk_distribution.Low total_screenings 100 %}{% else %}0{% endif %}%;"></div></div><strong class="risk-count">{{ risk_distribution.Low }}</strong></div>
+
+
+
         <div class="risk-row"><span>{% if lang == 'ur' %}درمیانہ{% else %}Moderate{% endif %}</span><div class="risk-track"><div class="risk-fill medium" style="width:{% if total_screenings > 0 %}{% widthratio risk_distribution.Medium total_screenings 100 %}{% else %}0{% endif %}%;"></div></div><strong class="risk-count">{{ risk_distribution.Medium }}</strong></div>
+
+
+
         <div class="risk-row"><span>{% if lang == 'ur' %}زیادہ{% else %}High{% endif %}</span><div class="risk-track"><div class="risk-fill high" style="width:{% if total_screenings > 0 %}{% widthratio risk_distribution.High total_screenings 100 %}{% else %}0{% endif %}%;"></div></div><strong class="risk-count">{{ risk_distribution.High }}</strong></div>
+
+
+
       </div>{% else %}<div class="empty-state" style="min-height:125px;"><p>{% if lang == 'ur' %}کوئی ڈیٹا دستیاب نہیں{% else %}No data available{% endif %}</p></div>{% endif %}
+
+
+
     </section>
+
+
+
     <section class="panel"><div class="panel-head"><div><h2 class="panel-title"><i class="fa-regular fa-calendar-check"></i>{% if lang == 'ur' %}آخری اسکریننگ{% else %}Last Screening{% endif %}</h2></div></div>
+
+
+
       {% if last_screening_date %}<div class="date-card"><span class="date-icon"><i class="fa-regular fa-calendar"></i></span><div><strong>{% if lang == 'ur' %}آخری اسکریننگ کی تاریخ{% else %}Most recent screening{% endif %}</strong><div>{{ last_screening_date|date:"d M Y, h:i A" }}</div></div></div>{% else %}<div class="date-card">{% if lang == 'ur' %}ابھی کوئی اسکریننگ نہیں{% else %}No screenings yet{% endif %}</div>{% endif %}
+
+
+
       <div class="quick-actions"><a href="{% url 'questionnaire_app:home' %}"><i class="fa-solid fa-plus"></i>{% if lang == 'ur' %}نئی اسکریننگ{% else %}Start Screening{% endif %}</a><a href="{% url 'accounts:profile' %}"><i class="fa-regular fa-user"></i>{% if lang == 'ur' %}پروفائل{% else %}Profile{% endif %}</a><a href="#screening-history"><i class="fa-regular fa-file-lines"></i>{% if lang == 'ur' %}تمام رپورٹس{% else %}All Reports{% endif %}</a></div>
+
+
+
     </section>
+
+
+
   </div>
+
+
+
 </div>
+
+
+
 {% endwith %}
+
+
+
 {% endblock %}
+
+
+
 {% block extra_js %}
+
+
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+
 <script>
+
+
+
 document.addEventListener('DOMContentLoaded', function(){
+
+
+
   const canvas=document.getElementById('trendChart');
+
+
+
   if(!canvas||typeof Chart==='undefined')return;
+
+
+
   const trendData={{ trend_data|default:'[]'|safe }};
+
+
+
   if(!Array.isArray(trendData)||trendData.length<2)return;
+
+
+
   const ctx=canvas.getContext('2d');
+
+
+
   const gradient=ctx.createLinearGradient(0,0,0,285);
+
+
+
   gradient.addColorStop(0,'rgba(39,110,216,.20)');gradient.addColorStop(1,'rgba(39,110,216,.005)');
+
+
+
   new Chart(ctx,{type:'line',data:{labels:trendData.map(item=>item.date),datasets:[{label:'Screening score (%)',data:trendData.map(item=>item.risk),borderColor:'#2a76e0',borderWidth:2.8,backgroundColor:gradient,fill:true,tension:.34,pointRadius:4.5,pointHoverRadius:7,pointBorderWidth:2,pointBorderColor:'#ffffff',pointBackgroundColor:trendData.map(item=>item.level==='Low'?'#16b5a2':item.level==='Medium'?'#e8ae40':'#ed806f')}]},options:{responsive:true,maintainAspectRatio:false,animation:{duration:750},plugins:{legend:{display:false},tooltip:{backgroundColor:'#172d53',titleColor:'#fff',bodyColor:'#fff',cornerRadius:9,padding:11,callbacks:{label:ctx=>'Risk score: '+ctx.parsed.y+'%'}}},scales:{y:{min:0,max:100,grid:{color:'#edf2f8'},ticks:{color:'#91a0ba',stepSize:20,callback:value=>value+'%',font:{size:10}}},x:{grid:{display:false},ticks:{color:'#9aa8bd',maxTicksLimit:8,font:{size:10}}}},interaction:{intersect:false,mode:'index'}}});
+
+
+
 });
+
+
+
 </script>
+
+
+
 {% endblock %}
