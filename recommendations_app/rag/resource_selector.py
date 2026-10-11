@@ -388,8 +388,8 @@ def inject_resources_into_report(
     output = report_markdown
 
     insertions = (
-        ("physical_therapy_exercise", 2, 3),
-        ("speech_voice_therapy", 3, 4),
+        ("physical_therapy_exercise", 1, 2),
+        ("speech_voice_therapy", 2, 3),
     )
 
     for section, current_num, next_num in insertions:

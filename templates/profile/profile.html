@@ -137,39 +137,94 @@
 @media(prefers-reduced-motion:reduce){#ns-profile-isolated-2026 *,#ns-profile-isolated-2026 *::before,#ns-profile-isolated-2026 *::after{animation:none!important;transition:none!important}}
 
 /* Explicit placement protects these grids from shared workspace rules. */
+
 #ns-profile-isolated-2026 .nspx-hero > .nspx-avatarwrap,
+
 #ns-profile-isolated-2026 .nspx-hero > .nspx-profile-copy,
+
 #ns-profile-isolated-2026 .nspx-hero > .nspx-glass,
+
 #ns-profile-isolated-2026 .nspx-bottom > .nspx-panel,
+
 #ns-profile-isolated-2026 .nspx-choices > .nspx-choice,
+
 #ns-profile-isolated-2026 .nspx-fields > .nspx-field {
+
  grid-area:auto!important; order:0!important; float:none!important;
+
  margin:0!important; inset:auto!important; min-width:0!important;
+
 }
+
 #ns-profile-isolated-2026 .nspx-bottom > .nspx-panel {align-self:stretch!important}
+
 #ns-profile-isolated-2026 .nspx-choices {display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px!important}
+
 #ns-profile-isolated-2026 .nspx-glass {display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important}
+
 #ns-profile-isolated-2026 .nspx-avatarwrap {position:relative!important;transform:none!important}
+
 #ns-profile-isolated-2026 .nspx-profile-copy {width:auto!important;max-width:none!important;text-align:start!important}
+
 #ns-profile-isolated-2026 .nspx-choice {grid-column:auto!important;grid-row:auto!important}
+
 #ns-profile-isolated-2026 .nspx-choice:focus-visible,
+
 #ns-profile-isolated-2026 .nspx-btn:focus-visible {outline:3px solid #82b4ff;outline-offset:3px}
+
 @media(max-width:1180px){
+
  #ns-profile-isolated-2026 .nspx-hero > .nspx-glass {grid-column:1/-1!important;grid-template-columns:repeat(4,minmax(0,1fr))!important}
+
 }
+
 @media(max-width:770px){
+
  #ns-profile-isolated-2026 .nspx-hero > .nspx-glass {grid-template-columns:repeat(2,minmax(0,1fr))!important}
+
  #ns-profile-isolated-2026 .nspx-profile-copy {text-align:center!important}
+
 }
+
 @media(max-width:520px){
+
  #ns-profile-isolated-2026 .nspx-choices {grid-template-columns:1fr!important}
+
  #ns-profile-isolated-2026 .nspx-choice {min-height:110px!important}
+
 }
 
 /* Compact section action; logical margin also supports Urdu. */
+
 #ns-profile-isolated-2026 .nspx-panelhead .nspx-edit-info{margin-inline-start:auto!important;flex:0 0 auto!important;min-height:32px!important;padding:6px 10px!important}
+
 #ns-profile-isolated-2026 .nspx-edit-info i{display:inline-block!important;width:auto!important;height:auto!important;flex:none!important;background:transparent!important;border-radius:0!important;font-size:11px!important}
+
 #ns-profile-isolated-2026 .nspx-panelhead > div{min-width:0}
+
+
+/* Remove the profile header divider and decorative hero strip. */
+#ns-profile-isolated-2026 .nspx-head{border:0!important;box-shadow:none!important}
+#ns-profile-isolated-2026 .nspx-head::before,#ns-profile-isolated-2026 .nspx-head::after,#ns-profile-isolated-2026 .nspx-hero::after{content:none!important;display:none!important}
+#ns-profile-isolated-2026 .nspx-delete{font-family:inherit;cursor:pointer}
+
+
+/* Center the modal in the viewport, independent of inherited page styles. */
+#npDeleteDialog{position:fixed!important;inset:auto!important;top:50%!important;left:50%!important;right:auto!important;bottom:auto!important;transform:translate(-50%,-50%)!important;margin:0!important;float:none!important;box-sizing:border-box!important;width:min(440px,calc(100vw - 32px))!important;max-width:calc(100vw - 32px)!important;max-height:calc(100dvh - 32px)!important;overflow:auto!important;padding:28px!important;border:1px solid #e5eaf2!important;border-radius:20px!important;background:#fff!important;color:#173562;box-shadow:0 24px 80px #10274730;font-family:inherit;text-align:start}
+#npDeleteDialog:not([open]){display:none!important}
+#npDeleteDialog[open]{display:block!important}
+#npDeleteDialog::backdrop{background:#14294370;backdrop-filter:blur(3px)}
+#npDeleteDialog .np-delete-icon{display:grid;place-items:center;width:48px;height:48px;margin-bottom:16px;border-radius:14px;background:#fff1f3;color:#b94e5b;font-size:21px}
+#npDeleteDialog h2{margin:0 0 12px;font-size:22px;line-height:1.5}
+#npDeleteDialog p{margin:0 0 24px;color:#64758b;font-size:14px;line-height:1.8}
+#npDeleteDialog .np-delete-actions{display:flex;justify-content:flex-end;gap:10px;flex-wrap:wrap}
+#npDeleteDialog button{font:inherit;font-size:14px;min-height:44px;padding:10px 16px;border:1px solid #dce4ee;border-radius:10px;background:#fff;color:#4b627f;cursor:pointer}
+#npDeleteDialog .np-delete-confirm{background:#b83d50;color:white;border-color:#b83d50}
+#npDeleteDialog .np-delete-confirm:hover{background:#a53144}
+#npDeleteDialog button:focus-visible{outline:3px solid #8eb8ee;outline-offset:3px}
+#npDeleteDialog button:disabled{opacity:.6;cursor:wait}
+@media(max-width:420px){#npDeleteDialog{padding:22px!important}#npDeleteDialog .np-delete-actions{display:grid;grid-template-columns:1fr}#npDeleteDialog button{width:100%}}
+
 </style>
 
 {% endblock %}
@@ -304,44 +359,106 @@
 
     <div><strong><i class="fa-solid fa-triangle-exclamation"></i> {% if lang == 'ur' %}اکاؤنٹ حذف کریں{% else %}Delete Account{% endif %}</strong><small>{% if lang == 'ur' %}یہ عمل واپس نہیں کیا جا سکتا۔{% else %}This action permanently removes your account and cannot be undone.{% endif %}</small></div>
 
-    <a class="nspx-delete" href="{% url 'accounts:delete_account' %}"><i class="fa-solid fa-trash-can"></i>{% if lang == 'ur' %}اکاؤنٹ حذف کریں{% else %}Delete Account{% endif %}</a>
+    <button type="button" class="nspx-delete" id="npDeleteOpen" aria-haspopup="dialog" aria-controls="npDeleteDialog"><i class="fa-solid fa-trash-can" aria-hidden="true"></i>{% if lang == 'ur' %}اکاؤنٹ حذف کریں{% else %}Delete Account{% endif %}</button>
 
   </section>
 
 </div>
 
 <script>
+
 (function(){
+
   const root=document.getElementById('ns-profile-isolated-2026');
+
   if(!root)return;
+
   const main=root.querySelector('#npAvatarMain');
+
   const choices=Array.from(root.querySelectorAll('[data-avatar]'));
+
   const msg=root.querySelector('#npPhotoMsg');
+
   const key='neurosense.profile.avatar.v1.user.'+root.dataset.userId;
+
   const valid=value=>value==='male'||value==='female';
+
   function display(type){
+
     const selected=choices.find(button=>button.dataset.avatar===type);
+
     main.src=selected.querySelector('img').src;
+
     choices.forEach(button=>{
+
       const active=button===selected;
+
       button.classList.toggle('selected',active);
+
       button.setAttribute('aria-pressed',String(active));
+
     });
+
   }
+
   let initial=root.dataset.defaultAvatar;
+
   try{const saved=localStorage.getItem(key);if(valid(saved))initial=saved;}catch(error){}
+
   display(valid(initial)?initial:'male');
+
   choices.forEach(button=>button.addEventListener('click',()=>{
+
     const type=button.dataset.avatar;
+
     display(type);
+
     try{
+
       localStorage.setItem(key,type);
+
       msg.textContent="{% if lang == 'ur' %}اوتار اس براؤزر میں محفوظ ہو گیا۔{% else %}Avatar saved in this browser.{% endif %}";
+
     }catch(error){
+
       msg.textContent="{% if lang == 'ur' %}اس براؤزر میں انتخاب محفوظ نہیں ہو سکا۔{% else %}This browser could not save your choice.{% endif %}";
+
     }
+
     msg.style.display='block';
+
   }));
+
+})();
+
+</script>
+
+
+<dialog id="npDeleteDialog" aria-labelledby="npDeleteTitle" aria-describedby="npDeleteDescription" dir="{% if lang == 'ur' %}rtl{% else %}ltr{% endif %}">
+  <div class="np-delete-icon" aria-hidden="true"><i class="fa-solid fa-trash-can"></i></div>
+  <h2 id="npDeleteTitle">{% if lang == 'ur' %}اکاؤنٹ حذف کرنا چاہتے ہیں؟{% else %}Delete your account?{% endif %}</h2>
+  <p id="npDeleteDescription">{% if lang == 'ur' %}کیا آپ واقعی اپنا اکاؤنٹ حذف کرنا چاہتے ہیں؟ یہ عمل واپس نہیں کیا جا سکتا۔{% else %}Are you sure you want to delete your account? This action cannot be undone.{% endif %}</p>
+  <form method="post" action="{% url 'accounts:delete_account' %}" id="npDeleteForm">
+    {% csrf_token %}
+    <div class="np-delete-actions">
+      <button type="button" id="npDeleteCancel" autofocus>{% if lang == 'ur' %}نہیں، واپس جائیں{% else %}No, keep my account{% endif %}</button>
+      <button type="submit" class="np-delete-confirm" id="npDeleteConfirm">{% if lang == 'ur' %}ہاں، حذف کریں{% else %}Yes, delete account{% endif %}</button>
+    </div>
+  </form>
+</dialog>
+<script>
+(function(){
+  const open=document.getElementById('npDeleteOpen');
+  const dialog=document.getElementById('npDeleteDialog');
+  const cancel=document.getElementById('npDeleteCancel');
+  const form=document.getElementById('npDeleteForm');
+  open.addEventListener('click',()=>dialog.showModal());
+  cancel.addEventListener('click',()=>dialog.close());
+  dialog.addEventListener('close',()=>open.focus());
+  form.addEventListener('submit',()=>{
+    document.getElementById('npDeleteConfirm').disabled=true;
+    cancel.disabled=true;
+  });
 })();
 </script>
 

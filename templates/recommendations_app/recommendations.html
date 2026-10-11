@@ -1,240 +1,530 @@
 {% extends 'base.html' %}
+
 {% load static %}
 
 {% block title %}
-{% if lang == 'ur' %}
+
+{% if lang == 'ur' or request.LANG == 'ur' %}
+
 طبی سفارشات - نیوروسینس اے آئی
+
 {% else %}
+
 Clinical Recommendations - NeuroSense AI
+
 {% endif %}
+
 {% endblock %}
 
+{% block workspace_heading %}{% if lang == 'ur' or request.LANG == 'ur' %}سفارشات{% else %}Recommendations{% endif %}{% endblock %}
+
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'recommendations_app/css/recommendations.css' %}?v=11">
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+
+#nsRecommendations{--rec-blue:#2565cf;--rec-ink:#173562;--rec-muted:#6f819d;--rec-border:#d9e5f5;width:100%;min-width:0;color:var(--rec-ink);font-family:Inter,Arial,sans-serif;font-size:13px;line-height:1.65;}
+#nsRecommendations,#nsRecommendations *{box-sizing:border-box;}
+#nsRecommendations .rec-container{width:100%;max-width:1240px;margin:0 auto;padding:0 0 24px;min-width:0;}
+#nsRecommendations h1,#nsRecommendations h2,#nsRecommendations h3,#nsRecommendations p{margin-top:0;}
+#nsRecommendations .rec-toolbar{display:flex;margin-bottom:16px;}
+#nsRecommendations .rec-header{position:relative;isolation:isolate;overflow:hidden;display:flex;align-items:center;justify-content:space-between;gap:24px;min-height:162px;padding:26px 28px;margin-bottom:20px;border:1px solid #367bdc;border-radius:18px;background:linear-gradient(110deg,#245bc3,#2b72da 75%,#398bec);color:#fff;}
+#nsRecommendations .rec-header::after{content:'';position:absolute;z-index:-1;inset-inline-end:-55px;top:-140px;width:300px;height:300px;border:1px solid #ffffff24;border-radius:50%;box-shadow:0 0 0 35px #ffffff06;pointer-events:none;}
+#nsRecommendations .rec-eyebrow{display:flex;align-items:center;gap:8px;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#d8f5ff;}
+#nsRecommendations .rec-header h1{font-size:clamp(24px,2.4vw,31px);font-weight:750;line-height:1.3;letter-spacing:-.03em;margin:8px 0; color:#fff;}
+#nsRecommendations .rec-header p{font-size:13px;line-height:1.7;color:#eaf2ff;margin:0;}
+#nsRecommendations .rec-hero-side{display:flex;align-items:center;gap:22px;flex:none;}
+#nsRecommendations .rec-date{display:flex;align-items:center;gap:8px;padding:9px 12px;border:1px solid #ffffff40;border-radius:9px;background:#ffffff14;color:#fff;font-size:11px;white-space:nowrap;}
+#nsRecommendations .rec-hero-art{position:relative;display:grid;place-items:center;width:65px;height:78px;border:1px solid #ffffff75;border-radius:12px;background:#ffffff19;transform:rotate(-8deg);font-size:32px;color:#d9ecff;}
+#nsRecommendations .rec-hero-art span{position:absolute;bottom:-8px;inset-inline-end:-12px;display:grid;place-items:center;width:34px;height:34px;border-radius:10px;background:#edfffc;color:#0bac9a;font-size:18px;transform:rotate(8deg);}
+#nsRecommendations .risk-panel{--risk-color:#13a58b;display:grid;grid-template-columns:minmax(0,1.4fr) minmax(180px,1fr);align-items:center;gap:28px;padding:22px;margin-bottom:20px;border:1px solid var(--rec-border);border-radius:16px;background:#fff;box-shadow:0 5px 18px #234d8505;}
+#nsRecommendations .risk-medium,#nsRecommendations .risk-moderate{--risk-color:#d99a20;}
+#nsRecommendations .risk-high{--risk-color:#e85d70;}
+#nsRecommendations .probability-block{display:flex;align-items:center;gap:20px;min-width:0;}
+#nsRecommendations .probability-ring{position:relative;flex:none;width:108px;height:108px;direction:ltr;}
+#nsRecommendations .probability-svg{display:block;width:100%;height:100%;overflow:visible;}
+#nsRecommendations .probability-track-circle,#nsRecommendations .probability-progress-circle{fill:none;stroke-width:7;}
+#nsRecommendations .probability-track-circle{stroke:#edf2f8;}
+#nsRecommendations .probability-progress-circle{stroke:var(--risk-color);stroke-linecap:round;}
+#nsRecommendations .probability-inner{position:absolute;inset:0;display:grid;place-items:center;}
+#nsRecommendations .probability-inner strong{font-size:26px;font-weight:750;color:var(--rec-ink);}
+#nsRecommendations .risk-kicker{font-size:11px;color:var(--rec-muted);}
+#nsRecommendations .risk-panel h2{font-size:17px;line-height:1.5;margin:5px 0;color:var(--rec-ink);}
+#nsRecommendations .risk-panel p{font-size:12px;color:var(--rec-muted);margin:0;}
+#nsRecommendations .risk-bar-wrap{padding:18px;border:1px solid #e5edf7;border-radius:12px;background:#fafcff;direction:ltr;}
+#nsRecommendations .risk-bar{position:relative;height:8px;border-radius:12px;background:#e8eef6;}
+#nsRecommendations .risk-bar>span{display:block;height:100%;max-width:100%;border-radius:inherit;background:var(--risk-color);}
+#nsRecommendations .risk-bar>b{position:absolute;top:50%;width:12px;height:12px;border:2px solid #fff;border-radius:50%;background:var(--risk-color);transform:translate(-50%,-50%);box-shadow:0 0 0 1px var(--risk-color);}
+#nsRecommendations .risk-labels{display:flex;justify-content:space-between;margin-top:10px;font-size:10px;color:#72829a;}
+#nsRecommendations .recommendation-shell,#nsRecommendations .rec-content{width:100%;min-width:0;}
+#nsRecommendations .overview-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-bottom:20px;}
+#nsRecommendations .overview-grid:empty{display:none;}
+#nsRecommendations .overview-card,#nsRecommendations .section-card{min-width:0;border:1px solid var(--rec-border);border-radius:15px;background:#fff;padding:22px;box-shadow:0 5px 18px #234d8505;}
+#nsRecommendations .overview-card:only-child{grid-column:1/-1;}
+#nsRecommendations .overview-card{background:#fbfdff;}
+#nsRecommendations .section-stack{display:grid;gap:16px;}
+#nsRecommendations .rec-h2{display:flex;align-items:center;gap:12px;font-size:16px;line-height:1.5;font-weight:650;margin:0 0 16px;color:var(--rec-ink);}
+#nsRecommendations .section-icon{display:grid;place-items:center;width:36px;height:36px;flex:none;border-radius:10px;background:#e5f8f2;color:#119782;font-size:16px;}
+#nsRecommendations .section-2 .section-icon{background:#fff3df;color:#cc8b25;}
+#nsRecommendations .section-3 .section-icon{background:#e9f0ff;color:#326ccd;}
+#nsRecommendations .section-4 .section-icon{background:#f0eaff;color:#8661c0;}
+#nsRecommendations .section-5 .section-icon{background:#fff0f2;color:#d45d73;}
+#nsRecommendations .section-6 .section-icon{background:#e4f7fa;color:#298f9e;}
+#nsRecommendations .section-heading-copy{display:flex;align-items:baseline;gap:9px;min-width:0;}
+#nsRecommendations .section-heading-copy small{font-size:10px;color:#8091aa;font-weight:600;}
+#nsRecommendations .rec-content p{font-size:13px;line-height:1.85;color:#5d7494;margin:0 0 12px;overflow-wrap:anywhere;}
+#nsRecommendations .rec-content h3{font-size:14px;line-height:1.6;color:#284c7e;margin:18px 0 8px;}
+#nsRecommendations .rec-content ul,#nsRecommendations .rec-content ol{padding-inline-start:22px;margin:10px 0 16px;}
+#nsRecommendations .rec-content li{font-size:13px;line-height:1.85;color:#5d7494;padding-inline-start:3px;margin-bottom:8px;overflow-wrap:anywhere;}
+#nsRecommendations .rec-content li::marker{color:#5488ce;}
+#nsRecommendations .rec-content strong{color:#284c7e;font-weight:600;}
+#nsRecommendations .rec-content a{color:#2565c5;text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere;}
+#nsRecommendations .rec-content img,#nsRecommendations .rec-content iframe{max-width:100%;}
+#nsRecommendations .rec-content table{display:block;max-width:100%;overflow-x:auto;border-collapse:collapse;font-size:12px;}
+#nsRecommendations .rec-content th,#nsRecommendations .rec-content td{padding:10px;border:1px solid #e1e9f4;text-align:start;}
+#nsRecommendations .guided-resource{position:relative;display:block;padding:16px;padding-inline-start:60px;margin:16px 0 8px;border:1px solid #d5e4f6;border-radius:12px;background:#f7faff;}
+#nsRecommendations .video-play{position:absolute;top:16px;inset-inline-start:16px;display:grid;place-items:center;width:30px;height:30px;border-radius:9px;color:#d95c63;background:#fff0f1;font-size:16px;}
+#nsRecommendations .guided-resource p:last-child,#nsRecommendations .section-card>:last-child,#nsRecommendations .overview-card>:last-child{margin-bottom:0;}
+#nsRecommendations .rec-footer-bar{margin-top:22px;display:flex;flex-direction:column;gap:16px;}
+#nsRecommendations .footer-note{display:flex;gap:9px;align-items:start;border:1px solid #dbe7f8;border-radius:10px;background:#f0f6ff;padding:12px 14px;color:#6982a2;font-size:11px;line-height:1.8;}
+#nsRecommendations .footer-note i{color:#3d7cd2;margin-top:4px;flex:none;}
+#nsRecommendations .action-buttons{display:flex;gap:10px;flex-wrap:wrap;}
+#nsRecommendations .action-buttons form{margin:0;}
+#nsRecommendations .rec-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:38px;padding:9px 14px;border:1px solid #d0dff3;border-radius:9px;background:#fff;color:#28568f;font:inherit;font-size:12px;font-weight:600;line-height:1.5;text-decoration:none;cursor:pointer;}
+#nsRecommendations .rec-btn.primary{background:#2565cf;color:#fff;border-color:#2565cf;}
+#nsRecommendations .rec-btn:hover{background:#f2f7ff;border-color:#98b9e6;}
+#nsRecommendations .rec-btn.primary:hover{background:#205bbb;color:#fff;}
+#nsRecommendations :focus-visible{outline:3px solid #a4c6f2;outline-offset:3px;}
+#nsRecommendations .state-card{padding:40px 24px;border:1px solid var(--rec-border);border-radius:16px;background:white;text-align:center;}
+#nsRecommendations .state-card>i{display:grid;place-items:center;width:48px;height:48px;border-radius:13px;background:#edf4ff;color:#2565cf;font-size:22px;margin:0 auto 18px;}
+#nsRecommendations .state-card h2{font-size:20px;margin-bottom:12px;}
+#nsRecommendations .state-card p{color:var(--rec-muted);}
+#nsRecommendations[dir=rtl]{font-family:'Noto Naskh Arabic',Tahoma,serif;text-align:right;}
+#nsRecommendations[dir=rtl] .rec-eyebrow{letter-spacing:0;}
+#nsRecommendations[dir=rtl] .rec-header h1{letter-spacing:0;line-height:1.6;}
+#nsRecommendations[dir=rtl] .rec-btn .fa-arrow-left,#nsRecommendations[dir=rtl] .rec-btn .fa-arrow-right{transform:scaleX(-1);}
+@media(max-width:1000px){#nsRecommendations .rec-hero-art{display:none;}#nsRecommendations .risk-panel{grid-template-columns:1fr;gap:16px;}#nsRecommendations .risk-bar-wrap{padding:14px;}}
+@media(max-width:640px){#nsRecommendations .rec-header{padding:22px 18px;flex-direction:column;align-items:start;gap:16px;min-height:0;}#nsRecommendations .rec-header h1{font-size:25px;}#nsRecommendations .rec-date{font-size:10px;padding:6px 9px;}#nsRecommendations .overview-grid{grid-template-columns:1fr;}#nsRecommendations .overview-card,#nsRecommendations .section-card,#nsRecommendations .risk-panel{padding:18px;}#nsRecommendations .probability-block{gap:14px;}#nsRecommendations .probability-ring{width:88px;height:88px;}#nsRecommendations .probability-inner strong{font-size:23px;}#nsRecommendations .risk-panel h2{font-size:15px;}#nsRecommendations .rec-h2{font-size:15px;align-items:start;}#nsRecommendations .section-heading-copy{gap:6px;flex-wrap:wrap;}#nsRecommendations .action-buttons{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));}#nsRecommendations .action-buttons .rec-btn{width:100%;padding:10px 8px;}#nsRecommendations .section-icon{width:32px;height:32px;font-size:14px;}#nsRecommendations .guided-resource{padding:14px;padding-inline-start:52px;}#nsRecommendations .video-play{inset-inline-start:12px;}}
+@media print{body:has(#nsRecommendations){background:#fff!important;}body:has(#nsRecommendations) nav,body:has(#nsRecommendations) .ns-side,body:has(#nsRecommendations) #nsSidebar,body:has(#nsRecommendations) .ns-topbar,body:has(#nsRecommendations) > footer,body:has(#nsRecommendations) .toast-region{display:none!important;}body:has(#nsRecommendations) .ns-app-shell,body:has(#nsRecommendations) .ns-workspace,body:has(#nsRecommendations) .ns-main-content{display:block!important;width:100%!important;max-width:none!important;margin:0!important;padding:0!important;min-height:0!important;overflow:visible!important;}#nsRecommendations .rec-toolbar,#nsRecommendations .action-buttons,#nsRecommendations .rec-hero-art{display:none!important;}#nsRecommendations .rec-header{background:#fff!important;color:#173562;border:1px solid #cbd5e1;min-height:0;padding:18px;}#nsRecommendations .rec-header *{color:#173562!important;}#nsRecommendations .rec-header::after{display:none;}#nsRecommendations .rec-date{border-color:#cbd5e1;}#nsRecommendations .section-card,#nsRecommendations .overview-card,#nsRecommendations .risk-panel{box-shadow:none;break-inside:avoid;}#nsRecommendations .rec-container{max-width:none;}#nsRecommendations a{color:#173562;}#nsRecommendations .overview-grid{display:block;}#nsRecommendations .overview-card{margin-bottom:14px;}}
+
+
+/* Visual hierarchy: an illustrated hero and restrained color-coded sections. */
+#nsRecommendations .rec-header{min-height:184px;padding:26px 30px;background:linear-gradient(115deg,#235ac3,#2976dc 76%,#3399d8);box-shadow:0 9px 24px #2259b215;}
+#nsRecommendations .rec-hero-side{gap:18px;}
+#nsRecommendations .rec-hero-art{display:block;width:205px;height:136px;border:0;background:none;transform:none;border-radius:0;color:inherit;}
+#nsRecommendations .rec-hero-art svg{display:block;width:100%;height:100%;}
+#nsRecommendations .rec-date{align-self:flex-end;margin-bottom:8px;}
+#nsRecommendations .probability-ring{border-radius:50%;background:#fff;box-shadow:0 0 0 8px #f3f7fd;}
+#nsRecommendations .risk-panel{border-color:#d2e1f4;background:linear-gradient(105deg,#fff 65%,#f8fbff);padding:26px;}
+#nsRecommendations .risk-panel h2{display:table;padding:4px 10px;border-radius:7px;background:#f4f7fb;border:1px solid #e2e9f3;}
+#nsRecommendations .risk-low h2{color:#0d8e76;background:#eaf9f3;border-color:#ccecdf;}
+#nsRecommendations .risk-medium h2,#nsRecommendations .risk-moderate h2{color:#a96a0b;background:#fff7e5;border-color:#f6dfb0;}
+#nsRecommendations .risk-high h2{color:#b94259;background:#fff0f3;border-color:#f5d5dc;}
+#nsRecommendations .section-card{--section-accent:#119782;--section-tint:#edf9f5;position:relative;isolation:isolate;border-color:#d7e3f1;border-inline-start:3px solid var(--section-accent);padding:22px 24px;box-shadow:0 6px 20px #234d8506;transition:box-shadow .2s;}
+#nsRecommendations .section-2{--section-accent:#cb8c22;--section-tint:#fff8eb;}
+#nsRecommendations .section-3{--section-accent:#3774cd;--section-tint:#eff5ff;}
+#nsRecommendations .section-4{--section-accent:#8860c4;--section-tint:#f5f0fc;}
+#nsRecommendations .section-5{--section-accent:#d45d73;--section-tint:#fff2f5;}
+#nsRecommendations .section-6{--section-accent:#2693a0;--section-tint:#eff9fb;}
+#nsRecommendations .section-card>.rec-h2{margin:-22px -24px 18px;padding:17px 24px;background:linear-gradient(100deg,var(--section-tint),#fff);border-bottom:1px solid #e9eef5;border-start-start-radius:12px;border-start-end-radius:12px;}
+#nsRecommendations .section-card .section-icon{width:40px;height:40px;border-radius:12px;background:#fff;color:var(--section-accent);border:1px solid #e5eaf1;box-shadow:0 3px 8px #234d8507;font-size:18px;}
+#nsRecommendations .section-heading-copy small{display:grid;place-items:center;width:23px;height:23px;border-radius:6px;color:var(--section-accent);background:var(--section-tint);}
+#nsRecommendations .section-card li::marker{color:var(--section-accent);}
+#nsRecommendations .overview-card{background:linear-gradient(135deg,#f3f8ff,#fff 80%);border-color:#d4e3f7;}
+#nsRecommendations .overview-card.meaning-card{background:linear-gradient(135deg,#eefaf7,#fff 80%);border-color:#d3ece3;}
+#nsRecommendations .overview-symbol{display:grid;place-items:center;width:35px;height:35px;flex:none;border-radius:10px;background:#e4efff;color:#3673c8;font-size:16px;}
+#nsRecommendations .meaning-card .overview-symbol{background:#dff5ed;color:#159a81;}
+#nsRecommendations .guided-resource{background:#f8fbff;border:1px solid #d6e4f7;border-radius:12px;box-shadow:0 3px 12px #234d8504;}
+#nsRecommendations .video-play{width:32px;height:32px;background:#ffebee;color:#e45868;}
+#nsRecommendations .guided-resource a{font-weight:600;text-decoration-thickness:1px;}
+#nsRecommendations .rec-btn.primary{box-shadow:0 4px 10px #2565cf22;}
+#nsRecommendations .footer-note{background:#f1faf8;border-color:#d5eee7;color:#577a75;}
+#nsRecommendations .footer-note i{color:#159d8b;}
+@media(hover:hover){#nsRecommendations .section-card:hover{box-shadow:0 9px 25px #234d8510;}}
+@media(max-width:1100px){#nsRecommendations .rec-hero-side{flex-direction:column;gap:6px;}#nsRecommendations .rec-hero-art{width:158px;height:100px;}#nsRecommendations .rec-date{align-self:center;margin:0;}}
+@media(max-width:640px){#nsRecommendations .rec-header{display:grid;grid-template-columns:minmax(0,1fr) 94px;gap:12px;padding:22px 18px;min-height:0;}#nsRecommendations .rec-header h1{font-size:24px;}#nsRecommendations .rec-hero-side{display:contents;}#nsRecommendations .rec-hero-art{width:94px;height:92px;grid-column:2;grid-row:1;align-self:center;}#nsRecommendations .rec-date{grid-column:1/-1;justify-self:start;}#nsRecommendations .risk-panel{padding:22px 18px;}#nsRecommendations .section-card{padding:18px;}#nsRecommendations .section-card>.rec-h2{margin:-18px -18px 16px;padding:14px 18px;}#nsRecommendations .section-card .section-icon{width:34px;height:34px;font-size:15px;}#nsRecommendations .section-heading-copy small{width:20px;height:20px;}}
+@media(max-width:360px){#nsRecommendations .rec-header{grid-template-columns:1fr;}#nsRecommendations .rec-hero-art{display:none;}#nsRecommendations .rec-header h1{font-size:23px;}}
+@media(prefers-reduced-motion:reduce){#nsRecommendations .section-card{transition:none;}}
+@media print{#nsRecommendations .rec-header,#nsRecommendations .risk-panel,#nsRecommendations .overview-card,#nsRecommendations .section-card>.rec-h2{background:#fff!important;box-shadow:none!important;}#nsRecommendations .rec-hero-art{display:none!important;}#nsRecommendations .section-card{box-shadow:none!important;}#nsRecommendations .probability-ring{box-shadow:none!important;}}
+
+</style>
+
 {% endblock %}
 
 {% block content %}
+
 {% with current_lang=lang|default:request.LANG|default:'en' %}
 
-<div class="rec-page {% if current_lang == 'ur' %}rec-rtl{% endif %}">
-    <main class="rec-container">
+<div id="nsRecommendations" dir="{% if current_lang == 'ur' %}rtl{% else %}ltr{% endif %}" lang="{{ current_lang }}" class="rec-page {% if current_lang == 'ur' %}rec-rtl{% endif %}">
+
+    <div class="rec-container">
 
         {% if error %}
+
         <section class="state-card">
+
             <i class="fa-solid fa-triangle-exclamation"></i>
+
             <h2>{{ error }}</h2>
+
             <a href="{% url 'dashboard:dashboard' %}" class="rec-btn">
+
                 <i class="fa-solid fa-arrow-left"></i>
+
                 {% if current_lang == 'ur' %}ڈیش بورڈ{% else %}Back to Dashboard{% endif %}
+
             </a>
+
         </section>
 
         {% elif is_generating %}
+
         <section class="state-card">
+
             <i class="fa-solid fa-brain"></i>
+
             <h2>
+
                 {% if current_lang == 'ur' %}
+
                 آپ کی سفارشات تیار ہو رہی ہیں
+
                 {% else %}
+
                 Building Your Personalized Plan
+
                 {% endif %}
+
             </h2>
+
             <p>
+
                 {% if current_lang == 'ur' %}
+
                 نیوروسینس آپ کے اسکریننگ نتائج کے مطابق مناسب رہنمائی تیار کر رہا ہے۔
+
                 {% else %}
+
                 NeuroSense is preparing guidance based on your screening results.
+
                 {% endif %}
+
             </p>
+
         </section>
 
         {% elif recommendations %}
+
         {% widthratio fusion.final_pd_probability 1 100 as risk_percent %}
 
-        <!-- =====================================================
-             PAGE HEADER
-             Uses the exact class names expected by the preferred CSS
-             ===================================================== -->
-        <header class="rec-header">
+        
+
+        <div class="rec-toolbar"><a href="{% url 'dashboard:dashboard' %}" class="rec-btn"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i>{% if current_lang == 'ur' %}ڈیش بورڈ پر واپس{% else %}Back to Dashboard{% endif %}</a></div>
+<header class="rec-header">
+
             <div>
+
                 <div class="rec-eyebrow">
+
                     <i class="fa-solid fa-heart-pulse"></i>
+
                     {% if current_lang == 'ur' %}
+
                     آپ کی ذاتی رہنمائی
+
                     {% else %}
+
                     Your Personal Guide
+
                     {% endif %}
+
                 </div>
 
                 <h1>
+
                     {% if current_lang == 'ur' %}
+
                     آپ کی سفارشات
+
                     {% else %}
+
                     Your Recommendations
+
                     {% endif %}
+
                 </h1>
 
                 <p>
+
                     {% if current_lang == 'ur' %}
+
                     آپ کی اسکریننگ کے مطابق واضح اور ذاتی نوعیت کی رہنمائی۔
+
                     {% else %}
+
                     Simple next steps based on your screening.
+
                     {% endif %}
+
                 </p>
+
             </div>
 
-            <div class="rec-date">
+            <div class="rec-hero-side"><div class="rec-hero-art" aria-hidden="true"><svg viewBox="0 0 240 150" xmlns="http://www.w3.org/2000/svg" focusable="false">
+<circle cx="129" cy="74" r="64" fill="#ffffff0b" stroke="#ffffff24"/>
+<path d="M19 90C45 114 55 114 79 88M172 53C194 27 214 28 226 49" fill="none" stroke="#addfff" stroke-opacity=".6" stroke-width="2" stroke-dasharray="4 5"/>
+<g transform="rotate(-9 117 72)"><rect x="65" y="19" width="106" height="119" rx="15" fill="#163f9a" opacity=".18"/><rect x="61" y="13" width="106" height="119" rx="15" fill="#f8fcff"/><rect x="83" y="8" width="62" height="16" rx="8" fill="#badeff"/><rect x="80" y="37" width="52" height="6" rx="3" fill="#316fc9"/>
+<circle cx="82" cy="61" r="7" fill="#d6f6ec"/><path d="m79 61 2 2 4-5" fill="none" stroke="#0c9d83" stroke-width="2" stroke-linecap="round"/><rect x="98" y="57" width="47" height="4" rx="2" fill="#92abc9"/><rect x="98" y="65" width="32" height="3" rx="1.5" fill="#d3dfed"/>
+<circle cx="82" cy="84" r="7" fill="#fff0ca"/><path d="m79 84 2 2 4-5" fill="none" stroke="#c7921a" stroke-width="2" stroke-linecap="round"/><rect x="98" y="80" width="41" height="4" rx="2" fill="#92abc9"/><rect x="98" y="88" width="48" height="3" rx="1.5" fill="#d3dfed"/>
+<circle cx="82" cy="107" r="7" fill="#eae1ff"/><path d="m79 107 2 2 4-5" fill="none" stroke="#8e69c7" stroke-width="2" stroke-linecap="round"/><rect x="98" y="103" width="46" height="4" rx="2" fill="#92abc9"/><rect x="98" y="111" width="28" height="3" rx="1.5" fill="#d3dfed"/></g>
+<rect x="150" y="83" width="58" height="52" rx="15" fill="#defaf3" stroke="#fff" stroke-width="2"/><path d="M179 117c-4-3-16-10-16-17 0-8 10-11 16-3 6-8 16-5 16 3 0 7-12 14-16 17Z" fill="#15ac98"/><path d="m166 105 7 0 3-6 4 11 3-5h9" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="37" cy="43" r="12" fill="#ffe09a"/><path d="M32 43h10m-5-5v10" stroke="#ba7c10" stroke-width="2" stroke-linecap="round"/><circle cx="211" cy="66" r="5" fill="#72e0d0"/><circle cx="41" cy="125" r="4" fill="#b9d9ff"/>
+</svg></div><div class="rec-date">
+
                 <i class="fa-regular fa-calendar"></i>
-                {% if current_lang == 'ur' %}
-                    {% if fusion.created_at %}
-                        {{ fusion.created_at|date:"d-m-Y" }}
-                    {% else %}
-                        {% now "d-m-Y" %}
-                    {% endif %}
-                {% else %}
-                    {% if fusion.created_at %}
-                        {{ fusion.created_at|date:"d M Y" }}
-                    {% else %}
-                        {% now "d M Y" %}
-                    {% endif %}
-                {% endif %}
-            </div>
-        </header>
 
-        <!-- =====================================================
-             PROBABILITY / RISK
-             ===================================================== -->
+                {% if current_lang == 'ur' %}
+
+                    {% if fusion.created_at %}
+
+                        {{ fusion.created_at|date:"d-m-Y" }}
+
+                    {% else %}
+
+                        {% now "d-m-Y" %}
+
+                    {% endif %}
+
+                {% else %}
+
+                    {% if fusion.created_at %}
+
+                        {{ fusion.created_at|date:"d M Y" }}
+
+                    {% else %}
+
+                        {% now "d M Y" %}
+
+                    {% endif %}
+
+                {% endif %}
+
+            </div>
+
+        </div></header>
+
+        
+
         <section class="risk-panel risk-{{ fusion.risk_level|lower }}">
 
             <div class="probability-block">
 
                 <div class="probability-ring" aria-label="{{ risk_percent }}% probability">
+
                     <svg class="probability-svg" viewBox="0 0 100 100" aria-hidden="true">
+
                         <circle
+
                             class="probability-track-circle"
+
                             cx="50"
+
                             cy="50"
+
                             r="43"
+
                             pathLength="100">
+
                         </circle>
+
                         <circle
+
                             class="probability-progress-circle"
+
                             cx="50"
+
                             cy="50"
+
                             r="43"
+
                             pathLength="100"
+
                             stroke-dasharray="{{ risk_percent }} 100"
+
                             transform="rotate(-90 50 50)">
+
                         </circle>
+
                     </svg>
 
                     <div class="probability-inner">
+
                         <strong>{{ risk_percent }}%</strong>
+
                     </div>
+
                 </div>
 
                 <div>
+
                     <span class="risk-kicker">
+
                         {% if current_lang == 'ur' %}
+
                         پارکنسن کا امکان
+
                         {% else %}
+
                         Parkinson's Probability
+
                         {% endif %}
+
                     </span>
 
                     <h2>
+
                         {% if current_lang == 'ur' %}
+
                             {% if fusion.risk_level == 'Low' %}کم اسکریننگ سطح
+
                             {% elif fusion.risk_level == 'Medium' %}درمیانی اسکریننگ سطح
+
                             {% else %}زیادہ اسکریننگ سطح{% endif %}
+
                         {% else %}
+
                             {{ fusion.risk_level }} screening level
+
                         {% endif %}
+
                     </h2>
 
                     <p>
+
                         {% if current_lang == 'ur' %}
+
                         یہ اسکریننگ کا تخمینہ ہے، تشخیص نہیں۔
+
                         {% else %}
+
                         This is a screening estimate, not a diagnosis.
+
                         {% endif %}
+
                     </p>
+
                 </div>
 
             </div>
 
             <div class="risk-bar-wrap">
+
                 <div class="risk-bar">
+
                     <span style="width: {{ risk_percent }}%;"></span>
+
                     <b style="left: {{ risk_percent }}%;"></b>
+
                 </div>
 
                 <div class="risk-labels">
+
                     <span>{% if current_lang == 'ur' %}کم{% else %}Low{% endif %}</span>
+
                     <span>{% if current_lang == 'ur' %}درمیانہ{% else %}Medium{% endif %}</span>
+
                     <span>{% if current_lang == 'ur' %}زیادہ{% else %}High{% endif %}</span>
+
                 </div>
+
             </div>
 
         </section>
 
-        <!-- =====================================================
-             RECOMMENDATION CONTENT
-             JS below applies the exact classes used by the CSS:
-             overview-grid, overview-card, section-stack,
-             section-card, section-icon, section-heading-copy
-             ===================================================== -->
+        
+
         <section class="recommendation-shell">
+
             <div class="rec-content" id="rec-content">
+
                 {{ recommendations|safe }}
+
             </div>
+
         </section>
 
-        <!-- =====================================================
-             FOOTER / ACTIONS
-             ===================================================== -->
+        
+
         <footer class="rec-footer-bar">
 
             <div class="footer-note">
+
                 <i class="fa-solid fa-circle-info"></i>
+
                 <span>
+
                     {% if current_lang == 'ur' %}
+
                     نیوروسینس ایک اسکریننگ اور رہنمائی کا ٹول ہے، طبی تشخیص نہیں۔
+
                     {% else %}
+
                     NeuroSense is a screening and guidance tool, not a medical diagnosis.
+
                     {% endif %}
+
                 </span>
+
             </div>
 
             <div class="action-buttons">
 
                 <button type="button" class="rec-btn primary" onclick="window.print()">
+
                     <i class="fa-regular fa-file-pdf"></i>
+
                     {% if current_lang == 'ur' %}PDF محفوظ کریں{% else %}Save PDF{% endif %}
+
                 </button>
 
                 <a
+
                     href="{% url 'fusion_app:report' %}?screening_id={{ screening_id|urlencode }}&lang={{ current_lang }}"
+
                     class="rec-btn"
+
                 >
+
                     <i class="fa-regular fa-file-lines"></i>
+
                     {% if current_lang == 'ur' %}رپورٹ دیکھیں{% else %}View Report{% endif %}
+
                 </a>
 
                 <form method="post" action="{% url 'recommendations_app:regenerate' %}">
+
                     {% csrf_token %}
+
                     <input type="hidden" name="screening_id" value="{{ screening_id }}">
+
                     <input type="hidden" name="lang" value="{{ current_lang }}">
 
                     <button type="submit" class="rec-btn">
+
                         <i class="fa-solid fa-rotate"></i>
+
                         {% if current_lang == 'ur' %}دوبارہ بنائیں{% else %}Refresh{% endif %}
+
                     </button>
+
                 </form>
 
                 <a href="{% url 'dashboard:dashboard' %}" class="rec-btn">
+
                     <i class="fa-solid fa-house"></i>
+
                     {% if current_lang == 'ur' %}ڈیش بورڈ{% else %}Dashboard{% endif %}
+
                 </a>
 
             </div>
@@ -244,171 +534,274 @@ Clinical Recommendations - NeuroSense AI
         {% else %}
 
         <section class="state-card">
+
             <i class="fa-regular fa-clipboard"></i>
+
             <h2>
+
                 {% if current_lang == 'ur' %}
+
                 ابھی کوئی سفارشات دستیاب نہیں
+
                 {% else %}
+
                 No Recommendations Yet
+
                 {% endif %}
+
             </h2>
 
             <a href="{% url 'questionnaire_app:home' %}" class="rec-btn primary">
+
                 <i class="fa-solid fa-arrow-right"></i>
+
                 {% if current_lang == 'ur' %}اسکریننگ شروع کریں{% else %}Start Screening{% endif %}
+
             </a>
+
         </section>
 
         {% endif %}
 
-    </main>
+    </div>
+
 </div>
 
 {% endwith %}
+
 {% endblock %}
 
-
 {% block extra_js %}
+
 <script>
+
 (function () {
+
     'use strict';
 
     var content = document.getElementById('rec-content');
+
     if (!content) return;
 
     var headings = Array.from(content.querySelectorAll('.rec-h2'));
+
     if (!headings.length) return;
 
     /*
+
      * IMPORTANT:
+
      * These class names intentionally match the preferred CSS exactly.
+
      */
+
     var overviewGrid = document.createElement('div');
+
     overviewGrid.className = 'overview-grid';
 
     var sectionStack = document.createElement('div');
+
     sectionStack.className = 'section-stack';
 
     var firstHeading = headings[0];
 
     content.insertBefore(overviewGrid, firstHeading);
+
     content.insertBefore(sectionStack, firstHeading);
 
     var iconMap = {
+
         1: 'fa-person-walking',
+
         2: 'fa-microphone-lines',
+
         3: 'fa-heart-pulse',
+
         4: 'fa-eye',
+
         5: 'fa-triangle-exclamation',
+
         6: 'fa-calendar-check'
+
     };
 
     headings.forEach(function (heading) {
 
         var rawTitle = heading.textContent.trim();
+
         var numberMatch = rawTitle.match(/^([1-6])\.\s*/);
+
         var sectionNumber = numberMatch
+
             ? parseInt(numberMatch[1], 10)
+
             : null;
 
         var card = document.createElement('section');
 
         var isSummary = /your summary|خلاصہ/i.test(rawTitle);
+
         var isMeaning = /what your results mean|نتائج کا مطلب/i.test(rawTitle);
 
         if (sectionNumber) {
 
             /*
+
              * Exact preferred CSS classes:
+
              * section-card section-1 ... section-6
+
              */
+
             card.className = 'section-card section-' + sectionNumber;
+
             card.id = 'recommendation-section-' + sectionNumber;
 
             var icon = document.createElement('span');
+
             icon.className = 'section-icon';
+            icon.setAttribute('aria-hidden', 'true');
+
             icon.innerHTML =
+
                 '<i class="fa-solid ' +
+
                 iconMap[sectionNumber] +
+
                 '"></i>';
 
             var titleWrap = document.createElement('span');
+
             titleWrap.className = 'section-heading-copy';
 
             var number = document.createElement('small');
+
             number.textContent = '0' + sectionNumber;
 
             var title = document.createElement('span');
+
             title.textContent =
+
                 rawTitle.replace(/^([1-6])\.\s*/, '');
 
             titleWrap.appendChild(number);
+
             titleWrap.appendChild(title);
 
             heading.textContent = '';
+
             heading.appendChild(icon);
+
             heading.appendChild(titleWrap);
 
         } else {
 
             /*
+
              * Exact preferred CSS classes:
+
              * overview-card + optional meaning-card
+
              */
+
             card.className = 'overview-card';
+            var overviewIcon = document.createElement('span');
+            overviewIcon.className = 'overview-symbol';
+            overviewIcon.setAttribute('aria-hidden', 'true');
+            var overviewGlyph = document.createElement('i');
+            overviewGlyph.className = 'fa-solid ' + (isMeaning ? 'fa-lightbulb' : 'fa-clipboard-list');
+            overviewIcon.appendChild(overviewGlyph);
+            heading.insertBefore(overviewIcon, heading.firstChild);
 
             if (isMeaning) {
+
                 card.classList.add('meaning-card');
+
             }
+
         }
 
         var next = heading.nextSibling;
+
         card.appendChild(heading);
 
         while (
+
             next &&
+
             !(
+
                 next.nodeType === 1 &&
+
                 next.classList &&
+
                 next.classList.contains('rec-h2')
+
             )
+
         ) {
+
             var moving = next;
+
             next = next.nextSibling;
+
             card.appendChild(moving);
+
         }
 
         if (sectionNumber) {
+
             sectionStack.appendChild(card);
+
         } else {
+
             overviewGrid.appendChild(card);
+
         }
+
     });
 
-
     /*
+
      * Curated video cards:
+
      * exact classes expected by the preferred CSS.
+
      */
+
     content
+
         .querySelectorAll('.guided-resource')
+
         .forEach(function (resource) {
 
             resource.classList.add('video-card');
 
             if (!resource.querySelector('.video-play')) {
+
                 var play = document.createElement('span');
+
                 play.className = 'video-play';
+                play.setAttribute('aria-hidden', 'true');
+
                 play.innerHTML =
+
                     '<i class="fa-brands fa-youtube"></i>';
 
                 resource.insertBefore(
+
                     play,
+
                     resource.firstChild
+
                 );
+
             }
+
         });
 
 })();
+
 </script>
+
 {% endblock %}

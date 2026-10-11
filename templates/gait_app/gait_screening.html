@@ -9,13 +9,12 @@ Gait Screening - NeuroSense AI
 {% endif %}
 {% endblock %}
 
-{% block extra_css %}
-<style>
-    /* ============================================
-       NEUROSENSE AI — GAIT & MOVEMENT SCREENING
-       ============================================ */
 
-    .gait-screening-page {
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/neurosense_workspace.css' %}">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700;800&family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>#nsGaitShell .gait-screening-page{
         --primary: #4A6CF7;
         --primary-dark: #3B5DE7;
         --primary-light: #eef2ff;
@@ -47,65 +46,41 @@ Gait Screening - NeuroSense AI
         --radius-xl: 24px;
         --transition: all 0.2s ease;
 
-        /* Professional neutral "screen" surface for video/camera panels */
+        
         --surface-dark: #24303F;
         --surface-dark-2: #1A2432;
 
         color: var(--gray-700);
         background: var(--gray-50);
-    }
-
-    .gait-screening-page h1,
-    .gait-screening-page h2,
-    .gait-screening-page h3 {
+    }#nsGaitShell .gait-screening-page h1,#nsGaitShell .gait-screening-page h2,#nsGaitShell .gait-screening-page h3{
         color: var(--ink);
         letter-spacing: -0.02em;
-    }
-
-    .gait-screening-page :focus-visible {
+    }#nsGaitShell .gait-screening-page :focus-visible{
         outline: 3px solid rgba(74, 108, 247, 0.45);
         outline-offset: 2px;
         border-radius: 6px;
-    }
-
-    .gait-screening-page[dir="rtl"] {
+    }#nsGaitShell .gait-screening-page[dir="rtl"]{
         text-align: right;
-    }
-
-    .gait-screening-page[dir="rtl"] .gait-hero-stats {
+    }#nsGaitShell .gait-screening-page[dir="rtl"] .gait-hero-stats{
         direction: ltr;
         justify-content: flex-end;
-    }
-
-    .gait-screening-page[dir="rtl"] .security-banner a,
-    .gait-screening-page[dir="rtl"] .screening-security-banner a {
+    }#nsGaitShell .gait-screening-page[dir="rtl"] .security-banner a,#nsGaitShell .gait-screening-page[dir="rtl"] .screening-security-banner a{
         margin-inline-start: 0;
         margin-inline-end: auto;
-    }
-
-    .gait-page-container {
+    }#nsGaitShell .gait-page-container{
         max-width: 1180px;
         margin: 0 auto;
         padding-inline: 24px;
-    }
-
-    /* ==========================================
-       HERO
-       ========================================== */
-    .gait-hero {
+    }#nsGaitShell .gait-hero{
         background: linear-gradient(180deg, #FFFFFF 0%, #F5F8FF 100%);
         border-bottom: 1px solid var(--gray-200);
         padding-block: 44px;
-    }
-
-    .gait-hero-layout {
+    }#nsGaitShell .gait-hero-layout{
         display: flex;
         align-items: center;
         justify-content: space-between;
         gap: 40px;
-    }
-
-    .gait-hero-badge {
+    }#nsGaitShell .gait-hero-badge{
         display: inline-flex;
         align-items: center;
         gap: 8px;
@@ -118,55 +93,38 @@ Gait Screening - NeuroSense AI
         letter-spacing: 0.04em;
         text-transform: uppercase;
         margin-bottom: 16px;
-    }
-
-    .gait-hero-copy h1 {
+    }#nsGaitShell .gait-hero-copy h1{
         font-size: 3.4rem;
         font-weight: 800;
         margin: 0 0 18px;
         line-height: 1.1;
         letter-spacing: -0.03em;
         color: var(--ink);
-    }
-
-    .gait-hero-copy h1 .accent {
+    }#nsGaitShell .gait-hero-copy h1 .accent{
         color: var(--primary);
-    }
-
-    .gait-hero-copy p {
+    }#nsGaitShell .gait-hero-copy p{
         font-size: 1.02rem;
         color: var(--gray-500);
         max-width: 54ch;
         line-height: 1.7;
         margin: 0;
-    }
-
-    .gait-hero-stats {
+    }#nsGaitShell .gait-hero-stats{
         display: flex;
         gap: 28px;
         margin-top: 22px;
         padding-top: 20px;
         border-top: 1px solid var(--gray-200);
         flex-wrap: wrap;
-    }
-
-    .gait-hero-stat {
+    }#nsGaitShell .gait-hero-stat{
         display: flex;
         align-items: center;
         gap: 8px;
         font-size: 0.85rem;
         color: var(--gray-600);
         font-weight: 500;
-    }
-
-    .gait-hero-stat .icon {
+    }#nsGaitShell .gait-hero-stat .icon{
         font-size: 1.1rem;
-    }
-
-    /* ------------------------------------------
-       HERO VISUAL — transparent, image is the focus
-       ------------------------------------------ */
-    .gait-hero-visual {
+    }#nsGaitShell .gait-hero-visual{
         flex-shrink: 0;
         position: relative;
         width: 660px;
@@ -178,9 +136,7 @@ Gait Screening - NeuroSense AI
         padding: 0;
         box-shadow: none;
         border: none;
-    }
-
-    .gait-hero-visual::before {
+    }#nsGaitShell .gait-hero-visual::before{
         content: '';
         position: absolute;
         inset: -10%;
@@ -192,9 +148,7 @@ Gait Screening - NeuroSense AI
         z-index: 0;
         pointer-events: none;
         filter: blur(6px);
-    }
-
-    .gait-hero-visual img {
+    }#nsGaitShell .gait-hero-visual img{
         position: relative;
         z-index: 1;
         width: 100%;
@@ -207,10 +161,7 @@ Gait Screening - NeuroSense AI
         animation: gait-float 6s ease-in-out infinite;
     }
 
-    @keyframes gait-float {
-
-        0%,
-        100% {
+    @keyframes gait-float {0%,100%{
             transform: scale(1.15) translateY(0);
         }
 
@@ -219,39 +170,26 @@ Gait Screening - NeuroSense AI
         }
     }
 
-    @media (max-width: 1100px) {
-        .gait-hero-visual {
+    @media (max-width: 1100px) {#nsGaitShell .gait-hero-visual{
             width: 520px;
         }
     }
 
-    @media (max-width: 760px) {
-        .gait-hero-layout {
+    @media (max-width: 760px) {#nsGaitShell .gait-hero-layout{
             flex-direction: column;
             text-align: center;
-        }
-
-        .gait-hero-copy h1 {
+        }#nsGaitShell .gait-hero-copy h1{
             font-size: 2.2rem;
-        }
-
-        .gait-hero-stats {
+        }#nsGaitShell .gait-hero-stats{
             justify-content: center;
-        }
-
-        .gait-hero-visual {
+        }#nsGaitShell .gait-hero-visual{
             width: 100%;
             max-width: 480px;
-        }
-
-        .gait-hero-visual img {
+        }#nsGaitShell .gait-hero-visual img{
             transform: scale(1.05);
         }
 
-        @keyframes gait-float {
-
-            0%,
-            100% {
+        @keyframes gait-float {0%,100%{
                 transform: scale(1.05) translateY(0);
             }
 
@@ -261,32 +199,22 @@ Gait Screening - NeuroSense AI
         }
     }
 
-    @media (prefers-reduced-motion: reduce) {
-        .gait-hero-visual img {
+    @media (prefers-reduced-motion: reduce) {#nsGaitShell .gait-hero-visual img{
             animation: none;
             transform: scale(1.15);
         }
-    }
-
-    /* ==========================================
-       PAGE CONTENT
-       ========================================== */
-    .gait-page-content {
+    }#nsGaitShell .gait-page-content{
         padding-block: 28px 60px;
         display: flex;
         flex-direction: column;
         gap: 24px;
-    }
-
-    .overall-progress-card {
+    }#nsGaitShell .overall-progress-card{
         background: #FFFFFF;
         border: 1px solid var(--gray-200);
         border-radius: var(--radius-lg);
         padding: 20px 26px;
         box-shadow: var(--shadow-sm);
-    }
-
-    .overall-progress-header {
+    }#nsGaitShell .overall-progress-header{
         display: flex;
         justify-content: space-between;
         align-items: baseline;
@@ -294,30 +222,22 @@ Gait Screening - NeuroSense AI
         font-weight: 600;
         color: var(--gray-600);
         margin-bottom: 10px;
-    }
-
-    .overall-progress-header span {
+    }#nsGaitShell .overall-progress-header span{
         font-weight: 800;
         font-size: 1.05rem;
         color: var(--primary);
-    }
-
-    .overall-progress-track {
+    }#nsGaitShell .overall-progress-track{
         height: 8px;
         background: var(--gray-100);
         border-radius: 99px;
         overflow: hidden;
-    }
-
-    .overall-progress-value {
+    }#nsGaitShell .overall-progress-value{
         display: block;
         height: 100%;
         width: 75%;
         background: var(--primary);
         border-radius: 99px;
-    }
-
-    .overall-progress-footer {
+    }#nsGaitShell .overall-progress-footer{
         display: flex;
         justify-content: space-between;
         gap: 12px;
@@ -325,32 +245,24 @@ Gait Screening - NeuroSense AI
         margin-top: 10px;
         font-size: 0.8rem;
         color: var(--gray-500);
-    }
-
-    .overall-progress-footer p {
+    }#nsGaitShell .overall-progress-footer p{
         margin: 0;
-    }
-
-    .module-overview-grid {
+    }#nsGaitShell .module-overview-grid{
         display: grid;
         grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 18px;
         align-items: start;
     }
 
-    @media (max-width: 980px) {
-        .module-overview-grid {
+    @media (max-width: 980px) {#nsGaitShell .module-overview-grid{
             grid-template-columns: 1fr 1fr;
         }
     }
 
-    @media (max-width: 640px) {
-        .module-overview-grid {
+    @media (max-width: 640px) {#nsGaitShell .module-overview-grid{
             grid-template-columns: 1fr;
         }
-    }
-
-    .module-overview-card {
+    }#nsGaitShell .module-overview-card{
         background: #FFFFFF;
         border: 1px solid var(--gray-200);
         border-radius: var(--radius-lg);
@@ -359,18 +271,14 @@ Gait Screening - NeuroSense AI
         display: flex;
         flex-direction: column;
         height: 100%;
-    }
-
-    .module-overview-card h2 {
+    }#nsGaitShell .module-overview-card h2{
         font-size: 0.98rem;
         font-weight: 700;
         margin: 0 0 16px;
         display: flex;
         align-items: center;
         gap: 10px;
-    }
-
-    .module-overview-card h2 i {
+    }#nsGaitShell .module-overview-card h2 i{
         width: 32px;
         height: 32px;
         border-radius: 9px;
@@ -381,18 +289,14 @@ Gait Screening - NeuroSense AI
         justify-content: center;
         font-size: 0.9rem;
         flex-shrink: 0;
-    }
-
-    .guidance-list {
+    }#nsGaitShell .guidance-list{
         list-style: none;
         margin: 0;
         padding: 0;
         display: flex;
         flex-direction: column;
         gap: 8px;
-    }
-
-    .guidance-list li {
+    }#nsGaitShell .guidance-list li{
         display: flex;
         align-items: center;
         gap: 10px;
@@ -402,53 +306,37 @@ Gait Screening - NeuroSense AI
         background: var(--gray-50);
         border-radius: var(--radius-sm);
         border: 1px solid var(--gray-100);
-    }
-
-    .guidance-list li i {
+    }#nsGaitShell .guidance-list li i{
         color: var(--success);
         font-size: 0.85rem;
         flex-shrink: 0;
-    }
-
-    .reference-clips-card {
+    }#nsGaitShell .reference-clips-card{
         display: flex;
         flex-direction: column;
         flex: 1;
-    }
-
-    .ref-videos {
+    }#nsGaitShell .ref-videos{
         display: flex;
         flex-direction: column;
         gap: 12px;
         margin-bottom: 14px;
-    }
-
-    .ref-video-item {
+    }#nsGaitShell .ref-video-item{
         position: relative;
         background: linear-gradient(160deg, var(--surface-dark) 0%, var(--surface-dark-2) 100%);
         border-radius: var(--radius-md);
         overflow: hidden;
         border: 1px solid var(--gray-200);
         box-shadow: var(--shadow-sm);
-    }
-
-    .ref-video-item.normal {
+    }#nsGaitShell .ref-video-item.normal{
         border-color: #A7F3D0;
-    }
-
-    .ref-video-item.abnormal {
+    }#nsGaitShell .ref-video-item.abnormal{
         border-color: #FECACA;
-    }
-
-    .ref-video-item video {
+    }#nsGaitShell .ref-video-item video{
         width: 100%;
         aspect-ratio: 16 / 9;
         object-fit: cover;
         display: block;
         background: linear-gradient(160deg, var(--surface-dark) 0%, var(--surface-dark-2) 100%);
-    }
-
-    .ref-video-item .label {
+    }#nsGaitShell .ref-video-item .label{
         display: flex;
         align-items: center;
         gap: 8px;
@@ -456,9 +344,7 @@ Gait Screening - NeuroSense AI
         font-size: 0.78rem;
         font-weight: 700;
         text-align: left;
-    }
-
-    .ref-video-item .label .label-icon {
+    }#nsGaitShell .ref-video-item .label .label-icon{
         width: 20px;
         height: 20px;
         border-radius: 50%;
@@ -468,36 +354,24 @@ Gait Screening - NeuroSense AI
         font-size: 0.68rem;
         flex-shrink: 0;
         color: #FFFFFF;
-    }
-
-    .ref-video-item.normal .label {
+    }#nsGaitShell .ref-video-item.normal .label{
         background: var(--success-light);
         color: var(--success-ink);
-    }
-
-    .ref-video-item.normal .label .label-icon {
+    }#nsGaitShell .ref-video-item.normal .label .label-icon{
         background: var(--success);
-    }
-
-    .ref-video-item.abnormal .label {
+    }#nsGaitShell .ref-video-item.abnormal .label{
         background: var(--danger-light);
         color: var(--danger-ink);
-    }
-
-    .ref-video-item.abnormal .label .label-icon {
+    }#nsGaitShell .ref-video-item.abnormal .label .label-icon{
         background: var(--danger);
-    }
-
-    .ref-video-item .label .label-sub {
+    }#nsGaitShell .ref-video-item .label .label-sub{
         margin-inline-start: auto;
         font-size: 0.68rem;
         font-weight: 600;
         opacity: 0.75;
         text-transform: uppercase;
         letter-spacing: 0.03em;
-    }
-
-    .ref-note {
+    }#nsGaitShell .ref-note{
         display: flex;
         align-items: flex-start;
         gap: 8px;
@@ -507,32 +381,22 @@ Gait Screening - NeuroSense AI
         margin: auto 0 0;
         padding-top: 12px;
         border-top: 1px solid var(--gray-100);
-    }
-
-    .ref-note i {
+    }#nsGaitShell .ref-note i{
         color: var(--primary);
         margin-top: 2px;
         flex-shrink: 0;
-    }
-
-    .gait-step {
+    }#nsGaitShell .gait-step{
         display: flex;
         align-items: flex-start;
         gap: 12px;
         padding: 11px 0;
         border-bottom: 1px solid var(--gray-100);
-    }
-
-    .gait-step:last-child {
+    }#nsGaitShell .gait-step:last-child{
         border-bottom: none;
         padding-bottom: 0;
-    }
-
-    .gait-step:first-child {
+    }#nsGaitShell .gait-step:first-child{
         padding-top: 0;
-    }
-
-    .gait-step-number {
+    }#nsGaitShell .gait-step-number{
         width: 24px;
         height: 24px;
         border-radius: 50%;
@@ -544,41 +408,27 @@ Gait Screening - NeuroSense AI
         align-items: center;
         justify-content: center;
         flex-shrink: 0;
-    }
-
-    .gait-step.is-done .gait-step-number {
+    }#nsGaitShell .gait-step.is-done .gait-step-number{
         background: var(--success);
         color: #FFFFFF;
-    }
-
-    .gait-step.is-current .gait-step-number {
+    }#nsGaitShell .gait-step.is-current .gait-step-number{
         background: var(--primary);
         color: #FFFFFF;
         box-shadow: 0 0 0 3px rgba(74, 108, 247, 0.16);
-    }
-
-    .gait-step.is-locked .gait-step-number {
+    }#nsGaitShell .gait-step.is-locked .gait-step-number{
         background: var(--gray-200);
         color: var(--gray-400);
-    }
-
-    .gait-step-copy {
+    }#nsGaitShell .gait-step-copy{
         flex: 1;
         min-width: 0;
-    }
-
-    .gait-step-copy strong {
+    }#nsGaitShell .gait-step-copy strong{
         display: block;
         font-size: 0.85rem;
         color: var(--ink);
         font-weight: 600;
-    }
-
-    .gait-step.is-locked .gait-step-copy strong {
+    }#nsGaitShell .gait-step.is-locked .gait-step-copy strong{
         color: var(--gray-400);
-    }
-
-    .gait-step-status {
+    }#nsGaitShell .gait-step-status{
         flex-shrink: 0;
         font-size: 0.68rem;
         font-weight: 700;
@@ -587,27 +437,19 @@ Gait Screening - NeuroSense AI
         padding: 3px 10px;
         border-radius: 99px;
         align-self: center;
-    }
-
-    .gait-step.is-done .gait-step-status {
+    }#nsGaitShell .gait-step.is-done .gait-step-status{
         background: var(--success-light);
         color: var(--success-ink);
-    }
-
-    .gait-step.is-current .gait-step-status {
+    }#nsGaitShell .gait-step.is-current .gait-step-status{
         background: var(--primary-light);
         color: var(--primary);
-    }
-
-    .gait-recording-section {
+    }#nsGaitShell .gait-recording-section{
         background: #FFFFFF;
         border: 1px solid var(--gray-200);
         border-radius: var(--radius-lg);
         box-shadow: var(--shadow-sm);
         overflow: hidden;
-    }
-
-    .gait-recording-heading {
+    }#nsGaitShell .gait-recording-heading{
         display: flex;
         justify-content: space-between;
         align-items: flex-start;
@@ -615,9 +457,7 @@ Gait Screening - NeuroSense AI
         flex-wrap: wrap;
         padding: 24px 26px 20px;
         border-bottom: 1px solid var(--gray-100);
-    }
-
-    .section-label {
+    }#nsGaitShell .section-label{
         display: inline-block;
         font-size: 0.7rem;
         font-weight: 700;
@@ -625,30 +465,22 @@ Gait Screening - NeuroSense AI
         text-transform: uppercase;
         letter-spacing: 0.06em;
         margin-bottom: 6px;
-    }
-
-    .gait-recording-heading h2 {
+    }#nsGaitShell .gait-recording-heading h2{
         font-size: 1.15rem;
         font-weight: 700;
         margin: 0 0 6px;
-    }
-
-    .gait-recording-heading p {
+    }#nsGaitShell .gait-recording-heading p{
         font-size: 0.88rem;
         color: var(--gray-500);
         margin: 0;
         max-width: 56ch;
         line-height: 1.6;
-    }
-
-    .recording-heading-actions {
+    }#nsGaitShell .recording-heading-actions{
         display: flex;
         align-items: center;
         gap: 12px;
         flex-wrap: wrap;
-    }
-
-    .completion-badge {
+    }#nsGaitShell .completion-badge{
         background: var(--primary-light);
         padding: 6px 14px;
         border-radius: 99px;
@@ -657,22 +489,16 @@ Gait Screening - NeuroSense AI
         color: var(--primary);
         border: 1px solid var(--primary-tint);
         white-space: nowrap;
-    }
-
-    .capture-body {
+    }#nsGaitShell .capture-body{
         padding: 22px 26px 26px;
-    }
-
-    .recording-methods {
+    }#nsGaitShell .recording-methods{
         display: inline-flex;
         gap: 6px;
         background: var(--gray-100);
         padding: 5px;
         border-radius: 12px;
         margin-bottom: 18px;
-    }
-
-    .recording-methods .btn {
+    }#nsGaitShell .recording-methods .btn{
         padding: 10px 18px;
         border: none;
         border-radius: 9px;
@@ -685,71 +511,50 @@ Gait Screening - NeuroSense AI
         display: flex;
         align-items: center;
         gap: 8px;
-    }
-
-    .recording-methods .btn:hover {
+    }#nsGaitShell .recording-methods .btn:hover{
         background: var(--primary);
         color: #FFFFFF;
-    }
-
-    .recording-methods .btn.active {
+    }#nsGaitShell .recording-methods .btn.active{
         background: #FFFFFF;
         color: var(--primary);
         box-shadow: var(--shadow-sm);
-    }
-
-    .recording-methods .btn.active:hover {
+    }#nsGaitShell .recording-methods .btn.active:hover{
         background: var(--primary-dark);
         color: #FFFFFF;
-    }
-
-    .capture-stage {
+    }#nsGaitShell .capture-stage{
         display: grid;
         grid-template-columns: minmax(0, 1fr) 260px;
         gap: 16px;
         align-items: stretch;
     }
 
-    @media (max-width: 760px) {
-        .capture-stage {
+    @media (max-width: 760px) {#nsGaitShell .capture-stage{
             grid-template-columns: minmax(0, 1fr);
         }
-    }
-
-    .camera-container {
+    }#nsGaitShell .camera-container{
         background: linear-gradient(160deg, var(--surface-dark) 0%, var(--surface-dark-2) 100%);
         border-radius: var(--radius-md);
         overflow: hidden;
         position: relative;
         min-height: 300px;
         border: 1px solid var(--gray-200);
-    }
-
-    .camera-container.live-active {
+    }#nsGaitShell .camera-container.live-active{
         min-height: 380px;
-    }
-
-    .camera-container video {
+    }#nsGaitShell .camera-container video{
         width: 100%;
         display: block;
         aspect-ratio: 4/3;
         object-fit: cover;
-    }
-
-    .camera-container.live-active video {
+    }#nsGaitShell .camera-container.live-active video{
         min-height: 340px;
-    }
-
-    #pose-canvas {
+    }#nsGaitShell #pose-canvas{
         position: absolute;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
         pointer-events: none;
-    }
-
-    .camera-overlay {
+    }#nsGaitShell .camera-overlay{
         position: absolute;
         top: 50%;
         left: 50%;
@@ -758,22 +563,16 @@ Gait Screening - NeuroSense AI
         text-align: center;
         pointer-events: none;
         width: 90%;
-    }
-
-    .camera-overlay h3 {
+    }#nsGaitShell .camera-overlay h3{
         font-size: 1.1rem;
         font-weight: 700;
         color: #FFFFFF;
         margin: 0 0 6px;
-    }
-
-    .camera-overlay p {
+    }#nsGaitShell .camera-overlay p{
         font-size: 0.83rem;
         opacity: 0.7;
         margin: 0;
-    }
-
-    .countdown-display {
+    }#nsGaitShell .countdown-display{
         position: absolute;
         top: 50%;
         left: 50%;
@@ -784,9 +583,7 @@ Gait Screening - NeuroSense AI
         text-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
         z-index: 20;
         display: none;
-    }
-
-    .recording-indicator {
+    }#nsGaitShell .recording-indicator{
         position: absolute;
         top: 14px;
         inset-inline-end: 14px;
@@ -800,9 +597,7 @@ Gait Screening - NeuroSense AI
         display: none;
         align-items: center;
         gap: 8px;
-    }
-
-    .recording-indicator .dot {
+    }#nsGaitShell .recording-indicator .dot{
         width: 8px;
         height: 8px;
         background: #FFFFFF;
@@ -811,19 +606,14 @@ Gait Screening - NeuroSense AI
         animation: blink 1.2s infinite;
     }
 
-    @keyframes blink {
-
-        0%,
-        100% {
+    @keyframes blink {0%,100%{
             opacity: 1;
         }
 
         50% {
             opacity: 0.25;
         }
-    }
-
-    .feedback-overlay {
+    }#nsGaitShell .feedback-overlay{
         position: absolute;
         bottom: 14px;
         left: 50%;
@@ -841,56 +631,36 @@ Gait Screening - NeuroSense AI
         border-bottom-width: 2px;
         max-width: 92%;
         font-weight: 500;
-    }
-
-    .feedback-overlay.success {
+    }#nsGaitShell .feedback-overlay.success{
         border-bottom-color: var(--success);
-    }
-
-    .feedback-overlay.warning {
+    }#nsGaitShell .feedback-overlay.warning{
         border-bottom-color: var(--warning);
-    }
-
-    .feedback-overlay.error {
+    }#nsGaitShell .feedback-overlay.error{
         border-bottom-color: var(--danger);
-    }
-
-    .feedback-overlay.info {
+    }#nsGaitShell .feedback-overlay.info{
         border-bottom-color: var(--primary);
-    }
-
-    .guidance-overlay {
+    }#nsGaitShell .guidance-overlay{
         position: absolute;
         inset: 0;
         pointer-events: none;
         z-index: 10;
-    }
-
-    .guidance-overlay .guide-line {
+    }#nsGaitShell .guidance-overlay .guide-line{
         position: absolute;
         border: 2px dashed rgba(255, 255, 255, 0.3);
         border-radius: 12px;
         opacity: 0;
         transition: opacity 0.4s ease, border-color 0.4s ease;
-    }
-
-    .guidance-overlay .guide-line.active {
+    }#nsGaitShell .guidance-overlay .guide-line.active{
         opacity: 1;
-    }
-
-    .guidance-overlay .guide-line.side-view {
+    }#nsGaitShell .guidance-overlay .guide-line.side-view{
         top: 8%;
         left: 14%;
         right: 14%;
         bottom: 8%;
         border-color: rgba(74, 108, 247, 0.55);
-    }
-
-    .guidance-overlay .guide-line.side-view.active {
+    }#nsGaitShell .guidance-overlay .guide-line.side-view.active{
         border-color: rgba(16, 185, 129, 0.65);
-    }
-
-    .guidance-overlay .guide-label {
+    }#nsGaitShell .guidance-overlay .guide-label{
         position: absolute;
         bottom: 21%;
         left: 50%;
@@ -904,24 +674,13 @@ Gait Screening - NeuroSense AI
         opacity: 0;
         transition: opacity 0.4s ease;
         white-space: nowrap;
-    }
-
-    .guidance-overlay .guide-label.active {
+    }#nsGaitShell .guidance-overlay .guide-label.active{
         opacity: 1;
-    }
-
-    .guidance-overlay .guide-label.success {
+    }#nsGaitShell .guidance-overlay .guide-label.success{
         background: rgba(16, 185, 129, 0.88);
-    }
-
-    .guidance-overlay .guide-label.warning {
+    }#nsGaitShell .guidance-overlay .guide-label.warning{
         background: rgba(245, 158, 11, 0.88);
-    }
-
-    /* ------------------------------------------
-       LIVE QUALITY CHECKS — prominent
-       ------------------------------------------ */
-    .quality-panel {
+    }#nsGaitShell .quality-panel{
         background: #FFFFFF;
         border: 1px solid var(--gray-200);
         border-top: 3px solid var(--primary);
@@ -931,9 +690,7 @@ Gait Screening - NeuroSense AI
         box-shadow: var(--shadow-md);
         display: flex;
         flex-direction: column;
-    }
-
-    .quality-panel .panel-title {
+    }#nsGaitShell .quality-panel .panel-title{
         font-size: 0.8rem;
         font-weight: 800;
         color: var(--ink);
@@ -941,9 +698,7 @@ Gait Screening - NeuroSense AI
         display: flex;
         align-items: center;
         gap: 8px;
-    }
-
-    .quality-panel .panel-title::before {
+    }#nsGaitShell .quality-panel .panel-title::before{
         content: '';
         width: 8px;
         height: 8px;
@@ -951,22 +706,17 @@ Gait Screening - NeuroSense AI
         background: var(--primary);
         flex-shrink: 0;
         box-shadow: 0 0 0 3px var(--primary-light);
-    }
-
-    .quality-indicators {
+    }#nsGaitShell .quality-indicators{
         display: flex;
         flex-direction: column;
         gap: 8px;
     }
 
-    @media (max-width: 760px) {
-        .quality-indicators {
+    @media (max-width: 760px) {#nsGaitShell .quality-indicators{
             flex-direction: row;
             flex-wrap: wrap;
         }
-    }
-
-    .quality-indicator {
+    }#nsGaitShell .quality-indicator{
         display: flex;
         align-items: center;
         gap: 9px;
@@ -978,65 +728,43 @@ Gait Screening - NeuroSense AI
         background: var(--gray-50);
         border: 1px solid var(--gray-200);
         transition: var(--transition);
-    }
-
-    .quality-indicator .dot {
+    }#nsGaitShell .quality-indicator .dot{
         width: 9px;
         height: 9px;
         border-radius: 50%;
         display: inline-block;
         flex-shrink: 0;
-    }
-
-    .quality-indicator .dot.ready {
+    }#nsGaitShell .quality-indicator .dot.ready{
         background: var(--gray-300);
-    }
-
-    .quality-indicator .dot.good {
+    }#nsGaitShell .quality-indicator .dot.good{
         background: var(--success);
         box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.18);
-    }
-
-    .quality-indicator .dot.warning {
+    }#nsGaitShell .quality-indicator .dot.warning{
         background: var(--warning);
         box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.18);
-    }
-
-    .quality-indicator .dot.bad {
+    }#nsGaitShell .quality-indicator .dot.bad{
         background: var(--danger);
         box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.18);
-    }
-
-    .quality-indicator.active {
+    }#nsGaitShell .quality-indicator.active{
         color: var(--ink);
-    }
-
-    .quality-indicator.active:has(.dot.good) {
+    }#nsGaitShell .quality-indicator.active:has(.dot.good){
         background: var(--success-light);
         border-color: #A7F3D0;
         color: var(--success-ink);
-    }
-
-    .quality-indicator.active:has(.dot.warning) {
+    }#nsGaitShell .quality-indicator.active:has(.dot.warning){
         background: var(--warning-light);
         border-color: #FDE68A;
         color: #92400E;
-    }
-
-    .quality-indicator.active:has(.dot.bad) {
+    }#nsGaitShell .quality-indicator.active:has(.dot.bad){
         background: var(--danger-light);
         border-color: #FECACA;
         color: var(--danger-ink);
-    }
-
-    .btn-group {
+    }#nsGaitShell .btn-group{
         display: flex;
         gap: 8px;
         flex-wrap: wrap;
         margin-top: 14px;
-    }
-
-    .btn-group .btn {
+    }#nsGaitShell .btn-group .btn{
         padding: 11px 20px;
         border: none;
         border-radius: var(--radius-sm);
@@ -1047,80 +775,54 @@ Gait Screening - NeuroSense AI
         display: flex;
         align-items: center;
         gap: 8px;
-    }
-
-    .btn-group .btn-success {
+    }#nsGaitShell .btn-group .btn-success{
         background: var(--success);
         color: #FFFFFF;
-    }
-
-    .btn-group .btn-success:hover:not(:disabled) {
+    }#nsGaitShell .btn-group .btn-success:hover:not(:disabled){
         background: #059669;
         color: #FFFFFF;
-    }
-
-    .btn-group .btn-danger {
+    }#nsGaitShell .btn-group .btn-danger{
         background: var(--danger);
         color: #FFFFFF;
-    }
-
-    .btn-group .btn-danger:hover:not(:disabled) {
+    }#nsGaitShell .btn-group .btn-danger:hover:not(:disabled){
         background: #DC2626;
         color: #FFFFFF;
-    }
-
-    .btn-group .btn-secondary {
+    }#nsGaitShell .btn-group .btn-secondary{
         background: #FFFFFF;
         color: var(--gray-600);
         border: 1px solid var(--gray-200);
-    }
-
-    .btn-group .btn-secondary:hover:not(:disabled) {
+    }#nsGaitShell .btn-group .btn-secondary:hover:not(:disabled){
         background: var(--gray-100);
         color: var(--ink);
-    }
-
-    .btn-group .btn:disabled {
+    }#nsGaitShell .btn-group .btn:disabled{
         opacity: 0.45;
         cursor: not-allowed;
-    }
-
-    .record-meta {
+    }#nsGaitShell .record-meta{
         display: flex;
         align-items: center;
         gap: 14px;
         margin-top: 12px;
         flex-wrap: wrap;
-    }
-
-    .record-tip {
+    }#nsGaitShell .record-tip{
         font-size: 0.78rem;
         color: var(--gray-500);
         display: inline-flex;
         align-items: center;
         gap: 6px;
-    }
-
-    #recording-timer-display {
+    }#nsGaitShell #recording-timer-display{
         font-weight: 700;
         color: var(--danger);
         font-size: 0.85rem;
-    }
-
-    .video-playback {
+    }#nsGaitShell .video-playback{
         width: 100%;
         margin-top: 14px;
         display: none;
         border-radius: var(--radius-md);
         background: linear-gradient(160deg, var(--surface-dark) 0%, var(--surface-dark-2) 100%);
         border: 1px solid var(--gray-200);
-    }
-
-    .hidden {
+    }#nsGaitShell .hidden{
         display: none !important;
-    }
-
-    .upload-area {
+    }#nsGaitShell .upload-area{
         display: block;
         padding: 56px 24px;
         border: 2px dashed var(--gray-300);
@@ -1129,32 +831,22 @@ Gait Screening - NeuroSense AI
         cursor: pointer;
         background: var(--gray-50);
         transition: var(--transition);
-    }
-
-    .upload-area:hover {
+    }#nsGaitShell .upload-area:hover{
         border-color: var(--primary);
         background: var(--primary-light);
-    }
-
-    .upload-area .icon {
+    }#nsGaitShell .upload-area .icon{
         font-size: 1.9rem;
         display: block;
         margin-bottom: 10px;
-    }
-
-    .upload-area strong {
+    }#nsGaitShell .upload-area strong{
         display: block;
         font-size: 0.98rem;
         color: var(--ink);
         margin-bottom: 4px;
-    }
-
-    .upload-area small {
+    }#nsGaitShell .upload-area small{
         color: var(--gray-500);
         font-size: 0.78rem;
-    }
-
-    .submission-panel {
+    }#nsGaitShell .submission-panel{
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -1163,16 +855,12 @@ Gait Screening - NeuroSense AI
         background: var(--gray-50);
         border-top: 1px solid var(--gray-200);
         padding: 20px 26px;
-    }
-
-    .submission-copy {
+    }#nsGaitShell .submission-copy{
         display: flex;
         align-items: center;
         gap: 14px;
         min-width: 0;
-    }
-
-    .submission-icon {
+    }#nsGaitShell .submission-icon{
         font-size: 1.05rem;
         color: var(--primary);
         background: #FFFFFF;
@@ -1184,22 +872,16 @@ Gait Screening - NeuroSense AI
         border-radius: 11px;
         border: 1px solid var(--gray-200);
         flex-shrink: 0;
-    }
-
-    .submission-copy h3 {
+    }#nsGaitShell .submission-copy h3{
         font-size: 0.92rem;
         font-weight: 700;
         margin: 0 0 2px;
-    }
-
-    .submission-copy p {
+    }#nsGaitShell .submission-copy p{
         font-size: 0.81rem;
         color: var(--gray-500);
         margin: 0;
         line-height: 1.5;
-    }
-
-    .button-submit {
+    }#nsGaitShell .button-submit{
         background: var(--primary);
         color: #FFFFFF;
         padding: 13px 30px;
@@ -1214,29 +896,21 @@ Gait Screening - NeuroSense AI
         transition: var(--transition);
         box-shadow: 0 6px 18px rgba(74, 108, 247, 0.28);
         flex-shrink: 0;
-    }
-
-    .button-submit:disabled {
+    }#nsGaitShell .button-submit:disabled{
         background: var(--gray-300);
         box-shadow: none;
         cursor: not-allowed;
-    }
-
-    .button-submit:not(:disabled):hover {
+    }#nsGaitShell .button-submit:not(:disabled):hover{
         background: var(--primary-dark);
         color: #FFFFFF;
-    }
-
-    .processing-card {
+    }#nsGaitShell .processing-card{
         text-align: center;
         padding: 48px 24px;
         background: #FFFFFF;
         border-radius: var(--radius-lg);
         border: 1px solid var(--gray-200);
         box-shadow: var(--shadow-sm);
-    }
-
-    .processing-spinner {
+    }#nsGaitShell .processing-spinner{
         width: 46px;
         height: 46px;
         border: 3px solid var(--gray-200);
@@ -1250,38 +924,28 @@ Gait Screening - NeuroSense AI
         to {
             transform: rotate(360deg);
         }
-    }
-
-    .processing-card h2 {
+    }#nsGaitShell .processing-card h2{
         font-size: 1.1rem;
         font-weight: 700;
         margin: 0 0 6px;
-    }
-
-    .processing-card p {
+    }#nsGaitShell .processing-card p{
         color: var(--gray-500);
         margin: 0;
-    }
-
-    .progress-track {
+    }#nsGaitShell .progress-track{
         height: 8px;
         background: var(--gray-100);
         border-radius: 99px;
         overflow: hidden;
         max-width: 380px;
         margin: 18px auto 0;
-    }
-
-    .progress-track span {
+    }#nsGaitShell .progress-track span{
         display: block;
         height: 100%;
         width: 0%;
         background: var(--primary);
         border-radius: 99px;
         transition: width 0.3s ease;
-    }
-
-    .results-card {
+    }#nsGaitShell .results-card{
         background: #FFFFFF;
         border-radius: var(--radius-xl);
         border: 1px solid var(--gray-200);
@@ -1289,22 +953,16 @@ Gait Screening - NeuroSense AI
         text-align: center;
         overflow: hidden;
         position: relative;
-    }
-
-    .results-card::before {
+    }#nsGaitShell .results-card::before{
         content: '';
         position: absolute;
         top: 0;
         inset-inline: 0;
         height: 5px;
         background: var(--primary-gradient);
-    }
-
-    .results-body {
+    }#nsGaitShell .results-body{
         padding: 50px 32px 36px;
-    }
-
-    .results-tick {
+    }#nsGaitShell .results-tick{
         width: 68px;
         height: 68px;
         border-radius: 50%;
@@ -1316,23 +974,17 @@ Gait Screening - NeuroSense AI
         font-size: 1.8rem;
         margin: 0 auto 20px;
         box-shadow: 0 12px 30px rgba(16, 185, 129, 0.35);
-    }
-
-    .results-card h2 {
+    }#nsGaitShell .results-card h2{
         font-size: 1.7rem;
         font-weight: 800;
         margin: 0 0 10px;
-    }
-
-    .results-card>.results-body>p {
+    }#nsGaitShell .results-card>.results-body>p{
         color: var(--gray-500);
         font-size: 1rem;
         max-width: 52ch;
         margin: 0 auto;
         line-height: 1.7;
-    }
-
-    .module-chips {
+    }#nsGaitShell .module-chips{
         display: grid;
         grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 12px;
@@ -1340,13 +992,10 @@ Gait Screening - NeuroSense AI
         margin: 28px auto 30px;
     }
 
-    @media (max-width: 600px) {
-        .module-chips {
+    @media (max-width: 600px) {#nsGaitShell .module-chips{
             grid-template-columns: 1fr;
         }
-    }
-
-    .module-chip {
+    }#nsGaitShell .module-chip{
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -1355,9 +1004,7 @@ Gait Screening - NeuroSense AI
         background: var(--gray-50);
         border: 1px solid var(--gray-200);
         border-radius: var(--radius-md);
-    }
-
-    .module-chip .m-icon {
+    }#nsGaitShell .module-chip .m-icon{
         width: 40px;
         height: 40px;
         border-radius: 11px;
@@ -1367,33 +1014,23 @@ Gait Screening - NeuroSense AI
         align-items: center;
         justify-content: center;
         font-size: 1.1rem;
-    }
-
-    .module-chip .m-name {
+    }#nsGaitShell .module-chip .m-name{
         font-size: 0.86rem;
         font-weight: 700;
         color: var(--ink);
-    }
-
-    .module-chip .m-status {
+    }#nsGaitShell .module-chip .m-status{
         font-size: 0.72rem;
         font-weight: 600;
         color: var(--success-ink);
-    }
-
-    .module-chip.current {
+    }#nsGaitShell .module-chip.current{
         background: var(--primary-light);
         border-color: var(--primary);
-    }
-
-    .results-actions {
+    }#nsGaitShell .results-actions{
         display: flex;
         gap: 12px;
         flex-wrap: wrap;
         justify-content: center;
-    }
-
-    .results-actions a {
+    }#nsGaitShell .results-actions a{
         padding: 12px 24px;
         border-radius: var(--radius-sm);
         text-decoration: none;
@@ -1404,44 +1041,30 @@ Gait Screening - NeuroSense AI
         gap: 8px;
         transition: var(--transition);
         border: 1px solid transparent;
-    }
-
-    .results-actions .primary {
+    }#nsGaitShell .results-actions .primary{
         background: var(--primary);
         color: #FFFFFF;
         padding: 13px 30px;
         font-weight: 700;
         box-shadow: 0 8px 22px rgba(74, 108, 247, 0.3);
-    }
-
-    .results-actions .primary:hover {
+    }#nsGaitShell .results-actions .primary:hover{
         background: var(--primary-dark);
         color: #FFFFFF;
-    }
-
-    .results-actions .outline {
+    }#nsGaitShell .results-actions .outline{
         border-color: var(--primary);
         color: var(--primary);
         background: #FFFFFF;
-    }
-
-    .results-actions .outline:hover {
+    }#nsGaitShell .results-actions .outline:hover{
         background: var(--primary-light);
         color: var(--primary-dark);
-    }
-
-    .results-actions .ghost {
+    }#nsGaitShell .results-actions .ghost{
         background: var(--gray-100);
         color: var(--gray-600);
         border-color: var(--gray-200);
-    }
-
-    .results-actions .ghost:hover {
+    }#nsGaitShell .results-actions .ghost:hover{
         background: var(--gray-200);
         color: var(--ink);
-    }
-
-    .results-footnote {
+    }#nsGaitShell .results-footnote{
         display: flex;
         align-items: center;
         justify-content: center;
@@ -1451,33 +1074,23 @@ Gait Screening - NeuroSense AI
         border-top: 1px solid var(--gray-200);
         font-size: 0.8rem;
         color: var(--gray-500);
-    }
-
-    .results-footnote i {
+    }#nsGaitShell .results-footnote i{
         color: var(--primary);
-    }
-
-    .error-card {
+    }#nsGaitShell .error-card{
         background: var(--danger-light);
         border: 1px solid #FCA5A5;
         padding: 32px;
         border-radius: var(--radius-lg);
         text-align: center;
-    }
-
-    .error-card h2 {
+    }#nsGaitShell .error-card h2{
         color: var(--danger-ink);
         font-size: 1.1rem;
         font-weight: 700;
         margin: 0 0 8px;
-    }
-
-    .error-card p {
+    }#nsGaitShell .error-card p{
         color: #7F1D1D;
         margin: 0 0 18px;
-    }
-
-    .error-card .button-primary {
+    }#nsGaitShell .error-card .button-primary{
         background: var(--danger);
         color: #FFFFFF;
         padding: 11px 26px;
@@ -1486,31 +1099,17 @@ Gait Screening - NeuroSense AI
         font-weight: 600;
         cursor: pointer;
         transition: var(--transition);
-    }
-
-    .error-card .button-primary:hover {
+    }#nsGaitShell .error-card .button-primary:hover{
         background: #DC2626;
         color: #FFFFFF;
-    }
-
-    /* Reason-specific error styling — wrong angle gets a warmer warning tone */
-    .error-card[data-reason="wrong_angle"],
-    .error-card[data-reason="not_side_view"] {
+    }#nsGaitShell .error-card[data-reason="wrong_angle"],#nsGaitShell .error-card[data-reason="not_side_view"]{
         border-color: #FCD34D;
         background: #FFFBEB;
-    }
-
-    .error-card[data-reason="wrong_angle"] h2,
-    .error-card[data-reason="not_side_view"] h2 {
+    }#nsGaitShell .error-card[data-reason="wrong_angle"] h2,#nsGaitShell .error-card[data-reason="not_side_view"] h2{
         color: #92400E;
-    }
-
-    .error-card[data-reason="wrong_angle"] p,
-    .error-card[data-reason="not_side_view"] p {
+    }#nsGaitShell .error-card[data-reason="wrong_angle"] p,#nsGaitShell .error-card[data-reason="not_side_view"] p{
         color: #78350F;
-    }
-
-    .screening-security-banner {
+    }#nsGaitShell .screening-security-banner{
         display: flex;
         align-items: center;
         gap: 16px;
@@ -1522,138 +1121,359 @@ Gait Screening - NeuroSense AI
         flex-wrap: wrap;
         border: 1px solid var(--gray-200);
         box-shadow: var(--shadow-sm);
-    }
-
-    .screening-security-banner>i {
+    }#nsGaitShell .screening-security-banner>i{
         color: var(--primary);
         font-size: 1.1rem;
-    }
-
-    .screening-security-banner strong {
+    }#nsGaitShell .screening-security-banner strong{
         color: var(--ink);
-    }
-
-    .screening-security-banner a {
+    }#nsGaitShell .screening-security-banner a{
         color: var(--primary);
         text-decoration: none;
         margin-inline-start: auto;
         font-size: 0.8rem;
         font-weight: 600;
         white-space: nowrap;
-    }
-
-    .screening-security-banner a:hover {
+    }#nsGaitShell .screening-security-banner a:hover{
         color: var(--primary-dark);
         text-decoration: underline;
     }
 
-    @media (max-width: 600px) {
-        .gait-page-container {
+    @media (max-width: 600px) {#nsGaitShell .gait-page-container{
             padding-inline: 16px;
-        }
-
-        .module-overview-card {
+        }#nsGaitShell .module-overview-card{
             padding: 18px;
-        }
-
-        .gait-recording-heading,
-        .capture-body,
-        .submission-panel {
+        }#nsGaitShell .gait-recording-heading,#nsGaitShell .capture-body,#nsGaitShell .submission-panel{
             padding-inline: 18px;
-        }
-
-        .submission-panel {
+        }#nsGaitShell .submission-panel{
             flex-direction: column;
             align-items: stretch;
-        }
-
-        .button-submit {
+        }#nsGaitShell .button-submit{
             justify-content: center;
-        }
-
-        .feedback-overlay {
+        }#nsGaitShell .feedback-overlay{
             font-size: 0.72rem;
             padding: 7px 13px;
-        }
-
-        .camera-container.live-active {
+        }#nsGaitShell .camera-container.live-active{
             min-height: 280px;
-        }
-
-        .camera-container.live-active video {
+        }#nsGaitShell .camera-container.live-active video{
             min-height: 240px;
-        }
-
-        .screening-security-banner a {
+        }#nsGaitShell .screening-security-banner a{
             margin-inline-start: 0;
         }
     }
 
-    @media (prefers-reduced-motion: reduce) {
-
-        .gait-screening-page * {
+    @media (prefers-reduced-motion: reduce) {#nsGaitShell .gait-screening-page *{
             animation-duration: 0.01ms !important;
             animation-iteration-count: 1 !important;
             transition-duration: 0.01ms !important;
         }
     }
-</style>
-{% endblock %}
 
-{% block content %}
+/* Option B: four colored stage cards with a focused active state. */
+#nsGaitShell .audio-journey-panel {margin:16px 0 20px;padding:14px;background:#fff;border:1px solid #dfe9f7;border-radius:15px;box-shadow:0 4px 14px #23456a05;}
+#nsGaitShell .audio-journey-panel .audio-journey {display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:0;padding:0;border:0;border-radius:0;box-shadow:none;overflow:visible;background:none;}
+#nsGaitShell .audio-journey-panel .audio-journey li {--tile-accent:#10b981;--tile-tint:#d3f8e8;--tile-ink:#08784e;display:flex;flex-direction:row;text-align:start;align-items:center;gap:10px;padding:20px 14px 16px;min-height:102px;background:#fff;border:1px solid #e1e9f4;border-radius:11px;isolation:auto;transition:box-shadow .2s,border-color .2s;}
+#nsGaitShell .audio-journey-panel .audio-journey li:nth-child(2) {--tile-accent:#2479ee;--tile-tint:#dcecff;--tile-ink:#1766d7;}
+#nsGaitShell .audio-journey-panel .audio-journey li:nth-child(3) {--tile-accent:#ffd43b;--tile-tint:#fff0b2;--tile-ink:#775100;}
+#nsGaitShell .audio-journey-panel .audio-journey li:nth-child(4) {--tile-accent:#9a50ef;--tile-tint:#ebd9ff;--tile-ink:#7530c4;}
+#nsGaitShell .audio-journey-panel .audio-journey li.current {background:linear-gradient(135deg,#f3f8ff,#eaf3ff);border-color:#bdd7ff;box-shadow:0 4px 12px #2166cb0d;}
+#nsGaitShell .audio-journey-panel .audio-journey li::before,#nsGaitShell .audio-journey-panel .audio-journey li:first-child::before,#nsGaitShell .audio-journey-panel .audio-journey li.current::before {content:'';position:absolute;inset:0 0 auto;height:5px;background:var(--tile-accent);border:0;border-radius:11px 11px 0 0;clip-path:none;transform:none;z-index:auto;}
+#nsGaitShell .audio-journey-panel .audio-journey li::after {content:none;display:none;}
+#nsGaitShell .audio-journey-panel .audio-journey .journey-stage {display:grid;place-items:center;flex:none;width:26px;height:26px;background:var(--tile-tint);color:var(--tile-ink);font-size:12px;border-radius:50%;}
+#nsGaitShell .audio-journey-panel .audio-journey .current .journey-stage {background:#ffd43b;color:#6a4900;}
+#nsGaitShell .audio-journey-panel .audio-journey .journey-number {width:44px;height:44px;flex:none;background:var(--tile-tint);color:var(--tile-ink);font-size:20px;border-radius:50%;box-shadow:none;}
+#nsGaitShell .audio-journey-panel .audio-journey .complete .journey-number {background:#10aa79;color:#fff;}
+#nsGaitShell .audio-journey-panel .audio-journey li:nth-child(3) .journey-number {background:#ffe16d;}
+#nsGaitShell .audio-journey-panel .journey-copy strong {color:#172e50;font-size:14px;line-height:1.5;font-weight:700;}
+#nsGaitShell .audio-journey-panel .current .journey-copy strong {color:#155bbb;}
+#nsGaitShell .audio-journey-panel .journey-copy small {color:#667b99;font-size:12px;line-height:1.6;}
+#nsGaitShell .journey-progress-row {display:flex;gap:16px;align-items:center;margin-top:14px;}
+#nsGaitShell .journey-progress-track {height:8px;flex:1;min-width:0;background:#e5ecf6;border-radius:99px;overflow:hidden;}
+#nsGaitShell .journey-progress-fill {width:50%;height:100%;border-radius:inherit;background:linear-gradient(90deg,#10b981,#2479ee);}
+#nsGaitShell .journey-progress-label {flex:none;color:#5c7496;font-size:12px;font-weight:600;}
+@media(hover:hover){#nsGaitShell .audio-journey-panel .audio-journey li:hover{border-color:#c4d7ef;box-shadow:0 4px 13px #23456a0b;}}
+@media(max-width:1100px){#nsGaitShell .audio-journey-panel .audio-journey{grid-template-columns:repeat(2,minmax(0,1fr));}#nsGaitShell .audio-journey-panel .audio-journey li{min-height:95px;}}
+@media(max-width:520px){#nsGaitShell .audio-journey-panel{padding:10px;}#nsGaitShell .audio-journey-panel .audio-journey{gap:8px;}#nsGaitShell .audio-journey-panel .audio-journey li{display:grid;grid-template-columns:24px 36px;justify-content:start;gap:8px;padding:15px 10px 12px;}#nsGaitShell .audio-journey-panel .journey-copy{grid-column:1/-1;}#nsGaitShell .audio-journey-panel .audio-journey .journey-number{width:36px;height:36px;font-size:17px;}#nsGaitShell .audio-journey-panel .audio-journey .journey-stage{width:24px;height:24px;font-size:11px;}#nsGaitShell .audio-journey-panel .journey-copy strong{font-size:13px;}#nsGaitShell .audio-journey-panel .journey-copy small{font-size:11px;}#nsGaitShell .journey-progress-label{font-size:11px;}}
+@media(prefers-reduced-motion:reduce){#nsGaitShell .audio-journey-panel .audio-journey li{transition:none;}}
+
+
+/* Focused layout: existing workspace theme and sidebar stay inherited. */
+#nsGaitShell {--audio-ink:#172e50;--audio-blue:#2166cb;}
+#nsGaitShell .ns-workspace{min-width:0;}
+#nsGaitShell .ns-topbar{min-height:64px;}
+#nsGaitShell .ns-breadcrumb{display:flex;align-items:center;gap:10px;font-size:13px;}
+#nsGaitShell .ns-breadcrumb i{font-size:9px;color:#8aa0ba;}
+#nsGaitShell .ns-topbar-end{font-size:12px;color:#65758c;}
+#nsGaitShell .ns-main-content{padding:22px clamp(16px,2vw,30px) 30px;background:linear-gradient(#f5faff,#fff 650px);}
+#nsGaitShell .gait-screening-page{--primary:#2166cb;--primary-dark:#1654b0;--primary-light:#eef5ff;--gray-700:#40546e;--primary-gradient:linear-gradient(110deg,#2166cb,#347ee2);max-width:1240px;margin:0 auto;background:none;font-family:Roboto,Arial,sans-serif;font-size:14px;}
+#nsGaitShell .gait-screening-page,#nsGaitShell .gait-screening-page *{box-sizing:border-box;}
+#nsGaitShell .gait-screening-page[dir=rtl]{font-family:'Noto Naskh Arabic',Arial,sans-serif;}
+#nsGaitShell [hidden],#nsGaitShell .hidden{display:none!important;}
+#nsGaitShell .gait-page-container{max-width:none;padding:0;width:100%;}
+#nsGaitShell .gait-page-content{padding:0;}
+#nsGaitShell .gait-hero{position:relative;border:1px solid #deebfa;border-radius:16px;background:linear-gradient(110deg,#fff 55%,#f1f8ff);padding:22px 28px;overflow:hidden;}
+#nsGaitShell .gait-hero-layout{display:grid;grid-template-columns:minmax(0,1fr) 240px;gap:20px;min-height:150px;align-items:center;}
+#nsGaitShell .gait-hero h1{font-size:clamp(28px,2.7vw,38px);margin:6px 0 10px;line-height:1.25;}
+#nsGaitShell .gait-hero-copy p{font-size:15px;margin:0;color:#526d91;line-height:1.7;max-width:none;}
+#nsGaitShell .gait-hero-badge{background:none;border:0;padding:0;font-size:10px;letter-spacing:.1em;color:#547093;}
+#nsGaitShell .gait-hero-visual{display:grid;place-items:center;width:auto;}
+#nsGaitShell .gait-walker-art{width:240px;height:150px;display:block;}
+#nsGaitShell .gait-stage-pill{position:absolute;top:14px;inset-inline-end:16px;font-size:11px;padding:6px 10px;background:#e4f1ff;color:#2166cb;border-radius:20px;}
+#nsGaitShell .audio-journey-panel{padding:0;background:none;border:0;box-shadow:none;margin:18px 0;}
+#nsGaitShell .audio-journey{list-style:none;}
+#nsGaitShell .audio-journey-panel .audio-journey li{position:relative;min-height:96px;}
+#nsGaitShell .audio-journey-panel .audio-journey li.current{background:#fffbed;border-color:#ffe18b;box-shadow:none;}
+#nsGaitShell .audio-journey-panel .current .journey-copy strong{color:#775100;}
+#nsGaitShell .audio-journey-panel .audio-journey .complete .journey-number{background:var(--tile-tint);color:var(--tile-ink);}
+#nsGaitShell .journey-number{display:grid;place-items:center;}
+#nsGaitShell .journey-copy strong,#nsGaitShell .journey-copy small{display:block;}
+#nsGaitShell .journey-progress-fill{width:75%;background:linear-gradient(90deg,#10b981 0 33.33%,#2479ee 33.33% 66.66%,#ffc42e 66.66%);}
+#nsGaitShell .module-overview-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:16px;margin:0 0 18px;align-items:stretch;}
+#nsGaitShell .module-overview-card,#nsGaitShell .gait-recording-section{min-width:0;min-height:0;height:auto;padding:18px;border:1px solid #dfe9f6;border-radius:14px;background:#fff;box-shadow:0 4px 16px #23466b04;}
+#nsGaitShell .module-overview-card h2{font-size:16px;margin:0 0 16px;display:flex;align-items:center;gap:8px;}
+#nsGaitShell .reference-clips-card{grid-column:1/-1;}
+#nsGaitShell .ref-videos{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px;margin:0;}
+#nsGaitShell .ref-video-item{display:grid;grid-template-columns:minmax(120px,220px) 1fr;align-items:center;gap:14px;border:0;background:none;padding:0;box-shadow:none;}
+#nsGaitShell .ref-video-item video{width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:9px;background:#dce6f2;}
+#nsGaitShell .ref-video-item .label{display:flex;gap:7px;align-items:center;background:none;padding:0;font-size:13px;color:#172e50;border:0;}
+#nsGaitShell .label-icon{display:none;}
+#nsGaitShell .gait-prep-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;list-style:none;padding:0;margin:0;}
+#nsGaitShell .gait-prep-grid li{display:flex;align-items:center;gap:10px;font-size:13px;}
+#nsGaitShell .gait-prep-icon{width:44px;height:44px;border-radius:13px;background:#eaf4ff;color:#2166cb;display:grid;place-items:center;font-size:21px;flex:none;}
+#nsGaitShell .gait-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;list-style:none;padding:0;margin:0;}
+#nsGaitShell .gait-steps li{position:relative;display:flex;align-items:center;flex-direction:column;gap:9px;text-align:center;font-size:12px;}
+#nsGaitShell .gait-steps li:not(:last-child):after{content:'';position:absolute;height:1px;background:#d5e7ff;width:calc(100% - 34px);top:17px;inset-inline-start:calc(50% + 20px);}
+#nsGaitShell .gait-step-number{display:grid;place-items:center;width:34px;height:34px;border:1px solid #cfe1fa;border-radius:50%;background:#f7fbff;color:#2166cb;font-weight:700;font-size:12px;}
+#nsGaitShell .gait-steps i{font-size:24px;color:#2166cb;}
+#nsGaitShell .gait-recording-heading{display:flex;justify-content:space-between;gap:12px;margin-bottom:18px;}
+#nsGaitShell .gait-recording-heading h2{font-size:20px;margin:0 0 6px;}
+#nsGaitShell .gait-recording-heading p{font-size:13px;margin:0;color:#617794;}
+#nsGaitShell .completion-badge{border:0;background:#f0f5fc;color:#426386;padding:7px 12px;font-size:12px;white-space:nowrap;}
+#nsGaitShell .recording-methods{display:flex;max-width:510px;padding:4px;background:#f2f7ff;border:1px solid #dfe9f7;border-radius:11px;margin:0 0 16px;}
+#nsGaitShell .recording-methods .btn{flex:1;justify-content:center;padding:10px 12px;border:0;border-radius:8px;font-family:inherit;font-size:13px;}
+#nsGaitShell .recording-methods .btn.active{background:#2166cb;color:#fff;box-shadow:0 4px 10px #2166cb22;}
+#nsGaitShell .capture-stage{display:grid;grid-template-columns:minmax(0,1fr) minmax(230px,30%);gap:12px 16px;align-items:stretch;}
+#nsGaitShell .camera-container,#nsGaitShell .camera-container.live-active{grid-column:1;grid-row:1;min-height:0;background:radial-gradient(ellipse at 50% 30%,#293e57,#18293e);aspect-ratio:16/10;border:1px solid #263b55;}
+#nsGaitShell .camera-container video,#nsGaitShell .camera-container.live-active video{width:100%;height:100%;aspect-ratio:auto;min-height:0;object-fit:contain;}
+#nsGaitShell .camera-container:not(.live-active):before{content:'';position:absolute;inset:20px;border:1px solid #76b8f440;border-radius:10px;pointer-events:none;}
+#nsGaitShell .gait-camera-art{width:180px;height:112px;display:block;margin:0 auto 8px;}
+#nsGaitShell .gait-camera-art>circle{fill:#263d57;}
+#nsGaitShell .camera-overlay h3{font-size:18px;color:white;}
+#nsGaitShell .camera-overlay p{font-size:12px;color:#d6e7fb;opacity:1;}
+#nsGaitShell .quality-panel{grid-column:2;grid-row:1/4;align-self:stretch;height:auto;border:1px solid #dfe9f7;padding:18px;box-shadow:none;}
+#nsGaitShell .quality-panel .panel-title{font-size:15px;margin:0 0 18px;}
+#nsGaitShell .quality-indicators{display:flex;flex-direction:column;gap:10px;}
+#nsGaitShell .quality-indicator{font-size:13px;min-height:42px;padding:10px;background:#f8fbff;font-weight:500;}
+#nsGaitShell .quality-indicator .dot{background:#bac8d9;}
+#nsGaitShell .quality-indicator .dot.good{background:#10b981;}
+#nsGaitShell .quality-indicator .dot.warning{background:#f59e0b;}
+#nsGaitShell .quality-indicator .dot.bad{background:#ef4444;}
+#nsGaitShell .btn-group{grid-column:1;grid-row:2;display:grid;grid-template-columns:1.3fr 1fr .8fr;gap:9px;margin:0;}
+#nsGaitShell .btn-group .btn{justify-content:center;padding:11px 8px;font-size:13px;font-family:inherit;}
+#nsGaitShell .btn-success{background:#2166cb;color:white;}
+#nsGaitShell .btn-danger{background:#eaf2ff;color:#2166cb;}
+#nsGaitShell .btn-secondary{background:#eff3f8;color:#536782;}
+#nsGaitShell .btn:disabled,#nsGaitShell .button-submit:disabled{background:#edf2f8;color:#95a7bf;box-shadow:none;cursor:not-allowed;opacity:1;}
+#nsGaitShell .record-meta{grid-column:1;grid-row:3;margin:0;font-size:12px;display:flex;gap:10px;justify-content:space-between;}
+#nsGaitShell .submission-panel{margin:20px 0 0;padding:16px;background:#edf5ff;border:1px solid #dceafb;border-radius:12px;box-shadow:none;}
+#nsGaitShell .submission-copy h3{font-size:15px;margin:0 0 4px;}
+#nsGaitShell .submission-copy p{font-size:12px;margin:0;}
+#nsGaitShell .button-submit{padding:12px 20px;font-size:13px;min-height:44px;background:#2166cb;}
+#nsGaitShell .gait-file-input{position:absolute;inset:0;opacity:0;width:100%;height:100%;cursor:pointer;}
+#nsGaitShell .upload-area{position:relative;min-height:220px;background:#f5faff;border-color:#bdd4f4;}
+#nsGaitShell .upload-area:focus-within{outline:3px solid #8abbff;outline-offset:3px;}
+#nsGaitShell .video-playback{width:100%;max-height:400px;object-fit:contain;margin-top:16px;}
+#nsGaitShell .gait-sidebar-backdrop{position:fixed;inset:0;background:#102c5266;border:0;z-index:98;}
+@media(hover:hover){#nsGaitShell .btn:not(:disabled):hover,#nsGaitShell .button-submit:not(:disabled):hover{transform:translateY(-1px);box-shadow:0 5px 12px #2166cb24;}#nsGaitShell .gait-prep-icon:hover{background:#dcecff;}}
+@media(max-width:1000px){#nsGaitShell .ref-video-item{grid-template-columns:1fr;}#nsGaitShell .ref-video-item video{max-width:260px;}#nsGaitShell .gait-prep-grid{gap:12px;}#nsGaitShell .capture-stage{grid-template-columns:minmax(0,1fr) 220px;}}
+@media(max-width:760px){#nsGaitShell{display:block;}#nsGaitShell .ns-workspace{margin-inline-start:0!important;width:100%;}#nsGaitShell #nsSidebar{position:fixed;top:0;bottom:0;inset-inline-start:0;width:240px;z-index:99;transform:translateX(-110%);transition:transform .2s;}#nsGaitShell[dir=rtl] #nsSidebar{transform:translateX(110%);}#nsGaitShell #nsSidebar.is-open{transform:translateX(0);}#nsGaitShell .ns-menu-toggle{display:inline-flex;}#nsGaitShell .ns-main-content{padding:16px 12px;}#nsGaitShell .gait-hero{padding:24px 18px;}#nsGaitShell .gait-hero-layout{grid-template-columns:1fr 130px;min-height:130px;}#nsGaitShell .gait-walker-art{width:140px;}#nsGaitShell .gait-hero h1{font-size:28px;}#nsGaitShell .module-overview-grid{grid-template-columns:1fr;}#nsGaitShell .capture-stage{grid-template-columns:1fr;}#nsGaitShell .quality-panel{grid-column:1;grid-row:4;}#nsGaitShell .quality-indicators{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));}#nsGaitShell .ns-topbar-end{font-size:0;}}
+@media(max-width:480px){#nsGaitShell .gait-hero-layout{grid-template-columns:1fr;}#nsGaitShell .gait-hero-visual{display:none;}#nsGaitShell .ref-videos{gap:12px;}#nsGaitShell .gait-prep-grid li{font-size:12px;}#nsGaitShell .gait-prep-icon{width:34px;height:34px;font-size:18px;}#nsGaitShell .gait-steps{gap:8px;}#nsGaitShell .gait-recording-heading h2{font-size:18px;}#nsGaitShell .submission-panel{flex-direction:column;align-items:stretch;}#nsGaitShell .button-submit{width:100%;}#nsGaitShell .btn-group .btn{font-size:11px;}#nsGaitShell .quality-indicator{font-size:12px;padding:8px;}}
+@media(prefers-reduced-motion:reduce){#nsGaitShell .gait-screening-page *{animation:none!important;transition:none!important;}}
+
+/* Reference sections restored: preparation, clips, workflow; recording preview + quality. */
+#nsGaitShell .gait-screening-page{font-family:Roboto,Arial,sans-serif;}
+#nsGaitShell .gait-screening-page button{font-family:inherit;}
+#nsGaitShell .module-overview-grid{grid-template-columns:1fr 1.05fr 1fr;gap:18px;align-items:stretch;}
+#nsGaitShell .module-overview-card{padding:20px;border-radius:16px;min-height:0;}
+#nsGaitShell .module-overview-card h2{font-size:17px;line-height:1.35;gap:10px;min-height:36px;margin-bottom:18px;}
+#nsGaitShell .module-overview-card h2 i{width:36px;height:36px;font-size:16px;border-radius:11px;background:#eaf2ff;}
+#nsGaitShell .reference-clips-card{grid-column:auto;}
+#nsGaitShell .guidance-list{gap:10px;}
+#nsGaitShell .guidance-list li{font-size:14px;min-height:44px;padding:10px 12px;border:1px solid #e9eff7;background:#f7faff;line-height:1.4;}
+#nsGaitShell .guidance-list li i{display:grid;place-items:center;width:27px;height:27px;flex:none;font-size:16px;color:#2166cb;border-radius:8px;background:#e8f1ff;}
+#nsGaitShell .ref-videos{display:flex;flex-direction:column;gap:12px;margin:0 0 12px;}
+#nsGaitShell .ref-video-item{display:block;border:1px solid #dfe9f6;border-radius:12px;overflow:hidden;background:#1c2d42;}
+#nsGaitShell .ref-video-item.normal{border-color:#b5ebd9;}
+#nsGaitShell .ref-video-item.abnormal{border-color:#f4cfd4;}
+#nsGaitShell .ref-video-item video{display:block;width:100%;max-width:none;height:auto;aspect-ratio:16/9;border-radius:0;object-fit:contain;background:#1c2d42;}
+#nsGaitShell .ref-video-item .label{padding:10px 12px;font-size:13px;text-align:start;gap:8px;}
+#nsGaitShell .ref-video-item.normal .label{background:#ecfbf5;color:#087451;}
+#nsGaitShell .ref-video-item.abnormal .label{background:#fff3f4;color:#b73b49;}
+#nsGaitShell .ref-video-item .label .label-icon{display:inline-flex;width:22px;height:22px;}
+#nsGaitShell .ref-note{margin:0;padding-top:12px;font-size:12px;line-height:1.6;}
+#nsGaitShell .gait-step{position:relative;align-items:center;gap:10px;min-height:64px;padding:14px 0;}
+#nsGaitShell .gait-step-number{width:30px;height:30px;font-size:13px;flex:none;}
+#nsGaitShell .gait-step-copy{min-width:0;flex:1;}
+#nsGaitShell .gait-step-copy strong{font-size:14px;line-height:1.45;}
+#nsGaitShell .gait-step-status{font-size:10px;white-space:nowrap;padding:5px 8px;border-radius:20px;}
+#nsGaitShell .gait-step.is-done .gait-step-number{background:#0cb984;color:white;border:0;}
+#nsGaitShell .gait-step.is-current .gait-step-number{background:#2166cb;color:white;border:0;box-shadow:0 0 0 4px #e9f2ff;}
+#nsGaitShell .gait-step.is-current .gait-step-status{background:#eaf2ff;color:#2166cb;}
+#nsGaitShell .gait-step.is-locked .gait-step-number{background:#edf2f8;color:#8b9db4;border:0;}
+#nsGaitShell .capture-stage{grid-template-columns:minmax(0,1fr) minmax(240px,26%);}
+#nsGaitShell .quality-panel{border-top:3px solid #2166cb;border-radius:14px;}
+#nsGaitShell .quality-indicator{font-size:14px;min-height:46px;}
+#nsGaitShell .camera-container,#nsGaitShell .camera-container.live-active{aspect-ratio:4/3;}
+#nsGaitShell .gait-camera-art{width:210px;height:132px;}
+#nsGaitShell .camera-overlay h3{font-size:20px;}
+#nsGaitShell .camera-overlay p{font-size:14px;}
+#nsGaitShell .btn-group{grid-template-columns:1.2fr 1fr .7fr;}
+#nsGaitShell .btn-group .btn{font-size:14px;min-height:44px;}
+#nsGaitShell #btn-start-camera{background:#0caf7d;color:white;}
+#nsGaitShell #btn-start-camera:hover{background:#07996d;}
+#nsGaitShell #btn-start-recording:not(:disabled){background:#ed5265;color:white;}
+@media(max-width:1150px){#nsGaitShell .module-overview-card{padding:16px;}#nsGaitShell .module-overview-card h2{font-size:15px;}#nsGaitShell .gait-step{flex-wrap:wrap;gap:8px;}#nsGaitShell .gait-step-status{margin-inline-start:38px;}#nsGaitShell .guidance-list li{font-size:13px;}#nsGaitShell .capture-stage{grid-template-columns:minmax(0,1fr) 220px;}}
+@media(max-width:960px){#nsGaitShell .module-overview-grid{grid-template-columns:1fr 1fr;}#nsGaitShell .module-overview-card:last-child{grid-column:1/-1;}#nsGaitShell .module-overview-card:last-child .gait-step{flex-wrap:nowrap;}#nsGaitShell .gait-step-status{margin-inline-start:0;}}
+@media(max-width:760px){#nsGaitShell .capture-stage{grid-template-columns:1fr;}#nsGaitShell .quality-panel{grid-column:1;grid-row:4;}#nsGaitShell .gait-camera-art{width:180px;height:112px;}}
+@media(max-width:540px){#nsGaitShell .module-overview-grid{grid-template-columns:1fr;}#nsGaitShell .module-overview-card:last-child{grid-column:auto;}#nsGaitShell .ref-videos{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;}#nsGaitShell .label-sub{display:none;}#nsGaitShell .ref-video-item .label{font-size:12px;padding:8px;}#nsGaitShell .btn-group .btn{font-size:12px;}}
+
+
+/* Keep feedback in its own row, away from the camera placeholder and guide. */
+#nsGaitShell .gait-sidebar-drawer{display:contents;}
+#nsGaitShell .capture-stage>.feedback-overlay{position:static;left:auto;bottom:auto;transform:none;grid-column:1;grid-row:2;width:100%;max-width:100%;margin:0;border-radius:10px;padding:9px 12px;font-size:12px;line-height:1.7;white-space:normal;overflow-wrap:anywhere;background:#eef5ff;color:#48688e;backdrop-filter:none;border:1px solid #dce8f8;}
+#nsGaitShell .capture-stage>.btn-group{grid-row:3;}
+#nsGaitShell .capture-stage>.record-meta{grid-row:4;}
+#nsGaitShell .capture-stage>.quality-panel{grid-row:1/5;}
+#nsGaitShell .camera-container:not(.live-active) .guidance-overlay{visibility:hidden;}
+#nsGaitShell[dir=rtl] .ns-breadcrumb i{transform:scaleX(-1);}
+@media(max-width:760px){
+ #nsGaitShell{width:100%;max-width:100%;min-width:0;overflow-x:clip;}
+ #nsGaitShell .ns-workspace{width:100%!important;max-width:100%;min-width:0;margin-left:0!important;margin-right:0!important;}
+ #nsGaitShell .gait-sidebar-drawer{display:block;position:fixed;top:0;bottom:0;left:0;right:auto;width:min(280px,86vw);max-width:86vw;z-index:100;transform:translateX(-110%);visibility:hidden;pointer-events:none;transition:transform .2s,visibility .2s;overflow-y:auto;}
+ #nsGaitShell[dir=rtl] .gait-sidebar-drawer{right:0;left:auto;transform:translateX(110%);}
+ #nsGaitShell .gait-sidebar-drawer.is-open{transform:translateX(0);visibility:visible;pointer-events:auto;}
+ #nsGaitShell .gait-sidebar-drawer>*{position:static!important;width:100%!important;max-width:100%!important;min-width:0!important;height:auto;min-height:100%;margin:0!important;transform:none!important;}
+ #nsGaitShell .gait-sidebar-drawer #nsSidebar{position:static!important;transform:none!important;width:100%!important;}
+ #nsGaitShell .ns-menu-toggle{display:inline-flex!important;align-items:center;justify-content:center;flex:none;width:36px;height:36px;}
+ #nsGaitShell .ns-topbar{display:flex;gap:10px;min-width:0;padding-inline:12px;}
+ #nsGaitShell .ns-breadcrumb{min-width:0;flex:1;gap:7px;font-size:12px;flex-wrap:wrap;}
+ #nsGaitShell .ns-topbar-end{flex:none;}
+ #nsGaitShell .gait-screening-page,#nsGaitShell .gait-recording-section,#nsGaitShell .module-overview-card{min-width:0;max-width:100%;}
+ #nsGaitShell .capture-stage{grid-template-columns:minmax(0,1fr);gap:12px;}
+ #nsGaitShell .capture-stage>.quality-panel{grid-column:1;grid-row:5;}
+ #nsGaitShell .camera-container,#nsGaitShell .camera-container.live-active{min-height:0;aspect-ratio:4/3;}
+ #nsGaitShell .camera-container:not(.live-active):before{inset:12px;}
+ #nsGaitShell .camera-overlay{width:calc(100% - 32px);}
+ #nsGaitShell .gait-camera-art{width:150px;max-width:60%;height:94px;margin:0 auto 6px;}
+ #nsGaitShell .camera-overlay h3{font-size:17px;line-height:1.6;margin:0 0 4px;}
+ #nsGaitShell .camera-overlay p{font-size:12px;line-height:1.7;}
+ #nsGaitShell .guidance-overlay .guide-label{top:10px;bottom:auto;max-width:calc(100% - 28px);white-space:normal;line-height:1.6;text-align:center;padding:5px 9px;}
+ #nsGaitShell .guidance-overlay .guide-line.side-view{top:50px;bottom:12px;left:12%;right:12%;}
+ #nsGaitShell .recording-methods{width:100%;max-width:100%;}
+ #nsGaitShell .recording-methods .btn{font-size:12px;min-width:0;padding:10px 8px;}
+ #nsGaitShell .record-meta{flex-wrap:wrap;line-height:1.7;}
+ #nsGaitShell .gait-hero-visual svg{max-width:100%;}
+}
+@media(max-width:480px){#nsGaitShell .module-overview-grid{grid-template-columns:1fr;}#nsGaitShell .gait-recording-heading{align-items:start;}#nsGaitShell .gait-recording-heading h2{font-size:17px;}#nsGaitShell .btn-group{grid-template-columns:1fr 1fr;}#nsGaitShell .btn-group .btn:last-child{grid-column:1/-1;}#nsGaitShell .gait-camera-art{width:130px;height:82px;}}
+@media(prefers-reduced-motion:reduce){#nsGaitShell .gait-sidebar-drawer{transition:none;}}
+/* Compact recording controls, isolated from inherited button-group styles. */
+#nsGaitShell .capture-stage > .btn-group {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    justify-content: start;
+    align-items: stretch;
+    gap: 12px;
+    width: 100%;
+    max-width: 560px;
+    padding: 0;
+    margin: 0;
+}
+#nsGaitShell .capture-stage > .btn-group > .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    justify-self: stretch;
+    gap: 9px;
+    width: 100%;
+    min-width: 0;
+    max-width: none;
+    min-height: 48px;
+    margin: 0;
+    padding: 12px 14px;
+    border: 1px solid transparent;
+    border-radius: 12px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.5;
+    white-space: normal;
+    box-shadow: 0 3px 8px rgb(15 23 42 / 6%);
+    transition: background-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+}
+#nsGaitShell .capture-stage > .btn-group > .btn i { flex-shrink: 0; font-size: 13px; }
+#nsGaitShell .capture-stage > .btn-group > .btn:last-child { grid-column: auto; }
+#nsGaitShell .capture-stage > .btn-group > .btn:disabled {
+    opacity: 1;
+    background: #f1f5f9;
+    border-color: #dde5ee;
+    color: #6b7b90;
+    box-shadow: none;
+    transform: none;
+    cursor: not-allowed;
+}
+#nsGaitShell .capture-stage > .btn-group > .btn:not(:disabled):hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgb(15 23 42 / 12%);
+}
+#nsGaitShell .capture-stage > .btn-group > .btn:not(:disabled):active { transform: translateY(0); }
+#nsGaitShell .capture-stage > .btn-group > .btn:focus-visible {
+    outline: 3px solid #85b9ff;
+    outline-offset: 3px;
+}
+@media (max-width: 480px) {
+    #nsGaitShell .capture-stage > .btn-group { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+    #nsGaitShell .capture-stage > .btn-group > .btn { font-size: 13px; padding: 10px; }
+    #nsGaitShell .capture-stage > .btn-group > .btn:last-child { grid-column: 1 / -1; }
+}
+@media (prefers-reduced-motion: reduce) {
+    #nsGaitShell .capture-stage > .btn-group > .btn { transition: none; }
+    #nsGaitShell .capture-stage > .btn-group > .btn:not(:disabled):hover { transform: none; }
+}
+/* Breathing room for the completion message and next actions. */
+#nsGaitShell .results-card .results-body { padding: 48px 32px 40px; }
+#nsGaitShell .results-card .results-tick { margin-bottom: 24px; }
+#nsGaitShell .results-card h2 { margin-bottom: 16px; }
+#nsGaitShell .results-card > .results-body > p { line-height: 1.8; }
+#nsGaitShell .results-card .results-actions {
+    margin-top: 30px;
+    gap: 16px;
+    align-items: stretch;
+}
+#nsGaitShell .results-card .results-actions a {
+    min-height: 46px;
+    justify-content: center;
+    line-height: 1.6;
+}
+#nsGaitShell .results-card .results-footnote { padding: 18px 24px; line-height: 1.7; }
+@media (max-width: 600px) {
+    #nsGaitShell .results-card .results-body { padding: 32px 20px; }
+    #nsGaitShell .results-card .results-actions { margin-top: 24px; gap: 12px; flex-direction: column; }
+    #nsGaitShell .results-card .results-actions a { width: 100%; box-sizing: border-box; }
+    #nsGaitShell .results-card .results-footnote { padding: 16px 20px; }
+}
+</style>
+
 
 {% with lang=request.LANG|default:'en' %}
 
-<main class="gait-screening-page" lang="{% if lang == 'ur' %}ur{% else %}en{% endif %}" dir="{% if lang == 'ur' %}rtl{% else %}ltr{% endif %}">
+<div class="ns-app-shell" id="nsGaitShell" dir="{% if lang == 'ur' %}rtl{% else %}ltr{% endif %}"><div class="gait-sidebar-drawer" id="gaitSidebarDrawer">{% include 'includes/workspace_sidebar.html' %}</div><button class="gait-sidebar-backdrop" id="gaitSidebarBackdrop" type="button" aria-label="{% if lang == 'ur' %}مینو بند کریں{% else %}Close navigation{% endif %}" hidden></button><div class="ns-workspace"><div class="ns-topbar"><button class="ns-menu-toggle" id="gaitMenuToggle" type="button" aria-controls="gaitSidebarDrawer" aria-expanded="false" aria-label="{% if lang == 'ur' %}مینو کھولیں{% else %}Open navigation{% endif %}"><i class="fa-solid fa-bars" aria-hidden="true"></i></button><div class="ns-breadcrumb"><span>NeuroSense AI</span><i class="fa-solid fa-chevron-right" aria-hidden="true"></i><strong>{% if lang == 'ur' %}چال اسکریننگ{% else %}Gait Screening{% endif %}</strong></div><div class="ns-topbar-end">{% if lang == 'ur' %}میری اسکریننگ{% else %}My Screening Space{% endif %}<a class="ns-top-avatar" href="{% url 'accounts:profile' %}" aria-label="{% if lang == 'ur' %}پروفائل{% else %}Profile{% endif %}"><i class="fa-regular fa-user" aria-hidden="true"></i></a></div></div><div class="ns-main-content"><main class="gait-screening-page" lang="{% if lang == 'ur' %}ur{% else %}en{% endif %}" dir="{% if lang == 'ur' %}rtl{% else %}ltr{% endif %}">
 
     <!-- HERO -->
-    <section class="gait-hero">
-        <div class="gait-page-container gait-hero-layout">
-
-            <div class="gait-hero-copy">
-                <span class="gait-hero-badge">
-                    <i class="fa-solid fa-video"></i>
-                    {% if lang == 'ur' %}ویڈیو اسکریننگ · مرحلہ 3 از 4{% else %}Video Screening · Step 3 of 4{% endif %}
-                </span>
-
-                <h1>
-                    {% if lang == 'ur' %}چال اور <span class="accent">حرکت کا تجزیہ</span>{% else %}Gait &amp; <span class="accent">Movement Analysis</span>{% endif %}
-                </h1>
-
-                <p>
-                    {% if lang == 'ur' %}پارکنسنز کے خطرے کی تشخیص کے لیے چلنے کی ویڈیو ریکارڈ کریں یا اپ لوڈ کریں۔ چال کے پیٹرن، توازن اور حرکت کے اشارے کا تجزیہ کریں۔{% else %}Record or upload a walking video for AI-powered Parkinson's risk assessment. Analyze gait patterns, balance, and movement indicators.{% endif %}
-                </p>
-
-                <div class="gait-hero-stats">
-                    <span class="gait-hero-stat"><span class="icon">📋</span> {% if lang == 'ur' %}10-15 سیکنڈ ویڈیو{% else %}10-15 second video{% endif %}</span>
-                    <span class="gait-hero-stat"><span class="icon">🎯</span> {% if lang == 'ur' %}سائیڈ ویو ضروری{% else %}Side view required{% endif %}</span>
-                    <span class="gait-hero-stat"><span class="icon">📱</span> {% if lang == 'ur' %}اسمارٹ فون مطابقت{% else %}Smartphone compatible{% endif %}</span>
-                </div>
-            </div>
-
-            <div class="gait-hero-visual" aria-hidden="true">
-                <img src="{% static 'gait_app/images/gait image.png' %}" alt="Gait Analysis">
-            </div>
-
-        </div>
-    </section>
+    <section class="gait-hero"><div class="gait-page-container gait-hero-layout"><div class="gait-hero-copy"><span class="gait-hero-badge">{% if lang == 'ur' %}ویڈیو اسکریننگ{% else %}VIDEO ASSESSMENT{% endif %}</span><h1>{% if lang == 'ur' %}چال اسکریننگ{% else %}Gait Screening{% endif %}</h1><p>{% if lang == 'ur' %}سائیڈ سے چلنے کی مختصر ویڈیو ریکارڈ یا اپ لوڈ کریں۔{% else %}Record or upload a short side-view walking video.{% endif %}</p></div><div class="gait-hero-visual"><svg class="gait-walker-art" viewBox="0 0 240 150" aria-hidden="true"><circle cx="128" cy="76" r="59" fill="#f2f8ff"/><g fill="none" stroke="#d8e9ff" stroke-width="1.5"><path d="M60 24a74 74 0 0 0 0 103M186 24a74 74 0 0 1 0 103"/><path d="M79 43a45 45 0 0 0 0 65M168 43a45 45 0 0 1 0 65"/></g><g class="gait-walker" stroke-linecap="round" stroke-linejoin="round"><circle cx="132" cy="28" r="9" fill="#2b7fe3"/><path d="M128 45l-10 39 21 10 24 34M118 84l-20 26-15 18M126 50l-21 20-14 19M125 50l17 20 18 8" fill="none" stroke="#2b7fe3" stroke-width="9"/><g fill="#e0f2ff" stroke="#2473cf" stroke-width="1.5"><circle cx="125" cy="50" r="4"/><circle cx="118" cy="84" r="4"/><circle cx="105" cy="70" r="3"/><circle cx="142" cy="70" r="3"/><circle cx="98" cy="110" r="3"/><circle cx="139" cy="94" r="3"/></g></g><path d="M65 136h111" stroke="#bcd7f6" stroke-width="2" stroke-dasharray="4 6"/><circle cx="190" cy="45" r="3" fill="#ffc941"/><circle cx="59" cy="98" r="3" fill="#38bdb5"/></svg></div><span class="gait-stage-pill">{% if lang == 'ur' %}مرحلہ ۳ از ۴{% else %}Step 3 of 4{% endif %}</span></div></section>
 
     <div class="gait-page-container gait-page-content">
 
         <!-- OVERALL PROGRESS -->
-        <section class="overall-progress-card">
-            <div class="overall-progress-header">
-                <strong>{% if lang == 'ur' %}مجموعی پیشرفت{% else %}Overall Progress{% endif %}</strong>
-                <span>75%</span>
-            </div>
-            <div class="overall-progress-track">
-                <span class="overall-progress-value"></span>
-            </div>
-            <div class="overall-progress-footer">
-                <p>{% if lang == 'ur' %}آپ نے 4 میں سے 3 ماڈیول مکمل کر لیے ہیں۔{% else %}You have completed 3 of 4 modules{% endif %}</p>
-                <p>{% if lang == 'ur' %}متوقع باقی وقت: ~10 منٹ{% else %}Estimated time remaining: ~10 mins{% endif %}</p>
-            </div>
-        </section>
+        <section class="audio-journey-panel" aria-label="{% if lang == 'ur' %}اسکریننگ کی پیش رفت{% else %}Screening progress{% endif %}"><ol class="audio-journey" aria-label="{% if lang == 'ur' %}اسکریننگ کے مراحل{% else %}Screening stages{% endif %}"><li class="complete"><b class="journey-stage" aria-hidden="true">1</b><span class="journey-number"><i class="fa-solid fa-check" aria-hidden="true"></i></span><span class="journey-copy"><strong>{% if lang == 'ur' %}سوالنامہ{% else %}Questionnaire{% endif %}</strong><small>{% if lang == 'ur' %}مکمل{% else %}Completed{% endif %}</small></span></li><li class="complete"><b class="journey-stage" aria-hidden="true">2</b><span class="journey-number"><i class="fa-solid fa-microphone-lines" aria-hidden="true"></i></span><span class="journey-copy"><strong>{% if lang == 'ur' %}آڈیو{% else %}Audio{% endif %}</strong><small>{% if lang == 'ur' %}مکمل{% else %}Completed{% endif %}</small></span></li><li class="current" aria-current="step"><b class="journey-stage" aria-hidden="true">3</b><span class="journey-number"><i class="fa-solid fa-person-walking" aria-hidden="true"></i></span><span class="journey-copy"><strong>{% if lang == 'ur' %}چال{% else %}Gait{% endif %}</strong><small>{% if lang == 'ur' %}جاری{% else %}In progress{% endif %}</small></span></li><li class=""><b class="journey-stage" aria-hidden="true">4</b><span class="journey-number"><i class="fa-solid fa-file-lines" aria-hidden="true"></i></span><span class="journey-copy"><strong>{% if lang == 'ur' %}رپورٹ{% else %}Report{% endif %}</strong><small>{% if lang == 'ur' %}زیر التواء{% else %}Pending{% endif %}</small></span></li></ol><div class="journey-progress-row"><div class="journey-progress-track" aria-hidden="true"><div class="journey-progress-fill"></div></div><span class="journey-progress-label">{% if lang == 'ur' %}مرحلہ ۳ از ۴{% else %}Step 3 of 4{% endif %}</span></div></section>
 
         <!-- MODULE OVERVIEW -->
         <section class="module-overview-grid">
@@ -1661,12 +1481,12 @@ Gait Screening - NeuroSense AI
             <article class="module-overview-card">
                 <h2><i class="fa-solid fa-circle-info"></i> {% if lang == 'ur' %}تیاری کی چیک لسٹ{% else %}Before You Record{% endif %}</h2>
                 <ul class="guidance-list">
-                    <li><i class="fa-solid fa-check"></i> {% if lang == 'ur' %}سائیڈ ویو (پروفائل){% else %}Side view (profile){% endif %}</li>
-                    <li><i class="fa-solid fa-check"></i> {% if lang == 'ur' %}کیمرہ کمر کی اونچائی پر{% else %}Camera at waist height{% endif %}</li>
-                    <li><i class="fa-solid fa-check"></i> {% if lang == 'ur' %}پورا جسم نظر آئے{% else %}Full body visible{% endif %}</li>
-                    <li><i class="fa-solid fa-check"></i> {% if lang == 'ur' %}سیدھی لائن میں چلیں{% else %}Walk in a straight line{% endif %}</li>
-                    <li><i class="fa-solid fa-check"></i> {% if lang == 'ur' %}اچھی روشنی{% else %}Well-lit area{% endif %}</li>
-                    <li><i class="fa-solid fa-check"></i> {% if lang == 'ur' %}متضاد لباس{% else %}Contrasting clothing{% endif %}</li>
+                    <li><i class="fa-solid fa-camera" aria-hidden="true"></i> {% if lang == 'ur' %}سائیڈ ویو (پروفائل){% else %}Side view (profile){% endif %}</li>
+                    <li><i class="fa-solid fa-arrows-up-down" aria-hidden="true"></i> {% if lang == 'ur' %}کیمرہ کمر کی اونچائی پر{% else %}Camera at waist height{% endif %}</li>
+                    <li><i class="fa-solid fa-person" aria-hidden="true"></i> {% if lang == 'ur' %}پورا جسم نظر آئے{% else %}Full body visible{% endif %}</li>
+                    <li><i class="fa-solid fa-arrow-right-long" aria-hidden="true"></i> {% if lang == 'ur' %}سیدھی لائن میں چلیں{% else %}Walk in a straight line{% endif %}</li>
+                    <li><i class="fa-solid fa-sun" aria-hidden="true"></i> {% if lang == 'ur' %}اچھی روشنی{% else %}Well-lit area{% endif %}</li>
+                    <li><i class="fa-solid fa-shirt" aria-hidden="true"></i> {% if lang == 'ur' %}متضاد لباس{% else %}Contrasting clothing{% endif %}</li>
                 </ul>
             </article>
 
@@ -1674,7 +1494,7 @@ Gait Screening - NeuroSense AI
                 <h2><i class="fa-solid fa-video"></i> {% if lang == 'ur' %}حوالہ جاتی ویڈیوز{% else %}Reference Clips{% endif %}</h2>
                 <div class="ref-videos">
                     <div class="ref-video-item normal">
-                        <video controls muted preload="metadata" poster="{% static 'speech_app/images/video-placeholder.png' %}">
+                        <video playsinline controls muted preload="metadata" poster="{% static 'speech_app/images/video-placeholder.png' %}">
                             <source src="{% static 'gait_app/videos/normal_gait.mp4' %}" type="video/mp4">
                         </video>
                         <div class="label">
@@ -1684,7 +1504,7 @@ Gait Screening - NeuroSense AI
                         </div>
                     </div>
                     <div class="ref-video-item abnormal">
-                        <video controls muted preload="metadata" poster="{% static 'speech_app/images/video-placeholder.png' %}">
+                        <video playsinline controls muted preload="metadata" poster="{% static 'speech_app/images/video-placeholder.png' %}">
                             <source src="{% static 'gait_app/videos/abnormal_gait.mp4' %}" type="video/mp4">
                         </video>
                         <div class="label">
@@ -1694,7 +1514,7 @@ Gait Screening - NeuroSense AI
                         </div>
                     </div>
                 </div>
-                <p class="ref-note"><i class="fa-solid fa-circle-info"></i> {% if lang == 'ur' %}سائیڈ ویو سے 10-15 سیکنڈ چلنے کی ویڈیو ریکارڈ کریں{% else %}Record 10-15 seconds of walking from the side.{% endif %}</p>
+                <p class="ref-note"><i class="fa-solid fa-circle-info"></i> {% if lang == 'ur' %}سائیڈ ویو سے 10 سیکنڈ چلنے کی ویڈیو ریکارڈ کریں{% else %}Record 10 seconds of walking from the side.{% endif %}</p>
             </article>
 
             <article class="module-overview-card">
@@ -1740,9 +1560,8 @@ Gait Screening - NeuroSense AI
 
             <div class="gait-recording-heading">
                 <div>
-                    <span class="section-label">{% if lang == 'ur' %}ویڈیو ریکارڈنگ{% else %}Video Recording{% endif %}</span>
                     <h2 id="gait-recording-heading">{% if lang == 'ur' %}اپنی چلنے کی ویڈیو شامل کریں{% else %}Add your walking video{% endif %}</h2>
-                    <p>{% if lang == 'ur' %}براہ راست کیمرہ استعمال کرتے ہوئے ریکارڈ کریں یا موجودہ ویڈیو فائل اپ لوڈ کریں۔{% else %}Record directly using your camera or upload an existing video file.{% endif %}</p>
+                    <p>{% if lang == 'ur' %}سائیڈ سے · پورا جسم · ۱۰ سیکنڈ{% else %}Side view · Full body · 10 seconds{% endif %}</p>
                 </div>
                 <div class="recording-heading-actions">
                     <div class="completion-badge">
@@ -1764,17 +1583,15 @@ Gait Screening - NeuroSense AI
                         <div class="camera-container" id="camera-container">
                             <video id="video-preview" autoplay muted playsinline></video>
                             <canvas id="pose-canvas"></canvas>
-                            <div class="camera-overlay" id="camera-overlay">
-                                <h3>🎥 {% if lang == 'ur' %}کیمرہ پوزیشن کریں{% else %}Position the camera{% endif %}</h3>
+                            <div class="camera-overlay" id="camera-overlay"><svg class="gait-camera-art" viewBox="0 0 240 150" aria-hidden="true"><circle cx="128" cy="76" r="59" fill="#f2f8ff"/><g fill="none" stroke="#d8e9ff" stroke-width="1.5"><path d="M60 24a74 74 0 0 0 0 103M186 24a74 74 0 0 1 0 103"/><path d="M79 43a45 45 0 0 0 0 65M168 43a45 45 0 0 1 0 65"/></g><g class="gait-walker" stroke-linecap="round" stroke-linejoin="round"><circle cx="132" cy="28" r="9" fill="#2b7fe3"/><path d="M128 45l-10 39 21 10 24 34M118 84l-20 26-15 18M126 50l-21 20-14 19M125 50l17 20 18 8" fill="none" stroke="#2b7fe3" stroke-width="9"/><g fill="#e0f2ff" stroke="#2473cf" stroke-width="1.5"><circle cx="125" cy="50" r="4"/><circle cx="118" cy="84" r="4"/><circle cx="105" cy="70" r="3"/><circle cx="142" cy="70" r="3"/><circle cx="98" cy="110" r="3"/><circle cx="139" cy="94" r="3"/></g></g><path d="M65 136h111" stroke="#bcd7f6" stroke-width="2" stroke-dasharray="4 6"/><circle cx="190" cy="45" r="3" fill="#ffc941"/><circle cx="59" cy="98" r="3" fill="#38bdb5"/></svg>
+                                <h3>{% if lang == 'ur' %}کیمرہ پوزیشن کریں{% else %}Position the camera{% endif %}</h3>
                                 <p>{% if lang == 'ur' %}سائیڈ ویو · کمر کی اونچائی · پورا جسم{% else %}Side view · Waist height · Full body{% endif %}</p>
                             </div>
                             <div class="countdown-display" id="countdown-display">3</div>
                             <div class="recording-indicator" id="recording-indicator">
                                 <span class="dot"></span> {% if lang == 'ur' %}ریکارڈنگ{% else %}Recording{% endif %}
                             </div>
-                            <div class="feedback-overlay info" id="feedback-overlay">
-                                <span id="feedback-text">{% if lang == 'ur' %}شروع کرنے کے لیے "کیمرہ شروع کریں" پر کلک کریں{% else %}Click "Start camera" to begin{% endif %}</span>
-                            </div>
+                            
 
                             <div class="guidance-overlay" id="guidance-overlay">
                                 <div class="guide-line side-view" id="guide-side-view"></div>
@@ -1782,43 +1599,46 @@ Gait Screening - NeuroSense AI
                             </div>
                         </div>
 
-                        <div class="quality-panel">
-                            <p class="panel-title">{% if lang == 'ur' %}لائیو کوالٹی چیک{% else %}Live quality checks{% endif %}</p>
-                            <div class="quality-indicators" id="quality-indicators">
-                                <div class="quality-indicator" id="qi-person">
-                                    <span class="dot ready"></span>
-                                    {% if lang == 'ur' %}شخص{% else %}Person in frame{% endif %}
-                                </div>
-                                <div class="quality-indicator" id="qi-fullbody">
-                                    <span class="dot ready"></span>
-                                    {% if lang == 'ur' %}پورا جسم{% else %}Full body{% endif %}
-                                </div>
-                                <div class="quality-indicator" id="qi-sideview">
-                                    <span class="dot ready"></span>
-                                    {% if lang == 'ur' %}سائیڈ ویو{% else %}Side view{% endif %}
-                                </div>
-                                <div class="quality-indicator" id="qi-movement">
-                                    <span class="dot ready"></span>
-                                    {% if lang == 'ur' %}حرکت{% else %}Movement{% endif %}
-                                </div>
-                                <div class="quality-indicator" id="qi-arms">
-                                    <span class="dot ready"></span>
-                                    {% if lang == 'ur' %}بازو کی حرکت{% else %}Arm swing{% endif %}
-                                </div>
+                        
+                    <div class="feedback-overlay info" id="feedback-overlay">
+                                <span id="feedback-text">{% if lang == 'ur' %}شروع کرنے کے لیے "کیمرہ شروع کریں" پر کلک کریں{% else %}Click "Start camera" to begin{% endif %}</span>
                             </div>
-                        </div>
-                    </div>
-
-                    <div class="btn-group">
+<div class="btn-group">
                         <button type="button" class="btn btn-success" id="btn-start-camera"><i class="fa-solid fa-play"></i> {% if lang == 'ur' %}کیمرہ شروع کریں{% else %}Start camera{% endif %}</button>
                         <button type="button" class="btn btn-danger" id="btn-start-recording" disabled><i class="fa-solid fa-circle"></i> {% if lang == 'ur' %}ریکارڈ (10 سیکنڈ){% else %}Record (10s){% endif %}</button>
                         <button type="button" class="btn btn-secondary" id="btn-stop-recording" disabled><i class="fa-solid fa-stop"></i> {% if lang == 'ur' %}روکیں{% else %}Stop{% endif %}</button>
-                    </div>
-
-                    <div class="record-meta">
+                    </div><div class="record-meta">
                         <span class="record-tip"><i class="fa-regular fa-clock"></i> {% if lang == 'ur' %}10 سیکنڈ کے بعد خود روک ہو جائے گا{% else %}Stops automatically after 10 seconds{% endif %}</span>
                         <span id="recording-timer-display"></span>
-                    </div>
+                    </div><div class="quality-panel">
+                            <p class="panel-title">{% if lang == 'ur' %}لائیو کوالٹی چیک{% else %}Live quality checks{% endif %}</p>
+                            <div class="quality-indicators" id="quality-indicators">
+                                <div class="quality-indicator" id="qi-person">
+                                    <span class="dot"></span>
+                                    {% if lang == 'ur' %}شخص{% else %}Person in frame{% endif %}
+                                </div>
+                                <div class="quality-indicator" id="qi-fullbody">
+                                    <span class="dot"></span>
+                                    {% if lang == 'ur' %}پورا جسم{% else %}Full body{% endif %}
+                                </div>
+                                <div class="quality-indicator" id="qi-sideview">
+                                    <span class="dot"></span>
+                                    {% if lang == 'ur' %}سائیڈ ویو{% else %}Side view{% endif %}
+                                </div>
+                                <div class="quality-indicator" id="qi-movement">
+                                    <span class="dot"></span>
+                                    {% if lang == 'ur' %}حرکت{% else %}Movement{% endif %}
+                                </div>
+                                <div class="quality-indicator" id="qi-arms">
+                                    <span class="dot"></span>
+                                    {% if lang == 'ur' %}بازو کی حرکت{% else %}Arm swing{% endif %}
+                                </div>
+                            </div>
+                        </div></div>
+
+                    
+
+                    
 
                     <video id="recorded-video" class="video-playback" controls playsinline></video>
                 </div>
@@ -1827,8 +1647,8 @@ Gait Screening - NeuroSense AI
                 <div id="file-upload-section" class="hidden">
                     <form id="gait-form" enctype="multipart/form-data">
                         <label class="upload-area">
-                            <input type="file" name="video" accept="video/*" style="display:none;" id="file-input">
-                            <span class="icon">📤</span>
+                            <input type="file" name="video" accept="video/*" class="gait-file-input" id="file-input">
+                            <span class="icon"><i class="fa-solid fa-cloud-arrow-up" aria-hidden="true"></i></span>
                             <strong>{% if lang == 'ur' %}ویڈیو فائل اپ لوڈ کریں{% else %}Choose a video file{% endif %}</strong>
                             <small>MP4, AVI, MOV, MKV</small>
                         </label>
@@ -1843,8 +1663,8 @@ Gait Screening - NeuroSense AI
                 <div class="submission-copy">
                     <div class="submission-icon"><i class="fa-solid fa-shield-halved"></i></div>
                     <div>
-                        <h3>{% if lang == 'ur' %}تجزیہ کے لیے تیار{% else %}Ready for analysis{% endif %}</h3>
-                        <p>{% if lang == 'ur' %}اسکریننگ شروع کرنے سے پہلے ویڈیو اپ لوڈ یا ریکارڈ کرنا ضروری ہے{% else %}A video must be uploaded or recorded before screening can begin.{% endif %}</p>
+                        <h3>{% if lang == 'ur' %}شروع کرنے کے لیے ویڈیو شامل کریں{% else %}Add a video to begin{% endif %}</h3>
+                        <p>{% if lang == 'ur' %}تجزیہ کے لیے ویڈیو ریکارڈ یا اپ لوڈ کریں۔{% else %}Record or upload to enable analysis.{% endif %}</p>
                     </div>
                 </div>
                 <button type="button" class="button-submit" id="submit-screening" disabled>
@@ -1859,7 +1679,7 @@ Gait Screening - NeuroSense AI
         <section class="status-section" id="processing-section" hidden aria-labelledby="processing-title">
             <div class="processing-card">
                 <div class="processing-spinner" aria-hidden="true"></div>
-                <span class="section-label">{% if lang == 'ur' %}آڈیو تجزیہ{% else %}Video Analysis{% endif %}</span>
+                <span class="section-label">{% if lang == 'ur' %}ویڈیو تجزیہ{% else %}Video Analysis{% endif %}</span>
                 <h2 id="processing-title">{% if lang == 'ur' %}آپ کی ویڈیو کا تجزیہ ہو رہا ہے...{% else %}Analyzing your video...{% endif %}</h2>
                 <p id="processing-message">{% if lang == 'ur' %}چال کے پیٹرن اور حرکت کی خصوصیات پر کارروائی{% else %}Processing gait patterns and movement features.{% endif %}</p>
                 <div class="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
@@ -1879,24 +1699,6 @@ Gait Screening - NeuroSense AI
                     <p>
                         {% if lang == 'ur' %}آپ کی چلنے کی ویڈیو کا کامیابی سے تجزیہ ہو گیا ہے۔ نتائج کو آپ کی حتمی رپورٹ میں شامل کیا جائے گا۔{% else %}Your walking video has been analyzed. These results are combined with your other modules in the final report.{% endif %}
                     </p>
-
-                    <div class="module-chips">
-                        <div class="module-chip">
-                            <span class="m-icon">📋</span>
-                            <span class="m-name">{% if lang == 'ur' %}سوالنامہ{% else %}Questionnaire{% endif %}</span>
-                            <span class="m-status">✅ {% if lang == 'ur' %}مکمل{% else %}Completed{% endif %}</span>
-                        </div>
-                        <div class="module-chip">
-                            <span class="m-icon">🎙️</span>
-                            <span class="m-name">{% if lang == 'ur' %}آواز کا تجزیہ{% else %}Voice Analysis{% endif %}</span>
-                            <span class="m-status">✅ {% if lang == 'ur' %}مکمل{% else %}Completed{% endif %}</span>
-                        </div>
-                        <div class="module-chip current">
-                            <span class="m-icon">🎥</span>
-                            <span class="m-name">{% if lang == 'ur' %}چال کا تجزیہ{% else %}Gait Analysis{% endif %}</span>
-                            <span class="m-status">✅ {% if lang == 'ur' %}مکمل{% else %}Completed{% endif %}</span>
-                        </div>
-                    </div>
 
                     <div class="results-actions">
                         <a class="primary" href="/fusion/report/">
@@ -1936,18 +1738,32 @@ Gait Screening - NeuroSense AI
                 <strong>{% if lang == 'ur' %}آپ کا ڈیٹا محفوظ اور انکرپٹ ہے۔{% else %}Your data is secure and encrypted.{% endif %}</strong>
                 {% if lang == 'ur' %}ہم آپ کی پرائیویسی اور ڈیٹا کے تحفظ کو ترجیح دیتے ہیں۔{% else %}We prioritize your privacy and data protection.{% endif %}
             </span>
-            <a href="#"><i class="fa-solid fa-circle-info"></i> {% if lang == 'ur' %}مزید جانیں{% else %}Learn more{% endif %}</a>
+            
         </section>
 
     </div>
 
-</main>
+</main></div></div></div>
 
 {% endwith %}
 
 {% endblock %}
 
 {% block extra_js %}
+<script>
+document.body.classList.add('ns-workspace-view');
+(function(){
+ const button=document.getElementById('gaitMenuToggle'),drawer=document.getElementById('gaitSidebarDrawer'),backdrop=document.getElementById('gaitSidebarBackdrop'),mobile=window.matchMedia('(max-width:760px)');
+ if(!button||!drawer||!backdrop)return;
+ function close(){drawer.classList.remove('is-open');button.setAttribute('aria-expanded','false');backdrop.hidden=true;drawer.inert=mobile.matches;if(mobile.matches)drawer.setAttribute('aria-hidden','true');else drawer.removeAttribute('aria-hidden');}
+ close();
+ button.addEventListener('click',function(){if(!mobile.matches)return;const open=!drawer.classList.contains('is-open');if(!open){close();return;}drawer.inert=false;drawer.removeAttribute('aria-hidden');drawer.classList.add('is-open');button.setAttribute('aria-expanded','true');backdrop.hidden=false;});
+ backdrop.addEventListener('click',close);
+ document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!backdrop.hidden){close();button.focus();}});
+ drawer.addEventListener('click',function(e){if(mobile.matches&&e.target.closest('a'))close();});
+ if(mobile.addEventListener)mobile.addEventListener('change',close);else mobile.addListener(close);
+})();
+</script>
 <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@mediapipe/pose/pose.js"></script>
 <script>

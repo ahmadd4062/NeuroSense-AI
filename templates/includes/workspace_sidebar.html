@@ -51,7 +51,7 @@
             <span>{% if lang == 'ur' %}ڈیش بورڈ{% else %}Dashboard{% endif %}</span>
             <i class="fa-solid fa-chevron-right ns-nav-chevron"></i>
         </a>
-        <a href="{% url 'questionnaire_app:home' %}">
+        <a class="{% if request.resolver_match.namespace == 'questionnaire_app' %}active{% endif %}" href="{% url 'questionnaire_app:home' %}">
             <i class="fa-solid fa-stethoscope"></i>
             <span>{% if lang == 'ur' %}نئی اسکریننگ{% else %}New Screening{% endif %}</span>
         </a>

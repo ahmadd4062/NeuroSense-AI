@@ -1,311 +1,352 @@
 {% extends "base.html" %}
 {% load static %}
-
-{% block title %}
-{% if request.LANG == 'ur' %}
-آڈیو اسکریننگ - نیوروسینس اے آئی
-{% else %}
-Audio Screening - NeuroSense AI
-{% endif %}
-{% endblock %}
-
-{% block extra_css %}
-<link
-    rel="stylesheet"
-    href="{% static 'speech_app/css/screenings.css' %}"
->
-{% endblock %}
-
+{% block title %}{% if request.LANG == 'ur' %}آڈیو اسکریننگ - نیوروسینس اے آئی{% else %}Audio Screening - NeuroSense AI{% endif %}{% endblock %}
 {% block content %}
+<link rel="stylesheet" href="{% static 'css/neurosense_workspace.css' %}">
+<link rel="stylesheet" href="{% static 'speech_app/css/screenings.css' %}">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
 
+/* Page styles are scoped. Keep existing workspace_sidebar.html and screening.js. */
+#nsAudioShell {--audio-blue:#2166cb;--audio-ink:#172e50;--audio-muted:#65758c;}
+#nsAudioShell .ns-workspace {min-width:0;}
+#nsAudioShell .ns-main-content {padding:20px clamp(18px,2vw,28px) 28px;background:#f5f8ff;}
+#nsAudioShell .ns-topbar {min-height:66px;}
+#nsAudioShell .ns-breadcrumb {display:flex;gap:10px;align-items:center;font-size:13.26px;}
+#nsAudioShell .ns-breadcrumb span {color:#728099;}
+#nsAudioShell .ns-breadcrumb i {font-size:9.18px;color:#93a5bc;}
+#nsAudioShell .ns-topbar-end {font-size:12.24px;color:#60728d;}
+#nsAudioShell .audio-screening-page {width:100%;max-width:1240px;margin:0 auto;color:var(--audio-ink);font-family:Roboto,Arial,sans-serif;}
+#nsAudioShell .audio-screening-page,#nsAudioShell .audio-screening-page * {box-sizing:border-box;}
+#nsAudioShell .audio-screening-page [hidden] {display:none!important;}
+#nsAudioShell .audio-hero {position:relative;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) 130px;align-items:center;gap:22px;padding:22px 26px;border:0;border-radius:16px;background:linear-gradient(115deg,#2058bb,#286bdc 70%,#3d91e7);color:white;box-shadow:0 7px 18px #2166cb18;min-height:0;height:auto;}
+#nsAudioShell .audio-hero::after {content:"";position:absolute;inset-inline-end:-60px;top:-100px;width:270px;height:270px;border:25px solid #ffffff0d;border-radius:50%;pointer-events:none;}
+#nsAudioShell .audio-hero-copy {position:relative;z-index:1;}
+#nsAudioShell .audio-hero-badge {display:inline-flex;gap:7px;align-items:center;color:#eaf3ff;font-size:10.2px;font-weight:600;letter-spacing:.04em;margin-bottom:10px;background:none;padding:0;border:0;}
+#nsAudioShell .audio-hero h1 {margin:0 0 8px;color:#fff;font-size:clamp(24.48px,2.346vw,30.6px);font-weight:700;letter-spacing:-.025em;line-height:1.3;}
+#nsAudioShell .audio-hero-copy>p {font-size:13.26px;line-height:1.7;color:#e8f3ff;margin:0;max-width:620px;}
+#nsAudioShell .audio-hero-visual {position:relative;z-index:1;display:grid;place-items:center;min-width:0;}
+#nsAudioShell .audio-hero-visual img {display:block;max-width:100%;width:230px;height:185px;object-fit:contain;filter:drop-shadow(0 10px 16px #2166cb18);}
+#nsAudioShell .audio-journey {display:flex;align-items:center;gap:0;margin:16px 0 18px;padding:14px 20px;list-style:none;border:1px solid #dfe9f7;border-radius:13px;background:#fff;}
+#nsAudioShell .audio-journey li {position:relative;display:flex;align-items:center;gap:8px;flex:1;min-width:0;}
+#nsAudioShell .audio-journey li:not(:last-child)::after {content:'';height:1px;flex:1;min-width:8px;background:#c9ddf3;margin:0 12px;}
+#nsAudioShell .journey-number {width:29.58px;height:29.58px;display:grid;place-items:center;border-radius:50%;background:#e8eff9;color:#617895;font-size:12.24px;font-weight:700;flex:none;}
+#nsAudioShell .audio-journey .complete .journey-number {background:#d5f1ee;color:#217f76;}
+#nsAudioShell .audio-journey .current .journey-number {background:var(--audio-blue);color:white;box-shadow:0 0 0 4px #2166cb12;}
+#nsAudioShell .journey-copy strong {display:block;font-size:11.22px;font-weight:600;line-height:1.5;}
+#nsAudioShell .journey-copy small {display:block;font-size:10.2px;color:#6e829c;line-height:1.5;}
+#nsAudioShell .audio-journey .current strong {color:var(--audio-blue);}
+#nsAudioShell .audio-phase {display:flex;gap:14px;align-items:center;justify-content:space-between;padding:14px 20px;margin:20px 0;border:1px solid #dce8f8;border-radius:14px;background:#fff;box-shadow:0 4px 12px #23446604;}
+#nsAudioShell .audio-phase>span {font-size:12.24px;font-weight:600;color:var(--audio-blue);display:flex;gap:9px;align-items:center;}
+#nsAudioShell .audio-phase small {font-size:11.22px;color:#698099;}
+#nsAudioShell .audio-work-grid {display:grid;grid-template-columns:1fr 1.3fr 1fr;gap:16px;align-items:stretch;margin-bottom:18px;}
+#nsAudioShell .module-overview-card,#nsAudioShell .audio-recording-section {background:#fff;border:1px solid #dfe9f6;border-radius:15px;padding:20px;box-shadow:0 5px 16px #1f406005;min-width:0;min-height:0;height:auto;}
+#nsAudioShell .module-overview-card h2 {font-size:14.28px;line-height:1.5;color:var(--audio-ink);margin:0 0 17px;}
+#nsAudioShell .sample-audio-content {display:grid;grid-template-columns:40px minmax(0,1fr);gap:13px;align-items:start;min-height:0;height:auto;}
+#nsAudioShell .sample-audio-icon {display:grid;place-items:center;width:40.8px;height:40.8px;border-radius:12px;background:#e9f2ff;color:var(--audio-blue);font-size:18.36px;}
+#nsAudioShell .sample-audio-copy h3 {font-size:13.26px;line-height:1.5;margin:0 0 7px;color:var(--audio-ink);}
+#nsAudioShell .sample-audio-copy p {font-size:12.24px;line-height:1.8;color:var(--audio-muted);margin:0;}
+#nsAudioShell .sample-audio-player {grid-column:1/-1;display:block;width:100%;max-width:100%;height:36px;}
+#nsAudioShell .sample-audio-note {grid-column:1/-1;display:flex;align-items:flex-start;gap:7px;font-size:11.22px;line-height:1.7;color:#547092;margin:0;padding:10px;border-radius:10px;background:#edf6ff;}
+#nsAudioShell .sample-audio-note i {margin-top:4px;color:var(--audio-blue);}
+#nsAudioShell .module-time {display:flex;gap:10px;align-items:center;border-top:1px solid #e6edf7;padding-top:16px;margin-top:18px;}
+#nsAudioShell .module-time-icon {color:var(--audio-blue);}
+#nsAudioShell .module-time div>span {display:block;color:var(--audio-muted);font-size:10.2px;margin-bottom:4px;}
+#nsAudioShell .module-time strong {font-size:12.24px;}
+#nsAudioShell .audio-recording-heading {display:flex;align-items:flex-start;justify-content:space-between;gap:18px;margin-bottom:18px;}
+#nsAudioShell .audio-recording-heading h2 {font-size:18.36px;line-height:1.5;margin:0 0 5px;color:var(--audio-ink);}
+#nsAudioShell .audio-recording-heading p {font-size:12.24px;line-height:1.75;color:var(--audio-muted);margin:0;}
+#nsAudioShell .recording-heading-actions {display:flex;gap:9px;flex-wrap:wrap;align-items:center;justify-content:flex-end;margin-top:8px;}
+#nsAudioShell .service-status {display:inline-flex;align-items:center;gap:6px;font-size:10.2px;color:#6f8097;}
+#nsAudioShell .status-dot {width:6px;height:6px;border-radius:50%;background:#b2c0d1;}
+#nsAudioShell .completion-badge {font-size:10.2px;font-weight:600;color:var(--audio-blue);background:#edf4ff;border-radius:8px;padding:6px 8px;}
+#nsAudioShell .recording-grid {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px;align-items:stretch;}
+#nsAudioShell .recording-card {position:relative;padding:15px;border:1px solid #dce8f8;border-radius:13px;background:linear-gradient(140deg,#fff,#f9fbff);min-width:0;min-height:0;height:auto;box-shadow:none;transition:border-color .2s,box-shadow .2s;}
+#nsAudioShell .recording-card-header {display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+#nsAudioShell .recording-number {width:28px;height:28px;display:grid;place-items:center;font-size:12.24px;font-weight:700;border-radius:9px;background:#e6efff;color:var(--audio-blue);}
+#nsAudioShell .recording-state {display:flex;align-items:center;gap:5px;font-size:10.2px;color:#7b8ba2;}
+#nsAudioShell .state-dot {width:5px;height:5px;border-radius:50%;background:#a9bbcf;}
+#nsAudioShell .recording-card-body {display:flex;flex-direction:column;gap:11px;align-items:stretch;min-height:0;height:auto;}
+#nsAudioShell .recording-title-row {display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0;padding:0;}
+#nsAudioShell .card-kicker {display:none;}
+#nsAudioShell .recording-title-row h3 {font-size:13.26px;font-weight:600;margin:0;color:var(--audio-ink);}
+#nsAudioShell .remove-recording-button {width:28px;height:28px;background:#fff0ef;color:#aa3434;border:1px solid #f2d5d3;border-radius:8px;cursor:pointer;}
+#nsAudioShell .visualizer {display:flex;justify-content:center;align-items:center;gap:4px;height:58px;min-height:0;max-height:58px;margin:0;padding:8px;border:1px solid #dfebfb;border-radius:10px;background:#f5f9ff;overflow:hidden;}
+#nsAudioShell .visualizer span {width:3px;height:12px;background:#81b4f3;border-radius:4px;flex:none;}
+#nsAudioShell .visualizer span:nth-child(3n) {height:21px;}
+#nsAudioShell .visualizer span:nth-child(4n) {height:15px;background:#9fcaef;}
+#nsAudioShell .recording-meta {display:flex;justify-content:space-between;gap:8px;font-size:10.2px;color:#7a8da5;margin:0;}
+#nsAudioShell .recording-timer {font-variant-numeric:tabular-nums;font-weight:600;}
+#nsAudioShell .recording-actions {display:flex;gap:7px;min-width:0;margin:0;}
+#nsAudioShell .button {display:inline-flex;justify-content:center;align-items:center;gap:6px;min-height:36px;padding:9px 11px;border:1px solid transparent;border-radius:9px;font-family:inherit;font-size:11.22px;font-weight:600;line-height:1.4;text-decoration:none;cursor:pointer;transition:transform .2s,box-shadow .2s;white-space:normal;}
+#nsAudioShell .button-primary,#nsAudioShell .button-submit {background:linear-gradient(115deg,#1954b3,#287ddd);color:#fff;box-shadow:0 3px 9px #2166cb20;}
+#nsAudioShell .record-button {flex:1;}
+#nsAudioShell .button-secondary {border-color:#cddff4;background:#fff;color:var(--audio-blue);}
+#nsAudioShell .button:disabled {opacity:.45;cursor:not-allowed;box-shadow:none;}
+#nsAudioShell .button:focus-visible,#nsAudioShell .guidance-button:focus-visible {outline:3px solid #97bcf1;outline-offset:3px;}
+#nsAudioShell .upload-divider {display:flex;justify-content:center;align-items:center;gap:6px;color:#8b9bb0;font-size:9.18px;margin:0;}
+#nsAudioShell .upload-control {position:relative;display:flex;gap:9px;align-items:center;justify-content:flex-start;border:1px dashed #bcd6f3;border-radius:10px;background:#f7fbff;color:var(--audio-blue);padding:12px 10px;min-height:51px;margin:0;cursor:pointer;}
+#nsAudioShell .recording-file-input {position:absolute;width:1px;height:1px;opacity:0;overflow:hidden;clip-path:inset(50%);}
+#nsAudioShell .upload-control:focus-within {outline:3px solid #97bcf1;outline-offset:3px;}
+#nsAudioShell .upload-icon {font-size:12.24px;}
+#nsAudioShell .upload-copy strong {font-size:11.22px;font-weight:600;line-height:1.5;}
+#nsAudioShell .upload-copy small {display:block;font-size:9.18px;line-height:1.6;color:#7e90a8;margin-top:3px;}
+#nsAudioShell .audio-preview,#nsAudioShell .file-name,#nsAudioShell .field-message {grid-column:1/-1;max-width:100%;width:100%;}
+#nsAudioShell .audio-preview {height:35px;}
+#nsAudioShell .file-name,#nsAudioShell .field-message {font-size:11.22px;line-height:1.7;overflow-wrap:anywhere;margin:0;color:#657b98;}
+#nsAudioShell .field-message:empty {display:none;}
+#nsAudioShell .recording-guidance-list {display:grid;gap:12px;list-style:none;margin:0;padding:0;}
+#nsAudioShell .recording-guidance-list li {display:flex;align-items:flex-start;gap:9px;color:var(--audio-muted);font-size:12.24px;line-height:1.8;}
+#nsAudioShell .recording-guidance-list i {color:#5e9fae;flex:none;margin-top:5px;font-size:11.22px;}
+#nsAudioShell .guidance-button {display:flex;justify-content:center;gap:7px;align-items:center;width:100%;border:1px solid #d0e3f7;background:#f0f6ff;color:var(--audio-blue);padding:10px 9px;margin-top:auto;border-radius:10px;font-family:inherit;font-size:11.22px;font-weight:600;cursor:pointer;}
+#nsAudioShell .audio-tip-note {font-size:11.22px;line-height:1.8;padding:15px;margin:20px 0 0;background:#edf5ff;border-radius:12px;color:#5e7593;}
+#nsAudioShell .submission-panel {display:flex;align-items:center;justify-content:space-between;gap:18px;padding:15px 18px;margin-top:18px;border:1px solid #dfeaf8;border-radius:12px;background:#eff6ff;}
+#nsAudioShell .submission-copy {display:flex;gap:10px;align-items:center;}
+#nsAudioShell .submission-icon {display:grid;place-items:center;width:34px;height:34px;flex:none;border-radius:10px;background:#ddf2ee;color:#199989;}
+#nsAudioShell .submission-copy h3 {font-size:12.24px;margin:0 0 5px;color:var(--audio-ink);}
+#nsAudioShell .submission-copy p {font-size:11.22px;line-height:1.6;color:var(--audio-muted);margin:0;max-width:600px;}
+#nsAudioShell .button-submit {min-width:140px;flex:none;}
+#nsAudioShell .audio-footer-note {display:flex;gap:8px;align-items:flex-start;font-size:11.22px;line-height:1.7;margin:22px 0 0;color:#6d829d;}
+#nsAudioShell .audio-footer-note i {color:var(--audio-blue);margin-top:3px;}
+#nsAudioShell .status-section,#nsAudioShell .results-section,#nsAudioShell .error-section {margin-top:20px;}
+#nsAudioShell .processing-card,#nsAudioShell .results-card,#nsAudioShell .error-card {padding:24px;border:1px solid #dfe9f6;border-radius:18px;background:#fff;}
+#nsAudioShell .results-header,#nsAudioShell .processing-card,#nsAudioShell .error-card {display:flex;gap:18px;align-items:center;justify-content:space-between;}
+#nsAudioShell .section-label,#nsAudioShell .result-label {font-size:11.22px;color:var(--audio-blue);}
+#nsAudioShell .results-card h2,#nsAudioShell .processing-card h2,#nsAudioShell .error-card h2 {font-size:20.4px;margin:8px 0;}
+#nsAudioShell .results-card p,#nsAudioShell .processing-card p,#nsAudioShell .error-card p {font-size:13.26px;line-height:1.8;color:var(--audio-muted);}
+#nsAudioShell .result-summary {display:grid;grid-template-columns:1fr 2fr;gap:18px;margin:20px 0;}
+#nsAudioShell .result-status-card,#nsAudioShell .metric-card {padding:16px;border:1px solid #dfebf7;border-radius:13px;background:#f8fbff;}
+#nsAudioShell .metrics-grid {display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;}
+#nsAudioShell .metric-card span {display:block;font-size:11.22px;color:var(--audio-muted);margin-bottom:10px;}
+#nsAudioShell .metric-card strong,#nsAudioShell #result-category {display:block;font-size:22.44px;}
+#nsAudioShell .quality-results-grid {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;}
+#nsAudioShell .disclaimer-panel {display:flex;gap:10px;padding:14px;border-radius:12px;background:#edf5ff;margin-top:20px;}
+#nsAudioShell .disclaimer-panel p {margin:0;}
+#nsAudioShell .processing-content,#nsAudioShell .error-content {flex:1;min-width:0;}
+#nsAudioShell .progress-track {height:7px;background:#eaf1fb;border-radius:8px;overflow:hidden;}
+#nsAudioShell #analysis-progress-bar {display:block;height:100%;background:linear-gradient(90deg,#2166cb,#40afd4);width:0;transition:width .3s;}
+#nsAudioShell .error-icon {color:#b84036;}
+#nsAudioShell .processing-spinner {width:35px;height:35px;flex:none;border:3px solid #dfebf7;border-top-color:var(--audio-blue);border-radius:50%;animation:audio-spin 1s linear infinite;}
+#nsAudioShell[dir=rtl] .audio-screening-page {font-family:'Noto Naskh Arabic',Tahoma,sans-serif;}
+#nsAudioShell[dir=rtl] .audio-hero h1 {letter-spacing:0;line-height:1.5;}
+#nsAudioShell[dir=rtl] .button-submit i,#nsAudioShell[dir=rtl] .ns-breadcrumb i {transform:rotate(180deg);}
+#nsAudioShell .audio-sidebar-backdrop {position:fixed;inset:0;background:#10294a55;z-index:98;border:0;}
+#nsAudioShell .audio-sidebar-backdrop[hidden] {display:none;}
+@keyframes audio-spin {to{transform:rotate(360deg)}}
+#nsAudioShell .audio-mic-art {display:block;width:125px;height:110px;filter:drop-shadow(0 8px 12px #143b8730);}
+#nsAudioShell .recording-guidance-card {display:flex;flex-direction:column;gap:0;}
+#nsAudioShell .recording-guidance-list {margin-bottom:20px;}
+#nsAudioShell .screening-step {display:flex;gap:9px;align-items:flex-start;padding:10px 0;border-bottom:1px solid #edf1f8;}
+#nsAudioShell .screening-step:first-of-type {padding-top:0;}
+#nsAudioShell .screening-step:last-child {border:0;padding-bottom:0;}
+#nsAudioShell .screening-step-number {display:grid;place-items:center;width:25px;height:25px;flex:none;border-radius:50%;background:#eaf3ff;color:var(--audio-blue);font-size:11.22px;font-weight:600;}
+#nsAudioShell .screening-step-copy {flex:1;min-width:0;}
+#nsAudioShell .screening-step-copy strong {display:block;font-size:11.22px;line-height:1.5;color:#23456b;}
+#nsAudioShell .screening-step-copy small {display:block;font-size:10.2px;line-height:1.6;color:#7a8ca5;margin-top:3px;}
+#nsAudioShell .screening-step-status {flex:none;font-size:9.18px;color:#4f86cd;margin-top:4px;}
+#nsAudioShell .sample-audio-copy h3 {font-size:12.24px;}
+#nsAudioShell .recording-card:nth-child(2) .recording-number {background:#e1f5f1;color:#268579;}
+#nsAudioShell .recording-card:nth-child(3) .recording-number {background:#eee9ff;color:#7a61c5;}
+#nsAudioShell .recording-card:focus-within {border-color:#8ab7ef;box-shadow:0 0 0 3px #2166cb0b;}
+#nsAudioShell .upload-divider::before,#nsAudioShell .upload-divider::after {content:'';height:1px;background:#e3ecf7;flex:1;}
+#nsAudioShell .ns-top-avatar {display:inline-flex;align-items:center;justify-content:center;margin-inline-start:9px;}
+@media(hover:hover){#nsAudioShell .button:not(:disabled):hover{transform:translateY(-1px);box-shadow:0 5px 14px #2166cb20;}#nsAudioShell .recording-card:hover{border-color:#b7d4f7;}}
+@media(max-width:1100px){#nsAudioShell .audio-work-grid{gap:12px;grid-template-columns:1fr 1.2fr 1fr;}#nsAudioShell .module-overview-card{padding:16px;}#nsAudioShell .screening-step-status{display:none;}#nsAudioShell .recording-grid{gap:12px;}#nsAudioShell .recording-card{padding:12px;}#nsAudioShell .button{font-size:10.2px;padding:9px 8px;}}
+@media(max-width:900px){#nsAudioShell .audio-work-grid{grid-template-columns:1fr 1fr;}#nsAudioShell .recording-guidance-card{grid-column:1/-1;}#nsAudioShell .recording-guidance-list{grid-template-columns:repeat(2,minmax(0,1fr));}#nsAudioShell .guidance-button{max-width:270px;margin-top:0;}#nsAudioShell .recording-grid{grid-template-columns:1fr;}#nsAudioShell .audio-recording-heading{flex-direction:column;gap:10px;}#nsAudioShell .recording-heading-actions{margin-top:0;}#nsAudioShell .metrics-grid{grid-template-columns:repeat(2,minmax(0,1fr));}#nsAudioShell .result-summary{grid-template-columns:1fr;}#nsAudioShell .quality-results-grid{grid-template-columns:1fr;}}
+@media(max-width:760px){#nsAudioShell{display:block;}#nsAudioShell .ns-workspace{margin-inline-start:0!important;width:100%;}#nsAudioShell #nsSidebar{position:fixed;top:0;bottom:0;inset-inline-start:0;width:240px;z-index:99;transform:translateX(-110%);transition:transform .2s;}#nsAudioShell[dir=rtl] #nsSidebar{transform:translateX(110%);}#nsAudioShell #nsSidebar.is-open{transform:translateX(0);}#nsAudioShell .ns-menu-toggle{display:inline-flex;}#nsAudioShell .ns-main-content{padding:16px 14px 25px;}#nsAudioShell .audio-hero{padding:20px;grid-template-columns:minmax(0,1fr) 90px;}#nsAudioShell .audio-mic-art{width:90px;height:90px;}#nsAudioShell .audio-hero h1{font-size:24.48px;}#nsAudioShell .audio-journey{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;padding:13px 10px;}#nsAudioShell .audio-journey li{flex-direction:column;align-items:center;text-align:center;gap:6px;}#nsAudioShell .audio-journey li::after{display:none;}#nsAudioShell .journey-copy strong{font-size:10.2px;}#nsAudioShell .journey-copy small{font-size:9.18px;}#nsAudioShell .submission-panel{align-items:flex-start;}#nsAudioShell .results-header{align-items:flex-start;flex-direction:column;}}
+@media(max-width:520px){#nsAudioShell .audio-work-grid{grid-template-columns:1fr;}#nsAudioShell .recording-guidance-card{grid-column:auto;}#nsAudioShell .recording-guidance-list{grid-template-columns:1fr;}#nsAudioShell .audio-hero{grid-template-columns:1fr;}#nsAudioShell .audio-hero-visual{display:none;}#nsAudioShell .submission-panel{flex-direction:column;align-items:stretch;}#nsAudioShell .audio-recording-section{padding:16px;}#nsAudioShell .ns-topbar-end{display:none;}#nsAudioShell .button-submit{width:100%;}}
+@media(prefers-reduced-motion:reduce){#nsAudioShell *{transition:none!important;animation:none!important;}}
+/* Option B: four colored stage cards with a focused active state. */
+#nsAudioShell .audio-journey-panel {margin:16px 0 20px;padding:14px;background:#fff;border:1px solid #dfe9f7;border-radius:15px;box-shadow:0 4px 14px #23456a05;}
+#nsAudioShell .audio-journey-panel .audio-journey {display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:0;padding:0;border:0;border-radius:0;box-shadow:none;overflow:visible;background:none;}
+#nsAudioShell .audio-journey-panel .audio-journey li {--tile-accent:#10b981;--tile-tint:#d3f8e8;--tile-ink:#08784e;display:flex;flex-direction:row;text-align:start;align-items:center;gap:10px;padding:20px 14px 16px;min-height:102px;background:#fff;border:1px solid #e1e9f4;border-radius:11px;isolation:auto;transition:box-shadow .2s,border-color .2s;}
+#nsAudioShell .audio-journey-panel .audio-journey li:nth-child(2) {--tile-accent:#2479ee;--tile-tint:#dcecff;--tile-ink:#1766d7;}
+#nsAudioShell .audio-journey-panel .audio-journey li:nth-child(3) {--tile-accent:#ffd43b;--tile-tint:#fff0b2;--tile-ink:#775100;}
+#nsAudioShell .audio-journey-panel .audio-journey li:nth-child(4) {--tile-accent:#9a50ef;--tile-tint:#ebd9ff;--tile-ink:#7530c4;}
+#nsAudioShell .audio-journey-panel .audio-journey li.current {background:linear-gradient(135deg,#f3f8ff,#eaf3ff);border-color:#bdd7ff;box-shadow:0 4px 12px #2166cb0d;}
+#nsAudioShell .audio-journey-panel .audio-journey li::before,#nsAudioShell .audio-journey-panel .audio-journey li:first-child::before,#nsAudioShell .audio-journey-panel .audio-journey li.current::before {content:'';position:absolute;inset:0 0 auto;height:5px;background:var(--tile-accent);border:0;border-radius:11px 11px 0 0;clip-path:none;transform:none;z-index:auto;}
+#nsAudioShell .audio-journey-panel .audio-journey li::after {content:none;display:none;}
+#nsAudioShell .audio-journey-panel .audio-journey .journey-stage {display:grid;place-items:center;flex:none;width:26px;height:26px;background:var(--tile-tint);color:var(--tile-ink);font-size:12px;border-radius:50%;}
+#nsAudioShell .audio-journey-panel .audio-journey .current .journey-stage {background:#2479ee;color:#fff;}
+#nsAudioShell .audio-journey-panel .audio-journey .journey-number {width:44px;height:44px;flex:none;background:var(--tile-tint);color:var(--tile-ink);font-size:20px;border-radius:50%;box-shadow:none;}
+#nsAudioShell .audio-journey-panel .audio-journey .complete .journey-number {background:#10aa79;color:#fff;}
+#nsAudioShell .audio-journey-panel .audio-journey li:nth-child(3) .journey-number {background:#ffe16d;}
+#nsAudioShell .audio-journey-panel .journey-copy strong {color:#172e50;font-size:14px;line-height:1.5;font-weight:700;}
+#nsAudioShell .audio-journey-panel .current .journey-copy strong {color:#155bbb;}
+#nsAudioShell .audio-journey-panel .journey-copy small {color:#667b99;font-size:12px;line-height:1.6;}
+#nsAudioShell .journey-progress-row {display:flex;gap:16px;align-items:center;margin-top:14px;}
+#nsAudioShell .journey-progress-track {height:8px;flex:1;min-width:0;background:#e5ecf6;border-radius:99px;overflow:hidden;}
+#nsAudioShell .journey-progress-fill {width:50%;height:100%;border-radius:inherit;background:linear-gradient(90deg,#10b981,#2479ee);}
+#nsAudioShell .journey-progress-label {flex:none;color:#5c7496;font-size:12px;font-weight:600;}
+@media(hover:hover){#nsAudioShell .audio-journey-panel .audio-journey li:hover{border-color:#c4d7ef;box-shadow:0 4px 13px #23456a0b;}}
+@media(max-width:1100px){#nsAudioShell .audio-journey-panel .audio-journey{grid-template-columns:repeat(2,minmax(0,1fr));}#nsAudioShell .audio-journey-panel .audio-journey li{min-height:95px;}}
+@media(max-width:520px){#nsAudioShell .audio-journey-panel{padding:10px;}#nsAudioShell .audio-journey-panel .audio-journey{gap:8px;}#nsAudioShell .audio-journey-panel .audio-journey li{display:grid;grid-template-columns:24px 36px;justify-content:start;gap:8px;padding:15px 10px 12px;}#nsAudioShell .audio-journey-panel .journey-copy{grid-column:1/-1;}#nsAudioShell .audio-journey-panel .audio-journey .journey-number{width:36px;height:36px;font-size:17px;}#nsAudioShell .audio-journey-panel .audio-journey .journey-stage{width:24px;height:24px;font-size:11px;}#nsAudioShell .audio-journey-panel .journey-copy strong{font-size:13px;}#nsAudioShell .audio-journey-panel .journey-copy small{font-size:11px;}#nsAudioShell .journey-progress-label{font-size:11px;}}
+@media(prefers-reduced-motion:reduce){#nsAudioShell .audio-journey-panel .audio-journey li{transition:none;}}
+
+
+/* Mobile corrections; desktop presentation and recording hooks retained. */
+#nsAudioShell .audio-sidebar-drawer{display:contents;}
+#nsAudioShell .audio-hero-art,#nsAudioShell .visualizer{direction:ltr;}
+#nsAudioShell .audio-hero-art svg{max-width:100%;}
+#nsAudioShell[dir=rtl] .audio-hero-eyebrow{letter-spacing:normal;}
+#nsAudioShell[dir=rtl] .ns-breadcrumb i{transform:scaleX(-1);}
+@media(max-width:760px){
+ #nsAudioShell{width:100%;max-width:100%;min-width:0;overflow-x:clip;}
+ #nsAudioShell .ns-workspace{width:100%!important;max-width:100%;min-width:0;margin-left:0!important;margin-right:0!important;}
+ #nsAudioShell .audio-sidebar-drawer{display:block;position:fixed;top:0;bottom:0;left:0;right:auto;width:min(280px,86vw);max-width:86vw;z-index:100;transform:translateX(-110%);visibility:hidden;pointer-events:none;transition:transform .2s,visibility .2s;overflow-y:auto;}
+ #nsAudioShell[dir=rtl] .audio-sidebar-drawer{right:0;left:auto;transform:translateX(110%);}
+ #nsAudioShell .audio-sidebar-drawer.is-open{transform:translateX(0);visibility:visible;pointer-events:auto;}
+ #nsAudioShell .audio-sidebar-drawer>*{position:static!important;width:100%!important;max-width:100%!important;min-width:0!important;height:auto;min-height:100%;margin:0!important;transform:none!important;}
+ #nsAudioShell .audio-sidebar-drawer #nsSidebar{position:static!important;transform:none!important;width:100%!important;}
+ #nsAudioShell .ns-menu-toggle{display:inline-flex!important;align-items:center;justify-content:center;flex:none;width:36px;height:36px;}
+ #nsAudioShell .ns-topbar{display:flex;gap:10px;min-width:0;padding-inline:12px;}
+ #nsAudioShell .ns-breadcrumb{min-width:0;flex:1;gap:7px;font-size:12px;flex-wrap:wrap;}
+ #nsAudioShell .ns-topbar-end{flex:none;}
+ #nsAudioShell .ns-main-content{padding:16px 12px 26px;}
+ #nsAudioShell .audio-screening-page,#nsAudioShell .module-overview-card,#nsAudioShell .recording-card,#nsAudioShell .audio-recording-section{min-width:0;max-width:100%;}
+ #nsAudioShell .audio-hero{grid-template-columns:minmax(0,1fr) 125px;grid-template-rows:auto auto;gap:12px;min-height:0;padding:20px;}
+ #nsAudioShell .audio-hero-copy{grid-column:1;grid-row:2;min-width:0;}
+ #nsAudioShell .audio-hero-art{display:block;width:125px;max-width:100%;grid-column:2;grid-row:2;align-self:center;justify-self:center;}
+ #nsAudioShell .audio-hero-art svg{width:100%;height:auto;overflow:hidden;}
+ #nsAudioShell .audio-hero-badge{grid-column:1/-1;grid-row:1;justify-self:start;align-self:start;margin:0;padding:4px 8px;font-size:10px;}
+ #nsAudioShell .audio-hero h1{font-size:26px;line-height:1.4;margin:6px 0 8px;}
+ #nsAudioShell .audio-hero-copy>p{font-size:13px;line-height:1.8;}
+ #nsAudioShell .audio-journey-panel .audio-journey{grid-template-columns:repeat(2,minmax(0,1fr));}
+ #nsAudioShell .audio-journey-panel .audio-journey li{min-width:0;min-height:90px;padding:14px 10px;}
+ #nsAudioShell .journey-progress-row{flex-wrap:wrap;gap:8px;}
+ #nsAudioShell .audio-work-grid,#nsAudioShell .recording-grid{grid-template-columns:1fr;gap:14px;}
+ #nsAudioShell .recording-guidance-card{grid-column:auto;}
+ #nsAudioShell .recording-guidance-list{grid-template-columns:1fr;}
+ #nsAudioShell .visualizer{width:100%;max-width:100%;gap:4px;height:70px;max-height:70px;padding:10px 5px;}
+ #nsAudioShell .visualizer span{flex:none;width:3px;}
+ #nsAudioShell .visualizer span:nth-child(9){margin-inline-end:22px;}
+ #nsAudioShell .visualizer span:nth-child(10){margin-inline-start:22px;}
+ #nsAudioShell .audio-wave-mic{width:32px;height:32px;font-size:14px;}
+ #nsAudioShell .recording-actions{flex-wrap:wrap;gap:8px;}
+ #nsAudioShell .recording-actions .button{flex:1;min-width:100px;font-size:12px;min-height:40px;}
+ #nsAudioShell .recording-title-row h3{font-size:15px;}
+ #nsAudioShell .sample-audio-player,#nsAudioShell audio{width:100%;max-width:100%;min-width:0;}
+ #nsAudioShell .sample-audio-content{grid-template-columns:34px minmax(0,1fr);}
+ #nsAudioShell .submission-panel{flex-direction:column;align-items:stretch;}
+ #nsAudioShell .button-submit{width:100%;}
+}
+@media(max-width:520px){
+ #nsAudioShell .audio-hero{grid-template-columns:1fr;gap:8px;padding:20px 18px;}
+ #nsAudioShell .audio-hero-copy{grid-column:1;grid-row:2;}
+ #nsAudioShell .audio-hero-art{grid-column:1;grid-row:3;width:170px;max-width:70%;margin:0;}
+ #nsAudioShell .audio-hero-badge{grid-column:1;grid-row:1;}
+ #nsAudioShell .audio-hero h1{font-size:25px;}
+ #nsAudioShell .ns-topbar-end{display:flex;font-size:0;}
+ #nsAudioShell .audio-recording-section{padding:16px;}
+ #nsAudioShell .module-overview-card h2{font-size:16px;}
+ #nsAudioShell .recording-card{padding:14px;}
+}
+@media(max-width:340px){#nsAudioShell .visualizer{gap:3px;}#nsAudioShell .audio-journey-panel .audio-journey .journey-number{width:30px;height:30px;font-size:15px;}}
+@media(prefers-reduced-motion:reduce){#nsAudioShell .audio-sidebar-drawer{transition:none;}}
+
+/* One consistent type scale and restrained section hierarchy. */
+#nsAudioShell .ns-main-content{background:#f7f9fc;}
+#nsAudioShell .audio-hero{grid-template-columns:minmax(0,1fr) 190px auto;gap:20px;min-height:140px;padding:24px;background:#fff;border:1px solid #d5e0ed;box-shadow:none;}
+#nsAudioShell .audio-hero::after{content:none;}
+#nsAudioShell .audio-hero h1{font-size:30px;color:#172e50;margin:6px 0 10px;}
+#nsAudioShell .audio-hero-copy>p{font-size:13px;color:#62748d;line-height:1.7;}
+#nsAudioShell .audio-hero-eyebrow{font-size:10px;font-weight:600;letter-spacing:.08em;color:#487eb9;}
+#nsAudioShell .audio-hero-art{width:190px;max-width:100%;direction:ltr;}
+#nsAudioShell .audio-hero-art svg{display:block;width:100%;height:auto;}
+#nsAudioShell .audio-hero-badge{align-self:start;background:#f1f5fa;color:#526d8e;padding:6px 9px;border-radius:8px;font-size:10px;margin:0;}
+#nsAudioShell .audio-journey-panel{padding:12px;margin:16px 0 20px;box-shadow:none;}
+#nsAudioShell .audio-journey-panel .audio-journey li{padding:14px 12px;min-height:74px;gap:9px;}
+#nsAudioShell .audio-journey-panel .audio-journey li::before{height:3px;}
+#nsAudioShell .audio-journey-panel .audio-journey .journey-number{width:30px;height:30px;font-size:14px;}
+#nsAudioShell .audio-journey-panel .audio-journey .journey-stage{width:20px;height:20px;font-size:10px;}
+#nsAudioShell .audio-journey-panel .journey-copy strong{font-size:12px;}
+#nsAudioShell .audio-journey-panel .journey-copy small{font-size:10px;}
+#nsAudioShell .journey-progress-track{height:5px;}
+#nsAudioShell .journey-progress-label{font-size:10px;}
+/* Preparation cards have stronger boundaries than decorative inner elements. */
+#nsAudioShell .audio-preparation{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;margin-bottom:22px;}
+#nsAudioShell .audio-preparation .module-overview-card{padding:20px;border:1px solid #b8cbe2;border-radius:12px;background:#fff;box-shadow:none;}
+#nsAudioShell .audio-preparation h2{font-size:14px;font-weight:600;margin:0 0 8px;line-height:1.5;}
+#nsAudioShell .audio-preparation .sample-audio-card{display:grid;grid-template-columns:32px minmax(0,1fr);gap:12px;align-items:start;}
+#nsAudioShell .audio-preparation .sample-audio-icon{width:32px;height:32px;font-size:15px;border-radius:9px;background:#eef4fc;color:#4279b9;}
+#nsAudioShell .audio-preparation .sample-audio-copy p{font-size:12px;line-height:1.75;max-width:400px;}
+#nsAudioShell .audio-preparation .sample-audio-player{grid-column:1/-1;height:36px;margin-top:6px;box-shadow:none;}
+#nsAudioShell .audio-preparation .recording-guidance-card{grid-column:auto;display:block;}
+#nsAudioShell .audio-preparation .recording-guidance-list{display:grid;grid-template-columns:1fr;gap:10px;margin:12px 0 0;}
+#nsAudioShell .audio-preparation .recording-guidance-list li{display:flex;flex-direction:row;align-items:center;gap:10px;background:none;border:0;padding:0;}
+#nsAudioShell .audio-preparation .recording-guidance-list i{display:grid;place-items:center;flex:none;width:25px;height:25px;font-size:11px;background:#f0f7f3;color:#368b69;margin:0;border-radius:7px;}
+#nsAudioShell .audio-preparation .recording-guidance-list strong{display:inline;font-size:12px;font-weight:500;color:#36516f;}
+#nsAudioShell .audio-preparation .recording-guidance-list small{display:inline;font-size:11px;color:#728198;margin-inline-start:7px;line-height:1.7;}
+#nsAudioShell .audio-recording-section{padding:20px;border:1px solid #cbd9e9;border-radius:14px;box-shadow:none;}
+#nsAudioShell .audio-recording-heading{padding:0 0 16px;margin:0 0 16px;border-bottom:1px solid #e9eef5;align-items:center;}
+#nsAudioShell .audio-recording-heading h2{font-size:16px;margin:0 0 5px;}
+#nsAudioShell .audio-recording-heading p{font-size:12px;}
+#nsAudioShell .recording-grid{gap:16px;}
+#nsAudioShell .recording-card{padding:0;border:1px solid #c4d5e9;border-radius:11px;background:#fff;overflow:hidden;box-shadow:none;}
+#nsAudioShell .recording-card-header{padding:10px 14px;margin:0;background:#f8fafd;border-bottom:1px solid #e2eaf4;}
+#nsAudioShell .recording-number{width:auto;height:auto;background:transparent;border-radius:0;font-size:11px;color:#4879b6;}
+#nsAudioShell .recording-state{font-size:10px;}
+#nsAudioShell .recording-card-body{padding:14px;gap:12px;}
+#nsAudioShell .recording-title-row h3{font-size:13px;line-height:1.5;font-weight:600;}
+#nsAudioShell .visualizer{height:64px;max-height:64px;gap:4px;padding:12px;background:#fafcff;border:1px solid #e0e9f5;border-radius:8px;box-shadow:none;direction:ltr;}
+#nsAudioShell .visualizer span{width:2px;flex:0 1 2px;min-width:1px;margin:0!important;background:#76a7df;border-radius:2px;opacity:.8;}
+#nsAudioShell .recording-actions{gap:8px;align-items:stretch;}
+#nsAudioShell .recording-actions .button{font-size:11px;min-height:38px;box-shadow:none;transform:none;}
+#nsAudioShell .record-button{flex:1;}
+#nsAudioShell .stop-button{flex:0 0 64px;}
+#nsAudioShell .upload-control{min-height:56px;padding:11px;background:#fcfdff;border:1px dashed #b7cbe4;border-radius:8px;box-shadow:none;}
+#nsAudioShell .upload-icon{font-size:14px;color:#618bbc;}
+#nsAudioShell .upload-copy strong{font-size:11px;}
+#nsAudioShell .upload-copy small{font-size:10px;}
+#nsAudioShell .upload-copy{min-width:0;overflow-wrap:anywhere;}
+#nsAudioShell .recording-card:focus-within{border-color:#779ecb;box-shadow:none;}
+#nsAudioShell .submission-panel{padding:14px;margin-top:18px;background:#f8fafd;border-color:#e0e9f4;}
+#nsAudioShell .submission-copy h3{font-size:12px;}
+#nsAudioShell .submission-copy p{font-size:11px;}
+@media(hover:hover){#nsAudioShell .recording-card:hover{border-color:#a3bedf;box-shadow:none;}#nsAudioShell .button:not(:disabled):hover{transform:none;box-shadow:none;}}
+@media(max-width:1100px){#nsAudioShell .audio-hero{grid-template-columns:minmax(0,1fr) 150px;}#nsAudioShell .audio-hero-art{width:150px;}#nsAudioShell .audio-hero-badge{grid-column:1;justify-self:start;}#nsAudioShell .audio-journey-panel .audio-journey{grid-template-columns:repeat(2,minmax(0,1fr));}}
+@media(max-width:900px){#nsAudioShell .recording-grid{grid-template-columns:1fr;}}
+@media(max-width:760px){#nsAudioShell .audio-preparation{grid-template-columns:1fr;}#nsAudioShell .audio-hero{padding:20px;grid-template-columns:minmax(0,1fr) 120px;}#nsAudioShell .audio-hero-art{width:120px;grid-column:2;grid-row:2;}#nsAudioShell .audio-hero h1{font-size:25px;}#nsAudioShell .audio-hero-badge{grid-column:1/-1;grid-row:1;}#nsAudioShell .recording-card{padding:0;}#nsAudioShell .recording-actions{flex-wrap:nowrap;}#nsAudioShell .recording-actions .button{min-width:0;}}
+@media(max-width:520px){#nsAudioShell .audio-hero{grid-template-columns:1fr;}#nsAudioShell .audio-hero-art{width:135px;grid-column:1;grid-row:3;max-width:70%;}#nsAudioShell .audio-journey-panel .audio-journey li{display:flex;padding:12px 10px;min-height:70px;}#nsAudioShell .audio-journey-panel .audio-journey .journey-stage{display:none;}#nsAudioShell .audio-journey-panel .journey-copy{grid-column:auto;}#nsAudioShell .audio-preparation .module-overview-card{padding:16px;}#nsAudioShell .audio-preparation .recording-guidance-list small{display:block;margin-inline-start:0;}#nsAudioShell .audio-recording-section{padding:16px;}#nsAudioShell .audio-recording-heading{align-items:start;}#nsAudioShell .recording-heading-actions{justify-content:start;}#nsAudioShell .recording-actions .button{min-height:42px;}}
+#nsAudioShell .visualizer span:nth-child(1){height:4px;}
+#nsAudioShell .visualizer span:nth-child(2){height:8px;}
+#nsAudioShell .visualizer span:nth-child(3){height:14px;}
+#nsAudioShell .visualizer span:nth-child(4){height:22px;}
+#nsAudioShell .visualizer span:nth-child(5){height:16px;}
+#nsAudioShell .visualizer span:nth-child(6){height:8px;}
+#nsAudioShell .visualizer span:nth-child(7){height:5px;}
+#nsAudioShell .visualizer span:nth-child(8){height:12px;}
+#nsAudioShell .visualizer span:nth-child(9){height:26px;}
+#nsAudioShell .visualizer span:nth-child(10){height:30px;}
+#nsAudioShell .visualizer span:nth-child(11){height:20px;}
+#nsAudioShell .visualizer span:nth-child(12){height:10px;}
+#nsAudioShell .visualizer span:nth-child(13){height:5px;}
+#nsAudioShell .visualizer span:nth-child(14){height:13px;}
+#nsAudioShell .visualizer span:nth-child(15){height:22px;}
+#nsAudioShell .visualizer span:nth-child(16){height:14px;}
+#nsAudioShell .visualizer span:nth-child(17){height:7px;}
+#nsAudioShell .visualizer span:nth-child(18){height:3px;}
+</style>
 {% with lang=request.LANG|default:'en' %}
-
-<main class="audio-screening-page" lang="{% if lang == 'ur' %}ur{% else %}en{% endif %}" dir="{% if lang == 'ur' %}rtl{% else %}ltr{% endif %}">
-
-    <section class="audio-hero">
-        <div class="audio-page-container audio-hero-layout">
-
-            <div class="audio-hero-copy">
-
-                <span class="audio-hero-badge">
-                    <i class="fa-solid fa-microphone-lines"></i>
-                    {% if lang == 'ur' %}
-                    آڈیو اسکریننگ · مرحلہ 2 از 4
-                    {% else %}
-                    Audio Screening · Step 2 of 4
-                    {% endif %}
-                </span>
-
-                <h1>
-                    {% if lang == 'ur' %}
-                    آڈیو اسکریننگ
-                    {% else %}
-                    Audio Screening
-                    {% endif %}
-                </h1>
-
-                <p>
-                    {% if lang == 'ur' %}
-                    چند سیکنڈ کے لیے /aaaa/ آواز کو تلفظ اور برقرار رکھیں تاکہ نیوروسینس اے آئی آپ کی آواز کی اہم خصوصیات کا تجزیہ کر سکے۔
-                    {% else %}
-                    Pronounce and sustain the /aaaa/ sound for a few seconds so NeuroSense AI can analyze key voice characteristics as part of your guided screening journey.
-                    {% endif %}
-                </p>
-
-            </div>
-
-            <div class="audio-hero-visual" aria-hidden="true">
-                <img
-                    src="{% static 'speech_app/images/6.png' %}"
-                    alt="Audio screening illustration"
-                >
-            </div>
-
-        </div>
-    </section>
-
-
-    <div class="audio-page-container audio-page-content">
-
-        <section class="overall-progress-card">
-
-            <div class="overall-progress-header">
-                <strong>
-                    {% if lang == 'ur' %}مجموعی پیشرفت{% else %}Overall Progress{% endif %}
-                </strong>
-                <span>30%</span>
-            </div>
-
-            <div class="overall-progress-track">
-                <span class="overall-progress-value"></span>
-            </div>
-
-            <div class="overall-progress-footer">
-                <p>
-                    {% if lang == 'ur' %}آپ نے 4 میں سے 1 ماڈیول مکمل کر لیا ہے۔{% else %}You have completed 1 of 4 modules{% endif %}
-                </p>
-                <p>
-                    {% if lang == 'ur' %}متوقع باقی وقت: ~15 منٹ{% else %}Estimated time remaining: ~15 mins{% endif %}
-                </p>
-            </div>
-
-        </section>
-
-
-        <section class="module-overview-grid">
-
-            <article class="module-overview-card sample-audio-card">
-
-                <h2>
-                    {% if lang == 'ur' %}نمونہ سنیں{% else %}Listen to a Sample{% endif %}
-                </h2>
-
-                <div class="sample-audio-content">
-                    <div class="sample-audio-icon"><i class="fa-solid fa-volume-high"></i></div>
-                    <div class="sample-audio-copy">
-                        <h3>
-                            {% if lang == 'ur' %}نمونہ آواز کی ریکارڈنگ{% else %}Sample Voice Recording{% endif %}
-                        </h3>
-                        <p>
-                            {% if lang == 'ur' %}
-                            اپنی آواز ریکارڈ کرنے سے پہلے "آآآ" آواز کو برقرار رکھنے کا طریقہ سمجھنے کے لیے نمونہ سنیں۔
-                            {% else %}
-                            Listen to the sample to understand how to sustain the "Aaaa" sound before recording your own voice.
-                            {% endif %}
-                        </p>
-                    </div>
-                    <audio class="sample-audio-player" controls preload="metadata">
-                        <source src="{% static 'speech_app/audio/sample_aaaa.wav' %}" type="audio/wav">
-                        Your browser does not support audio playback.
-                    </audio>
-                    <p class="sample-audio-note">
-                        <i class="fa-solid fa-circle-info"></i>
-                        {% if lang == 'ur' %}
-                        وضاحت اور مستحکم لہجے کو ملائیں — عین آواز کو نہیں۔
-                        {% else %}
-                        Match the clarity and steady tone — not the exact voice.
-                        {% endif %}
-                    </p>
-                </div>
-
-                <div class="module-time">
-                    <span class="module-time-icon"><i class="fa-regular fa-clock"></i></span>
-                    <div>
-                        <span>
-                            {% if lang == 'ur' %}متوقع وقت{% else %}Estimated Time{% endif %}
-                        </span>
-                        <strong>
-                            {% if lang == 'ur' %}5–7 منٹ{% else %}5–7 minutes{% endif %}
-                        </strong>
-                    </div>
-                </div>
-
-            </article>
-
-
-            <article class="module-overview-card screening-steps-card">
-
-                <h2>
-                    {% if lang == 'ur' %}آڈیو اسکریننگ کے مراحل{% else %}Audio Screening Steps{% endif %}
-                </h2>
-
-                <div class="screening-step screening-step-required">
-
-                    <span class="screening-step-number">1</span>
-
-                    <div class="screening-step-copy">
-                        <strong>
-                            {% if lang == 'ur' %}پہلی آواز کی ریکارڈنگ{% else %}First Voice Recording{% endif %}
-                        </strong>
-                        <small>
-                            {% if lang == 'ur' %}"آآآ" آواز کو 4-6 سیکنڈ تک واضح طور پر برقرار رکھیں۔{% else %}Sustain the "Aaaa" sound clearly for 4–6 seconds.{% endif %}
-                        </small>
-                    </div>
-
-                    <span class="screening-step-status">
-                        {% if lang == 'ur' %}ضروری{% else %}Required{% endif %}
-                    </span>
-
-                </div>
-
-                <div class="screening-step screening-step-required">
-
-                    <span class="screening-step-number">2</span>
-
-                    <div class="screening-step-copy">
-                        <strong>
-                            {% if lang == 'ur' %}دوسری آواز کی ریکارڈنگ{% else %}Second Voice Recording{% endif %}
-                        </strong>
-                        <small>
-                            {% if lang == 'ur' %}"آآآ" آواز کو مزید 4-6 سیکنڈ کے لیے دہرائیں۔{% else %}Repeat the "Aaaa" sound for another 4–6 seconds.{% endif %}
-                        </small>
-                    </div>
-
-                    <span class="screening-step-status">
-                        {% if lang == 'ur' %}ضروری{% else %}Required{% endif %}
-                    </span>
-
-                </div>
-
-                <div class="screening-step screening-step-required">
-
-                    <span class="screening-step-number">3</span>
-
-                    <div class="screening-step-copy">
-                        <strong>
-                            {% if lang == 'ur' %}تیسری آواز کی ریکارڈنگ{% else %}Third Voice Recording{% endif %}
-                        </strong>
-                        <small>
-                            {% if lang == 'ur' %}4-6 سیکنڈ کے لیے حتمی "آآآ" ریکارڈنگ مکمل کریں۔{% else %}Complete one final "Aaaa" recording for 4–6 seconds.{% endif %}
-                        </small>
-                    </div>
-
-                    <span class="screening-step-status">
-                        {% if lang == 'ur' %}ضروری{% else %}Required{% endif %}
-                    </span>
-
-                </div>
-
-                <div class="screening-step">
-
-                    <span class="screening-step-number">4</span>
-
-                    <div class="screening-step-copy">
-                        <strong>
-                            {% if lang == 'ur' %}آواز کے معیار کی تشخیص{% else %}Voice Quality Assessment{% endif %}
-                        </strong>
-                        <small>
-                            {% if lang == 'ur' %}خودکار اے آئی اسکریننگ{% else %}Automatic AI screening{% endif %}
-                        </small>
-                    </div>
-
-                    <span class="screening-step-status">
-                        {% if lang == 'ur' %}زیر التواء{% else %}Pending{% endif %}
-                    </span>
-
-                </div>
-
-            </article>
-
-
-            <aside
-                class="module-overview-card recording-guidance-card"
-                id="guidance-panel"
-            >
-
-                <h2>
-                    {% if lang == 'ur' %}بہترین نتائج کے لیے نکات{% else %}Tips for best results{% endif %}
-                </h2>
-
-                <ul class="recording-guidance-list">
-
-                    <li>
-                        <i class="fa-solid fa-check"></i>
-                        {% if lang == 'ur' %}پرسکون ماحول تلاش کریں{% else %}Find a quiet environment{% endif %}
-                    </li>
-
-                    <li>
-                        <i class="fa-solid fa-check"></i>
-                        {% if lang == 'ur' %}واضح اور قدرتی طور پر بولیں{% else %}Speak clearly and naturally{% endif %}
-                    </li>
-
-                    <li>
-                        <i class="fa-solid fa-check"></i>
-                        {% if lang == 'ur' %}مائیکروفون کو تقریباً 15-20 سینٹی میٹر دور رکھیں{% else %}Keep the microphone about 15–20 cm away{% endif %}
-                    </li>
-
-                    <li>
-                        <i class="fa-solid fa-check"></i>
-                        {% if lang == 'ur' %}تین مختلف آواز کے نمونے ریکارڈ کریں{% else %}Record three different voice samples{% endif %}
-                    </li>
-
-                </ul>
-
-                <button
-                    type="button"
-                    class="guidance-button"
-                    id="help-button"
-                    aria-controls="guidance-panel"
-                    aria-expanded="false"
-                >
-                    <i class="fa-regular fa-circle-question"></i>
-                    {% if lang == 'ur' %}ریکارڈنگ کی رہنمائی دیکھیں{% else %}View Recording Guidance{% endif %}
-                </button>
-
-            </aside>
-
-        </section>
-
-
-        <section
-            class="audio-recording-section"
-            aria-labelledby="screening-heading"
-        >
-
-            <div class="audio-recording-heading">
-
-                <div>
-
-                    <span class="section-label">
-                        {% if lang == 'ur' %}آڈیو ریکارڈنگ{% else %}Audio Recording{% endif %}
-                    </span>
-
-                    <h2 id="screening-heading">
-                        {% if lang == 'ur' %}اپنی آواز کی ریکارڈنگ شامل کریں{% else %}Add your voice recordings{% endif %}
-                    </h2>
-
-                    <p>
-                        {% if lang == 'ur' %}
-                        براہ راست اپنے مائیکروفون کا استعمال کرتے ہوئے ریکارڈ کریں یا موجودہ آڈیو فائل اپ لوڈ کریں۔
-                        {% else %}
-                        Record directly using your microphone or upload an existing audio file.
-                        {% endif %}
-                    </p>
-
-                </div>
-
-                <div class="recording-heading-actions">
-
+<div class="ns-app-shell" id="nsAudioShell" dir="{% if lang == 'ur' %}rtl{% else %}ltr{% endif %}">
+<div class="audio-sidebar-drawer" id="audioSidebarDrawer">{% include 'includes/workspace_sidebar.html' %}</div>
+<button class="audio-sidebar-backdrop" id="audioSidebarBackdrop" type="button" aria-label="{% if lang == 'ur' %}نیویگیشن بند کریں{% else %}Close navigation{% endif %}" hidden></button>
+<div class="ns-workspace"><div class="ns-topbar"><button class="ns-menu-toggle" id="audioMenuToggle" type="button" aria-controls="audioSidebarDrawer" aria-expanded="false" aria-label="{% if lang == 'ur' %}نیویگیشن کھولیں{% else %}Open navigation{% endif %}"><i class="fa-solid fa-bars" aria-hidden="true"></i></button><div class="ns-breadcrumb"><span>NeuroSense AI</span><i class="fa-solid fa-chevron-right" aria-hidden="true"></i><strong>{% if lang == 'ur' %}آڈیو اسکریننگ{% else %}Audio Screening{% endif %}</strong></div><div class="ns-topbar-end">{% if lang == 'ur' %}میری اسکریننگ{% else %}My Screening Space{% endif %}<a class="ns-top-avatar" href="{% url 'accounts:profile' %}" aria-label="{% if lang == 'ur' %}پروفائل{% else %}Profile{% endif %}"><i class="fa-regular fa-user" aria-hidden="true"></i></a></div></div>
+<div class="ns-main-content"><main class="audio-screening-page" lang="{% if lang == 'ur' %}ur{% else %}en{% endif %}" dir="{% if lang == 'ur' %}rtl{% else %}ltr{% endif %}">
+<section class="audio-hero" aria-labelledby="audio-page-title">
+<div class="audio-hero-copy"><span class="audio-hero-eyebrow">{% if lang == 'ur' %}آواز کا جائزہ{% else %}AUDIO ASSESSMENT{% endif %}</span><h1 id="audio-page-title">{% if lang == 'ur' %}آڈیو اسکریننگ{% else %}Audio Screening{% endif %}</h1><p>{% if lang == 'ur' %}"آآآ" آواز تین بار ریکارڈ کریں۔ ہر ریکارڈنگ ۴ تا ۶ سیکنڈ کی ہو۔{% else %}Record the “Aaaa” sound three times. Each recording takes 4–6 seconds.{% endif %}</p></div>
+<div class="audio-hero-art" aria-hidden="true"><svg viewBox="0 0 270 130" focusable="false" xmlns="http://www.w3.org/2000/svg">
+<defs><linearGradient id="audioHeroMetal" x1="0" y1="0" x2="1" y2=".8"><stop stop-color="#e1f5ff"/><stop offset=".35" stop-color="#73b9ff"/><stop offset=".62" stop-color="#2279e8"/><stop offset="1" stop-color="#1756b7"/></linearGradient><linearGradient id="audioHeroShine" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff" stop-opacity=".9"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient></defs>
+<path d="M0 113C65 109 56 30 119 29S201 43 270 8M0 123C71 119 65 39 123 38S210 57 270 22" fill="none" stroke="#d7eaff" stroke-width=".8"/>
+<circle class="hero-acoustic-ring" cx="135" cy="65" r="41" fill="#f4faff" stroke="#dfedff"/><circle cx="135" cy="65" r="33" fill="#ebf5ff" stroke="#deedff"/>
+<g fill="#71b6ff"><rect class="hero-sound-bar" x="36" y="62.5" width="3" height="5" rx="1.5" style="animation-delay:0.00s"/><rect class="hero-sound-bar" x="43" y="61.0" width="3" height="8" rx="1.5" style="animation-delay:0.09s"/><rect class="hero-sound-bar" x="50" y="59.0" width="3" height="12" rx="1.5" style="animation-delay:0.18s"/><rect class="hero-sound-bar" x="57" y="56.0" width="3" height="18" rx="1.5" style="animation-delay:0.27s"/><rect class="hero-sound-bar" x="64" y="52.0" width="3" height="26" rx="1.5" style="animation-delay:0.36s"/><rect class="hero-sound-bar" x="71" y="48.5" width="3" height="33" rx="1.5" style="animation-delay:0.45s"/><rect class="hero-sound-bar" x="78" y="53.0" width="3" height="24" rx="1.5" style="animation-delay:0.54s"/><rect class="hero-sound-bar" x="85" y="56.5" width="3" height="17" rx="1.5" style="animation-delay:0.63s"/><rect class="hero-sound-bar" x="92" y="59.5" width="3" height="11" rx="1.5" style="animation-delay:0.72s"/><rect class="hero-sound-bar" x="99" y="61.5" width="3" height="7" rx="1.5" style="animation-delay:0.81s"/><rect class="hero-sound-bar" x="106" y="62.5" width="3" height="5" rx="1.5" style="animation-delay:0.90s"/><rect class="hero-sound-bar" x="161" y="61.5" width="3" height="7" rx="1.5" style="animation-delay:0.99s"/><rect class="hero-sound-bar" x="168" y="59.5" width="3" height="11" rx="1.5" style="animation-delay:1.08s"/><rect class="hero-sound-bar" x="175" y="56.5" width="3" height="17" rx="1.5" style="animation-delay:1.17s"/><rect class="hero-sound-bar" x="182" y="53.0" width="3" height="24" rx="1.5" style="animation-delay:1.26s"/><rect class="hero-sound-bar" x="189" y="48.5" width="3" height="33" rx="1.5" style="animation-delay:1.35s"/><rect class="hero-sound-bar" x="196" y="52.0" width="3" height="26" rx="1.5" style="animation-delay:1.44s"/><rect class="hero-sound-bar" x="203" y="56.0" width="3" height="18" rx="1.5" style="animation-delay:1.53s"/><rect class="hero-sound-bar" x="210" y="59.0" width="3" height="12" rx="1.5" style="animation-delay:1.62s"/><rect class="hero-sound-bar" x="217" y="61.0" width="3" height="8" rx="1.5" style="animation-delay:1.71s"/><rect class="hero-sound-bar" x="224" y="62.5" width="3" height="5" rx="1.5" style="animation-delay:1.80s"/><rect class="hero-sound-bar" x="231" y="63.0" width="3" height="4" rx="1.5" style="animation-delay:1.89s"/></g>
+<g class="hero-microphone"><ellipse cx="135" cy="101" rx="19" ry="3" fill="#d6e7fa"/><rect x="124" y="34" width="22" height="43" rx="11" fill="url(#audioHeroMetal)"/><rect x="126" y="36" width="6" height="31" rx="3" fill="url(#audioHeroShine)"/><path d="M118 63v4a17 17 0 0 0 34 0v-4" fill="none" stroke="#246fda" stroke-width="4" stroke-linecap="round"/><path d="M135 85v10M126 96h18" fill="none" stroke="#246fda" stroke-width="4" stroke-linecap="round"/></g>
+<circle cx="37" cy="35" r="2.5" fill="#23b5bc"/><circle cx="217" cy="26" r="2.5" fill="#f6ba47"/><circle cx="247" cy="98" r="2" fill="#b4d8ff"/>
+</svg></div><span class="audio-hero-badge">{% if lang == 'ur' %}مرحلہ ۲ از ۴{% else %}Step 2 of 4{% endif %}</span>
+</section><section class="audio-journey-panel" aria-label="{% if lang == 'ur' %}اسکریننگ کی پیش رفت{% else %}Screening progress{% endif %}"><ol class="audio-journey" aria-label="{% if lang == 'ur' %}اسکریننگ کے مراحل{% else %}Screening stages{% endif %}"><li class="complete"><b class="journey-stage" aria-hidden="true">1</b><span class="journey-number"><i class="fa-solid fa-check" aria-hidden="true"></i></span><span class="journey-copy"><strong>{% if lang == 'ur' %}سوالنامہ{% else %}Questionnaire{% endif %}</strong><small>{% if lang == 'ur' %}مکمل{% else %}Completed{% endif %}</small></span></li><li class="current" aria-current="step"><b class="journey-stage" aria-hidden="true">2</b><span class="journey-number"><i class="fa-solid fa-microphone-lines" aria-hidden="true"></i></span><span class="journey-copy"><strong>{% if lang == 'ur' %}آڈیو{% else %}Audio{% endif %}</strong><small>{% if lang == 'ur' %}جاری{% else %}In progress{% endif %}</small></span></li><li class=""><b class="journey-stage" aria-hidden="true">3</b><span class="journey-number"><i class="fa-solid fa-person-walking" aria-hidden="true"></i></span><span class="journey-copy"><strong>{% if lang == 'ur' %}چال{% else %}Gait{% endif %}</strong><small>{% if lang == 'ur' %}اگلا{% else %}Next{% endif %}</small></span></li><li class=""><b class="journey-stage" aria-hidden="true">4</b><span class="journey-number"><i class="fa-solid fa-file-lines" aria-hidden="true"></i></span><span class="journey-copy"><strong>{% if lang == 'ur' %}رپورٹ{% else %}Report{% endif %}</strong><small>{% if lang == 'ur' %}زیر التواء{% else %}Pending{% endif %}</small></span></li></ol><div class="journey-progress-row"><div class="journey-progress-track" aria-hidden="true"><div class="journey-progress-fill"></div></div><span class="journey-progress-label">{% if lang == 'ur' %}مرحلہ ۲ از ۴{% else %}Step 2 of 4{% endif %}</span></div></section><section class="audio-work-grid audio-preparation" aria-label="{% if lang == 'ur' %}ریکارڈنگ کی تیاری{% else %}Recording preparation{% endif %}">
+<article class="module-overview-card sample-audio-card"><div class="sample-audio-icon"><i class="fa-solid fa-volume-high" aria-hidden="true"></i></div><div class="sample-audio-copy"><h2>{% if lang == 'ur' %}پہلے نمونہ سنیں{% else %}Listen first{% endif %}</h2><p>{% if lang == 'ur' %}نمونہ سنیں، پھر اپنی ”آآآ“ آواز ۴–۶ سیکنڈ تک ریکارڈ کریں۔{% else %}Listen to the “Aaaa” sound, then record your own voice for 4–6 seconds.{% endif %}</p></div><audio class="sample-audio-player" controls preload="metadata" aria-label="{% if lang == 'ur' %}نمونہ آواز{% else %}Sample voice recording{% endif %}"><source src="{% static 'speech_app/audio/sample_aaaa.wav' %}" type="audio/wav"></audio></article>
+<aside class="module-overview-card recording-guidance-card" id="guidance-panel"><h2>{% if lang == 'ur' %}ریکارڈنگ سے پہلے{% else %}Before you record{% endif %}</h2><ul class="recording-guidance-list"><li><i class="fa-solid fa-volume-xmark" aria-hidden="true"></i><span><strong>{% if lang == 'ur' %}پرسکون جگہ{% else %}Quiet space{% endif %}</strong><small>{% if lang == 'ur' %}پس منظر کا شور کم کریں۔{% else %}Reduce background noise.{% endif %}</small></span></li><li><i class="fa-solid fa-microphone" aria-hidden="true"></i><span><strong>{% if lang == 'ur' %}مائیک کا فاصلہ{% else %}Mic distance{% endif %}</strong><small>{% if lang == 'ur' %}۱۵–۲۰ سینٹی میٹر دور رکھیں۔{% else %}Keep it 15–20 cm away.{% endif %}</small></span></li><li><i class="fa-solid fa-wave-square" aria-hidden="true"></i><span><strong>{% if lang == 'ur' %}مستحکم آواز{% else %}Steady voice{% endif %}</strong><small>{% if lang == 'ur' %}قدرتی لہجے میں ”آآآ“ کہیں۔{% else %}Say “Aaaa” at a natural pitch.{% endif %}</small></span></li></ul></aside></section>
+<section class="audio-recording-section" aria-labelledby="screening-heading"><div class="audio-recording-heading"><div><h2 id="screening-heading">{% if lang == 'ur' %}اپنی آواز کی ریکارڈنگ شامل کریں{% else %}Add your voice recordings{% endif %}</h2><p>{% if lang == 'ur' %}ہر نمونے کے لیے مائیکروفون استعمال کریں یا موجودہ آڈیو فائل اپ لوڈ کریں۔{% else %}Record or upload one audio file in each card.{% endif %}</p></div><div class="recording-heading-actions">
                     <span
                         class="service-status"
                         id="service-status"
@@ -316,12 +357,10 @@ Audio Screening - NeuroSense AI
                             class="status-dot"
                             aria-hidden="true"
                         ></span>
-
                         <span data-status-text>
                             {% if lang == 'ur' %}سروس کی جانچ{% else %}Checking service{% endif %}
                         </span>
                     </span>
-
                     <div
                         class="completion-badge"
                         id="completion-badge"
@@ -330,13 +369,8 @@ Audio Screening - NeuroSense AI
                         <span id="completed-count">0</span>
                         {% if lang == 'ur' %}/3 تیار{% else %}/3 ready{% endif %}
                     </div>
-
-                </div>
-
-            </div>
-
-
-            <form
+                </div></div>
+<form
                 id="screening-form"
                 method="post"
                 enctype="multipart/form-data"
@@ -346,60 +380,39 @@ Audio Screening - NeuroSense AI
                 data-required-recordings="3"
                 data-max-seconds="6"
                 data-lang="{{ lang }}"
-            >
-
-                {% csrf_token %}
-
-                <div class="recording-grid">
-
+            >{% csrf_token %}<div class="recording-grid">
                     {% for slot in "123" %}
-
                     <article
                         class="recording-card"
                         data-recording-slot="{{ forloop.counter }}"
                     >
-
                         <div class="recording-card-header">
-
                             <div class="recording-number">
                                 {{ forloop.counter|stringformat:"02d" }}
                             </div>
-
                             <div class="recording-state">
-
                                 <span
                                     class="state-dot"
                                     aria-hidden="true"
                                 ></span>
-
                                 <span
                                     class="state-text"
                                     id="state-text-{{ forloop.counter }}"
                                 >
                                     {% if lang == 'ur' %}ریکارڈ نہیں کیا{% else %}Not recorded{% endif %}
                                 </span>
-
                             </div>
-
                         </div>
-
-
                         <div class="recording-card-body">
-
                             <div class="recording-title-row">
-
                                 <div>
-
                                     <span class="card-kicker">
                                         {% if lang == 'ur' %}آواز کا نمونہ{% else %}Voice Sample{% endif %}
                                     </span>
-
                                     <h3>
                                         {% if lang == 'ur' %}ریکارڈنگ{% else %}Recording{% endif %} {{ forloop.counter }}
                                     </h3>
-
                                 </div>
-
                                 <button
                                     type="button"
                                     class="remove-recording-button"
@@ -409,10 +422,7 @@ Audio Screening - NeuroSense AI
                                 >
                                     <i class="fa-solid fa-xmark"></i>
                                 </button>
-
                             </div>
-
-
                             <div
                                 class="visualizer"
                                 id="visualizer-{{ forloop.counter }}"
@@ -437,28 +447,20 @@ Audio Screening - NeuroSense AI
                                 <span></span>
                                 <span></span>
                             </div>
-
-
                             <div class="recording-meta">
-
                                 <span
                                     class="recording-timer"
                                     id="timer-{{ forloop.counter }}"
                                 >
                                     00:00
                                 </span>
-
                                 <span class="recording-limit">
                                     {% if lang == 'ur' %}زیادہ سے زیادہ{% else %}Maximum{% endif %}
                                     {{ maximum_recording_seconds|default:6 }}
                                     {% if lang == 'ur' %}سیکنڈ{% else %}seconds{% endif %}
                                 </span>
-
                             </div>
-
-
                             <div class="recording-actions">
-
                                 <button
                                     type="button"
                                     class="button button-primary record-button"
@@ -467,7 +469,6 @@ Audio Screening - NeuroSense AI
                                     <i class="fa-solid fa-microphone"></i>
                                     {% if lang == 'ur' %}ریکارڈنگ شروع کریں{% else %}Start recording{% endif %}
                                 </button>
-
                                 <button
                                     type="button"
                                     class="button button-secondary stop-button"
@@ -477,19 +478,13 @@ Audio Screening - NeuroSense AI
                                     <i class="fa-solid fa-stop"></i>
                                     {% if lang == 'ur' %}روکیں{% else %}Stop{% endif %}
                                 </button>
-
                             </div>
-
-
                             <div class="upload-divider">
                                 <span>
                                     {% if lang == 'ur' %}یا فائل اپ لوڈ کریں{% else %}or upload a file{% endif %}
                                 </span>
                             </div>
-
-
                             <label class="upload-control">
-
                                 <input
                                     type="file"
                                     name="recording_{{ forloop.counter }}"
@@ -497,36 +492,26 @@ Audio Screening - NeuroSense AI
                                     accept=".wav,.mp4,.ogg,.webm,audio/wav,audio/mp4,audio/ogg,audio/webm"
                                     data-slot="{{ forloop.counter }}"
                                 >
-
                                 <span
                                     class="upload-icon"
                                     aria-hidden="true"
                                 >
                                     <i class="fa-solid fa-arrow-up-from-bracket"></i>
                                 </span>
-
                                 <span class="upload-copy">
-
                                     <strong>
                                         {% if lang == 'ur' %}آڈیو فائل اپ لوڈ کریں{% else %}Upload audio file{% endif %}
                                     </strong>
-
                                     <small>
                                         {% if lang == 'ur' %}WAV, MP4, OGG یا WebM{% else %}WAV, MP4, OGG or WebM{% endif %}
                                     </small>
-
                                 </span>
-
                             </label>
-
-
                             <p
                                 class="file-name"
                                 id="file-name-{{ forloop.counter }}"
                                 hidden
                             ></p>
-
-
                             <audio
                                 class="audio-preview"
                                 id="audio-preview-{{ forloop.counter }}"
@@ -534,53 +519,36 @@ Audio Screening - NeuroSense AI
                                 preload="metadata"
                                 hidden
                             ></audio>
-
-
                             <p
                                 class="field-message"
                                 id="field-message-{{ forloop.counter }}"
                                 role="status"
                                 aria-live="polite"
                             ></p>
-
                         </div>
-
                     </article>
-
                     {% endfor %}
-
-                </div>
-
-
-                <div class="submission-panel">
-
+                </div><div class="submission-panel">
                     <div class="submission-copy">
-
                         <div
                             class="submission-icon"
                             aria-hidden="true"
                         >
                             <i class="fa-solid fa-shield-halved"></i>
                         </div>
-
                         <div>
-
                             <h3>
                                 {% if lang == 'ur' %}تجزیہ کے لیے تیار{% else %}Ready for analysis{% endif %}
                             </h3>
-
                             <p>
                                 {% if lang == 'ur' %}
                                 اسکریننگ شروع کرنے سے پہلے تینوں ریکارڈنگز کا ہونا ضروری ہے۔
                                 {% else %}
-                                All three recordings must be added before screening can begin.
+                                Add all 3 samples to continue.
                                 {% endif %}
                             </p>
-
                         </div>
-
                     </div>
-
                     <button
                         type="submit"
                         class="button button-submit"
@@ -592,42 +560,28 @@ Audio Screening - NeuroSense AI
                         </span>
                         <i class="fa-solid fa-arrow-right"></i>
                     </button>
-
-                </div>
-
-            </form>
-
-        </section>
-
-
-        <section
+                </div></form></section>
+<section
             class="status-section"
             id="processing-section"
             hidden
             aria-labelledby="processing-title"
         >
-
             <div class="processing-card">
-
                 <div
                     class="processing-spinner"
                     aria-hidden="true"
                 ></div>
-
                 <div class="processing-content">
-
                     <span class="section-label">
                         {% if lang == 'ur' %}آڈیو تجزیہ{% else %}Audio Analysis{% endif %}
                     </span>
-
                     <h2 id="processing-title">
                         {% if lang == 'ur' %}آپ کی ریکارڈنگز کا تجزیہ ہو رہا ہے...{% else %}Analyzing your recordings...{% endif %}
                     </h2>
-
                     <p id="processing-message">
                         {% if lang == 'ur' %}معیار کی تشخیص کے لیے آڈیو تیار کی جا رہی ہے۔{% else %}Preparing audio for quality assessment.{% endif %}
                     </p>
-
                     <div
                         class="progress-track"
                         role="progressbar"
@@ -638,37 +592,25 @@ Audio Screening - NeuroSense AI
                     >
                         <span id="analysis-progress-bar"></span>
                     </div>
-
                 </div>
-
             </div>
-
         </section>
-
-
-        <section
+<section
             class="results-section"
             id="results-section"
             hidden
             aria-labelledby="results-title"
         >
-
             <div class="results-card">
-
                 <div class="results-header">
-
                     <div>
-
                         <span class="section-label">
                             {% if lang == 'ur' %}آڈیو ماڈیول مکمل{% else %}Audio Module Complete{% endif %}
                         </span>
-
                         <h2 id="results-title">
                             {% if lang == 'ur' %}آواز کی اسکریننگ کا نتیجہ{% else %}Voice screening result{% endif %}
                         </h2>
-
                     </div>
-
                     <button
                         type="button"
                         class="button button-secondary"
@@ -679,91 +621,63 @@ Audio Screening - NeuroSense AI
                             {% if lang == 'ur' %}دوبارہ شروع کریں{% else %}Start again{% endif %}
                         </span>
                     </button>
-
                 </div>
-
-
                 <div class="result-summary">
-
                     <div
                         class="result-status-card"
                         id="result-status-card"
                     >
-
                         <span class="result-label">
                             {% if lang == 'ur' %}اسکریننگ کیٹیگری{% else %}Screening category{% endif %}
                         </span>
-
                         <strong id="result-category">
                             —
                         </strong>
-
                         <p id="result-message"></p>
-
                     </div>
-
-
                     <div class="metrics-grid">
-
                         <div class="metric-card">
                             <span>
                                 {% if lang == 'ur' %}فیصلہ سکور{% else %}Decision score{% endif %}
                             </span>
                             <strong id="result-score">—</strong>
                         </div>
-
                         <div class="metric-card">
                             <span>
                                 {% if lang == 'ur' %}اعتماد{% else %}Confidence{% endif %}
                             </span>
                             <strong id="result-confidence">—</strong>
                         </div>
-
                         <div class="metric-card">
                             <span>
                                 {% if lang == 'ur' %}مستقل مزاجی{% else %}Consistency{% endif %}
                             </span>
                             <strong id="result-consistency">—</strong>
                         </div>
-
                         <div class="metric-card">
                             <span>
                                 {% if lang == 'ur' %}اتفاق{% else %}Agreement{% endif %}
                             </span>
                             <strong id="result-agreement">—</strong>
                         </div>
-
                     </div>
-
                 </div>
-
-
                 <div class="recording-results">
-
                     <div class="results-subheading">
-
                         <h3>
                             {% if lang == 'ur' %}ریکارڈنگ کا معیار{% else %}Recording quality{% endif %}
                         </h3>
-
                         <p>
                             {% if lang == 'ur' %}انفرادی ریکارڈنگ کا معیار اور پیش گوئی کی تفصیلات۔{% else %}Individual recording quality and prediction details.{% endif %}
                         </p>
-
                     </div>
-
                     <div
                         class="quality-results-grid"
                         id="quality-results-grid"
                     ></div>
-
                 </div>
-
-
                 <div class="disclaimer-panel">
-
                     <i class="fa-solid fa-circle-info"></i>
-
                     <p id="result-disclaimer">
                         {% if lang == 'ur' %}
                         یہ نتیجہ صرف اسکریننگ کے مقاصد کے لیے ہے اور طبی تشخیص نہیں ہے۔
@@ -771,51 +685,38 @@ Audio Screening - NeuroSense AI
                         This result is intended for screening purposes only and is not a medical diagnosis.
                         {% endif %}
                     </p>
-
                 </div>
-
             </div>
-
         </section>
-
-
-        <section
+<section
             class="error-section"
             id="error-section"
             hidden
             aria-labelledby="error-title"
         >
-
             <div
                 class="error-card"
                 role="alert"
             >
-
                 <div
                     class="error-icon"
                     aria-hidden="true"
                 >
                     <i class="fa-solid fa-triangle-exclamation"></i>
                 </div>
-
                 <div class="error-content">
-
                     <span class="section-label">
                         {% if lang == 'ur' %}کارروائی درکار ہے{% else %}Action Required{% endif %}
                     </span>
-
                     <h2 id="error-title">
                         {% if lang == 'ur' %}اسکریننگ مکمل نہیں ہو سکی{% else %}Screening could not be completed{% endif %}
                     </h2>
-
                     <p id="error-message"></p>
-
                     <div
                         class="replacement-list"
                         id="replacement-list"
                         hidden
                     ></div>
-
                     <button
                         type="button"
                         class="button button-primary"
@@ -826,58 +727,14 @@ Audio Screening - NeuroSense AI
                             {% if lang == 'ur' %}ریکارڈنگز کا جائزہ لیں{% else %}Review recordings{% endif %}
                         </span>
                     </button>
-
                 </div>
-
             </div>
-
-        </section>
-
-
-        <section class="screening-security-banner">
-
-            <div
-                class="security-banner-icon"
-                aria-hidden="true"
-            >
-                <i class="fa-solid fa-shield-halved"></i>
-            </div>
-
-            <div class="security-banner-copy">
-
-                <strong>
-                    {% if lang == 'ur' %}آپ کا ڈیٹا محفوظ اور انکرپٹ ہے۔{% else %}Your data is secure and encrypted.{% endif %}
-                </strong>
-
-                <span>
-                    {% if lang == 'ur' %}ہم آپ کی پرائیویسی اور ڈیٹا کے تحفظ کو ترجیح دیتے ہیں۔{% else %}We prioritize your privacy and data protection.{% endif %}
-                </span>
-
-            </div>
-
-            <a href="#">
-                <i class="fa-solid fa-circle-info"></i>
-                <span>
-                    {% if lang == 'ur' %}ڈیٹا سیکیورٹی کے بارے میں مزید جانیں{% else %}Learn more about data security{% endif %}
-                </span>
-            </a>
-
-        </section>
-
-    </div>
-
-</main>
-
-
-<div
+        </section><p class="audio-footer-note"><i class="fa-solid fa-circle-info" aria-hidden="true"></i>{% if lang == 'ur' %}ابتدائی اسکریننگ میں مدد کے لیے۔ یہ طبی تشخیص نہیں ہے۔{% else %}For early screening support. This is not a medical diagnosis.{% endif %}</p></main><div
     class="toast-region"
     id="toast-region"
     aria-live="polite"
     aria-atomic="true"
-></div>
-
-
-<noscript>
+></div><noscript>
     <div class="noscript-message">
         {% if lang == 'ur' %}
         آڈیو ریکارڈ کرنے اور یہ اسکریننگ جمع کرانے کے لیے JavaScript کی ضرورت ہے۔
@@ -885,16 +742,21 @@ Audio Screening - NeuroSense AI
         JavaScript is required to record audio and submit this screening.
         {% endif %}
     </div>
-</noscript>
-
+</noscript></div></div></div>
 {% endwith %}
-
-{% endblock %}
-
-
-{% block extra_js %}
-<script
-    src="{% static 'speech_app/js/screening.js' %}"
-    defer
-></script>
+<script>
+document.body.classList.add('ns-workspace-view');
+(function(){
+ const button=document.getElementById('audioMenuToggle'),drawer=document.getElementById('audioSidebarDrawer'),backdrop=document.getElementById('audioSidebarBackdrop'),mobile=window.matchMedia('(max-width:760px)');
+ if(!button||!drawer||!backdrop)return;
+ function close(){drawer.classList.remove('is-open');button.setAttribute('aria-expanded','false');backdrop.hidden=true;drawer.inert=mobile.matches;if(mobile.matches)drawer.setAttribute('aria-hidden','true');else drawer.removeAttribute('aria-hidden');}
+ close();
+ button.addEventListener('click',function(){if(!mobile.matches)return;const open=!drawer.classList.contains('is-open');if(!open){close();return;}drawer.inert=false;drawer.removeAttribute('aria-hidden');drawer.classList.add('is-open');button.setAttribute('aria-expanded','true');backdrop.hidden=false;});
+ backdrop.addEventListener('click',close);
+ document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!backdrop.hidden){close();button.focus();}});
+ drawer.addEventListener('click',function(e){if(mobile.matches&&e.target.closest('a'))close();});
+ if(mobile.addEventListener)mobile.addEventListener('change',close);else mobile.addListener(close);
+})();
+</script>
+<script src="{% static 'speech_app/js/screening.js' %}" defer></script>
 {% endblock %}
