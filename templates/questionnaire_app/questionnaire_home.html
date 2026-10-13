@@ -1,730 +1,1499 @@
 {% extends 'base.html' %}
+
 {% load static %}
+
 {% block title %}{% if request.LANG == 'ur' %}سوالنامہ اسکریننگ - نیوروسینس اے آئی{% else %}Questionnaire Screening - NeuroSense AI{% endif %}{% endblock %}
+
 {% block content %}
+
 <link rel="stylesheet" href="{% static 'css/neurosense_workspace.css' %}">
+
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+
 <style>
+
 /* Option B: four colored stage cards with a focused active state. */
+
 #nsQuestionnaireShell .audio-journey-panel {margin:16px 0 20px;padding:14px;background:#fff;border:1px solid #dfe9f7;border-radius:15px;box-shadow:0 4px 14px #23456a05;}
+
 #nsQuestionnaireShell .audio-journey-panel .audio-journey {display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:0;padding:0;border:0;border-radius:0;box-shadow:none;overflow:visible;background:none;}
+
 #nsQuestionnaireShell .audio-journey-panel .audio-journey li {--tile-accent:#10b981;--tile-tint:#d3f8e8;--tile-ink:#08784e;display:flex;flex-direction:row;text-align:start;align-items:center;gap:10px;padding:20px 14px 16px;min-height:102px;background:#fff;border:1px solid #e1e9f4;border-radius:11px;isolation:auto;transition:box-shadow .2s,border-color .2s;}
+
 #nsQuestionnaireShell .audio-journey-panel .audio-journey li:nth-child(2) {--tile-accent:#2479ee;--tile-tint:#dcecff;--tile-ink:#1766d7;}
+
 #nsQuestionnaireShell .audio-journey-panel .audio-journey li:nth-child(3) {--tile-accent:#ffd43b;--tile-tint:#fff0b2;--tile-ink:#775100;}
+
 #nsQuestionnaireShell .audio-journey-panel .audio-journey li:nth-child(4) {--tile-accent:#9a50ef;--tile-tint:#ebd9ff;--tile-ink:#7530c4;}
+
 #nsQuestionnaireShell .audio-journey-panel .audio-journey li.current {background:linear-gradient(135deg,#f3f8ff,#eaf3ff);border-color:#bdd7ff;box-shadow:0 4px 12px #2166cb0d;}
+
 #nsQuestionnaireShell .audio-journey-panel .audio-journey li::before,#nsQuestionnaireShell .audio-journey-panel .audio-journey li:first-child::before,#nsQuestionnaireShell .audio-journey-panel .audio-journey li.current::before {content:'';position:absolute;inset:0 0 auto;height:5px;background:var(--tile-accent);border:0;border-radius:11px 11px 0 0;clip-path:none;transform:none;z-index:auto;}
+
 #nsQuestionnaireShell .audio-journey-panel .audio-journey li::after {content:none;display:none;}
+
 #nsQuestionnaireShell .audio-journey-panel .audio-journey .journey-stage {display:grid;place-items:center;flex:none;width:26px;height:26px;background:var(--tile-tint);color:var(--tile-ink);font-size:12px;border-radius:50%;}
+
 #nsQuestionnaireShell .audio-journey-panel .audio-journey .current .journey-stage {background:#2479ee;color:#fff;}
+
 #nsQuestionnaireShell .audio-journey-panel .audio-journey .journey-number {width:44px;height:44px;flex:none;background:var(--tile-tint);color:var(--tile-ink);font-size:20px;border-radius:50%;box-shadow:none;}
+
 #nsQuestionnaireShell .audio-journey-panel .audio-journey .complete .journey-number {background:#10aa79;color:#fff;}
+
 #nsQuestionnaireShell .audio-journey-panel .audio-journey li:nth-child(3) .journey-number {background:#ffe16d;}
+
 #nsQuestionnaireShell .audio-journey-panel .journey-copy strong {color:#172e50;font-size:14px;line-height:1.5;font-weight:700;}
+
 #nsQuestionnaireShell .audio-journey-panel .current .journey-copy strong {color:#155bbb;}
+
 #nsQuestionnaireShell .audio-journey-panel .journey-copy small {color:#667b99;font-size:12px;line-height:1.6;}
+
 #nsQuestionnaireShell .journey-progress-row {display:flex;gap:16px;align-items:center;margin-top:14px;}
+
 #nsQuestionnaireShell .journey-progress-track {height:8px;flex:1;min-width:0;background:#e5ecf6;border-radius:99px;overflow:hidden;}
+
 #nsQuestionnaireShell .journey-progress-fill {width:50%;height:100%;border-radius:inherit;background:linear-gradient(90deg,#10b981,#2479ee);}
+
 #nsQuestionnaireShell .journey-progress-label {flex:none;color:#5c7496;font-size:12px;font-weight:600;}
+
 @media(hover:hover){#nsQuestionnaireShell .audio-journey-panel .audio-journey li:hover{border-color:#c4d7ef;box-shadow:0 4px 13px #23456a0b;}}
+
 @media(max-width:1100px){#nsQuestionnaireShell .audio-journey-panel .audio-journey{grid-template-columns:repeat(2,minmax(0,1fr));}#nsQuestionnaireShell .audio-journey-panel .audio-journey li{min-height:95px;}}
+
 @media(max-width:520px){#nsQuestionnaireShell .audio-journey-panel{padding:10px;}#nsQuestionnaireShell .audio-journey-panel .audio-journey{gap:8px;}#nsQuestionnaireShell .audio-journey-panel .audio-journey li{display:grid;grid-template-columns:24px 36px;justify-content:start;gap:8px;padding:15px 10px 12px;}#nsQuestionnaireShell .audio-journey-panel .journey-copy{grid-column:1/-1;}#nsQuestionnaireShell .audio-journey-panel .audio-journey .journey-number{width:36px;height:36px;font-size:17px;}#nsQuestionnaireShell .audio-journey-panel .audio-journey .journey-stage{width:24px;height:24px;font-size:11px;}#nsQuestionnaireShell .audio-journey-panel .journey-copy strong{font-size:13px;}#nsQuestionnaireShell .audio-journey-panel .journey-copy small{font-size:11px;}#nsQuestionnaireShell .journey-progress-label{font-size:11px;}}
+
 @media(prefers-reduced-motion:reduce){#nsQuestionnaireShell .audio-journey-panel .audio-journey li{transition:none;}}
 
 
+
+
+
 #nsQuestionnaireShell{--q-blue:#2166cb;--q-ink:#172e50;--q-muted:#657b97;}
+
 #nsQuestionnaireShell .ns-workspace{min-width:0;}
+
 #nsQuestionnaireShell .ns-main-content{padding:22px clamp(16px,2vw,30px) 32px;background:linear-gradient(#f5faff,#fff 650px);}
+
 #nsQuestionnaireShell .ns-topbar{min-height:64px;}
+
 #nsQuestionnaireShell .ns-breadcrumb{display:flex;gap:10px;align-items:center;font-size:13px;}
+
 #nsQuestionnaireShell .ns-breadcrumb i{font-size:9px;color:#8aa0ba;}
+
 #nsQuestionnaireShell .ns-topbar-end{font-size:12px;color:#65758c;}
+
 #nsQuestionnaireShell .q-page{max-width:1240px;margin:auto;font-family:Roboto,Arial,sans-serif;color:var(--q-ink);}
+
 #nsQuestionnaireShell .q-page,#nsQuestionnaireShell .q-page *{box-sizing:border-box;}
+
 #nsQuestionnaireShell[dir=rtl] .q-page{font-family:'Noto Naskh Arabic',Arial,sans-serif;}
+
 #nsQuestionnaireShell .q-page button,#nsQuestionnaireShell .q-page input{font-family:inherit;}
+
 #nsQuestionnaireShell .q-page [hidden]{display:none!important;}
+
 #nsQuestionnaireShell .q-page :focus-visible{outline:3px solid #90baff;outline-offset:3px;}
+
 #nsQuestionnaireShell .q-hero{position:relative;display:grid;grid-template-columns:minmax(0,1fr) 210px;gap:24px;align-items:center;background:linear-gradient(110deg,#fff 60%,#f1f8ff);border:1px solid #deebfa;border-radius:16px;padding:26px 28px;overflow:hidden;}
+
 #nsQuestionnaireShell .q-kicker{font-size:10px;font-weight:700;letter-spacing:.1em;color:#58759b;}
+
 #nsQuestionnaireShell .q-hero h1{font-size:clamp(28px,2.6vw,36px);line-height:1.25;letter-spacing:-.02em;margin:8px 0 10px;color:var(--q-ink);}
+
 #nsQuestionnaireShell .q-hero p{font-size:15px;line-height:1.7;margin:0;max-width:640px;color:#526d91;}
+
 #nsQuestionnaireShell .q-hero-meta{display:flex;gap:12px;flex-wrap:wrap;margin:18px 0 0;font-size:14px;color:#355676;}
+
 #nsQuestionnaireShell .q-hero-meta span{display:flex;gap:10px;align-items:center;min-height:48px;padding:12px 16px;border:1px solid #e2ebf6;border-radius:11px;background:#f4f8fd;color:#526d8e;font-weight:600;}
+
 #nsQuestionnaireShell .q-hero-meta span:nth-child(2){border-color:#e2ebf6;background:#f4f8fd;color:#526d8e;}
+
 #nsQuestionnaireShell .q-hero-meta i{display:grid;place-items:center;width:26px;height:26px;font-size:18px;color:inherit;}
+
 #nsQuestionnaireShell .q-hero-art{width:210px;height:170px;}
+
 #nsQuestionnaireShell .q-stage-pill{position:absolute;inset-inline-end:15px;top:14px;background:#e7f1ff;color:#2166cb;border-radius:20px;padding:6px 10px;font-size:11px;}
+
 #nsQuestionnaireShell .audio-journey{list-style:none;}
+
 #nsQuestionnaireShell .audio-journey-panel .audio-journey li{position:relative;}
+
 #nsQuestionnaireShell .journey-number{display:grid;place-items:center;}
+
 #nsQuestionnaireShell .journey-copy strong,#nsQuestionnaireShell .journey-copy small{display:block;}
+
 #nsQuestionnaireShell .audio-journey-panel .audio-journey li.current{background:#eefbf5;border-color:#b8e8d4;}
+
 #nsQuestionnaireShell .audio-journey-panel .current .journey-copy strong{color:#07805c;}
+
 #nsQuestionnaireShell .audio-journey-panel .audio-journey .current .journey-stage{background:#0cb984;color:white;}
+
 #nsQuestionnaireShell .journey-progress-fill{width:25%;background:#10b981;}
+
 #nsQuestionnaireShell .assessment-page{display:grid;grid-template-columns:minmax(0,1fr) 290px;gap:20px;align-items:start;scroll-margin-top:24px;}
+
 #nsQuestionnaireShell .assessment-card{padding:26px;background:white;border:1px solid #dfe9f6;border-radius:16px;box-shadow:0 5px 20px #244b7506;min-width:0;}
+
 #nsQuestionnaireShell .card-header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:15px;}
+
 #nsQuestionnaireShell .assessment-step{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.08em;font-weight:600;color:#647c9b;}
+
 #nsQuestionnaireShell .card-header h2{font-size:19px;margin:7px 0 0;line-height:1.4;color:var(--q-ink);}
+
 #nsQuestionnaireShell .progress-percent{display:grid;place-items:center;min-width:48px;min-height:38px;border-radius:10px;background:#eaf3ff;font-size:13px;font-weight:700;color:#2166cb;}
+
 #nsQuestionnaireShell .progress-bar{height:7px;border-radius:20px;overflow:hidden;background:#e9f0f9;margin-bottom:26px;}
+
 #nsQuestionnaireShell .progress-fill{height:100%;background:linear-gradient(90deg,#2166cb,#42a2f1);border-radius:inherit;transition:width .3s;}
+
 #nsQuestionnaireShell #questionnaireForm{display:flex;flex-direction:column;min-height:370px;}
+
 #nsQuestionnaireShell .question-slide{display:none;}
+
 #nsQuestionnaireShell .question-slide.active{display:block;animation:qQuestionFade .2s ease;}
+
 #nsQuestionnaireShell .question-icon{display:grid;place-items:center;width:52px;height:52px;background:#edf5ff;border:1px solid #dbeaff;border-radius:14px;font-size:24px;color:#2166cb;margin-bottom:18px;}
+
 #nsQuestionnaireShell .question-title{font-size:21px;line-height:1.5;letter-spacing:-.015em;color:var(--q-ink);margin:0 0 10px;}
+
 #nsQuestionnaireShell .question-description{font-size:14px;line-height:1.75;color:var(--q-muted);margin:0 0 22px;}
+
 #nsQuestionnaireShell .question-input{display:block;width:100%;max-width:360px;min-height:52px;border:1px solid #cbdcf0;border-radius:11px;background:#f9fbff;padding:13px 16px;font-size:16px;color:var(--q-ink);}
+
 #nsQuestionnaireShell .options,#nsQuestionnaireShell .options-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:18px;}
-#nsQuestionnaireShell .option-card{display:flex;align-items:center;gap:11px;min-height:58px;padding:14px;border:1px solid #dce7f5;border-radius:11px;background:#fff;font-size:14px;font-weight:500;line-height:1.5;color:#405977;cursor:pointer;transition:background .2s,border-color .2s,box-shadow .2s;}
+
+#nsQuestionnaireShell .option-card{display:flex;align-items:center;gap:11px;min-height:58px;padding:14px;border:1px solid #dce7f5;border-radius:11px;background:#fff;font-size:14px;font-weight:500;line-height:1.5;color:#405977;cursor:pointer;transition:*background* .2s,border-color .2s,box-shadow .2s;}
+
 #nsQuestionnaireShell .option-card input{accent-color:#0a9c72;flex:none;width:18px;height:18px;margin:0;cursor:pointer;}
+
 #nsQuestionnaireShell .option-card.selected,#nsQuestionnaireShell .option-card:has(input:checked){background:#edfbf5;border-color:#65cbaa;color:#087653;box-shadow:0 0 0 1px #65cbaa;}
+
 #nsQuestionnaireShell .option-card:focus-within{outline:3px solid #a8caff;outline-offset:2px;}
+
 #nsQuestionnaireShell .navigation-buttons{display:flex;gap:10px;justify-content:space-between;margin-top:auto;padding-top:28px;}
+
 #nsQuestionnaireShell .nav-btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:44px;padding:11px 19px;border-radius:10px;border:1px solid transparent;font-size:14px;font-weight:600;cursor:pointer;transition:transform .2s,box-shadow .2s;}
+
 #nsQuestionnaireShell .previous-btn{background:#f2f6fb;color:#5f7694;border-color:#dfe8f4;}
+
 #nsQuestionnaireShell .next-btn,#nsQuestionnaireShell .submit-btn{margin-inline-start:auto;background:#0aaf7d;color:white;}
+
 #nsQuestionnaireShell .nav-btn:disabled{opacity:.5;cursor:not-allowed;}
+
 #nsQuestionnaireShell .q-support{display:grid;gap:16px;}
+
 #nsQuestionnaireShell .q-support-card{padding:20px;background:#fff;border:1px solid #dfe9f6;border-radius:14px;}
+
 #nsQuestionnaireShell .q-support-card h2{font-size:16px;margin:0 0 16px;display:flex;align-items:center;gap:9px;}
+
 #nsQuestionnaireShell .q-support-card h2 i{font-size:20px;color:#2166cb;}
+
 #nsQuestionnaireShell .q-support-card p{font-size:13px;line-height:1.7;color:#637a97;margin:0;}
+
 #nsQuestionnaireShell .q-tips{padding:0;margin:0;list-style:none;display:grid;gap:15px;}
+
 #nsQuestionnaireShell .q-tips li{display:flex;align-items:start;gap:10px;font-size:13px;line-height:1.6;color:#4f6786;}
+
 #nsQuestionnaireShell .q-tips i{display:grid;place-items:center;width:30px;height:30px;flex:none;border-radius:9px;background:#eaf5ff;color:#2166cb;font-size:15px;}
+
 #nsQuestionnaireShell .q-tips li:nth-child(2) i{background:#fff7d7;color:#a97900;}
+
 #nsQuestionnaireShell .q-tips li:nth-child(3) i{background:#f1e9ff;color:#8151c3;}
+
 #nsQuestionnaireShell .q-support-art{display:block;width:140px;height:110px;margin:0 auto 14px;}
+
 #nsQuestionnaireShell .q-error{padding:14px;margin:0 0 20px;border:1px solid #f2c8ce;border-radius:10px;background:#fff2f4;color:#af3547;font-size:14px;}
+
 #nsQuestionnaireShell .q-notice{display:flex;gap:10px;align-items:start;margin:18px 0 0;font-size:12px;line-height:1.7;color:#6d829d;}
+
 #nsQuestionnaireShell .q-sidebar-backdrop{position:fixed;inset:0;background:#102c5266;border:0;z-index:98;}
+
 @keyframes qQuestionFade{from{opacity:.3;transform:translateY(5px);}to{opacity:1;transform:none;}}
+
 @media(hover:hover){#nsQuestionnaireShell .nav-btn:not(:disabled):hover{transform:translateY(-1px);box-shadow:0 6px 14px #2166cb20;}#nsQuestionnaireShell .option-card:hover{border-color:#a7c9ed;background:#f7fbff;}}
+
 @media(max-width:1100px){#nsQuestionnaireShell .assessment-page{grid-template-columns:minmax(0,1fr) 240px;gap:16px;}#nsQuestionnaireShell .assessment-card{padding:22px;}#nsQuestionnaireShell .q-hero{grid-template-columns:minmax(0,1fr) 170px;}#nsQuestionnaireShell .q-hero-art{width:170px;}}
+
 @media(max-width:900px){#nsQuestionnaireShell .assessment-page{grid-template-columns:1fr;}#nsQuestionnaireShell .q-support{grid-template-columns:1fr 1fr;}#nsQuestionnaireShell .q-support-art{display:none;}}
+
 @media(max-width:760px){#nsQuestionnaireShell{display:block;}#nsQuestionnaireShell .ns-workspace{margin-inline-start:0!important;width:100%;}#nsQuestionnaireShell #nsSidebar{position:fixed;top:0;bottom:0;inset-inline-start:0;width:240px;z-index:99;transform:translateX(-110%);transition:transform .2s;}#nsQuestionnaireShell[dir=rtl] #nsSidebar{transform:translateX(110%);}#nsQuestionnaireShell #nsSidebar.is-open{transform:translateX(0);}#nsQuestionnaireShell .ns-menu-toggle{display:inline-flex;}#nsQuestionnaireShell .ns-main-content{padding:16px 12px;}#nsQuestionnaireShell .ns-topbar-end{font-size:0;}#nsQuestionnaireShell .q-hero{padding:25px 20px;grid-template-columns:1fr 130px;gap:10px;}#nsQuestionnaireShell .q-hero-art{width:130px;}#nsQuestionnaireShell .q-hero h1{font-size:28px;}}
+
 @media(max-width:520px){#nsQuestionnaireShell .q-hero{grid-template-columns:1fr;}#nsQuestionnaireShell .q-hero-art{display:none;}#nsQuestionnaireShell .assessment-card{padding:20px;}#nsQuestionnaireShell .question-title{font-size:19px;}#nsQuestionnaireShell .options,#nsQuestionnaireShell .options-grid{grid-template-columns:1fr;}#nsQuestionnaireShell .q-support{grid-template-columns:1fr;}#nsQuestionnaireShell .q-hero p{font-size:14px;}#nsQuestionnaireShell .nav-btn{padding:11px 14px;}}
+
 @media(prefers-reduced-motion:reduce){#nsQuestionnaireShell .q-page *{animation:none!important;transition:none!important;}}
 
 
+
+
+
 /* Compact hero metadata and a page-owned mobile drawer for both directions. */
+
 #nsQuestionnaireShell .q-sidebar-drawer{display:contents;}
+
 #nsQuestionnaireShell .q-hero-meta{gap:10px;margin-top:12px;font-size:12px;}
+
 #nsQuestionnaireShell .q-hero-meta span{min-height:32px;padding:6px 10px;gap:7px;border-radius:8px;border-color:#e7eef7;background:#f7faff;font-weight:500;}
+
 #nsQuestionnaireShell .q-hero-meta span:nth-child(2){background:#f7faff;border-color:#e7eef7;}
+
 #nsQuestionnaireShell .q-hero-meta i{width:17px;height:17px;font-size:14px;}
+
 #nsQuestionnaireShell[dir=rtl] .q-page{direction:rtl;text-align:right;}
+
 #nsQuestionnaireShell[dir=rtl] .q-kicker,#nsQuestionnaireShell[dir=rtl] .assessment-step{letter-spacing:normal;}
+
 #nsQuestionnaireShell[dir=rtl] .question-title{line-height:1.8;}
+
 #nsQuestionnaireShell[dir=rtl] .previous-btn i,#nsQuestionnaireShell[dir=rtl] .next-btn i,#nsQuestionnaireShell[dir=rtl] .ns-breadcrumb i{transform:scaleX(-1);}
+
 #nsQuestionnaireShell .progress-percent,#nsQuestionnaireShell .journey-stage{direction:ltr;unicode-bidi:isolate;}
+
 @media(max-width:760px){
+
  #nsQuestionnaireShell{width:100%;max-width:100%;min-width:0;overflow-x:clip;}
+
  #nsQuestionnaireShell .ns-workspace{width:100%!important;max-width:100%;min-width:0;margin-left:0!important;margin-right:0!important;}
+
  #nsQuestionnaireShell .q-sidebar-drawer{display:block;position:fixed;top:0;bottom:0;left:0;right:auto;width:min(280px,86vw);max-width:86vw;z-index:100;transform:translateX(-110%);visibility:hidden;pointer-events:none;transition:transform .2s,visibility .2s;overflow-y:auto;}
+
  #nsQuestionnaireShell[dir=rtl] .q-sidebar-drawer{right:0;left:auto;transform:translateX(110%);}
+
  #nsQuestionnaireShell .q-sidebar-drawer.is-open{transform:translateX(0);visibility:visible;pointer-events:auto;}
+
  #nsQuestionnaireShell .q-sidebar-drawer>*{position:static!important;width:100%!important;max-width:100%!important;min-width:0!important;height:auto;min-height:100%;margin:0!important;transform:none!important;}
+
  #nsQuestionnaireShell .q-sidebar-drawer #nsSidebar{position:static!important;transform:none!important;width:100%!important;}
+
  #nsQuestionnaireShell .ns-menu-toggle{display:inline-flex!important;align-items:center;justify-content:center;flex:none;width:36px;height:36px;}
+
  #nsQuestionnaireShell .ns-topbar{display:flex;gap:10px;min-width:0;padding-inline:12px;}
+
  #nsQuestionnaireShell .ns-breadcrumb{min-width:0;flex:1;gap:7px;font-size:12px;flex-wrap:wrap;}
+
  #nsQuestionnaireShell .ns-topbar-end{flex:none;}
+
  #nsQuestionnaireShell .q-hero{padding:22px 18px;}
+
  #nsQuestionnaireShell .q-page,#nsQuestionnaireShell .assessment-page,#nsQuestionnaireShell .assessment-card{min-width:0;max-width:100%;}
+
  #nsQuestionnaireShell .audio-journey-panel .audio-journey{grid-template-columns:repeat(2,minmax(0,1fr));}
+
  #nsQuestionnaireShell .audio-journey-panel .audio-journey li{min-width:0;padding:14px 10px;min-height:90px;}
+
  #nsQuestionnaireShell .journey-progress-row{flex-wrap:wrap;gap:8px;}
+
  #nsQuestionnaireShell .journey-progress-label{font-size:11px;}
+
 }
+
 @media(max-width:520px){
+
  #nsQuestionnaireShell .q-hero h1{font-size:26px;line-height:1.5;margin:7px 0;}
+
  #nsQuestionnaireShell .q-hero p{font-size:13px;line-height:1.8;}
+
  #nsQuestionnaireShell .q-stage-pill{position:static;justify-self:start;order:-1;width:max-content;font-size:10px;padding:4px 8px;}
+
  #nsQuestionnaireShell .q-hero{gap:6px;}
+
  #nsQuestionnaireShell .q-hero-meta span{padding:5px 8px;font-size:11px;min-height:29px;}
+
  #nsQuestionnaireShell .question-title{overflow-wrap:anywhere;}
+
  #nsQuestionnaireShell .card-header h2{font-size:17px;}
+
  #nsQuestionnaireShell .assessment-card{padding:18px;}
+
 }
+
 @media(prefers-reduced-motion:reduce){#nsQuestionnaireShell .q-sidebar-drawer{transition:none;}}
 
+
+
 #nsQuestionnaireShell .q-support-robot{width:180px;height:160px;object-fit:cover;object-position:center;margin:0 auto 14px;border-radius:12px;}
+
 @media(max-width:900px){#nsQuestionnaireShell .q-support-robot{display:none;}}
+
 /* Gentle depth separates the form, answer area and guidance cards. */
+
 #nsQuestionnaireShell .assessment-card{border-color:#cbdcf1;box-shadow:0 12px 32px rgba(32,76,132,.09),0 2px 6px rgba(32,76,132,.04);}
+
 #nsQuestionnaireShell .card-header{padding-bottom:16px;border-bottom:1px solid #e8eef7;}
+
 #nsQuestionnaireShell .question-slide{padding:24px;border:1px solid #dce8f7;border-radius:15px;background:linear-gradient(135deg,#f3f8ff,#fcfdff 75%);box-shadow:inset 0 1px 0 #fff;}
+
 #nsQuestionnaireShell .question-icon{background:#fff;box-shadow:0 5px 12px rgba(33,102,203,.08);}
+
 #nsQuestionnaireShell .question-input{background:#fff;border-color:#b8cfe9;box-shadow:0 3px 9px rgba(32,76,132,.05);transition:border-color .2s,box-shadow .2s;}
+
 #nsQuestionnaireShell .question-input:focus{outline:3px solid #c9defb;outline-offset:2px;border-color:#2166cb;box-shadow:0 5px 16px rgba(33,102,203,.12);}
+
 #nsQuestionnaireShell .option-card{background:#fff;box-shadow:0 2px 6px rgba(32,76,132,.035);}
+
 #nsQuestionnaireShell .option-card.selected,#nsQuestionnaireShell .option-card:has(input:checked){background:#edfbf5;border-color:#65cbaa;box-shadow:0 0 0 1px #65cbaa,0 4px 10px rgba(10,156,114,.08);}
+
 #nsQuestionnaireShell .navigation-buttons{margin-top:24px;padding-top:20px;border-top:1px solid #e8eef7;}
+
 #nsQuestionnaireShell .q-support-card{border-color:#d3e1f1;box-shadow:0 7px 20px rgba(32,76,132,.06);background:linear-gradient(145deg,#fff,#f9fbff);}
+
 #nsQuestionnaireShell .q-hero{box-shadow:0 6px 20px rgba(32,76,132,.045);}
+
 @media(hover:hover){#nsQuestionnaireShell .option-card:not(.selected):not(:has(input:checked)):hover{border-color:#9ebfe7;box-shadow:0 5px 12px rgba(33,102,203,.08);}}
+
 @media(max-width:520px){#nsQuestionnaireShell .question-slide{padding:18px 14px;border-radius:12px;}#nsQuestionnaireShell .question-input{max-width:100%;}#nsQuestionnaireShell .navigation-buttons{margin-top:20px;}}
+
+
+/* HERO ONLY — blue gradient matched to NeuroSense report & recommendations. */
+#nsQuestionnaireShell .q-hero {
+  isolation:isolate;
+  background:linear-gradient(115deg,#235ac3 0%,#2976dc 76%,#3399e1 100%);
+  border:1px solid #367bdc;
+  border-radius:18px;
+  min-height:210px;
+  padding:30px 36px;
+  box-shadow:0 9px 24px rgba(34,89,178,.10);
+  color:#fff;
+}
+#nsQuestionnaireShell .q-hero::before {
+  content:"";position:absolute;inset-inline-end:-85px;top:-138px;
+  width:365px;height:365px;border:1px solid #ffffff23;
+  border-radius:50%;box-shadow:0 0 0 48px #ffffff06;
+  z-index:-1;pointer-events:none;
+}
+#nsQuestionnaireShell .q-hero::after {
+  content:"";position:absolute;inset-inline-end:115px;bottom:-130px;
+  width:270px;height:270px;border:1px solid #ffffff1e;
+  border-radius:50%;pointer-events:none;z-index:-1;
+}
+#nsQuestionnaireShell .q-hero .q-kicker {color:#d7f0ff;font-size:11px;letter-spacing:.09em;}
+#nsQuestionnaireShell .q-hero h1 {color:#fff;font-weight:800;font-size:clamp(28px,2.8vw,38px);letter-spacing:-.035em;margin:9px 0 11px;}
+#nsQuestionnaireShell .q-hero p {color:#ecf5ff;max-width:690px;font-size:14px;}
+#nsQuestionnaireShell .q-hero-meta span,
+#nsQuestionnaireShell .q-hero-meta span:nth-child(2) {
+  color:#fff;background:#ffffff17;border:1px solid #ffffff45;
+  border-radius:10px;box-shadow:none;
+}
+#nsQuestionnaireShell .q-hero-meta i {color:#e0f5ff;}
+#nsQuestionnaireShell .q-stage-pill {
+  background:#ffffff1d;color:#fff;border:1px solid #ffffff50;
+  font-weight:700;border-radius:10px;z-index:2;
+}
+#nsQuestionnaireShell .q-hero-art {position:relative;z-index:1;filter:drop-shadow(0 10px 18px #15449425);}
+@media(max-width:760px){#nsQuestionnaireShell .q-hero{padding:25px 22px;}}
+@media(max-width:520px){#nsQuestionnaireShell .q-hero{padding:25px 20px;min-height:0;}}
+
 </style>
+
 {% with lang=request.LANG|default:'en' %}
-<div class="ns-app-shell" id="nsQuestionnaireShell" dir="{% if lang == 'ur' %}rtl{% else %}ltr{% endif %}"><div class="q-sidebar-drawer" id="qSidebarDrawer">{% include 'includes/workspace_sidebar.html' %}</div><button type="button" class="q-sidebar-backdrop" id="qSidebarBackdrop" hidden aria-label="{% if lang == 'ur' %}مینو بند کریں{% else %}Close navigation{% endif %}"></button><div class="ns-workspace"><div class="ns-topbar"><button class="ns-menu-toggle" id="qMenuToggle" type="button" aria-controls="qSidebarDrawer" aria-expanded="false" aria-label="{% if lang == 'ur' %}مینو کھولیں{% else %}Open navigation{% endif %}"><i class="fa-solid fa-bars" aria-hidden="true"></i></button><div class="ns-breadcrumb"><span>NeuroSense AI</span><i class="fa-solid fa-chevron-right" aria-hidden="true"></i><strong>{% if lang == 'ur' %}سوالنامہ{% else %}Questionnaire{% endif %}</strong></div><div class="ns-topbar-end">{% if lang == 'ur' %}میری اسکریننگ{% else %}My Screening Space{% endif %} <a class="ns-top-avatar" href="{% url 'accounts:profile' %}" aria-label="{% if lang == 'ur' %}پروفائل{% else %}Profile{% endif %}"><i class="fa-regular fa-user" aria-hidden="true"></i></a></div></div><div class="ns-main-content"><main class="q-page" lang="{{ lang }}"><section class="q-hero"><div><span class="q-kicker">{% if lang == 'ur' %}سوالنامہ اسکریننگ{% else %}STEP 1 · QUESTIONNAIRE{% endif %}</span><h1>{% if lang == 'ur' %}سوالنامہ اسکریننگ{% else %}Questionnaire Screening{% endif %}</h1><p>{% if lang == 'ur' %}حرکت، آواز، یادداشت اور خاندانی تاریخ کے بارے میں ایک مختصر سوالنامہ۔{% else %}A short questionnaire about movement, speech, memory, and family history.{% endif %}</p><div class="q-hero-meta"><span><i class="fa-solid fa-list-check" aria-hidden="true"></i>{% if lang == 'ur' %}۱۱ سوالات{% else %}11 questions{% endif %}</span><span><i class="fa-regular fa-clock" aria-hidden="true"></i>{% if lang == 'ur' %}۳ تا ۵ منٹ{% else %}3–5 minutes{% endif %}</span></div></div><svg class="q-hero-art" viewBox="0 0 210 170" aria-hidden="true"><circle cx="108" cy="84" r="74" fill="#eaf4ff"/><circle cx="108" cy="84" r="63" fill="none" stroke="#d3e7ff" stroke-dasharray="5 8"/><g transform="rotate(7 110 85)"><rect x="61" y="28" width="96" height="123" rx="13" fill="#c8ddf8"/><rect x="55" y="23" width="96" height="123" rx="13" fill="#fff" stroke="#9ac3f1" stroke-width="2"/><rect x="79" y="17" width="47" height="16" rx="7" fill="#2166cb"/><g fill="#dcf6ec"><rect x="69" y="49" width="18" height="18" rx="5"/><rect x="69" y="80" width="18" height="18" rx="5"/><rect x="69" y="111" width="18" height="18" rx="5"/></g><g stroke="#0caf7d" fill="none" stroke-width="2.5"><path d="M73 57l4 4 6-8M73 88l4 4 6-8M73 119l4 4 6-8"/></g><g stroke="#bad4f3" stroke-width="4" stroke-linecap="round"><path d="M98 55h37M98 62h23M98 86h37M98 93h23M98 117h37M98 124h23"/></g></g><circle cx="165" cy="119" r="20" fill="#ffd752"/><path d="M157 119l6 6 10-12" fill="none" stroke="#73520a" stroke-width="3" stroke-linecap="round"/><circle cx="42" cy="48" r="5" fill="#bba0ec"/></svg><span class="q-stage-pill">{% if lang == 'ur' %}مرحلہ ۱ از ۴{% else %}Step 1 of 4{% endif %}</span></section><section class="audio-journey-panel" aria-label="{% if lang == 'ur' %}اسکریننگ کے مراحل{% else %}Screening stages{% endif %}"><ol class="audio-journey"><li class="current" aria-current="step"><b class="journey-stage" aria-hidden="true">1</b><span class="journey-number"><i class="fa-solid fa-clipboard-list" aria-hidden="true"></i></span><span class="journey-copy"><strong>{% if lang == 'ur' %}سوالنامہ{% else %}Questionnaire{% endif %}</strong><small>{% if lang == 'ur' %}جاری{% else %}In progress{% endif %}</small></span></li><li class=""><b class="journey-stage" aria-hidden="true">2</b><span class="journey-number"><i class="fa-solid fa-microphone-lines" aria-hidden="true"></i></span><span class="journey-copy"><strong>{% if lang == 'ur' %}آڈیو{% else %}Audio{% endif %}</strong><small>{% if lang == 'ur' %}زیر التواء{% else %}Pending{% endif %}</small></span></li><li class=""><b class="journey-stage" aria-hidden="true">3</b><span class="journey-number"><i class="fa-solid fa-person-walking" aria-hidden="true"></i></span><span class="journey-copy"><strong>{% if lang == 'ur' %}چال{% else %}Gait{% endif %}</strong><small>{% if lang == 'ur' %}زیر التواء{% else %}Pending{% endif %}</small></span></li><li class=""><b class="journey-stage" aria-hidden="true">4</b><span class="journey-number"><i class="fa-solid fa-file-lines" aria-hidden="true"></i></span><span class="journey-copy"><strong>{% if lang == 'ur' %}رپورٹ{% else %}Report{% endif %}</strong><small>{% if lang == 'ur' %}زیر التواء{% else %}Pending{% endif %}</small></span></li></ol><div class="journey-progress-row"><div class="journey-progress-track" aria-hidden="true"><div class="journey-progress-fill"></div></div><span class="journey-progress-label">{% if lang == 'ur' %}مرحلہ ۱ از ۴{% else %}Step 1 of 4{% endif %}</span></div></section><section class="assessment-page" id="questionnaire" aria-labelledby="qFormHeading"><div class="assessment-card"><div class="card-header"><div><span class="assessment-step">{% if lang == 'ur' %}آپ کے جوابات{% else %}Your responses{% endif %}</span><h2 id="qFormHeading">{% if lang == 'ur' %}سوال{% else %}Question{% endif %} <span id="questionNumber">1</span> {% if lang == 'ur' %}از{% else %}of{% endif %} <span id="totalQuestions">11</span></h2></div><div id="progressPercent" class="progress-percent">9%</div></div><div class="progress-bar"><div id="progressFill" class="progress-fill" style="width:9%;"></div></div>{% if error %}<div class="q-error" role="alert">{{ error }}</div>{% endif %}<form
+
+<div class="ns-app-shell" id="nsQuestionnaireShell" dir="{% if lang == 'ur' %}rtl{% else %}ltr{% endif %}"><div class="q-sidebar-drawer" id="qSidebarDrawer">{% include 'includes/workspace_sidebar.html' %}</div><button type="button" class="q-sidebar-backdrop" id="qSidebarBackdrop" hidden aria-label="{% if lang == 'ur' %}مینو بند کریں{% else %}Close navigation{% endif %}"></button><div class="ns-workspace"><div class="ns-topbar"><button class="ns-menu-toggle" id="qMenuToggle" type="button" aria-controls="qSidebarDrawer" aria-expanded="false" aria-label="{% if lang == 'ur' %}مینو کھولیں{% else %}Open navigation{% endif %}"><i class="fa-solid fa-bars" aria-hidden="true"></i></button><div class="ns-breadcrumb"><span>NeuroSense AI</span><i class="fa-solid fa-chevron-right" aria-hidden="true"></i><strong>{% if lang == 'ur' %}سوالنامہ{% else %}Questionnaire{% endif %}</strong></div><div class="ns-topbar-end">{% if lang == 'ur' %}میری اسکریننگ{% else %}My Screening Space{% endif %} <a class="ns-top-avatar" href="{% url 'accounts:profile' %}" aria-label="{% if lang == 'ur' %}پروفائل{% else %}Profile{% endif %}"><i class="fa-regular fa-user" aria-hidden="true"></i></a></div></div><div class="ns-main-content"><main class="q-page" lang="{{ lang }}"><section class="q-hero"><div><span class="q-kicker">{% if lang == 'ur' %}سوالنامہ اسکریننگ{% else %}STEP 1 · QUESTIONNAIRE{% endif %}</span><h1>{% if lang == 'ur' %}سوالنامہ اسکریننگ{% else %}Questionnaire Screening{% endif %}</h1><p>{% if lang == 'ur' %}حرکت، آواز، یادداشت اور خاندانی تاریخ کے بارے میں ایک مختصر سوالنامہ۔{% else %}A short questionnaire about movement, speech, memory, and family history.{% endif %}</p><div class="q-hero-meta"><span><i class="fa-solid fa-list-check" aria-hidden="true"></i>{% if lang == 'ur' %}۱۱ سوالات{% else %}11 questions{% endif %}</span><span><i class="fa-regular fa-clock" aria-hidden="true"></i>{% if lang == 'ur' %}۳ تا ۵ منٹ{% else %}3–5 minutes{% endif %}</span></div></div><svg class="q-hero-art" viewBox="0 0 210 170" aria-hidden="true"><circle cx="108" cy="84" r="74" fill="#ffffff18"/><circle cx="108" cy="84" r="63" fill="none" stroke="#ffffff3d" stroke-dasharray="5 8"/><g transform="rotate(7 110 85)"><rect x="61" y="28" width="96" height="123" rx="13" fill="#a5d3ff"/><rect x="55" y="23" width="96" height="123" rx="13" fill="#fff" stroke="#c8e7ff" stroke-width="2"/><rect x="79" y="17" width="47" height="16" rx="7" fill="#2667c7"/><g fill="#dcf6ec"><rect x="69" y="49" width="18" height="18" rx="5"/><rect x="69" y="80" width="18" height="18" rx="5"/><rect x="69" y="111" width="18" height="18" rx="5"/></g><g stroke="#0caf7d" fill="none" stroke-width="2.5"><path d="M73 57l4 4 6-8M73 88l4 4 6-8M73 119l4 4 6-8"/></g><g stroke="#9dbce9" stroke-width="4" stroke-linecap="round"><path d="M98 55h37M98 62h23M98 86h37M98 93h23M98 117h37M98 124h23"/></g></g><circle cx="165" cy="119" r="20" fill="#ffd752"/><path d="M157 119l6 6 10-12" fill="none" stroke="#73520a" stroke-width="3" stroke-linecap="round"/><circle cx="42" cy="48" r="5" fill="#bba0ec"/></svg><span class="q-stage-pill">{% if lang == 'ur' %}مرحلہ ۱ از ۴{% else %}Step 1 of 4{% endif %}</span></section><section class="audio-journey-panel" aria-label="{% if lang == 'ur' %}اسکریننگ کے مراحل{% else %}Screening stages{% endif %}"><ol class="audio-journey"><li class="current" aria-current="step"><b class="journey-stage" aria-hidden="true">1</b><span class="journey-number"><i class="fa-solid fa-clipboard-list" aria-hidden="true"></i></span><span class="journey-copy"><strong>{% if lang == 'ur' %}سوالنامہ{% else %}Questionnaire{% endif %}</strong><small>{% if lang == 'ur' %}جاری{% else %}In progress{% endif %}</small></span></li><li class=""><b class="journey-stage" aria-hidden="true">2</b><span class="journey-number"><i class="fa-solid fa-microphone-lines" aria-hidden="true"></i></span><span class="journey-copy"><strong>{% if lang == 'ur' %}آڈیو{% else %}Audio{% endif %}</strong><small>{% if lang == 'ur' %}زیر التواء{% else %}Pending{% endif %}</small></span></li><li class=""><b class="journey-stage" aria-hidden="true">3</b><span class="journey-number"><i class="fa-solid fa-person-walking" aria-hidden="true"></i></span><span class="journey-copy"><strong>{% if lang == 'ur' %}چال{% else %}Gait{% endif %}</strong><small>{% if lang == 'ur' %}زیر التواء{% else %}Pending{% endif %}</small></span></li><li class=""><b class="journey-stage" aria-hidden="true">4</b><span class="journey-number"><i class="fa-solid fa-file-lines" aria-hidden="true"></i></span><span class="journey-copy"><strong>{% if lang == 'ur' %}رپورٹ{% else %}Report{% endif %}</strong><small>{% if lang == 'ur' %}زیر التواء{% else %}Pending{% endif %}</small></span></li></ol><div class="journey-progress-row"><div class="journey-progress-track" aria-hidden="true"><div class="journey-progress-fill"></div></div><span class="journey-progress-label">{% if lang == 'ur' %}مرحلہ ۱ از ۴{% else %}Step 1 of 4{% endif %}</span></div></section><section class="assessment-page" id="questionnaire" aria-labelledby="qFormHeading"><div class="assessment-card"><div class="card-header"><div><span class="assessment-step">{% if lang == 'ur' %}آپ کے جوابات{% else %}Your responses{% endif %}</span><h2 id="qFormHeading">{% if lang == 'ur' %}سوال{% else %}Question{% endif %} <span id="questionNumber">1</span> {% if lang == 'ur' %}از{% else %}of{% endif %} <span id="totalQuestions">11</span></h2></div><div id="progressPercent" class="progress-percent">9%</div></div><div class="progress-bar"><div id="progressFill" class="progress-fill" style="width:9%;"></div></div>{% if error %}<div class="q-error" role="alert">{{ error }}</div>{% endif %}<form
+
                 id="questionnaireForm"
+
                 method="POST"
+
                 action="{% url 'questionnaire_app:form' %}"
+
             >
+
                 {% csrf_token %}
+
                 <div class="question-slide active">
+
                     <div class="question-icon">
+
                         <i class="fa-solid fa-user"></i>
+
                     </div>
+
                     <h3 class="question-title">
+
                         {% if lang == 'ur' %}آپ کی عمر کیا ہے؟{% else %}What is your age?{% endif %}
+
                     </h3>
+
                     <p class="question-description">
+
                         {% if lang == 'ur' %}اپنی موجودہ عمر سالوں میں درج کریں۔{% else %}Enter your current age in years.{% endif %}
+
                     </p>
+
                     <input
+
                         type="number"
+
                         name="age"
+
                         min="18"
+
                         max="100"
+
                         class="question-input"
+
                         placeholder="{% if lang == 'ur' %}اپنی عمر درج کریں{% else %}Enter your age{% endif %}"
+
                         required
+
                     >
+
                 </div>
+
                 <div class="question-slide">
+
                     <div class="question-icon">
+
                         <i class="fa-solid fa-people-roof"></i>
+
                     </div>
+
                     <h3 class="question-title">
+
                         {% if lang == 'ur' %}
+
                         کیا کسی والدین، بہن بھائی، یا قریبی خاندان کے رکن کو پارکنسنز کی بیماری کی تشخیص ہوئی ہے؟
+
                         {% else %}
+
                         Has a parent, sibling, or close family member
+
                         been diagnosed with Parkinson's disease?
+
                         {% endif %}
+
                     </h3>
+
                     <p class="question-description">
+
                         {% if lang == 'ur' %}وہ آپشن منتخب کریں جو آپ پر لاگو ہو۔{% else %}Select the option that applies to you.{% endif %}
+
                     </p>
+
                     <div class="options">
+
                         <label class="option-card">
+
                             <input
+
                                 type="radio"
+
                                 name="family_history"
+
                                 value="0"
+
                                 required
+
                             >
+
                             <span>{% if lang == 'ur' %}نہیں{% else %}No{% endif %}</span>
+
                         </label>
+
                         <label class="option-card">
+
                             <input
+
                                 type="radio"
+
                                 name="family_history"
+
                                 value="1"
+
                             >
+
                             <span>{% if lang == 'ur' %}ہاں{% else %}Yes{% endif %}</span>
+
                         </label>
+
                     </div>
+
                 </div>
+
                 <div class="question-slide">
+
                     <div class="question-icon">
+
                         <i class="fa-solid fa-hand"></i>
+
                     </div>
+
                     <h3 class="question-title">
+
                         {% if lang == 'ur' %}
+
                         کیا آپ نے اپنے بازوؤں یا ٹانگوں میں کپکپاہٹ یا لرزش محسوس کی ہے، خاص طور پر آرام کے دوران؟
+
                         {% else %}
+
                         Have you noticed shaking or trembling in your
+
                         arms or legs, particularly while relaxed or at rest?
+
                         {% endif %}
+
                     </h3>
+
                     <p class="question-description">
+
                         {% if lang == 'ur' %}
+
                         بار بار یا قابل توجہ لرزش پر غور کریں جو بغیر ارادی حرکت کے ہوتی ہے۔
+
                         {% else %}
+
                         Consider repeated or noticeable trembling that occurs
+
                         without intentional movement.
+
                         {% endif %}
+
                     </p>
+
                     <div class="options-grid">
+
                         <label class="option-card">
+
                             <input
+
                                 type="radio"
+
                                 name="arm_leg_shaking"
+
                                 value="0"
+
                                 required
+
                             >
+
                             <span>{% if lang == 'ur' %}نہیں{% else %}No{% endif %}</span>
+
                         </label>
+
                         <label class="option-card">
+
                             <input
+
                                 type="radio"
+
                                 name="arm_leg_shaking"
+
                                 value="1"
+
                             >
+
                             <span>{% if lang == 'ur' %}ہاں{% else %}Yes{% endif %}</span>
+
                         </label>
+
                         <label class="option-card">
+
                             <input
+
                                 type="radio"
+
                                 name="arm_leg_shaking"
+
                                 value="2"
+
                             >
+
                             <span>{% if lang == 'ur' %}یقین نہیں{% else %}Not sure{% endif %}</span>
+
                         </label>
+
                     </div>
+
                 </div>
+
                 <div class="question-slide">
+
                     <div class="question-icon">
+
                         <i class="fa-solid fa-person-walking"></i>
+
                     </div>
+
                     <h3 class="question-title">
+
                         {% if lang == 'ur' %}
+
                         کیا آپ کو لگتا ہے کہ آپ اپنی عمر کے دوسرے لوگوں کے مقابلے میں یا پہلے سے زیادہ سست حرکت کرتے ہیں؟
+
                         {% else %}
+
                         Do you feel that you move noticeably more slowly
+
                         than other people your age or more slowly than before?
+
                         {% endif %}
+
                     </h3>
+
                     <p class="question-description">
+
                         {% if lang == 'ur' %}
+
                         چلنے، کھڑے ہونے، مڑنے، کپڑے پہننے، یا دیگر معمول کی حرکات کے بارے میں سوچیں۔
+
                         {% else %}
+
                         Think about walking, standing up, turning,
+
                         dressing, or other routine movements.
+
                         {% endif %}
+
                     </p>
+
                     <div class="options-grid">
+
                         <label class="option-card">
+
                             <input
+
                                 type="radio"
+
                                 name="movement_slowness"
+
                                 value="0"
+
                                 required
+
                             >
+
                             <span>{% if lang == 'ur' %}نہیں{% else %}No{% endif %}</span>
+
                         </label>
+
                         <label class="option-card">
+
                             <input
+
                                 type="radio"
+
                                 name="movement_slowness"
+
                                 value="1"
+
                             >
+
                             <span>{% if lang == 'ur' %}ہاں{% else %}Yes{% endif %}</span>
+
                         </label>
+
                         <label class="option-card">
+
                             <input
+
                                 type="radio"
+
                                 name="movement_slowness"
+
                                 value="2"
+
                             >
+
                             <span>{% if lang == 'ur' %}یقین نہیں{% else %}Not sure{% endif %}</span>
+
                         </label>
+
                     </div>
+
                 </div>
+
                 <div class="question-slide">
+
                     <div class="question-icon">
+
                         <i class="fa-solid fa-shoe-prints"></i>
+
                     </div>
+
                     <h3 class="question-title">
+
                         {% if lang == 'ur' %}
+
                         جب آپ چلنا شروع کرتے ہیں تو کیا آپ کو کبھی ایسا محسوس ہوتا ہے جیسے آپ کے پاؤں فرش سے چپک گئے ہوں؟
+
                         {% else %}
+
                         When you start walking, do you sometimes feel as
+
                         if your feet are briefly stuck to the floor?
+
                         {% endif %}
+
                     </h3>
+
                     <p class="question-description">
+
                         {% if lang == 'ur' %}
+
                         پہلا قدم اٹھانے میں دشواری یا اچانک پاؤں ہلانے میں ناکامی کے بارے میں سوچیں۔
+
                         {% else %}
+
                         Think about difficulty taking the first step
+
                         or suddenly feeling unable to move your feet.
+
                         {% endif %}
+
                     </p>
+
                     <div class="options-grid">
+
                         <label class="option-card">
+
                             <input
+
                                 type="radio"
+
                                 name="feet_stuck"
+
                                 value="0"
+
                                 required
+
                             >
+
                             <span>{% if lang == 'ur' %}نہیں{% else %}No{% endif %}</span>
+
                         </label>
+
                         <label class="option-card">
+
                             <input
+
                                 type="radio"
+
                                 name="feet_stuck"
+
                                 value="1"
+
                             >
+
                             <span>{% if lang == 'ur' %}ہاں{% else %}Yes{% endif %}</span>
+
                         </label>
+
                         <label class="option-card">
+
                             <input
+
                                 type="radio"
+
                                 name="feet_stuck"
+
                                 value="2"
+
                             >
+
                             <span>{% if lang == 'ur' %}یقین نہیں{% else %}Not sure{% endif %}</span>
+
                         </label>
+
                     </div>
+
                 </div>
+
                 <div class="question-slide">
+
                     <div class="question-icon">
+
                         <i class="fa-solid fa-person-walking-arrow-right"></i>
+
                     </div>
+
                     <h3 class="question-title">
+
                         {% if lang == 'ur' %}
+
                         کیا آپ نے چلتے وقت پاؤں گھسیٹنا یا غیر معمولی چھوٹے قدم اٹھانا شروع کر دیے ہیں؟
+
                         {% else %}
+
                         Have you started shuffling your feet or taking
+
                         unusually small steps while walking?
+
                         {% endif %}
+
                     </h3>
+
                     <p class="question-description">
+
                         {% if lang == 'ur' %}
+
                         غور کریں کہ آیا آپ کا چلنے کا انداز پہلے کے مقابلے میں بدل گیا ہے۔
+
                         {% else %}
+
                         Consider whether your walking pattern has changed
+
                         compared with before.
+
                         {% endif %}
+
                     </p>
+
                     <div class="options-grid">
+
                         <label class="option-card">
+
                             <input
+
                                 type="radio"
+
                                 name="shuffling_walk"
+
                                 value="0"
+
                                 required
+
                             >
+
                             <span>{% if lang == 'ur' %}نہیں{% else %}No{% endif %}</span>
+
                         </label>
+
                         <label class="option-card">
+
                             <input
+
                                 type="radio"
+
                                 name="shuffling_walk"
+
                                 value="1"
+
                             >
+
                             <span>{% if lang == 'ur' %}ہاں{% else %}Yes{% endif %}</span>
+
                         </label>
+
                         <label class="option-card">
+
                             <input
+
                                 type="radio"
+
                                 name="shuffling_walk"
+
                                 value="2"
+
                             >
+
                             <span>{% if lang == 'ur' %}یقین نہیں{% else %}Not sure{% endif %}</span>
+
                         </label>
+
                     </div>
+
                 </div>
+
                 <div class="question-slide">
+
                     <div class="question-icon">
+
                         <i class="fa-solid fa-scale-balanced"></i>
+
                     </div>
+
                     <h3 class="question-title">
+
                         {% if lang == 'ur' %}
+
                         کیا آپ کو کھڑے ہونے یا چلتے وقت اپنا توازن برقرار رکھنے میں نمایاں دشواری ہوئی ہے؟
+
                         {% else %}
+
                         Have you developed noticeable difficulty maintaining
+
                         your balance while standing or walking?
+
                         {% endif %}
+
                     </h3>
+
                     <p class="question-description">
+
                         {% if lang == 'ur' %}
+
                         ایک بار کے حادثاتی توازن کے بجائے بار بار عدم استحکام پر غور کریں۔
+
                         {% else %}
+
                         Consider repeated unsteadiness rather than a
+
                         single accidental loss of balance.
+
                         {% endif %}
+
                     </p>
+
                     <div class="options-grid">
+
                         <label class="option-card">
+
                             <input
+
                                 type="radio"
+
                                 name="poor_balance"
+
                                 value="0"
+
                                 required
+
                             >
+
                             <span>{% if lang == 'ur' %}نہیں{% else %}No{% endif %}</span>
+
                         </label>
+
                         <label class="option-card">
+
                             <input
+
                                 type="radio"
+
                                 name="poor_balance"
+
                                 value="1"
+
                             >
+
                             <span>{% if lang == 'ur' %}ہاں{% else %}Yes{% endif %}</span>
+
                         </label>
+
                         <label class="option-card">
+
                             <input
+
                                 type="radio"
+
                                 name="poor_balance"
+
                                 value="2"
+
                             >
+
                             <span>{% if lang == 'ur' %}یقین نہیں{% else %}Not sure{% endif %}</span>
+
                         </label>
+
                     </div>
+
                 </div>
+
                 <div class="question-slide">
+
                     <div class="question-icon">
+
                         <i class="fa-solid fa-pen"></i>
+
                     </div>
+
                     <h3 class="question-title">
+
                         {% if lang == 'ur' %}
+
                         کیا آپ کی تحریر پہلے کے مقابلے میں نمایاں طور پر چھوٹی یا زیادہ تنگ ہو گئی ہے؟
+
                         {% else %}
+
                         Has your handwriting become noticeably smaller
+
                         or more cramped than before?
+
                         {% endif %}
+
                     </h3>
+
                     <p class="question-description">
+
                         {% if lang == 'ur' %}
+
                         اپنی موجودہ تحریر کا موازنہ اس سے کریں جو آپ معمول پر لکھتے تھے۔
+
                         {% else %}
+
                         Compare your current handwriting with how you
+
                         normally used to write.
+
                         {% endif %}
+
                     </p>
+
                     <div class="options-grid">
+
                         <label class="option-card">
+
                             <input
+
                                 type="radio"
+
                                 name="small_handwriting"
+
                                 value="0"
+
                                 required
+
                             >
+
                             <span>{% if lang == 'ur' %}نہیں{% else %}No{% endif %}</span>
+
                         </label>
+
                         <label class="option-card">
+
                             <input
+
                                 type="radio"
+
                                 name="small_handwriting"
+
                                 value="1"
+
                             >
+
                             <span>{% if lang == 'ur' %}ہاں{% else %}Yes{% endif %}</span>
+
                         </label>
+
                         <label class="option-card">
+
                             <input
+
                                 type="radio"
+
                                 name="small_handwriting"
+
                                 value="2"
+
                             >
+
                             <span>{% if lang == 'ur' %}یقین نہیں{% else %}Not sure{% endif %}</span>
+
                         </label>
+
                     </div>
+
                 </div>
+
                 <div class="question-slide">
+
                     <div class="question-icon">
+
                         <i class="fa-solid fa-face-meh"></i>
+
                     </div>
+
                     <h3 class="question-title">
+
                         {% if lang == 'ur' %}
+
                         کیا خاندان کے افراد یا دوستوں نے محسوس کیا ہے کہ آپ کا چہرہ پہلے کے مقابلے میں کم اظہاری ہو گیا ہے؟
+
                         {% else %}
+
                         Have family members or friends noticed that your
+
                         face has become less expressive than before?
+
                         {% endif %}
+
                     </h3>
+
                     <p class="question-description">
+
                         {% if lang == 'ur' %}
+
                         اس میں چہرے کی کم حرکت یا کم نظر آنے والے اظہار شامل ہو سکتے ہیں۔
+
                         {% else %}
+
                         This may include reduced facial movement or
+
                         fewer visible expressions.
+
                         {% endif %}
+
                     </p>
+
                     <div class="options-grid">
+
                         <label class="option-card">
+
                             <input
+
                                 type="radio"
+
                                 name="reduced_facial_expression"
+
                                 value="0"
+
                                 required
+
                             >
+
                             <span>{% if lang == 'ur' %}نہیں{% else %}No{% endif %}</span>
+
                         </label>
+
                         <label class="option-card">
+
                             <input
+
                                 type="radio"
+
                                 name="reduced_facial_expression"
+
                                 value="1"
+
                             >
+
                             <span>{% if lang == 'ur' %}ہاں{% else %}Yes{% endif %}</span>
+
                         </label>
+
                         <label class="option-card">
+
                             <input
+
                                 type="radio"
+
                                 name="reduced_facial_expression"
+
                                 value="2"
+
                             >
+
                             <span>{% if lang == 'ur' %}یقین نہیں{% else %}Not sure{% endif %}</span>
+
                         </label>
+
                     </div>
+
                 </div>
+
                 <div class="question-slide">
+
                     <div class="question-icon">
+
                         <i class="fa-solid fa-microphone"></i>
+
                     </div>
+
                     <h3 class="question-title">
+
                         {% if lang == 'ur' %}
+
                         کیا لوگوں نے محسوس کیا ہے کہ آپ کی آواز پہلے کے مقابلے میں نرم یا خاموش ہو گئی ہے؟
+
                         {% else %}
+
                         Have people noticed that your voice has become
+
                         softer or quieter than before?
+
                         {% endif %}
+
                     </h3>
+
                     <p class="question-description">
+
                         {% if lang == 'ur' %}
+
                         غور کریں کہ کیا دوسرے لوگ اکثر آپ سے اونچی آواز میں بولنے یا اپنے آپ کو دہرانے کے لیے کہتے ہیں۔
+
                         {% else %}
+
                         Consider whether other people frequently ask
+
                         you to speak louder or repeat yourself.
+
                         {% endif %}
+
                     </p>
+
                     <div class="options-grid">
+
                         <label class="option-card">
+
                             <input
+
                                 type="radio"
+
                                 name="soft_voice"
+
                                 value="0"
+
                                 required
+
                             >
+
                             <span>{% if lang == 'ur' %}نہیں{% else %}No{% endif %}</span>
+
                         </label>
+
                         <label class="option-card">
+
                             <input
+
                                 type="radio"
+
                                 name="soft_voice"
+
                                 value="1"
+
                             >
+
                             <span>{% if lang == 'ur' %}ہاں{% else %}Yes{% endif %}</span>
+
                         </label>
+
                         <label class="option-card">
+
                             <input
+
                                 type="radio"
+
                                 name="soft_voice"
+
                                 value="2"
+
                             >
+
                             <span>{% if lang == 'ur' %}یقین نہیں{% else %}Not sure{% endif %}</span>
+
                         </label>
+
                     </div>
+
                 </div>
+
                 <div class="question-slide">
+
                     <div class="question-icon">
+
                         <i class="fa-solid fa-brain"></i>
+
                     </div>
+
                     <h3 class="question-title">
+
                         {% if lang == 'ur' %}
+
                         پہلے کے مقابلے میں، آپ کو خیالات کو منظم کرنے، معلومات کو یاد رکھنے، یا روزمرہ کی سرگرمیوں کے دوران مناسب جواب دینے میں کتنی دشواری ہوتی ہے؟
+
                         {% else %}
+
                         Compared with before, how much difficulty do you
+
                         experience organizing thoughts, remembering information,
+
                         or responding appropriately during everyday activities?
+
                         {% endif %}
+
                     </h3>
+
                     <p class="question-description">
+
                         {% if lang == 'ur' %}
+
                         وہ آپشن منتخب کریں جو آپ کے حالیہ روزمرہ کے علمی تجربے کو بہترین طور پر ظاہر کرتا ہو۔
+
                         {% else %}
+
                         Select the option that best reflects your recent
+
                         everyday cognitive experience.
+
                         {% endif %}
+
                     </p>
+
                     <div class="options-grid">
+
                         <label class="option-card">
+
                             <input
+
                                 type="radio"
+
                                 name="cognitive_difficulty"
+
                                 value="0"
+
                                 required
+
                             >
+
                             <span>{% if lang == 'ur' %}کوئی قابل توجہ دشواری نہیں{% else %}No noticeable difficulty{% endif %}</span>
+
                         </label>
+
                         <label class="option-card">
+
                             <input
+
                                 type="radio"
+
                                 name="cognitive_difficulty"
+
                                 value="1"
+
                             >
+
                             <span>{% if lang == 'ur' %}بہت ہلکی دشواری{% else %}Slight difficulty{% endif %}</span>
+
                         </label>
+
                         <label class="option-card">
+
                             <input
+
                                 type="radio"
+
                                 name="cognitive_difficulty"
+
                                 value="2"
+
                             >
+
                             <span>{% if lang == 'ur' %}ہلکی دشواری{% else %}Mild difficulty{% endif %}</span>
+
                         </label>
+
                         <label class="option-card">
+
                             <input
+
                                 type="radio"
+
                                 name="cognitive_difficulty"
+
                                 value="3"
+
                             >
+
                             <span>{% if lang == 'ur' %}درمیانی دشواری{% else %}Moderate difficulty{% endif %}</span>
+
                         </label>
+
                         <label class="option-card">
+
                             <input
+
                                 type="radio"
+
                                 name="cognitive_difficulty"
+
                                 value="4"
+
                             >
+
                             <span>{% if lang == 'ur' %}شدید دشواری{% else %}Severe difficulty{% endif %}</span>
+
                         </label>
+
                     </div>
+
                 </div>
+
                 <div class="navigation-buttons">
+
                     <button
+
                         type="button"
+
                         class="nav-btn previous-btn"
+
                         id="prevBtn"
+
                         disabled
+
                     >
+
                         <i class="fa-solid fa-arrow-left"></i>
+
                         {% if lang == 'ur' %}پچھلا{% else %}Previous{% endif %}
+
                     </button>
+
                     <button
+
                         type="button"
+
                         class="nav-btn next-btn"
+
                         id="nextBtn"
+
                     >
+
                         {% if lang == 'ur' %}اگلا{% else %}Next{% endif %}
+
                         <i class="fa-solid fa-arrow-right"></i>
+
                     </button>
+
                     <button
+
                         type="submit"
+
                         class="nav-btn submit-btn"
+
                         id="submitBtn"
+
                         style="display:none;"
+
                     >
+
                         {% if lang == 'ur' %}تشخیص مکمل کریں{% else %}Finish Assessment{% endif %}
+
                         <i class="fa-solid fa-check"></i>
+
                     </button>
+
                 </div>
+
             </form></div><aside class="q-support" aria-label="{% if lang == 'ur' %}سوالنامہ کی رہنمائی{% else %}Questionnaire guidance{% endif %}"><div class="q-support-card"><h2><i class="fa-regular fa-lightbulb" aria-hidden="true"></i>{% if lang == 'ur' %}جواب دینے سے پہلے{% else %}Before you answer{% endif %}</h2><ul class="q-tips"><li><i class="fa-solid fa-calendar-days" aria-hidden="true"></i><span>{% if lang == 'ur' %}اپنے حالیہ تجربات کو ذہن میں رکھیں۔{% else %}Think about your recent experiences.{% endif %}</span></li><li><i class="fa-solid fa-circle-check" aria-hidden="true"></i><span>{% if lang == 'ur' %}وہ جواب منتخب کریں جو آپ پر لاگو ہو۔{% else %}Choose the answer that fits you best.{% endif %}</span></li><li><i class="fa-solid fa-arrow-left" aria-hidden="true"></i><span>{% if lang == 'ur' %}جواب دیکھنے کے لیے پچھلا بٹن استعمال کریں۔{% else %}Use Previous to review an answer.{% endif %}</span></li></ul></div><div class="q-support-card"><img class="q-support-art q-support-robot" src="{% static 'questionnaire_app/images/questionnaire_hero.gif' %}" width="180" height="160" alt="" aria-hidden="true"><h2>{% if lang == 'ur' %}اگلا مرحلہ کیا ہے؟{% else %}What comes next?{% endif %}</h2><p>{% if lang == 'ur' %}جوابات مکمل کرنے کے بعد آڈیو اور چال کی اسکریننگ جاری رکھیں۔{% else %}Complete your answers, then continue to audio and gait screening.{% endif %}</p></div></aside></section><p class="q-notice"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span>{% if lang == 'ur' %}یہ ابتدائی اسکریننگ ہے، طبی تشخیص نہیں۔ آپ کے جوابات آڈیو اور چال کے نتائج کے ساتھ دیکھے جاتے ہیں۔{% else %}For preliminary screening, not a medical diagnosis. Your answers are considered alongside audio and gait findings.{% endif %}</span></p></main></div></div></div>
+
 <script src="{% static 'questionnaire_app/js/questionnaire_form.js' %}"></script>
+
 <script>
+
 document.body.classList.add('ns-workspace-view');
+
 (function(){
+
  const button=document.getElementById('qMenuToggle'),drawer=document.getElementById('qSidebarDrawer'),backdrop=document.getElementById('qSidebarBackdrop'),mobile=window.matchMedia('(max-width:760px)');
+
  if(!button||!drawer||!backdrop)return;
+
  function close(){drawer.classList.remove('is-open');button.setAttribute('aria-expanded','false');backdrop.hidden=true;drawer.inert=mobile.matches;if(mobile.matches)drawer.setAttribute('aria-hidden','true');else drawer.removeAttribute('aria-hidden');}
+
  close();
+
  button.addEventListener('click',function(){if(!mobile.matches)return;const open=!drawer.classList.contains('is-open');if(!open){close();return;}drawer.inert=false;drawer.removeAttribute('aria-hidden');drawer.classList.add('is-open');button.setAttribute('aria-expanded','true');backdrop.hidden=false;});
+
  backdrop.addEventListener('click',close);
+
  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!backdrop.hidden){close();button.focus();}});
+
  drawer.addEventListener('click',function(e){if(mobile.matches&&e.target.closest('a'))close();});
+
  if(mobile.addEventListener)mobile.addEventListener('change',close);else mobile.addListener(close);
+
 })();
+
 </script>
+
 {% endwith %}
+
 {% endblock %}

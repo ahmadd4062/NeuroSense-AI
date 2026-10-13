@@ -1460,6 +1460,78 @@ Gait Screening - NeuroSense AI
     #nsGaitShell .results-card .results-actions a { width: 100%; box-sizing: border-box; }
     #nsGaitShell .results-card .results-footnote { padding: 16px 20px; }
 }
+
+/* ================================================================
+   GAIT HERO — match the Report & Recommendations blue-gradient theme.
+   Only hero selectors are changed. All other styles and JS are intact.
+   ================================================================ */
+#nsGaitShell .gait-hero {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    background: linear-gradient(112deg, #235ac3 0%, #2976dc 72%, #3399e1 100%);
+    border: 1px solid #347cdf;
+    border-radius: 22px;
+    box-shadow: 0 10px 24px rgba(35, 90, 195, 0.10);
+}
+#nsGaitShell .gait-hero::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    width: 360px;
+    height: 360px;
+    top: -170px;
+    inset-inline-end: -80px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,.22);
+    box-shadow: 0 0 0 44px rgba(255,255,255,.035), 0 0 0 94px rgba(255,255,255,.025);
+    pointer-events: none;
+}
+#nsGaitShell .gait-hero-copy h1,
+#nsGaitShell .gait-screening-page .gait-hero h1 {
+    color: #ffffff;
+    letter-spacing: -0.035em;
+}
+#nsGaitShell .gait-hero-copy p {
+    color: #e5efff;
+}
+#nsGaitShell .gait-hero-badge {
+    display: inline-flex;
+    background: rgba(255, 255, 255, .12);
+    border: 1px solid rgba(255, 255, 255, .28);
+    color: #eaf5ff;
+    border-radius: 999px;
+    padding: 7px 13px;
+    font-weight: 700;
+    letter-spacing: .075em;
+}
+#nsGaitShell .gait-stage-pill {
+    background: rgba(255, 255, 255, .14);
+    border: 1px solid rgba(255, 255, 255, .28);
+    color: #ffffff;
+    border-radius: 9px;
+    padding: 8px 12px;
+    font-weight: 700;
+}
+#nsGaitShell .gait-hero-visual::before {
+    background: radial-gradient(circle, rgba(215,235,255,.19) 0%, rgba(255,255,255,.07) 48%, transparent 75%);
+}
+#nsGaitShell .gait-hero-visual .gait-walker-art {
+    filter: drop-shadow(0 9px 15px rgba(13,52,124,.17));
+}
+#nsGaitShell .gait-hero-visual .gait-walker-art > circle:first-child {
+    fill: rgba(235,245,255,.94);
+}
+#nsGaitShell .gait-hero-visual .gait-walker-art > g:nth-child(2) {
+    stroke: rgba(255,255,255,.4);
+}
+#nsGaitShell .gait-hero-visual .gait-walker-art > path {
+    stroke: rgba(255,255,255,.62);
+}
+@media (max-width: 760px) {
+    #nsGaitShell .gait-hero { border-radius: 17px; }
+}
+
 </style>
 
 

@@ -11,8 +11,8 @@ from .services import generate_ai_recommendations
 logger = logging.getLogger(__name__)
 
 # Change this whenever recommendation content/layout rules change.
-RECOMMENDATION_PIPELINE_VERSION = "rag_urdu_clean_v11"
-CACHE_SESSION_KEY = "recommendation_cache_v11"
+RECOMMENDATION_PIPELINE_VERSION = "rag_urdu_clean_v15"
+CACHE_SESSION_KEY = "recommendation_cache_v15"
 MAX_CACHE_ITEMS = 12
 
 

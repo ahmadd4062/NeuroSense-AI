@@ -3,814 +3,258 @@
 
 <header class="site-header">
     <div class="nav-container">
-
         <!-- LOGO -->
-        <a href="{% url 'speech_app:home' %}"
-           class="brand"
-           aria-label="NeuroSense AI home">
-            <img src="{% static 'speech_app/images/logo.png' %}"
-                 alt="NeuroSense AI">
+        <a href="{% url 'speech_app:home' %}" class="brand" aria-label="NeuroSense AI home">
+            <img src="{% static 'speech_app/images/logo.png' %}" alt="NeuroSense AI">
         </a>
 
-
-        <!-- ========================= -->
-        <!-- DESKTOP NAVIGATION         -->
-        <!-- ========================= -->
-
+        <!-- DESKTOP NAVIGATION -->
         <nav class="desktop-nav" aria-label="Main navigation">
-
-            <!-- HOME -->
             <a href="{% url 'speech_app:home' %}"
                class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}"
                data-nav="home">
                 {% if lang == 'ur' %}ہوم{% else %}Home{% endif %}
             </a>
-
-
-            <!-- FEATURES -->
-            <a href="{% url 'speech_app:home' %}#features"
-               data-section="features">
+            <a href="{% url 'speech_app:home' %}#features" data-section="features">
                 {% if lang == 'ur' %}خصوصیات{% else %}Features{% endif %}
             </a>
-
-
-            <!-- HOW IT WORKS -->
-            <a href="{% url 'speech_app:home' %}#how-it-works"
-               data-section="how-it-works">
-                {% if lang == 'ur' %}
-                    یہ کیسے کام کرتا ہے
-                {% else %}
-                    How It Works
-                {% endif %}
+            <a href="{% url 'speech_app:home' %}#how-it-works" data-section="how-it-works">
+                {% if lang == 'ur' %}یہ کیسے کام کرتا ہے{% else %}How It Works{% endif %}
             </a>
-
-
-            <!-- ABOUT US -->
-            <a href="{% url 'speech_app:home' %}#about"
-               data-section="about">
+            <!-- NEW: Public education page -->
+            <a href="{% url 'understanding_parkinsons' %}"
+               class="{% if request.resolver_match.url_name == 'understanding_parkinsons' %}active{% endif %}"
+               data-nav="parkinsons"
+               {% if request.resolver_match.url_name == 'understanding_parkinsons' %}aria-current="page"{% endif %}>
+                {% if lang == 'ur' %}پارکنسنز{% else %}Parkinson's{% endif %}
+            </a>
+            <a href="{% url 'speech_app:home' %}#about" data-section="about">
                 {% if lang == 'ur' %}ہمارے بارے میں{% else %}About Us{% endif %}
             </a>
-
-
-            <!-- CHATBOT -->
             <a href="{% url 'chatbot_app:chatbot' %}"
                class="{% if request.resolver_match.url_name == 'chatbot' %}active{% endif %}"
                data-nav="chatbot">
                 {% if lang == 'ur' %}چیٹ بوٹ{% else %}Chatbot{% endif %}
             </a>
-
-
-            <!-- DASHBOARD -->
             <a href="{% url 'dashboard:dashboard' %}"
                class="{% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}"
                data-nav="dashboard">
                 {% if lang == 'ur' %}ڈیش بورڈ{% else %}Dashboard{% endif %}
             </a>
-
         </nav>
 
-
-        <!-- ========================= -->
-        <!-- RIGHT SIDE ACTIONS         -->
-        <!-- ========================= -->
-
+        <!-- RIGHT ACTIONS -->
         <div class="nav-actions">
-
-            <!-- LANGUAGE TOGGLE -->
-            <div class="lang-toggle-wrapper">
-
-                <a href="{% url 'set_language' %}?lang=en&next={{ request.path }}"
-                   class="lang-btn {% if request.LANG == 'en' %}active{% endif %}"
-                   title="Switch to English">
+            <div class="lang-toggle-wrapper" aria-label="Language">
+                <a href="{% url 'set_language' %}?lang=en&amp;next={{ request.path|urlencode }}"
+                   class="lang-btn {% if lang == 'en' %}active{% endif %}" title="Switch to English">
                     <span class="lang-label">EN</span>
                 </a>
-
-                <span class="lang-divider">|</span>
-
-                <a href="{% url 'set_language' %}?lang=ur&next={{ request.path }}"
-                   class="lang-btn {% if request.LANG == 'ur' %}active{% endif %}"
-                   title="اردو میں تبدیل کریں">
+                <span class="lang-divider" aria-hidden="true">|</span>
+                <a href="{% url 'set_language' %}?lang=ur&amp;next={{ request.path|urlencode }}"
+                   class="lang-btn {% if lang == 'ur' %}active{% endif %}" title="اردو میں تبدیل کریں">
                     <span class="lang-label">اردو</span>
                 </a>
-
             </div>
-
-
             {% if user.is_authenticated %}
-
-                <!-- PROFILE -->
-                <a href="{% url 'accounts:profile' %}"
-                   class="btn btn-login">
-
-                    <i class="fa-regular fa-user"></i>
-
-                    {% if lang == 'ur' %}
-                        پروفائل
-                    {% else %}
-                        Profile
-                    {% endif %}
-
-                </a>
-
-
-                <!-- LOGOUT -->
-                <a href="{% url 'accounts:logout' %}"
-                   class="btn btn-primary">
-
-                    <i class="fa-solid fa-sign-out-alt"></i>
-
-                    {% if lang == 'ur' %}
-                        لاگ آؤٹ
-                    {% else %}
-                        Logout
-                    {% endif %}
-
-                </a>
-
+            <a href="{% url 'accounts:profile' %}" class="btn btn-login">
+                <i class="fa-regular fa-user" aria-hidden="true"></i>
+                {% if lang == 'ur' %}پروفائل{% else %}Profile{% endif %}
+            </a>
+            <a href="{% url 'accounts:logout' %}" class="btn btn-primary">
+                <i class="fa-solid fa-sign-out-alt" aria-hidden="true"></i>
+                {% if lang == 'ur' %}لاگ آؤٹ{% else %}Logout{% endif %}
+            </a>
             {% else %}
-
-                <!-- LOGIN -->
-                <a href="{% url 'accounts:login' %}"
-                   class="btn btn-login">
-
-                    {% if lang == 'ur' %}
-                        لاگ ان
-                    {% else %}
-                        Log In
-                    {% endif %}
-
-                </a>
-
-
-                <!-- REGISTER -->
-                <a href="{% url 'accounts:register' %}"
-                   class="btn btn-primary">
-
-                    {% if lang == 'ur' %}
-                        اکاؤنٹ بنائیں
-                    {% else %}
-                        Sign Up
-                    {% endif %}
-
-                </a>
-
+            <a href="{% url 'accounts:login' %}" class="btn btn-login">
+                {% if lang == 'ur' %}لاگ ان{% else %}Log In{% endif %}
+            </a>
+            <a href="{% url 'accounts:register' %}" class="btn btn-primary">
+                {% if lang == 'ur' %}اکاؤنٹ بنائیں{% else %}Sign Up{% endif %}
+            </a>
             {% endif %}
-
         </div>
 
-
-        <!-- MOBILE MENU BUTTON -->
-        <button class="menu-toggle"
-                type="button"
-                aria-label="Open navigation"
-                aria-expanded="false">
-
-            <i class="fa-solid fa-bars"></i>
-
+        <!-- MOBILE MENU TOGGLE -->
+        <button class="menu-toggle" type="button" aria-label="Open navigation"
+                aria-controls="neuroMobileNav" aria-expanded="false">
+            <i class="fa-solid fa-bars" aria-hidden="true"></i>
         </button>
-
     </div>
 </header>
 
-
-<!-- ========================================== -->
-<!-- MOBILE NAV                                  -->
-<!-- ========================================== -->
-
-<nav class="mobile-nav" aria-label="Mobile navigation">
-
-    <a href="{% url 'speech_app:home' %}">
-        {% if lang == 'ur' %}ہوم{% else %}Home{% endif %}
+<!-- MOBILE NAVIGATION -->
+<nav class="mobile-nav" id="neuroMobileNav" aria-label="Mobile navigation">
+    <a href="{% url 'speech_app:home' %}">{% if lang == 'ur' %}ہوم{% else %}Home{% endif %}</a>
+    <a href="{% url 'speech_app:home' %}#features">{% if lang == 'ur' %}خصوصیات{% else %}Features{% endif %}</a>
+    <a href="{% url 'speech_app:home' %}#how-it-works">{% if lang == 'ur' %}یہ کیسے کام کرتا ہے{% else %}How It Works{% endif %}</a>
+    <a href="{% url 'understanding_parkinsons' %}"
+       class="{% if request.resolver_match.url_name == 'understanding_parkinsons' %}active{% endif %}"
+       {% if request.resolver_match.url_name == 'understanding_parkinsons' %}aria-current="page"{% endif %}>
+        {% if lang == 'ur' %}پارکنسنز کو سمجھیں{% else %}Understanding Parkinson's{% endif %}
     </a>
-
-    <a href="{% url 'speech_app:home' %}#features">
-        {% if lang == 'ur' %}خصوصیات{% else %}Features{% endif %}
-    </a>
-
-    <a href="{% url 'speech_app:home' %}#how-it-works">
-        {% if lang == 'ur' %}
-            یہ کیسے کام کرتا ہے
-        {% else %}
-            How It Works
-        {% endif %}
-    </a>
-
-    <a href="{% url 'speech_app:home' %}#about">
-        {% if lang == 'ur' %}ہمارے بارے میں{% else %}About Us{% endif %}
-    </a>
-
-    <a href="{% url 'chatbot_app:chatbot' %}">
-        {% if lang == 'ur' %}چیٹ بوٹ{% else %}Chatbot{% endif %}
-    </a>
-
-    <a href="{% url 'dashboard:dashboard' %}">
-        {% if lang == 'ur' %}ڈیش بورڈ{% else %}Dashboard{% endif %}
-    </a>
-
-
-    <!-- MOBILE LANGUAGE -->
+    <a href="{% url 'speech_app:home' %}#about">{% if lang == 'ur' %}ہمارے بارے میں{% else %}About Us{% endif %}</a>
+    <a href="{% url 'chatbot_app:chatbot' %}">{% if lang == 'ur' %}چیٹ بوٹ{% else %}Chatbot{% endif %}</a>
+    <a href="{% url 'dashboard:dashboard' %}">{% if lang == 'ur' %}ڈیش بورڈ{% else %}Dashboard{% endif %}</a>
 
     <div class="mobile-lang-toggle">
-
-        <span class="mobile-lang-label">
-            {% if lang == 'ur' %}
-                🌐 زبان
-            {% else %}
-                🌐 Language
-            {% endif %}
-        </span>
-
+        <span class="mobile-lang-label">{% if lang == 'ur' %}🌐 زبان{% else %}🌐 Language{% endif %}</span>
         <div class="mobile-lang-buttons">
-
-            <a href="{% url 'set_language' %}?lang=en&next={{ request.path }}"
-               class="lang-btn-mobile {% if request.LANG == 'en' %}active{% endif %}">
-                🇬🇧 English
-            </a>
-
-            <a href="{% url 'set_language' %}?lang=ur&next={{ request.path }}"
-               class="lang-btn-mobile {% if request.LANG == 'ur' %}active{% endif %}">
-                🇵🇰 اردو
-            </a>
-
+            <a href="{% url 'set_language' %}?lang=en&amp;next={{ request.path|urlencode }}"
+               class="lang-btn-mobile {% if lang == 'en' %}active{% endif %}">🇬🇧 English</a>
+            <a href="{% url 'set_language' %}?lang=ur&amp;next={{ request.path|urlencode }}"
+               class="lang-btn-mobile {% if lang == 'ur' %}active{% endif %}">🇵🇰 اردو</a>
         </div>
-
     </div>
-
-
-    <!-- MOBILE ACTIONS -->
 
     <div class="mobile-nav-actions">
-
         {% if user.is_authenticated %}
-
-            <a href="{% url 'accounts:profile' %}"
-               class="btn btn-login">
-
-                <i class="fa-regular fa-user"></i>
-
-                {% if lang == 'ur' %}
-                    پروفائل
-                {% else %}
-                    Profile
-                {% endif %}
-
-            </a>
-
-            <a href="{% url 'accounts:logout' %}"
-               class="btn btn-primary">
-
-                <i class="fa-solid fa-sign-out-alt"></i>
-
-                {% if lang == 'ur' %}
-                    لاگ آؤٹ
-                {% else %}
-                    Logout
-                {% endif %}
-
-            </a>
-
+        <a href="{% url 'accounts:profile' %}" class="btn btn-login"><i class="fa-regular fa-user" aria-hidden="true"></i> {% if lang == 'ur' %}پروفائل{% else %}Profile{% endif %}</a>
+        <a href="{% url 'accounts:logout' %}" class="btn btn-primary"><i class="fa-solid fa-sign-out-alt" aria-hidden="true"></i> {% if lang == 'ur' %}لاگ آؤٹ{% else %}Logout{% endif %}</a>
         {% else %}
-
-            <a href="{% url 'accounts:login' %}"
-               class="btn btn-login">
-
-                {% if lang == 'ur' %}
-                    لاگ ان
-                {% else %}
-                    Log In
-                {% endif %}
-
-            </a>
-
-            <a href="{% url 'accounts:register' %}"
-               class="btn btn-primary">
-
-                {% if lang == 'ur' %}
-                    اکاؤنٹ بنائیں
-                {% else %}
-                    Sign Up
-                {% endif %}
-
-            </a>
-
+        <a href="{% url 'accounts:login' %}" class="btn btn-login">{% if lang == 'ur' %}لاگ ان{% else %}Log In{% endif %}</a>
+        <a href="{% url 'accounts:register' %}" class="btn btn-primary">{% if lang == 'ur' %}اکاؤنٹ بنائیں{% else %}Sign Up{% endif %}</a>
         {% endif %}
-
     </div>
-
 </nav>
 
-<!-- ========================================== -->
-<!-- STYLES FOR LANGUAGE TOGGLE & NAVBAR FIX   -->
-<!-- ========================================== -->
 <style>
-    /* ----- Fix Navbar Alignment ----- */
+/* Scoped navbar adjustments that retain the site's existing style.css theme. */
+.site-header .nav-container {
+    display:flex;align-items:center;justify-content:space-between;
+    width:100%;max-width:1440px;margin:0 auto;padding:0 22px;
+    min-height:72px;height:auto;gap:clamp(12px,1.2vw,20px);
+}
+.site-header .brand {flex:0 0 auto;display:flex;align-items:center;width:auto;min-width:0;}
+.site-header .brand img {display:block;width:clamp(160px,13vw,215px);max-width:100%;height:40px;object-fit:contain;}
+.site-header .desktop-nav {
+    display:flex;align-items:center;justify-content:center;
+    flex:1 1 auto;min-width:0;gap:clamp(10px,1.15vw,20px);
+}
+.site-header .desktop-nav a {
+    font-size:clamp(11px,.9vw,13px);font-weight:500;color:#475569;
+    text-decoration:none;white-space:nowrap;transition:color .2s ease;
+}
+.site-header .desktop-nav a:hover,.site-header .desktop-nav a.active {color:#4A6CF7;}
+.site-header .desktop-nav a.active {font-weight:700;}
+.site-header .nav-actions {display:flex;align-items:center;gap:9px;flex:0 0 auto;}
+.site-header .nav-actions .btn {
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    padding:9px 13px;min-height:38px;border-radius:8px;
+    font-size:12px;font-weight:600;text-decoration:none;white-space:nowrap;
+    transition:background-color .2s,border-color .2s,color .2s;
+}
+.site-header .nav-actions .btn-login {background:#fff;color:#475569;border:1px solid #d9e4f0;box-shadow:none;}
+.site-header .nav-actions .btn-login:hover {background:#f8fafc;border-color:#4A6CF7;color:#4A6CF7;}
+.site-header .nav-actions .btn-primary {background:#4A6CF7;color:#fff;border:1px solid #4A6CF7;}
+.site-header .nav-actions .btn-primary:hover {background:#3b5de7;color:#fff;border-color:#3b5de7;}
+.site-header .lang-toggle-wrapper {
+    display:flex;align-items:center;gap:4px;background:#f1f5f9;
+    padding:4px 8px;border-radius:30px;border:1px solid #e2e8f0;flex:none;
+}
+.site-header .lang-btn {display:flex;align-items:center;gap:4px;padding:4px 8px;border-radius:20px;font-size:11px;font-weight:600;color:#94a3b8;text-decoration:none;}
+.site-header .lang-btn:hover {color:#4A6CF7;background:#eef2ff;}
+.site-header .lang-btn.active {background:#4A6CF7;color:#fff;box-shadow:0 2px 8px #4A6CF733;}
+.site-header .lang-divider {font-size:11px;color:#cbd5e1;}
+.site-header .menu-toggle {display:none;flex:none;border:0;background:transparent;color:#1a1a2e;font-size:22px;padding:5px 9px;cursor:pointer;}
+.mobile-nav {display:none;flex-direction:column;background:#fff;padding:16px 24px 24px;border-top:1px solid #e2e8f0;box-shadow:0 4px 16px #0000000f;}
+.mobile-nav.is-open {display:flex;}
+.mobile-nav > a {padding:11px 0;font-size:14px;font-weight:500;color:#475569;text-decoration:none;border-bottom:1px solid #f1f5f9;}
+.mobile-nav > a.active,.mobile-nav > a:hover {color:#4A6CF7;}
+.mobile-lang-toggle {padding:12px 0;border-top:1px solid #e2e8f0;border-bottom:1px solid #e2e8f0;margin:12px 0 0;}
+.mobile-lang-label {display:block;font-size:11px;font-weight:600;color:#94a3b8;letter-spacing:.06em;margin-bottom:8px;}
+.mobile-lang-buttons {display:flex;gap:10px;}
+.lang-btn-mobile {flex:1;text-align:center;padding:9px 12px;border-radius:8px;font-size:12px;font-weight:600;text-decoration:none;color:#64748b;background:#f1f5f9;border:2px solid transparent;}
+.lang-btn-mobile.active {background:#eef2ff;border-color:#4A6CF7;color:#4A6CF7;}
+.mobile-nav-actions {display:flex;gap:10px;margin-top:12px;padding-top:12px;border-top:1px solid #e2e8f0;}
+.mobile-nav-actions .btn {display:inline-flex;align-items:center;justify-content:center;gap:7px;flex:1;padding:10px;border-radius:8px;font-size:12px;font-weight:600;text-decoration:none;}
+.mobile-nav-actions .btn-login {background:#fff;color:#475569;border:1px solid #e2e8f0;}
+.mobile-nav-actions .btn-primary {background:#4A6CF7;color:#fff;border:1px solid #4A6CF7;}
+@media(max-width:1250px){
+    .site-header .desktop-nav {display:none;}
+    .site-header .menu-toggle {display:inline-flex;align-items:center;justify-content:center;}
+    .site-header .nav-actions {margin-inline-start:auto;}
+}
+@media(max-width:760px){
+    .site-header .nav-container {min-height:64px;padding:0 16px;}
+    .site-header .brand img {width:170px;height:34px;}
+    .site-header .nav-actions .btn,.site-header .nav-actions .lang-toggle-wrapper {display:none;}
+    .site-header .menu-toggle {display:inline-flex;}
+}
+@media(min-width:1251px){.mobile-nav,.mobile-nav.is-open {display:none!important;}}
+
+/* Restore navbar alignment and horizontal spacing */
+.site-header .nav-container {
+    width: calc(100% - 150px);
+    max-width: 1680px;
+    margin: 0 auto;
+    padding: 0;
+}
+
+/* Maintain balanced spacing on tablets */
+@media (max-width: 992px) {
     .site-header .nav-container {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        max-width: 1280px;
-        margin: 0 auto;
-        padding: 0 24px;
-        height: 72px;
-        gap: 20px;
+        width: calc(100% - 40px);
     }
+}
 
-    .site-header .brand {
-        flex-shrink: 0;
-        display: flex;
-        align-items: center;
+/* Comfortable spacing on mobile */
+@media (max-width: 480px) {
+    .site-header .nav-container {
+        width: calc(100% - 32px);
     }
-
-    .site-header .brand img {
-        height: 40px;
-        width: auto;
-    }
-
-    .site-header .desktop-nav {
-        display: flex;
-        align-items: center;
-        gap: 28px;
-        flex: 1;
-        justify-content: center;
-    }
-
-    .site-header .desktop-nav a {
-        font-size: 0.85rem;
-        font-weight: 500;
-        color: #475569;
-        text-decoration: none;
-        transition: color 0.2s ease;
-        white-space: nowrap;
-    }
-
-    .site-header .desktop-nav a:hover,
-    .site-header .desktop-nav a.active {
-        color: #4A6CF7;
-    }
-
-    .site-header .desktop-nav a.active {
-        font-weight: 600;
-    }
-
-    /* ----- Nav Actions (Right Side) ----- */
-    .site-header .nav-actions {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        flex-shrink: 0;
-    }
-
-    .site-header .btn {
-        padding: 8px 18px;
-        border-radius: 8px;
-        font-weight: 600;
-        font-size: 0.8rem;
-        text-decoration: none;
-        transition: all 0.2s ease;
-        white-space: nowrap;
-    }
-
-    .site-header .btn-login {
-        background: transparent;
-        color: #475569;
-        border: 1.5px solid #e2e8f0;
-    }
-
-    .site-header .btn-login:hover {
-        background: #f8fafc;
-        border-color: #4A6CF7;
-        color: #4A6CF7;
-    }
-
-    .site-header .btn-primary {
-        background: #4A6CF7;
-        color: white;
-        border: 1.5px solid #4A6CF7;
-    }
-
-    .site-header .btn-primary:hover {
-        background: #3b5de7;
-        border-color: #3b5de7;
-        transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(74, 108, 247, 0.3);
-    }
-
-    /* ----- Language Toggle - Desktop ----- */
-    .lang-toggle-wrapper {
-        display: flex;
-        align-items: center;
-        gap: 4px;
-        background: #f1f5f9;
-        padding: 4px 10px;
-        border-radius: 30px;
-        border: 1px solid #e2e8f0;
-        transition: all 0.3s ease;
-        flex-shrink: 0;
-    }
-
-    .lang-toggle-wrapper:hover {
-        border-color: #4A6CF7;
-        background: #eef2ff;
-    }
-
-    .lang-btn {
-        display: flex;
-        align-items: center;
-        gap: 4px;
-        padding: 4px 8px;
-        border-radius: 20px;
-        font-size: 0.7rem;
-        font-weight: 600;
-        color: #94a3b8;
-        text-decoration: none;
-        transition: all 0.3s ease;
-        cursor: pointer;
-    }
-
-    .lang-btn:hover {
-        color: #4A6CF7;
-        background: rgba(74, 108, 247, 0.08);
-    }
-
-    .lang-btn.active {
-        background: #4A6CF7;
-        color: white;
-        box-shadow: 0 2px 8px rgba(74, 108, 247, 0.25);
-    }
-
-    .lang-btn.active:hover {
-        background: #3b5de7;
-        color: white;
-    }
-
-    .lang-flag {
-        font-size: 0.9rem;
-        line-height: 1;
-    }
-
-    .lang-label {
-        font-size: 0.65rem;
-        font-weight: 700;
-        letter-spacing: 0.02em;
-    }
-
-    .lang-divider {
-        color: #cbd5e1;
-        font-size: 0.7rem;
-        font-weight: 300;
-    }
-
-    /* ----- Menu Toggle (Hamburger) ----- */
-    .menu-toggle {
-        display: none;
-        background: none;
-        border: none;
-        font-size: 1.5rem;
-        color: #1a1a2e;
-        cursor: pointer;
-        padding: 4px 8px;
-        flex-shrink: 0;
-    }
-
-    /* ----- Mobile Nav ----- */
-    .mobile-nav {
-        display: none;
-        flex-direction: column;
-        background: white;
-        padding: 16px 24px 24px;
-        border-top: 1px solid #e2e8f0;
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
-    }
-
-    .mobile-nav.is-open {
-        display: flex;
-    }
-
-    .mobile-nav a {
-        padding: 10px 0;
-        font-size: 0.9rem;
-        font-weight: 500;
-        color: #475569;
-        text-decoration: none;
-        border-bottom: 1px solid #f1f5f9;
-    }
-
-    .mobile-nav a:last-of-type {
-        border-bottom: none;
-    }
-
-    .mobile-nav a:hover {
-        color: #4A6CF7;
-    }
-
-    /* ----- Language Toggle - Mobile ----- */
-    .mobile-lang-toggle {
-        padding: 12px 0;
-        border-top: 1px solid #e2e8f0;
-        border-bottom: 1px solid #e2e8f0;
-        margin: 8px 0;
-    }
-
-    .mobile-lang-label {
-        display: block;
-        font-size: 0.7rem;
-        font-weight: 600;
-        color: #94a3b8;
-        text-transform: uppercase;
-        letter-spacing: 0.06em;
-        margin-bottom: 8px;
-    }
-
-    .mobile-lang-buttons {
-        display: flex;
-        gap: 10px;
-    }
-
-    .lang-btn-mobile {
-        flex: 1;
-        text-align: center;
-        padding: 8px 14px;
-        border-radius: 8px;
-        font-size: 0.8rem;
-        font-weight: 600;
-        text-decoration: none;
-        color: #64748b;
-        background: #f1f5f9;
-        border: 2px solid transparent;
-        transition: all 0.3s ease;
-    }
-
-    .lang-btn-mobile:hover {
-        background: #e2e8f0;
-    }
-
-    .lang-btn-mobile.active {
-        background: #eef2ff;
-        border-color: #4A6CF7;
-        color: #4A6CF7;
-    }
-
-    .mobile-nav-actions {
-        display: flex;
-        gap: 10px;
-        margin-top: 12px;
-        padding-top: 12px;
-        border-top: 1px solid #e2e8f0;
-    }
-
-    .mobile-nav-actions .btn {
-        flex: 1;
-        text-align: center;
-        padding: 10px 16px;
-        border-radius: 8px;
-        font-weight: 600;
-        font-size: 0.8rem;
-        text-decoration: none;
-    }
-
-    .mobile-nav-actions .btn-login {
-        background: transparent;
-        color: #475569;
-        border: 1.5px solid #e2e8f0;
-    }
-
-    .mobile-nav-actions .btn-primary {
-        background: #4A6CF7;
-        color: white;
-        border: 1.5px solid #4A6CF7;
-    }
-
-    /* ----- Responsive ----- */
-    @media (max-width: 1024px) {
-        .lang-toggle-wrapper {
-            padding: 3px 6px;
-        }
-
-        .lang-btn {
-            padding: 3px 6px;
-            font-size: 0.65rem;
-        }
-
-        .lang-label {
-            display: none;
-        }
-
-        .lang-flag {
-            font-size: 1rem;
-        }
-
-        .lang-divider {
-            display: none;
-        }
-    }
-
-    @media (max-width: 992px) {
-        .site-header .desktop-nav {
-            display: none;
-        }
-
-        .menu-toggle {
-            display: block;
-        }
-
-        .site-header .nav-container {
-            height: 64px;
-            padding: 0 16px;
-        }
-
-        .site-header .nav-actions .btn-login,
-        .site-header .nav-actions .btn-primary {
-            display: none;
-        }
-
-        .site-header .nav-actions .lang-toggle-wrapper {
-            display: none;
-        }
-
-        .mobile-nav {
-            display: none;
-        }
-
-        .mobile-nav.is-open {
-            display: flex;
-        }
-    }
-
-    @media (min-width: 993px) {
-        .mobile-nav {
-            display: none !important;
-        }
-
-        .mobile-nav.is-open {
-            display: none !important;
-        }
-    }
+}
 </style>
 
-<!-- ========================================== -->
-<!-- SCRIPT                                    -->
-<!-- ========================================== -->
 <script>
-document.addEventListener("DOMContentLoaded", function () {
-
-    const menuToggle = document.querySelector(".menu-toggle");
-    const mobileNav = document.querySelector(".mobile-nav");
-
-    /* ==========================================
-       MOBILE MENU
-       ========================================== */
-
-    if (menuToggle && mobileNav) {
-
-        menuToggle.addEventListener("click", function () {
-
-            mobileNav.classList.toggle("is-open");
-
-            const isOpen = mobileNav.classList.contains("is-open");
-
-            menuToggle.innerHTML = isOpen
-                ? '<i class="fa-solid fa-xmark"></i>'
-                : '<i class="fa-solid fa-bars"></i>';
-
-            menuToggle.setAttribute(
-                "aria-expanded",
-                isOpen ? "true" : "false"
-            );
-
-        });
-
-    }
-
-
-    /* ==========================================
-       SCROLLSPY
-       ========================================== */
-
-    const sectionLinks = document.querySelectorAll(
-        ".desktop-nav a[data-section]"
-    );
-
-    const sections = document.querySelectorAll(
-        "#features, #how-it-works, #about"
-    );
-
-    /*
-       Only run ScrollSpy on the HOME page.
-       On Chatbot/Dashboard/etc., their own
-       navigation item remains active.
-    */
-
-    const isHomePage =
-        window.location.pathname === "{% url 'speech_app:home' %}";
-
-
-    if (isHomePage && sections.length > 0) {
-
-        const observerOptions = {
-            root: null,
-            rootMargin: "-25% 0px -55% 0px",
-            threshold: 0
+document.addEventListener('DOMContentLoaded',function(){
+    const menuToggle=document.querySelector('.site-header .menu-toggle');
+    const mobileNav=document.getElementById('neuroMobileNav');
+    if(menuToggle&&mobileNav){
+        const closeMenu=()=>{
+            mobileNav.classList.remove('is-open');
+            menuToggle.setAttribute('aria-expanded','false');
+            menuToggle.setAttribute('aria-label','Open navigation');
+            menuToggle.innerHTML='<i class="fa-solid fa-bars" aria-hidden="true"></i>';
         };
-
-
-        const observer = new IntersectionObserver(
-            function (entries) {
-
-                entries.forEach(function (entry) {
-
-                    if (entry.isIntersecting) {
-
-                        /* Remove active from everything */
-                        document
-                            .querySelectorAll(".desktop-nav a")
-                            .forEach(function (link) {
-                                link.classList.remove("active");
-                            });
-
-
-                        /* Activate matching section */
-                        const activeLink =
-                            document.querySelector(
-                                '.desktop-nav a[data-section="' +
-                                entry.target.id +
-                                '"]'
-                            );
-
-
-                        if (activeLink) {
-                            activeLink.classList.add("active");
-                        }
-
-                    }
-
-                });
-
-            },
-            observerOptions
-        );
-
-
-        sections.forEach(function (section) {
-            observer.observe(section);
+        menuToggle.addEventListener('click',function(){
+            const open=mobileNav.classList.toggle('is-open');
+            menuToggle.setAttribute('aria-expanded',String(open));
+            menuToggle.setAttribute('aria-label',open?'Close navigation':'Open navigation');
+            menuToggle.innerHTML=open?'<i class="fa-solid fa-xmark" aria-hidden="true"></i>':'<i class="fa-solid fa-bars" aria-hidden="true"></i>';
         });
-
-
-        /* ======================================
-           HOME TOP = HOME ACTIVE
-           ====================================== */
-
-        window.addEventListener("scroll", function () {
-
-            if (window.scrollY < 150) {
-
-                document
-                    .querySelectorAll(".desktop-nav a")
-                    .forEach(function (link) {
-                        link.classList.remove("active");
-                    });
-
-
-                const homeLink =
-                    document.querySelector(
-                        '.desktop-nav a[data-nav="home"]'
-                    );
-
-
-                if (homeLink) {
-                    homeLink.classList.add("active");
-                }
-
-            }
-
-        });
-
-
-        /* ======================================
-           CLICKED SECTION
-           ====================================== */
-
-        sectionLinks.forEach(function (link) {
-
-            link.addEventListener("click", function () {
-
-                sectionLinks.forEach(function (item) {
-                    item.classList.remove("active");
-                });
-
-                document
-                    .querySelector(
-                        '.desktop-nav a[data-nav="home"]'
-                    )
-                    ?.classList.remove("active");
-
-                this.classList.add("active");
-
-            });
-
-        });
-
+        document.addEventListener('keydown',function(event){if(event.key==='Escape')closeMenu();});
+        window.addEventListener('resize',function(){if(window.innerWidth>1250)closeMenu();});
     }
 
+    // Keep the existing home-page section highlight behavior.
+    const sectionLinks=document.querySelectorAll('.desktop-nav a[data-section]');
+    const sections=document.querySelectorAll('#features,#how-it-works,#about');
+    const isHomePage=window.location.pathname==="{% url 'speech_app:home' %}";
+    if(isHomePage&&sections.length){
+        const clearActive=()=>document.querySelectorAll('.desktop-nav a').forEach(link=>link.classList.remove('active'));
+        const observer=new IntersectionObserver(function(entries){
+            entries.forEach(function(entry){
+                if(entry.isIntersecting){
+                    const link=document.querySelector('.desktop-nav a[data-section="'+entry.target.id+'"]');
+                    if(link){clearActive();link.classList.add('active');}
+                }
+            });
+        },{root:null,rootMargin:'-25% 0px -55% 0px',threshold:0});
+        sections.forEach(section=>observer.observe(section));
+        window.addEventListener('scroll',function(){
+            if(window.scrollY<150){
+                clearActive();
+                const home=document.querySelector('.desktop-nav a[data-nav="home"]');
+                if(home)home.classList.add('active');
+            }
+        });
+        sectionLinks.forEach(function(link){
+            link.addEventListener('click',function(){
+                clearActive();link.classList.add('active');
+            });
+        });
+    }
 });
 </script>
 {% endwith %}
