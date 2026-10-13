@@ -1378,12 +1378,12 @@ Gait Screening - NeuroSense AI
 /* Compact recording controls, isolated from inherited button-group styles. */
 #nsGaitShell .capture-stage > .btn-group {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     justify-content: start;
     align-items: stretch;
     gap: 12px;
     width: 100%;
-    max-width: 560px;
+    max-width: 720px;
     padding: 0;
     margin: 0;
 }
@@ -1428,6 +1428,12 @@ Gait Screening - NeuroSense AI
 #nsGaitShell .capture-stage > .btn-group > .btn:focus-visible {
     outline: 3px solid #85b9ff;
     outline-offset: 3px;
+}
+/* Camera switch is available on phones with multiple cameras only. */
+#nsGaitShell .capture-stage > .btn-group > #btn-switch-camera[hidden] { display: none !important; }
+#nsGaitShell .capture-stage > .btn-group:has(#btn-switch-camera[hidden]) { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+@media (max-width: 480px) {
+    #nsGaitShell .capture-stage > .btn-group:has(#btn-switch-camera[hidden]) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 480px) {
     #nsGaitShell .capture-stage > .btn-group { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
@@ -1532,6 +1538,22 @@ Gait Screening - NeuroSense AI
     #nsGaitShell .gait-hero { border-radius: 17px; }
 }
 
+
+/* Record and Stop: white text/icons on hover; disabled appearance stays muted. */
+#nsGaitShell .capture-stage > .btn-group > #btn-start-recording:not(:disabled):hover,
+#nsGaitShell .capture-stage > .btn-group > #btn-stop-recording:not(:disabled):hover,
+#nsGaitShell .capture-stage > .btn-group > #btn-start-recording:not(:disabled):hover i,
+#nsGaitShell .capture-stage > .btn-group > #btn-stop-recording:not(:disabled):hover i {
+    color: #ffffff !important;
+}
+#nsGaitShell .capture-stage > .btn-group > #btn-start-recording:disabled:hover,
+#nsGaitShell .capture-stage > .btn-group > #btn-stop-recording:disabled:hover {
+    background: #f1f5f9;
+    color: #6b7b90;
+    border-color: #dde5ee;
+    box-shadow: none;
+    transform: none;
+}
 </style>
 
 
@@ -1677,6 +1699,7 @@ Gait Screening - NeuroSense AI
                             </div>
 <div class="btn-group">
                         <button type="button" class="btn btn-success" id="btn-start-camera"><i class="fa-solid fa-play"></i> {% if lang == 'ur' %}کیمرہ شروع کریں{% else %}Start camera{% endif %}</button>
+                        <button type="button" class="btn btn-switch-camera" id="btn-switch-camera" disabled hidden><i class="fa-solid fa-camera-rotate"></i> {% if lang == 'ur' %}کیمرہ تبدیل کریں{% else %}Switch camera{% endif %}</button>
                         <button type="button" class="btn btn-danger" id="btn-start-recording" disabled><i class="fa-solid fa-circle"></i> {% if lang == 'ur' %}ریکارڈ (10 سیکنڈ){% else %}Record (10s){% endif %}</button>
                         <button type="button" class="btn btn-secondary" id="btn-stop-recording" disabled><i class="fa-solid fa-stop"></i> {% if lang == 'ur' %}روکیں{% else %}Stop{% endif %}</button>
                     </div><div class="record-meta">
@@ -1852,6 +1875,7 @@ document.body.classList.add('ns-workspace-view');
         const canvasCtx = poseCanvas.getContext('2d');
         const recordedVideo = document.getElementById('recorded-video');
         const btnStartCamera = document.getElementById('btn-start-camera');
+        const btnSwitchCamera = document.getElementById('btn-switch-camera');
         const btnStartRecording = document.getElementById('btn-start-recording');
         const btnStopRecording = document.getElementById('btn-stop-recording');
         const countdownDisplay = document.getElementById('countdown-display');
@@ -1896,6 +1920,16 @@ document.body.classList.add('ns-workspace-view');
         let isVideoReady = false;
         let timerInterval = null;
         let poseDetector = null;
+        let poseFrameRequest = null;
+        let poseFrameBusy = false;
+
+        // Camera state
+        let currentFacingMode = 'environment'; // default to back camera on phones
+        let availableVideoInputs = [];
+        // Only physical phones should offer camera switching (not laptops with webcams).
+        const isPhoneDevice = /Android.*Mobile|iPhone|iPod|Windows Phone/i.test(navigator.userAgent) ||
+            (navigator.userAgentData && navigator.userAgentData.mobile === true);
+        if (btnSwitchCamera) btnSwitchCamera.hidden = true;
 
         let qualityState = {
             personDetected: false,
@@ -1930,6 +1964,8 @@ document.body.classList.add('ns-workspace-view');
                 getReady: '⏳ Get ready...',
                 cameraObscured: '⚠️ Camera obscured. Please remove any objects from the lens.',
                 videoTooLong: '⚠️ Video is too long. Please upload a video under 30 seconds.',
+                cameraSwitchNotAvailable: '⚠️ Only one camera is available on this device.',
+                cameraSwitchFailed: '⚠️ Could not switch camera. Please try again.',
                 reasons: {
                     no_pose:       "We couldn't detect a person in your video. Please make sure you are fully visible and well-lit.",
                     wrong_angle:   "Please record from the SIDE view. Your video was recorded from the front or back, which cannot be analyzed. Stand sideways with your profile facing the camera.",
@@ -1963,6 +1999,8 @@ document.body.classList.add('ns-workspace-view');
                 getReady: '⏳ تیار ہو جائیں...',
                 cameraObscured: '⚠️ کیمرہ ڈھکا ہوا ہے۔ براہ کرم لینز سے کوئی بھی چیز ہٹائیں۔',
                 videoTooLong: '⚠️ ویڈیو بہت لمبی ہے۔ براہ کرم 30 سیکنڈ سے کم ویڈیو اپ لوڈ کریں۔',
+                cameraSwitchNotAvailable: '⚠️ اس ڈیوائس پر صرف ایک کیمرہ دستیاب ہے۔',
+                cameraSwitchFailed: '⚠️ کیمرہ تبدیل نہیں ہو سکا۔ براہ کرم دوبارہ کوشش کریں۔',
                 reasons: {
                     no_pose:       "ہم آپ کی ویڈیو میں کوئی شخص نہیں ڈھونڈ سکے۔ براہ کرم یقینی بنائیں کہ آپ پوری طرح نظر آ رہے ہیں اور روشنی مناسب ہے۔",
                     wrong_angle:   "براہ کرم سائیڈ ویو سے ویڈیو ریکارڈ کریں۔ آپ کی ویڈیو سامنے یا پیچھے سے بنی تھی، جس کا تجزیہ نہیں ہو سکتا۔ سائیڈ میں کھڑے ہوں اور کیمرے کی طرف اپنا پروفائل رکھیں۔",
@@ -2087,6 +2125,54 @@ document.body.classList.add('ns-workspace-view');
             if (text) btn.innerHTML = text;
         }
 
+        async function detectAvailableCameras() {
+            try {
+                if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) {
+                    return [];
+                }
+                const devices = await navigator.mediaDevices.enumerateDevices();
+                availableVideoInputs = devices.filter(d => d.kind === 'videoinput');
+                return availableVideoInputs;
+            } catch (err) {
+                console.warn('enumerateDevices failed:', err);
+                return [];
+            }
+        }
+
+        function updateSwitchCameraVisibility() {
+            if (!btnSwitchCamera) return;
+            const canSwitch = Boolean(isPhoneDevice && stream && availableVideoInputs.length > 1);
+            btnSwitchCamera.hidden = !canSwitch;
+            btnSwitchCamera.disabled = !canSwitch || isRecording;
+        }
+
+        // Process the currently selected video stream, without opening a second
+        // MediaPipe camera stream that could override the rear/front choice.
+        function startPoseFrames() {
+            if (poseFrameRequest !== null || !poseDetector) return;
+            async function frame() {
+                poseFrameRequest = null;
+                if (!stream || !poseDetector) return;
+                if (!poseFrameBusy && videoPreview.readyState >= 2) {
+                    poseFrameBusy = true;
+                    try {
+                        await poseDetector.send({ image: videoPreview });
+                    } catch (err) {
+                        console.warn('Pose frame processing failed:', err);
+                    } finally {
+                        poseFrameBusy = false;
+                    }
+                }
+                if (stream && poseDetector) poseFrameRequest = requestAnimationFrame(frame);
+            }
+            poseFrameRequest = requestAnimationFrame(frame);
+        }
+
+        function stopPoseFrames() {
+            if (poseFrameRequest !== null) cancelAnimationFrame(poseFrameRequest);
+            poseFrameRequest = null;
+        }
+
         btnLive.addEventListener('click', function () {
             liveSection.classList.remove('hidden');
             fileSection.classList.add('hidden');
@@ -2107,16 +2193,35 @@ document.body.classList.add('ns-workspace-view');
 
         btnStartCamera.addEventListener('click', startCamera);
 
+        if (btnSwitchCamera) {
+            btnSwitchCamera.addEventListener('click', switchCamera);
+        }
+
         async function startCamera() {
             try {
+                // Default to back camera on phones (helps for gait recording).
+                // On laptops this falls back to the only available camera.
+                currentFacingMode = currentFacingMode || 'environment';
+
                 stream = await navigator.mediaDevices.getUserMedia({
-                    video: { facingMode: 'user', width: { ideal: 640 }, height: { ideal: 480 } }
+                    video: {
+                        facingMode: { ideal: currentFacingMode },
+                        width: { ideal: 640 },
+                        height: { ideal: 480 }
+                    },
+                    audio: false
                 });
                 videoPreview.srcObject = stream;
                 await videoPreview.play();
                 btnStartCamera.disabled = true;
                 btnStartCamera.innerHTML = '<i class="fa-solid fa-circle-check"></i> Camera active';
                 btnStartRecording.disabled = false;
+
+                // Enable switch button only if more than one camera exists.
+                await detectAvailableCameras();
+                updateSwitchCameraVisibility();
+                
+
                 cameraOverlay.style.display = 'none';
                 document.getElementById('camera-container').classList.add('live-active');
                 updateFeedback(t.ready, 'success');
@@ -2140,21 +2245,88 @@ document.body.classList.add('ns-workspace-view');
                         drawPoseResults(results);
                         analyzePoseResultsEnhanced(results);
                     });
-                    const camera = new Camera(videoPreview, {
-                        onFrame: async () => await pose.send({ image: videoPreview }),
-                        width: 640,
-                        height: 480
-                    });
-                    camera.start();
                     poseDetector = pose;
+                    startPoseFrames();
                 }
             } catch (err) {
-                console.error(err);
-                alert('Unable to access camera. Please check permissions or use file upload.');
+                console.error('startCamera failed:', err);
+                // Fallback: retry without facingMode constraint (some browsers reject it)
+                try {
+                    stream = await navigator.mediaDevices.getUserMedia({
+                        video: { width: { ideal: 640 }, height: { ideal: 480 } },
+                        audio: false
+                    });
+                    videoPreview.srcObject = stream;
+                    await videoPreview.play();
+                    btnStartCamera.disabled = true;
+                    btnStartCamera.innerHTML = '<i class="fa-solid fa-circle-check"></i> Camera active';
+                    btnStartRecording.disabled = false;
+                    await detectAvailableCameras();
+                    updateSwitchCameraVisibility();
+                    
+                    cameraOverlay.style.display = 'none';
+                    document.getElementById('camera-container').classList.add('live-active');
+                    updateFeedback(t.ready, 'success');
+                } catch (err2) {
+                    console.error('startCamera fallback failed:', err2);
+                    alert('Unable to access camera. Please check permissions or use file upload.');
+                }
+            }
+        }
+
+        async function switchCamera() {
+            if (!isPhoneDevice || !stream || isRecording || countdownInterval) return;
+            if (availableVideoInputs.length < 2) {
+                updateFeedback(t.cameraSwitchNotAvailable, 'warning');
+                return;
+            }
+            const previousMode = currentFacingMode;
+            const nextMode = previousMode === 'environment' ? 'user' : 'environment';
+            const previousStream = stream;
+            btnSwitchCamera.disabled = true;
+            try {
+                // Release the existing camera before asking for the other lens.
+                previousStream.getTracks().forEach(track => track.stop());
+                stream = null;
+                const nextStream = await navigator.mediaDevices.getUserMedia({
+                    video: {
+                        facingMode: { exact: nextMode },
+                        width: { ideal: 640 },
+                        height: { ideal: 480 }
+                    },
+                    audio: false
+                });
+                stream = nextStream;
+                videoPreview.srcObject = nextStream;
+                await videoPreview.play();
+                currentFacingMode = nextMode;
+                // Keep the same pose detector; its frame loop reads videoPreview.
+                startPoseFrames();
+            } catch (err) {
+                console.error('switchCamera failed:', err);
+                updateFeedback(t.cameraSwitchFailed, 'error');
+                try {
+                    // Restore the previous lens if this phone cannot select the requested one.
+                    const restored = await navigator.mediaDevices.getUserMedia({
+                        video: { facingMode: { ideal: previousMode }, width: { ideal: 640 }, height: { ideal: 480 } },
+                        audio: false
+                    });
+                    stream = restored;
+                    videoPreview.srcObject = restored;
+                    await videoPreview.play();
+                    currentFacingMode = previousMode;
+                    startPoseFrames();
+                } catch (restoreError) {
+                    console.error('Camera restoration failed:', restoreError);
+                    stopCamera();
+                }
+            } finally {
+                updateSwitchCameraVisibility();
             }
         }
 
         function stopCamera() {
+            stopPoseFrames();
             if (stream) {
                 stream.getTracks().forEach(t => t.stop());
                 stream = null;
@@ -2162,6 +2334,10 @@ document.body.classList.add('ns-workspace-view');
             videoPreview.srcObject = null;
             btnStartCamera.disabled = false;
             btnStartCamera.innerHTML = '<i class="fa-solid fa-play"></i> Start camera';
+            if (btnSwitchCamera) {
+                btnSwitchCamera.disabled = true;
+                btnSwitchCamera.hidden = true;
+            }
             btnStartRecording.disabled = true;
             btnStopRecording.disabled = true;
             cameraOverlay.style.display = 'block';
@@ -2170,6 +2346,7 @@ document.body.classList.add('ns-workspace-view');
             isRecording = false;
             feedbackOverlay.style.display = 'none';
             poseDetector = null;
+            // Keep the rest of the camera reset unchanged.
             document.getElementById('camera-container').classList.remove('live-active');
             document.getElementById('guidance-overlay').style.display = 'none';
 
@@ -2310,6 +2487,7 @@ document.body.classList.add('ns-workspace-view');
         btnStartRecording.addEventListener('click', startCountdown);
 
         function startCountdown() {
+            if (btnSwitchCamera) btnSwitchCamera.disabled = true;
             let count = 3;
             countdownDisplay.style.display = 'block';
             countdownDisplay.textContent = count;
@@ -2321,6 +2499,7 @@ document.body.classList.add('ns-workspace-view');
                     countdownDisplay.textContent = count;
                 } else {
                     clearInterval(countdownInterval);
+                    countdownInterval = null;
                     countdownDisplay.style.display = 'none';
                     startRecording();
                 }
@@ -2352,6 +2531,7 @@ document.body.classList.add('ns-workspace-view');
                 btnStartRecording.disabled = false;
                 btnStartRecording.innerHTML = '<i class="fa-solid fa-circle"></i> Record (10s)';
                 btnStopRecording.disabled = true;
+                updateSwitchCameraVisibility();
             };
             mediaRecorder.start();
             isRecording = true;
