@@ -55,21 +55,61 @@ if not DEBUG:
 
 # ============================================================
 # REVERSE PROXY / HTTPS (Azure App Service terminates TLS upstream)
-# ------------------------------------------------------------
-# Azure's load balancer receives HTTPS from the browser, then forwards
-# plain HTTP to the container, adding an "X-Forwarded-Proto: https"
-# header. Without the line below, Django thinks every request is HTTP
-# and builds OAuth callback URLs as http://... which Google rejects
-# with "redirect_uri_mismatch".
 # ============================================================
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 USE_X_FORWARDED_HOST = True
 
-# Production-only hardening. Skipped locally because there's no HTTPS server.
 if not DEBUG:
     SECURE_SSL_REDIRECT = True
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
+
+
+# ============================================================
+# LOGGING — surface Django tracebacks in the Azure log stream
+# ============================================================
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '[{asctime}] {levelname} {name}: {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'INFO',
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+        'django.request': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+        'accounts': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+        'allauth': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+    },
+}
 
 
 # ============================================================
@@ -297,13 +337,6 @@ SOCIALACCOUNT_LOGIN_ON_GET = True
 
 # ============================================================
 # EMAIL CONFIGURATION (for password reset)
-# ------------------------------------------------------------
-# During development, set EMAIL_BACKEND_OVERRIDE=console in .env
-# to print reset emails to the terminal instead of sending them.
-#
-# For real emails, leave EMAIL_BACKEND_OVERRIDE unset and set:
-#   EMAIL_HOST_USER=<your gmail>
-#   EMAIL_HOST_PASSWORD=<16-char App Password>
 # ============================================================
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
@@ -313,6 +346,5 @@ EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL = f'NeuroSense AI <{os.getenv("EMAIL_HOST_USER") or "noreply@neurosense.local"}>'
 
-# Dev override — print emails to console instead of sending
 if os.getenv('EMAIL_BACKEND_OVERRIDE', '').lower() == 'console':
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
