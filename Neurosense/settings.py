@@ -54,6 +54,25 @@ if not DEBUG:
 
 
 # ============================================================
+# REVERSE PROXY / HTTPS (Azure App Service terminates TLS upstream)
+# ------------------------------------------------------------
+# Azure's load balancer receives HTTPS from the browser, then forwards
+# plain HTTP to the container, adding an "X-Forwarded-Proto: https"
+# header. Without the line below, Django thinks every request is HTTP
+# and builds OAuth callback URLs as http://... which Google rejects
+# with "redirect_uri_mismatch".
+# ============================================================
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+USE_X_FORWARDED_HOST = True
+
+# Production-only hardening. Skipped locally because there's no HTTPS server.
+if not DEBUG:
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+
+
+# ============================================================
 # Application definition
 # ============================================================
 
