@@ -12,7 +12,7 @@ Responsibilities
     - WAV
     - Mono
     - 8000 Hz
-    - PCM signed 16-bit
+    - lossless floating-point WAV for feature extraction
 - Validate the standardized output.
 Process uploaded recordings for the audio screening pipeline.
 This module performs only audio processing and standardization.
@@ -36,6 +36,9 @@ from pathlib import Path
 from typing import Any, BinaryIO, Iterable, Mapping, Sequence
 
 import soundfile as sf
+import numpy as np
+from scipy.io import wavfile
+from .selector_preprocessing import decode_audio, standardize_array, InvalidAudioError
 from django.conf import settings
 from django.core.files.uploadedfile import UploadedFile
 
@@ -49,7 +52,7 @@ logger = logging.getLogger(__name__)
 
 TARGET_SAMPLE_RATE = 8_000
 TARGET_CHANNELS = 1
-TARGET_CODEC = "pcm_s16le"
+TARGET_CODEC = "pcm_f64le"  # Internal precision; no amplitude normalization here.
 TARGET_EXTENSION = ".wav"
 
 REQUIRED_RECORDINGS = 3
@@ -661,162 +664,35 @@ def save_audio_bytes(
 # AUDIO CONVERSION
 # ============================================================
 
-def convert_to_standard_wav(
-    input_path: str | Path,
-    output_path: str | Path,
-    timeout_seconds: int = 60,
-) -> Path:
+def convert_to_standard_wav(input_path: str | Path, output_path: str | Path,
+                            timeout_seconds: int = 60) -> Path:
+    """Decode raw input, average channels, and resample exactly as in training.
+
+    Lossless float64 WAV is an internal interchange format. It avoids PCM16
+    rounding before pitch/jitter/MFCC extraction. Selection/normalization happens
+    later, once, in load_standardized_audio(). Scipy's WAV writer is deterministic
+    and adds no time-varying PEAK metadata, preserving duplicate-file detection.
     """
-    Convert an audio file to standardized WAV using FFmpeg.
-
-    Output format:
-    - Mono
-    - 8000 Hz
-    - PCM signed 16-bit WAV
-
-    Parameters
-    ----------
-    input_path:
-        Source WAV, MP4, OGG or WebM path.
-
-    output_path:
-        Destination WAV path.
-
-    timeout_seconds:
-        Maximum FFmpeg execution time.
-
-    Returns
-    -------
-    pathlib.Path
-        Validated standardized WAV path.
-    """
-
     source_path = Path(input_path).resolve()
     destination_path = Path(output_path).resolve()
-
-    if not source_path.exists():
-        raise InvalidAudioInputError(
-            f"Input audio does not exist: {source_path}"
-        )
-
     if not source_path.is_file():
-        raise InvalidAudioInputError(
-            f"Input audio path is not a file: {source_path}"
-        )
-
-    validate_file_size(
-        source_path.stat().st_size
-    )
-
-    if destination_path.suffix.lower() != ".wav":
-        raise InvalidAudioInputError(
-            "Standardized output must use the .wav extension."
-        )
-
-    destination_path.parent.mkdir(
-        parents=True,
-        exist_ok=True,
-    )
-
-    destination_path.unlink(
-        missing_ok=True
-    )
-
-    ffmpeg_binary = get_ffmpeg_executable()
-
-    command = [
-        ffmpeg_binary,
-        "-y",
-        "-hide_banner",
-        "-loglevel",
-        "error",
-        "-i",
-        str(source_path),
-        "-map_metadata",
-        "-1",
-        "-vn",
-        "-ac",
-        str(TARGET_CHANNELS),
-        "-ar",
-        str(TARGET_SAMPLE_RATE),
-        "-c:a",
-        TARGET_CODEC,
-        "-f",
-        "wav",
-        str(destination_path),
-    ]
-
-    logger.info(
-        "Standardizing audio file: %s",
-        source_path.name,
-    )
-
+        raise InvalidAudioInputError(f"Input audio does not exist: {source_path}")
+    if source_path == destination_path:
+        raise InvalidAudioInputError("Raw input and standardized output must be different paths.")
+    validate_file_size(source_path.stat().st_size)
+    if destination_path.suffix.lower() != '.wav':
+        raise InvalidAudioInputError("Standardized output must use the .wav extension.")
+    destination_path.parent.mkdir(parents=True, exist_ok=True)
+    destination_path.unlink(missing_ok=True)
     try:
-        completed_process = subprocess.run(
-            command,
-            capture_output=True,
-            text=True,
-            check=False,
-            timeout=timeout_seconds,
-        )
-
-    except subprocess.TimeoutExpired as error:
-        destination_path.unlink(
-            missing_ok=True
-        )
-
-        raise AudioConversionError(
-            f"FFmpeg conversion exceeded "
-            f"{timeout_seconds} seconds."
-        ) from error
-
-    except OSError as error:
-        destination_path.unlink(
-            missing_ok=True
-        )
-
-        raise AudioConversionError(
-            "FFmpeg could not be executed."
-        ) from error
-
-    if completed_process.returncode != 0:
-        destination_path.unlink(
-            missing_ok=True
-        )
-
-        ffmpeg_error = (
-            completed_process.stderr.strip()
-            or "Unknown FFmpeg conversion error."
-        )
-
-        raise AudioConversionError(
-            f"Unable to convert '{source_path.name}': "
-            f"{ffmpeg_error}"
-        )
-
-    if not destination_path.exists():
-        raise AudioConversionError(
-            "FFmpeg completed without creating an output file."
-        )
-
-    if destination_path.stat().st_size == 0:
-        destination_path.unlink(
-            missing_ok=True
-        )
-
-        raise AudioConversionError(
-            "FFmpeg produced an empty WAV file."
-        )
-
-    validate_standardized_wav(
-        destination_path
-    )
-
-    logger.info(
-        "Audio standardized successfully: %s",
-        destination_path.name,
-    )
-
+        samples, source_sr = decode_audio(source_path,
+            ffmpeg_executable=get_ffmpeg_executable(), timeout_seconds=timeout_seconds)
+        mono, _ = standardize_array(samples, source_sr)
+        wavfile.write(str(destination_path), TARGET_SAMPLE_RATE, np.asarray(mono, dtype=np.float64))
+        validate_standardized_wav(destination_path)
+    except (InvalidAudioError, OSError, ValueError) as error:
+        destination_path.unlink(missing_ok=True)
+        raise AudioConversionError(f"Unable to standardize {source_path.name}: {error}") from error
     return destination_path
 
 
@@ -904,10 +780,10 @@ def validate_standardized_wav(
             f"expected {TARGET_CHANNELS}"
         )
 
-    if metadata["subtype"].upper() != "PCM_16":
+    if metadata["subtype"].upper() not in {"PCM_16", "FLOAT", "DOUBLE"}:
         validation_errors.append(
             f"subtype is {metadata['subtype']}, "
-            "expected PCM_16"
+            "expected PCM_16, FLOAT or DOUBLE"
         )
 
     if metadata["sample_count"] <= 0:

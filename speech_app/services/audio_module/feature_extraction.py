@@ -18,6 +18,7 @@ import numpy as np
 import pandas as pd
 import parselmouth
 import soundfile as sf
+from .selector_preprocessing import select_active_span, normalize_span, InvalidAudioError
 from parselmouth.praat import call
 from scipy.signal import welch
 
@@ -316,9 +317,9 @@ def validate_standardized_audio(
             f"Expected WAV format for {path.name}."
         )
 
-    if subtype != "PCM_16":
+    if subtype not in {"PCM_16", "FLOAT", "DOUBLE"}:
         raise AudioSchemaError(
-            f"Expected PCM 16-bit WAV but received {subtype} "
+            f"Expected PCM16 or floating-point WAV but received {subtype} "
             f"for {path.name}."
         )
 
@@ -359,63 +360,24 @@ def sanitize_feature_mapping(
     return sanitized, replaced
 
 
-def load_standardized_audio(
-    audio_path: str | Path,
-    config: FeatureExtractionConfig,
-) -> tuple[np.ndarray, int]:
-    """
-    Reproduce the training notebook's post-load preprocessing:
-    silence trim, DC-offset removal, and peak normalization.
-    """
+def load_standardized_audio(audio_path: str | Path,
+                            config: FeatureExtractionConfig) -> tuple[np.ndarray, int]:
+    """Select the full active span and normalize once, matching selector training."""
     path = validate_audio_path(audio_path)
-
     try:
-        signal, original_sample_rate = sf.read(
-            str(path),
-            dtype="float32",
-            always_2d=False,
-        )
-    except (RuntimeError, OSError) as error:
-        raise InvalidFeatureInputError(
-            f"Unable to load audio file: {path.name}"
-        ) from error
-
-    signal = np.asarray(signal, dtype=np.float32)
-
-    if signal.ndim > 1:
-        signal = signal.mean(axis=1)
-
-    if signal.size == 0:
-        raise InvalidFeatureInputError(
-            f"Audio file contains no samples: {path.name}"
-        )
-
-    signal = np.nan_to_num(signal)
-
-    if int(original_sample_rate) != config.expected_sample_rate:
-        signal = librosa.resample(
-            signal,
-            orig_sr=int(original_sample_rate),
-            target_sr=config.expected_sample_rate,
-        )
-
-    signal, _ = librosa.effects.trim(
-        signal,
-        top_db=30,
-    )
-
-    if signal.size == 0:
-        raise InvalidFeatureInputError(
-            "The recording is empty after silence trimming."
-        )
-
-    signal = signal - np.mean(signal)
-
-    peak = float(np.max(np.abs(signal)))
-    if peak > 0:
-        signal = 0.99 * signal / peak
-
-    return signal.astype(np.float32), config.expected_sample_rate
+        # Keep the lossless float64 standardized intermediate until final
+        # normalization. Reading it as float32 here would add another rounding.
+        signal, sample_rate = sf.read(str(path), dtype="float64", always_2d=False)
+        signal = np.asarray(signal, dtype=np.float64)
+        if signal.ndim != 1 or int(sample_rate) != config.expected_sample_rate:
+            raise InvalidFeatureInputError("Selector expects standardized mono 8 kHz audio.")
+        if signal.size == 0 or not np.isfinite(signal).all():
+            raise InvalidFeatureInputError("Audio must contain finite, nonempty samples.")
+        span, _ = select_active_span(signal, int(sample_rate))
+        normalized = normalize_span(span)
+    except (RuntimeError, OSError, InvalidAudioError) as error:
+        raise InvalidFeatureInputError(f"Unable to preprocess {path.name}: {error}") from error
+    return normalized, int(sample_rate)
 
 
 def safe_praat_call(*arguments: Any) -> float:

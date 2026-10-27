@@ -965,10 +965,18 @@ def _validate_feature_dataframe(
 
     feature_array = numeric_dataframe.to_numpy()
 
-    if not np.all(np.isfinite(feature_array)):
-        raise ModelFeatureSchemaError(
-            "Model input contains NaN or infinite values."
-        )
+    if np.isinf(feature_array).any():
+        raise ModelFeatureSchemaError("Model input contains infinite values.")
+    if np.isnan(feature_array).any():
+        # The selector model was trained with median imputation inside each
+        # training fold. Preserve missing acoustic values for the fitted imputer,
+        # instead of replacing them with zero or rejecting every such recording.
+        imputer = getattr(loaded_artifact.estimator, "named_steps", {}).get("imputer")
+        policy = loaded_artifact.metadata.get("missing_feature_policy")
+        if (policy != "training_median_imputer" or imputer is None
+                or getattr(imputer, "strategy", None) != "median"
+                or not hasattr(imputer, "statistics_")):
+            raise ModelFeatureSchemaError("Missing features require the declared fitted median imputer.")
 
     return numeric_dataframe
 
