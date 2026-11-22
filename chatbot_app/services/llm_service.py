@@ -36,7 +36,7 @@ client = OpenAI(
 #   nvidia/nemotron-3.5-lightning:free
 #   openrouter/free
 # ============================================================
-CHATBOT_MODEL = "nvidia/nemotron-3-super-120b-a12b:free"
+CHATBOT_MODEL = "nvidia/nemotron-3-ultra-550b-a55b:free"
 
 
 SYSTEM_PROMPT = """

@@ -78,7 +78,7 @@ def get_openrouter_client():
         return None
 
 
-RECOMMENDATION_MODEL = "nvidia/nemotron-3-super-120b-a12b:free"
+RECOMMENDATION_MODEL = "nvidia/nemotron-3-ultra-550b-a55b:free"
 
 # Reasoning models need a large output budget: reasoning tokens + JSON tokens.
 RECOMMENDATION_MAX_TOKENS = 28000
